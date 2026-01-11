@@ -1,4 +1,4 @@
--- ScaleSite Supabase Schema
+-- ScaleSite Supabase Schema (PostgreSQL)
 -- Führe dieses SQL im Supabase SQL Editor aus
 
 -- ============================================
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS user_services (
     service_id INTEGER REFERENCES services(id) ON DELETE CASCADE,
     status TEXT DEFAULT 'pending',
     progress INTEGER DEFAULT 0,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS service_updates (
     user_service_id TEXT REFERENCES user_services(id) ON DELETE CASCADE,
     message TEXT,
     author_id TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS tickets (
     subject TEXT,
     status TEXT DEFAULT 'Offen',
     priority TEXT DEFAULT 'Mittel',
-    created_at TEXT DEFAULT (datetime('now')),
-    last_update TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    last_update TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS ticket_messages (
     ticket_id TEXT REFERENCES tickets(id) ON DELETE CASCADE,
     user_id TEXT,
     text TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS ticket_messages (
 CREATE TABLE IF NOT EXISTS ticket_members (
     ticket_id TEXT REFERENCES tickets(id) ON DELETE CASCADE,
     user_id TEXT,
-    added_at TEXT DEFAULT (datetime('now')),
+    added_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (ticket_id, user_id)
 );
 
@@ -90,8 +90,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     id TEXT PRIMARY KEY,
     user_id TEXT NOT NULL,
     amount REAL,
-    date TEXT DEFAULT (datetime('now')),
-    due_date TEXT,
+    date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    due_date TIMESTAMPTZ,
     status TEXT DEFAULT 'Offen',
     description TEXT
 );
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS contact_messages (
     email TEXT,
     subject TEXT,
     message TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     id TEXT PRIMARY KEY,
     name TEXT,
     email TEXT UNIQUE,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS analytics_events (
     type TEXT,
     path TEXT,
     element TEXT,
-    timestamp INTEGER
+    timestamp BIGINT
 );
 
 -- ============================================
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS team_chat_messages (
     id TEXT PRIMARY KEY,
     user_id TEXT,
     content TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -147,10 +147,10 @@ CREATE TABLE IF NOT EXISTS files (
     id TEXT PRIMARY KEY,
     user_id TEXT,
     name TEXT,
-    size INTEGER,
+    size BIGINT,
     type TEXT,
     data TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS discounts (
     type TEXT DEFAULT 'percent',
     value REAL,
     used_count INTEGER DEFAULT 0,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     category TEXT,
     image_url TEXT,
     author_name TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS team_tasks (
     title TEXT,
     client_name TEXT,
     priority TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS profiles (
     company TEXT,
     role TEXT DEFAULT 'user',
     referral_code TEXT UNIQUE,
-    created_at TEXT DEFAULT (datetime('now'))
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -212,6 +212,8 @@ CREATE INDEX IF NOT EXISTS idx_user_services_user_id ON user_services(user_id);
 CREATE INDEX IF NOT EXISTS idx_team_chat_created_at ON team_chat_messages(created_at);
 CREATE INDEX IF NOT EXISTS idx_ticket_messages_ticket_id ON ticket_messages(ticket_id);
 CREATE INDEX IF NOT EXISTS idx_service_updates_user_service_id ON service_updates(user_service_id);
+CREATE INDEX IF NOT EXISTS idx_ticket_members_ticket_id ON ticket_members(ticket_id);
+CREATE INDEX IF NOT EXISTS idx_ticket_members_user_id ON ticket_members(user_id);
 
 -- ============================================
 -- ENABLE ROW LEVEL SECURITY
@@ -222,45 +224,64 @@ ALTER TABLE tickets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ticket_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE files ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contact_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE team_chat_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE team_tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE discounts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 
 -- ============================================
 -- RLS POLICIES
 -- ============================================
 
 -- Profiles: Users can read their own profile, team can read all
+DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 CREATE POLICY "Users can view own profile" ON profiles
     FOR SELECT USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Team can view all profiles" ON profiles;
 CREATE POLICY "Team can view all profiles" ON profiles
     FOR SELECT USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
     FOR UPDATE USING (auth.uid() = id);
 
 -- User Services
+DROP POLICY IF EXISTS "Users can view own services" ON user_services;
 CREATE POLICY "Users can view own services" ON user_services
     FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert own services" ON user_services;
+CREATE POLICY "Users can insert own services" ON user_services
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Team can view all services" ON user_services;
 CREATE POLICY "Team can view all services" ON user_services
-    FOR SELECT USING (
+    FOR ALL USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
 -- Tickets
+DROP POLICY IF EXISTS "Users can view own tickets" ON tickets;
 CREATE POLICY "Users can view own tickets" ON tickets
     FOR SELECT USING (
         auth.uid() = user_id OR
         id IN (SELECT ticket_id FROM ticket_members WHERE user_id = auth.uid())
     );
 
+DROP POLICY IF EXISTS "Team can view all tickets" ON tickets;
 CREATE POLICY "Team can view all tickets" ON tickets
     FOR ALL USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
 -- Ticket Messages
+DROP POLICY IF EXISTS "Users can view messages for own tickets" ON ticket_messages;
 CREATE POLICY "Users can view messages for own tickets" ON ticket_messages
     FOR SELECT USING (
         EXISTS (
@@ -270,28 +291,54 @@ CREATE POLICY "Users can view messages for own tickets" ON ticket_messages
         )
     );
 
+DROP POLICY IF EXISTS "Team can view all messages" ON ticket_messages;
 CREATE POLICY "Team can view all messages" ON ticket_messages
-    FOR SELECT USING (
+    FOR ALL USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
 -- Transactions
+DROP POLICY IF EXISTS "Users can view own transactions" ON transactions;
 CREATE POLICY "Users can view own transactions" ON transactions
     FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Team can view all transactions" ON transactions;
 CREATE POLICY "Team can view all transactions" ON transactions
     FOR SELECT USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
 -- Files
+DROP POLICY IF EXISTS "Users can manage own files" ON files;
 CREATE POLICY "Users can manage own files" ON files
     FOR ALL USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Team can view all files" ON files;
 CREATE POLICY "Team can view all files" ON files
     FOR SELECT USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
+
+-- Public tables (no auth required)
+DROP POLICY IF EXISTS "Public can view services" ON services;
+CREATE POLICY "Public can view services" ON services
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public can view blog posts" ON blog_posts;
+CREATE POLICY "Public can view blog posts" ON blog_posts
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Anyone can insert contact messages" ON contact_messages;
+CREATE POLICY "Anyone can insert contact messages" ON contact_messages
+    FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Anyone can insert newsletter subscribers" ON newsletter_subscribers;
+CREATE POLICY "Anyone can insert newsletter subscribers" ON newsletter_subscribers
+    FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Anyone can insert analytics events" ON analytics_events;
+CREATE POLICY "Anyone can insert analytics events" ON analytics_events
+    FOR INSERT WITH CHECK (true);
 
 -- ============================================
 -- FUNCTIONS & TRIGGERS
@@ -307,14 +354,17 @@ BEGIN
         COALESCE(NEW.raw_user_meta_data->>'name', 'User'),
         NEW.email,
         'user',
-        UPPER(SUBSTR(COALESCE(NEW.raw_user_meta_data->>'name', 'USR'), 1, 3)) || (ABS(RANDOM()) % 9000 + 1000)::TEXT
+        UPPER(SUBSTR(COALESCE(NEW.raw_user_meta_data->>'name', 'USR'), 1, 3)) || (FLOOR(RANDOM() * 9000) + 1000)::TEXT
     );
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+-- Drop existing trigger if exists
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
 -- Trigger to create profile on signup
-CREATE OR REPLACE TRIGGER on_auth_user_created
+CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
@@ -322,5 +372,5 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
 -- INITIAL ADMIN USER (optional)
 -- ============================================
 -- Um einen Admin zu erstellen, registriere dich zuerst normally,
--- dann führe dieses SQL aus und ersetze 'user_id' mit deiner ID:
--- UPDATE profiles SET role = 'owner' WHERE id = 'user_id';
+-- dann führe dieses SQL aus und ersetze 'deine@email.de' mit deiner E-Mail:
+-- UPDATE profiles SET role = 'owner' WHERE email = 'deine@email.de';
