@@ -19,8 +19,16 @@ const getSessionId = (): string => {
   }
 };
 
+// Check if analytics should be enabled (only when backend is available)
+const isAnalyticsEnabled = () => {
+  // Disabled in production on Vercel (no backend)
+  // Only enabled in development with local backend
+  return typeof window !== 'undefined' && window.location.hostname === 'localhost';
+};
+
 // Tracking Funktionen - Senden nun Daten an das Backend
 export const trackPageView = (path: string) => {
+  if (!isAnalyticsEnabled()) return;
   const sessionId = getSessionId();
   // Fire and forget
   api.post('/analytics/event', {
@@ -32,6 +40,7 @@ export const trackPageView = (path: string) => {
 };
 
 export const trackClick = (elementName: string, path: string) => {
+  if (!isAnalyticsEnabled()) return;
   const sessionId = getSessionId();
   api.post('/analytics/event', {
       sessionId,
