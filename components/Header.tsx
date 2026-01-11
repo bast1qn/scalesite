@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeToggle } from './ThemeToggle';
-import { ArrowPathIcon, Bars3Icon, XMarkIcon, ArrowRightOnSquareIcon, UserCircleIcon, ArrowLeftOnSquareIcon, ScaleSiteLogo } from './Icons';
+import { ArrowPathIcon, Bars3Icon, XMarkIcon, ArrowRightOnRectangleIcon, UserCircleIcon, ArrowLeftOnRectangleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useCurrency } from '../contexts/CurrencyContext';
@@ -193,7 +193,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                             </button>
                             <button onClick={() => setCurrentPage('preise')} className="group bg-primary text-white font-semibold px-5 py-2.5 rounded-full hover:bg-primary-hover transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 text-sm flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
                                 <span>{t('nav.projectStart')}</span>
-                                <ArrowRightOnSquareIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                                <ArrowRightOnRectangleIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                             </button>
                          </>
                      )}

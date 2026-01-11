@@ -672,8 +672,7 @@ export const translations = {
         excerpt: "Robuste und klare Website für ein Bauunternehmen mit Projektgalerie und Anfrageformularen.",
         image_url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop"
       }
-    ]
-  },
+    ],
     glossary: {
       title: "Glossar",
       subtitle: "Die wichtigsten Begriffe aus der Welt des Webdesigns und der Webentwicklung einfach und verständlich erklärt.",
@@ -700,32 +699,32 @@ export const translations = {
         excerpt: "Visuelle Ästhetik entwickelt sich ständig weiter. Wir analysieren die wichtigsten Trends, die moderne Websites nicht nur schön, sondern auch funktional machen.",
         author: "Bastian Giersch"
       }
-    ]
-  },
-  dashboard: {
-    alerts: {
-      error_prefix: "Fehler: ",
-      create_failed: "Fehler beim Erstellen: ",
-      failed: "Fehler: ",
-      user_not_added: "Nutzer konnte nicht hinzugefügt werden.",
-      assigned: "Dienstleistung zugewiesen und Rechnung erstellt.",
-      assign_failed: "Fehler beim Zuweisen: ",
-      file_too_large: "Datei zu groß (Max 5MB für Demo)",
-      upload_failed: "Upload fehlgeschlagen: ",
-      file_read_error: "Fehler beim Lesen der Datei.",
-      download_failed: "Download fehlgeschlagen",
-      delete_failed: "Fehler beim Löschen: ",
-      save_failed: "Fehler beim Speichern: ",
-      link_copied: "Link in die Zwischenablage kopiert!",
-      hosting_status: "Hosting Status",
-      active_services: "Aktive Dienste",
-      open_tickets: "Offene Tickets",
-      download: "Download",
-      delete: "Löschen",
-      edit: "Bearbeiten",
-      add_user: "Nutzer hinzufügen",
-      back: "Zurück",
-      forward: "Weiter"
+    ],
+    dashboard: {
+      alerts: {
+        error_prefix: "Fehler: ",
+        create_failed: "Fehler beim Erstellen: ",
+        failed: "Fehler: ",
+        user_not_added: "Nutzer konnte nicht hinzugefügt werden.",
+        assigned: "Dienstleistung zugewiesen und Rechnung erstellt.",
+        assign_failed: "Fehler beim Zuweisen: ",
+        file_too_large: "Datei zu groß (Max 5MB für Demo)",
+        upload_failed: "Upload fehlgeschlagen: ",
+        file_read_error: "Fehler beim Lesen der Datei.",
+        download_failed: "Download fehlgeschlagen",
+        delete_failed: "Fehler beim Löschen: ",
+        save_failed: "Fehler beim Speichern: ",
+        link_copied: "Link in die Zwischenablage kopiert!",
+        hosting_status: "Hosting Status",
+        active_services: "Aktive Dienste",
+        open_tickets: "Offene Tickets",
+        download: "Download",
+        delete: "Löschen",
+        edit: "Bearbeiten",
+        add_user: "Nutzer hinzufügen",
+        back: "Zurück",
+        forward: "Weiter"
+      }
     }
   },
   en: {
@@ -1400,8 +1399,7 @@ export const translations = {
         excerpt: "Robust and clear website for a construction company with project gallery and inquiry forms.",
         image_url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop"
       }
-    ]
-  },
+    ],
     glossary: {
       title: "Glossary",
       subtitle: "The most important terms from the world of web design and web development explained simply and understandably.",
@@ -1428,32 +1426,32 @@ export const translations = {
         excerpt: "Visual aesthetics are constantly evolving. We analyze the most important trends that make modern websites not just beautiful, but functional too.",
         author: "Bastian Giersch"
       }
-    ]
-  },
-  dashboard: {
-    alerts: {
-      error_prefix: "Error: ",
-      create_failed: "Create failed: ",
-      failed: "Error: ",
-      user_not_added: "User could not be added.",
-      assigned: "Service assigned and invoice created.",
-      assign_failed: "Assignment failed: ",
-      file_too_large: "File too large (Max 5MB for demo)",
-      upload_failed: "Upload failed: ",
-      file_read_error: "Error reading the file.",
-      download_failed: "Download failed",
-      delete_failed: "Delete failed: ",
-      save_failed: "Save failed: ",
-      link_copied: "Link copied to clipboard!",
-      hosting_status: "Hosting Status",
-      active_services: "Active Services",
-      open_tickets: "Open Tickets",
-      download: "Download",
-      delete: "Delete",
-      edit: "Edit",
-      add_user: "Add User",
-      back: "Back",
-      forward: "Forward"
+    ],
+    dashboard: {
+      alerts: {
+        error_prefix: "Error: ",
+        create_failed: "Create failed: ",
+        failed: "Error: ",
+        user_not_added: "User could not be added.",
+        assigned: "Service assigned and invoice created.",
+        assign_failed: "Assignment failed: ",
+        file_too_large: "File too large (Max 5MB for demo)",
+        upload_failed: "Upload failed: ",
+        file_read_error: "Error reading the file.",
+        download_failed: "Download failed",
+        delete_failed: "Delete failed: ",
+        save_failed: "Save failed: ",
+        link_copied: "Link copied to clipboard!",
+        hosting_status: "Hosting Status",
+        active_services: "Active Services",
+        open_tickets: "Open Tickets",
+        download: "Download",
+        delete: "Delete",
+        edit: "Edit",
+        add_user: "Add User",
+        back: "Back",
+        forward: "Forward"
+      }
     }
   }
 };
