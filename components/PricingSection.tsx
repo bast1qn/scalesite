@@ -133,6 +133,14 @@ ${message}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
+            {/* Trust Badge - Money Back Guarantee */}
+            <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                <ShieldCheckIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+                <span className="text-sm font-semibold text-green-700 dark:text-green-300">
+                  30 Tage Geld-zurück Garantie
+                </span>
+            </div>
+
             <h2 className="font-serif text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
               {t('pricing.title_prefix')} <br/> <span className="text-gradient">{t('pricing.title_highlight')}</span>
             </h2>
@@ -164,7 +172,7 @@ ${message}
 
           {/* Limited Offer Banner */}
           {isOfferActive && (
-              <div className="mt-10 max-w-xl mx-auto bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-center gap-4 text-center backdrop-blur-sm animate-fade-in">
+              <div className="mt-8 max-w-xl mx-auto bg-gradient-to-r from-primary/10 to-orange-500/10 border border-primary/20 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-center gap-3 text-center backdrop-blur-sm animate-fade-in">
                   <div className="flex items-center gap-2 font-bold text-primary text-sm">
                       <TagIcon className="animate-bounce" />
                       <span className="hidden sm:inline">{t('pricing.offer')}</span>
@@ -172,6 +180,22 @@ ${message}
                   <CountdownTimer targetDate={offerEndDate} onComplete={() => setIsOfferActive(false)} />
               </div>
           )}
+
+          {/* Social Proof */}
+          <div className="mt-8 flex items-center justify-center gap-8 flex-wrap">
+              <div className="flex items-center gap-2">
+                  <div className="flex -space-x-1">
+                      {[1,2,3].map(i => (
+                          <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-purple-500 border border-white dark:border-slate-900 flex items-center justify-center text-white text-xs">
+                              {String.fromCharCode(64 + i)}
+                          </div>
+                      ))}
+                  </div>
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                      <span className="font-bold">3 Buchungen</span> diese Woche
+                  </span>
+              </div>
+          </div>
         </AnimatedSection>
 
         {/* Pricing Cards */}
@@ -230,19 +254,19 @@ ${message}
                         : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 shadow-lg hover:shadow-xl'
                     }`}
                 >
-                    {pkg.popular ? t('pricing.start_btn') : t('pricing.select_btn')}
+                    {pkg.popular ? 'Jetzt starten →' : 'Auswählen'}
                 </button>
                 
                 {/* Trust footer */}
                  <div className={`mt-6 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
                     <ShieldCheckIcon className="w-3 h-3" />
-                    <span>{t('pricing.secure')}</span>
+                    <span>48h Lieferung • Garantie</span>
                  </div>
 
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-slate-400 mt-8 max-w-2xl mx-auto">{t('pricing.ai_note')}</p>
+          <p className="text-center text-xs text-slate-400 mt-6 max-w-2xl mx-auto">Keine Kreditkarte erforderlich. Kostenloses Beratungsgespräch inklusive.</p>
         </AnimatedSection>
         
         <AnimatedSection>

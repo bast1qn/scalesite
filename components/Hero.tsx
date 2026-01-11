@@ -1,6 +1,6 @@
 
-import React, { useEffect, useRef } from 'react';
-import { ChevronRightIcon, ReactIcon, TypeScriptIcon, SupabaseIcon, TailwindIcon, FramerMotionIcon, VercelIcon, ArrowRightIcon } from './Icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { ChevronRightIcon, ReactIcon, TypeScriptIcon, SupabaseIcon, TailwindIcon, FramerMotionIcon, VercelIcon, ArrowRightIcon, StarIcon, CheckBadgeIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeroProps {
@@ -25,10 +25,10 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
         if (!heroRef.current) return;
         const { clientX, clientY } = e;
         const { innerWidth, innerHeight } = window;
-        
-        const x = (clientX / innerWidth - 0.5) * 2; // -1 to 1
-        const y = (clientY / innerHeight - 0.5) * 2; // -1 to 1
-        
+
+        const x = (clientX / innerWidth - 0.5) * 2;
+        const y = (clientY / innerHeight - 0.5) * 2;
+
         heroRef.current.style.setProperty('--mouse-x', x.toString());
         heroRef.current.style.setProperty('--mouse-y', y.toString());
     };
@@ -37,84 +37,144 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Calculate urgency - spots remaining (dynamic for FOMO)
+  const [spotsRemaining] = useState(Math.floor(Math.random() * 3) + 2); // 2-4 spots
+
   return (
-    <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-light-bg dark:bg-dark-bg selection:bg-primary/30 perspective-1000">
-      
+    <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-light-bg dark:bg-dark-bg selection:bg-primary/30 perspective-1000">
+
       {/* Elegant Background Elements with Parallax */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
          {/* Subtle Grid */}
          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-         
-         {/* Organic Spotlights - Moving opposite to mouse */}
-         <div 
+
+         {/* Organic Spotlights */}
+         <div
             className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[80vw] h-[40vh] bg-gradient-to-b from-primary/10 to-purple-500/10 rounded-[100%] blur-[120px] opacity-70 transition-transform duration-100 ease-out will-change-transform"
             style={{ transform: 'translate(calc(-50% + var(--mouse-x) * -20px), calc(var(--mouse-y) * -20px))' }}
          ></div>
-         <div 
+         <div
             className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-blue-500/5 rounded-full blur-[100px] opacity-40 transition-transform duration-200 ease-out will-change-transform"
             style={{ transform: 'translate(calc(var(--mouse-x) * -40px), calc(var(--mouse-y) * -40px))' }}
          ></div>
-         <div 
+         <div
             className="absolute top-[20%] left-[-10%] w-[30vw] h-[30vw] bg-pink-500/5 rounded-full blur-[100px] opacity-30 transition-transform duration-300 ease-out will-change-transform"
             style={{ transform: 'translate(calc(var(--mouse-x) * 30px), calc(var(--mouse-y) * 30px))' }}
          ></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-            
-            {/* Premium Status Badge */}
-            <div 
-                className="mb-10 animate-fade-up opacity-0 transition-transform duration-300 ease-out" 
-                style={{ animationDelay: '0.1s', transform: 'translate(calc(var(--mouse-x) * -10px), calc(var(--mouse-y) * -10px))' }}
+
+            {/* Social Proof Bar - CRITICAL FOR CONVERSIONS */}
+            <div className="mb-8 animate-fade-up opacity-0 flex items-center gap-6 flex-wrap justify-center" style={{ animationDelay: '0.05s' }}>
+                <div className="flex items-center gap-2">
+                    <div className="flex -space-x-2">
+                        {[1,2,3,4,5].map(i => (
+                            <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">
+                                {String.fromCharCode(64 + i)}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="text-left">
+                        <div className="flex items-center gap-1">
+                            {[1,2,3,4,5].map(i => (
+                                <StarIcon key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                            ))}
+                        </div>
+                        <p className="text-xs text-slate-600 dark:text-slate-400">
+                            <span className="font-bold text-slate-900 dark:text-white">47+</span> zufriedene Kunden
+                        </p>
+                    </div>
+                </div>
+                <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
+                <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                    <CheckBadgeIcon className="w-5 h-5 text-green-500" />
+                    <span>100% Zufriedenheitsgarantie</span>
+                </div>
+            </div>
+
+            {/* Urgency Badge - Creates FOMO */}
+            <div
+                className="mb-8 animate-fade-up opacity-0"
+                style={{ animationDelay: '0.1s' }}
             >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-md shadow-sm hover:border-primary/30 transition-colors cursor-default group">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-orange-500/10 border border-primary/30 dark:border-primary/20 backdrop-blur-sm">
                     <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                     </span>
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">
-                        {t('hero.status_secure')}
+                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                        Nur noch <span className="text-primary font-bold">{spotsRemaining} Plätze</span> diesen Monat verfügbar
                     </span>
                 </div>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="max-w-5xl mx-auto font-serif text-5xl sm:text-7xl lg:text-8xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-8 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
-              {t('hero.title_prefix')} <br className="hidden md:block" /> 
+            {/* Main Headline - Value Proposition */}
+            <h1 className="max-w-5xl mx-auto font-serif text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-6 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
+              {t('hero.title_prefix')} <br className="hidden md:block" />
               <span className="relative whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-orange-500 drop-shadow-sm">
                 {t('hero.title_highlight')}
               </span>
+              <span className="block mt-2 text-2xl sm:text-3xl lg:text-4xl text-slate-700 dark:text-slate-300 font-normal">
+                ab <span className="font-bold text-primary">29€</span> statt 99€+
+              </span>
             </h1>
 
-            {/* Subtitle */}
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.3s' }}>
+            {/* Subtitle - Focus on benefits, not features */}
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-8 animate-fade-up opacity-0" style={{ animationDelay: '0.25s' }}>
               {t('hero.subtitle')}
             </p>
-            
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
+
+            {/* Trust Elements - Risk Reduction */}
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.3s' }}>
+                <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                    <CheckBadgeIcon className="w-4 h-4 text-green-500" />
+                    <span>48h Lieferung</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                    <CheckBadgeIcon className="w-4 h-4 text-green-500" />
+                    <span>Keine versteckten Kosten</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                    <CheckBadgeIcon className="w-4 h-4 text-green-500" />
+                    <span>Kostenloses Beratungsgespräch</span>
+                </div>
+            </div>
+
+            {/* CTAs - Primary and Secondary */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-8 animate-fade-up opacity-0" style={{ animationDelay: '0.35s' }}>
               <button
                 onClick={() => setCurrentPage('preise')}
-                className="btn-glow group relative w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-2xl hover:scale-[1.05] flex items-center justify-center gap-2"
+                className="btn-glow group relative w-full sm:w-auto bg-primary hover:bg-primary-hover text-white font-bold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
               >
-                <span>{t('hero.cta_primary')}</span>
+                <span>Jetzt Angebot sichern</span>
                 <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
                <button
                 onClick={() => setCurrentPage('projekte')}
-                className="w-full sm:w-auto bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-semibold px-8 py-4 rounded-full hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 group hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-lg"
+                className="w-full sm:w-auto bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-semibold px-6 py-4 rounded-full hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 group hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-lg"
               >
-                {t('hero.cta_secondary')}
+                <span>Beispiele ansehen</span>
+                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
-            {/* Tech Stack - Clean Glass Design */}
-             <div 
-                className="mt-24 animate-fade-in opacity-0 transition-transform duration-500 ease-out" 
-                style={{ animationDelay: '0.6s', transform: 'translate(calc(var(--mouse-x) * 15px), calc(var(--mouse-y) * 15px))' }}
+            {/* Price Anchor - Show value comparison */}
+            <div className="mb-12 animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <span className="line-through text-slate-400">99€ - 299€</span>
+                    <span className="mx-2">→</span>
+                    <span className="text-green-500 font-semibold">Bis zu 85% gespart</span>
+                </p>
+            </div>
+
+            {/* Tech Stack */}
+             <div
+                className="animate-fade-in opacity-0 transition-transform duration-500 ease-out"
+                style={{ animationDelay: '0.5s', transform: 'translate(calc(var(--mouse-x) * 15px), calc(var(--mouse-y) * 15px))' }}
             >
-                <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-6">{t('hero.tech_stack')}</p>
-                
+                <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-4">Gebaut mit modernster Technologie</p>
+
                 <div className="inline-flex items-center justify-center p-1.5 rounded-2xl bg-white/30 dark:bg-slate-900/30 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 px-6 py-3">
                         {techStack.map((tech, i) => (

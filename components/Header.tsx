@@ -191,8 +191,8 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                             <button onClick={() => setCurrentPage('login')} className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors px-2">
                                 {t('nav.login')}
                             </button>
-                            <button onClick={() => setCurrentPage('preise')} className="group bg-primary text-white font-semibold px-5 py-2.5 rounded-full hover:bg-primary-hover transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 text-sm flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
-                                <span>{t('nav.projectStart')}</span>
+                            <button onClick={() => setCurrentPage('preise')} className="group bg-primary text-white font-bold px-5 py-2.5 rounded-full hover:bg-primary-hover transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 text-sm flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
+                                <span>Angebot sichern</span>
                                 <ArrowRightOnRectangleIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                             </button>
                          </>
