@@ -8,7 +8,6 @@ import { PageTransition } from './components/PageTransition';
 import { AnimatePresence } from 'framer-motion';
 import { ChatWidget } from './components/ChatWidget';
 import { CookieConsent } from './components/CookieConsent';
-import { LiveNotification } from './components/LiveNotification';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { trackPageView } from './lib/analytics';
 
@@ -162,7 +161,6 @@ const AppContent: React.FC = () => {
             </ErrorBoundary>
             <ChatWidget />
             <CookieConsent />
-            <LiveNotification />
         </Layout>
     );
 };

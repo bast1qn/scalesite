@@ -4,13 +4,6 @@ import { AnimatedSection } from './AnimatedSection';
 import { RocketLaunchIcon, PaperAirplaneIcon, ShieldCheckIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
-// Simple Star Icon
-const Star = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
-        <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
-    </svg>
-);
-
 interface FinalCtaSectionProps {
     setCurrentPage: (page: string) => void;
 }
@@ -35,18 +28,6 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ setCurrentPage
                         <div className="inline-flex items-center gap-2 bg-green-500/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-green-500/30 animate-fade-up">
                             <ShieldCheckIcon className="w-4 h-4 text-green-400" />
                             <span className="text-green-300">30 Tage Geld-zurück Garantie</span>
-                        </div>
-
-                        {/* Reviews Badge */}
-                        <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium mb-8 border border-white/10 animate-fade-up">
-                            <div className="flex gap-0.5 text-yellow-400">
-                                <Star className="w-4 h-4" />
-                                <Star className="w-4 h-4" />
-                                <Star className="w-4 h-4" />
-                                <Star className="w-4 h-4" />
-                                <Star className="w-4 h-4" />
-                            </div>
-                            <span className="text-white/90">47+ zufriedene Kunden</span>
                         </div>
 
                         <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>

@@ -180,22 +180,6 @@ ${message}
                   <CountdownTimer targetDate={offerEndDate} onComplete={() => setIsOfferActive(false)} />
               </div>
           )}
-
-          {/* Social Proof */}
-          <div className="mt-8 flex items-center justify-center gap-8 flex-wrap">
-              <div className="flex items-center gap-2">
-                  <div className="flex -space-x-1">
-                      {[1,2,3].map(i => (
-                          <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-purple-500 border border-white dark:border-slate-900 flex items-center justify-center text-white text-xs">
-                              {String.fromCharCode(64 + i)}
-                          </div>
-                      ))}
-                  </div>
-                  <span className="text-sm text-slate-600 dark:text-slate-400">
-                      <span className="font-bold">3 Buchungen</span> diese Woche
-                  </span>
-              </div>
-          </div>
         </AnimatedSection>
 
         {/* Pricing Cards */}

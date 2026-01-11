@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronRightIcon, ReactIcon, TypeScriptIcon, SupabaseIcon, TailwindIcon, FramerMotionIcon, VercelIcon, ArrowRightIcon, StarIcon, CheckBadgeIcon } from './Icons';
+import { ChevronRightIcon, ReactIcon, TypeScriptIcon, SupabaseIcon, TailwindIcon, FramerMotionIcon, VercelIcon, ArrowRightIcon, CheckBadgeIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeroProps {
@@ -37,9 +37,6 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Calculate urgency - spots remaining (dynamic for FOMO)
-  const [spotsRemaining] = useState(Math.floor(Math.random() * 3) + 2); // 2-4 spots
-
   return (
     <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-light-bg dark:bg-dark-bg selection:bg-primary/30 perspective-1000">
 
@@ -65,46 +62,12 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
 
-            {/* Social Proof Bar - CRITICAL FOR CONVERSIONS */}
-            <div className="mb-8 animate-fade-up opacity-0 flex items-center gap-6 flex-wrap justify-center" style={{ animationDelay: '0.05s' }}>
-                <div className="flex items-center gap-2">
-                    <div className="flex -space-x-2">
-                        {[1,2,3,4,5].map(i => (
-                            <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold">
-                                {String.fromCharCode(64 + i)}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="text-left">
-                        <div className="flex items-center gap-1">
-                            {[1,2,3,4,5].map(i => (
-                                <StarIcon key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            ))}
-                        </div>
-                        <p className="text-xs text-slate-600 dark:text-slate-400">
-                            <span className="font-bold text-slate-900 dark:text-white">47+</span> zufriedene Kunden
-                        </p>
-                    </div>
-                </div>
-                <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
-                <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                    <CheckBadgeIcon className="w-5 h-5 text-green-500" />
-                    <span>100% Zufriedenheitsgarantie</span>
-                </div>
-            </div>
-
-            {/* Urgency Badge - Creates FOMO */}
-            <div
-                className="mb-8 animate-fade-up opacity-0"
-                style={{ animationDelay: '0.1s' }}
-            >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-orange-500/10 border border-primary/30 dark:border-primary/20 backdrop-blur-sm">
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                    </span>
-                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                        Nur noch <span className="text-primary font-bold">{spotsRemaining} Plätze</span> diesen Monat verfügbar
+            {/* Trust Badge */}
+            <div className="mb-8 animate-fade-up opacity-0" style={{ animationDelay: '0.05s' }}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                    <CheckBadgeIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <span className="text-sm font-semibold text-green-700 dark:text-green-300">
+                        30 Tage Geld-zurück Garantie
                     </span>
                 </div>
             </div>

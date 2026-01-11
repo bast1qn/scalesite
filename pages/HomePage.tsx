@@ -6,7 +6,6 @@ import { DeviceMockupCarousel } from '../components/DeviceMockupCarousel';
 import { LogoWall } from '../components/LogoWall';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { ReasonsSection } from '../components/ReasonsSection';
-import { WhyChooseUsSection } from '../components/WhyChooseUsSection';
 
 interface HomePageProps {
     setCurrentPage: (page: string) => void;
@@ -18,7 +17,6 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
             <Hero setCurrentPage={setCurrentPage} />
             <LogoWall />
             <ReasonsSection />
-            <WhyChooseUsSection />
             <DeviceMockupCarousel />
             <TestimonialsSection />
             <FinalCtaSection setCurrentPage={setCurrentPage} />
