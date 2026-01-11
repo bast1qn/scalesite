@@ -151,13 +151,13 @@ const AppContent: React.FC = () => {
     return (
         <Layout setCurrentPage={setCurrentPage} currentPage={currentPage}>
             <ErrorBoundary>
-                <AnimatePresence mode="wait">
-                    <Suspense fallback={<PageLoader />}>
+                <Suspense fallback={<PageLoader />}>
+                    <AnimatePresence mode="wait">
                         <PageTransition key={currentPage}>
                             {getPage()}
                         </PageTransition>
-                    </Suspense>
-                </AnimatePresence>
+                    </AnimatePresence>
+                </Suspense>
             </ErrorBoundary>
             <ChatWidget />
             <CookieConsent />
