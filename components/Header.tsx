@@ -22,7 +22,7 @@ const NavButton: React.FC<{
         onClick={() => onClick(page)}
         className={`transition-all duration-300 rounded-full relative overflow-hidden group ${
             isMobile
-            ? `text-xl font-medium py-4 w-full text-center ${currentPage === page ? 'text-primary bg-primary/5' : 'text-dark-text/80 dark:text-light-text/80 hover:bg-dark-text/5 dark:hover:bg-light-text/5'}`
+            ? `text-xl font-medium py-4 w-full text-center ${currentPage === page ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 bg-blue-50 dark:bg-blue-900/20 font-bold' : 'text-dark-text/80 dark:text-light-text/80 hover:bg-dark-text/5 dark:hover:bg-light-text/5'}`
             : `text-sm font-medium px-4 py-2 ${currentPage === page ? 'text-slate-900 dark:text-white font-bold bg-white/50 dark:bg-white/10 shadow-sm border border-slate-200/50 dark:border-slate-700/50' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-white/5'}`
         }`}
         aria-current={currentPage === page ? 'page' : undefined}
@@ -143,9 +143,9 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
         { page: 'contact', label: t('nav.contact')},
     ];
 
-    const headerClasses = `fixed top-0 left-0 right-0 z-[90] transition-all duration-500 border-b ${
+        const headerClasses = `fixed top-0 left-0 right-0 z-[90] transition-all duration-500 border-b ${
         isScrolled || isMenuOpen
-            ? 'h-20 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-xl border-slate-200/60 dark:border-slate-800/60 shadow-sm supports-[backdrop-filter]:bg-white/60'
+            ? 'h-20 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-xl border-slate-200/60 dark:border-slate-800/60 shadow-glass supports-[backdrop-filter]:bg-white/60'
             : 'h-24 bg-transparent border-transparent'
     }`;
 
@@ -191,9 +191,9 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                             <button onClick={() => setCurrentPage('login')} className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors px-2">
                                 {t('nav.login')}
                             </button>
-                            <button onClick={() => setCurrentPage('preise')} className="group bg-primary text-white font-bold px-5 py-2.5 rounded-full hover:bg-primary-hover transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 text-sm flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
-                                <span>Angebot sichern</span>
-                                <ArrowRightOnRectangleIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                            <button onClick={() => setCurrentPage('preise')} className="group relative bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 text-white font-bold px-6 py-2.5 rounded-full hover:shadow-glow transition-all duration-300 shadow-lg shadow-blue-500/25 text-sm flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0 bg-[length:200%_auto] animate-gradient-shift">
+                                <span className="relative z-10">Angebot sichern</span>
+                                <ArrowRightOnRectangleIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform relative z-10" />
                             </button>
                          </>
                      )}
@@ -242,7 +242,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <CurrencySelector isMobile={true} />
                     </div>
 
-                    <button onClick={() => handleNavClick('preise')} className="w-full bg-primary text-white font-bold px-8 py-4 rounded-2xl hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 mb-4 transform active:scale-95">
+                    <button onClick={() => handleNavClick('preise')} className="w-full bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 text-white font-bold px-8 py-4 rounded-2xl hover:shadow-glow transition-all shadow-xl shadow-blue-500/20 mb-4 transform active:scale-95 bg-[length:200%_auto] animate-gradient-shift">
                         {t('nav.projectStart')}
                     </button>
 

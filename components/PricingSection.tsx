@@ -126,23 +126,23 @@ ${message}
   };
 
   return (
-    <section className="py-32 bg-light-bg dark:bg-dark-bg relative overflow-hidden">
-      {/* Ambient Background */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-primary/5 blur-[120px] pointer-events-none animate-pulse-slow"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section className="py-20 bg-light-bg dark:bg-dark-bg relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
-            {/* Trust Badge - Money Back Guarantee */}
-            <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                <ShieldCheckIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
-                <span className="text-sm font-semibold text-green-700 dark:text-green-300">
+            {/* Trust Badge */}
+            <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/30">
+                <ShieldCheckIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+                <span className="text-sm font-medium text-green-700 dark:text-green-300">
                   30 Tage Geld-zurück Garantie
                 </span>
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
-              {t('pricing.title_prefix')} <br/> <span className="text-gradient">{t('pricing.title_highlight')}</span>
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
+              {t('pricing.title_prefix')} <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+                  {t('pricing.title_highlight')}
+              </span>
             </h2>
             <p className="mt-6 text-lg text-slate-600 dark:text-slate-400">
               {t('pricing.subtitle')}
@@ -151,19 +151,19 @@ ${message}
 
           {/* Hosting Toggle */}
           <div className="mt-12 flex justify-center">
-              <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded-full inline-flex shadow-inner relative ring-1 ring-slate-200 dark:ring-slate-700">
-                <div 
-                    className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-primary rounded-full shadow-md transition-all duration-300 ease-in-out ${!withHosting ? 'left-1.5' : 'left-[calc(50%+3px)]'}`}
+              <div className="bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full inline-flex relative">
+                <div
+                    className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-full shadow-sm transition-all duration-300 ${!withHosting ? 'left-1.5' : 'left-[calc(50%+4.5px)]'}`}
                 ></div>
-                <button 
+                <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-bold transition-colors duration-300 ${!withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                    className={`relative z-10 px-8 py-2 rounded-full text-sm font-medium transition-colors ${!withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
                 >
                     {t('pricing.toggle_project')}
                 </button>
-                <button 
+                <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-bold transition-colors duration-300 ${withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                    className={`relative z-10 px-8 py-2 rounded-full text-sm font-medium transition-colors ${withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
                 >
                      {t('pricing.toggle_service')}
                 </button>
@@ -172,10 +172,10 @@ ${message}
 
           {/* Limited Offer Banner */}
           {isOfferActive && (
-              <div className="mt-8 max-w-xl mx-auto bg-gradient-to-r from-primary/10 to-orange-500/10 border border-primary/20 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-center gap-3 text-center backdrop-blur-sm animate-fade-in">
-                  <div className="flex items-center gap-2 font-bold text-primary text-sm">
-                      <TagIcon className="animate-bounce" />
-                      <span className="hidden sm:inline">{t('pricing.offer')}</span>
+              <div className="mt-8 max-w-xl mx-auto bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <div className="flex items-center gap-2 font-medium text-blue-600 dark:text-blue-400 text-sm">
+                      <TagIcon className="w-4 h-4" />
+                      <span>{t('pricing.offer')}</span>
                   </div>
                   <CountdownTimer targetDate={offerEndDate} onComplete={() => setIsOfferActive(false)} />
               </div>
@@ -184,94 +184,103 @@ ${message}
 
         {/* Pricing Cards */}
         <AnimatedSection stagger>
-          <div className="mt-20 grid gap-8 lg:grid-cols-3 items-start stagger-container">
+          <div className="mt-16 grid gap-6 lg:grid-cols-3 items-start">
             {displayedPackages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className={`flex flex-col p-8 rounded-3xl transition-all duration-500 relative group ${
-                  pkg.popular 
-                  ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-2xl shadow-slate-900/20 ring-1 ring-slate-700 z-10 transform lg:-translate-y-4 hover:-translate-y-6' 
-                  : 'bg-white dark:bg-dark-surface text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl hover:-translate-y-2'
-                }`}
-              >
-                {pkg.popular && (
-                     <div className="absolute -top-4 left-0 right-0 flex justify-center z-20">
-                        <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-primary to-purple-600 text-white uppercase tracking-wide shadow-lg shadow-primary/30 animate-pulse-slow">
-                            {t('pricing.popular')}
-                        </span>
-                    </div>
-                )}
-                
-                {/* Glow Effect for Popular Card */}
-                {pkg.popular && <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>}
-
-                <div className="mb-8 relative z-10">
-                    <h3 className="text-2xl font-bold font-serif">{pkg.name}</h3>
-                    <p className={`mt-4 text-sm leading-relaxed ${pkg.popular ? 'text-slate-300' : 'text-slate-500 dark:text-slate-400'}`}>
-                        {pkg.description}
-                    </p>
-                </div>
-
-                <div className="flex items-baseline gap-1 mb-8 relative z-10">
-                    <span className="text-5xl font-extrabold tracking-tight">{pkg.price}</span>
-                    <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
-                </div>
-                
-                <div className={`h-px w-full mb-8 ${pkg.popular ? 'bg-slate-700' : 'bg-slate-100 dark:bg-slate-800'}`}></div>
-
-                <ul className="space-y-4 flex-grow mb-10 relative z-10">
-                    {pkg.features.map((feature: string) => (
-                        <li key={feature} className="flex items-start gap-3">
-                        <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${pkg.popular ? 'bg-primary text-white' : 'bg-primary/10 text-primary'}`}>
-                             <CheckBadgeIcon className="w-3.5 h-3.5" />
-                        </div>
-                        <span className={`text-sm font-medium leading-tight pt-0.5 ${pkg.popular ? 'text-slate-200' : 'text-slate-700 dark:text-slate-300'}`}>{feature}</span>
-                        </li>
-                    ))}
-                </ul>
-                
-                <button 
-                    onClick={() => handlePackageClick(pkg)}
-                    className={`w-full py-4 rounded-xl text-sm font-bold transition-all duration-300 relative z-10 overflow-hidden transform active:scale-95 ${
-                        pkg.popular 
-                        ? 'bg-white text-slate-900 hover:bg-gray-100' 
-                        : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 shadow-lg hover:shadow-xl'
+                <div
+                    key={pkg.name}
+                    className={`flex flex-col p-6 rounded-2xl transition-all duration-200 relative ${
+                        pkg.popular
+                        ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-xl border-2 border-blue-500/30 lg:-translate-y-2'
+                        : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-800/50 hover:shadow-md'
                     }`}
                 >
-                    {pkg.popular ? 'Jetzt starten →' : 'Auswählen'}
-                </button>
-                
-                {/* Trust footer */}
-                 <div className={`mt-6 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
-                    <ShieldCheckIcon className="w-3 h-3" />
-                    <span>48h Lieferung • Garantie</span>
-                 </div>
+                    {pkg.popular && (
+                         <div className="absolute -top-3 left-0 right-0 flex justify-center z-10">
+                            <span className="inline-flex items-center px-4 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase">
+                                {t('pricing.popular')}
+                            </span>
+                        </div>
+                    )}
 
-              </div>
+                    <div className="mb-6 relative z-10">
+                        <h3 className={`text-xl font-bold font-serif ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>{pkg.name}</h3>
+                        <p className={`mt-3 text-sm leading-relaxed ${pkg.popular ? 'text-slate-300' : 'text-slate-600 dark:text-slate-400'}`}>
+                            {pkg.description}
+                        </p>
+                    </div>
+
+                    <div className="flex items-baseline gap-1 mb-6 relative z-10">
+                        <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600'}`}>
+                            {pkg.price}
+                        </span>
+                        <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
+                    </div>
+
+                    <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700' : 'bg-slate-100 dark:bg-slate-800'}`}></div>
+
+                    <ul className="space-y-3 flex-grow mb-8 relative z-10">
+                        {pkg.features.map((feature: string) => (
+                            <li key={feature} className="flex items-start gap-3">
+                            <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                                pkg.popular
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                            }`}>
+                                 <CheckBadgeIcon className="w-3 h-3" />
+                            </div>
+                            <span className={`text-sm leading-tight ${pkg.popular ? 'text-slate-200' : 'text-slate-700 dark:text-slate-300'}`}>{feature}</span>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <button
+                        onClick={() => handlePackageClick(pkg)}
+                        className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 ${
+                            pkg.popular
+                            ? 'bg-white text-slate-900 hover:bg-gray-100 shadow-lg'
+                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:opacity-90'
+                        }`}
+                    >
+                        {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
+                    </button>
+
+                    {/* Trust footer */}
+                     <div className={`mt-6 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
+                        <ShieldCheckIcon className="w-3 h-3" />
+                        <span>48h Lieferung • Garantie</span>
+                     </div>
+
+                  </div>
             ))}
           </div>
-          <p className="text-center text-xs text-slate-400 mt-6 max-w-2xl mx-auto">Keine Kreditkarte erforderlich. Kostenloses Beratungsgespräch inklusive.</p>
+          <p className="text-center text-sm text-slate-500 mt-6 max-w-2xl mx-auto flex items-center justify-center gap-2">
+             <ShieldCheckIcon className="w-4 h-4 text-green-500" />
+             Keine Kreditkarte erforderlich. Kostenloses Beratungsgespräch inklusive.
+          </p>
         </AnimatedSection>
-        
+
         <AnimatedSection>
           <OfferCalculator setCurrentPage={setCurrentPage} />
         </AnimatedSection>
 
+        {/* FAQ Section */}
         <AnimatedSection>
-          <div className="mt-32 max-w-3xl mx-auto">
-               <h3 className="text-center text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-12 font-serif">
-                  {t('pricing.faq_title')}
-               </h3>
-               <div className="space-y-4">
-                  {faqItems.map(item => (
-                    <details key={item.question} className="group bg-white dark:bg-dark-surface rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300 open:shadow-md open:ring-1 open:ring-primary/20">
-                        <summary className="flex justify-between items-center p-6 font-semibold text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+          <div className="mt-24 max-w-3xl mx-auto">
+               <div className="text-center mb-8">
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
+                        {t('pricing.faq_title')}
+                    </h3>
+               </div>
+               <div className="space-y-3">
+                  {faqItems.map((item) => (
+                    <details key={item.question} className="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <summary className="flex justify-between items-center p-4 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-800/50">
                             {item.question}
-                            <span className="ml-4 flex-shrink-0 w-8 h-8 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-300 group-open:rotate-180 text-slate-500">
+                            <span className="ml-4 flex-shrink-0 w-8 h-8 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center transition-transform group-open:rotate-180 text-slate-500">
                                 <ChevronDownIcon className="w-4 h-4" />
                             </span>
                         </summary>
-                        <div className="px-6 pb-6 pt-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed animate-fade-in border-t border-slate-100 dark:border-slate-800/50">
+                        <div className="px-4 pb-4 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-800/50">
                             {item.answer}
                         </div>
                     </details>

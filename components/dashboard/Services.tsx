@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-import { CheckBadgeIcon, PlusCircleIcon, XMarkIcon, TicketIcon, ArrowRightIcon, ClockIcon } from '../Icons';
+import { CheckBadgeIcon, PlusCircleIcon, XMarkIcon, TicketIcon, ArrowRightIcon, ClockIcon, BriefcaseIcon, ShieldCheckIcon } from '../Icons';
 import { api } from '../../lib/api';
 import { DashboardView } from '../../pages/DashboardPage';
 
@@ -129,7 +129,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
             <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Ihre Dienstleistungen</h1>
                 <p className="mt-2 text-dark-text/80 dark:text-light-text/80">Lade Dienste...</p>
-                <div className="mt-8 w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <div className="mt-8 w-16 h-16 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -145,39 +145,43 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
             </div>
         );
     }
-    
+
     return (
-        <div className="relative">
-            <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Ihre Dienstleistungen</h1>
-            <p className="mt-2 text-dark-text/80 dark:text-light-text/80">
-                Verwalten Sie Ihre gebuchten Pakete und entdecken Sie weitere Möglichkeiten.
-            </p>
+        <div className="space-y-8 animate-fade-in">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl p-6 text-white">
+                <div className="flex items-center gap-4">
+                    <div className="p-2 rounded-xl bg-white/20">
+                        <BriefcaseIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold">Dienstleistungen</h1>
+                        <p className="text-white/80 text-sm mt-1">
+                            Verwalten Sie Ihre gebuchten Pakete und entdecken Sie weitere Möglichkeiten.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             {/* Pending Requests Section */}
             {pendingServices.length > 0 && (
-                <div className="mt-8">
-                    <h2 className="text-xl font-bold text-dark-text dark:text-light-text mb-4 flex items-center gap-2">
-                        Offene Anfragen
-                        <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs font-bold px-2 py-0.5 rounded-full">
+                <div>
+                    <div className="flex items-center gap-2 mb-4">
+                        <ClockIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+                        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Offene Anfragen</h2>
+                        <span className="px-2 py-0.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium">
                             {pendingServices.length}
                         </span>
-                    </h2>
-                    <div className="grid gap-6 md:grid-cols-2">
-                        {pendingServices.map(item => (
-                            <div key={item.id} className="bg-yellow-50/50 dark:bg-yellow-900/10 p-6 rounded-xl shadow-sm border border-yellow-200 dark:border-yellow-800/30 flex items-start gap-4">
-                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/30 rounded-full text-yellow-600 dark:text-yellow-400">
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {pendingServices.map((item) => (
+                            <div key={item.id} className="bg-yellow-50 dark:bg-yellow-900/10 p-4 rounded-xl border border-yellow-200 dark:border-yellow-800/30 flex items-start gap-3">
+                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/30 rounded-lg text-yellow-600 dark:text-yellow-400">
                                     <ClockIcon className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-dark-text dark:text-light-text">{item.services.name}</h3>
-                                    <p className="text-sm text-dark-text/70 dark:text-light-text/70 mb-3">{item.services.description}</p>
-                                    <div className="inline-flex items-center gap-2 text-xs font-medium text-yellow-700 dark:text-yellow-400 bg-yellow-100/50 dark:bg-yellow-900/20 px-2 py-1 rounded">
-                                        <span className="relative flex h-2 w-2">
-                                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                                          <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
-                                        </span>
-                                        Wartet auf Bestätigung
-                                    </div>
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.services.name}</h3>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.services.description}</p>
                                 </div>
                             </div>
                         ))}
@@ -185,79 +189,86 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                 </div>
             )}
 
-            <div className="mt-12">
-                <h2 className="text-xl font-bold text-dark-text dark:text-light-text mb-4">Aktive Dienste</h2>
+            {/* Active Services Section */}
+            <div>
+                <div className="flex items-center gap-2 mb-4">
+                    <ShieldCheckIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Aktive Dienste</h2>
+                </div>
                 {confirmedServices.length > 0 ? (
-                    <div className="grid gap-6 md:grid-cols-2">
-                        {confirmedServices.map(item => (
-                            <div key={item.id} className="bg-surface dark:bg-dark-surface p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 flex items-start gap-4">
-                                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-green-500/20 rounded-full text-green-500">
-                                    <CheckBadgeIcon />
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {confirmedServices.map((item) => (
+                            <div key={item.id} className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-3">
+                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
+                                    <CheckBadgeIcon className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-dark-text dark:text-light-text">{item.services.name}</h3>
-                                    <p className="text-sm text-dark-text/70 dark:text-light-text/70">{item.services.description}</p>
-                                    <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700/50 text-xs text-slate-500 flex justify-between items-center">
-                                        <span>Status: Aktiv</span>
-                                        <span className="text-green-600 dark:text-green-400 font-medium">Laufend</span>
-                                    </div>
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.services.name}</h3>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.services.description}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="text-dark-text/70 dark:text-light-text/70 p-8 bg-surface dark:bg-dark-surface rounded-xl border border-dashed border-slate-300 dark:border-slate-700 text-center">
-                        Sie haben derzeit keine aktiven Dienste.
+                    <div className="text-center py-8 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
+                        <p className="text-slate-500 dark:text-slate-400">Sie haben derzeit keine aktiven Dienste.</p>
                     </div>
                 )}
             </div>
 
-             <div className="mt-12">
-                <h2 className="text-xl font-bold text-dark-text dark:text-light-text mb-4">Weitere Dienste buchen</h2>
+             {/* Available Services Section */}
+             <div>
+                <div className="flex items-center gap-2 mb-4">
+                    <PlusCircleIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Weitere Dienste buchen</h2>
+                </div>
                 {availableServices.length > 0 ? (
-                    <div className="grid gap-6 md:grid-cols-2">
-                        {availableServices.map(service => (
-                            <div key={service.id} className="bg-surface dark:bg-dark-surface p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10">
-                               <div className="flex justify-between items-start">
-                                    <div>
-                                        <h3 className="font-semibold text-dark-text dark:text-light-text">{service.name}</h3>
-                                        <p className="mt-1 text-sm text-dark-text/70 dark:text-light-text/70">{service.description}</p>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {availableServices.map((service) => (
+                            <div key={service.id} className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-800/50 transition-all">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-slate-900 dark:text-white">{service.name}</h3>
+                                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">{service.description}</p>
                                     </div>
-                                    <p className="font-bold text-dark-text dark:text-light-text text-lg whitespace-nowrap ml-4">
-                                        {new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(service.price)}
-                                        <span className="block text-xs font-normal text-dark-text/60 dark:text-light-text/60 text-right">{service.price_details}</span>
-                                    </p>
-                               </div>
-                               <button 
-                                    onClick={() => openBookingModal(service)} 
-                                    className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 bg-primary/5 hover:bg-primary/10 px-4 py-2 rounded-lg transition-all w-full sm:w-auto justify-center"
-                               >
+                                    <div className="text-right ml-4">
+                                        <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                                            {new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(service.price)}
+                                        </p>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400">{service.price_details}</span>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => openBookingModal(service)}
+                                    className="w-full py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                                >
                                     <PlusCircleIcon className="w-4 h-4" />
                                     Anfragen
-                               </button>
+                                </button>
                             </div>
                         ))}
                     </div>
                  ) : (
-                    <p className="text-dark-text/70 dark:text-light-text/70">Alle verfügbaren Dienste sind bereits aktiv oder angefragt.</p>
+                    <div className="text-center py-6 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
+                        <p className="text-slate-500 dark:text-slate-400 text-sm">Alle verfügbaren Dienste sind bereits aktiv oder angefragt.</p>
+                    </div>
                  )}
             </div>
 
-            {/* CUSTOM BOOKING MODAL */}
+            {/* BOOKING MODAL */}
             {bookingModal.isOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-scale-in">
-                        
+                    <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-scale-in">
                         {/* Header */}
-                        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-950/50">
-                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                        <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                                 {bookingModal.step === 'confirm' && 'Dienst anfragen'}
                                 {bookingModal.step === 'processing' && 'Wird bearbeitet...'}
                                 {bookingModal.step === 'success' && 'Erfolgreich'}
                                 {bookingModal.step === 'error' && 'Fehler'}
                             </h3>
                             {bookingModal.step !== 'processing' && (
-                                <button onClick={closeBookingModal} className="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-500">
+                                <button onClick={closeBookingModal} className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
                                     <XMarkIcon className="w-5 h-5" />
                                 </button>
                             )}
@@ -266,30 +277,34 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                         <div className="p-6">
                             {/* CONFIRMATION STEP */}
                             {bookingModal.step === 'confirm' && (
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-4 p-4 bg-primary/5 rounded-xl border border-primary/10">
-                                        <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-primary shadow-sm shrink-0">
-                                            <PlusCircleIcon className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold uppercase text-primary/70 tracking-wider">Auswahl</p>
-                                            <p className="text-lg font-bold text-slate-900 dark:text-white">{bookingModal.serviceName}</p>
+                                <div className="space-y-5">
+                                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800/30">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-white dark:bg-slate-800 rounded-lg flex items-center justify-center text-blue-600">
+                                                <PlusCircleIcon className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">Auswahl</p>
+                                                <p className="font-semibold text-slate-900 dark:text-white">{bookingModal.serviceName}</p>
+                                                {bookingModal.servicePrice && (
+                                                    <p className="text-sm text-blue-600 dark:text-blue-400">
+                                                        {new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(bookingModal.servicePrice)}
+                                                    </p>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                    
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        Möchten Sie diesen Dienst verbindlich anfragen?
-                                    </p>
-                                    <p className="text-xs text-slate-500 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                                        Hinweis: Durch die Bestätigung wird automatisch ein <strong>Support-Ticket</strong> erstellt, in dem wir die Details und nächsten Schritte mit Ihnen besprechen. Erst nach Ihrer finalen Freigabe im Ticket wird der Dienst aktiviert.
+
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                                        Möchten Sie diesen Dienst verbindlich anfragen? Ein Support-Ticket wird automatisch erstellt.
                                     </p>
 
-                                    <div className="flex gap-3 pt-2">
-                                        <button onClick={closeBookingModal} className="flex-1 py-3 rounded-xl font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm">
+                                    <div className="flex gap-3">
+                                        <button onClick={closeBookingModal} className="flex-1 py-3 rounded-lg font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700">
                                             Abbrechen
                                         </button>
-                                        <button onClick={handleConfirmBooking} className="flex-1 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all transform active:scale-95 text-sm">
-                                            Verbindlich anfragen
+                                        <button onClick={handleConfirmBooking} className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-lg font-semibold hover:opacity-90 text-sm">
+                                            Anfragen
                                         </button>
                                     </div>
                                 </div>
@@ -298,28 +313,27 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                             {/* PROCESSING STEP */}
                             {bookingModal.step === 'processing' && (
                                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-6"></div>
-                                    <p className="font-semibold text-slate-900 dark:text-white">Anfrage wird erstellt...</p>
-                                    <p className="text-sm text-slate-500 mt-2">Bitte warten Sie einen Moment.</p>
+                                    <div className="w-12 h-12 border-4 border-slate-200 dark:border-slate-700 border-t-blue-600 rounded-full animate-spin"></div>
+                                    <p className="font-semibold text-slate-900 dark:text-white mt-4">Anfrage wird erstellt...</p>
                                 </div>
                             )}
 
                             {/* SUCCESS STEP */}
                             {bookingModal.step === 'success' && (
-                                <div className="flex flex-col items-center text-center space-y-4 py-2">
-                                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400 mb-2 animate-scale-in">
+                                <div className="flex flex-col items-center text-center space-y-4 py-4">
+                                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
                                         <CheckBadgeIcon className="w-8 h-8" />
                                     </div>
-                                    <h4 className="text-xl font-bold text-slate-900 dark:text-white">Vielen Dank!</h4>
+                                    <h4 className="text-xl font-semibold text-slate-900 dark:text-white">Vielen Dank!</h4>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xs">
-                                        Ihre Anfrage für <strong>{bookingModal.serviceName}</strong> wurde erfolgreich übermittelt. Ein Ticket wurde erstellt.
+                                        Ihre Anfrage für <strong>{bookingModal.serviceName}</strong> wurde erfolgreich übermittelt.
                                     </p>
-                                    
-                                    <button onClick={handleSuccessAction} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2 mt-4">
-                                        <TicketIcon className="w-5 h-5" />
+
+                                    <button onClick={handleSuccessAction} className="w-full py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2">
+                                        <TicketIcon className="w-4 h-4" />
                                         Zum Ticket wechseln
                                     </button>
-                                    <button onClick={closeBookingModal} className="text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 pt-2">
+                                    <button onClick={closeBookingModal} className="text-sm text-slate-500 hover:text-slate-700">
                                         Hier bleiben
                                     </button>
                                 </div>
@@ -328,14 +342,14 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                             {/* ERROR STEP */}
                             {bookingModal.step === 'error' && (
                                 <div className="flex flex-col items-center text-center space-y-4 py-4">
-                                     <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-600 dark:text-red-400 mb-2">
+                                     <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-600 dark:text-red-400">
                                         <XMarkIcon className="w-8 h-8" />
                                     </div>
-                                    <h4 className="text-xl font-bold text-slate-900 dark:text-white">Hoppla!</h4>
+                                    <h4 className="text-xl font-semibold text-slate-900 dark:text-white">Fehler</h4>
                                     <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg w-full">
                                         {bookingModal.errorMessage}
                                     </p>
-                                    <button onClick={() => setBookingModal(prev => ({ ...prev, step: 'confirm' }))} className="w-full py-3 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-xl font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                                    <button onClick={() => setBookingModal(prev => ({ ...prev, step: 'confirm' }))} className="w-full py-3 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-lg font-semibold hover:bg-slate-300 dark:hover:bg-slate-700">
                                         Erneut versuchen
                                     </button>
                                 </div>

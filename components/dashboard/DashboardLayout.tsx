@@ -16,37 +16,40 @@ const NavLink: React.FC<{item: { view: DashboardView; label: string; icon: React
     return (
         <button
             onClick={() => onClick(item.view)}
-            className={`group flex items-center w-full px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+            className={`group flex items-center w-full px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 ${
                 isActive
-                    ? 'bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white shadow-sm'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-gradient-to-r from-blue-500/10 to-violet-500/10 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 shadow-sm border border-blue-200/50 dark:border-violet-700/50 relative overflow-hidden'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100/50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
             }`}
         >
-            <span className={`flex-shrink-0 transition-colors ${isActive ? 'text-primary' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300'}`}>
+            {isActive && (
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-violet-500/5 animate-gradient-shift"></div>
+            )}
+            <span className={`flex-shrink-0 transition-all duration-300 relative z-10 ${isActive ? 'text-blue-600 dark:text-violet-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500 dark:group-hover:text-violet-400'}`}>
                 {item.icon}
             </span>
-            <span className="ml-3">{item.label}</span>
-            {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary"></div>}
+            <span className="ml-3 relative z-10">{item.label}</span>
+            {isActive && <div className="ml-auto w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 animate-pulse-slow"></div>}
         </button>
     );
 };
 
 const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({user, logout}) => (
-    <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/30 shrink-0">
+    <div className="p-5 border-t border-slate-200/50 dark:border-slate-700/50 bg-gradient-to-b from-slate-50/80 to-white/80 dark:from-slate-900/80 dark:to-slate-900/80 backdrop-blur-sm shrink-0">
         <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-md ring-2 ring-white dark:ring-slate-800">
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 via-violet-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20 ring-2 ring-white dark:ring-slate-700">
                 {user?.name ? user.name.charAt(0) : '?'}
             </div>
             <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm text-slate-900 dark:text-white truncate">{user?.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate capitalize">{user?.role} Account</p>
+                <p className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-500 font-medium truncate capitalize">{user?.role} Account</p>
             </div>
         </div>
-        <button 
-            onClick={logout} 
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:border-red-900/50 dark:hover:text-red-400 rounded-lg transition-all shadow-sm"
+        <button
+            onClick={logout}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:border-red-700/50 dark:hover:text-red-400 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md group"
         >
-            <ArrowLeftOnRectangleIcon className="w-4 h-4"/>
+            <ArrowLeftOnRectangleIcon className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"/>
             Abmelden
         </button>
     </div>
@@ -85,14 +88,14 @@ const SidebarContent: React.FC<{
         ];
 
         return (
-                <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
-                <div className="px-6 py-6 flex items-center justify-between flex-shrink-0 border-b border-slate-100 dark:border-slate-800/50">
-                    <button onClick={() => setCurrentPage('home')} className="text-dark-text dark:text-light-text transition-opacity hover:opacity-80">
-                        <ScaleSiteLogo className="h-7" />
+                <div className="flex flex-col h-full bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 border-r border-slate-200/50 dark:border-slate-700/50">
+                <div className="px-6 py-6 flex items-center justify-between flex-shrink-0 border-b border-slate-100/80 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+                    <button onClick={() => setCurrentPage('home')} className="text-dark-text dark:text-light-text transition-opacity hover:opacity-80 group">
+                        <ScaleSiteLogo className="h-7 transition-transform duration-300 group-hover:scale-105" />
                     </button>
-                    <button 
-                            onClick={closeSidebar} 
-                            className="lg:hidden p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                    <button
+                            onClick={closeSidebar}
+                            className="lg:hidden p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                     >
                         <XMarkIcon className="w-6 h-6 text-slate-500" />
                     </button>
@@ -136,15 +139,15 @@ const SidebarContent: React.FC<{
     ];
 
     return (
-        <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
-            <div className="px-6 py-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center flex-shrink-0">
-                    <button onClick={() => setCurrentPage('home')} className="text-dark-text dark:text-light-text flex items-center gap-3 hover:opacity-80">
-                    <ScaleSiteLogo className="h-6" />
-                    <span className="text-[10px] font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-2 py-0.5 rounded-full tracking-wide">TEAM</span>
+        <div className="flex flex-col h-full bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 border-r border-slate-200/50 dark:border-slate-700/50">
+            <div className="px-6 py-6 border-b border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center flex-shrink-0 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+                    <button onClick={() => setCurrentPage('home')} className="text-dark-text dark:text-light-text flex items-center gap-3 hover:opacity-80 group">
+                    <ScaleSiteLogo className="h-6 transition-transform duration-300 group-hover:scale-105" />
+                    <span className="text-[10px] font-bold bg-gradient-to-r from-blue-600 to-violet-600 text-white px-2.5 py-1 rounded-full tracking-wide shadow-md shadow-blue-500/20">TEAM</span>
                 </button>
-                <button 
-                        onClick={closeSidebar} 
-                        className="lg:hidden p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                <button
+                        onClick={closeSidebar}
+                        className="lg:hidden p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 >
                     <XMarkIcon className="w-6 h-6 text-slate-500" />
                 </button>
@@ -184,7 +187,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, activeView,
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
-        <div className="min-h-screen flex bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 font-sans">
+        <div className="min-h-screen flex bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 font-sans mesh-bg">
             {/* Mobile Sidebar Overlay */}
             <div className={`fixed inset-0 z-[60] lg:hidden transition-all duration-300 ${sidebarOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'}`}>
                  <div 
@@ -218,11 +221,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, activeView,
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50 dark:bg-black">
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50/50 dark:bg-black/50">
                 {/* Mobile Header */}
-                <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between h-16 px-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-                    <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">
-                        <Bars3Icon className="w-6 h-6" />
+                <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between h-16 px-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-sm">
+                    <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <Bars3Icon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
                     </button>
                     <ScaleSiteLogo className="h-6" />
                     <div className="w-8"></div> {/* Spacer */}
