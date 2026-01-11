@@ -11,16 +11,19 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, setCurrentPage, currentPage }) => {
+  // Don't show header/footer for dashboard
+  const isDashboard = currentPage === 'dashboard';
+
   return (
     <div className="flex flex-col min-h-screen">
-      <Header setCurrentPage={setCurrentPage} currentPage={currentPage} />
+      {!isDashboard && <Header setCurrentPage={setCurrentPage} currentPage={currentPage} />}
 
       <main className="flex-grow w-full">
         {children}
       </main>
 
-      <Footer setCurrentPage={setCurrentPage} />
-      <BackToTopButton />
+      {!isDashboard && <Footer setCurrentPage={setCurrentPage} />}
+      {!isDashboard && <BackToTopButton />}
     </div>
   );
 };
