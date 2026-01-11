@@ -48,13 +48,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(false);
             return;
         }
+
+        // Add timeout to prevent hanging on backend failure
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Session check timeout')), 5000)
+        );
+
         try {
-            const { data } = await api.get('/auth/me');
-            if (data && data.user) {
-                setUser(data.user);
-            } else {
+            const { data, error } = await Promise.race([
+                api.get('/auth/me'),
+                timeoutPromise
+            ]) as { data?: any; error?: string };
+
+            if (error || !data?.user) {
                 localStorage.removeItem('auth_token');
                 setUser(null);
+            } else {
+                setUser(data.user);
             }
         } catch (e) {
             console.error("Session check failed", e);

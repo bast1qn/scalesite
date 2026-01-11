@@ -30,13 +30,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log the error to console in development
-    if (import.meta.env.DEV) {
-      console.error('Error Boundary caught an error:', error, errorInfo);
-    }
-
-    // You could also log to an error reporting service here
-    // logErrorToService(error, errorInfo);
+    // Always log errors to console for debugging
+    console.error('Error Boundary caught an error:', error, errorInfo);
+    console.error('Component stack:', errorInfo.componentStack);
   }
 
   private handleReset = () => {
