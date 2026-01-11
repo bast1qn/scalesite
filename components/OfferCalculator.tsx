@@ -14,7 +14,7 @@ interface OfferCalculatorProps {
 
 export const OfferCalculator: React.FC<OfferCalculatorProps> = ({ setCurrentPage }) => {
     const { user } = useContext(AuthContext);
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const { formatPrice } = useCurrency();
     const [projectType, setProjectType] = useState('new');
     const [pageCount, setPageCount] = useState(3);
@@ -36,9 +36,7 @@ export const OfferCalculator: React.FC<OfferCalculatorProps> = ({ setCurrentPage
         { value: 'onepage', label: language === 'de' ? 'One-Page Website' : 'One-Page Website' },
         { value: 'small', label: language === 'de' ? 'Kleine Website (3-5 Seiten)' : 'Small Website (3-5 pages)' },
         { value: 'business', label: language === 'de' ? 'Business Website (5-8 Seiten)' : 'Business Website (5-8 pages)' },
-    ], [t, language]);
-
-    const { language } = useLanguage();
+    ], [language]);
 
     useEffect(() => {
         const calculatePrice = () => {
