@@ -58,8 +58,8 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
         if (!user) return;
         setLoading(true);
         try {
-            const { data: allServices } = await api.get('/services');
-            const { data: userBookings } = await api.get('/user_services');
+            const { data: allServices } = await api.getServices();
+            const { data: userBookings } = await api.getUserServices();
 
             const booked = (userBookings as any[] || []);
             setActiveServices(booked);
@@ -96,7 +96,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
         setBookingModal(prev => ({ ...prev, step: 'processing' }));
         
         try {
-             const { data } = await api.post('/user_services', { service_id: bookingModal.serviceId });
+             const { data } = await api.bookService(bookingModal.serviceId);
              if(data.success) {
                  setBookingModal(prev => ({ ...prev, step: 'success' }));
                  // Refresh list in background

@@ -38,7 +38,7 @@ const FileManager: React.FC = () => {
         setLoading(true);
         try {
             // Now only fetches metadata, much faster
-            const { data } = await api.get('/files');
+            const { data } = await api.getFiles();
             setFiles(data || []);
         } catch (e) {
             console.error(e);
@@ -50,7 +50,7 @@ const FileManager: React.FC = () => {
     const loadPreview = async (id: string) => {
         if (previews[id]) return; // Already loaded
         try {
-            const { data } = await api.get(`/files/${id}/content`);
+            const { data } = await api.getFileContent(id);
             if (data && data.data) {
                 setPreviews(prev => ({ ...prev, [id]: data.data }));
             }
@@ -77,12 +77,7 @@ const FileManager: React.FC = () => {
         reader.readAsDataURL(file);
         reader.onload = async () => {
             try {
-                await api.post('/files', {
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    data: reader.result as string
-                });
+                await api.uploadFile(file.name, file.size, file.type, reader.result as string);
                 fetchFiles();
             } catch (err: any) {
                 alertUploadFailed(err.message);
@@ -99,7 +94,7 @@ const FileManager: React.FC = () => {
     const handleDelete = async (id: string) => {
         if (!confirm("Datei wirklich löschen?")) return;
         try {
-            await api.delete(`/files/${id}`);
+            await api.deleteFile(id);
             setFiles(prev => prev.filter(f => f.id !== id));
             // Cleanup preview cache
             const newPreviews = {...previews};
@@ -115,7 +110,7 @@ const FileManager: React.FC = () => {
         if (!dataUrl) {
             // Fetch if not in cache
             try {
-                const { data } = await api.get(`/files/${file.id}/content`);
+                const { data } = await api.getFileContent(file.id);
                 if (data && data.data) dataUrl = data.data;
                 else throw new Error("Daten nicht verfügbar");
             } catch (e) {

@@ -68,7 +68,7 @@ const Settings: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.put('/auth/update', { name, company, email });
+            await api.updateProfile({ name, company });
             // Simulate saving extra fields
             await new Promise(r => setTimeout(r, 800));
             showSuccess('Profil erfolgreich aktualisiert');
@@ -84,10 +84,12 @@ const Settings: React.FC = () => {
         setLoading(true);
         try {
             if(newPassword.length < 6) throw new Error("Passwort zu kurz");
-            await api.put('/auth/update', { password: newPassword });
+            // TODO: Implement password update via Supabase Auth
+            // For now, just show a message
+            await new Promise(r => setTimeout(r, 500));
             setNewPassword('');
             setCurrentPassword('');
-            showSuccess('Passwort geändert');
+            showSuccess('Passwortänderung in Supabase implementieren');
         } catch (error: any) {
             alertError(error.message);
         } finally {

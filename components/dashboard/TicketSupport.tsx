@@ -123,7 +123,7 @@ const TicketSupport: React.FC = () => {
         try {
             setLoading(true);
             setError(null);
-            const { data } = await api.get('/tickets');
+            const { data } = await api.getTickets();
             setTickets(data);
         } catch (err: any) {
             console.warn('Ticket fetch failed:', err);
@@ -136,7 +136,7 @@ const TicketSupport: React.FC = () => {
     useEffect(() => {
         fetchTickets();
         if (isTeamOrOwner) {
-            api.get('/services').then(res => {
+            api.getServices().then(res => {
                 if(res.data) {
                     setServices(res.data);
                     if(res.data.length > 0) setSelectedServiceId(res.data[0].id.toString());
@@ -163,7 +163,7 @@ const TicketSupport: React.FC = () => {
 
     const fetchMessages = async (ticketId: string) => {
         try {
-            const { data } = await api.get(`/tickets/${ticketId}/messages`);
+            const { data } = await api.getTicketMessages(ticketId);
             setTicketMessages(data);
         } catch (err: any) {
             console.error('Error fetching messages:', err);
@@ -172,7 +172,7 @@ const TicketSupport: React.FC = () => {
 
     const fetchMembers = async (ticketId: string) => {
         try {
-            const { data } = await api.get(`/tickets/${ticketId}/members`);
+            const { data } = await api.getTicketMembers(ticketId);
             setTicketMembers(data || []);
         } catch (err: any) {
             console.error('Error fetching members:', err);
@@ -198,7 +198,7 @@ const TicketSupport: React.FC = () => {
         if (!user) return;
         setActionLoading(true);
         try {
-            await api.post('/tickets', { subject, priority, message });
+            await api.createTicket(subject, priority, message);
             await fetchTickets();
             setShowCreateModal(false);
         } catch (err: any) {
@@ -215,7 +215,7 @@ const TicketSupport: React.FC = () => {
         
         setActionLoading(true);
         try {
-            await api.post(`/tickets/${selectedTicket.id}/reply`, { text: reply });
+            await api.replyToTicket(selectedTicket.id, reply);
             setReply('');
             setShouldScroll(true); // Force scroll on own message
             await fetchMessages(selectedTicket.id);
@@ -233,7 +233,7 @@ const TicketSupport: React.FC = () => {
         if (!inviteEmail || !selectedTicketId) return;
         setInviteLoading(true);
         try {
-            await api.post(`/tickets/${selectedTicketId}/invite`, { email: inviteEmail });
+            await api.inviteToTicket(selectedTicketId, inviteEmail);
             setInviteEmail('');
             setShowInviteInput(false);
             await fetchMembers(selectedTicketId);
@@ -251,7 +251,7 @@ const TicketSupport: React.FC = () => {
         try {
             // Use correct payload structure. parseInt is only for legacy DB services.
             // If ID is string (automation services), API handles it.
-            await api.post(`/admin/tickets/${selectedTicketId}/assign-service`, { serviceId: selectedServiceId });
+            await api.adminAssignServiceToTicket(selectedTicketId, parseInt(selectedServiceId));
             alertAssigned();
             await fetchMessages(selectedTicketId);
             await fetchTickets(); // Update status in list

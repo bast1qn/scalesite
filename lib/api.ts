@@ -860,5 +860,188 @@ export const api = {
             .eq('id', discountId);
 
         return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ===== BLOG POSTS =====
+    getBlogPosts: async () => {
+        const { data, error } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    // ===== TICKET MEMBERS =====
+    getTicketMembers: async (ticketId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('ticket_members')
+            .select('ticket_id, user_id, added_at, profiles(name, email)')
+            .eq('ticket_id', ticketId);
+
+        if (!teamMember) {
+            // Regular users can only see members if they're part of the ticket
+            query = query.eq('user_id', user.id);
+        }
+
+        const { data, error } = await query;
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: UPDATE USER ROLE =====
+    adminUpdateUserRole: async (userId: string, role: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase
+            .from('profiles')
+            .update({ role })
+            .eq('id', userId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: ASSIGN SERVICE TO TICKET =====
+    adminAssignServiceToTicket: async (ticketId: string, serviceId: number) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const ticket = await supabase
+            .from('tickets')
+            .select('user_id')
+            .eq('id', ticketId)
+            .single();
+
+        if (ticket.error) return { data: null, error: handleSupabaseError(ticket.error) };
+
+        const { error } = await supabase.from('user_services').insert({
+            id: generateId(),
+            user_id: ticket.data!.user_id,
+            service_id: serviceId,
+            status: 'pending',
+            progress: 0
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: GET ALL USERS =====
+    adminGetUsers: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: GET USER SERVICES =====
+    adminGetUserServices: async (userId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { data, error } = await supabase
+            .from('user_services')
+            .select('*, services(*)')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: ASSIGN SERVICE =====
+    adminAssignService: async (payload: any) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { userId, serviceId, customService } = payload;
+        let finalServiceId = serviceId;
+
+        // If custom service, create it first
+        if (customService) {
+            const { data: newService } = await supabase
+                .from('services')
+                .insert({
+                    name: customService.name,
+                    description: customService.description,
+                    price: customService.price,
+                    price_details: customService.price_details
+                })
+                .select('id')
+                .single();
+
+            if (newService) {
+                finalServiceId = newService.id;
+            } else {
+                return { data: null, error: 'Failed to create custom service' };
+            }
+        }
+
+        const { error } = await supabase.from('user_services').insert({
+            id: generateId(),
+            user_id: userId,
+            service_id: finalServiceId,
+            status: 'pending',
+            progress: 0
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: UPDATE USER SERVICE =====
+    adminUpdateUserService: async (serviceId: string, updates: { status?: string; progress?: number }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase
+            .from('user_services')
+            .update(updates)
+            .eq('id', serviceId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ===== ADMIN: ADD SERVICE UPDATE =====
+    adminAddServiceUpdate: async (serviceId: string, message: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase.from('service_updates').insert({
+            id: generateId(),
+            user_service_id: serviceId,
+            message,
+            author_id: user.id
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
     }
 };

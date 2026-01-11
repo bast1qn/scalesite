@@ -9,25 +9,30 @@ const Analytics: React.FC = () => {
 
     useEffect(() => {
         const fetchStats = async () => {
-            const { data } = await api.get('/admin/analytics');
-            if (data) {
-                setStats(data);
-            }
+            // TODO: Implement analytics in Supabase
+            // For now, use mock data
+            setStats({
+                visitorStats: { today: 12, yesterday: 8, lastWeek: 45, total: 1234 },
+                pageViews: [
+                    { name: 'Startseite', path: '/', views: 245 },
+                    { name: 'Preise', path: '/preise', views: 89 },
+                    { name: 'Kontakt', path: '/contact', views: 34 }
+                ],
+                clickHeatmap: [],
+                chartData: [12, 18, 24, 15, 32, 28, 21],
+                exitPages: []
+            });
             setLoading(false);
         };
 
         fetchStats();
-        
-        // Live-Update alle 10 Sekunden
-        const interval = setInterval(fetchStats, 10000);
-        return () => clearInterval(interval);
     }, []);
 
-    if (loading || !stats) {
+    if (loading) {
         return (
             <div className="p-12 text-center flex flex-col items-center">
                 <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-dark-text/60 dark:text-light-text/60">Lade Live-Daten aus der Datenbank...</p>
+                <p className="text-dark-text/60 dark:text-light-text/60">Lade Analyse-Daten...</p>
             </div>
         );
     }

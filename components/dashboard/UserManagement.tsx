@@ -57,7 +57,7 @@ const UserManagement: React.FC = () => {
             if (!user) return;
             try {
                 setLoading(true);
-                const { data } = await api.get('/admin/users');
+                const { data } = await api.adminGetUsers();
                 setUsers(data as UserProfile[] || []);
             } catch (err: any) {
                 setError(err.message || "Fehler beim Laden.");
@@ -68,7 +68,7 @@ const UserManagement: React.FC = () => {
 
         const fetchServices = async () => {
             try {
-                const { data } = await api.get('/services');
+                const { data } = await api.getServices();
                 const apiServices = data as Service[] || [];
                 
                 // Merge API services with default automation services
@@ -89,7 +89,7 @@ const UserManagement: React.FC = () => {
         const oldUsers = [...users];
         setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
         try {
-            await api.put(`/admin/users/${userId}/role`, { role: newRole });
+            await api.adminUpdateUserRole(userId, newRole);
         } catch(err: any) {
             alertError(err.message);
             setUsers(oldUsers);
@@ -208,7 +208,7 @@ const ProjectManagementModal: React.FC<{ user: UserProfile; services: Service[];
         const load = async () => {
             setLoadingData(true);
             try {
-                const { data } = await api.get(`/admin/user_services/${user.id}`);
+                const { data } = await api.adminGetUserServices(user.id);
                 setUserServices(data || []);
                 if ((data || []).length === 0) setActiveTab('assign');
             } catch(e) {} finally { setLoadingData(false); }
@@ -291,7 +291,7 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
                 }
             }
 
-            await api.post('/admin/services/assign', payload);
+            await api.adminAssignService(payload);
             onSuccess();
         } catch (e: any) {
             alertError(e.message);
@@ -372,9 +372,9 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
     const handleSave = async () => {
         setSaving(true);
         try {
-            await api.put(`/admin/user_services/${service.id}`, { status, progress });
+            await api.adminUpdateUserService(service.id, { status, progress });
             if (updateText.trim()) {
-                await api.post(`/admin/user_services/${service.id}/updates`, { message: updateText });
+                await api.adminAddServiceUpdate(service.id, updateText);
                 setUpdateText('');
             }
             onUpdate();

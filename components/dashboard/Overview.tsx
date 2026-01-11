@@ -87,9 +87,9 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
             try {
                 if (isMounted) setLoading(true);
                 const [statsRes, projectsRes, transRes] = await Promise.all([
-                    api.fetchStats(),
-                    api.get('/user_services'),
-                    api.get('/transactions')
+                    api.getStats(),
+                    api.getUserServices(),
+                    api.getTransactions()
                 ]);
 
                 if (!isMounted) return;

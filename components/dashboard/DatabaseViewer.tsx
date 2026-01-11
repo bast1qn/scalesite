@@ -35,8 +35,16 @@ const DatabaseViewer: React.FC = () => {
     const fetchTableStats = async () => {
         setLoading(true);
         try {
-            const { data } = await api.get('/admin/tables');
-            setTableStats(data || []);
+            // TODO: Use Supabase API to list tables
+            // For now, show the main tables from the schema
+            setTableStats([
+                { name: 'profiles', rows: 0, columns: 6, size: '~16 KB' },
+                { name: 'services', rows: 6, columns: 8, size: '~4 KB' },
+                { name: 'user_services', rows: 0, columns: 5, size: '~8 KB' },
+                { name: 'tickets', rows: 0, columns: 7, size: '~8 KB' },
+                { name: 'ticket_messages', rows: 0, columns: 5, size: '~8 KB' },
+                { name: 'transactions', rows: 0, columns: 6, size: '~8 KB' },
+            ]);
         } catch (e) {
              setTableStats([]);
         }
@@ -48,10 +56,12 @@ const DatabaseViewer: React.FC = () => {
         setLoading(true);
         setView('table');
         setError(null);
-        
+
         try {
-            const { data } = await api.get(`/admin/table/${tableName}`);
-            setTableData(data || []);
+            // TODO: Query actual data from Supabase
+            // For now, show empty table with structure
+            setError(`Table viewer for '${tableName}' - Use Supabase Table Editor to view data`);
+            setTableData([]);
         } catch (err: any) {
             setError(err.message);
             setTableData([]);

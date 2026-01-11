@@ -28,7 +28,7 @@ const TeamChat: React.FC = () => {
     const fetchMessages = async (isPolling = false) => { 
         if (!isPolling) setLoading(true);
         try {
-            const { data } = await api.get('/team_chat');
+            const { data } = await api.getTeamChat();
             if (data) {
                 setMessages(data);
             }
@@ -77,7 +77,7 @@ const TeamChat: React.FC = () => {
         const content = newMessage;
         setNewMessage('');
         try {
-            await api.post('/team_chat', { content });
+            await api.sendTeamChat(content);
             setShouldScroll(true); // Force scroll on own message
             fetchMessages(true);
         } catch (err) { console.error(err); }

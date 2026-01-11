@@ -23,7 +23,7 @@ const Transactions: React.FC = () => {
             if (!user) return;
             setLoading(true);
             try {
-                const { data } = await api.get('/transactions');
+                const { data } = await api.getTransactions();
                 setTransactions(data || []);
             } catch (err) {
                 console.error("Error fetching transactions:", err);

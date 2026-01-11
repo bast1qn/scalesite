@@ -32,8 +32,8 @@ const DiscountManager: React.FC = () => {
         setLoading(true);
         try {
             const [servicesRes, discountsRes] = await Promise.all([
-                api.get('/services'),
-                api.get('/admin/discounts')
+                api.getServices(),
+                api.getDiscounts()
             ]);
             setServices(servicesRes.data || []);
             setDiscounts(discountsRes.data || []);
@@ -69,7 +69,7 @@ const DiscountManager: React.FC = () => {
         if (!editingService) return;
         
         try {
-            await api.put(`/admin/services/${editingService.id}`, {
+            await api.updateService(editingService.id, {
                 ...serviceForm,
                 sale_price: serviceForm.sale_price || null
             });
@@ -83,7 +83,7 @@ const DiscountManager: React.FC = () => {
     const handleCreateCode = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await api.post('/admin/discounts', { code, type, value: parseFloat(value) });
+            await api.createDiscount(code, type, parseFloat(value));
             setShowDiscountModal(false);
             setCode('');
             setValue('');
@@ -96,7 +96,7 @@ const DiscountManager: React.FC = () => {
     const handleDeleteCode = async (id: string) => {
         if(!confirm("Code wirklich löschen?")) return;
         try {
-            await api.delete(`/admin/discounts/${id}`);
+            await api.deleteDiscount(id);
             fetchData();
         } catch (e: any) {
             alertError(e.message);

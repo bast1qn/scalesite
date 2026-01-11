@@ -39,7 +39,7 @@ const TeamBoard: React.FC = () => {
     const fetchTasks = async () => {
         setLoading(true);
         try {
-            const { data } = await api.get('/team/tasks');
+            const { data } = await api.getTeamTasks();
             setTasks(data || []);
         } catch (e) {
             console.error("Failed to fetch tasks", e);
@@ -68,9 +68,9 @@ const TeamBoard: React.FC = () => {
         e.preventDefault();
         try {
             if (editingTask) {
-                await api.put(`/team/tasks/${editingTask.id}`, { title, client_name: client, priority });
+                await api.updateTeamTask(editingTask.id, { title, client_name: client, priority });
             } else {
-                await api.post('/team/tasks', { title, client_name: client, priority });
+                await api.createTeamTask({ title, client_name: client, priority });
             }
             setShowModal(false);
             setTitle('');
@@ -86,7 +86,7 @@ const TeamBoard: React.FC = () => {
     const moveTask = async (taskId: string, newColumn: Task['column_id']) => {
         setTasks(prev => prev.map(t => t.id === taskId ? { ...t, column_id: newColumn } : t));
         try {
-            await api.put(`/team/tasks/${taskId}`, { column_id: newColumn });
+            await api.updateTeamTask(taskId, { column_id: newColumn });
         } catch (e) {
             console.error("Move failed", e);
             fetchTasks();
@@ -96,7 +96,7 @@ const TeamBoard: React.FC = () => {
     const deleteTask = async (taskId: string) => {
         if(!confirm("Aufgabe wirklich löschen?")) return;
         try {
-            await api.delete(`/team/tasks/${taskId}`);
+            await api.deleteTeamTask(taskId);
             setTasks(prev => prev.filter(t => t.id !== taskId));
             setOpenMenuId(null);
         } catch(e) { console.error(e); }

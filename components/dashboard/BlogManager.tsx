@@ -21,7 +21,7 @@ const BlogManager: React.FC = () => {
     const fetchPosts = async () => {
         setLoading(true);
         try {
-            const { data } = await api.get('/blog');
+            const { data } = await api.getBlogPosts();
             setPosts(data || []);
         } catch (error) {
             console.error("Failed to fetch blog posts");
@@ -57,7 +57,7 @@ const BlogManager: React.FC = () => {
         if (!confirm("Diesen Artikel wirklich löschen?")) return;
         
         try {
-            await api.delete(`/blog/${id}`);
+            await api.deleteBlogPost(id);
             await fetchPosts();
         } catch (error: any) {
             alertDeleteFailed(error.message);
@@ -69,11 +69,11 @@ const BlogManager: React.FC = () => {
         setActionLoading(true);
         try {
             const payload = { title, excerpt, content, category, image_url: imageUrl };
-            
+
             if (editingPost) {
-                await api.put(`/blog/${editingPost.id}`, payload);
+                await api.updateBlogPost(editingPost.id, payload);
             } else {
-                await api.post('/blog', payload);
+                await api.createBlogPost(payload);
             }
             
             setShowModal(false);

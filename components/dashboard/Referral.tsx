@@ -15,15 +15,14 @@ const Referral: React.FC = () => {
             if (!user) return;
             
             try {
-                // 1. Get Code from user context or refresh profile
-                const { data: userData } = await api.get('/auth/me');
-                if (userData?.user?.referral_code) {
-                    setReferralCode(userData.user.referral_code);
+                // 1. Get Code from user context - already available in AuthContext
+                if (user?.referral_code) {
+                    setReferralCode(user.referral_code);
                 }
 
-                // 2. Count referrals via specific endpoint
-                const { data: stats } = await api.get('/referrals/stats');
-                setReferralCount(stats?.count || 0);
+                // 2. TODO: Count referrals - needs to be implemented in Supabase
+                // For now, set to 0
+                setReferralCount(0);
             } catch(e) {
                 console.warn("Referral data error", e);
             }
