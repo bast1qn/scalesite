@@ -2,6 +2,20 @@
 -- Führe dieses SQL im Supabase SQL Editor aus
 
 -- ============================================
+-- USER PROFILES (extends Supabase Auth)
+-- Muss zuerst erstellt werden, da andere Tabellen referenzieren
+-- ============================================
+CREATE TABLE IF NOT EXISTS profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    name TEXT,
+    email TEXT,
+    company TEXT,
+    role TEXT DEFAULT 'user',
+    referral_code TEXT UNIQUE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
 -- SERVICES
 -- ============================================
 CREATE TABLE IF NOT EXISTS services (
@@ -45,7 +59,7 @@ CREATE TABLE IF NOT EXISTS service_updates (
     id TEXT PRIMARY KEY,
     user_service_id TEXT REFERENCES user_services(id) ON DELETE CASCADE,
     message TEXT,
-    author_id UUID,
+    author_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -68,7 +82,7 @@ CREATE TABLE IF NOT EXISTS tickets (
 CREATE TABLE IF NOT EXISTS ticket_messages (
     id TEXT PRIMARY KEY,
     ticket_id TEXT REFERENCES tickets(id) ON DELETE CASCADE,
-    user_id UUID,
+    user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
     text TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -192,19 +206,6 @@ CREATE TABLE IF NOT EXISTS team_tasks (
 );
 
 -- ============================================
--- USER PROFILES (extends Supabase Auth)
--- ============================================
-CREATE TABLE IF NOT EXISTS profiles (
-    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-    name TEXT,
-    email TEXT,
-    company TEXT,
-    role TEXT DEFAULT 'user',
-    referral_code TEXT UNIQUE,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
 -- INDEXES for performance
 -- ============================================
 CREATE INDEX IF NOT EXISTS idx_tickets_user_id ON tickets(user_id);
@@ -219,6 +220,7 @@ CREATE INDEX IF NOT EXISTS idx_ticket_members_user_id ON ticket_members(user_id)
 -- ENABLE ROW LEVEL SECURITY
 -- ============================================
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tickets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ticket_messages ENABLE ROW LEVEL SECURITY;
@@ -251,6 +253,11 @@ DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
     FOR UPDATE USING (auth.uid() = id);
 
+-- Services (public read-only)
+DROP POLICY IF EXISTS "Public can view services" ON services;
+CREATE POLICY "Public can view services" ON services
+    FOR SELECT USING (true);
+
 -- User Services
 DROP POLICY IF EXISTS "Users can view own services" ON user_services;
 CREATE POLICY "Users can view own services" ON user_services
@@ -262,7 +269,13 @@ CREATE POLICY "Users can insert own services" ON user_services
 
 DROP POLICY IF EXISTS "Team can view all services" ON user_services;
 CREATE POLICY "Team can view all services" ON user_services
-    FOR ALL USING (
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can update services" ON user_services;
+CREATE POLICY "Team can update services" ON user_services
+    FOR UPDATE USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
@@ -274,9 +287,19 @@ CREATE POLICY "Users can view own tickets" ON tickets
         id IN (SELECT ticket_id FROM ticket_members WHERE user_id = auth.uid())
     );
 
+DROP POLICY IF EXISTS "Users can create tickets" ON tickets;
+CREATE POLICY "Users can create tickets" ON tickets
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
 DROP POLICY IF EXISTS "Team can view all tickets" ON tickets;
 CREATE POLICY "Team can view all tickets" ON tickets
-    FOR ALL USING (
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can update all tickets" ON tickets;
+CREATE POLICY "Team can update all tickets" ON tickets
+    FOR UPDATE USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
@@ -291,9 +314,54 @@ CREATE POLICY "Users can view messages for own tickets" ON ticket_messages
         )
     );
 
+DROP POLICY IF EXISTS "Users can insert messages for own tickets" ON ticket_messages;
+CREATE POLICY "Users can insert messages for own tickets" ON ticket_messages
+    FOR INSERT WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM tickets t
+            WHERE t.id = ticket_messages.ticket_id
+            AND (t.user_id = auth.uid() OR t.id IN (SELECT ticket_id FROM ticket_members WHERE user_id = auth.uid()))
+        )
+    );
+
 DROP POLICY IF EXISTS "Team can view all messages" ON ticket_messages;
 CREATE POLICY "Team can view all messages" ON ticket_messages
-    FOR ALL USING (
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert any messages" ON ticket_messages;
+CREATE POLICY "Team can insert any messages" ON ticket_messages
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Ticket Members
+DROP POLICY IF EXISTS "Users can view members for own tickets" ON ticket_members;
+CREATE POLICY "Users can view members for own tickets" ON ticket_members
+    FOR SELECT USING (
+        EXISTS (
+            SELECT 1 FROM tickets t
+            WHERE t.id = ticket_members.ticket_id
+            AND (t.user_id = auth.uid() OR t.id IN (SELECT ticket_id FROM ticket_members WHERE user_id = auth.uid()))
+        )
+    );
+
+DROP POLICY IF EXISTS "Team can view all members" ON ticket_members;
+CREATE POLICY "Team can view all members" ON ticket_members
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert members" ON ticket_members;
+CREATE POLICY "Team can insert members" ON ticket_members
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can delete members" ON ticket_members;
+CREATE POLICY "Team can delete members" ON ticket_members
+    FOR DELETE USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
 
@@ -320,25 +388,102 @@ CREATE POLICY "Team can view all files" ON files
     );
 
 -- Public tables (no auth required)
-DROP POLICY IF EXISTS "Public can view services" ON services;
-CREATE POLICY "Public can view services" ON services
-    FOR SELECT USING (true);
-
 DROP POLICY IF EXISTS "Public can view blog posts" ON blog_posts;
 CREATE POLICY "Public can view blog posts" ON blog_posts
     FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Team can manage blog posts" ON blog_posts;
+CREATE POLICY "Team can manage blog posts" ON blog_posts
+    FOR ALL USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
 
 DROP POLICY IF EXISTS "Anyone can insert contact messages" ON contact_messages;
 CREATE POLICY "Anyone can insert contact messages" ON contact_messages
     FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Team can view contact messages" ON contact_messages;
+CREATE POLICY "Team can view contact messages" ON contact_messages
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
 DROP POLICY IF EXISTS "Anyone can insert newsletter subscribers" ON newsletter_subscribers;
 CREATE POLICY "Anyone can insert newsletter subscribers" ON newsletter_subscribers
     FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Team can view newsletter subscribers" ON newsletter_subscribers;
+CREATE POLICY "Team can view newsletter subscribers" ON newsletter_subscribers
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
 DROP POLICY IF EXISTS "Anyone can insert analytics events" ON analytics_events;
 CREATE POLICY "Anyone can insert analytics events" ON analytics_events
     FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Team can view analytics events" ON analytics_events;
+CREATE POLICY "Team can view analytics events" ON analytics_events
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Team Chat (team only)
+DROP POLICY IF EXISTS "Team can view chat" ON team_chat_messages;
+CREATE POLICY "Team can view chat" ON team_chat_messages
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert chat" ON team_chat_messages;
+CREATE POLICY "Team can insert chat" ON team_chat_messages
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Team Tasks (team only)
+DROP POLICY IF EXISTS "Team can view tasks" ON team_tasks;
+CREATE POLICY "Team can view tasks" ON team_tasks
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert tasks" ON team_tasks;
+CREATE POLICY "Team can insert tasks" ON team_tasks
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can update tasks" ON team_tasks;
+CREATE POLICY "Team can update tasks" ON team_tasks
+    FOR UPDATE USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can delete tasks" ON team_tasks;
+CREATE POLICY "Team can delete tasks" ON team_tasks
+    FOR DELETE USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Discounts (team only)
+DROP POLICY IF EXISTS "Team can view discounts" ON discounts;
+CREATE POLICY "Team can view discounts" ON discounts
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert discounts" ON discounts;
+CREATE POLICY "Team can insert discounts" ON discounts
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can delete discounts" ON discounts;
+CREATE POLICY "Team can delete discounts" ON discounts
+    FOR DELETE USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
 
 -- ============================================
 -- FUNCTIONS & TRIGGERS
