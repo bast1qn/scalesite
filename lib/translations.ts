@@ -65,7 +65,37 @@ export const translations = {
       cta_primary: "Projekt anfragen",
       cta_secondary: "Referenzen",
       tech_stack: "Technologie auf Enterprise-Niveau",
-      scroll_down: "Entdecken"
+      scroll_down: "Entdecken",
+      guarantee_badge: "30 Tage Geld-zurück Garantie",
+      price_anchor: "ab 29€ statt 99€+",
+      price_savings: "Bis zu 85% gespart",
+      delivery_badge: "48h Lieferung",
+      no_hidden_costs: "Keine versteckten Kosten",
+      free_consultation: "Kostenloses Beratungsgespräch",
+      cta_secure: "Jetzt Angebot sichern",
+      cta_examples: "Beispiele ansehen"
+    },
+    value_props: {
+      title: "Das bekommen Sie",
+      subtitle: "Transparente Preise, keine versteckten Kosten",
+      delivery_title: "48h Lieferung",
+      delivery_desc: "Ihre Website ist schneller fertig als bei anderen Agenturen.",
+      guarantee_title: "30 Tage Garantie",
+      guarantee_desc: "Volles Geld-zurück ohne Wenn und Aber.",
+      inclusive_title: "Alles inklusive",
+      inclusive_desc: "SSL, Hosting, Domain, Impressum, Datenschutz – alles fertig."
+    },
+    hero_final_cta: {
+      guarantee: "30 Tage Geld-zurück Garantie",
+      title: "Bereit für deine",
+      title_highlight: "professionelle Website?",
+      subtitle: "Starte heute und erhalte deine Website in nur 48 Stunden.",
+      price_anchor: "Ab nur 29€ • Keine versteckten Kosten",
+      cta_primary: "Jetzt Angebot sichern",
+      cta_secondary: "Kostenlos beraten lassen",
+      trust_delivery: "48h Lieferung",
+      trust_guarantee: "100% Zufriedenheitsgarantie",
+      trust_no_card: "Keine Kreditkarte"
     },
     logo_wall: {
         title: "Vertrauen von innovativen Unternehmen"
@@ -804,7 +834,37 @@ export const translations = {
       cta_primary: "Request Project",
       cta_secondary: "References",
       tech_stack: "Enterprise-Level Technology",
-      scroll_down: "Discover"
+      scroll_down: "Discover",
+      guarantee_badge: "30-Day Money-Back Guarantee",
+      price_anchor: "from €29 instead of €99+",
+      price_savings: "Save up to 85%",
+      delivery_badge: "48h delivery",
+      no_hidden_costs: "No hidden costs",
+      free_consultation: "Free consultation",
+      cta_secure: "Secure Your Offer",
+      cta_examples: "View Examples"
+    },
+    value_props: {
+      title: "What You Get",
+      subtitle: "Transparent pricing, no hidden costs",
+      delivery_title: "48h Delivery",
+      delivery_desc: "Your website is ready faster than with other agencies.",
+      guarantee_title: "30-Day Guarantee",
+      guarantee_desc: "Full money-back, no questions asked.",
+      inclusive_title: "All Inclusive",
+      inclusive_desc: "SSL, hosting, domain, imprint, privacy policy – everything ready."
+    },
+    hero_final_cta: {
+      guarantee: "30-Day Money-Back Guarantee",
+      title: "Ready for your",
+      title_highlight: "professional website?",
+      subtitle: "Start today and get your website in just 48 hours.",
+      price_anchor: "From only €29 • No hidden costs",
+      cta_primary: "Secure Your Offer",
+      cta_secondary: "Get Free Consultation",
+      trust_delivery: "48h delivery",
+      trust_guarantee: "100% Satisfaction Guarantee",
+      trust_no_card: "No credit card required"
     },
     logo_wall: {
         title: "Trusted by innovative companies"

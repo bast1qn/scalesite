@@ -27,21 +27,21 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ setCurrentPage
                         {/* Trust Badge */}
                         <div className="inline-flex items-center gap-2 bg-green-500/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-green-500/30 animate-fade-up">
                             <ShieldCheckIcon className="w-4 h-4 text-green-400" />
-                            <span className="text-green-300">30 Tage Geld-zurück Garantie</span>
+                            <span className="text-green-300">{t('hero_final_cta.guarantee')}</span>
                         </div>
 
                         <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>
-                            Bereit für deine <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-400 to-orange-400 animate-gradient-xy">professionelle Website?</span>
+                            {t('hero_final_cta.title')} <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-400 to-orange-400 animate-gradient-xy">{t('hero_final_cta.title_highlight')}</span>
                         </h2>
 
                         <p className="max-w-2xl mx-auto text-lg text-gray-300 mb-4 leading-relaxed font-light animate-fade-up" style={{ animationDelay: '0.2s' }}>
-                           Starte heute und erhalte deine Website in nur 48 Stunden.
+                           {t('hero_final_cta.subtitle')}
                         </p>
 
                         {/* Price Anchor */}
                         <p className="text-2xl font-bold text-green-400 mb-8 animate-fade-up" style={{ animationDelay: '0.25s' }}>
-                            Ab nur 29€ • Keine versteckten Kosten
+                            {t('hero_final_cta.price_anchor')}
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
@@ -50,23 +50,23 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ setCurrentPage
                                 className="btn-glow group bg-white text-dark-bg font-bold px-8 py-4 text-lg rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl shadow-white/10 active:scale-95 flex items-center gap-2 relative overflow-hidden"
                             >
                                <RocketLaunchIcon className="w-5 h-5 text-primary group-hover:text-primary-hover" />
-                               <span className="relative z-10">Jetzt Angebot sichern</span>
+                               <span className="relative z-10">{t('hero_final_cta.cta_primary')}</span>
                             </button>
                             <button
                                 onClick={() => setCurrentPage('contact')}
                                 className="group bg-white/5 border border-white/20 text-white font-semibold px-6 py-4 text-base rounded-full hover:bg-white/10 transition-all duration-300 backdrop-blur-sm active:scale-95 flex items-center gap-2"
                             >
                                <PaperAirplaneIcon className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                               <span>Kostenlos beraten lassen</span>
+                               <span>{t('hero_final_cta.cta_secondary')}</span>
                             </button>
                         </div>
 
                         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-center gap-6 opacity-70 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                             <span className="text-xs font-bold tracking-widest uppercase">48h Lieferung</span>
+                             <span className="text-xs font-bold tracking-widest uppercase">{t('hero_final_cta.trust_delivery')}</span>
                              <span className="hidden md:block w-1 h-1 bg-white rounded-full"></span>
-                             <span className="text-xs font-bold tracking-widest uppercase">100% Zufriedenheitsgarantie</span>
+                             <span className="text-xs font-bold tracking-widest uppercase">{t('hero_final_cta.trust_guarantee')}</span>
                              <span className="hidden md:block w-1 h-1 bg-white rounded-full"></span>
-                             <span className="text-xs font-bold tracking-widest uppercase">Keine Kreditkarte</span>
+                             <span className="text-xs font-bold tracking-widest uppercase">{t('hero_final_cta.trust_no_card')}</span>
                         </div>
                     </div>
                 </div>

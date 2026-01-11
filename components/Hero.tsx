@@ -67,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
                     <CheckBadgeIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
                     <span className="text-sm font-semibold text-green-700 dark:text-green-300">
-                        30 Tage Geld-zurück Garantie
+                        {t('hero.guarantee_badge')}
                     </span>
                 </div>
             </div>
@@ -79,7 +79,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
                 {t('hero.title_highlight')}
               </span>
               <span className="block mt-2 text-2xl sm:text-3xl lg:text-4xl text-slate-700 dark:text-slate-300 font-normal">
-                ab <span className="font-bold text-primary">29€</span> statt 99€+
+                {t('hero.price_anchor')}
               </span>
             </h1>
 
@@ -92,15 +92,15 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
             <div className="flex flex-wrap items-center justify-center gap-4 mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
                     <CheckBadgeIcon className="w-4 h-4 text-green-500" />
-                    <span>48h Lieferung</span>
+                    <span>{t('hero.delivery_badge')}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
                     <CheckBadgeIcon className="w-4 h-4 text-green-500" />
-                    <span>Keine versteckten Kosten</span>
+                    <span>{t('hero.no_hidden_costs')}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
                     <CheckBadgeIcon className="w-4 h-4 text-green-500" />
-                    <span>Kostenloses Beratungsgespräch</span>
+                    <span>{t('hero.free_consultation')}</span>
                 </div>
             </div>
 
@@ -110,14 +110,14 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
                 onClick={() => setCurrentPage('preise')}
                 className="btn-glow group relative w-full sm:w-auto bg-primary hover:bg-primary-hover text-white font-bold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
               >
-                <span>Jetzt Angebot sichern</span>
+                <span>{t('hero.cta_secure')}</span>
                 <ChevronRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
                <button
                 onClick={() => setCurrentPage('projekte')}
                 className="w-full sm:w-auto bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-semibold px-6 py-4 rounded-full hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 group hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-lg"
               >
-                <span>Beispiele ansehen</span>
+                <span>{t('hero.cta_examples')}</span>
                 <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -127,7 +127,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                     <span className="line-through text-slate-400">99€ - 299€</span>
                     <span className="mx-2">→</span>
-                    <span className="text-green-500 font-semibold">Bis zu 85% gespart</span>
+                    <span className="text-green-500 font-semibold">{t('hero.price_savings')}</span>
                 </p>
             </div>
 

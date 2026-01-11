@@ -2,26 +2,29 @@
 import React from 'react';
 import { AnimatedSection } from './AnimatedSection';
 import { CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './Icons';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const features = [
     {
         icon: <ClockIcon className="w-6 h-6" />,
-        title: '48h Lieferung',
-        description: 'Ihre Website ist schneller fertig als bei anderen Agenturen.'
+        titleKey: 'value_props.delivery_title',
+        descKey: 'value_props.delivery_desc'
     },
     {
         icon: <ShieldCheckIcon className="w-6 h-6" />,
-        title: '30 Tage Garantie',
-        description: 'Volles Geld-zurück ohne Wenn und Aber.'
+        titleKey: 'value_props.guarantee_title',
+        descKey: 'value_props.guarantee_desc'
     },
     {
         icon: <RocketLaunchIcon className="w-6 h-6" />,
-        title: 'Alles inklusive',
-        description: 'SSL, Hosting, Domain, Impressum, Datenschutz – alles fertig.'
+        titleKey: 'value_props.inclusive_title',
+        descKey: 'value_props.inclusive_desc'
     }
 ];
 
 export const TestimonialsSection: React.FC = () => {
+    const { t } = useLanguage();
+
     return (
         <section className="py-24 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 to-dark-bg relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]"></div>
@@ -30,10 +33,10 @@ export const TestimonialsSection: React.FC = () => {
                 <AnimatedSection>
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <h2 className="font-serif text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
-                            Das bekommen Sie
+                            {t('value_props.title')}
                         </h2>
                         <p className="text-lg text-slate-600 dark:text-slate-400">
-                            Transparente Preise, keine versteckten Kosten
+                            {t('value_props.subtitle')}
                         </p>
                     </div>
                 </AnimatedSection>
@@ -49,10 +52,10 @@ export const TestimonialsSection: React.FC = () => {
                                     {feature.icon}
                                 </div>
                                 <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-3">
-                                    {feature.title}
+                                    {t(feature.titleKey)}
                                 </h3>
                                 <p className="text-slate-600 dark:text-slate-400">
-                                    {feature.description}
+                                    {t(feature.descKey)}
                                 </p>
                             </div>
                         ))}
