@@ -1,0 +1,230 @@
+
+import React, { useState, useEffect, useRef } from 'react';
+import { ChatBubbleOvalLeftEllipsisIcon, XMarkIcon, PaperAirplaneIcon, SparklesIcon } from './Icons';
+import { api } from '../lib/api';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../lib/translations';
+
+interface Message {
+    role: 'user' | 'model';
+    text: string;
+}
+
+export const ChatWidget: React.FC = () => {
+    const { t, language } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    const [input, setInput] = useState('');
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+    const [shouldScroll, setShouldScroll] = useState(true);
+
+    // Initialize messages when language changes or on mount
+    useEffect(() => {
+        setMessages([
+            { role: 'model', text: t('chat_widget.welcome_message') }
+        ]);
+    }, [language, t]);
+
+    // Initialize suggestions when language changes
+    useEffect(() => {
+        const allQuestions = translations[language].chat_widget.predefined_questions;
+        const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+        setSuggestions(shuffled.slice(0, 4));
+    }, [language]);
+
+    const scrollToBottom = () => {
+        if (shouldScroll) {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            setTimeout(scrollToBottom, 100);
+        }
+    }, [messages, isOpen, isLoading, shouldScroll]);
+
+    const handleScroll = () => {
+        if (chatContainerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+            const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+            setShouldScroll(isNearBottom);
+        }
+    };
+
+    const processMessage = async (text: string) => {
+        if (!text.trim() || isLoading) return;
+
+        const userMessage = text.trim();
+
+        if (userMessage.length > 500) {
+             setMessages(prev => [...prev, { role: 'user', text: userMessage }, { role: 'model', text: t('chat_widget.error_too_long') }]);
+             setShouldScroll(true);
+             return;
+        }
+
+        setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+        setShouldScroll(true);
+        setIsLoading(true);
+
+        try {
+            const result = await api.post('/chat', {
+                message: userMessage,
+                history: messages
+            });
+
+            if (result.data && result.data.text) {
+                setMessages(prev => [...prev, { role: 'model', text: result.data.text }]);
+            } else {
+                throw new Error("No response received");
+            }
+
+        } catch (error) {
+            console.error("Chat Error:", error);
+            setMessages(prev => [...prev, { role: 'model', text: t('chat_widget.error_connection') }]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSendMessage = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (input.trim()) {
+            processMessage(input);
+            setInput('');
+        }
+    };
+
+    const handleSuggestionClick = (text: string) => {
+        processMessage(text);
+    };
+
+    return (
+        <div className="fixed bottom-6 right-6 z-[95] flex flex-col items-end pointer-events-none">
+
+            {/* Chat Window */}
+            <div
+                className={`pointer-events-auto mb-4 w-[360px] max-w-[90vw] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300 origin-bottom-right flex flex-col ${
+                    isOpen
+                    ? 'opacity-100 scale-100 translate-y-0 h-[500px]'
+                    : 'opacity-0 scale-95 translate-y-4 h-0 pointer-events-none'
+                }`}
+            >
+                {/* Header */}
+                <div className="bg-gradient-to-r from-primary to-purple-600 p-4 flex items-center justify-between text-white shadow-sm shrink-0">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-white/20 p-1.5 rounded-full backdrop-blur-sm">
+                            <SparklesIcon className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <span className="font-bold font-serif tracking-wide block leading-none">{t('chat_widget.bot_name')}</span>
+                            <span className="text-[10px] text-white/80 font-medium flex items-center gap-1 mt-0.5">
+                                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                                {t('chat_widget.status')}
+                            </span>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => setIsOpen(false)}
+                        className="p-1.5 hover:bg-white/20 rounded-full transition-colors backdrop-blur-sm"
+                        aria-label={t('chat_widget.close_aria')}
+                    >
+                        <XMarkIcon className="w-5 h-5" />
+                    </button>
+                </div>
+
+                {/* Messages Area */}
+                <div
+                    ref={chatContainerRef}
+                    onScroll={handleScroll}
+                    className="flex-1 overflow-y-auto p-4 bg-slate-50/50 dark:bg-slate-950/50 space-y-3 custom-scrollbar relative"
+                >
+                     <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none"></div>
+
+                    {messages.map((msg, idx) => (
+                        <div
+                            key={idx}
+                            className={`flex w-full z-10 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                            <div
+                                className={`max-w-[85%] px-4 py-3 text-sm rounded-2xl shadow-sm leading-relaxed ${
+                                    msg.role === 'user'
+                                    ? 'bg-primary text-white rounded-tr-none'
+                                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-tl-none'
+                                }`}
+                            >
+                                {msg.text}
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Suggestions - Show only when it's the initial state */}
+                    {messages.length === 1 && !isLoading && (
+                        <div className="grid grid-cols-1 gap-2 mt-4 animate-fade-in z-10">
+                            <p className="text-xs text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider ml-1 mb-1">{t('chat_widget.frequent_questions')}</p>
+                            {suggestions.map((question, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handleSuggestionClick(question)}
+                                    className="text-left text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/50 text-slate-600 dark:text-slate-300 px-3 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                >
+                                    {question}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {isLoading && (
+                        <div className="flex justify-start w-full z-10">
+                            <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-1.5">
+                                <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                                <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
+                                <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+                            </div>
+                        </div>
+                    )}
+                    <div ref={messagesEndRef} />
+                </div>
+
+                {/* Input Area */}
+                <form onSubmit={handleSendMessage} className="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex gap-2 relative z-20 shrink-0">
+                    <input
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder={t('chat_widget.placeholder')}
+                        className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder-slate-400"
+                        maxLength={500}
+                    />
+                    <button
+                        type="submit"
+                        disabled={!input.trim() || isLoading}
+                        className="bg-primary text-white p-3 rounded-xl hover:bg-primary-hover transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-95"
+                    >
+                        <PaperAirplaneIcon className="w-5 h-5" />
+                    </button>
+                </form>
+            </div>
+
+            {/* Toggle Button */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`pointer-events-auto group flex items-center justify-center w-14 h-14 rounded-full shadow-glow-strong transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary/30 ${
+                    isOpen
+                    ? 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rotate-90'
+                    : 'bg-gradient-to-br from-primary to-purple-600 text-white hover:shadow-primary/50'
+                }`}
+                aria-label={isOpen ? t('chat_widget.close_aria') : t('chat_widget.open_aria')}
+            >
+                {isOpen ? (
+                    <XMarkIcon className="w-7 h-7 transition-transform duration-300 -rotate-90" />
+                ) : (
+                    <ChatBubbleOvalLeftEllipsisIcon className="w-7 h-7" />
+                )}
+            </button>
+        </div>
+    );
+};
