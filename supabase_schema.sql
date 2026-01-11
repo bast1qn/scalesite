@@ -31,7 +31,7 @@ ON CONFLICT DO NOTHING;
 -- ============================================
 CREATE TABLE IF NOT EXISTS user_services (
     id TEXT PRIMARY KEY,
-    user_id TEXT NOT NULL,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     service_id INTEGER REFERENCES services(id) ON DELETE CASCADE,
     status TEXT DEFAULT 'pending',
     progress INTEGER DEFAULT 0,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS service_updates (
     id TEXT PRIMARY KEY,
     user_service_id TEXT REFERENCES user_services(id) ON DELETE CASCADE,
     message TEXT,
-    author_id TEXT,
+    author_id UUID,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS service_updates (
 -- ============================================
 CREATE TABLE IF NOT EXISTS tickets (
     id TEXT PRIMARY KEY,
-    user_id TEXT NOT NULL,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     subject TEXT,
     status TEXT DEFAULT 'Offen',
     priority TEXT DEFAULT 'Mittel',
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS tickets (
 CREATE TABLE IF NOT EXISTS ticket_messages (
     id TEXT PRIMARY KEY,
     ticket_id TEXT REFERENCES tickets(id) ON DELETE CASCADE,
-    user_id TEXT,
+    user_id UUID,
     text TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS ticket_messages (
 -- ============================================
 CREATE TABLE IF NOT EXISTS ticket_members (
     ticket_id TEXT REFERENCES tickets(id) ON DELETE CASCADE,
-    user_id TEXT,
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
     added_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (ticket_id, user_id)
 );
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS ticket_members (
 -- ============================================
 CREATE TABLE IF NOT EXISTS transactions (
     id TEXT PRIMARY KEY,
-    user_id TEXT NOT NULL,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE SET NULL,
     amount REAL,
     date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     due_date TIMESTAMPTZ,
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS analytics_events (
 -- ============================================
 CREATE TABLE IF NOT EXISTS team_chat_messages (
     id TEXT PRIMARY KEY,
-    user_id TEXT,
+    user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
     content TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS team_chat_messages (
 -- ============================================
 CREATE TABLE IF NOT EXISTS files (
     id TEXT PRIMARY KEY,
-    user_id TEXT,
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
     name TEXT,
     size BIGINT,
     type TEXT,
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS team_tasks (
 -- USER PROFILES (extends Supabase Auth)
 -- ============================================
 CREATE TABLE IF NOT EXISTS profiles (
-    id TEXT PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     name TEXT,
     email TEXT,
     company TEXT,
