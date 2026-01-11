@@ -15,11 +15,17 @@ const FaqPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCur
     const faqCategories = useMemo<FaqCategory[]>(() => {
         const items = [
             { id: 1, question: t('faq.q1'), answer: t('faq.a1'), category: t('faq.category_process') },
+            { id: 5, question: t('faq.q5'), answer: t('faq.a5'), category: t('faq.category_services') },
+            { id: 6, question: t('faq.q6'), answer: t('faq.a6'), category: t('faq.category_services') },
+            { id: 7, question: t('faq.q7'), answer: t('faq.a7'), category: t('faq.category_services') },
+            { id: 8, question: t('faq.q8'), answer: t('faq.a8'), category: t('faq.category_services') },
+            { id: 10, question: t('faq.q10'), answer: t('faq.a10'), category: t('faq.category_services') },
+            { id: 11, question: t('faq.q11'), answer: t('faq.a11'), category: t('faq.category_services') },
+            { id: 12, question: t('faq.q12'), answer: t('faq.a12'), category: t('faq.category_services') },
             { id: 2, question: t('faq.q2'), answer: t('faq.a2'), category: t('faq.category_costs') },
             { id: 3, question: t('faq.q3'), answer: t('faq.a3'), category: t('faq.category_costs') },
-            { id: 4, question: t('faq.q4'), answer: t('faq.a4'), category: t('faq.category_process') },
-            { id: 5, question: t('faq.q5'), answer: t('faq.a5'), category: t('faq.category_services') },
-            { id: 6, question: t('faq.q6'), answer: t('faq.a6'), category: t('faq.category_costs') },
+            { id: 4, question: t('faq.q4'), answer: t('faq.a4'), category: t('faq.category_costs') },
+            { id: 9, question: t('faq.q9'), answer: t('faq.a9'), category: t('faq.category_costs') },
         ];
 
         const cats = items.reduce<FaqCategory[]>((acc, item) => {
