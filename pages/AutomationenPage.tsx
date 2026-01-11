@@ -21,7 +21,9 @@ import {
     TagIcon,
     UserPlusIcon,
     ArrowRightIcon,
-    PaperAirplaneIcon
+    PaperAirplaneIcon,
+    ClipboardDocumentCheckIcon,
+    ArrowPathIcon
 } from '../components/Icons';
 import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../lib/api';
@@ -40,118 +42,84 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
     const t = translations[language].automation;
     return [
         {
-            id: 'voice-ai',
-            title: language === 'de' ? "KI-Telefonassistent" : "AI Phone Assistant",
-            subtitle: "Voice AI Setup",
-            price: formatPrice(490),
-            priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
-            monthly: language === 'de' ? `+ ca. ${formatPrice(29, false)} / Monat Hosting` : `+ approx. ${formatPrice(29, false)} / month hosting`,
-            basePrice: 490,
-            description: language === 'de'
-                ? "Ihr intelligenter Rezeptionist, der 24/7 Anrufe entgegennimmt, Termine bucht und Fragen beantwortet."
-                : "Your intelligent receptionist that takes calls 24/7, books appointments and answers questions.",
-            features: language === 'de'
-                ? ["Individuelle Stimmen-Auswahl", "Kalender-Integration", "Anruf-Transkription per Mail", "Notfall-Weiterleitung"]
-                : ["Custom voice selection", "Calendar integration", "Call transcription via email", "Emergency forwarding"],
-            icon: <PhoneIcon className="w-6 h-6 text-blue-400" />,
-            color: "blue"
-        },
-        {
             id: 'email-ops',
-            title: language === 'de' ? "E-Mail Autopilot" : "Email Autopilot",
+            title: language === 'de' ? "E-Mail Automation" : "Email Automation",
             subtitle: "Inbox Zero System",
-            price: formatPrice(290),
+            price: formatPrice(99),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
             monthly: language === 'de' ? "Keine monatlichen Fixkosten" : "No fixed monthly costs",
-            basePrice: 290,
+            basePrice: 99,
             description: language === 'de'
-                ? "Kategorisiert E-Mails, erstellt Entwürfe und leitet Rechnungen automatisch an die Buchhaltung."
-                : "Categorizes emails, creates drafts and automatically forwards invoices to accounting.",
+                ? "Automatische E-Mail-Kategorisierung und Antwort-Entwürfe."
+                : "Automatic email categorization and response drafts.",
             features: language === 'de'
-                ? ["Spam-Filterung via KI", "Antwort-Entwürfe", "Rechnungs-Extraktion", "CRM-Synchronisation"]
-                : ["AI spam filtering", "Response drafts", "Invoice extraction", "CRM synchronization"],
+                ? ["Auto-Filter für E-Mails", "Antwort-Entwürfe", "Labels & Ordner", "Einfache Integration"]
+                : ["Auto email filtering", "Response drafts", "Labels & folders", "Simple integration"],
             icon: <EnvelopeIcon className="w-6 h-6 text-purple-400" />,
             color: "purple"
         },
         {
             id: 'social-content',
-            title: language === 'de' ? "Content Maschine" : "Content Machine",
-            subtitle: "Social Media Automation",
-            price: formatPrice(390),
+            title: language === 'de' ? "Social Media Poster" : "Social Media Poster",
+            subtitle: "Auto-Posting Tool",
+            price: formatPrice(79),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
-            monthly: language === 'de' ? `+ Tool-Kosten (ca. ${formatPrice(19, false)})` : `+ Tool costs (approx. ${formatPrice(19, false)})`,
-            basePrice: 390,
+            monthly: language === 'de' ? "+ Tool-Kosten (ca. 9€)" : "+ Tool costs (approx. 9€)",
+            basePrice: 79,
             description: language === 'de'
-                ? "Planen Sie Inhalte einmal, posten Sie überall. KI generiert Bildunterschriften und Hashtags."
-                : "Schedule content once, post everywhere. AI generates captions and hashtags.",
+                ? "Plane deine Social Media Posts einmal und poste überall."
+                : "Schedule your social media posts once and post everywhere.",
             features: language === 'de'
-                ? ["Auto-Posting (Insta, LinkedIn)", "KI-Caption Generator", "Hashtag-Optimierung", "Redaktionsplan-Dashboard"]
-                : ["Auto-posting (Insta, LinkedIn)", "AI caption generator", "Hashtag optimization", "Editorial calendar dashboard"],
+                ? ["Auto-Posting (Insta, LinkedIn)", "KI-Caption Generator", "Hashtag-Optimierung"]
+                : ["Auto-posting (Insta, LinkedIn)", "AI caption generator", "Hashtag optimization"],
             icon: <ChatBubbleBottomCenterTextIcon className="w-6 h-6 text-pink-400" />,
             color: "pink"
         },
         {
-            id: 'crm-sales',
-            title: "Sales & CRM Bot",
-            subtitle: "Lead Management",
-            price: formatPrice(590),
-            priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
-            monthly: language === 'de' ? "Individuell nach Volumen" : "Individual based on volume",
-            basePrice: 590,
-            description: language === 'de'
-                ? "Verbindet Formulare mit Ihrem CRM. Qualifiziert Leads und benachrichtigt den Vertrieb."
-                : "Connects forms with your CRM. Qualifies leads and notifies sales.",
-            features: language === 'de'
-                ? ["Formular-Anbindung", "Auto-Lead-Scoring", "WhatsApp/SMS Info", "Follow-Up Sequenzen"]
-                : ["Form integration", "Auto lead scoring", "WhatsApp/SMS notifications", "Follow-up sequences"],
-            icon: <PresentationChartLineIcon className="w-6 h-6 text-orange-400" />,
-            color: "orange"
-        },
-        {
-            id: 'hr-onboarding',
-            title: "HR Onboarding",
-            subtitle: "Employee Experience",
-            price: formatPrice(390),
+            id: 'form-automation',
+            title: "Form Automation",
+            subtitle: "Smart Forms",
+            price: formatPrice(59),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
             monthly: language === 'de' ? "Keine monatlichen Fixkosten" : "No fixed monthly costs",
-            basePrice: 390,
+            basePrice: 59,
             description: language === 'de'
-                ? "Automatische Vertragserstellung, Account-Einrichtung und Willkommens-E-Mails für neue Mitarbeiter."
-                : "Automatic contract creation, account setup and welcome emails for new employees.",
+                ? "Formulare automatisch mit deinem System synchronisieren."
+                : "Automatically sync forms with your system.",
             features: language === 'de'
-                ? ["Vertrags-Generator", "Login-Daten Versand", "Hardware-Bestellung", "Team-Vorstellung"]
-                : ["Contract generator", "Login credentials delivery", "Hardware ordering", "Team introduction"],
-            icon: <UserPlusIcon className="w-6 h-6 text-green-400" />,
+                ? ["Auto-E-Mail bei Absendung", "CRM Integration", "Daten-Export", "Webhooks"]
+                : ["Auto-email on submit", "CRM integration", "Data export", "Webhooks"],
+            icon: <ClipboardDocumentCheckIcon className="w-6 h-6 text-green-400" />,
             color: "green"
         },
         {
-            id: 'review-mgmt',
-            title: language === 'de' ? "Reputation Manager" : "Reputation Manager",
-            subtitle: "Review Automation",
-            price: formatPrice(249),
+            id: 'backup-automation',
+            title: language === 'de' ? "Automatische Backups" : "Auto Backups",
+            subtitle: "Data Safety",
+            price: formatPrice(49),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
-            monthly: language === 'de' ? "+ API-Kosten (gering)" : "+ API costs (low)",
-            basePrice: 249,
+            monthly: language === 'de' ? "+ Storage-Kosten (gering)" : "+ Storage costs (low)",
+            basePrice: 49,
             description: language === 'de'
-                ? "Überwacht Google Reviews, antwortet automatisch auf Feedback und fordert Bewertungen an."
-                : "Monitors Google Reviews, automatically responds to feedback and requests reviews.",
+                ? "Automatische Backups deiner wichtigsten Daten."
+                : "Automatic backups of your most important data.",
             features: language === 'de'
-                ? ["Auto-Reply mit KI", "Sentiment-Analyse", "Bewertungs-Einladung", "Alert bei negativen Reviews"]
-                : ["Auto-reply with AI", "Sentiment analysis", "Review invitation", "Alert for negative reviews"],
-            icon: <SparklesIcon className="w-6 h-6 text-yellow-400" />,
-            color: "yellow"
+                ? ["Tägliche Backups", "Cloud Speicher", "30 Tage Aufbewahrung", "E-Mail Benachrichtigung"]
+                : ["Daily backups", "Cloud storage", "30 day retention", "Email notifications"],
+            icon: <ArrowPathIcon className="w-6 h-6 text-blue-400" />,
+            color: "blue"
         }
     ];
 };
 
 const getMicroAutomations = (language: 'de' | 'en', formatPrice: FormatPriceFunc) => {
     return [
-        { title: language === 'de' ? "Rechnung zu Dropbox" : "Invoice to Dropbox", price: formatPrice(99), basePrice: 99, desc: language === 'de' ? "Speichert E-Mail Anhänge automatisch in Ordnern." : "Automatically saves email attachments to folders.", icon: <DocumentArrowDownIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Lead zu Slack/Teams" : "Lead to Slack/Teams", price: formatPrice(99), basePrice: 99, desc: language === 'de' ? "Benachrichtigung im Team-Chat bei neuem Lead." : "Notification in team chat for new leads.", icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Meeting Summary" : "Meeting Summary", price: formatPrice(149), basePrice: 149, desc: language === 'de' ? "KI fasst Zoom/Teams Transkript zusammen & mailt es." : "AI summarizes Zoom/Teams transcript & emails it.", icon: <MicrophoneIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Vertrags-Erinnerung" : "Contract Reminder", price: formatPrice(89), basePrice: 89, desc: language === 'de' ? "Auto-Mail vor Ablauf von Kündigungsfristen." : "Auto-mail before cancellation deadlines.", icon: <ClockIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Social Cross-Post" : "Social Cross-Post", price: formatPrice(129), basePrice: 129, desc: language === 'de' ? "Postet Instagram Bild automatisch auf LinkedIn." : "Auto-posts Instagram image to LinkedIn.", icon: <PaperAirplaneIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Geburtstags-Bot" : "Birthday Bot", price: formatPrice(79), basePrice: 79, desc: language === 'de' ? "Schickt Kunden/Mitarbeitern Glückwünsche." : "Sends birthday wishes to customers/employees.", icon: <UserGroupIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Rechnung zu Dropbox" : "Invoice to Dropbox", price: formatPrice(29), basePrice: 29, desc: language === 'de' ? "Speichert E-Mail Anhänge automatisch." : "Auto-saves email attachments.", icon: <DocumentArrowDownIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Lead zu Slack" : "Lead to Slack", price: formatPrice(29), basePrice: 29, desc: language === 'de' ? "Benachrichtigung bei neuem Lead." : "Notification for new leads.", icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Formular zu E-Mail" : "Form to Email", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "FormularAbsendungen als E-Mail." : "Form submissions as email.", icon: <EnvelopeIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Auto-Backup" : "Auto Backup", price: formatPrice(39), basePrice: 39, desc: language === 'de' ? "Tägliche Backups deiner Daten." : "Daily backups of your data.", icon: <ArrowPathIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Social Post" : "Social Post", price: formatPrice(49), basePrice: 49, desc: language === 'de' ? "Postet automatisch auf LinkedIn." : "Auto-posts to LinkedIn.", icon: <PaperAirplaneIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Geburtstags-Mail" : "Birthday Email", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Automatische Glückwünsche." : "Automatic birthday wishes.", icon: <UserGroupIcon className="w-5 h-5"/> },
     ];
 };
 
