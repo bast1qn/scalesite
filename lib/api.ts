@@ -143,7 +143,7 @@ export const api = {
             await supabase.from('ticket_messages').insert({
                 id: generateId(),
                 ticket_id: ticketId,
-                user_id: 'system',
+                user_id: null,
                 text: `AUTOMATISCHE DIENSTANFRAGE: Der Nutzer hat das Paket "${service.name}" angefragt.`,
                 created_at: now
             });
@@ -363,7 +363,7 @@ export const api = {
         await supabase.from('ticket_messages').insert({
             id: generateId(),
             ticket_id: ticketId,
-            user_id: 'system',
+            user_id: null,
             text: `SYSTEM: ${currentUser?.name || 'User'} hat ${email} hinzugefügt.`,
             created_at: new Date().toISOString()
         });
