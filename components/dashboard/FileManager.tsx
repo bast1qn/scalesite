@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../../lib/api';
 import { CloudArrowUpIcon, DocumentIcon, PhotoIcon, TrashIcon, ArrowDownOnSquareIcon, EyeIcon } from '../Icons';
+import { alertFileTooLarge, alertUploadFailed, alertFileReadError, alertError, alertDownloadFailed } from '../../lib/dashboardAlerts';
 
 interface FileData {
     id: string;
@@ -67,7 +68,7 @@ const FileManager: React.FC = () => {
         if (!file) return;
 
         if (file.size > 5 * 1024 * 1024) { // 5MB Limit for demo
-            alert("Datei zu groß (Max 5MB für Demo)");
+            alertFileTooLarge();
             return;
         }
 
@@ -84,13 +85,13 @@ const FileManager: React.FC = () => {
                 });
                 fetchFiles();
             } catch (err: any) {
-                alert("Upload fehlgeschlagen: " + err.message);
+                alertUploadFailed(err.message);
             } finally {
                 setUploading(false);
             }
         };
         reader.onerror = () => {
-             alert("Fehler beim Lesen der Datei.");
+             alertFileReadError();
              setUploading(false);
         };
     };
@@ -105,7 +106,7 @@ const FileManager: React.FC = () => {
             delete newPreviews[id];
             setPreviews(newPreviews);
         } catch (e: any) {
-            alert(e.message);
+            alertError(e.message);
         }
     };
 
@@ -118,7 +119,7 @@ const FileManager: React.FC = () => {
                 if (data && data.data) dataUrl = data.data;
                 else throw new Error("Daten nicht verfügbar");
             } catch (e) {
-                alert("Download fehlgeschlagen");
+                alertDownloadFailed();
                 return;
             }
         }

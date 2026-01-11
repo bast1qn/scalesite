@@ -3,18 +3,19 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { ThemeToggle } from '../ThemeToggle';
 import { api } from '../../lib/api';
-import { 
-    UserCircleIcon, 
-    ShieldCheckIcon, 
-    BellIcon, 
-    CreditCardIcon, 
-    ArrowDownOnSquareIcon, 
-    TrashIcon, 
-    DevicePhoneMobileIcon, 
-    GlobeAltIcon, 
+import {
+    UserCircleIcon,
+    ShieldCheckIcon,
+    BellIcon,
+    CreditCardIcon,
+    ArrowDownOnSquareIcon,
+    TrashIcon,
+    DevicePhoneMobileIcon,
+    GlobeAltIcon,
     CheckBadgeIcon,
     LockClosedIcon
 } from '../Icons';
+import { alertError } from '../../lib/dashboardAlerts';
 
 type SettingsTab = 'general' | 'security' | 'notifications' | 'billing';
 
@@ -72,7 +73,7 @@ const Settings: React.FC = () => {
             await new Promise(r => setTimeout(r, 800));
             showSuccess('Profil erfolgreich aktualisiert');
         } catch (error: any) {
-            alert(error.message);
+            alertError(error.message);
         } finally {
             setLoading(false);
         }
@@ -88,7 +89,7 @@ const Settings: React.FC = () => {
             setCurrentPassword('');
             showSuccess('Passwort geändert');
         } catch (error: any) {
-            alert(error.message);
+            alertError(error.message);
         } finally {
             setLoading(false);
         }

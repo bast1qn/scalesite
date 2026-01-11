@@ -4,6 +4,7 @@ import { CustomSelect } from '../CustomSelect';
 import { PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../Icons';
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../lib/api';
+import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 
 // --- TYPE DEFINITIONS ---
 interface Profile {
@@ -202,7 +203,7 @@ const TicketSupport: React.FC = () => {
             setShowCreateModal(false);
         } catch (err: any) {
             console.error("Error creating ticket:", err);
-            alert("Fehler beim Erstellen: " + err.message);
+            alertCreateFailed(err.message);
         } finally {
             setActionLoading(false);
         }
@@ -221,7 +222,7 @@ const TicketSupport: React.FC = () => {
             await fetchTickets();
         } catch (err: any) {
             console.error("Error replying:", err);
-            alert("Fehler: " + err.message);
+            alertError(err.message);
         } finally {
             setActionLoading(false);
         }
@@ -238,7 +239,7 @@ const TicketSupport: React.FC = () => {
             await fetchMembers(selectedTicketId);
             await fetchMessages(selectedTicketId); // Fetch messages again to see system message immediately
         } catch (e: any) {
-            alert("Fehler: " + (e.message || "Nutzer konnte nicht hinzugefügt werden."));
+            alertError(e.message || "Nutzer konnte nicht hinzugefügt werden.");
         } finally {
             setInviteLoading(false);
         }
@@ -251,11 +252,11 @@ const TicketSupport: React.FC = () => {
             // Use correct payload structure. parseInt is only for legacy DB services.
             // If ID is string (automation services), API handles it.
             await api.post(`/admin/tickets/${selectedTicketId}/assign-service`, { serviceId: selectedServiceId });
-            alert("Dienstleistung zugewiesen und Rechnung erstellt.");
+            alertAssigned();
             await fetchMessages(selectedTicketId);
             await fetchTickets(); // Update status in list
         } catch (e: any) {
-            alert("Fehler beim Zuweisen: " + e.message);
+            alertAssignFailed(e.message);
         } finally {
             setAssignLoading(false);
         }

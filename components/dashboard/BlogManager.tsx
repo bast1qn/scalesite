@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/api';
 import { PlusCircleIcon, XMarkIcon, PencilIcon, TrashIcon } from '../Icons';
+import { alertDeleteFailed, alertSaveFailed } from '../../lib/dashboardAlerts';
 
 const BlogManager: React.FC = () => {
     const [posts, setPosts] = useState<any[]>([]);
@@ -59,7 +60,7 @@ const BlogManager: React.FC = () => {
             await api.delete(`/blog/${id}`);
             await fetchPosts();
         } catch (error: any) {
-            alert("Fehler beim Löschen: " + error.message);
+            alertDeleteFailed(error.message);
         }
     };
 
@@ -78,7 +79,7 @@ const BlogManager: React.FC = () => {
             setShowModal(false);
             await fetchPosts();
         } catch (error: any) {
-            alert("Fehler beim Speichern: " + error.message);
+            alertSaveFailed(error.message);
         } finally {
             setActionLoading(false);
         }

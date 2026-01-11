@@ -6,7 +6,7 @@ import { AppUser } from '../../contexts/AuthContext';
 import { api } from '../../lib/api';
 import { PlusCircleIcon, XMarkIcon, BriefcaseIcon, CheckBadgeIcon, ArrowPathIcon, SparklesIcon } from '../Icons';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { setDashboardLanguage, alertError } from '../../lib/dashboardAlerts';
+import { setDashboardLanguage, alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 
 type UserProfile = AppUser;
 
@@ -91,7 +91,7 @@ const UserManagement: React.FC = () => {
         try {
             await api.put(`/admin/users/${userId}/role`, { role: newRole });
         } catch(err: any) {
-            alert("Fehler: " + err.message);
+            alertError(err.message);
             setUsers(oldUsers);
         }
     };
@@ -293,8 +293,8 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
 
             await api.post('/admin/services/assign', payload);
             onSuccess();
-        } catch (e: any) { 
-            alert("Fehler: " + e.message); 
+        } catch (e: any) {
+            alertError(e.message);
         } finally { 
             setLoading(false); 
         }
@@ -378,7 +378,7 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
                 setUpdateText('');
             }
             onUpdate();
-        } catch(e: any) { alert("Error: " + e.message); } finally { setSaving(false); }
+        } catch(e: any) { alertSaveFailed(e.message); } finally { setSaving(false); }
     }
 
     return (

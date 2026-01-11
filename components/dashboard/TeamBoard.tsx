@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/api';
 import { PlusIcon, XMarkIcon, EllipsisHorizontalIcon, CheckBadgeIcon, ClockIcon, PencilIcon, TrashIcon } from '../Icons';
+import { alertError } from '../../lib/dashboardAlerts';
 
 interface Task {
     id: string;
@@ -78,7 +79,7 @@ const TeamBoard: React.FC = () => {
             setEditingTask(null);
             fetchTasks();
         } catch (e: any) {
-            alert("Fehler: " + e.message);
+            alertError(e.message);
         }
     };
 

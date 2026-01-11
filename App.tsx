@@ -1,31 +1,44 @@
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, lazy, Suspense } from 'react';
 import { AuthContext, AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { Layout } from './components/Layout';
 import { PageTransition } from './components/PageTransition';
 import { AnimatePresence } from 'framer-motion';
-import HomePage from './pages/HomePage';
-import LeistungenPage from './pages/LeistungenPage';
-import ProjektePage from './pages/ProjektePage';
-import AutomationenPage from './pages/AutomationenPage';
-import PreisePage from './pages/PreisePage';
-import BlogPage from './pages/BlogPage';
-import ContactPage from './pages/ContactPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import DashboardPage from './pages/DashboardPage';
-import CaseStudyDetailPage from './pages/CaseStudyDetailPage';
-import ImpressumPage from './pages/ImpressumPage';
-import DatenschutzPage from './pages/DatenschutzPage';
-import FaqPage from './pages/FaqPage';
-import GlossarPage from './pages/GlossarPage';
-import StoryPage from './pages/StoryPage';
-import RessourcenPage from './pages/RessourcenPage';
 import { ChatWidget } from './components/ChatWidget';
 import { CookieConsent } from './components/CookieConsent';
-import { trackPageView, trackClick } from './lib/analytics';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { trackPageView } from './lib/analytics';
+
+// Lazy load pages for code splitting
+const HomePage = lazy(() => import('./pages/HomePage'));
+const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
+const ProjektePage = lazy(() => import('./pages/ProjektePage'));
+const AutomationenPage = lazy(() => import('./pages/AutomationenPage'));
+const PreisePage = lazy(() => import('./pages/PreisePage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const CaseStudyDetailPage = lazy(() => import('./pages/CaseStudyDetailPage'));
+const ImpressumPage = lazy(() => import('./pages/ImpressumPage'));
+const DatenschutzPage = lazy(() => import('./pages/DatenschutzPage'));
+const FaqPage = lazy(() => import('./pages/FaqPage'));
+const GlossarPage = lazy(() => import('./pages/GlossarPage'));
+const StoryPage = lazy(() => import('./pages/StoryPage'));
+const RessourcenPage = lazy(() => import('./pages/RessourcenPage'));
+
+// Loading fallback component
+const PageLoader: React.FC = () => (
+    <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Loading...</p>
+        </div>
+    </div>
+);
 
 const AppContent: React.FC = () => {
     const [currentPage, setCurrentPage] = useState('home');
@@ -78,148 +91,92 @@ const AppContent: React.FC = () => {
     }, [currentPage]);
 
     useEffect(() => {
-        // Global Click Tracking
         const handleClick = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            // Try to find a meaningful name: Button text, Link text, or Aria label
-            const element = target.closest('button, a');
-            if (element) {
-                const name = element.textContent?.slice(0, 30) || element.getAttribute('aria-label') || element.tagName;
-                if (name) {
-                    trackClick(name.trim(), currentPage);
-                }
+            const link = target.closest('a');
+            if (link && link.hostname !== window.location.hostname) {
+                trackClick('external_link', link.href);
             }
         };
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, []);
 
-        window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
-    }, [currentPage]);
-    // ----------------------
-
-    const handleSetCurrentPage = (page: string) => {
-        // Scroll to top happens automatically due to AnimatePresence exit/enter behavior usually, 
-        // but keeping this ensures we start at top of new page logic.
-        window.scrollTo(0, 0);
-        setCurrentPage(page);
-    }
-    
-    const handlePostSelect = (postId: string) => {
-        setSelectedPostId(postId);
-        handleSetCurrentPage('blog-detail');
-    }
-
-    // Auth Redirects
-    useEffect(() => {
-        if (!loading) {
-            if (user && ['login', 'register'].includes(currentPage)) {
-                handleSetCurrentPage('dashboard');
-            } else if (!user && currentPage === 'dashboard') {
-                handleSetCurrentPage('login');
-            }
-        }
-    }, [user, loading, currentPage]);
-
-    const renderPageContent = () => {
+    // --- PAGE ROUTING ---
+    const getPage = () => {
         switch (currentPage) {
-            case 'home': return <HomePage setCurrentPage={handleSetCurrentPage} />;
-            case 'leistungen': return <LeistungenPage setCurrentPage={handleSetCurrentPage} />;
-            case 'projekte': return <ProjektePage setCurrentPage={handleSetCurrentPage} />;
-            case 'automationen': return <AutomationenPage setCurrentPage={handleSetCurrentPage} />;
-            case 'preise': return <PreisePage setCurrentPage={handleSetCurrentPage} />;
-            case 'blog': return <BlogPage setCurrentPage={handleSetCurrentPage} onPostSelect={handlePostSelect} />;
-            case 'blog-detail': return <CaseStudyDetailPage setCurrentPage={handleSetCurrentPage} postId={selectedPostId} />;
-            case 'contact': return <ContactPage setCurrentPage={handleSetCurrentPage} />;
-            case 'login': return <LoginPage setCurrentPage={handleSetCurrentPage} />;
-            case 'register': return <RegisterPage setCurrentPage={handleSetCurrentPage} />;
-            case 'dashboard': return <DashboardPage setCurrentPage={handleSetCurrentPage} />;
-            case 'impressum': return <ImpressumPage setCurrentPage={handleSetCurrentPage} />;
-            case 'datenschutz': return <DatenschutzPage setCurrentPage={handleSetCurrentPage} />;
-            case 'faq': return <FaqPage setCurrentPage={handleSetCurrentPage} />;
-            case 'glossar': return <GlossarPage setCurrentPage={handleSetCurrentPage} />;
-            case 'story': return <StoryPage setCurrentPage={handleSetCurrentPage} />;
-            case 'ressourcen': return <RessourcenPage setCurrentPage={handleSetCurrentPage} />;
-            default: return <HomePage setCurrentPage={handleSetCurrentPage} />;
+            case 'home': return <HomePage setCurrentPage={setCurrentPage} />;
+            case 'leistungen': return <LeistungenPage setCurrentPage={setCurrentPage} />;
+            case 'projekte': return <ProjektePage setCurrentPage={setCurrentPage} />;
+            case 'automationen': return <AutomationenPage setCurrentPage={setCurrentPage} />;
+            case 'preise': return <PreisePage setCurrentPage={setCurrentPage} />;
+            case 'blog': return <BlogPage setCurrentPage={setCurrentPage} postId={selectedPostId} setPostId={setSelectedPostId} />;
+            case 'contact': return <ContactPage setCurrentPage={setCurrentPage} />;
+            case 'login': return <LoginPage setCurrentPage={setCurrentPage} />;
+            case 'register': return <RegisterPage setCurrentPage={setCurrentPage} />;
+            case 'dashboard':
+                if (!user) {
+                    setTimeout(() => setCurrentPage('login'), 0);
+                    return null;
+                }
+                return <DashboardPage setCurrentPage={setCurrentPage} />;
+            case 'impressum': return <ImpressumPage />;
+            case 'datenschutz': return <DatenschutzPage />;
+            case 'faq': return <FaqPage />;
+            case 'glossar': return <GlossarPage />;
+            case 'story': return <StoryPage />;
+            case 'ressourcen': return <RessourcenPage setCurrentPage={setCurrentPage} />;
+            case 'case-study': return <CaseStudyDetailPage postId={selectedPostId} setCurrentPage={setCurrentPage} />;
+            default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };
 
-    const renderPage = () => {
-        if (loading) {
-            return (
-                <div className="min-h-screen flex flex-col items-center justify-center bg-light-bg dark:bg-dark-bg p-4">
-                    <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-8"></div>
+    // --- LOADING STATE ---
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-slate-600 dark:text-slate-400">Laden...</p>
                     {showReset && (
-                        <div className="text-center animate-fade-in max-w-md">
-                            <p className="text-dark-text dark:text-light-text mb-4 font-medium">
-                                Das Laden dauert länger als erwartet?
-                            </p>
-                            <button 
-                                onClick={handleReset}
-                                className="px-6 py-3 bg-slate-200 dark:bg-slate-800 text-dark-text dark:text-light-text rounded-full text-sm font-bold hover:bg-primary hover:text-white transition-all duration-300 shadow-lg"
-                            >
-                                App neu starten (Reset)
-                            </button>
-                            <p className="text-xs text-slate-400 mt-4 mx-auto leading-relaxed">
-                                Dies löscht lokale Zwischenspeicher und behebt Probleme mit veralteten Sitzungen, die das Laden blockieren könnten.
-                            </p>
-                        </div>
+                        <button onClick={handleReset} className="mt-4 text-sm text-red-500 hover:text-red-600 underline">
+                            App zurücksetzen
+                        </button>
                     )}
                 </div>
-            );
-        }
-        
-        // Fullscreen pages without layout (login/register/dashboard)
-        if (['login', 'register'].includes(currentPage)) {
-             return (
-                <AnimatePresence mode="wait">
-                    <PageTransition key={currentPage}>
-                        {renderPageContent()}
-                    </PageTransition>
-                </AnimatePresence>
-            );
-        }
-        
-        if (currentPage === 'dashboard') {
-             // Show loading spinner if user check is failing, instead of null which flickers white
-             if (!user) return (
-                <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center">
-                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                </div>
-             ); 
-             return (
-                 <AnimatePresence mode="wait">
-                    <PageTransition key={currentPage}>
-                        {renderPageContent()}
-                    </PageTransition>
-                </AnimatePresence>
-             )
-        }
-
-        // Default Layout Pages
-        return (
-            <Layout currentPage={currentPage} setCurrentPage={handleSetCurrentPage}>
-                <AnimatePresence mode="wait">
-                    <PageTransition key={currentPage}>
-                         {renderPageContent()}
-                    </PageTransition>
-                </AnimatePresence>
-                <ChatWidget />
-                <CookieConsent />
-            </Layout>
+            </div>
         );
-    };
-    
-    return renderPage();
+    }
+
+    return (
+        <Layout setCurrentPage={setCurrentPage} currentPage={currentPage}>
+            <ErrorBoundary>
+                <AnimatePresence mode="wait">
+                    <Suspense fallback={<PageLoader />}>
+                        <PageTransition key={currentPage}>
+                            {getPage()}
+                        </PageTransition>
+                    </Suspense>
+                </AnimatePresence>
+            </ErrorBoundary>
+            <ChatWidget />
+            <CookieConsent />
+        </Layout>
+    );
 };
 
-
-const App: React.FC = () => (
-    <AuthProvider>
-        <LanguageProvider>
-            <CurrencyProvider>
-                <AppContent />
-            </CurrencyProvider>
-        </LanguageProvider>
-    </AuthProvider>
-);
+const App: React.FC = () => {
+    return (
+        <ErrorBoundary>
+            <AuthProvider>
+                <LanguageProvider>
+                    <CurrencyProvider>
+                        <AppContent />
+                    </CurrencyProvider>
+                </LanguageProvider>
+            </AuthProvider>
+        </ErrorBoundary>
+    );
+};
 
 export default App;

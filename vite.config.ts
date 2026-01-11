@@ -18,6 +18,45 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks(id) {
+              // Vendor chunks for npm packages
+              if (id.includes('node_modules')) {
+                // React and core libraries
+                if (id.includes('react') || id.includes('react-dom')) {
+                  return 'react-core';
+                }
+                // UI framework
+                if (id.includes('framer-motion')) {
+                  return 'ui-framework';
+                }
+                // Supabase and auth
+                if (id.includes('@supabase')) {
+                  return 'supabase';
+                }
+                // Other vendor
+                return 'vendor';
+              }
+
+              // App code chunks
+              if (id.includes('/components/dashboard/')) {
+                return 'dashboard';
+              }
+              if (id.includes('/pages/')) {
+                return 'pages';
+              }
+              if (id.includes('/components/') && !id.includes('/components/dashboard/')) {
+                return 'components';
+              }
+              if (id.includes('/contexts/')) {
+                return 'contexts';
+              }
+            }
+          }
+        }
       }
     };
 });

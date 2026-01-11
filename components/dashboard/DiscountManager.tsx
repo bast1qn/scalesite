@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/api';
 import { TagIcon, PlusCircleIcon, XMarkIcon, PencilIcon } from '../Icons';
+import { alertSaveFailed, alertError } from '../../lib/dashboardAlerts';
 
 const DiscountManager: React.FC = () => {
     const [services, setServices] = useState<any[]>([]);
@@ -75,7 +76,7 @@ const DiscountManager: React.FC = () => {
             setShowServiceModal(false);
             fetchData();
         } catch (e: any) {
-            alert("Fehler beim Speichern: " + e.message);
+            alertSaveFailed(e.message);
         }
     };
 
@@ -88,7 +89,7 @@ const DiscountManager: React.FC = () => {
             setValue('');
             fetchData();
         } catch (e: any) {
-            alert("Fehler: " + e.message);
+            alertError(e.message);
         }
     };
 
@@ -98,7 +99,7 @@ const DiscountManager: React.FC = () => {
             await api.delete(`/admin/discounts/${id}`);
             fetchData();
         } catch (e: any) {
-            alert("Fehler: " + e.message);
+            alertError(e.message);
         }
     }
 

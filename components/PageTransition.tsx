@@ -1,36 +1,31 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { pageVariants, getTransition, hardwareAccelerationProps } from '../lib/animations';
 
 interface PageTransitionProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const variants = {
-  initial: { 
-    opacity: 0, 
-    y: 8, // Reduzierter Weg für subtileren Effekt
-  },
-  animate: { 
-    opacity: 1, 
-    y: 0, 
-    transition: {
-        duration: 0.25, // Deutlich schnellerer Eintritt
-        ease: "easeOut",
-    }
-  },
-  exit: { 
-    opacity: 0, 
-    y: -8, 
-    transition: {
-        duration: 0.15, // Sehr schneller Austritt für snappiges Gefühl
-        ease: "easeIn"
-    }
-  }
-};
-
+/**
+ * Optimized Page Transition Component
+ * Uses efficient animations with hardware acceleration for smooth page transitions
+ */
 export const PageTransition: React.FC<PageTransitionProps> = ({ children, className = "" }) => {
+  // Use reduced motion if user prefers it
+  const useReducedMotion = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const variants = useReducedMotion()
+    ? {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+      }
+    : pageVariants;
+
   return (
     <motion.div
       variants={variants}
@@ -38,6 +33,12 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children, classN
       animate="animate"
       exit="exit"
       className={`w-full ${className}`}
+      {...hardwareAccelerationProps}
+      onAnimationComplete={() => {
+        // Cleanup will-change after animation completes
+        (document.querySelector('[data-motion-container]') as HTMLElement)?.style.setProperty('will-change', 'auto');
+      }}
+      data-motion-container
     >
       {children}
     </motion.div>

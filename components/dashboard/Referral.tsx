@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserGroupIcon } from '../Icons';
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../lib/api';
+import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
 const Referral: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -35,7 +36,7 @@ const Referral: React.FC = () => {
     const copyToClipboard = () => {
         if (!referralCode) return;
         navigator.clipboard.writeText(referralLink);
-        alert("Link in die Zwischenablage kopiert!");
+        alertLinkCopied();
     };
 
     return (
