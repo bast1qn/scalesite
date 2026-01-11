@@ -1,4 +1,4 @@
-// Supabase Client for ScaleSite v2
+// Supabase Client for ScaleSite v3 - ready for deployment
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
