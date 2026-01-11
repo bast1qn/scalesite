@@ -41,32 +41,32 @@ export const OfferCalculator: React.FC<OfferCalculatorProps> = ({ setCurrentPage
     useEffect(() => {
         const calculatePrice = () => {
             // 1. Einmalige Kosten (Projekt)
-            let basePrice = 49; // Starting price for basic one-pager
+            let basePrice = 29; // Starting price for basic one-pager
 
             switch(projectType) {
-                case 'onepage': basePrice = 49; break;
-                case 'small': basePrice = 99; break;
-                case 'business': basePrice = 149; break;
+                case 'onepage': basePrice = 29; break;
+                case 'small': basePrice = 59; break;
+                case 'business': basePrice = 89; break;
             }
 
-            const pagePrice = Math.max(0, pageCount - 1) * 20; // 20€ per additional page
-            const addOnsPrice = (contactForm ? 15 : 0) + (blog ? 25 : 0);
+            const pagePrice = Math.max(0, pageCount - 1) * 10; // 10€ per additional page
+            const addOnsPrice = (contactForm ? 10 : 0) + (blog ? 15 : 0);
 
             const totalOneTime = basePrice + pagePrice + addOnsPrice;
 
-            // Cap at 200€ maximum
-            const cappedTotal = Math.min(totalOneTime, 200);
+            // Cap at 150€ maximum
+            const cappedTotal = Math.min(totalOneTime, 150);
 
             setOneTimePriceRange({
-                min: Math.max(49, Math.floor(cappedTotal * 0.9 / 10) * 10),
-                max: Math.min(200, Math.ceil(cappedTotal * 1.1 / 10) * 10),
+                min: Math.max(29, Math.floor(cappedTotal * 0.9 / 10) * 10),
+                max: Math.min(150, Math.ceil(cappedTotal * 1.1 / 10) * 10),
             });
 
             // 2. Monatliche Kosten (Service)
             let monthly = 0;
-            if (hosting) monthly += 9;
+            if (hosting) monthly += 5;
             if (domain) monthly += 2;
-            if (maintenance) monthly += 15;
+            if (maintenance) monthly += 10;
 
             setMonthlyPrice(monthly);
         };

@@ -45,10 +45,10 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
             id: 'email-ops',
             title: language === 'de' ? "E-Mail Automation" : "Email Automation",
             subtitle: "Inbox Zero System",
-            price: formatPrice(99),
+            price: formatPrice(59),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
             monthly: language === 'de' ? "Keine monatlichen Fixkosten" : "No fixed monthly costs",
-            basePrice: 99,
+            basePrice: 59,
             description: language === 'de'
                 ? "Automatische E-Mail-Kategorisierung und Antwort-Entwürfe."
                 : "Automatic email categorization and response drafts.",
@@ -62,10 +62,10 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
             id: 'social-content',
             title: language === 'de' ? "Social Media Poster" : "Social Media Poster",
             subtitle: "Auto-Posting Tool",
-            price: formatPrice(79),
+            price: formatPrice(49),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
             monthly: language === 'de' ? "+ Tool-Kosten (ca. 9€)" : "+ Tool costs (approx. 9€)",
-            basePrice: 79,
+            basePrice: 49,
             description: language === 'de'
                 ? "Plane deine Social Media Posts einmal und poste überall."
                 : "Schedule your social media posts once and post everywhere.",
@@ -79,10 +79,10 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
             id: 'form-automation',
             title: "Form Automation",
             subtitle: "Smart Forms",
-            price: formatPrice(59),
+            price: formatPrice(39),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
             monthly: language === 'de' ? "Keine monatlichen Fixkosten" : "No fixed monthly costs",
-            basePrice: 59,
+            basePrice: 39,
             description: language === 'de'
                 ? "Formulare automatisch mit deinem System synchronisieren."
                 : "Automatically sync forms with your system.",
@@ -96,10 +96,10 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
             id: 'backup-automation',
             title: language === 'de' ? "Automatische Backups" : "Auto Backups",
             subtitle: "Data Safety",
-            price: formatPrice(49),
+            price: formatPrice(29),
             priceDetail: language === 'de' ? "Einmaliges Setup" : "One-time Setup",
             monthly: language === 'de' ? "+ Storage-Kosten (gering)" : "+ Storage costs (low)",
-            basePrice: 49,
+            basePrice: 29,
             description: language === 'de'
                 ? "Automatische Backups deiner wichtigsten Daten."
                 : "Automatic backups of your most important data.",
@@ -114,12 +114,12 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
 
 const getMicroAutomations = (language: 'de' | 'en', formatPrice: FormatPriceFunc) => {
     return [
-        { title: language === 'de' ? "Rechnung zu Dropbox" : "Invoice to Dropbox", price: formatPrice(29), basePrice: 29, desc: language === 'de' ? "Speichert E-Mail Anhänge automatisch." : "Auto-saves email attachments.", icon: <DocumentArrowDownIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Lead zu Slack" : "Lead to Slack", price: formatPrice(29), basePrice: 29, desc: language === 'de' ? "Benachrichtigung bei neuem Lead." : "Notification for new leads.", icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Formular zu E-Mail" : "Form to Email", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "FormularAbsendungen als E-Mail." : "Form submissions as email.", icon: <EnvelopeIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Auto-Backup" : "Auto Backup", price: formatPrice(39), basePrice: 39, desc: language === 'de' ? "Tägliche Backups deiner Daten." : "Daily backups of your data.", icon: <ArrowPathIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Social Post" : "Social Post", price: formatPrice(49), basePrice: 49, desc: language === 'de' ? "Postet automatisch auf LinkedIn." : "Auto-posts to LinkedIn.", icon: <PaperAirplaneIcon className="w-5 h-5"/> },
-        { title: language === 'de' ? "Geburtstags-Mail" : "Birthday Email", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Automatische Glückwünsche." : "Automatic birthday wishes.", icon: <UserGroupIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Rechnung zu Dropbox" : "Invoice to Dropbox", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Speichert E-Mail Anhänge automatisch." : "Auto-saves email attachments.", icon: <DocumentArrowDownIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Lead zu Slack" : "Lead to Slack", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Benachrichtigung bei neuem Lead." : "Notification for new leads.", icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Formular zu E-Mail" : "Form to Email", price: formatPrice(9), basePrice: 9, desc: language === 'de' ? "FormularAbsendungen als E-Mail." : "Form submissions as email.", icon: <EnvelopeIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Auto-Backup" : "Auto Backup", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Tägliche Backups deiner Daten." : "Daily backups of your data.", icon: <ArrowPathIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Social Post" : "Social Post", price: formatPrice(29), basePrice: 29, desc: language === 'de' ? "Postet automatisch auf LinkedIn." : "Auto-posts to LinkedIn.", icon: <PaperAirplaneIcon className="w-5 h-5"/> },
+        { title: language === 'de' ? "Geburtstags-Mail" : "Birthday Email", price: formatPrice(9), basePrice: 9, desc: language === 'de' ? "Automatische Glückwünsche." : "Automatic birthday wishes.", icon: <UserGroupIcon className="w-5 h-5"/> },
     ];
 };
 
