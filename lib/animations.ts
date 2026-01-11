@@ -24,7 +24,7 @@ export const reducedMotionTransition: Transition = {
 
 // Check if user prefers reduced motion
 export const prefersReducedMotion = () => {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 };
 
 // Get appropriate transition based on user preferences
@@ -35,8 +35,8 @@ export const getTransition = (custom?: Transition): Transition => {
   return { ...baseTransition, ...custom };
 };
 
-// Fade in animation variants
-export const fadeInVariants = {
+// Fade in animation variants - lazy to avoid initialization issues
+export const fadeInVariants = () => ({
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -46,10 +46,10 @@ export const fadeInVariants = {
     opacity: 0,
     transition: getTransition(),
   },
-};
+});
 
-// Slide up animation variants
-export const slideUpVariants = {
+// Slide up animation variants - lazy
+export const slideUpVariants = () => ({
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -61,10 +61,10 @@ export const slideUpVariants = {
     y: -20,
     transition: getTransition(),
   },
-};
+});
 
-// Slide in from right animation variants
-export const slideInRightVariants = {
+// Slide in from right animation variants - lazy
+export const slideInRightVariants = () => ({
   hidden: { opacity: 0, x: 50 },
   visible: {
     opacity: 1,
@@ -76,10 +76,10 @@ export const slideInRightVariants = {
     x: 50,
     transition: getTransition(),
   },
-};
+});
 
-// Scale animation variants
-export const scaleVariants = {
+// Scale animation variants - lazy
+export const scaleVariants = () => ({
   hidden: { opacity: 0, scale: 0.9 },
   visible: {
     opacity: 1,
@@ -91,10 +91,10 @@ export const scaleVariants = {
     scale: 0.9,
     transition: getTransition(),
   },
-};
+});
 
-// Stagger children animation
-export const staggerContainer = {
+// Stagger children animation - lazy
+export const staggerContainer = () => ({
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -104,7 +104,7 @@ export const staggerContainer = {
       ...getTransition(),
     },
   },
-};
+});
 
 // Optimized page transition variants
 export const pageVariants = {

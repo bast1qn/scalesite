@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { fadeInVariants, prefersReducedMotion } from '../lib/animations';
+import { prefersReducedMotion } from '../lib/animations';
 
 interface AnimatedSectionProps {
   children: React.ReactNode;

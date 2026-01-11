@@ -69,7 +69,7 @@ const ErrorFallback: React.FC<{ error: Error | null; onReset: () => void }> = ({
         </div>
 
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-          {t('error') || 'Something went wrong'}
+          {t('general.error') || 'Something went wrong'}
         </h1>
 
         <p className="text-slate-600 dark:text-slate-400 mb-6">
