@@ -1,14 +1,16 @@
 
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { api } from '../lib/api';
+import { User, AuthError, Session } from '@supabase/supabase-js';
+import { supabase, getUserProfile, hasRole, UserProfile } from '../lib/supabase';
 
 // Define the custom User type
 export interface AppUser {
   id: string;
   name: string;
   email: string;
-  company: string;
+  company: string | null;
   role: 'team' | 'user' | 'owner';
+  referral_code: string | null;
 }
 
 // Define the shape of the context
@@ -41,111 +43,162 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Central function to verify session
-  const checkSession = async () => {
-        const token = localStorage.getItem('auth_token');
-        if (!token) {
-            setLoading(false);
-            return;
-        }
-
-        // Add timeout to prevent hanging on backend failure
-        const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Session check timeout')), 5000)
-        );
-
-        try {
-            const { data, error } = await Promise.race([
-                api.get('/auth/me'),
-                timeoutPromise
-            ]) as { data?: any; error?: string };
-
-            if (error || !data?.user) {
-                localStorage.removeItem('auth_token');
-                setUser(null);
-            } else {
-                setUser(data.user);
-            }
-        } catch (e) {
-            console.error("Session check failed", e);
-            localStorage.removeItem('auth_token');
-            setUser(null);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+  // Load user session on mount
   useEffect(() => {
-    checkSession();
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        loadUserProfile(session.user.id);
+      } else {
+        setLoading(false);
+      }
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        await loadUserProfile(session.user.id);
+      } else {
+        setUser(null);
+        setLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const login = async (email: string, pass: string) => {
+  const loadUserProfile = async (userId: string) => {
     try {
-        const { data } = await api.post('/auth/login', { email, password: pass });
-        if (data.token) {
-            localStorage.setItem('auth_token', data.token);
-            setUser(data.user);
-            return { success: true, error: null };
-        }
-        return { success: false, error: 'Kein Token erhalten' };
-    } catch (err: any) {
-        return { success: false, error: err.message || 'Login fehlgeschlagen' };
+      const { data, error } = await getUserProfile(userId);
+      if (data) {
+        setUser({
+          id: data.id,
+          name: data.name || '',
+          email: data.email || '',
+          company: data.company,
+          role: data.role as 'team' | 'user' | 'owner',
+          referral_code: data.referral_code
+        });
+      } else {
+        console.error('Error loading profile:', error);
+      }
+    } catch (e) {
+      console.error('Error loading user profile:', e);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Used when redirecting back from OAuth provider
-  const loginWithToken = async (token: string) => {
-      localStorage.setItem('auth_token', token);
-      setLoading(true);
-      try {
-          const { data } = await api.get('/auth/me');
-          if (data && data.user) {
-              setUser(data.user);
-              return true;
-          }
-          return false;
-      } catch (e) {
-          localStorage.removeItem('auth_token');
-          return false;
-      } finally {
-          setLoading(false);
+  const login = async (email: string, pass: string) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password: pass,
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
       }
+
+      if (data.user) {
+        await loadUserProfile(data.user.id);
+        return { success: true, error: null };
+      }
+
+      return { success: false, error: 'Login failed' };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Login fehlgeschlagen' };
+    }
   };
 
   const socialLogin = async (provider: 'google' | 'github') => {
     try {
-      // 1. Request Redirect URL from Backend to keep secrets safe
-      const { data } = await api.get(`/auth/${provider}/url`);
-      if (data && data.url) {
-          // 2. Redirect Browser
-          window.location.href = data.url;
-          return { success: true, error: null }; 
-      }
-      return { success: false, error: 'Konnte Redirect-URL nicht laden.' };
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/login`,
+        },
+      });
 
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return { success: true, error: null };
     } catch (err: any) {
       return { success: false, error: err.message || 'Social Login fehlgeschlagen' };
     }
   };
 
+  const loginWithToken = async (token: string) => {
+    try {
+      const { data, error } = await supabase.auth.setSession({
+        access_token: token,
+        refresh_token: '', // Will be handled by Supabase
+      });
+
+      if (error || !data.user) {
+        return false;
+      }
+
+      await loadUserProfile(data.user.id);
+      return true;
+    } catch (e) {
+      console.error('Token login failed:', e);
+      return false;
+    }
+  };
+
   const logout = async () => {
-    localStorage.removeItem('auth_token');
+    await supabase.auth.signOut();
     setUser(null);
   };
 
   const register = async (name: string, company: string, email: string, pass: string) => {
     try {
-      const { data } = await api.post('/auth/register', { name, company, email, password: pass });
-      if (data.token) {
-          localStorage.setItem('auth_token', data.token);
-          setUser(data.user);
-          return { success: true, error: null, requiresConfirmation: false };
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password: pass,
+        options: {
+          data: {
+            name,
+            company,
+          },
+          emailRedirectTo: `${window.location.origin}/login`,
+        },
+      });
+
+      if (error) {
+        return { success: false, error: error.message, requiresConfirmation: false };
       }
-       return { success: false, error: "Registrierung fehlgeschlagen", requiresConfirmation: false };
+
+      // Check if email confirmation is required
+      if (data.user && !data.session) {
+        return {
+          success: false,
+          error: 'Bitte bestätige deine E-Mail-Adresse.',
+          requiresConfirmation: true
+        };
+      }
+
+      if (data.user) {
+        // Update profile with company (trigger creates profile, but we need to update company)
+        if (data.user.id) {
+          await supabase
+            .from('profiles')
+            .update({ company })
+            .eq('id', data.user.id);
+        }
+
+        await loadUserProfile(data.user.id);
+        return { success: true, error: null, requiresConfirmation: false };
+      }
+
+      return { success: false, error: 'Registrierung fehlgeschlagen', requiresConfirmation: false };
     } catch (err: any) {
-      return { success: false, error: err.message || "Ein unbekannter Fehler ist aufgetreten.", requiresConfirmation: false };
+      return { success: false, error: err.message || 'Ein unbekannter Fehler ist aufgetreten.', requiresConfirmation: false };
     }
-  }
+  };
 
   return (
     <AuthContext.Provider value={{ user, loading, login, socialLogin, loginWithToken, logout, register }}>
