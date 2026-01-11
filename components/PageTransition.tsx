@@ -21,7 +21,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children, classN
   const variants = useReducedMotion()
     ? {
         initial: { opacity: 0 },
-        animate: { opacity: 1 },
+        enter: { opacity: 1 },
         exit: { opacity: 0 },
       }
     : pageVariants;
@@ -30,7 +30,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children, classN
     <motion.div
       variants={variants}
       initial="initial"
-      animate="animate"
+      animate="enter"
       exit="exit"
       className={`w-full ${className}`}
       {...hardwareAccelerationProps}
