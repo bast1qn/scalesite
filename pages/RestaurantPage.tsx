@@ -180,13 +180,13 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
             <div className="flex flex-wrap justify-center gap-4">
               <a
                 href="#menu"
-                className="px-8 py-4 bg-white text-slate-900 rounded-full font-semibold hover:bg-slate-100 transition-colors"
+                className="px-8 py-3.5 bg-white text-slate-900 rounded-xl font-semibold hover:bg-slate-50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
               >
                 View Menu
               </a>
               <a
                 href="#reservation"
-                className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-colors"
+                className="px-8 py-3.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-xl font-semibold hover:bg-white/20 hover:border-white/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
               >
                 Reserve a Table
               </a>
@@ -196,56 +196,56 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
       </section>
 
       {/* Opening Hours & Location */}
-      <section className="py-16 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-6xl mx-auto px-4">
+      <section className="py-20 bg-slate-50 dark:bg-slate-900">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <AnimatedSection>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-6">
               {/* Opening Hours */}
-              <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm">
+              <div className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                    <ClockIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  <div className="p-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+                    <ClockIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Opening Hours</h3>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">Opening Hours</h3>
                 </div>
-                <ul className="space-y-2 text-slate-600 dark:text-slate-400">
-                  <li className="flex justify-between"><span>Monday - Friday</span><span>07:00 - 19:00</span></li>
-                  <li className="flex justify-between"><span>Saturday</span><span>08:00 - 20:00</span></li>
-                  <li className="flex justify-between"><span>Sunday</span><span>09:00 - 18:00</span></li>
+                <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                  <li className="flex justify-between"><span>Monday - Friday</span><span className="font-medium text-slate-900 dark:text-slate-200">07:00 - 19:00</span></li>
+                  <li className="flex justify-between"><span>Saturday</span><span className="font-medium text-slate-900 dark:text-slate-200">08:00 - 20:00</span></li>
+                  <li className="flex justify-between"><span>Sunday</span><span className="font-medium text-slate-900 dark:text-slate-200">09:00 - 18:00</span></li>
                 </ul>
               </div>
 
               {/* Location */}
-              <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm">
+              <div className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                    <MapPinIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 transition-colors">
+                    <MapPinIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Location</h3>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">Location</h3>
                 </div>
-                <p className="text-slate-600 dark:text-slate-400">
+                <p className="text-sm text-slate-600 dark:text-slate-400">
                   Main Street 123<br />
                   10115 Berlin-Mitte
                 </p>
-                <p className="mt-2 text-sm text-slate-500">U-Bahn U2/U5 Hausvogteiplatz</p>
+                <p className="mt-2 text-xs text-slate-500">U-Bahn U2/U5 Hausvogteiplatz</p>
               </div>
 
               {/* Contact */}
-              <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm">
+              <div className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 bg-violet-100 dark:bg-violet-900/30 rounded-lg">
-                    <PhoneIcon className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+                  <div className="p-2.5 bg-violet-50 dark:bg-violet-900/20 rounded-lg group-hover:bg-violet-100 dark:group-hover:bg-violet-900/30 transition-colors">
+                    <PhoneIcon className="w-5 h-5 text-violet-600 dark:text-violet-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Contact</h3>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">Contact</h3>
                 </div>
-                <ul className="space-y-2 text-slate-600 dark:text-slate-400">
-                  <li className="flex items-center gap-2">
-                    <PhoneIcon className="w-4 h-4" />
-                    <span>+49 30 123 456 78</span>
+                <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                  <li className="flex items-center gap-2 group/link">
+                    <PhoneIcon className="w-4 h-4 group-hover/link:text-violet-500 transition-colors" />
+                    <span className="group-hover/link:text-slate-900 dark:group-hover/link:text-slate-200 transition-colors">+49 30 123 456 78</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <EnvelopeIcon className="w-4 h-4" />
-                    <span>info@cafe-bistro.de</span>
+                  <li className="flex items-center gap-2 group/link">
+                    <EnvelopeIcon className="w-4 h-4 group-hover/link:text-violet-500 transition-colors" />
+                    <span className="group-hover/link:text-slate-900 dark:group-hover/link:text-slate-200 transition-colors">info@cafe-bistro.de</span>
                   </li>
                 </ul>
               </div>
@@ -256,10 +256,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
 
       {/* Menu Section */}
       <section id="menu" className="py-20">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <AnimatedSection>
             <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
                 Our Menu
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
@@ -268,14 +268,14 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
             </div>
 
             {/* Category Tabs */}
-            <div className="flex flex-wrap justify-center gap-3 mb-10">
+            <div className="flex flex-wrap justify-center gap-2 mb-10">
               {menuCategories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-6 py-3 rounded-full font-medium transition-all ${
+                  className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                     activeCategory === cat.id
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
@@ -285,21 +285,21 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
             </div>
 
             {/* Menu Items */}
-            <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-8">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 dark:border-slate-800">
               {menuCategories.find(cat => cat.id === activeCategory)?.items.map((item, idx, arr) => (
                 <div
                   key={item.id}
-                  className={`flex justify-between items-start py-4 ${
+                  className={`flex justify-between items-start py-4 group ${
                     idx < arr.length - 1
-                      ? 'border-b border-slate-200 dark:border-slate-800'
+                      ? 'border-b border-slate-100 dark:border-slate-800'
                       : ''
                   }`}
                 >
                   <div className="flex-1">
-                    <h4 className="font-semibold text-slate-900 dark:text-white">{item.name}</h4>
+                    <h4 className="font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.name}</h4>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{item.description}</p>
                   </div>
-                  <span className="ml-4 font-bold text-blue-600 dark:text-blue-400">{item.price}</span>
+                  <span className="ml-4 font-semibold text-blue-600 dark:text-blue-400">{item.price}</span>
                 </div>
               ))}
             </div>
@@ -309,10 +309,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
 
       {/* Gallery Section */}
       <section className="py-20 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <AnimatedSection>
             <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
                 Gallery
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
@@ -325,10 +325,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                 <button
                   key={img.id}
                   onClick={() => setSelectedImage(img.id)}
-                  className={`relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br ${img.color} hover:scale-105 transition-transform duration-300`}
+                  className={`group relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br ${img.color} hover:scale-[1.02] transition-all duration-300 hover:shadow-lg`}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white/90 font-medium text-center px-4">{img.label}</span>
+                    <span className="text-white/90 font-medium text-center px-4 group-hover:scale-105 transition-transform duration-300">{img.label}</span>
                   </div>
                 </button>
               ))}
@@ -360,10 +360,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
 
       {/* Testimonials */}
       <section className="py-20">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <AnimatedSection>
             <div className="text-center mb-12">
-              <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
                 What Our Guests Say
               </h2>
             </div>
@@ -372,7 +372,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
               {testimonials.map((testimonial) => (
                 <div
                   key={testimonial.id}
-                  className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-6"
+                  className="group bg-slate-50 dark:bg-slate-900 rounded-2xl p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
@@ -381,7 +381,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 mb-4">"{testimonial.text}"</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-violet-500 rounded-full flex items-center justify-center text-white">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-violet-500 rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
                       <UserCircleIcon className="w-6 h-6" />
                     </div>
                     <span className="font-medium text-slate-900 dark:text-white">{testimonial.author}</span>
@@ -395,10 +395,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
 
       {/* Reservation Form */}
       <section id="reservation" className="py-20 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-2xl mx-auto px-4">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <AnimatedSection>
             <div className="text-center mb-10">
-              <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
                 Reserve a Table
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
@@ -406,15 +406,15 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
               </p>
             </div>
 
-            <form onSubmit={handleReservationSubmit} className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm">
+            <form onSubmit={handleReservationSubmit} className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 dark:border-slate-700">
               {formSubmitted ? (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
                     Reservation Confirmed!
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400">
@@ -424,7 +424,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Name *
                     </label>
                     <input
@@ -432,14 +432,14 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                       required
                       value={reservationForm.name}
                       onChange={(e) => setReservationForm({ ...reservationForm, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                       placeholder="Your name"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                         Date *
                       </label>
                       <input
@@ -447,18 +447,18 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                         required
                         value={reservationForm.date}
                         onChange={(e) => setReservationForm({ ...reservationForm, date: e.target.value })}
-                        className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                         Time *
                       </label>
                       <select
                         required
                         value={reservationForm.time}
                         onChange={(e) => setReservationForm({ ...reservationForm, time: e.target.value })}
-                        className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                       >
                         <option value="">Select time</option>
                         <option value="08:00">08:00</option>
@@ -477,14 +477,14 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Number of Guests *
                     </label>
                     <select
                       required
                       value={reservationForm.guests}
                       onChange={(e) => setReservationForm({ ...reservationForm, guests: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                       <option value="1">1 Person</option>
                       <option value="2">2 People</option>
@@ -496,7 +496,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Email *
                     </label>
                     <input
@@ -504,29 +504,29 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                       required
                       value={reservationForm.email}
                       onChange={(e) => setReservationForm({ ...reservationForm, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                       placeholder="your@email.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Phone
                     </label>
                     <input
                       type="tel"
                       value={reservationForm.phone}
                       onChange={(e) => setReservationForm({ ...reservationForm, phone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                       placeholder="+49 30 123 456 78"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                    className="group w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <CalendarDaysIcon className="w-5 h-5" />
+                    <CalendarDaysIcon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                     Reserve Now
                   </button>
                 </div>
@@ -537,8 +537,8 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
       </section>
 
       {/* Map Section Placeholder */}
-      <section className="h-80 bg-slate-200 dark:bg-slate-800">
-        <div className="h-full flex items-center justify-center">
+      <section className="h-72 bg-slate-100 dark:bg-slate-900">
+        <div className="h-full flex items-center justify-center px-4">
           <div className="text-center">
             <MapPinIcon className="w-12 h-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-600 dark:text-slate-400">
@@ -548,7 +548,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
               href="https://maps.google.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-4 px-6 py-2 bg-white dark:bg-slate-700 rounded-lg text-slate-900 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
+              className="inline-block mt-4 px-6 py-2.5 bg-white dark:bg-slate-800 rounded-xl text-slate-900 dark:text-white font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
             >
               Open in Google Maps
             </a>

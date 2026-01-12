@@ -20,13 +20,10 @@ const SocialButton: React.FC<{ icon: React.ReactNode; provider: string; onClick:
         type="button"
         onClick={onClick}
         disabled={disabled}
-        className="group relative w-full inline-flex justify-center items-center gap-3 py-3.5 px-4 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm bg-white/80 dark:bg-slate-800/80 backdrop-blur text-sm font-semibold text-slate-700 dark:text-slate-300 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md hover:shadow-slate-200/50 dark:hover:shadow-black/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-900 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 overflow-hidden"
+        className="group relative w-full inline-flex justify-center items-center gap-3 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
     >
-        {/* Hover gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:via-violet-500/5 group-hover:to-indigo-500/5 transition-all duration-500"></div>
-
         <span className="relative flex items-center gap-3">
-            <span className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">{icon}</span>
+            <span className="transition-transform duration-300 group-hover:scale-105">{icon}</span>
             <span>{label}</span>
         </span>
     </button>
@@ -289,17 +286,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
               <button
                 type="submit"
                 disabled={loading || !!socialLoading}
-                className="group relative w-full flex justify-center items-center py-4 px-4 border border-transparent font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 hover:from-blue-500 hover:via-violet-500 hover:to-indigo-500 hover:shadow-xl hover:shadow-blue-500/25 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-800 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 active:scale-[0.98] transition-all duration-300 overflow-hidden"
+                className="group relative w-full flex justify-center items-center py-3.5 px-4 border border-transparent font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-800 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 active:scale-[0.98] active:shadow-none transition-all duration-300"
               >
-                {/* Button shimmer effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
-
                 <span className="relative flex items-center gap-2">
                     {loading ? <LoadingSpinner /> : null}
                     {loading ? (t('auth.logging_in')) : showResetPassword ? (language === 'de' ? 'Link senden' : 'Send Link') : (
                         <>
                             <span>{t('auth.login_btn')}</span>
-                            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                            <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                         </>
                     )}
                 </span>

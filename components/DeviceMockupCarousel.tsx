@@ -111,14 +111,14 @@ export const DeviceMockupCarousel: React.FC = () => {
             {/* Navigation */}
             <button
               onClick={prevSlide}
-              className="absolute left-0 sm:left-4 z-40 p-2 bg-surface/80 dark:bg-dark-surface/80 hover:bg-surface dark:hover:bg-dark-surface rounded-full shadow-md transition-colors active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary dark:focus-visible:ring-offset-dark-bg backdrop-blur-sm"
+              className="absolute left-0 sm:left-4 z-40 p-2.5 bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Previous"
             >
               <ChevronLeftIcon />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-0 sm:right-4 z-40 p-2 bg-surface/80 dark:bg-dark-surface/80 hover:bg-surface dark:hover:bg-dark-surface rounded-full shadow-md transition-colors active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary dark:focus-visible:ring-offset-dark-bg backdrop-blur-sm"
+              className="absolute right-0 sm:right-4 z-40 p-2.5 bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Next"
             >
               <ChevronRightIcon />
@@ -128,13 +128,13 @@ export const DeviceMockupCarousel: React.FC = () => {
           {/* Dots */}
           <div className="flex justify-center gap-2 mt-12" role="tablist">
               {mockups.map((_, index) => (
-                  <button 
+                  <button
                       key={index}
                       role="tab"
                       aria-selected={currentIndex === index}
                       aria-controls={`slide-${index + 1}`}
                       onClick={() => setCurrentIndex(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${currentIndex === index ? 'bg-primary scale-110' : 'bg-dark-text/20 dark:bg-light-text/20 hover:bg-dark-text/30'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary dark:focus-visible:ring-offset-dark-bg`}
+                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentIndex === index ? 'bg-blue-600 scale-125 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
                   />
               ))}
           </div>
