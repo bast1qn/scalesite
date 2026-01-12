@@ -2,6 +2,22 @@
 import React, { createContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { User, AuthError, Session } from '@supabase/supabase-js';
 import { supabase, getUserProfile, hasRole, UserProfile } from '../lib/supabase';
+import { translations } from '../lib/translations';
+
+// Helper to get translation based on current language
+const getT = () => {
+  const lang = (typeof localStorage !== 'undefined' && localStorage.getItem('app_language')) || 'en';
+  const langKey = lang === 'de' || lang === 'en' ? lang : 'en';
+  return (key: string): string => {
+    const keys = key.split('.');
+    let current: any = translations[langKey];
+    for (const k of keys) {
+      if (current?.[k] === undefined) return key;
+      current = current[k];
+    }
+    return current;
+  };
+};
 
 // Define the custom User type
 export interface AppUser {
@@ -212,6 +228,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (email: string, pass: string) => {
+    const t = getT();
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -227,13 +244,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { success: true, error: null };
       }
 
-      return { success: false, error: 'Login failed' };
+      return { success: false, error: t('auth.login_failed') };
     } catch (err: any) {
-      return { success: false, error: err.message || 'Login fehlgeschlagen' };
+      return { success: false, error: err.message || t('auth.login_failed') };
     }
   };
 
   const socialLogin = async (provider: 'google' | 'github') => {
+    const t = getT();
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -248,7 +266,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return { success: true, error: null };
     } catch (err: any) {
-      return { success: false, error: err.message || 'Social Login fehlgeschlagen' };
+      return { success: false, error: err.message || t('auth.social_login_failed') };
     }
   };
 
@@ -277,6 +295,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
+    const t = getT();
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -299,7 +318,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (data.user && !data.session) {
         return {
           success: false,
-          error: 'Bitte bestätige deine E-Mail-Adresse.',
+          error: t('auth.please_confirm_email'),
           requiresConfirmation: true
         };
       }
@@ -317,9 +336,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { success: true, error: null, requiresConfirmation: false };
       }
 
-      return { success: false, error: 'Registrierung fehlgeschlagen', requiresConfirmation: false };
+      return { success: false, error: t('auth.register_failed'), requiresConfirmation: false };
     } catch (err: any) {
-      return { success: false, error: err.message || 'Ein unbekannter Fehler ist aufgetreten.', requiresConfirmation: false };
+      return { success: false, error: err.message || t('auth.unknown_error'), requiresConfirmation: false };
     }
   };
 

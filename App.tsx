@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useContext, lazy, Suspense } from 'react';
 import { AuthContext, AuthProvider } from './contexts/AuthContext';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { Layout } from './components/Layout';
 import { PageTransition } from './components/PageTransition';
@@ -28,18 +28,22 @@ const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
 
 // Loading fallback component
-const PageLoader: React.FC = () => (
-    <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">Loading...</p>
+const PageLoader: React.FC = () => {
+    const { t } = useLanguage();
+    return (
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">{t('general.loading')}</p>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const AppContent: React.FC = () => {
     const [currentPage, setCurrentPage] = useState('home');
     const { user, loading } = useContext(AuthContext);
+    const { t } = useLanguage();
     const [showReset, setShowReset] = useState(false);
 
     // --- TITLE & METADATA MANAGEMENT ---
@@ -117,10 +121,10 @@ const AppContent: React.FC = () => {
             <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-slate-600 dark:text-slate-400">Laden...</p>
+                    <p className="text-slate-600 dark:text-slate-400">{t('general.loading')}</p>
                     {showReset && (
                         <button onClick={handleReset} className="mt-4 text-sm text-red-500 hover:text-red-600 underline">
-                            App zurücksetzen
+                            {t('general.reset_app')}
                         </button>
                     )}
                 </div>

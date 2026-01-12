@@ -11,7 +11,8 @@ export const translations = {
         hours: "Std",
         minutes: "Min",
         seconds: "Sek",
-        read_more: "Mehr erfahren"
+        read_more: "Mehr erfahren",
+        reset_app: "App zurücksetzen"
     },
     nav: {
       home: "Startseite",
@@ -53,6 +54,7 @@ export const translations = {
         back_home: "Zurück zur Startseite",
         success_reg_title: "Fast geschafft!",
         success_reg_desc: "Registrierung erfolgreich! Bitte überprüfen Sie Ihr E-Mail-Postfach.",
+        please_confirm_email: "Bitte bestätige deine E-Mail-Adresse.",
         to_login: "Zur Anmeldeseite",
         back_to_login: "Zurück zum Login",
         password_requirements: "Passwort-Anforderungen:",
@@ -62,7 +64,11 @@ export const translations = {
         password_number: "Mindestens eine Ziffer (0-9)",
         password_weak: "Schwach",
         password_medium: "Mittel",
-        password_strong: "Stark"
+        password_strong: "Stark",
+        login_failed: "Anmeldung fehlgeschlagen",
+        register_failed: "Registrierung fehlgeschlagen",
+        unknown_error: "Ein unbekannter Fehler ist aufgetreten.",
+        social_login_failed: "Social Login fehlgeschlagen"
     },
     hero: {
       status_limited: "Verfügbarkeit begrenzt",
@@ -785,7 +791,8 @@ export const translations = {
         hours: "Hrs",
         minutes: "Min",
         seconds: "Sec",
-        read_more: "Read more"
+        read_more: "Read more",
+        reset_app: "Reset App"
     },
     nav: {
       home: "Home",
@@ -827,6 +834,7 @@ export const translations = {
         back_home: "Back to home",
         success_reg_title: "Almost done!",
         success_reg_desc: "Registration successful! Please check your email inbox.",
+        please_confirm_email: "Please confirm your email address.",
         to_login: "Go to Login",
         back_to_login: "Back to login",
         password_requirements: "Password requirements:",
@@ -836,7 +844,11 @@ export const translations = {
         password_number: "At least one digit (0-9)",
         password_weak: "Weak",
         password_medium: "Medium",
-        password_strong: "Strong"
+        password_strong: "Strong",
+        login_failed: "Login failed",
+        register_failed: "Registration failed",
+        unknown_error: "An unknown error occurred.",
+        social_login_failed: "Social login failed"
     },
     hero: {
       status_limited: "Availability limited",
