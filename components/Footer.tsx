@@ -60,34 +60,25 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
             </div>
 
             {/* Links Columns */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-3">
                 <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 mb-6 text-sm uppercase tracking-wider">{t('footer.company')}</h3>
                 <ul className="space-y-4">
-                    <FooterLink page="story" setCurrentPage={setCurrentPage}>{t('footer.about')}</FooterLink>
                     <FooterLink page="contact" setCurrentPage={setCurrentPage}>{t('nav.contact')}</FooterLink>
                     <FooterLink page="projekte" setCurrentPage={setCurrentPage}>{t('nav.projects')}</FooterLink>
-                </ul>
-            </div>
-
-             <div className="lg:col-span-2">
-                <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 mb-6 text-sm uppercase tracking-wider">{t('footer.services')}</h3>
-                <ul className="space-y-4">
-                    <FooterLink page="leistungen" setCurrentPage={setCurrentPage}>{t('footer.webdesign')}</FooterLink>
-                    <FooterLink page="leistungen" setCurrentPage={setCurrentPage}>{t('footer.development')}</FooterLink>
-                    <FooterLink page="preise" setCurrentPage={setCurrentPage}>{t('footer.seo')}</FooterLink>
-                </ul>
-            </div>
-
-            <div className="lg:col-span-2">
-                <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 mb-6 text-sm uppercase tracking-wider">{t('footer.resources')}</h3>
-                <ul className="space-y-4">
-                    <FooterLink page="ressourcen" setCurrentPage={setCurrentPage}>{t('footer.downloads')}</FooterLink>
-                    <FooterLink page="blog" setCurrentPage={setCurrentPage}>{t('footer.blog')}</FooterLink>
                     <FooterLink page="faq" setCurrentPage={setCurrentPage}>{t('nav.faq')}</FooterLink>
                 </ul>
             </div>
 
-             <div className="lg:col-span-2">
+             <div className="lg:col-span-3">
+                <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 mb-6 text-sm uppercase tracking-wider">{t('footer.services')}</h3>
+                <ul className="space-y-4">
+                    <FooterLink page="leistungen" setCurrentPage={setCurrentPage}>{t('footer.webdesign')}</FooterLink>
+                    <FooterLink page="automationen" setCurrentPage={setCurrentPage}>{t('footer.automation')}</FooterLink>
+                    <FooterLink page="preise" setCurrentPage={setCurrentPage}>{t('nav.pricing')}</FooterLink>
+                </ul>
+            </div>
+
+             <div className="lg:col-span-3">
                 <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 mb-6 text-sm uppercase tracking-wider">{t('footer.legal')}</h3>
                 <ul className="space-y-4">
                     <FooterLink page="impressum" setCurrentPage={setCurrentPage}>{t('footer.imprint')}</FooterLink>
