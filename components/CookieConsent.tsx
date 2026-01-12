@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { XMarkIcon, CookieIcon, AdjustmentsHorizontalIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -33,7 +32,6 @@ export const CookieConsent: React.FC = () => {
         setPreferences(prefs);
         setIsVisible(false);
         setShowSettings(false);
-        // Analytics integration would go here when prefs.analytics is true
     };
 
     const handleAcceptAll = () => {
@@ -52,13 +50,9 @@ export const CookieConsent: React.FC = () => {
 
     return (
         <>
-            {/* Main Banner */}
             <div className={`fixed bottom-0 left-0 right-0 z-[9999] p-4 md:p-6 transition-all duration-500 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
                 <div className="max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-2xl shadow-slate-200/30 dark:shadow-black/30 rounded-3xl p-6 md:flex items-center justify-between gap-6 relative overflow-hidden">
-                    {/* Decorative gradient accent */}
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500"></div>
-
-                    {/* Subtle glow effect */}
                     <div className="absolute -top-12 -right-12 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-violet-400/10 rounded-full blur-2xl pointer-events-none"></div>
 
                     <div className="flex-1 relative">
@@ -102,11 +96,9 @@ export const CookieConsent: React.FC = () => {
                 </div>
             </div>
 
-            {/* Settings Modal */}
             {showSettings && (
                 <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200/70 dark:border-slate-700/70 overflow-hidden animate-scale-in relative">
-                        {/* Decorative gradient border */}
                         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500"></div>
 
                         <div className="p-6 border-b border-slate-200/60 dark:border-slate-700/60 flex justify-between items-center bg-gradient-to-r from-slate-50/80 to-blue-50/30 dark:from-slate-800/50 dark:to-blue-900/10">
@@ -119,8 +111,6 @@ export const CookieConsent: React.FC = () => {
                             <p className="text-sm text-slate-600 dark:text-slate-400">
                                 {t('cookie_consent.description_settings')}
                             </p>
-
-                            {/* Essential */}
                             <div className="flex items-start gap-4 p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-800/50 dark:to-blue-900/10 border border-slate-200 dark:border-slate-700">
                                 <div className="flex-1">
                                     <div className="flex items-center justify-between mb-1">
@@ -133,8 +123,6 @@ export const CookieConsent: React.FC = () => {
                                     <span className="translate-x-6 inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition"/>
                                 </div>
                             </div>
-
-                            {/* Analytics */}
                             <div className="flex items-start gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-300/50 dark:hover:border-blue-700/50 transition-colors">
                                 <div className="flex-1">
                                     <span className="block font-bold text-slate-900 dark:text-white mb-1">{t('cookie_consent.analytics.title')}</span>
@@ -147,8 +135,6 @@ export const CookieConsent: React.FC = () => {
                                     <span className={`${preferences.analytics ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200`}/>
                                 </button>
                             </div>
-
-                             {/* Marketing */}
                              <div className="flex items-start gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-violet-300/50 dark:hover:border-violet-700/50 transition-colors">
                                 <div className="flex-1">
                                     <span className="block font-bold text-slate-900 dark:text-white mb-1">{t('cookie_consent.marketing.title')}</span>

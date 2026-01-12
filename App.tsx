@@ -10,7 +10,6 @@ import { ChatWidget } from './components/ChatWidget';
 import { CookieConsent } from './components/CookieConsent';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
-// Lazy load pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
 const ProjektePage = lazy(() => import('./pages/ProjektePage'));
@@ -27,7 +26,6 @@ const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
 const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
 
-// Loading fallback component
 const PageLoader: React.FC = () => {
     const { t } = useLanguage();
     return (
@@ -46,7 +44,6 @@ const AppContent: React.FC = () => {
     const { t } = useLanguage();
     const [showReset, setShowReset] = useState(false);
 
-    // --- TITLE & METADATA MANAGEMENT ---
     useEffect(() => {
         const pageTitles: {[key: string]: string} = {
             home: 'ScaleSite | Exzellente Websites',
@@ -68,12 +65,9 @@ const AppContent: React.FC = () => {
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
 
-    // --- SAFETY RESET LOGIC ---
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
         if (loading) {
-            // If loading takes more than 8 seconds, offer a reset option
-            // Increased from 3s because auth can take longer on some connections
             timer = setTimeout(() => setShowReset(true), 8000);
         } else {
             setShowReset(false);
@@ -86,9 +80,7 @@ const AppContent: React.FC = () => {
         sessionStorage.clear();
         window.location.reload();
     };
-    // --------------------------
 
-    // --- PAGE ROUTING ---
     const getPage = () => {
         switch (currentPage) {
             case 'home': return <HomePage setCurrentPage={setCurrentPage} />;
@@ -115,7 +107,6 @@ const AppContent: React.FC = () => {
         }
     };
 
-    // --- LOADING STATE ---
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">

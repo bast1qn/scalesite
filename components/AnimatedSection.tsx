@@ -12,12 +12,6 @@ interface AnimatedSectionProps {
   once?: boolean;
   stagger?: boolean;
 }
-/**
- * Enhanced AnimatedSection Component
- * Triggers animation when element enters viewport using IntersectionObserver
- * Respects prefers-reduced-motion for accessibility
- * Supports staggered children animations
- */
 export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
   className = '',
@@ -32,7 +26,6 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
-    // Skip animation if user prefers reduced motion
     if (prefersReducedMotion()) {
       controls.start('visible');
       return;
@@ -67,7 +60,6 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     };
   }, [controls, once, direction, delay, stagger]);
 
-  // Enhanced direction-based variants
   const getVariants = () => {
     if (prefersReducedMotion()) {
       return {
@@ -141,11 +133,9 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       variants={getVariants()}
       className={className}
       style={{
-        // Enable hardware acceleration during animation
         willChange: 'opacity, transform',
       }}
       onAnimationComplete={() => {
-        // Remove will-change after animation completes for better performance
         if (sectionRef.current) {
           sectionRef.current.style.willChange = 'auto';
         }
@@ -156,9 +146,6 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   );
 };
 
-/**
- * Enhanced StaggerContainer for animating children in sequence
- */
 export const StaggerContainer: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -219,9 +206,6 @@ export const StaggerContainer: React.FC<{
   );
 };
 
-/**
- * Enhanced StaggerItem for use inside StaggerContainer
- */
 export const StaggerItem: React.FC<{
   children: React.ReactNode;
   className?: string;

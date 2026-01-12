@@ -4,7 +4,6 @@ import { User, AuthError, Session } from '@supabase/supabase-js';
 import { supabase, getUserProfile, hasRole, UserProfile } from '../lib/supabase';
 import { translations } from '../lib/translations';
 
-// Helper to get translation based on current language
 const getT = () => {
   const lang = (typeof localStorage !== 'undefined' && localStorage.getItem('app_language')) || 'en';
   const langKey = lang === 'de' || lang === 'en' ? lang : 'en';
@@ -22,7 +21,6 @@ const getT = () => {
   };
 };
 
-// Define the custom User type
 export interface AppUser {
   id: string;
   name: string;
@@ -32,7 +30,6 @@ export interface AppUser {
   referral_code: string | null;
 }
 
-// Define the shape of the context
 interface AuthContextType {
   user: AppUser | null;
   loading: boolean;
@@ -43,7 +40,6 @@ interface AuthContextType {
   register: (name: string, company: string, email: string, pass: string, referralCode?: string) => Promise<{ success: boolean; error: string | null, requiresConfirmation: boolean }>;
 }
 
-// Create the context with a default value
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
@@ -63,22 +59,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [sessionChecked, setSessionChecked] = useState(false);
 
-  // Use ref to track loading state for safety timeout (avoids stale closure)
   const loadingRef = useRef(true);
 
-  // Update ref when loading state changes
   useEffect(() => {
     loadingRef.current = loading;
     console.log('[AUTH] Loading state changed to:', loading);
   }, [loading]);
 
-  // Load user session on mount
   useEffect(() => {
     let isMounted = true;
     let safetyTimeout: NodeJS.Timeout | null = null;
 
-    // Safety timeout: stop loading after 30 seconds even if auth hasn't completed
-    // Use loadingRef.current to check the ACTUAL current loading state, not the stale closure value
     safetyTimeout = setTimeout(() => {
       if (isMounted && loadingRef.current) {
         console.error('[AUTH] Safety timeout triggered after 30s - Supabase connection may be failing');
@@ -88,7 +79,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     }, 30000);
 
-    // Immediately check if we should stop loading
     const stopLoading = () => {
       if (isMounted) {
         console.log('[AUTH] stopLoading called');
@@ -98,7 +88,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     };
 
-    // Get initial session with better error handling
     const checkSession = async () => {
       try {
         console.log('[AUTH] Checking session...');
@@ -115,7 +104,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] Session check result:', session ? 'Session found' : 'No session');
 
         if (session?.user) {
-          // Use auth metadata immediately - no DB query needed
           const authUser: AppUser = {
             id: session.user.id,
             name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
@@ -131,7 +119,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           stopLoading();
         }
       } catch (err) {
-        // AbortError is expected on timeout - treat as no session
         if (err instanceof Error && err.name === 'AbortError') {
           console.log('[AUTH] Session request aborted (timeout or cancelled)');
           stopLoading();
@@ -144,7 +131,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     checkSession();
 
-    // Listen for auth changes - this is the PRIMARY way we track auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('[AUTH] Auth state changed:', event, 'Has user:', !!session?.user);
       if (!isMounted) return;
@@ -152,7 +138,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setSessionChecked(true);
 
       if (session?.user) {
-        // Use auth metadata immediately - no DB query needed
         const authUser: AppUser = {
           id: session.user.id,
           name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
@@ -165,7 +150,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] User set from auth metadata:', authUser.email);
         setLoading(false);
 
-        // Optionally load full profile in background (non-blocking)
         getUserProfile(session.user.id).then(({ data }) => {
           if (data && isMounted) {
             console.log('[AUTH] Background profile update:', data.email);
@@ -179,7 +163,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             });
           }
         }).catch(() => {
-          // Ignore background errors
         });
       } else {
         setUser(null);
@@ -201,7 +184,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (error) {
         console.error('[AUTH] Error loading profile from DB:', error.message);
-        // For PGRLS error, use minimal fallback - don't call getUser() again
         if (error.message?.includes('PGRST') || error.message?.includes('JWT') || error.code === 'PGRST116') {
           console.log('[AUTH] RLS/JWT error - waiting for auth to settle');
           setLoading(false);
@@ -224,7 +206,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] No profile data - using minimal user info');
         setLoading(false);
       }
-    } catch (e: unknown) {
+    } catch (e) {
       console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
       setLoading(false);
     }

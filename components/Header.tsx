@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useCurrency } from '../contexts/CurrencyContext';
+import { useScroll, useBodyScrollLock, useClickOutsideCallback } from '../lib/hooks';
 
 interface HeaderProps {
     setCurrentPage: (page: string) => void;
@@ -43,20 +44,10 @@ const NavButton: React.FC<{
 const CurrencySelector: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
     const { currency, setCurrency, currenciesList } = useCurrency();
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
 
     const commonCurrencies = ['EUR', 'USD', 'GBP', 'CHF', 'JPY', 'CAD', 'AUD', 'SEK', 'DKK', 'PLN', 'CZK', 'HUF', 'BRL', 'TRY'];
     const otherCurrencies = currenciesList.filter(c => !commonCurrencies.includes(c.code));
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
 
     return (
         <div className="relative" ref={dropdownRef}>
@@ -135,28 +126,13 @@ const CurrencySelector: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }
 };
 
 export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) => {
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
     const { user, logout } = useContext(AuthContext);
     const { t, language, setLanguage } = useLanguage();
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 8);
-        };
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => { document.body.style.overflow = ''; };
-    }, [isMenuOpen]);
+    const isScrolled = useScroll(8);
+    useBodyScrollLock(isMenuOpen);
 
     const handleLogout = () => {
         logout();
