@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AnimatedSection } from './AnimatedSection';
 import { CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -13,6 +13,8 @@ const features = [
         bgGradient: 'from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30',
         glow: 'shadow-blue-500/30',
         borderColor: 'hover:border-blue-200 dark:hover:border-blue-800',
+        hexFrom: '#3b82f6',
+        hexTo: '#22d3ee',
     },
     {
         icon: <ShieldCheckIcon className="w-7 h-7" />,
@@ -22,6 +24,8 @@ const features = [
         bgGradient: 'from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30',
         glow: 'shadow-emerald-500/30',
         borderColor: 'hover:border-emerald-200 dark:hover:border-emerald-800',
+        hexFrom: '#10b981',
+        hexTo: '#14b8a6',
     },
     {
         icon: <RocketLaunchIcon className="w-7 h-7" />,
@@ -31,8 +35,106 @@ const features = [
         bgGradient: 'from-violet-50 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/30',
         glow: 'shadow-violet-500/30',
         borderColor: 'hover:border-violet-200 dark:hover:border-violet-800',
+        hexFrom: '#8b5cf6',
+        hexTo: '#a855f7',
     }
 ];
+
+// Transcendent feature card with 3D effects
+const FeatureCard: React.FC<{
+    feature: typeof features[0];
+    index: number;
+    t: any;
+}> = ({ feature, index, t }) => {
+    const [transform, setTransform] = useState('');
+    const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -4;
+        const rotateY = ((x - centerX) / centerX) * 4;
+
+        setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`);
+        setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
+    };
+
+    const handleMouseLeave = () => {
+        setTransform('perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)');
+        setIsHovered(false);
+    };
+
+    const handleMouseEnter = () => setIsHovered(true);
+
+    return (
+        <div
+            className="relative"
+            style={{ transform, transition: 'transform 0.1s ease-out' }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onMouseEnter={handleMouseEnter}
+        >
+            {/* 3D glow effect following cursor */}
+            <div
+                className="absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 pointer-events-none"
+                style={{
+                    background: `radial-gradient(350px circle at ${glowPos.x}% ${glowPos.y}%, ${feature.hexFrom}25, transparent 60%)`,
+                    opacity: isHovered ? 1 : 0,
+                }}
+            />
+
+            <div
+                className={`group relative bg-gradient-to-br ${feature.bgGradient} rounded-3xl p-10 shadow-legendary border-2 border-slate-200/60 dark:border-slate-700/50 ${feature.borderColor} hover:shadow-glow-legendary-lg hover:-translate-y-3 transition-all duration-500 overflow-hidden hover-3d-lift`}
+                style={{ transitionDelay: `${index * 80}ms` }}
+            >
+                {/* Multi-layer shimmer effect */}
+                <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                {/* Holographic overlay */}
+                <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 rounded-3xl transition-opacity duration-500"></div>
+
+                {/* Enhanced animated gradient accent */}
+                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left shadow-glow-legendary-sm`}></div>
+
+                {/* Enhanced animated background glow on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.2] transition-opacity duration-500 animate-gradient-deluxe`}></div>
+
+                {/* Corner accents */}
+                <span className={`absolute top-4 right-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-legendary-sm animate-pulse-slow`}></span>
+                <span className={`absolute bottom-4 left-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-legendary-sm animate-pulse-slow`} style={{ transitionDelay: '0.2s' }}></span>
+
+                {/* Icon container with enhanced animated background */}
+                <div className="relative">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500 animate-glow-breathe`}></div>
+                    <div className={`relative w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-xl transform group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 hover:shadow-glow-legendary-md`}>
+                        <div className="group-hover:animate-icon-bounce">
+                            {feature.icon}
+                        </div>
+                    </div>
+                </div>
+
+                <h3 className="relative font-bold text-xl text-slate-900 dark:text-white mb-4 text-center group-hover:text-transparent group-hover:bg-clip-text group-hover:translate-x-1 transition-all duration-300" style={{
+                    backgroundImage: `linear-gradient(to right, ${feature.hexFrom}, ${feature.hexTo})`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                }}>
+                    {t(feature.titleKey)}
+                </h3>
+                <p className="relative text-slate-600 dark:text-slate-400 text-center leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
+                    {t(feature.descKey)}
+                </p>
+
+                {/* Enhanced corner accent */}
+                <div className={`absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl ${feature.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-tl-3xl`}></div>
+            </div>
+        </div>
+    );
+};
 
 export const TestimonialsSection: React.FC = () => {
     const { t } = useLanguage();
@@ -40,15 +142,32 @@ export const TestimonialsSection: React.FC = () => {
     return (
         <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 to-dark-bg relative overflow-hidden">
             {/* Legendary animated mesh gradient overlay */}
-            <div className="absolute inset-0 bg-aurora-legendary opacity-20 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-aurora-legendary opacity-25 pointer-events-none"></div>
+
+            {/* Holographic overlay */}
+            <div className="absolute inset-0 holographic-base opacity-10 pointer-events-none animate-holographic-shift"></div>
 
             {/* Enhanced animated background gradient */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent dark:from-blue-900/30"></div>
 
             {/* Enhanced floating gradient orbs */}
-            <div className="absolute top-20 left-[10%] w-80 h-80 bg-blue-400/25 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
-            <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-violet-400/25 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute top-1/2 left-[50%] w-60 h-60 bg-emerald-400/15 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-20 left-[10%] w-80 h-80 bg-gradient-to-br from-blue-400/25 to-cyan-400/20 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
+            <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-gradient-to-br from-violet-400/25 to-pink-400/20 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute top-1/2 left-[50%] w-60 h-60 bg-gradient-to-br from-emerald-400/15 to-teal-400/10 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
+
+            {/* Floating particles */}
+            {Array.from({ length: 12 }).map((_, i) => (
+                <div
+                    key={`particle-${i}`}
+                    className="absolute w-1 h-1 rounded-full bg-blue-400/30 dark:bg-blue-300/30 animate-float-up-particle shadow-glow-legendary-sm"
+                    style={{
+                        left: `${10 + Math.random() * 80}%`,
+                        bottom: `${Math.random() * 40}%`,
+                        animationDelay: `${Math.random() * 3}s`,
+                        animationDuration: `${4 + Math.random() * 2}s`,
+                    }}
+                ></div>
+            ))}
 
             {/* Enhanced dot pattern */}
             <div className="absolute inset-0 opacity-35 dark:opacity-15 pointer-events-none" style={{
@@ -62,6 +181,7 @@ export const TestimonialsSection: React.FC = () => {
                     <div className="text-center max-w-3xl mx-auto mb-24">
                         <span className="inline-block px-6 py-2 mb-8 rounded-2xl bg-gradient-to-r from-blue-100 to-violet-100 dark:from-blue-900/40 dark:to-violet-900/40 text-sm font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider border border-blue-200/60 dark:border-blue-800/40 shadow-legendary hover:shadow-glow-legendary-sm hover:shadow-blue-500/20 transition-all duration-500 hover:scale-105 relative overflow-hidden group">
                             <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+                            <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-500"></div>
                             <span className="relative z-10">{t('value_props.subtitle')}</span>
                         </span>
                         <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
@@ -73,43 +193,12 @@ export const TestimonialsSection: React.FC = () => {
                 <AnimatedSection stagger>
                     <div className="grid md:grid-cols-3 gap-10 stagger-container">
                         {features.map((feature, index) => (
-                            <div
+                            <FeatureCard
                                 key={index}
-                                className={`group relative bg-gradient-to-br ${feature.bgGradient} rounded-3xl p-10 shadow-legendary border-2 border-slate-200/60 dark:border-slate-700/50 ${feature.borderColor} hover:shadow-glow-legendary-lg hover:shadow-${feature.glow} hover:-translate-y-3 transition-all duration-500 overflow-hidden hover-3d-lift`}
-                                style={{ transitionDelay: `${index * 80}ms` }}
-                            >
-                                {/* Shimmer effect */}
-                                <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                                {/* Enhanced animated gradient accent */}
-                                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left shadow-glow-legendary-sm`}></div>
-
-                                {/* Enhanced animated background glow on hover */}
-                                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-15 transition-opacity duration-500 animate-gradient-deluxe`}></div>
-
-                                {/* Icon container with enhanced animated background */}
-                                <div className="relative">
-                                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 animate-glow-breathe`}></div>
-                                    <div className={`relative w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-xl transform group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 hover:shadow-glow-legendary-md`}>
-                                        <div className="group-hover:animate-icon-bounce">
-                                            {feature.icon}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h3 className="relative font-bold text-xl text-slate-900 dark:text-white mb-4 text-center group-hover:translate-x-1 transition-transform duration-300">
-                                    {t(feature.titleKey)}
-                                </h3>
-                                <p className="relative text-slate-600 dark:text-slate-400 text-center leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
-                                    {t(feature.descKey)}
-                                </p>
-
-                                {/* Enhanced corner accent */}
-                                <div className={`absolute top-4 right-4 w-3 h-3 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-legendary-sm`}></div>
-
-                                {/* Bottom accent */}
-                                <div className={`absolute bottom-4 left-4 w-3 h-3 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-legendary-sm`} style={{ transitionDelay: '0.2s' }}></div>
-                            </div>
+                                feature={feature}
+                                index={index}
+                                t={t}
+                            />
                         ))}
                     </div>
                 </AnimatedSection>

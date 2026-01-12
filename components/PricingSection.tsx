@@ -1,5 +1,5 @@
 
-import React, { useState, useContext, useMemo, useEffect } from 'react';
+import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
 import { CountdownTimer } from './CountdownTimer';
 import { OfferCalculator } from './OfferCalculator';
 import { TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon } from './Icons';
@@ -12,6 +12,206 @@ import { useCurrency } from '../contexts/CurrencyContext';
 interface PricingSectionProps {
   setCurrentPage: (page: string) => void;
 }
+
+// Transcendent 3D Tilt Card with insane effects
+const PricingCard: React.FC<{
+    pkg: any;
+    index: number;
+    onClick: (pkg: any) => void;
+    t: any;
+}> = ({ pkg, index, onClick, t }) => {
+    const [transform, setTransform] = useState('');
+    const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
+    const [isHovered, setIsHovered] = useState(false);
+    const [particles, setParticles] = useState<Array<{x: number; y: number; id: number}>>([]);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+
+        setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`);
+        setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
+    };
+
+    const handleMouseLeave = () => {
+        setTransform('perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)');
+        setIsHovered(false);
+    };
+
+    const handleMouseEnter = () => setIsHovered(true);
+
+    const handleClick = () => {
+        // Create particle burst
+        const newParticles = Array.from({ length: 12 }, (_, i) => ({
+            x: 50 + (Math.random() - 0.5) * 30,
+            y: 50 + (Math.random() - 0.5) * 30,
+            id: Date.now() + i,
+        }));
+        setParticles(newParticles);
+        setTimeout(() => setParticles([]), 1000);
+        onClick(pkg);
+    };
+
+    return (
+        <div
+            className="relative"
+            style={{ transform, transition: 'transform 0.1s ease-out' }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onMouseEnter={handleMouseEnter}
+        >
+            {/* 3D glow effect following cursor */}
+            <div
+                className="absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 pointer-events-none"
+                style={{
+                    background: `radial-gradient(400px circle at ${glowPos.x}% ${glowPos.y}%, ${pkg.popular ? 'rgba(59, 130, 246, 0.25), rgba(139, 92, 246, 0.2)' : 'rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1)'}, transparent 60%)`,
+                    opacity: isHovered ? 1 : 0,
+                }}
+            />
+
+            {/* Card */}
+            <div
+                className={`relative flex flex-col p-8 rounded-3xl transition-all duration-500 overflow-hidden cursor-pointer ${
+                    pkg.popular
+                    ? 'bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 text-white shadow-glow-legendary-lg lg:-translate-y-4 hover:shadow-glow-legendary-xl animate-glow-breathe btn-holographic'
+                    : index === 1
+                    ? 'bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl text-slate-900 dark:text-white border-2 border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/80 dark:hover:border-blue-600/80 hover:shadow-glow-legendary-md hover:shadow-blue-500/20'
+                    : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg text-slate-900 dark:text-white border-2 border-slate-200/60 dark:border-slate-700/60 hover:border-blue-300/70 dark:hover:border-blue-700/70 hover:shadow-legendary'
+                }`}
+                onClick={handleClick}
+            >
+                {/* Multi-layer shimmer effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                    <div className="absolute inset-0 shimmer-sweep"></div>
+                </div>
+
+                {/* Holographic overlay */}
+                {pkg.popular && (
+                    <div className="absolute inset-0 holographic-base opacity-30 rounded-3xl animate-holographic-shift"></div>
+                )}
+
+                {/* Animated gradient border for popular */}
+                {pkg.popular && (
+                    <>
+                        <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-violet-500 via-cyan-500 to-blue-500 rounded-3xl opacity-80 blur-md animate-gradient-flow"></div>
+                        <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-0 group-hover:opacity-60 blur-2xl transition-opacity duration-500"></div>
+                    </>
+                )}
+
+                {/* Enhanced glow effect for popular card */}
+                {pkg.popular && (
+                    <div className="absolute -inset-8 bg-gradient-to-r from-blue-500/40 via-violet-500/30 via-cyan-500/30 to-blue-500/40 rounded-3xl blur-3xl -z-10 animate-morph-deluxe shadow-glow-legendary-xl"></div>
+                )}
+
+                {/* Particle burst on click */}
+                {particles.map(p => (
+                    <div
+                        key={p.id}
+                        className="absolute w-2 h-2 rounded-full bg-blue-400/60 dark:bg-blue-300/60 animate-particle-burst pointer-events-none"
+                        style={{
+                            left: `${p.x}%`,
+                            top: `${p.y}%`,
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    ></div>
+                ))}
+
+                {/* Corner accents */}
+                {pkg.popular && (
+                    <>
+                        <span className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-blue-400/60 rounded-tl-3xl animate-pulse-slow"></span>
+                        <span className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-violet-400/60 rounded-tr-3xl animate-pulse-slow" style={{ animationDelay: '0.5s' }}></span>
+                        <span className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-cyan-400/60 rounded-bl-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></span>
+                        <span className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-blue-400/60 rounded-br-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></span>
+                    </>
+                )}
+
+                {/* Popular badge */}
+                {pkg.popular && (
+                     <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
+                        <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 text-white uppercase tracking-wider shadow-glow-legendary-md shadow-blue-500/40 relative overflow-hidden animate-gradient-deluxe">
+                            <span className="absolute inset-0 shimmer-sweep"></span>
+                            <span className="relative z-10 flex items-center gap-2">
+                                <svg className="w-4 h-4 animate-icon-bounce" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                {t('pricing.popular')}
+                            </span>
+                        </span>
+                    </div>
+                )}
+
+                <div className="mb-6 relative z-10">
+                    <h3 className={`text-xl font-bold font-serif ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'} group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-violet-600 transition-all duration-300`}>{pkg.name}</h3>
+                    <p className={`mt-3 text-sm leading-relaxed-plus ${pkg.popular ? 'text-slate-300' : 'text-slate-600 dark:text-slate-400'}`}>
+                        {pkg.description}
+                    </p>
+                </div>
+
+                <div className="flex items-baseline gap-1.5 mb-6 relative z-10">
+                    <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-600 animate-gradient-deluxe'}`}>
+                        {pkg.price}
+                    </span>
+                    <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
+                </div>
+
+                <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-gradient-to-r from-transparent via-blue-400/60 to-transparent' : 'bg-slate-100 dark:bg-slate-700/50'}`}></div>
+
+                <ul className="space-y-4 flex-grow mb-8 relative z-10">
+                    {pkg.features.map((feature: string, idx: number) => (
+                        <li key={feature} className="flex items-start gap-3 group/feature" style={{ animationDelay: `${idx * 50}ms` }}>
+                            <div className={`flex-shrink-0 w-6 h-6 rounded-xl flex items-center justify-center transition-all duration-300 group-hover/feature:scale-125 group-hover/feature:rotate-12 ${
+                                pkg.popular
+                                ? 'bg-blue-500/20 text-blue-400 shadow-lg shadow-blue-500/40 glow-blue'
+                                : 'bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400 shadow-sm'
+                            }`}>
+                                 <CheckBadgeIcon className="w-3.5 h-3.5" />
+                            </div>
+                            <span className={`text-sm leading-tight ${pkg.popular ? 'text-slate-200' : 'text-slate-700 dark:text-slate-300'} group-hover/feature:text-transparent group-hover/feature:bg-clip-text group-hover/feature:bg-gradient-to-r group-hover/feature:from-blue-600 group-hover/feature:to-violet-600 transition-all duration-300`}>{feature}</span>
+                        </li>
+                    ))}
+                </ul>
+
+                <button
+                    onClick={(e) => { e.stopPropagation(); onClick(pkg); }}
+                    className={`w-full py-4 rounded-xl text-sm font-bold transition-all relative z-10 overflow-hidden group/btn ${
+                        pkg.popular
+                        ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-xl hover:shadow-2xl hover:shadow-white/40 hover:-translate-y-1 btn-micro-press'
+                        : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500 shadow-xl hover:shadow-glow-legendary-md hover:shadow-blue-500/40 hover:-translate-y-1 btn-micro-press btn-legendary btn-holographic'
+                    }`}
+                >
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 opacity-0 group-hover/btn:opacity-60 transition-opacity duration-500 animate-gradient-deluxe"></span>
+                    <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/btn:opacity-50 transition-opacity"></span>
+                    <span className="absolute inset-0 hover-shine-effect"></span>
+                    {/* Corner accents */}
+                    {!pkg.popular && (
+                        <>
+                            <span className="absolute top-0 left-0 w-3 h-3 border-t border-l border-white/40 rounded-tl-lg"></span>
+                            <span className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-white/40 rounded-br-lg"></span>
+                        </>
+                    )}
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                        {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
+                        <svg className="w-4 h-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all duration-300 group-hover/btn:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </span>
+                </button>
+
+                {/* Trust footer */}
+                 <div className={`mt-6 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
+                    <ShieldCheckIcon className="w-3.5 h-3.5 glow-emerald" />
+                    <span>48h Lieferung • Garantie</span>
+                 </div>
+
+              </div>
+        </div>
+    );
+};
 
 export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }) => {
   const { user } = useContext(AuthContext);
@@ -214,112 +414,19 @@ ${message}
         <AnimatedSection stagger>
           <div className="mt-20 grid gap-8 lg:grid-cols-3 items-start">
             {displayedPackages.map((pkg, index) => (
-                <div
+                <PricingCard
                     key={pkg.name}
-                    className={`group relative flex flex-col p-8 rounded-3xl transition-all duration-500 overflow-hidden ${
-                        pkg.popular
-                        ? 'bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 text-white shadow-glow-legendary-lg lg:-translate-y-4 hover:-translate-y-6 animate-glow-breathe'
-                        : index === 1
-                        ? 'bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl text-slate-900 dark:text-white border-2 border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/80 dark:hover:border-blue-600/80 hover:shadow-glow-legendary-md hover:shadow-blue-500/15 hover:-translate-y-2'
-                        : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg text-slate-900 dark:text-white border-2 border-slate-200/60 dark:border-slate-700/60 hover:border-blue-300/70 dark:hover:border-blue-700/70 hover:shadow-legendary hover:-translate-y-1'
-                    }`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                >
-                    {/* Enhanced shimmer sweep effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                        <div className="absolute inset-0 shimmer-sweep"></div>
-                    </div>
-
-                    {/* Animated gradient border for popular */}
-                    {pkg.popular && (
-                        <>
-                            <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-90 blur-md group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
-                            <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-0 group-hover:opacity-50 blur-2xl transition-opacity duration-500"></div>
-                        </>
-                    )}
-
-                    {/* Enhanced glow effect for popular card */}
-                    {pkg.popular && (
-                        <div className="absolute -inset-6 bg-gradient-to-r from-blue-500/30 via-violet-500/20 to-indigo-500/30 rounded-3xl blur-3xl -z-10 animate-morph-deluxe shadow-glow-legendary-lg"></div>
-                    )}
-
-                    {/* Spotlight effect on hover */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-3xl"></div>
-                    </div>
-
-                    {pkg.popular && (
-                         <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
-                            <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-xl shadow-blue-500/40 relative overflow-hidden animate-shimmer-sweep">
-                                <span className="relative z-10 flex items-center gap-2">
-                                    <svg className="w-4 h-4 animate-icon-bounce" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    {t('pricing.popular')}
-                                </span>
-                            </span>
-                        </div>
-                    )}
-
-                    <div className="mb-6 relative z-10">
-                        <h3 className={`text-xl font-bold font-serif ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>{pkg.name}</h3>
-                        <p className={`mt-3 text-sm leading-relaxed-plus ${pkg.popular ? 'text-slate-300' : 'text-slate-600 dark:text-slate-400'}`}>
-                            {pkg.description}
-                        </p>
-                    </div>
-
-                    <div className="flex items-baseline gap-1.5 mb-6 relative z-10">
-                        <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 animate-gradient-shimmer'}`}>
-                            {pkg.price}
-                        </span>
-                        <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
-                    </div>
-
-                    <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-gradient-to-r from-transparent via-slate-600 to-transparent' : 'bg-slate-100 dark:bg-slate-700/50'}`}></div>
-
-                    <ul className="space-y-4 flex-grow mb-8 relative z-10">
-                        {pkg.features.map((feature: string, idx: number) => (
-                            <li key={feature} className="flex items-start gap-3 group/feature" style={{ animationDelay: `${idx * 50}ms` }}>
-                            <div className={`flex-shrink-0 w-6 h-6 rounded-xl flex items-center justify-center transition-all duration-300 group-hover/feature:scale-125 group-hover/feature:rotate-12 ${
-                                pkg.popular
-                                ? 'bg-blue-500/20 text-blue-400 shadow-lg shadow-blue-500/30'
-                                : 'bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400 shadow-sm'
-                            }`}>
-                                 <CheckBadgeIcon className="w-3.5 h-3.5" />
-                            </div>
-                            <span className={`text-sm leading-tight ${pkg.popular ? 'text-slate-200' : 'text-slate-700 dark:text-slate-300'}`}>{feature}</span>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <button
-                        onClick={() => handlePackageClick(pkg)}
-                        className={`w-full py-4 rounded-xl text-sm font-bold transition-all relative z-10 overflow-hidden group/btn ${
-                            pkg.popular
-                            ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-xl hover:shadow-2xl hover:shadow-white/30 hover:-translate-y-1 btn-micro-press'
-                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500 shadow-xl hover:shadow-glow-legendary-md hover:shadow-blue-500/40 hover:-translate-y-1 btn-micro-press btn-legendary'
-                        }`}
-                    >
-                        <span className="absolute inset-0 animate-gradient-deluxe opacity-0 group-hover/btn:opacity-50 transition-opacity"></span>
-                        <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/btn:opacity-40 transition-opacity"></span>
-                        <span className="relative z-10 flex items-center justify-center gap-2">
-                            {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
-                            <svg className="w-4 h-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all duration-300 group-hover/btn:scale-125" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                        </span>
-                    </button>
-
-                    {/* Trust footer */}
-                     <div className={`mt-6 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
-                        <ShieldCheckIcon className="w-3.5 h-3.5" />
-                        <span>48h Lieferung • Garantie</span>
-                     </div>
-
-                  </div>
+                    pkg={pkg}
+                    index={index}
+                    onClick={handlePackageClick}
+                    t={t}
+                />
             ))}
           </div>
-          <p className="text-center text-sm text-slate-500 mt-10 max-w-2xl mx-auto flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-300">
-             <ShieldCheckIcon className="w-4 h-4 text-emerald-500" />
-             Keine Kreditkarte erforderlich. Kostenloses Beratungsgesprach inklusive.
+          <p className="text-center text-sm text-slate-500 mt-10 max-w-2xl mx-auto flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden">
+            <span className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500"></span>
+             <ShieldCheckIcon className="w-4 h-4 text-emerald-500 glow-emerald relative z-10" />
+             <span className="relative z-10">Keine Kreditkarte erforderlich. Kostenloses Beratungsgesprach inklusive.</span>
           </p>
         </AnimatedSection>
 

@@ -12,7 +12,7 @@ const iconMap: { [key: string]: React.ReactNode } = {
   'SparklesIcon': <SparklesIcon className="w-6 h-6" />,
 };
 
-// World Class 3D Tilt Card with spotlight effect
+// Transcendent 3D Tilt Card with insane effects
 const TiltCard3D: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -22,6 +22,7 @@ const TiltCard3D: React.FC<{
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
   const [ripplePosition, setRipplePosition] = useState({ x: -100, y: -100 });
+  const [particles, setParticles] = useState<Array<{x: number; y: number; id: number}>>([]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -30,10 +31,10 @@ const TiltCard3D: React.FC<{
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -4;
-    const rotateY = ((x - centerX) / centerX) * 4;
+    const rotateX = ((y - centerY) / centerY) * -5;
+    const rotateY = ((x - centerX) / centerX) * 5;
 
-    setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`);
+    setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`);
     setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
     setRipplePosition({ x, y });
   };
@@ -44,24 +45,50 @@ const TiltCard3D: React.FC<{
     setIsHovered(false);
   };
 
-  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    // Create floating particles
+    const newParticles = Array.from({ length: 5 }, (_, i) => ({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        id: Date.now() + i,
+    }));
+    setParticles(newParticles);
+  };
 
   return (
     <div
-      className={`relative transition-transform duration-500 ease-out will-change-transform ${className}`}
+      className={`relative transition-transform duration-300 ease-out will-change-transform ${className}`}
       style={{ transform }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
     >
-      {/* Enhanced multi-layer spotlight effect that follows cursor */}
+      {/* Multi-layer spotlight effect that follows cursor */}
       <div
         className="absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 pointer-events-none"
         style={{
-          background: `radial-gradient(500px circle at ${glowPos.x}% ${glowPos.y}%, ${gradient || 'rgba(59, 130, 246, 0.18)'}, rgba(139, 92, 246, 0.08), transparent 60%)`,
+          background: `radial-gradient(500px circle at ${glowPos.x}% ${glowPos.y}%, ${gradient || 'rgba(59, 130, 246, 0.2)'}, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.05), transparent 60%)`,
           opacity: isHovered ? 1 : 0,
         }}
       />
+      {/* Holographic overlay */}
+      <div
+        className="absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 pointer-events-none holographic-base"
+        style={{ opacity: isHovered ? 0.2 : 0 }}
+      />
+      {/* Floating particles */}
+      {isHovered && particles.map((p, i) => (
+        <div
+            key={p.id}
+            className="absolute w-1 h-1 rounded-full bg-blue-400/60 dark:bg-blue-300/60 animate-float-up-particle shadow-glow-legendary-sm pointer-events-none"
+            style={{
+                left: `${p.x}%`,
+                bottom: '20%',
+                animationDelay: `${i * 0.1}s`,
+            }}
+        ></div>
+      ))}
       {/* Ripple effect */}
       {isHovered && (
         <div
@@ -147,20 +174,27 @@ export const ServicesGrid: React.FC = () => {
                 gradient={`rgba(${parseInt(service.hexFrom.slice(1, 3), 16)}, ${parseInt(service.hexFrom.slice(3, 5), 16)}, ${parseInt(service.hexFrom.slice(5, 7), 16)}, 0.18)`}
               >
                 <div
-                  className={`group relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl border-2 border-slate-200/70 dark:border-slate-700/60 rounded-3xl p-8 transition-all duration-500 hover:shadow-glow-legendary-md ${service.border} hover:-translate-y-3 hover:shadow-${service.color.split('-')[1]}-500/20 overflow-hidden hover-3d-lift`}
+                  className={`group relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl border-2 border-slate-200/70 dark:border-slate-700/60 rounded-3xl p-8 transition-all duration-500 hover:shadow-glow-legendary-md ${service.border} hover:-translate-y-3 overflow-hidden hover-3d-lift`}
                   style={{ transitionDelay: `${index * 60}ms` }}
                 >
-                  {/* Premium shimmer effect */}
+                  {/* Multi-layer premium shimmer effect */}
                   <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
+                  {/* Holographic overlay */}
+                  <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-15 rounded-3xl transition-opacity duration-500"></div>
+
                   {/* Enhanced gradient glow effect on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.15] transition-opacity duration-500 rounded-3xl animate-gradient-deluxe`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.2] transition-opacity duration-500 rounded-3xl animate-gradient-deluxe`}></div>
 
                   {/* Enhanced gradient line on top (appears on hover) */}
                   <div className={`absolute top-0 left-6 right-6 h-[3px] bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100 shadow-glow-legendary-sm`}></div>
 
                   {/* Enhanced floating accent orb */}
-                  <div className={`absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-15 transition-opacity duration-500 rounded-full blur-2xl shadow-glow-legendary-sm`}></div>
+                  <div className={`absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-full blur-2xl shadow-glow-legendary-sm animate-morph-blob`}></div>
+
+                  {/* Corner accents */}
+                  <span className={`absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 ${service.color.replace('text-', 'border-').replace('600', '400/0')} group-hover:${service.color.replace('text-', 'border-').replace('600', '400/60')} transition-all duration-500 rounded-tl-2xl`}></span>
+                  <span className={`absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 ${service.color.replace('text-', 'border-').replace('600', '400/0')} group-hover:${service.color.replace('text-', 'border-').replace('600', '400/60')} transition-all duration-500 rounded-br-2xl`}></span>
 
                   <div className="relative z-10 flex flex-col h-full">
                     <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 shadow-lg group-hover:shadow-xl group-hover:shadow-${service.color.split('-')[1]}-500/40 hover:shadow-glow-legendary-sm`}>
@@ -193,28 +227,31 @@ export const ServicesGrid: React.FC = () => {
                   </div>
 
                   {/* Enhanced decorative corner accent */}
-                  <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl ${service.gradient} opacity-0 group-hover:opacity-15 transition-opacity duration-500 rounded-tl-3xl`}></div>
+                  <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl ${service.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-tl-3xl`}></div>
                 </div>
               </TiltCard3D>
             ))}
 
-            {/* Enhanced Secondary CTA Card */}
+            {/* Transcendent Secondary CTA Card */}
             <TiltCard3D gradient="rgba(59, 130, 246, 0.3)">
-              <div className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700/50 dark:border-slate-600/50 rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:-translate-y-3 hover:shadow-glow-legendary-lg hover:shadow-blue-500/30 transition-all duration-500 overflow-hidden">
+              <div className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700/50 dark:border-slate-600/50 rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:-translate-y-3 hover:shadow-glow-legendary-lg hover:shadow-blue-500/30 transition-all duration-500 overflow-hidden btn-holographic">
                 {/* Premium shimmer effect */}
                 <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
+                {/* Holographic overlay */}
+                <div className="absolute inset-0 holographic-base opacity-40 rounded-3xl animate-holographic-shift"></div>
+
                 {/* Enhanced background decoration */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/25 via-violet-500/25 to-indigo-500/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/25 via-violet-500/25 to-cyan-500/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
 
                 {/* Enhanced animated gradient border effect */}
                 <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl blur-2xl animate-gradient-deluxe"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 via-cyan-500 to-blue-500 rounded-3xl blur-2xl animate-gradient-flow"></div>
                 </div>
 
                 {/* Enhanced floating orbs with glow */}
-                <div className="absolute top-4 left-4 w-3 h-3 bg-blue-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '0s' }}></div>
-                <div className="absolute bottom-4 right-4 w-3 h-3 bg-violet-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '2s' }}></div>
+                <div className="absolute top-4 left-4 w-3 h-3 bg-blue-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-blue" style={{ animationDelay: '0s' }}></div>
+                <div className="absolute bottom-4 right-4 w-3 h-3 bg-violet-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-violet" style={{ animationDelay: '2s' }}></div>
                 <div className="absolute top-1/2 right-4 w-2.5 h-2.5 bg-indigo-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '4s' }}></div>
                 <div className="absolute bottom-1/3 left-4 w-2 h-2 bg-pink-400 rounded-full animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
 

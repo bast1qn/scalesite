@@ -2796,6 +2796,1143 @@ input[type=range]::-webkit-slider-runnable-track {
   }
 }
 
+/* ==================== TRANSCENDENT ANIMATIONS ==================== */
+
+/* Holographic shimmer effect */
+@keyframes holographic-shimmer {
+  0% {
+    background-position: -200% center;
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  50% {
+    filter: hue-rotate(180deg) saturate(1.5);
+  }
+  100% {
+    background-position: 200% center;
+    filter: hue-rotate(360deg) saturate(1);
+  }
+}
+
+/* Cyberpunk glitch effect */
+@keyframes cyberpunk-glitch {
+  0%, 100% {
+    transform: translate(0) skew(0deg);
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    transform: translate(-3px, 2px) skew(10deg);
+    filter: hue-rotate(90deg);
+  }
+  40% {
+    transform: translate(3px, -2px) skew(-10deg);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translate(-2px, 1px) skew(5deg);
+    filter: hue-rotate(270deg);
+  }
+  80% {
+    transform: translate(2px, -1px) skew(-5deg);
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Electric arc effect */
+@keyframes electric-arc {
+  0%, 100% {
+    opacity: 0;
+    text-shadow: 0 0 5px currentColor;
+  }
+  10% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+  20% {
+    opacity: 0;
+    text-shadow: 0 0 5px currentColor;
+  }
+  30% {
+    opacity: 1;
+    text-shadow:
+      0 0 15px currentColor,
+      0 0 30px currentColor,
+      0 0 60px currentColor;
+  }
+}
+
+/* Plasma wave effect */
+@keyframes plasma-wave {
+  0%, 100% {
+    transform: translateY(0) scaleX(1);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    transform: translateY(-10px) scaleX(1.1);
+    filter: hue-rotate(90deg) brightness(1.2);
+  }
+  50% {
+    transform: translateY(0) scaleX(0.9);
+    filter: hue-rotate(180deg) brightness(1);
+  }
+  75% {
+    transform: translateY(10px) scaleX(1.05);
+    filter: hue-rotate(270deg) brightness(1.1);
+  }
+}
+
+/* Aurora borealis effect */
+@keyframes aurora-borealis {
+  0%, 100% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  25% {
+    background-position: 50% 0%, 0% 0%, 100% 100%;
+    filter: hue-rotate(30deg) saturate(1.2);
+  }
+  50% {
+    background-position: 100% 50%, 50% 50%, 0% 0%;
+    filter: hue-rotate(60deg) saturate(1);
+  }
+  75% {
+    background-position: 50% 100%, 100% 100%, 50% 0%;
+    filter: hue-rotate(30deg) saturate(1.2);
+  }
+}
+
+/* Liquid morph effect */
+@keyframes liquid-morph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: scale(1.05) rotate(5deg);
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+    transform: scale(0.95) rotate(-5deg);
+  }
+  75% {
+    border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
+    transform: scale(1.02) rotate(2deg);
+  }
+}
+
+/* 3D cube rotation */
+@keyframes cube-rotate-3d {
+  0% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: perspective(1000px) rotateX(90deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(90deg) rotateY(90deg);
+  }
+  75% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(90deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  }
+}
+
+/* Spotlight sweep */
+@keyframes spotlight-sweep {
+  0%, 100% {
+    background-position: -100% 50%;
+    opacity: 0;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+}
+
+/* Radial pulse */
+@keyframes radial-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 0.7;
+    box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Magnetic field effect */
+@keyframes magnetic-field {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(2px, -2px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-2px, 2px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-2px, -2px) rotate(1deg);
+  }
+}
+
+/* Parallax float */
+@keyframes parallax-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  20% {
+    transform: translateY(-10px) translateX(5px) scale(1.02);
+  }
+  40% {
+    transform: translateY(-5px) translateX(-5px) scale(0.98);
+  }
+  60% {
+    transform: translateY(-15px) translateX(3px) scale(1.01);
+  }
+  80% {
+    transform: translateY(-8px) translateX(-3px) scale(0.99);
+  }
+}
+
+/* Energy wave */
+@keyframes energy-wave {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+}
+
+/* Gradient rotate deluxe */
+@keyframes gradient-rotate-deluxe {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    background-position: 50% 100%;
+    filter: hue-rotate(90deg) brightness(1.1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(180deg) brightness(1);
+  }
+  75% {
+    background-position: 50% 0%;
+    filter: hue-rotate(270deg) brightness(1.1);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(360deg) brightness(1);
+  }
+}
+
+/* Text reveal by character */
+@keyframes text-reveal-char {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) rotateX(-90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+/* Strobe effect */
+@keyframes strobe {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Warp speed effect */
+@keyframes warp-speed {
+  0% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.5) translateZ(-100px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* Neon sign flicker */
+@keyframes neon-sign-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+  20%, 24%, 55% {
+    opacity: 0.5;
+    text-shadow: none;
+  }
+}
+
+/* Crystal refraction */
+@keyframes crystal-refraction {
+  0%, 100% {
+    filter: brightness(1) hue-rotate(0deg);
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    filter: brightness(1.2) hue-rotate(45deg);
+    transform: rotate(2deg) scale(1.02);
+  }
+  50% {
+    filter: brightness(0.9) hue-rotate(90deg);
+    transform: rotate(0deg) scale(0.98);
+  }
+  75% {
+    filter: brightness(1.1) hue-rotate(45deg);
+    transform: rotate(-2deg) scale(1.01);
+  }
+}
+
+/* Fire pulse */
+@keyframes fire-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(255, 100, 0, 0.5),
+      0 0 20px rgba(255, 50, 0, 0.3),
+      0 0 30px rgba(255, 0, 0, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(255, 150, 0, 0.8),
+      0 0 40px rgba(255, 100, 0, 0.5),
+      0 0 60px rgba(255, 50, 0, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+/* Ice crystal formation */
+@keyframes ice-crystal {
+  0%, 100% {
+    filter: brightness(1) blur(0px);
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    filter: brightness(1.3) blur(1px);
+    transform: scale(1.02) rotate(45deg);
+  }
+}
+
+/* Orbiting particles */
+@keyframes orbiting-particles {
+  0% {
+    transform: rotate(0deg) translateX(50px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+  }
+}
+
+/* DNA helix rotation */
+@keyframes dna-helix {
+  0% {
+    transform: perspective(1000px) rotateY(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+/* Sonic boom */
+@keyframes sonic-boom {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+    filter: blur(2px);
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+/* Quantum fluctuation */
+@keyframes quantum-fluctuation {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+  25% {
+    opacity: 0.8;
+    transform: scale(1.05) translate(2px, -2px);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(0.95) translate(-2px, 2px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: scale(1.02) translate(-1px, -1px);
+  }
+}
+
+/* Galaxy spiral */
+@keyframes galaxy-spiral {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* Meteor trail */
+@keyframes meteor-trail {
+  0% {
+    transform: translate(-100%, -100%) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(200%, 200%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Breathing border */
+@keyframes breathing-border {
+  0%, 100% {
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    border-color: rgba(139, 92, 246, 0.8);
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+  }
+}
+
+/* Polarized light */
+@keyframes polarized-light {
+  0%, 100% {
+    filter: brightness(1) contrast(1);
+    transform: rotate(0deg);
+  }
+  50% {
+    filter: brightness(1.3) contrast(1.2);
+    transform: rotate(90deg);
+  }
+}
+
+/* Magnetic attraction */
+@keyframes magnetic-attraction {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(3px, -3px) scale(1.02);
+  }
+  50% {
+    transform: translate(-3px, 3px) scale(0.98);
+  }
+  75% {
+    transform: translate(-2px, -2px) scale(1.01);
+  }
+}
+
+/* Spectrum shift */
+@keyframes spectrum-shift {
+  0% {
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  25% {
+    filter: hue-rotate(90deg) saturate(1.5);
+  }
+  50% {
+    filter: hue-rotate(180deg) saturate(1);
+  }
+  75% {
+    filter: hue-rotate(270deg) saturate(1.5);
+  }
+  100% {
+    filter: hue-rotate(360deg) saturate(1);
+  }
+}
+
+/* Vortex spin */
+@keyframes vortex-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Ethereal glow */
+@keyframes ethereal-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(255, 255, 255, 0.5),
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 0 30px rgba(139, 92, 246, 0.2);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(59, 130, 246, 0.5),
+      0 0 60px rgba(139, 92, 246, 0.3);
+    filter: brightness(1.2);
+  }
+}
+
+/* Hyperdrive */
+@keyframes hyperdrive {
+  0% {
+    transform: translateZ(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateZ(500px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Prismatic refraction */
+@keyframes prismatic-refraction {
+  0% {
+    filter: hue-rotate(0deg) saturate(1) brightness(1);
+    transform: rotate(0deg) scale(1);
+  }
+  33% {
+    filter: hue-rotate(120deg) saturate(1.5) brightness(1.2);
+    transform: rotate(120deg) scale(1.05);
+  }
+  66% {
+    filter: hue-rotate(240deg) saturate(1.5) brightness(1.2);
+    transform: rotate(240deg) scale(1.05);
+  }
+  100% {
+    filter: hue-rotate(360deg) saturate(1) brightness(1);
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* Digital rain */
+@keyframes digital-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Pulse wave ring */
+@keyframes pulse-wave-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    box-shadow: 0 0 0 40px rgba(59, 130, 246, 0);
+  }
+}
+
+/* Zen garden ripple */
+@keyframes zen-ripple {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+    border-width: 4px;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+    border-width: 0px;
+  }
+}
+
+/* Tidal wave */
+@keyframes tidal-wave {
+  0%, 100% {
+    transform: translateX(-100%) skewX(-10deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%) skewX(-10deg);
+    opacity: 1;
+  }
+}
+
+/* Aurora pulse */
+@keyframes aurora-pulse {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: brightness(1) saturate(1);
+  }
+  33% {
+    background-position: 50% 100%;
+    filter: brightness(1.2) saturate(1.3);
+  }
+  66% {
+    background-position: 100% 50%;
+    filter: brightness(0.9) saturate(1.2);
+  }
+}
+
+/* Stardust */
+@keyframes stardust {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+/* Cosmic shimmer */
+@keyframes cosmic-shimmer {
+  0% {
+    background-position: -300% center;
+    filter: brightness(1) hue-rotate(0deg);
+  }
+  50% {
+    filter: brightness(1.5) hue-rotate(180deg);
+  }
+  100% {
+    background-position: 300% center;
+    filter: brightness(1) hue-rotate(360deg);
+  }
+}
+
+/* Neon tube */
+@keyframes neon-tube {
+  0%, 100% {
+    text-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor,
+      0 0 80px currentColor;
+    filter: brightness(1.3);
+  }
+}
+
+/* Floating embers */
+@keyframes floating-embers {
+  0% {
+    transform: translateY(100vh) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(1) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Laser scan */
+@keyframes laser-scan {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Hologram glitch */
+@keyframes hologram-glitch {
+  0%, 100% {
+    clip-path: inset(0 0 95% 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(40% 0 30% 0);
+    transform: translate(-5px, 5px);
+  }
+  40% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translate(5px, -5px);
+  }
+  60% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(-3px, 3px);
+  }
+  80% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(3px, -3px);
+  }
+}
+
+/* Energy field */
+@keyframes energy-field {
+  0%, 100% {
+    border-width: 2px;
+    opacity: 0.8;
+    filter: brightness(1);
+  }
+  50% {
+    border-width: 4px;
+    opacity: 1;
+    filter: brightness(1.5);
+  }
+}
+
+/* Quantum leap */
+@keyframes quantum-leap {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Solar flare */
+@keyframes solar-flare {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(255, 200, 0, 0.5),
+      0 0 40px rgba(255, 150, 0, 0.3),
+      0 0 60px rgba(255, 100, 0, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(255, 200, 0, 0.8),
+      0 0 80px rgba(255, 150, 0, 0.5),
+      0 0 120px rgba(255, 100, 0, 0.3);
+    transform: scale(1.1);
+  }
+}
+
+/* Aurora waves */
+@keyframes aurora-waves {
+  0%, 100% {
+    background-position: 0% 0%, 100% 100%, 50% 50%;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    background-position: 100% 0%, 0% 100%, 50% 0%;
+    filter: hue-rotate(30deg);
+  }
+  50% {
+    background-position: 100% 100%, 0% 0%, 0% 50%;
+    filter: hue-rotate(60deg);
+  }
+  75% {
+    background-position: 0% 100%, 100% 0%, 100% 50%;
+    filter: hue-rotate(30deg);
+  }
+}
+
+/* Prism dispersion */
+@keyframes prism-dispersion {
+  0% {
+    filter: hue-rotate(0deg) brightness(1);
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    filter: hue-rotate(90deg) brightness(1.3);
+    transform: rotate(5deg) scale(1.05);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(0.9);
+    transform: rotate(0deg) scale(0.95);
+  }
+  75% {
+    filter: hue-rotate(270deg) brightness(1.2);
+    transform: rotate(-5deg) scale(1.02);
+  }
+  100% {
+    filter: hue-rotate(360deg) brightness(1);
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Electric surge */
+@keyframes electric-surge {
+  0%, 100% {
+    opacity: 1;
+    transform: scaleX(1);
+    filter: brightness(1);
+  }
+  10% {
+    opacity: 0.8;
+    transform: scaleX(1.05);
+    filter: brightness(1.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scaleX(0.95);
+    filter: brightness(0.9);
+  }
+  30% {
+    opacity: 0.9;
+    transform: scaleX(1.02);
+    filter: brightness(1.3);
+  }
+}
+
+/* Celestial orbit */
+@keyframes celestial-orbit {
+  0% {
+    transform: rotate(0deg) translateX(60px) rotate(0deg);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+  25% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  }
+  75% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.7);
+  }
+  100% {
+    transform: rotate(360deg) translateX(60px) rotate(-360deg);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+}
+
+/* Plasma discharge */
+@keyframes plasma-discharge {
+  0%, 100% {
+    filter: contrast(1) brightness(1) saturate(1);
+    text-shadow: 0 0 10px currentColor;
+  }
+  25% {
+    filter: contrast(1.2) brightness(1.3) saturate(1.5);
+    text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+  }
+  50% {
+    filter: contrast(0.9) brightness(0.9) saturate(0.8);
+    text-shadow: 0 0 5px currentColor;
+  }
+  75% {
+    filter: contrast(1.1) brightness(1.2) saturate(1.3);
+    text-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  }
+}
+
+/* Spectral analysis */
+@keyframes spectral-analysis {
+  0%, 100% {
+    transform: scaleY(1);
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    transform: scaleY(1.5);
+    background-position: 50% 100%;
+    filter: hue-rotate(45deg);
+  }
+  50% {
+    transform: scaleY(0.5);
+    background-position: 100% 50%;
+    filter: hue-rotate(90deg);
+  }
+  75% {
+    transform: scaleY(1.3);
+    background-position: 50% 0%;
+    filter: hue-rotate(45deg);
+  }
+}
+
+/* Magnetic resonance */
+@keyframes magnetic-resonance {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+    border-color: rgba(139, 92, 246, 0.8);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.9);
+    border-color: rgba(99, 102, 241, 0.6);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.05);
+    border-color: rgba(168, 85, 247, 0.7);
+  }
+}
+
+/* Nebula formation */
+@keyframes nebula-formation {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1) rotate(0deg);
+    filter: blur(2px) hue-rotate(0deg);
+  }
+  33% {
+    opacity: 0.8;
+    transform: scale(1.1) rotate(120deg);
+    filter: blur(3px) hue-rotate(45deg);
+  }
+  66% {
+    opacity: 0.7;
+    transform: scale(0.9) rotate(240deg);
+    filter: blur(1px) hue-rotate(90deg);
+  }
+}
+
+/* Quantum entanglement */
+@keyframes quantum-entanglement {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.2);
+    opacity: 0.7;
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.8);
+    opacity: 1;
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.1);
+    opacity: 0.8;
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* Aurora curtain */
+@keyframes aurora-curtain {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  25% {
+    transform: translateY(-20px) scaleY(1.2);
+    background-position: 50% 100%;
+    filter: hue-rotate(30deg) saturate(1.3);
+  }
+  50% {
+    transform: translateY(0) scaleY(0.8);
+    background-position: 100% 50%;
+    filter: hue-rotate(60deg) saturate(1);
+  }
+  75% {
+    transform: translateY(20px) scaleY(1.1);
+    background-position: 50% 0%;
+    filter: hue-rotate(30deg) saturate(1.2);
+  }
+}
+
+/* Photon stream */
+@keyframes photon-stream {
+  0% {
+    transform: translateX(-100%) translateY(0);
+    opacity: 0;
+    filter: hue-rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(0%) translateY(-10px);
+    filter: hue-rotate(180deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) translateY(0);
+    opacity: 0;
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Gravitational lens */
+@keyframes gravitational-lens {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1) blur(0px);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+    filter: brightness(1.3) blur(1px);
+  }
+}
+
+/* Stellar nursery */
+@keyframes stellar-nursery {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(0.8);
+    filter: blur(2px) hue-rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+    filter: blur(0px) hue-rotate(45deg);
+  }
+}
+
+/* Supernova explosion */
+@keyframes supernova-explosion {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 1);
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+    box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+    box-shadow: 0 0 100px 50px rgba(255, 255, 255, 0);
+  }
+}
+
+/* Dark matter flow */
+@keyframes dark-matter-flow {
+  0%, 100% {
+    transform: translateX(-100%) skewX(-5deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(100%) skewX(-5deg);
+    opacity: 0.6;
+  }
+}
+
+/* Cosmic radiation */
+@keyframes cosmic-radiation {
+  0%, 100% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    background-position: 100% 0%;
+    filter: hue-rotate(90deg) brightness(1.2);
+  }
+  50% {
+    background-position: 100% 100%;
+    filter: hue-rotate(180deg) brightness(1);
+  }
+  75% {
+    background-position: 0% 100%;
+    filter: hue-rotate(270deg) brightness(1.2);
+  }
+}
+
+/* Quantum tunnel */
+@keyframes quantum-tunnel {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0;
+  }
+  50% {
+    clip-path: circle(50% at 50% 50%);
+    opacity: 1;
+  }
+  100% {
+    clip-path: circle(100% at 50% 50%);
+    opacity: 1;
+  }
+}
+
 /* ==================== WORLD CLASS UTILITY CLASSES ==================== */
 
 /* Cascade animation */
@@ -4727,4 +5864,568 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .pointer-events-auto-premium {
   pointer-events: auto;
+}
+
+/* ==================== TRANSCENDENT UTILITY CLASSES ==================== */
+
+/* Holographic Effects */
+.holographic-base {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 0, 0.1) 0%,
+    rgba(255, 154, 0, 0.1) 10%,
+    rgba(208, 222, 33, 0.1) 20%,
+    rgba(79, 220, 74, 0.1) 30%,
+    rgba(63, 218, 216, 0.1) 40%,
+    rgba(47, 201, 226, 0.1) 50%,
+    rgba(28, 127, 238, 0.1) 60%,
+    rgba(95, 21, 242, 0.1) 70%,
+    rgba(186, 12, 248, 0.1) 80%,
+    rgba(251, 7, 217, 0.1) 90%,
+    rgba(255, 0, 0, 0.1) 100%
+  );
+  background-size: 400% 400%;
+  animation: holographic-shimmer 15s ease infinite;
+}
+
+.holographic-text {
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff9a00,
+    #d0de21,
+    #4fdc4a,
+    #3fdad4,
+    #2fc9e2,
+    #1c7fee,
+    #5f15f2,
+    #ba0cf8,
+    #fb07d3,
+    #ff0000
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: holographic-shimmer 8s linear infinite;
+}
+
+/* Cyberpunk Effects */
+.cyberpunk-glow {
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 10px #0ff,
+    0 0 20px #0ff,
+    0 0 40px #0ff;
+  animation: neon-sign-flicker 3s ease-in-out infinite;
+}
+
+.cyberpunk-border-animated {
+  position: relative;
+  border: 2px solid #0ff;
+  box-shadow:
+    0 0 5px #0ff,
+    inset 0 0 5px rgba(0, 255, 255, 0.2);
+  animation: breathing-border 3s ease-in-out infinite;
+}
+
+.cyberpunk-border-animated::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(45deg, #0ff, #f0f, #0ff);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cyberpunk-border-animated:hover::before {
+  opacity: 1;
+  animation: cyberpunk-glitch 0.5s ease infinite;
+}
+
+/* 3D Perspective Effects */
+.perspective-500 {
+  perspective: 500px;
+}
+
+.perspective-1500 {
+  perspective: 1500px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Transcendent Glow Effects */
+.glow-cyan {
+  box-shadow:
+    0 0 10px rgba(6, 182, 212, 0.5),
+    0 0 20px rgba(6, 182, 212, 0.3),
+    0 0 30px rgba(6, 182, 212, 0.2);
+}
+
+.glow-rose {
+  box-shadow:
+    0 0 10px rgba(244, 63, 94, 0.5),
+    0 0 20px rgba(244, 63, 94, 0.3),
+    0 0 30px rgba(244, 63, 94, 0.2);
+}
+
+.glow-amber {
+  box-shadow:
+    0 0 10px rgba(245, 158, 11, 0.5),
+    0 0 20px rgba(245, 158, 11, 0.3),
+    0 0 30px rgba(245, 158, 11, 0.2);
+}
+
+.glow-lime {
+  box-shadow:
+    0 0 10px rgba(132, 204, 22, 0.5),
+    0 0 20px rgba(132, 204, 22, 0.3),
+    0 0 30px rgba(132, 204, 22, 0.2);
+}
+
+.glow-fuchsia {
+  box-shadow:
+    0 0 10px rgba(217, 70, 239, 0.5),
+    0 0 20px rgba(217, 70, 239, 0.3),
+    0 0 30px rgba(217, 70, 239, 0.2);
+}
+
+/* Text Glow Variations */
+.text-glow-cyan {
+  text-shadow:
+    0 0 10px rgba(6, 182, 212, 0.8),
+    0 0 20px rgba(6, 182, 212, 0.5),
+    0 0 30px rgba(6, 182, 212, 0.3);
+}
+
+.text-glow-rose {
+  text-shadow:
+    0 0 10px rgba(244, 63, 94, 0.8),
+    0 0 20px rgba(244, 63, 94, 0.5),
+    0 0 30px rgba(244, 63, 94, 0.3);
+}
+
+.text-glow-amber {
+  text-shadow:
+    0 0 10px rgba(245, 158, 11, 0.8),
+    0 0 20px rgba(245, 158, 11, 0.5),
+    0 0 30px rgba(245, 158, 11, 0.3);
+}
+
+/* Transcendent Gradient Backgrounds */
+.bg-gradient-holographic {
+  background: linear-gradient(
+    135deg,
+    #3b82f6 0%,
+    #8b5cf6 25%,
+    #ec4899 50%,
+    #f59e0b 75%,
+    #10b981 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-rotate-deluxe 15s ease infinite;
+}
+
+.bg-gradient-cyberpunk {
+  background: linear-gradient(
+    90deg,
+    #0ff 0%,
+    #f0f 25%,
+    #0ff 50%,
+    #f0f 75%,
+    #0ff 100%
+  );
+  background-size: 200% 100%;
+  animation: laser-scan 3s linear infinite;
+}
+
+/* Transcendent Shimmer Effects */
+.shimmer-diagonal {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 70%
+  );
+  background-size: 200% 200%;
+  animation: shimmer-diagonal 3s ease infinite;
+}
+
+.shimmer-radial {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.5) 0%,
+    transparent 70%
+  );
+  animation: shimmer-radial 2s ease infinite;
+}
+
+.shimmer-holographic {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.3) 40%,
+    rgba(59, 130, 246, 0.3) 50%,
+    rgba(139, 92, 246, 0.3) 60%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: cosmic-shimmer 4s ease infinite;
+}
+
+/* Transcendent Border Effects */
+.border-glow-animated {
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.border-glow-animated::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #8b5cf6,
+    #3b82f6
+  );
+  background-size: 300% 100%;
+  border-radius: inherit;
+  z-index: -1;
+  animation: gradient-shift 8s linear infinite;
+}
+
+.border-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Transcendent Glass Effects */
+.glass-holographic {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 50%,
+    rgba(236, 72, 153, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-cyberpunk {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(255, 0, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* Transcendent Button Effects */
+.btn-holographic {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.2),
+    rgba(139, 92, 246, 0.2),
+    rgba(236, 72, 153, 0.2)
+  );
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.btn-holographic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-holographic:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-holographic:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 10px 30px rgba(59, 130, 246, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.btn-neon-pulse {
+  position: relative;
+  background: transparent;
+  border: 2px solid #0ff;
+  color: #0ff;
+  text-shadow:
+    0 0 10px currentColor,
+    0 0 20px currentColor;
+  box-shadow:
+    0 0 10px currentColor,
+    inset 0 0 10px currentColor;
+  animation: neon-tube 2s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.btn-neon-pulse:hover {
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow:
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    inset 0 0 20px currentColor;
+}
+
+/* Transcendent Card Effects */
+.card-holographic {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.card-holographic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 50%,
+    rgba(236, 72, 153, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card-holographic:hover::before {
+  opacity: 1;
+}
+
+.card-holographic:hover {
+  transform: translateY(-8px) rotateX(5deg);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(59, 130, 246, 0.1) inset;
+}
+
+/* Transcendent Hover Effects */
+.hover-glow-cyan:hover {
+  box-shadow:
+    0 0 20px rgba(6, 182, 212, 0.5),
+    0 0 40px rgba(6, 182, 212, 0.3);
+}
+
+.hover-glow-rose:hover {
+  box-shadow:
+    0 0 20px rgba(244, 63, 94, 0.5),
+    0 0 40px rgba(244, 63, 94, 0.3);
+}
+
+.hover-shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-shine-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.hover-shine-effect:hover::before {
+  left: 100%;
+}
+
+/* Transcendent Particle Effects */
+.particle-system {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle-glowing {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 1) 0%,
+    rgba(139, 92, 246, 0) 70%
+  );
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.8);
+  animation: energy-wave 3s ease-in-out infinite;
+}
+
+/* Transcendent Text Effects */
+.text-holographic-animated {
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #f59e0b,
+    #10b981,
+    #06b6d4,
+    #3b82f6
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: holographic-shimmer 5s linear infinite;
+}
+
+/* Transcendent Animation Utilities */
+.animate-holographic-shimmer {
+  animation: holographic-shimmer 10s ease infinite;
+}
+
+.animate-cyberpunk-glitch {
+  animation: cyberpunk-glitch 0.5s ease infinite;
+}
+
+.animate-neon-flicker {
+  animation: neon-sign-flicker 3s ease-in-out infinite;
+}
+
+.animate-plasma-wave {
+  animation: plasma-wave 8s ease-in-out infinite;
+}
+
+.animate-aurora-borealis {
+  animation: aurora-borealis 20s ease infinite;
+}
+
+.animate-quantum-fluctuation {
+  animation: quantum-fluctuation 5s ease-in-out infinite;
+}
+
+.animate-stardust {
+  animation: stardust 4s ease-in-out infinite;
+}
+
+.animate-cosmic-shimmer {
+  animation: cosmic-shimmer 6s linear infinite;
+}
+
+.animate-photon-stream {
+  animation: photon-stream 8s linear infinite;
+}
+
+.animate-magnetic-field {
+  animation: magnetic-field 3s ease-in-out infinite;
+}
+
+/* Transcendent Scrollbar Styles */
+.scrollbar-holographic::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-holographic::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.1);
+}
+
+.scrollbar-holographic::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899
+  );
+  border-radius: 10px;
+}
+
+/* Transcendent Focus Styles */
+.focus-glow-animated:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(59, 130, 246, 0.5),
+    0 0 20px rgba(59, 130, 246, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.2);
+  animation: radial-pulse 2s ease-in-out infinite;
+}
+
+.focus-cyberpunk:focus {
+  outline: none;
+  border-color: #0ff;
+  box-shadow:
+    0 0 10px #0ff,
+    0 0 20px rgba(0, 255, 255, 0.5),
+    inset 0 0 10px rgba(0, 255, 255, 0.2);
 }

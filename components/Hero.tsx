@@ -14,14 +14,14 @@ const guarantees = [
 ];
 
 // ===========================================
-// WORLD CLASS FLOATING PARTICLE SYSTEM
+// TRANSCENDENT FLOATING PARTICLE SYSTEM
 // ===========================================
 const FloatingParticle: React.FC<{
   delay: number;
   duration: number;
   left: string;
   size: string;
-  variant?: 'orb' | 'sparkle' | 'glow' | 'ring' | 'diamond' | 'star' | 'cross';
+  variant?: 'orb' | 'sparkle' | 'glow' | 'ring' | 'diamond' | 'star' | 'cross' | 'hexagon' | 'triangle' | 'pulse';
   color?: string;
 }> = ({ delay, duration, left, size, variant = 'orb', color }) => {
   const getParticleStyle = () => {
@@ -58,6 +58,21 @@ const FloatingParticle: React.FC<{
           background: color || 'rgba(59, 130, 246, 0.5)',
           clipPath: 'polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%)',
         };
+      case 'hexagon':
+        return {
+          background: color || 'rgba(16, 185, 129, 0.5)',
+          clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+        };
+      case 'triangle':
+        return {
+          background: color || 'rgba(245, 158, 11, 0.5)',
+          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+        };
+      case 'pulse':
+        return {
+          background: `radial-gradient(circle, ${color || '#ec4899'} 0%, transparent 70%)`,
+          animation: 'radial-pulse 2s ease-in-out infinite',
+        };
       default:
         return {
           background: `linear-gradient(135deg, ${color || 'rgba(59, 130, 246, 0.5)'} 0%, ${color || 'rgba(139, 92, 246, 0.3)'} 100%)`,
@@ -83,7 +98,7 @@ const FloatingParticle: React.FC<{
 };
 
 // ===========================================
-// WORLD CLASS 3D TILT CARD WITH SPOTLIGHT
+// TRANSCENDENT 3D TILT CARD WITH SPOTLIGHT
 // ===========================================
 const TiltCard: React.FC<{
   children: React.ReactNode;
@@ -163,7 +178,7 @@ const TiltCard: React.FC<{
 };
 
 // ===========================================
-// WORLD CLASS MAGNETIC BUTTON
+// TRANSCENDENT MAGNETIC BUTTON
 // ===========================================
 const MagneticButton: React.FC<{
   children: React.ReactNode;
@@ -307,11 +322,11 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
   return (
     <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
       {/* =========================================== */}
-      {/* WORLD CLASS BACKGROUND LAYERS */}
+      {/* TRANSCENDENT BACKGROUND LAYERS */}
       {/* =========================================== */}
 
       {/* Noise texture overlay for depth */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
+      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg noise-bg-animated"></div>
 
       {/* Base gradient with enhanced colors */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/70 dark:from-slate-950 dark:via-slate-900 dark:to-violet-950/40"></div>
@@ -319,10 +334,14 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
       {/* Animated gradient mesh with aurora effect */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/12 via-violet-500/10 to-indigo-500/8 dark:from-blue-500/16 dark:via-violet-500/12 dark:to-indigo-500/10 animate-aurora-deluxe opacity-70"></div>
+        {/* Holographic overlay */}
+        <div className="absolute inset-0 holographic-base opacity-30"></div>
+        {/* Aurora waves */}
+        <div className="absolute inset-0 animate-aurora-waves opacity-20"></div>
       </div>
 
       {/* =========================================== */}
-      {/* LEGENDARY GRADIENT ORBS WITH PHYSICS */}
+      {/* TRANSCENDENT GRADIENT ORBS WITH PHYSICS */}
       {/* =========================================== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Primary orb - massive and dramatic */}
@@ -385,10 +404,27 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
             animationDelay: '4s',
           }}
         ></div>
+
+        {/* Extra cosmic orbs */}
+        <div
+          className="absolute top-[75%] left-[40%] w-[250px] h-[250px] bg-gradient-to-br from-cyan-400/10 to-blue-400/8 rounded-full blur-3xl will-change-transform animate-float-deluxe animate-stardust"
+          style={{
+            transform: `translate(${mousePosition.x * -0.3 + scrollY * 0.03}px, ${mousePosition.y * -0.3 + scrollY * 0.015}px)`,
+            animationDelay: '0.5s',
+          }}
+        ></div>
+
+        <div
+          className="absolute top-[35%] right-[35%] w-[200px] h-[200px] bg-gradient-to-br from-violet-400/12 to-purple-400/10 rounded-full blur-3xl will-change-transform animate-magnetic-field glow-violet"
+          style={{
+            transform: `translate(${mousePosition.x * 0.25 - scrollY * 0.025}px, ${mousePosition.y * 0.25 - scrollY * 0.012}px)`,
+            animationDelay: '2.5s',
+          }}
+        ></div>
       </div>
 
       {/* =========================================== */}
-      {/* LEGENDARY PARTICLE SYSTEM */}
+      {/* TRANSCENDENT PARTICLE SYSTEM */}
       {/* =========================================== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Layer 1 - Enhanced orbs with glow */}
@@ -428,10 +464,25 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
         <FloatingParticle delay={6.8} duration={24} left="77%" size="5px" variant="orb" color="rgba(99, 102, 241, 0.7)" />
         <FloatingParticle delay={1.5} duration={22} left="95%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.8)" />
         <FloatingParticle delay={3.3} duration={26} left="38%" size="4px" variant="sparkle" color="rgba(16, 185, 129, 0.6)" />
+
+        {/* Layer 6 - Transcendent extra particles */}
+        <FloatingParticle delay={0.2} duration={30} left="5%" size="6px" variant="hexagon" color="rgba(16, 185, 129, 0.8)" />
+        <FloatingParticle delay={1.4} duration={25} left="15%" size="5px" variant="triangle" color="rgba(245, 158, 11, 0.7)" />
+        <FloatingParticle delay={2.8} duration={22} left="25%" size="7px" variant="pulse" color="rgba(236, 72, 153, 0.6)" />
+        <FloatingParticle delay={4.1} duration={28} left="45%" size="4px" variant="hexagon" color="rgba(59, 130, 246, 0.7)" />
+        <FloatingParticle delay={5.3} duration={24} left="65%" size="5px" variant="triangle" color="rgba(139, 92, 246, 0.8)" />
+        <FloatingParticle delay={6.7} duration={26} left="85%" size="6px" variant="pulse" color="rgba(14, 165, 233, 0.7)" />
+
+        {/* Layer 7 - Glowing pulse particles */}
+        <FloatingParticle delay={0.6} duration={20} left="10%" size="8px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={1.8} duration={22} left="30%" size="6px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={3.1} duration={24} left="50%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={4.4} duration={20} left="70%" size="5px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={5.7} duration={26} left="90%" size="9px" variant="star" color="rgba(245, 158, 11, 0.6)" />
       </div>
 
       {/* =========================================== */}
-      {/* LEGENDARY ENHANCED GRID PATTERN */}
+      {/* TRANSCENDENT GRID PATTERN */}
       {/* =========================================== */}
       <div
         className="absolute inset-0 opacity-[0.035] dark:opacity-[0.06]"
@@ -445,8 +496,11 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
       {/* Legendary animated mesh gradient overlay */}
       <div className="absolute inset-0 bg-gradient-animated-legendary opacity-20 pointer-events-none"></div>
 
+      {/* Holographic wave overlay */}
+      <div className="absolute inset-0 animate-aurora-curtain opacity-10 pointer-events-none"></div>
+
       {/* =========================================== */}
-      {/* LEGENDARY VIGNETTE EFFECT */}
+      {/* TRANSCENDENT VIGNETTE EFFECT */}
       {/* =========================================== */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(255,255,255,0.5)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(15,23,42,0.6)_100%)]"></div>
 
@@ -466,31 +520,42 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
         ></div>
       </div>
 
+      {/* Extra light rays with different angles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+        <div
+          className="absolute top-0 left-1/3 w-[200%] h-full bg-gradient-to-r from-transparent via-violet-500/5 to-transparent transform skew-x-12 animate-gradient-deluxe"
+          style={{ animationDuration: '25s', animationDelay: '5s' }}
+        ></div>
+      </div>
+
       {/* =========================================== */}
-      {/* WORLD CLASS CONTENT */}
+      {/* TRANSCENDENT CONTENT */}
       {/* =========================================== */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        {/* Badge with premium effects */}
+        {/* Badge with transcendent effects */}
         <TiltCard className="inline-block mb-16 animate-zoom-fade" glowColor="rgba(16, 185, 129, 0.15)">
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/70 dark:border-slate-700/60 shadow-2xl shadow-slate-200/60 dark:shadow-black/40 hover:shadow-3xl hover:shadow-emerald-500/15 dark:hover:shadow-emerald-500/10 transition-all duration-500 group cursor-default overflow-hidden">
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/70 dark:border-slate-700/60 shadow-2xl shadow-slate-200/60 dark:shadow-black/40 hover:shadow-3xl hover:shadow-emerald-500/15 dark:hover:shadow-emerald-500/10 transition-all duration-500 group cursor-default overflow-hidden holographic-base">
             {/* Shimmer effect */}
             <div className="absolute inset-0 shimmer-effect opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+            {/* Shimmer holographic */}
+            <div className="absolute inset-0 shimmer-holographic opacity-0 group-hover:opacity-50 transition-opacity duration-700"></div>
 
             {/* Animated gradient border */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 animate-pulse shadow-lg shadow-emerald-500/50 animate-breathing-glow"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 animate-pulse shadow-lg shadow-emerald-500/50 animate-breathing-glow relative z-10"></div>
             <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 relative z-10 tracking-wide">
               {t('hero.guarantee_badge')}
             </span>
           </div>
         </TiltCard>
 
-        {/* World class headline */}
+        {/* Transcendent headline */}
         <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.05] mb-8 animate-zoom-fade" style={{ animationDelay: '0.1s', letterSpacing: '-0.025em' }}>
           {t('hero.title_prefix')}{' '}
           <span className="relative inline-block px-2">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-deluxe drop-shadow-lg text-glow-md">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-deluxe drop-shadow-lg text-glow-md holographic-text">
               {t('hero.title_highlight')}
             </span>
             {/* Animated underline with glow */}
@@ -526,13 +591,13 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
           {t('hero.subtitle')}
         </p>
 
-        {/* Legendary CTAs */}
+        {/* Transcendent CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20 animate-zoom-fade" style={{ animationDelay: '0.3s' }}>
-          <MagneticButton onClick={() => setCurrentPage('preise')} variant="primary" className="text-lg btn-legendary">
+          <MagneticButton onClick={() => setCurrentPage('preise')} variant="primary" className="text-lg btn-legendary btn-holographic">
             <span>Projekt starten</span>
             <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-125" />
           </MagneticButton>
-          <MagneticButton onClick={() => setCurrentPage('projekte')} variant="secondary" className="group text-lg px-10 py-5 hover:shadow-legendary-lg hover:shadow-blue-500/20">
+          <MagneticButton onClick={() => setCurrentPage('projekte')} variant="secondary" className="group text-lg px-10 py-5 hover:shadow-legendary-lg hover:shadow-blue-500/20 hover-shine-effect">
             <span className="flex items-center gap-3">
               Beispiele ansehen
               <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
@@ -540,13 +605,19 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
           </MagneticButton>
         </div>
 
-        {/* Enhanced guarantees with premium styling */}
+        {/* Enhanced guarantees with transcendent styling */}
         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 text-sm text-slate-600 dark:text-slate-500 animate-zoom-fade" style={{ animationDelay: '0.4s' }}>
           {guarantees.map((g, i) => (
             <TiltCard key={i} className="inline-block" intensity={12} glowColor="rgba(59, 130, 246, 0.2)">
-              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl hover:bg-slate-100/95 dark:hover:bg-slate-700/85 transition-all duration-500 cursor-default border-2 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-400/70 dark:hover:border-violet-600/70 hover:shadow-legendary hover:shadow-blue-500/20 group hover-3d-lift">
+              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl hover:bg-slate-100/95 dark:hover:bg-slate-700/85 transition-all duration-500 cursor-default border-2 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-400/70 dark:hover:border-violet-600/70 hover:shadow-legendary hover:shadow-blue-500/20 group hover-3d-lift relative overflow-hidden">
+                {/* Holographic shimmer */}
+                <div className="absolute inset-0 shimmer-holographic opacity-0 group-hover:opacity-40 transition-opacity duration-700"></div>
+
+                {/* Gradient glow */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
+
                 <span
-                  className="text-2xl filter drop-shadow-md animate-float-deluxe hover:animate-elastic-bounce"
+                  className="text-2xl filter drop-shadow-md animate-float-deluxe hover:animate-elastic-bounce relative z-10"
                   style={{
                     animationDelay: `${i * 0.3}s`,
                     animationDuration: `${4 + i * 0.5}s`,
@@ -554,17 +625,20 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
                 >
                   {g.icon}
                 </span>
-                <span className="font-bold tracking-wide group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">{g.text}</span>
+                <span className="font-bold tracking-wide group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors relative z-10">{g.text}</span>
               </div>
             </TiltCard>
           ))}
         </div>
 
-        {/* World class price hint */}
+        {/* Transcendent price hint */}
         <TiltCard className="mt-14 inline-block animate-zoom-fade" intensity={10} glowColor="rgba(139, 92, 246, 0.2)">
-          <div className="relative flex items-center gap-6 px-10 py-5 rounded-3xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/70 dark:border-slate-700/60 shadow-2xl shadow-slate-200/60 dark:shadow-black/40 hover:shadow-3xl hover:shadow-blue-500/20 dark:hover:shadow-violet-500/15 transition-all duration-500 group overflow-hidden" style={{ animationDelay: '0.5s' }}>
+          <div className="relative flex items-center gap-6 px-10 py-5 rounded-3xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/70 dark:border-slate-700/60 shadow-2xl shadow-slate-200/60 dark:shadow-black/40 hover:shadow-3xl hover:shadow-blue-500/20 dark:hover:shadow-violet-500/15 transition-all duration-500 group overflow-hidden holographic-base hover:shadow-glow-legendary-md" style={{ animationDelay: '0.5s' }}>
             {/* Shimmer overlay */}
             <div className="absolute inset-0 shimmer-effect opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+            {/* Shimmer holographic */}
+            <div className="absolute inset-0 shimmer-holographic opacity-0 group-hover:opacity-50 transition-opacity duration-700"></div>
 
             {/* Animated gradient glow */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/15 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
@@ -576,7 +650,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
             <div className="flex items-center gap-2 relative z-10">
               <span className="text-slate-400 dark:text-slate-500 line-through text-lg">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
-              <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-deluxe text-glow-sm drop-shadow-lg">
+              <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-deluxe text-glow-sm drop-shadow-lg holographic-text">
                 29€
               </span>
             </div>
@@ -587,17 +661,20 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
       </div>
 
       {/* =========================================== */}
-      {/* LEGENDARY BOTTOM FADE */}
+      {/* TRANSCENDENT BOTTOM FADE */}
       {/* =========================================== */}
       <div className="absolute bottom-0 left-0 right-0 h-72 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-slate-950 dark:via-slate-950/95 to-transparent pointer-events-none"></div>
 
       {/* =========================================== */}
-      {/* LEGENDARY SCROLL INDICATOR */}
+      {/* TRANSCENDENT SCROLL INDICATOR */}
       {/* =========================================== */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-fade-in" style={{ animationDelay: '0.8s' }}>
         <div className="relative group cursor-pointer" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
           {/* Legendary pulsing glow */}
           <div className="absolute inset-0 bg-gradient-to-b from-blue-500/40 via-violet-500/40 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-glow-breathe"></div>
+
+          {/* Extra glow ring */}
+          <div className="absolute -inset-2 rounded-full border border-blue-400/20 dark:border-violet-500/20 animate-pulse-ring opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
           {/* Container with legendary effects */}
           <div className="relative w-8 h-14 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2 group-hover:border-blue-400 dark:group-hover:border-violet-500 transition-all duration-500 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm shadow-legendary group-hover:shadow-glow-legendary-sm hover:scale-110 transition-transform">
@@ -612,11 +689,16 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Legendary floating decorative elements */}
-      <div className="absolute top-1/4 left-10 w-3 h-3 bg-blue-500/40 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '0s' }}></div>
-      <div className="absolute top-1/3 right-16 w-2 h-2 bg-violet-500/30 rounded-full animate-float-deluxe" style={{ animationDelay: '2s' }}></div>
+      {/* Transcendent floating decorative elements */}
+      <div className="absolute top-1/4 left-10 w-3 h-3 bg-blue-500/40 rounded-full animate-float-deluxe shadow-glow-legendary-sm animate-stardust" style={{ animationDelay: '0s' }}></div>
+      <div className="absolute top-1/3 right-16 w-2 h-2 bg-violet-500/30 rounded-full animate-float-deluxe animate-magnetic-field" style={{ animationDelay: '2s' }}></div>
       <div className="absolute bottom-1/3 left-20 w-2.5 h-2.5 bg-emerald-500/30 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '4s' }}></div>
-      <div className="absolute top-2/3 right-24 w-2 h-2 bg-pink-500/30 rounded-full animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-2/3 right-24 w-2 h-2 bg-pink-500/30 rounded-full animate-float-deluxe animate-quantum-fluctuation" style={{ animationDelay: '1s' }}></div>
+
+      {/* Extra holographic orbs */}
+      <div className="absolute top-[15%] left-[20%] w-2 h-2 bg-cyan-400/30 rounded-full animate-float-deluxe glow-cyan" style={{ animationDelay: '0.5s' }}></div>
+      <div className="absolute bottom-[25%] right-[10%] w-1.5 h-1.5 bg-rose-400/30 rounded-full animate-float-deluxe glow-rose" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute top-[60%] left-[8%] w-1.5 h-1.5 bg-amber-400/30 rounded-full animate-float-deluxe glow-amber" style={{ animationDelay: '3s' }}></div>
     </section>
   );
 };
