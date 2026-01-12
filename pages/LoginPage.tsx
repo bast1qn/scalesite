@@ -27,7 +27,7 @@ const SocialButton: React.FC<{ icon: React.ReactNode; provider: string; onClick:
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:via-violet-500/5 group-hover:to-indigo-500/5 transition-all duration-500"></div>
 
         <span className="relative flex items-center gap-3">
-            <span className="transition-transform duration-300 group-hover:scale-110">{icon}</span>
+            <span className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">{icon}</span>
             <span>{label}</span>
         </span>
     </button>
@@ -161,15 +161,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
        <div className="relative z-10 w-full max-w-md">
           {/* Logo */}
           <div className="text-center mb-8 animate-fade-in">
-            <button onClick={() => setCurrentPage('home')} className="inline-flex group">
-                <ScaleSiteLogo className="h-11 text-slate-900 dark:text-white transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-lg group-hover:drop-shadow-blue-500/20" />
+            <button onClick={() => setCurrentPage('home')} className="inline-flex group transition-transform duration-300 hover:scale-105">
+                <ScaleSiteLogo className="h-11 text-slate-900 dark:text-white transition-all duration-300 group-hover:drop-shadow-lg group-hover:drop-shadow-blue-500/20" />
             </button>
           </div>
 
           {/* Login Card with glass-morphism */}
-          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-8 sm:p-10 animate-scale-in overflow-hidden">
+          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-8 sm:p-10 animate-scale-in overflow-hidden hover:shadow-blue-500/10 transition-shadow duration-500">
               {/* Decorative gradient border */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500"></div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-t-3xl"></div>
 
               {/* Subtle glow effect */}
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-blue-400/5 to-violet-400/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -179,7 +179,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                     <h2 className="font-serif text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
                         {t('auth.welcome_back')}
                     </h2>
-                    <p className="mt-2 text-slate-600 dark:text-slate-400">
+                    <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed">
                         {t('auth.login_subtitle')}
                     </p>
                 </div>
@@ -206,7 +206,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                     <div className="w-full border-t border-slate-200 dark:border-slate-700" />
                 </div>
                 <div className="relative flex justify-center text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                    <span className="px-4 bg-white dark:bg-slate-800">
+                    <span className="px-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur">
                     {t('auth.or_email')}
                     </span>
                 </div>
@@ -311,7 +311,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
            <div className="mt-8 text-center text-sm">
               <p className="text-slate-600 dark:text-slate-400">
                 {t('auth.no_account')}{' '}
-                <button onClick={() => setCurrentPage('register')} className="font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors focus:outline-none">
+                <button onClick={() => setCurrentPage('register')} className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors focus:outline-none hover:underline">
                   {t('auth.register_now')}
                 </button>
               </p>

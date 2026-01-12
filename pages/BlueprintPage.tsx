@@ -435,14 +435,14 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
             <label htmlFor={name} className="block text-sm font-medium text-dark-text dark:text-light-text">{label}</label>
             <div className="relative mt-2">
                 <div className="flex items-center h-12 w-full border border-slate-200 dark:border-slate-700 rounded-xl px-3 bg-light-bg dark:bg-dark-bg shadow-sm overflow-hidden">
-                    <div className="w-6 h-6 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: value }}></div>
-                    <span className="ml-3 font-mono text-sm text-dark-text dark:text-light-text uppercase">{value}</span>
-                    <input 
-                        type="color" 
+                    <div className="w-6 h-6 rounded-full border border-slate-200 dark:border-slate-700 shadow-inner ring-2 ring-white dark:ring-slate-800 transition-transform hover:scale-110" style={{ backgroundColor: value }}></div>
+                    <span className="ml-3 font-mono text-sm text-slate-700 dark:text-slate-300 uppercase">{value}</span>
+                    <input
+                        type="color"
                         name={name}
                         id={name}
-                        value={value} 
-                        onChange={onChange} 
+                        value={value}
+                        onChange={onChange}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
                 </div>
@@ -451,25 +451,38 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
     );
 
     return (
-        <main className="py-24 min-h-screen">
-            <AnimatedSection>
-                <div className="text-center pt-8 pb-16">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-dark-text dark:text-light-text tracking-tight font-serif">
-                        {t('blueprint.title')}
-                    </h1>
-                    <p className="mt-6 max-w-2xl mx-auto text-lg text-dark-text/70 dark:text-light-text/70">
-                        {t('blueprint.subtitle')}
-                    </p>
-                </div>
-            </AnimatedSection>
+        <main className="py-24 min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
+            {/* Hero Section with subtle gradient */}
+            <section className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/[0.03] via-violet-400/[0.02] to-indigo-400/[0.01] pointer-events-none"></div>
+                <AnimatedSection>
+                    <div className="text-center pt-8 pb-16 px-4">
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200/60 dark:border-blue-800/30 mb-8 shadow-sm">
+                            <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
+                                {t('blueprint.title')}
+                            </span>
+                        </div>
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white tracking-tight font-serif mb-6">
+                            Website Blueprint
+                        </h1>
+                        <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {t('blueprint.subtitle')}
+                        </p>
+                    </div>
+                </AnimatedSection>
+            </section>
             
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 items-start">
                     {/* Form */}
                     <div className="lg:col-span-1 order-2 lg:order-1">
-                        <form onSubmit={handleSubmit} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-xl shadow-slate-200/30 dark:shadow-black/30 border border-slate-200/70 dark:border-slate-700/70 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative overflow-hidden">
+                        <form onSubmit={handleSubmit} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-xl shadow-slate-200/30 dark:shadow-black/30 border border-slate-200/70 dark:border-slate-700/70 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative overflow-hidden hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-black/50 transition-shadow duration-300">
                             {/* Decorative gradient border */}
-                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500"></div>
+                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-t-3xl"></div>
 
                             <div>
                                 <label htmlFor="companyName" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('blueprint.company_name')}</label>

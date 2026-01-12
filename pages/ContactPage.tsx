@@ -106,7 +106,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                         <form onSubmit={handleSubmit} className="space-y-6">
                                             <div className="grid sm:grid-cols-2 gap-6">
                                                 <div className="relative">
-                                                    <label htmlFor="name" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('contact_page.name')}</label>
+                                                    <label htmlFor="name" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('contact_page.name')}</label>
                                                     <input
                                                         type="text"
                                                         id="name"
@@ -120,7 +120,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                                     <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 transition-all duration-300 ${focusedField === 'name' ? 'w-full' : 'w-0'}`}></div>
                                                 </div>
                                                 <div className="relative">
-                                                    <label htmlFor="email" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('contact_page.email')}</label>
+                                                    <label htmlFor="email" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('contact_page.email')}</label>
                                                     <input
                                                         type="email"
                                                         id="email"
@@ -135,7 +135,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                                 </div>
                                             </div>
                                             <div className="relative">
-                                                <label htmlFor="subject" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('contact_page.subject')}</label>
+                                                <label htmlFor="subject" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('contact_page.subject')}</label>
                                                 <input
                                                     type="text"
                                                     id="subject"
@@ -149,7 +149,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                                 <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 transition-all duration-300 ${focusedField === 'subject' ? 'w-full' : 'w-0'}`}></div>
                                             </div>
                                             <div className="relative">
-                                                <label htmlFor="message" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('contact_page.message')}</label>
+                                                <label htmlFor="message" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('contact_page.message')}</label>
                                                 <textarea
                                                     id="message"
                                                     name="message"

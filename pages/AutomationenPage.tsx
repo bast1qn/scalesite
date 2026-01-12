@@ -162,13 +162,13 @@ const WorkflowVisualizer: React.FC<{ language: 'de' | 'en' }> = ({ language }) =
     }, []);
 
     return (
-        <div className="relative w-full max-w-4xl mx-auto h-48 md:h-64 bg-slate-900/40 rounded-[2rem] border border-white/10 backdrop-blur-xl overflow-hidden flex items-center justify-between px-8 md:px-16 shadow-2xl shadow-purple-900/20">
+        <div className="relative w-full max-w-4xl mx-auto h-48 md:h-64 bg-slate-900/60 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden flex items-center justify-between px-8 md:px-16 shadow-2xl hover:shadow-purple-900/20 transition-shadow duration-500">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
 
             <div className="absolute top-1/2 left-16 right-16 h-0.5 bg-slate-700/50 -translate-y-1/2 z-0"></div>
 
             <div
-                className="absolute top-1/2 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent w-40 -translate-y-1/2 z-0 transition-all duration-[2000ms] ease-linear blur-[1px]"
+                className="absolute top-1/2 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent w-40 -translate-y-1/2 z-0 transition-all duration-[2000ms] ease-linear blur-[1px]"
                 style={{ left: `${(step / 3) * 80}%`, opacity: step === 3 ? 0 : 1 }}
             ></div>
 
@@ -181,8 +181,8 @@ const WorkflowVisualizer: React.FC<{ language: 'de' | 'en' }> = ({ language }) =
                 <div key={idx} className={`relative z-10 flex flex-col items-center transition-all duration-500 ${step >= idx ? 'opacity-100 scale-110' : 'opacity-40 scale-100'}`}>
                     <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-3xl flex items-center justify-center border transition-all duration-500 ${
                         step >= idx
-                        ? `bg-${node.color}-500/20 border-${node.color}-500 text-${node.color}-400 shadow-[0_0_30px_rgba(var(--${node.color}-rgb),0.3)]`
-                        : 'bg-slate-800/50 border-slate-700 text-slate-500'
+                        ? `bg-${node.color}-500/20 border-${node.color}-500/50 text-${node.color}-400 shadow-[0_0_30px_rgba(var(--${node.color}-rgb),0.3)]`
+                        : 'bg-slate-800/50 border-slate-700/50 text-slate-500'
                     }`}>
                         {node.icon}
                     </div>
