@@ -42,38 +42,65 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sessionChecked, setSessionChecked] = useState(false);
 
   // Load user session on mount
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: NodeJS.Timeout | null = null;
 
-    // Fallback timeout: stop loading after 8 seconds even if Supabase hasn't responded
-    const fallbackTimeout = setTimeout(() => {
-      if (isMounted && loading) {
-        console.warn('Auth session took too long, proceeding without auth');
+    // Immediately check if we should stop loading
+    const stopLoading = () => {
+      if (isMounted) {
         setLoading(false);
+        setSessionChecked(true);
       }
-    }, 8000);
+    };
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      clearTimeout(fallbackTimeout);
-      if (!isMounted) return;
-
-      if (session?.user) {
-        loadUserProfile(session.user.id);
-      } else {
-        setLoading(false);
+    // Fallback timeout: stop loading after 5 seconds even if Supabase hasn't responded
+    timeoutId = setTimeout(() => {
+      if (!sessionChecked) {
+        console.warn('[AUTH] Session check timeout - proceeding without auth');
+        stopLoading();
       }
-    }).catch((err) => {
-      console.error('Error getting session:', err);
-      clearTimeout(fallbackTimeout);
-      if (isMounted) setLoading(false);
-    });
+    }, 5000);
+
+    // Get initial session with better error handling
+    const checkSession = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (timeoutId) clearTimeout(timeoutId);
+
+        if (!isMounted) return;
+
+        if (error) {
+          console.error('[AUTH] Error getting session:', error);
+          stopLoading();
+          return;
+        }
+
+        if (session?.user) {
+          await loadUserProfile(session.user.id);
+        } else {
+          stopLoading();
+        }
+      } catch (err) {
+        if (timeoutId) clearTimeout(timeoutId);
+        console.error('[AUTH] Exception getting session:', err);
+        if (isMounted) stopLoading();
+      }
+    };
+
+    checkSession();
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!isMounted) return;
+
+      if (event === 'INITIAL_SESSION') {
+        setSessionChecked(true);
+      }
 
       if (session?.user) {
         await loadUserProfile(session.user.id);
@@ -85,7 +112,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     return () => {
       isMounted = false;
-      clearTimeout(fallbackTimeout);
+      if (timeoutId) clearTimeout(timeoutId);
       subscription.unsubscribe();
     };
   }, []);
