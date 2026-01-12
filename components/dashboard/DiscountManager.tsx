@@ -67,9 +67,9 @@ const DiscountManager: React.FC = () => {
     const handleServiceSave = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingService) return;
-        
+
         try {
-            await api.updateService(editingService.id, {
+            await api.adminUpdateService(editingService.id, {
                 ...serviceForm,
                 sale_price: serviceForm.sale_price || null
             });
