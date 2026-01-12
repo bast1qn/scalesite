@@ -9,7 +9,6 @@ import { AnimatePresence } from 'framer-motion';
 import { ChatWidget } from './components/ChatWidget';
 import { CookieConsent } from './components/CookieConsent';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { trackPageView } from './lib/analytics';
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -17,18 +16,13 @@ const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
 const ProjektePage = lazy(() => import('./pages/ProjektePage'));
 const AutomationenPage = lazy(() => import('./pages/AutomationenPage'));
 const PreisePage = lazy(() => import('./pages/PreisePage'));
-const BlogPage = lazy(() => import('./pages/BlogPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
-const CaseStudyDetailPage = lazy(() => import('./pages/CaseStudyDetailPage'));
 const ImpressumPage = lazy(() => import('./pages/ImpressumPage'));
 const DatenschutzPage = lazy(() => import('./pages/DatenschutzPage'));
 const FaqPage = lazy(() => import('./pages/FaqPage'));
-const GlossarPage = lazy(() => import('./pages/GlossarPage'));
-const StoryPage = lazy(() => import('./pages/StoryPage'));
-const RessourcenPage = lazy(() => import('./pages/RessourcenPage'));
 const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
 const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
@@ -45,7 +39,6 @@ const PageLoader: React.FC = () => (
 
 const AppContent: React.FC = () => {
     const [currentPage, setCurrentPage] = useState('home');
-    const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
     const { user, loading } = useContext(AuthContext);
     const [showReset, setShowReset] = useState(false);
 
@@ -57,16 +50,16 @@ const AppContent: React.FC = () => {
             projekte: 'Referenzen & Projekte',
             automationen: 'KI & Automation',
             preise: 'Preise & Pakete',
-            blog: 'Blog & Insights',
             contact: 'Kontakt aufnehmen',
             login: 'Login',
             register: 'Registrieren',
             dashboard: 'Mein Dashboard',
             impressum: 'Impressum',
             datenschutz: 'Datenschutz',
-            restaurant: 'Café & Bistro | Showcase',
-            architecture: 'Richter Architekten | Showcase',
-            realestate: 'Immobilien | Showcase'
+            faq: 'FAQ',
+            restaurant: 'The Coffee House | Showcase',
+            architecture: 'Richter Architects | Showcase',
+            realestate: 'Premium Properties | Showcase'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
@@ -90,24 +83,6 @@ const AppContent: React.FC = () => {
     };
     // --------------------------
 
-    // --- TRACKING LOGIC ---
-    useEffect(() => {
-        // Track Page View whenever currentPage changes
-        trackPageView(currentPage);
-    }, [currentPage]);
-
-    useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            const link = target.closest('a');
-            if (link && link.hostname !== window.location.hostname) {
-                trackClick('external_link', link.href);
-            }
-        };
-        document.addEventListener('click', handleClick);
-        return () => document.removeEventListener('click', handleClick);
-    }, []);
-
     // --- PAGE ROUTING ---
     const getPage = () => {
         switch (currentPage) {
@@ -116,7 +91,6 @@ const AppContent: React.FC = () => {
             case 'projekte': return <ProjektePage setCurrentPage={setCurrentPage} />;
             case 'automationen': return <AutomationenPage setCurrentPage={setCurrentPage} />;
             case 'preise': return <PreisePage setCurrentPage={setCurrentPage} />;
-            case 'blog': return <BlogPage setCurrentPage={setCurrentPage} postId={selectedPostId} setPostId={setSelectedPostId} />;
             case 'contact': return <ContactPage setCurrentPage={setCurrentPage} />;
             case 'login': return <LoginPage setCurrentPage={setCurrentPage} />;
             case 'register': return <RegisterPage setCurrentPage={setCurrentPage} />;
@@ -129,13 +103,9 @@ const AppContent: React.FC = () => {
             case 'impressum': return <ImpressumPage />;
             case 'datenschutz': return <DatenschutzPage />;
             case 'faq': return <FaqPage />;
-            case 'glossar': return <GlossarPage />;
-            case 'story': return <StoryPage />;
-            case 'ressourcen': return <RessourcenPage setCurrentPage={setCurrentPage} />;
             case 'restaurant': return <RestaurantPage setCurrentPage={setCurrentPage} />;
             case 'architecture': return <ArchitecturePage setCurrentPage={setCurrentPage} />;
             case 'realestate': return <RealEstatePage setCurrentPage={setCurrentPage} />;
-            case 'case-study': return <CaseStudyDetailPage postId={selectedPostId} setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };

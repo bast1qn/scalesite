@@ -8,16 +8,10 @@ import Settings from '../components/dashboard/Settings';
 import Referral from '../components/dashboard/Referral';
 import Partner from '../components/dashboard/Partner';
 import Transactions from '../components/dashboard/Transactions';
-import TeamChat from '../components/dashboard/TeamChat';
 import UserManagement from '../components/dashboard/UserManagement';
-import Analytics from '../components/dashboard/Analytics';
-import DatabaseViewer from '../components/dashboard/DatabaseViewer';
-import BlogManager from '../components/dashboard/BlogManager';
 import DiscountManager from '../components/dashboard/DiscountManager';
-import TeamBoard from '../components/dashboard/TeamBoard';
-import FileManager from '../components/dashboard/FileManager';
 
-export type DashboardView = 'übersicht' | 'ticket-support' | 'dienstleistungen' | 'transaktionen' | 'einstellungen' | 'freunde-werben' | 'partner-werden' | 'team-chat' | 'user-management' | 'analyse' | 'database' | 'blog-manager' | 'discount-manager' | 'team-board' | 'file-manager';
+export type DashboardView = 'übersicht' | 'ticket-support' | 'dienstleistungen' | 'transaktionen' | 'einstellungen' | 'freunde-werben' | 'partner-werden' | 'user-management' | 'discount-manager';
 
 interface DashboardPageProps {
     setCurrentPage: (page: string) => void;
@@ -75,22 +69,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setCurrentPage }) => {
                 return <Referral />;
             case 'partner-werden':
                 return <Partner />;
-            case 'team-chat':
-                return <TeamChat />;
             case 'user-management':
                 return <UserManagement />;
-            case 'analyse':
-                return <Analytics />;
-            case 'database':
-                return <DatabaseViewer />;
-            case 'blog-manager':
-                return <BlogManager />;
             case 'discount-manager':
                 return <DiscountManager />;
-            case 'team-board':
-                return <TeamBoard />;
-            case 'file-manager':
-                return <FileManager />;
             default:
                 return <Overview setActiveView={handleViewSet} setCurrentPage={setCurrentPage} />;
         }

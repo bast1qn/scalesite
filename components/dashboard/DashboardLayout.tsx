@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react';
 import { AuthContext, AppUser } from '../../contexts/AuthContext';
-import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, ChatBubbleBottomCenterTextIcon, UsersIcon, ChartBarIcon, DatabaseIcon, PaintBrushIcon, TagIcon, ViewColumnsIcon, ChevronDownIcon, ChevronUpIcon, CloudArrowUpIcon } from '../Icons';
+import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon } from '../Icons';
 import { DashboardView } from '../../pages/DashboardPage';
 
 interface DashboardLayoutProps {
@@ -65,7 +65,6 @@ const SidebarContent: React.FC<{
 }> = ({ user, activeView, setActiveView, setCurrentPage, closeSidebar, logout }) => {
     const [adminGroupOpen, setAdminGroupOpen] = useState(true);
     const isTeam = user?.role === 'team' || user?.role === 'owner';
-    const isOwner = user?.role === 'owner';
 
     const handleNavClick = (view: DashboardView) => {
         setActiveView(view);
@@ -78,7 +77,6 @@ const SidebarContent: React.FC<{
             { view: 'übersicht', label: 'Übersicht', icon: <HomeIcon className="w-5 h-5"/> },
             { view: 'ticket-support', label: 'Support Tickets', icon: <TicketIcon className="w-5 h-5"/> },
             { view: 'dienstleistungen', label: 'Meine Dienste', icon: <BriefcaseIcon className="w-5 h-5"/> },
-            { view: 'file-manager', label: 'Dateien', icon: <CloudArrowUpIcon className="w-5 h-5"/> },
             { view: 'transaktionen', label: 'Rechnungen', icon: <CreditCardIcon className="w-5 h-5"/> },
             { view: 'einstellungen', label: 'Einstellungen', icon: <Cog6ToothIcon className="w-5 h-5"/> },
         ];
@@ -123,19 +121,12 @@ const SidebarContent: React.FC<{
     // --- TEAM NAVIGATION ---
     const workspaceItems = [
         { view: 'übersicht', label: 'Dashboard', icon: <HomeIcon className="w-5 h-5"/> },
-        { view: 'team-board', label: 'Mein Board', icon: <ViewColumnsIcon className="w-5 h-5"/> },
         { view: 'user-management', label: 'Kunden & Projekte', icon: <UsersIcon className="w-5 h-5"/> },
         { view: 'ticket-support', label: 'Support Inbox', icon: <TicketIcon className="w-5 h-5"/> },
-        { view: 'team-chat', label: 'Team Chat', icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
     ];
 
     const adminTools = [
-        { view: 'blog-manager', label: 'Blog Content', icon: <PaintBrushIcon className="w-5 h-5"/> },
         { view: 'discount-manager', label: 'Marketing', icon: <TagIcon className="w-5 h-5"/> },
-        ...(isOwner ? [
-            { view: 'analyse', label: 'Analysen', icon: <ChartBarIcon className="w-5 h-5"/> },
-            { view: 'database', label: 'Datenbank', icon: <DatabaseIcon className="w-5 h-5"/> }
-        ] : [])
     ];
 
     return (

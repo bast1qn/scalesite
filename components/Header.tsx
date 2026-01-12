@@ -139,7 +139,6 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
         { page: 'leistungen', label: t('nav.services')},
         { page: 'automationen', label: t('nav.automation')},
         { page: 'preise', label: t('nav.pricing')},
-        { page: 'blog', label: t('nav.insights')},
         { page: 'contact', label: t('nav.contact')},
     ];
 

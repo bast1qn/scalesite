@@ -19,7 +19,6 @@ export const translations = {
       projects: "Projekte",
       automation: "Automationen",
       pricing: "Preise",
-      insights: "Insights",
       faq: "FAQ",
       contact: "Kontakt",
       login: "Login",
@@ -290,7 +289,7 @@ export const translations = {
         response_time: "Ich bemühe mich, Anfragen innerhalb von 24 Stunden an Werktagen zu beantworten."
     },
     blog_page: {
-        title: "Blog & Insights",
+        title: "Blog",
         subtitle: "Aktuelle Artikel über Webdesign, technische Entwicklung und erfolgreiches Online-Marketing für KMU.",
         no_posts: "Keine Artikel",
         no_posts_desc: "Aktuell sind keine Beiträge verfügbar.",
@@ -788,7 +787,6 @@ export const translations = {
       projects: "Projects",
       automation: "Automation",
       pricing: "Pricing",
-      insights: "Insights",
       faq: "FAQ",
       contact: "Contact",
       login: "Login",
@@ -1059,7 +1057,7 @@ export const translations = {
         response_time: "I strive to answer inquiries within 24 hours on business days."
     },
     blog_page: {
-        title: "Blog & Insights",
+        title: "Blog",
         subtitle: "Current articles on web design, technical development, and successful online marketing for SMEs.",
         no_posts: "No Articles",
         no_posts_desc: "Currently, no posts are available.",
