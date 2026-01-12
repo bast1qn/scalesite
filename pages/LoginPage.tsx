@@ -41,6 +41,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
   const { t, language } = useLanguage();
 
   // Check for Token in URL (Return from Social Login)
+  // Note: This effect intentionally runs once on mount to check URL params.
+  // The callbacks are stable from context, so excluding them is safe.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
@@ -56,12 +58,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 setError(t('general.error'));
                 setLoading(false);
             }
+        }).catch(() => {
+            setError(t('general.error'));
+            setLoading(false);
         });
     } else if (urlError) {
         setError(t('general.error'));
     }
+  // Disable exhaustive-deps: This should only run once on mount for URL param checking
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Intentionally empty - should only run once on mount to check URL params
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

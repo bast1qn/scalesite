@@ -23,7 +23,16 @@ export const CookieConsent: React.FC = () => {
         if (!savedConsent) {
             setTimeout(() => setIsVisible(true), 1000);
         } else {
-            setPreferences(JSON.parse(savedConsent));
+            try {
+                const parsed = JSON.parse(savedConsent);
+                // Validate the parsed object has expected structure
+                if (parsed && typeof parsed === 'object' && 'essential' in parsed) {
+                    setPreferences(parsed as CookiePreferences);
+                }
+            } catch {
+                // Invalid JSON in localStorage, ignore and use defaults
+                console.warn('Invalid cookie consent data in localStorage');
+            }
         }
     }, []);
 

@@ -326,8 +326,7 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
         };
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // iframeRef is stable and handleMessage is defined inside effect
+    }, []); // iframeRef is stable and handleMessage is defined inside effect - no external deps needed
     
     const htmlContent = useMemo(() => {
         return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t);
