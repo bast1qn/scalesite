@@ -32,7 +32,6 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
             setIsSubmitted(true);
             form.reset();
         } catch (err: unknown) {
-            console.error("Kontaktfehler:", err);
             setError(t('general.error'));
         } finally {
             setLoading(false);

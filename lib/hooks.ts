@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, RefObject } from 'react';
+import { useState, useEffect, useRef, RefObject, useCallback } from 'react';
 
 /**
  * Custom hook to detect clicks outside of a component
@@ -93,6 +93,49 @@ export function useBodyScrollLock(enabled: boolean): void {
       document.body.style.overflow = '';
     };
   }, [enabled]);
+}
+
+/**
+ * Custom hook for chat auto-scroll behavior
+ * Scrolls to bottom when new messages arrive, but only if user is near bottom
+ */
+export function useChatScroll(
+  containerRef: RefObject<HTMLDivElement>,
+  messages: unknown[],
+  enabled: boolean = true,
+  autoScrollThreshold: number = 100
+): {
+  messagesEndRef: RefObject<HTMLDivElement>;
+  handleScroll: () => void;
+  shouldScroll: boolean;
+  forceScroll: () => void;
+} {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
+
+  const scrollToBottom = useCallback(() => {
+    if (enabled && shouldScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [enabled, shouldScroll]);
+
+  // Auto-scroll when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
+
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    const isNearBottom = scrollHeight - scrollTop - clientHeight < autoScrollThreshold;
+    setShouldScroll(isNearBottom);
+  }, [containerRef, autoScrollThreshold]);
+
+  const forceScroll = useCallback(() => {
+    setShouldScroll(true);
+  }, []);
+
+  return { messagesEndRef, handleScroll, shouldScroll, forceScroll };
 }
 
 /**

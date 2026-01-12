@@ -64,7 +64,6 @@ const Referral: React.FC = () => {
                     earnedRewards
                 });
             } catch(e) {
-                console.warn("Referral data error", e);
                 setStats({ totalCount: 0, completedProjects: 0, earnedRewards: 0 });
             }
         };

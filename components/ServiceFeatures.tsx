@@ -17,7 +17,6 @@ export const ServiceFeatures: React.FC = () => {
     if (typeof value === 'string') {
       return value.split(',').map(s => s.trim()).filter(Boolean);
     }
-    console.warn(`ServiceFeatures: Expected array for ${key}, got ${typeof value}`);
     return [];
   };
 

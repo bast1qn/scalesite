@@ -63,7 +63,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     loadingRef.current = loading;
-    console.log('[AUTH] Loading state changed to:', loading);
   }, [loading]);
 
   useEffect(() => {
@@ -72,8 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     safetyTimeout = setTimeout(() => {
       if (isMounted && loadingRef.current) {
-        console.error('[AUTH] Safety timeout triggered after 30s - Supabase connection may be failing');
-        console.error('[AUTH] Check your Supabase configuration in .env file');
+        console.error('[AUTH] Safety timeout triggered - check Supabase configuration');
         setLoading(false);
         setSessionChecked(true);
       }
@@ -81,7 +79,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const stopLoading = () => {
       if (isMounted) {
-        console.log('[AUTH] stopLoading called');
         setLoading(false);
         setSessionChecked(true);
         if (safetyTimeout) clearTimeout(safetyTimeout);
@@ -90,7 +87,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const checkSession = async () => {
       try {
-        console.log('[AUTH] Checking session...');
         const { data: { session }, error } = await supabase.auth.getSession();
 
         if (!isMounted) return;
@@ -101,18 +97,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           return;
         }
 
-        console.log('[AUTH] Session check result:', session ? 'Session found' : 'No session');
-
         if (session?.user) {
           setUser(mapSessionToAppUser(session));
-          console.log('[AUTH] User set from auth metadata (checkSession):', session.user.email);
           setLoading(false);
         } else {
           stopLoading();
         }
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') {
-          console.log('[AUTH] Session request aborted (timeout or cancelled)');
           stopLoading();
           return;
         }
@@ -124,19 +116,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('[AUTH] Auth state changed:', event, 'Has user:', !!session?.user);
       if (!isMounted) return;
 
       setSessionChecked(true);
 
       if (session?.user) {
         setUser(mapSessionToAppUser(session));
-        console.log('[AUTH] User set from auth metadata:', session.user.email);
         setLoading(false);
 
         getUserProfile(session.user.id).then(({ data }) => {
           if (data && isMounted) {
-            console.log('[AUTH] Background profile update:', data.email);
             setUser(mapProfileToAppUser(data));
           }
         }).catch(() => {
@@ -156,13 +145,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const loadUserProfile = async (userId: string) => {
     try {
-      console.log('[AUTH] Loading profile for user:', userId);
       const { data, error } = await getUserProfile(userId);
 
       if (error) {
         console.error('[AUTH] Error loading profile from DB:', error.message);
         if (error.message?.includes('PGRST') || error.message?.includes('JWT') || error.code === 'PGRST116') {
-          console.log('[AUTH] RLS/JWT error - waiting for auth to settle');
           setLoading(false);
           return;
         }
@@ -170,10 +157,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (data) {
         setUser(mapProfileToAppUser(data));
-        console.log('[AUTH] Profile loaded successfully:', data.email);
         setLoading(false);
       } else {
-        console.log('[AUTH] No profile data - using minimal user info');
         setLoading(false);
       }
     } catch (e) {

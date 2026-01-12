@@ -34,9 +34,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             })
             .catch((err) => {
                 clearTimeout(timeoutId);
-                if (err.name !== 'AbortError') {
-                    console.error('[SUPABASE] Fetch error:', err);
-                }
                 throw err;
             })
             .finally(() => {

@@ -71,7 +71,6 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
             setAvailableServices(available);
 
         } catch (err) {
-            console.error("Error fetching services:", err);
             setError("Dienste konnten nicht geladen werden.");
         } finally {
             setLoading(false);

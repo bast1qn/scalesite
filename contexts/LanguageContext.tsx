@@ -37,7 +37,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       if (current && typeof current === 'object' && key in current) {
         current = (current as Record<string, unknown>)[key];
       } else {
-        console.warn(`Translation missing for key: ${path} in language: ${language}`);
         return path;
       }
     }

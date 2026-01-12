@@ -60,7 +60,7 @@ const DiscountManager: React.FC = () => {
             setServices(servicesRes.data || []);
             setDiscounts(discountsRes.data || []);
         } catch (e) {
-            console.error(e);
+            // Error fetching data - services/discounts will remain empty
         } finally {
             setLoading(false);
         }

@@ -27,7 +27,6 @@ export const NewsletterSection: React.FC = () => {
             setIsSubmitted(true);
             form.reset();
         } catch (err) {
-            console.error("Newsletter Error", err);
             setError(t('newsletter.form.error'));
         } finally {
             setLoading(false);

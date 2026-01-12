@@ -1,8 +1,9 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChatBubbleOvalLeftEllipsisIcon, XMarkIcon, PaperAirplaneIcon, SparklesIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../lib/translations';
+import { useChatScroll } from '../lib/hooks';
 
 interface Message {
     role: 'user' | 'model';
@@ -16,9 +17,13 @@ export const ChatWidget: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [suggestions, setSuggestions] = useState<string[]>([]);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
     const chatContainerRef = useRef<HTMLDivElement>(null);
-    const [shouldScroll, setShouldScroll] = useState(true);
+
+    const { messagesEndRef, handleScroll, forceScroll } = useChatScroll(
+        chatContainerRef,
+        messages,
+        isOpen
+    );
 
     // Initialize messages when language changes or on mount
     useEffect(() => {
@@ -34,26 +39,6 @@ export const ChatWidget: React.FC = () => {
         setSuggestions(shuffled.slice(0, 4));
     }, [language]);
 
-    const scrollToBottom = () => {
-        if (shouldScroll) {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    useEffect(() => {
-        if (isOpen) {
-            setTimeout(scrollToBottom, 100);
-        }
-    }, [messages, isOpen, isLoading, shouldScroll]);
-
-    const handleScroll = () => {
-        if (chatContainerRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
-            const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
-            setShouldScroll(isNearBottom);
-        }
-    };
-
     const processMessage = async (text: string) => {
         if (!text.trim() || isLoading) return;
 
@@ -61,12 +46,12 @@ export const ChatWidget: React.FC = () => {
 
         if (userMessage.length > 500) {
              setMessages(prev => [...prev, { role: 'user', text: userMessage }, { role: 'model', text: t('chat_widget.error_too_long') }]);
-             setShouldScroll(true);
+             forceScroll();
              return;
         }
 
         setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
-        setShouldScroll(true);
+        forceScroll();
         setIsLoading(true);
 
         try {
@@ -98,7 +83,6 @@ export const ChatWidget: React.FC = () => {
             setMessages(prev => [...prev, { role: 'model', text: responseText }]);
 
         } catch (error) {
-            console.error("Chat Error:", error);
             setMessages(prev => [...prev, { role: 'model', text: t('chat_widget.error_connection') }]);
         } finally {
             setIsLoading(false);

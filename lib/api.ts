@@ -24,7 +24,6 @@ interface SupabaseError {
 // Error wrapper
 const handleSupabaseError = (error: SupabaseError | null): string | null => {
     if (error) {
-        console.error('Supabase error:', error);
         return error.message || 'An error occurred';
     }
     return null;

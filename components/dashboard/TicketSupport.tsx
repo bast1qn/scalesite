@@ -6,6 +6,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { api } from '../../lib/api';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
+import { useChatScroll } from '../../lib/hooks';
 
 // --- TYPE DEFINITIONS ---
 interface Profile {
@@ -92,14 +93,18 @@ const TicketSupport: React.FC = () => {
     const [view, setView] = useState<'list' | 'detail'>('list');
     const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    
+
     const [ticketMessages, setTicketMessages] = useState<Message[]>([]);
     const [ticketMembers, setTicketMembers] = useState<TicketMember[]>([]);
     const [reply, setReply] = useState('');
-    const messagesEndRef = useRef<HTMLDivElement>(null);
     const chatContainerRef = useRef<HTMLDivElement>(null);
-    const [shouldScroll, setShouldScroll] = useState(true);
-    
+
+    const { messagesEndRef, handleScroll, forceScroll } = useChatScroll(
+        chatContainerRef,
+        ticketMessages,
+        view === 'detail'
+    );
+
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -128,7 +133,6 @@ const TicketSupport: React.FC = () => {
             const { data } = await api.getTickets();
             setTickets(data);
         } catch (err) {
-            console.warn('Ticket fetch failed:', err);
             setError('Tickets konnten nicht geladen werden: ' + (err instanceof Error ? err.message : 'Unbekannter Fehler'));
         } finally {
             setLoading(false);
@@ -147,28 +151,12 @@ const TicketSupport: React.FC = () => {
         }
     }, [user]);
 
-    // Smart Scroll Effect
-    useEffect(() => {
-        if (view === 'detail' && shouldScroll) {
-            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [ticketMessages, view, shouldScroll]);
-
-    const handleScroll = () => {
-        if (chatContainerRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
-            // If user is near bottom (within 100px), enable auto-scroll
-            const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
-            setShouldScroll(isNearBottom);
-        }
-    };
-
     const fetchMessages = async (ticketId: string) => {
         try {
             const { data } = await api.getTicketMessages(ticketId);
             setTicketMessages(data);
         } catch (err) {
-            console.error('Error fetching messages:', err);
+            // Silent fail - error handling is optional
         }
     };
 
@@ -177,7 +165,7 @@ const TicketSupport: React.FC = () => {
             const { data } = await api.getTicketMembers(ticketId);
             setTicketMembers(data || []);
         } catch (err) {
-            console.error('Error fetching members:', err);
+            // Silent fail - error handling is optional
         }
     };
 
@@ -187,8 +175,8 @@ const TicketSupport: React.FC = () => {
 
     const handleViewTicket = (ticketId: string) => {
         setSelectedTicketId(ticketId);
-        setTicketMessages([]); // Clear old messages
-        setShouldScroll(true); // Reset scroll logic for new chat
+        setTicketMessages([]);
+        forceScroll();
         fetchMessages(ticketId);
         fetchMembers(ticketId);
         setView('detail');
@@ -204,7 +192,6 @@ const TicketSupport: React.FC = () => {
             await fetchTickets();
             setShowCreateModal(false);
         } catch (err) {
-            console.error("Error creating ticket:", err);
             alertCreateFailed(err instanceof Error ? err.message : 'Unknown error');
         } finally {
             setActionLoading(false);
@@ -219,11 +206,10 @@ const TicketSupport: React.FC = () => {
         try {
             await api.replyToTicket(selectedTicket.id, reply);
             setReply('');
-            setShouldScroll(true); // Force scroll on own message
+            forceScroll();
             await fetchMessages(selectedTicket.id);
             await fetchTickets();
         } catch (err) {
-            console.error("Error replying:", err);
             alertError(err instanceof Error ? err.message : 'Unknown error');
         } finally {
             setActionLoading(false);

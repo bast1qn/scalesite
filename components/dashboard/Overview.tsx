@@ -206,7 +206,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                 setActivities(activities.slice(0, 5));
 
             } catch (error) {
-                console.warn("Error fetching dashboard data:", error instanceof Error ? error.message : error);
+                // Error fetching dashboard data - activities will remain empty
             } finally {
                 if (isMounted) setLoading(false);
             }

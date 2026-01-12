@@ -76,8 +76,7 @@ const UserManagement: React.FC = () => {
                 // Ensure no duplicates if ID collisions occur (though api uses ints, defaults use strings)
                 const combined = [...apiServices, ...DEFAULT_SERVICES];
                 setAvailableServices(combined);
-            } catch (e) { 
-                console.warn("Failed services fetch", e); 
+            } catch (e) {
                 setAvailableServices(DEFAULT_SERVICES);
             }
         };

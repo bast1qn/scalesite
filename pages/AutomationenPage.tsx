@@ -314,7 +314,6 @@ ${message || '- Keine Nachricht -'}
             }
             setFormStep('success');
         } catch (e) {
-            console.error("Submission error", e);
             alert(language === 'de' ? "Es gab einen Fehler beim Senden der Anfrage." : "There was an error sending your request.");
         } finally {
             setIsSubmitting(false);

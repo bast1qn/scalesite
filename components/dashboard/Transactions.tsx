@@ -25,7 +25,7 @@ const Transactions: React.FC = () => {
                 const { data } = await api.getTransactions();
                 setTransactions(data || []);
             } catch (err) {
-                console.error("Error fetching transactions:", err);
+                // Error fetching transactions - transactions will remain empty
             } finally {
                 setLoading(false);
             }

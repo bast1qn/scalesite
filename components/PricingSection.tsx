@@ -136,7 +136,9 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
   useEffect(() => {
     api.getServices().then(res => {
         if(res.data) setDbServices(res.data);
-    }).catch(err => console.warn("Pricing fetch error", err));
+    }).catch(() => {
+        // Silently fail - using default pricing
+    });
   }, []);
 
   const pricingPackages = useMemo(() => {
