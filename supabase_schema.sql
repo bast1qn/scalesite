@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS profiles (
     company TEXT,
     role TEXT DEFAULT 'user',
     referral_code TEXT UNIQUE,
+    referred_by TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -493,13 +494,14 @@ CREATE POLICY "Team can delete discounts" ON discounts
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO public.profiles (id, name, email, role, referral_code)
+    INSERT INTO public.profiles (id, name, email, role, referral_code, referred_by)
     VALUES (
         NEW.id,
         COALESCE(NEW.raw_user_meta_data->>'name', 'User'),
         NEW.email,
         'user',
-        UPPER(SUBSTR(COALESCE(NEW.raw_user_meta_data->>'name', 'USR'), 1, 3)) || (FLOOR(RANDOM() * 9000) + 1000)::TEXT
+        UPPER(SUBSTR(COALESCE(NEW.raw_user_meta_data->>'name', 'USR'), 1, 3)) || (FLOOR(RANDOM() * 9000) + 1000)::TEXT,
+        NEW.raw_user_meta_data->>'referred_by'
     );
     RETURN NEW;
 END;

@@ -21,7 +21,7 @@ interface AuthContextType {
   socialLogin: (provider: 'google' | 'github') => Promise<{ success: boolean; error: string | null }>;
   loginWithToken: (token: string) => Promise<boolean>;
   logout: () => Promise<void>;
-  register: (name: string, company: string, email: string, pass: string) => Promise<{ success: boolean; error: string | null, requiresConfirmation: boolean }>;
+  register: (name: string, company: string, email: string, pass: string, referralCode?: string) => Promise<{ success: boolean; error: string | null, requiresConfirmation: boolean }>;
 }
 
 // Create the context with a default value
@@ -228,7 +228,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
   };
 
-  const register = async (name: string, company: string, email: string, pass: string) => {
+  const register = async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -237,6 +237,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           data: {
             name,
             company,
+            referred_by: referralCode,
           },
           emailRedirectTo: `${window.location.origin}/login`,
         },

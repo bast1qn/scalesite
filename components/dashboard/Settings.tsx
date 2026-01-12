@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { ThemeToggle } from '../ThemeToggle';
 import { api } from '../../lib/api';
+import { supabase } from '../../lib/supabase';
 import {
     UserCircleIcon,
     ShieldCheckIcon,
@@ -83,15 +84,19 @@ const Settings: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            if(newPassword.length < 6) throw new Error("Passwort zu kurz");
-            // TODO: Implement password update via Supabase Auth
-            // For now, just show a message
-            await new Promise(r => setTimeout(r, 500));
+            if(newPassword.length < 6) throw new Error("Passwort muss mindestens 6 Zeichen haben");
+
+            const { error } = await supabase.auth.updateUser({
+                password: newPassword
+            });
+
+            if (error) throw error;
+
             setNewPassword('');
             setCurrentPassword('');
-            showSuccess('Passwortänderung in Supabase implementieren');
+            showSuccess('Passwort erfolgreich geändert');
         } catch (error: any) {
-            alertError(error.message);
+            alertError(error.message || 'Fehler beim Ändern des Passworts');
         } finally {
             setLoading(false);
         }

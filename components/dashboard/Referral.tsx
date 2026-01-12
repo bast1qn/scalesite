@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserGroupIcon } from '../Icons';
 import { AuthContext } from '../../contexts/AuthContext';
-import { api } from '../../lib/api';
+import { supabase } from '../../lib/supabase';
 import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
 const Referral: React.FC = () => {
@@ -13,18 +13,24 @@ const Referral: React.FC = () => {
     useEffect(() => {
         const fetchReferralData = async () => {
             if (!user) return;
-            
+
             try {
                 // 1. Get Code from user context - already available in AuthContext
                 if (user?.referral_code) {
                     setReferralCode(user.referral_code);
                 }
 
-                // 2. TODO: Count referrals - needs to be implemented in Supabase
-                // For now, set to 0
-                setReferralCount(0);
+                // 2. Count referrals - users who have this user's referral_code in their referred_by field
+                // Note: This requires the 'referred_by' column in profiles table
+                const { count } = await supabase
+                    .from('profiles')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('referred_by', user?.referral_code);
+
+                setReferralCount(count || 0);
             } catch(e) {
                 console.warn("Referral data error", e);
+                setReferralCount(0);
             }
         };
         fetchReferralData();
