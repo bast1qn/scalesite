@@ -413,8 +413,9 @@ app.get('/api/auth/github/callback', async (req, res) => {
                 headers: { Authorization: `Bearer ${tokenData.access_token}` },
             });
             const emailData = await emailRes.json();
-            if (Array.isArray(emailData)) {
-                email = emailData.find(e => e.primary && e.verified)?.email || emailData[0].email;
+            if (Array.isArray(emailData) && emailData.length > 0) {
+                // Safe array access - check if array has elements before accessing index 0
+                email = emailData.find(e => e.primary && e.verified)?.email || emailData[0]?.email;
             }
         }
         if (!email) throw new Error("No email found from GitHub");

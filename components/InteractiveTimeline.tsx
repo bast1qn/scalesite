@@ -104,7 +104,7 @@ export const InteractiveTimeline: React.FC = () => {
                                         className={`group flex items-center gap-6 w-full text-left transition-all duration-500 ${isActive ? 'opacity-100 scale-105' : 'opacity-40 hover:opacity-70'}`}
                                     >
                                         {/* Timeline dot */}
-                                        <div className={`relative w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${isActive ? `bg-gradient-to-br ${gradient} shadow-lg shadow-${gradient.split(' ')[0].split('-')[1]}-500/30` : 'bg-slate-200 dark:bg-slate-700'}`}>
+                                        <div className={`relative w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${isActive ? `bg-gradient-to-br ${gradient} shadow-lg shadow-${gradient.split(' ')[0]?.split('-')[1] || 'blue'}-500/30` : 'bg-slate-200 dark:bg-slate-700'}`}>
                                             <div className={`w-3 h-3 rounded-full bg-white transition-all duration-500 ${isActive ? 'scale-100' : 'scale-50'}`}></div>
                                             {isActive && (
                                                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${gradient} animate-ping opacity-30`}></div>
@@ -150,7 +150,7 @@ export const InteractiveTimeline: React.FC = () => {
 
                                     {/* Card */}
                                     <div
-                                        className={`group relative p-8 rounded-3xl bg-white dark:bg-slate-900/80 backdrop-blur-sm border transition-all duration-500 ${isActive ? `border-transparent shadow-2xl shadow-${gradient.split(' ')[0].split('-')[1]}-500/20 scale-100` : 'border-slate-200 dark:border-slate-800 scale-95 opacity-70 grayscale'}`}
+                                        className={`group relative p-8 rounded-3xl bg-white dark:bg-slate-900/80 backdrop-blur-sm border transition-all duration-500 ${isActive ? `border-transparent shadow-2xl shadow-${gradient.split(' ')[0]?.split('-')[1] || 'blue'}-500/20 scale-100` : 'border-slate-200 dark:border-slate-800 scale-95 opacity-70 grayscale'}`}
                                         style={isActive ? {
                                             boxShadow: `0 25px 50px -12px rgba(59, 130, 246, 0.15), 0 0 0 1px transparent`,
                                         } : {}}

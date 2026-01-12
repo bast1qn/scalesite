@@ -28,21 +28,22 @@ const calculateTimeLeft = (targetDate: Date) => {
 };
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, onComplete }) => {
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
+  // Lazy initialization - calculateTimeLeft is only called once during initial render
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
   const { t } = useLanguage();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       const newTimeLeft = calculateTimeLeft(targetDate);
       setTimeLeft(newTimeLeft);
-      
+
       if (newTimeLeft.days === 0 && newTimeLeft.hours === 0 && newTimeLeft.minutes === 0 && newTimeLeft.seconds === 0) {
           onComplete();
       }
     }, 1000);
 
     return () => clearTimeout(timer);
-  });
+  }, [targetDate, onComplete]);
 
   const timerComponents = [
       {label: t('general.days'), value: timeLeft.days},

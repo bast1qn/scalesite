@@ -57,18 +57,18 @@ const LeistungenPage: React.FC<LeistungenPageProps> = ({ setCurrentPage }) => {
                                 {/* Features List */}
                                 <ul className="space-y-4">
                                     {[
-                                        t('leistungen_page.redesign.list.1'),
-                                        t('leistungen_page.redesign.list.2'),
-                                        t('leistungen_page.redesign.list.3'),
-                                        t('leistungen_page.redesign.list.4')
-                                    ].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-4 text-slate-700 dark:text-slate-300">
+                                        { id: 'redesign-1', text: t('leistungen_page.redesign.list.1') },
+                                        { id: 'redesign-2', text: t('leistungen_page.redesign.list.2') },
+                                        { id: 'redesign-3', text: t('leistungen_page.redesign.list.3') },
+                                        { id: 'redesign-4', text: t('leistungen_page.redesign.list.4') }
+                                    ].map((item) => (
+                                        <li key={item.id} className="flex items-center gap-4 text-slate-700 dark:text-slate-300">
                                             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center flex-shrink-0">
                                                 <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </div>
-                                            <span className="font-medium">{item}</span>
+                                            <span className="font-medium">{item.text}</span>
                                         </li>
                                     ))}
                                 </ul>

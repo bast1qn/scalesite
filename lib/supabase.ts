@@ -30,16 +30,22 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
                 signal: controller.signal,
             })
             .then(response => {
+                // Clear timeout on successful response
                 clearTimeout(timeoutId);
                 return response;
             })
             .catch((err) => {
+                // Clear timeout on error to prevent memory leak
                 clearTimeout(timeoutId);
                 // Don't log AbortError as it's expected on timeout
                 if (err.name !== 'AbortError') {
                     console.error('[SUPABASE] Fetch error:', err);
                 }
                 throw err;
+            })
+            .finally(() => {
+                // Ensure timeout is always cleared
+                clearTimeout(timeoutId);
             });
         },
     },
