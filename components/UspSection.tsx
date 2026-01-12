@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
@@ -43,49 +42,19 @@ const usps = [
   },
 ];
 
-// 3D Card Component with perspective tilt
-const TiltCard: React.FC<{
+// Clean card with subtle hover
+const HoverCard: React.FC<{
   children: React.ReactNode;
   className?: string;
-  gradient?: string;
-}> = ({ children, className = '', gradient }) => {
-  const [transform, setTransform] = useState('');
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -3;
-    const rotateY = ((x - centerX) / centerX) * 3;
-
-    setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
-    setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
-  };
-
-  const handleMouseLeave = () => {
-    setTransform('perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)');
-    setGlowPos({ x: 50, y: 50 });
-  };
+}> = ({ children, className = '' }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
-      className={`relative transition-transform duration-300 ease-out ${className}`}
-      style={{ transform }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      className={`relative transition-all duration-300 ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Gradient glow effect that follows cursor */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: `radial-gradient(400px circle at ${glowPos.x}% ${glowPos.y}%, ${gradient ? `${gradient.replace('from-', '').replace(' to-', ', ')} 0.15` : 'rgba(59, 130, 246, 0.15)'}, transparent 40%)`,
-          opacity: transform !== '' ? 1 : 0,
-        }}
-      />
       {children}
     </div>
   );
@@ -95,91 +64,55 @@ export const UspSection: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
-      {/* COSMIC NOISE TEXTURE */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg noise-bg-animated"></div>
-
-      {/* COSMIC AURORA LEGENDARY OVERLAY */}
-      <div className="absolute inset-0 bg-aurora-gradient animate-aurora-wave opacity-15 pointer-events-none"></div>
-
-      {/* COSMIC animated background gradients */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-blue-400/12 to-violet-400/10 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic"></div>
-        <div className="absolute bottom-[10%] left-[10%] w-[700px] h-[700px] bg-gradient-to-br from-emerald-400/10 to-teal-400/8 rounded-full blur-3xl animate-nebula-cloud shadow-glow-aurora" style={{ animationDelay: '4s' }}></div>
-        <div className="absolute top-[50%] left-[30%] w-[400px] h-[400px] bg-gradient-to-br from-fuchsia-400/10 to-pink-400/8 rounded-full blur-3xl animate-quantum-shift" style={{ animationDelay: '2s' }}></div>
-      </div>
-
-      {/* Grid pattern */}
+    <section className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+      {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
         style={{
-          backgroundImage: `radial-gradient(circle, currentColor 2px, transparent 2px)`,
-          backgroundSize: '50px 50px',
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
         }}
       ></div>
 
-      {/* COSMIC STARDUST FIELD */}
-      <div className="absolute inset-0 stardust-field opacity-30 pointer-events-none"></div>
+      {/* Subtle gradient accent */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-transparent pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
-          {/* COSMIC Header */}
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6 tracking-tight-plus">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-600 animate-cosmic-shimmer text-glow-cosmic-md">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
                 {t('usps.title')}
               </span>
             </h2>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
               {t('usps.subtitle')}
             </p>
           </div>
         </AnimatedSection>
 
         <AnimatedSection stagger>
-          {/* COSMIC Grid with 3D cards */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-container">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {usps.map((usp, index) => (
-              <TiltCard
-                key={index}
-                className="group"
-                gradient={`linear-gradient(to right, ${usp.gradient.split(' ')[0].replace('from-', '')}, ${usp.gradient.split(' ')[1].replace('to-', '')})`}
-              >
-                <div className="relative glass-quantum rounded-2xl p-6 border border-slate-200/60 dark:border-slate-700/60 h-full transition-all duration-500 shadow-glow-cosmic hover:shadow-glow-nebula hover:-translate-y-2 overflow-hidden hover-prismatic-shine">
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <HoverCard key={index}>
+                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                  {/* Top accent line */}
+                  <div className={`absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
-                  {/* Holographic overlay */}
-                  <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-500"></div>
-
-                  {/* Top gradient line */}
-                  <div className={`absolute top-0 left-4 right-4 h-[3px] bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-glow-cosmic-sm animate-cosmic-shimmer`}></div>
-
-                  {/* Icon container with glow */}
-                  <div className="relative mb-5">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${usp.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 animate-glow-breathe shadow-glow-cosmic`}></div>
-                    <div className={`relative w-16 h-16 rounded-2xl ${usp.bg} ${usp.color} flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:rotate-6 shadow-lg hover:shadow-glow-cosmic-md animate-crystal-sparkle`}>
-                      {usp.icon}
-                    </div>
-                  </div>
-
-                  {/* Floating emoji */}
-                  <div className="absolute top-5 right-5 text-2xl opacity-30 group-hover:opacity-70 group-hover:scale-150 transition-all duration-500 animate-antigravity" style={{ animationDelay: `${index * 0.5}s` }}>
-                    {usp.emoji}
+                  {/* Icon container */}
+                  <div className={`w-14 h-14 ${usp.bg} ${usp.color} rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110`}>
+                    {usp.icon}
                   </div>
 
                   {/* Content */}
-                  <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white mb-2.5 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r transition-all duration-300" style={{ backgroundImage: `linear-gradient(to right, ${usp.gradient.split(' ')[0].replace('from-', '#')}, ${usp.gradient.split(' ')[1].replace('to-', '#')})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                     {t(usp.nameKey)}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                     {t(usp.descKey)}
                   </p>
-
-                  {/* Decorative corner accent */}
-                  <div className={`absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl ${usp.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-tl-3xl animate-nebula-pulse`}></div>
                 </div>
-              </TiltCard>
+              </HoverCard>
             ))}
           </div>
         </AnimatedSection>
