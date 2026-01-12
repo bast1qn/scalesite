@@ -1,6 +1,7 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { ThemeToggle } from '../ThemeToggle';
 import { api } from '../../lib/api';
 import { supabase } from '../../lib/supabase';
@@ -30,6 +31,7 @@ type SettingsTab = 'general' | 'security' | 'notifications' | 'billing';
 
 const Settings: React.FC = () => {
     const { user } = useContext(AuthContext);
+    const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<SettingsTab>('general');
     const [loading, setLoading] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
@@ -206,7 +208,7 @@ const Settings: React.FC = () => {
     return (
         <div className="max-w-6xl mx-auto animate-fade-in">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Einstellungen</h1>
+                <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{t('dashboard.settings.title')}</h1>
                 <p className="text-slate-500 dark:text-slate-400 mt-2">Verwalten Sie Ihr Konto, Sicherheit und Präferenzen.</p>
             </div>
 
@@ -243,7 +245,7 @@ const Settings: React.FC = () => {
                                     </div>
                                     
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Vollständiger Name</label>
+                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.name')}</label>
                                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="input-premium py-2.5" />
                                     </div>
                                     <div>
@@ -251,11 +253,11 @@ const Settings: React.FC = () => {
                                         <input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className="input-premium py-2.5" placeholder="z.B. Marketing Manager" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">E-Mail Adresse</label>
+                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.email')}</label>
                                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input-premium py-2.5" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Firma</label>
+                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.company_label')}</label>
                                         <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="input-premium py-2.5" />
                                     </div>
 
@@ -293,7 +295,7 @@ const Settings: React.FC = () => {
                                     <div className="md:col-span-2 flex items-center justify-end gap-4 mt-4">
                                         {successMsg && <span className="text-green-500 text-sm font-bold animate-fade-in flex items-center gap-1"><CheckBadgeIcon className="w-4 h-4" /> {successMsg}</span>}
                                         <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 px-6 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50">
-                                            {loading ? 'Speichere...' : 'Änderungen speichern'}
+                                            {loading ? 'Speichere...' : t('dashboard.settings.update_profile')}
                                         </button>
                                     </div>
                                 </form>
@@ -306,14 +308,14 @@ const Settings: React.FC = () => {
                         <div className="space-y-6">
                             {/* Password Change */}
                             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Passwort ändern</h3>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">{t('dashboard.settings.change_password')}</h3>
                                 <form onSubmit={handleSavePassword} className="space-y-4 max-w-md">
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Aktuelles Passwort</label>
+                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.current_password')}</label>
                                         <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="input-premium py-2.5" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Neues Passwort</label>
+                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.new_password')}</label>
                                         <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="input-premium py-2.5" />
                                         {newPassword && (
                                             <div className="mt-3 space-y-2">
@@ -340,7 +342,7 @@ const Settings: React.FC = () => {
                                         )}
                                     </div>
                                     <button type="submit" disabled={loading || !passwordValidation.isValid} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 px-6 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50">
-                                        {loading ? '...' : 'Passwort aktualisieren'}
+                                        {loading ? '...' : t('dashboard.settings.change_password')}
                                     </button>
                                 </form>
                             </div>

@@ -495,6 +495,7 @@ export const translations = {
       placeholder: "Stellen Sie eine Frage...",
       error_too_long: "Deine Nachricht ist zu lang. Bitte fasse dich kürzer (max 500 Zeichen).",
       error_connection: "Entschuldigung, ich habe gerade Verbindungsprobleme. Bitte versuche es später noch einmal.",
+      technical_questions: "Für technische Anliegen oder Fragen zu Ihrem Projekt können Sie unser Ticket-System im Dashboard verwenden. Unser Support-Team hilft Ihnen gerne weiter.",
       predefined_questions: [
         "Was kostet das günstigste Paket?",
         "Kümmert ihr euch um Domains?",
@@ -1415,6 +1416,7 @@ export const translations = {
       placeholder: "Ask a question...",
       error_too_long: "Your message is too long. Please keep it shorter (max 500 characters).",
       error_connection: "Sorry, I'm having connection issues right now. Please try again later.",
+      technical_questions: "For technical issues or questions about your project, you can use our ticket system in the Dashboard. Our support team is happy to help.",
       predefined_questions: [
         "What's the cheapest package?",
         "Do you handle domains?",

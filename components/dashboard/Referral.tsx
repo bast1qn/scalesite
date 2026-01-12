@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserGroupIcon } from '../Icons';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { supabase } from '../../lib/supabase';
 import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
@@ -13,6 +14,7 @@ interface ReferralStats {
 
 const Referral: React.FC = () => {
     const { user } = useContext(AuthContext);
+    const { t } = useLanguage();
     const [referralCode, setReferralCode] = useState('');
     const [stats, setStats] = useState<ReferralStats>({
         totalCount: 0,

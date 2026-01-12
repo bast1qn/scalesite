@@ -3,6 +3,7 @@ import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
 import { CustomSelect } from '../CustomSelect';
 import { PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../Icons';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { api } from '../../lib/api';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 
@@ -86,6 +87,7 @@ function formatTimeAgo(dateString: string) {
 // --- MAIN COMPONENT ---
 const TicketSupport: React.FC = () => {
     const { user } = useContext(AuthContext);
+    const { t } = useLanguage();
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [view, setView] = useState<'list' | 'detail'>('list');
     const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
@@ -297,7 +299,7 @@ const TicketSupport: React.FC = () => {
             <div>
                 <button onClick={() => setView('list')} className="flex items-center gap-2 text-sm font-semibold text-slate-900/80 dark:text-white/80 hover:text-blue-600 transition-colors mb-4">
                     <ArrowLeftIcon />
-                    Zurück zur Übersicht
+                    {t('dashboard.tickets.back_to_overview')}
                 </button>
                 <div className="grid lg:grid-cols-3 gap-6">
                     {/* CHAT AREA */}
@@ -503,14 +505,14 @@ const TicketSupport: React.FC = () => {
         <div>
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ticket-Support</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{t('dashboard.tickets.title')}</h1>
                     <p className="mt-2 text-slate-900/80 dark:text-white/80">
                         {isTeamOrOwner ? 'Verwalten Sie eingehende Kundenanfragen.' : 'Hier können Sie Unterstützung anfordern und Anfragen verwalten.'}
                     </p>
                 </div>
                 <button onClick={() => setShowCreateModal(true)} className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2">
                     <PlusCircleIcon className="w-5 h-5" />
-                    <span className="hidden sm:inline">Neues Ticket</span>
+                    <span className="hidden sm:inline">{t('dashboard.tickets.create')}</span>
                 </button>
             </div>
             
@@ -571,7 +573,7 @@ const TicketSupport: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                     <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-scale-in">
                         <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Neues Ticket</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">{t('dashboard.tickets.create')}</h3>
                             <button onClick={() => setShowCreateModal(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                                 <XMarkIcon className="w-5 h-5 text-slate-500" />
                             </button>

@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { CustomSelect } from '../CustomSelect';
 import { AppUser } from '../../contexts/AuthContext';
 import { api } from '../../lib/api';
 import { PlusCircleIcon, XMarkIcon, BriefcaseIcon, CheckBadgeIcon, ArrowPathIcon, SparklesIcon } from '../Icons';
-import { useLanguage } from '../../contexts/LanguageContext';
 import { setDashboardLanguage, alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 
 type UserProfile = AppUser;
@@ -37,6 +37,7 @@ const DEFAULT_SERVICES: Service[] = [
 
 const UserManagement: React.FC = () => {
     const { user } = useContext(AuthContext);
+    const { t } = useLanguage();
     const [users, setUsers] = useState<UserProfile[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -121,7 +122,7 @@ const UserManagement: React.FC = () => {
         <div className="space-y-6">
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Nutzerverwaltung</h1>
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('dashboard.nav.users')}</h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{users.length} registrierte Accounts</p>
                 </div>
                 <input
@@ -156,7 +157,7 @@ const UserManagement: React.FC = () => {
                                             </div>
                                             <div>
                                                 <div className="text-sm font-semibold text-slate-900 dark:text-white">{u.name}</div>
-                                                <div className="text-xs text-slate-500">{u.company || 'Keine Firma'}</div>
+                                                <div className="text-xs text-slate-500">{u.company || t('dashboard.alerts.no_company')}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -177,11 +178,11 @@ const UserManagement: React.FC = () => {
                                         )}
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <button 
+                                        <button
                                             onClick={() => openProjectModal(u)}
                                             className="text-xs font-semibold text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded transition-colors"
                                         >
-                                            Projekte verwalten
+                                            {t('dashboard.alerts.manage_projects')}
                                         </button>
                                     </td>
                                 </tr>
@@ -233,8 +234,8 @@ const ProjectManagementModal: React.FC<{ user: UserProfile; services: Service[];
 
                 <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-slate-50 dark:bg-slate-950/50">
                     {activeTab === 'manage' ? (
-                        loadingData ? <div className="text-center py-10 text-slate-400">Lade...</div> : 
-                        userServices.length === 0 ? <div className="text-center py-10 text-slate-400">Keine aktiven Projekte.</div> :
+                        loadingData ? <div className="text-center py-10 text-slate-400">Lade...</div> :
+                        userServices.length === 0 ? <div className="text-center py-10 text-slate-400">{t('dashboard.alerts.no_projects')}</div> :
                         <div className="space-y-6">
                             {userServices.map(s => (
                                 <ProjectCard key={s.id} service={s} onUpdate={() => setRefreshTrigger(prev => prev + 1)} />

@@ -3,6 +3,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { CustomSelect } from '../components/CustomSelect';
 import { icons, placeholderContent } from '../lib/blueprintPlaceholders';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // --- PREVIEW COMPONENT ---
 interface BlueprintPreviewProps {
@@ -11,6 +12,7 @@ interface BlueprintPreviewProps {
     primaryColor: string;
     secondaryColor: string;
     blueprintTemplates: any[];
+    t: (key: string) => string;
 }
 
 const escapeHtml = (unsafe: string) => {
@@ -30,6 +32,7 @@ const generatePreviewHtml = (
     activePage: string,
     theme: 'light' | 'dark',
     blueprintTemplates: any[],
+    t: (key: string) => string,
 ): string => {
     const defaultTemplate = blueprintTemplates.find(t => t.industry_key === 'dienstleistung');
     const selectedTemplate = blueprintTemplates.find(t => t.industry_key === industry);
@@ -120,9 +123,9 @@ const generatePreviewHtml = (
                     <section class="py-20 px-6 bg-light-bg dark:bg-dark-bg">
                         <div class="max-w-lg mx-auto bg-surface dark:bg-dark-surface p-8 rounded-2xl shadow-xl border border-dark-text/10 dark:border-light-text/10">
                              <h3 class="font-serif text-2xl font-bold text-dark-text dark:text-light-text mb-6 text-center">${section.title}</h3>
-                             <p class="text-sm opacity-60 text-center mb-4">Vorschau - Formular ist in der Demo nicht aktiv</p>
-                             <form class="space-y-4" onsubmit="event.preventDefault(); alert('Dies ist eine Vorschau. Das Kontaktformular wird nach der Veröffentlichung funktionieren.');">
-                                <div><label class="block text-sm font-medium mb-1 opacity-70">Name</label><input type="text" class="form-input" placeholder="Ihr Name" /></div>
+                             <p class="text-sm opacity-60 text-center mb-4">${t('blueprint.preview_not_active')}</p>
+                             <form class="space-y-4" onsubmit="event.preventDefault(); alert('${t('blueprint.preview_alert')}');">
+                                <div><label class="block text-sm font-medium mb-1 opacity-70">${t('blueprint.your_name')}</label><input type="text" class="form-input" placeholder="${t('blueprint.your_name')}" /></div>
                                 <div><label class="block text-sm font-medium mb-1 opacity-70">E-Mail</label><input type="email" class="form-input" placeholder="ihre@email.de" /></div>
                                 <div><label class="block text-sm font-medium mb-1 opacity-70">Nachricht</label><textarea rows="4" class="form-input" placeholder="Ihre Nachricht..."></textarea></div>
                                 <div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold mt-2">Nachricht senden</button></div>
@@ -142,7 +145,7 @@ const generatePreviewHtml = (
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vorschau: ${safeCompanyName}</title>
+        <title>${t('blueprint.preview')}: ${safeCompanyName}</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
@@ -287,8 +290,8 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
     }, []);
     
     const htmlContent = useMemo(() => {
-        return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates);
-    }, [props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates]);
+        return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t);
+    }, [props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t]);
 
     useEffect(() => {
         setActivePage('home');
@@ -304,7 +307,7 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
                     <div className="w-3 h-3 rounded-full bg-green-400"></div>
                 </div>
                 <div className="mx-auto bg-white dark:bg-slate-900 px-3 py-1 rounded-md text-xs text-slate-500 w-full max-w-[200px] sm:max-w-xs text-center truncate opacity-70 cursor-default select-none">
-                    Vorschau: {props.companyName.toLowerCase().replace(/\s/g, '')}.de
+                    {props.t('blueprint.preview')}: {props.companyName.toLowerCase().replace(/\s/g, '')}.de
                 </div>
             </div>
             <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
@@ -323,6 +326,7 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
 
 // --- MAIN PAGE COMPONENT ---
 const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
+    const { t } = useLanguage();
     const [formData, setFormData] = useState({
         companyName: '',
         industry: 'dienstleistung',
@@ -411,10 +415,10 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
             <AnimatedSection>
                 <div className="text-center pt-8 pb-16">
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-dark-text dark:text-light-text tracking-tight font-serif">
-                        Blueprint Generator
+                        {t('blueprint.title')}
                     </h1>
                     <p className="mt-6 max-w-2xl mx-auto text-lg text-dark-text/70 dark:text-light-text/70">
-                        Erleben Sie Ihre Vision. Erstellen Sie in Sekunden eine interaktive Vorschau Ihrer zukünftigen Website – maßgeschneidert für Ihre Branche.
+                        {t('blueprint.subtitle')}
                     </p>
                 </div>
             </AnimatedSection>
@@ -425,25 +429,25 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                     <div className="lg:col-span-1 order-2 lg:order-1">
                         <form onSubmit={handleSubmit} className="bg-white dark:bg-dark-surface p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar">
                             <div>
-                                <label htmlFor="companyName" className="block text-sm font-bold text-dark-text dark:text-light-text mb-2">Firmenname</label>
-                                <input 
-                                    type="text" 
-                                    name="companyName" 
-                                    id="companyName" 
-                                    value={formData.companyName} 
-                                    onChange={handleChange} 
-                                    required 
-                                    placeholder="z.B. Muster GmbH"
-                                    className="input-premium" 
+                                <label htmlFor="companyName" className="block text-sm font-bold text-dark-text dark:text-light-text mb-2">{t('blueprint.company_name')}</label>
+                                <input
+                                    type="text"
+                                    name="companyName"
+                                    id="companyName"
+                                    value={formData.companyName}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder={t('blueprint.your_name')}
+                                    className="input-premium"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="industry-search" className="block text-sm font-bold text-dark-text dark:text-light-text mb-2">Branche</label>
+                                <label htmlFor="industry-search" className="block text-sm font-bold text-dark-text dark:text-light-text mb-2">{t('blueprint.industry')}</label>
                                 <div className="relative">
-                                    <input 
+                                    <input
                                         type="text"
                                         id="industry-search"
-                                        placeholder="Branche suchen..."
+                                        placeholder={t('blueprint.search_industry')}
                                         value={industrySearch}
                                         onChange={e => setIndustrySearch(e.target.value)}
                                         className="input-premium mb-2 pl-10"
@@ -481,24 +485,24 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                                     <svg className="animate-spin h-10 w-10 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                 </div>
-                                <p className="text-xl font-semibold text-dark-text dark:text-light-text">Künstliche Intelligenz analysiert Ihre Branche...</p>
+                                <p className="text-xl font-semibold text-dark-text dark:text-light-text">{t('blueprint.analyzing')}</p>
                                 <p className="text-dark-text/60 dark:text-light-text/60 mt-2">Design-Vorschlag wird generiert.</p>
                             </div>
                         )}
-                        
+
                         {!isLoading && !previewProps && (
                             <div className="h-full flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-900/50 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-800 p-12 text-center">
                                 <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center mb-6 shadow-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-slate-300"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 </div>
-                                <h3 className="text-xl font-bold text-dark-text dark:text-light-text">Ihre Vorschau ist leer</h3>
+                                <h3 className="text-xl font-bold text-dark-text dark:text-light-text">{t('blueprint.preview_empty')}</h3>
                                 <p className="text-dark-text/60 dark:text-light-text/60 mt-2 max-w-md">Füllen Sie das Formular auf der linken Seite aus, um einen individuellen Design-Vorschlag für Ihr Unternehmen zu erhalten.</p>
                             </div>
                         )}
 
                         {previewProps && blueprintTemplates.length > 0 && (
                             <div className="animate-fade-in">
-                                <BlueprintPreview {...previewProps} blueprintTemplates={blueprintTemplates} />
+                                <BlueprintPreview {...previewProps} blueprintTemplates={blueprintTemplates} t={t} />
                                 <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8 mt-8 text-center">
                                     <h3 className="text-2xl font-bold text-dark-text dark:text-light-text">Gefällt Ihnen dieser Entwurf?</h3>
                                     <p className="mt-2 text-dark-text/70 dark:text-light-text/70 max-w-2xl mx-auto">
@@ -506,7 +510,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                     </p>
                                     <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
                                         <button onClick={() => setCurrentPage('preise')} className="bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary-hover transition-all shadow-lg hover:shadow-primary/30 transform hover:-translate-y-1">
-                                            Projekt jetzt anfragen
+                                            {t('blueprint.request_project')}
                                         </button>
                                         <button onClick={() => document.getElementById('companyName')?.focus()} className="bg-white dark:bg-slate-800 text-dark-text dark:text-light-text font-semibold px-8 py-3 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                             Neuen Blueprint erstellen

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { CheckBadgeIcon, PlusCircleIcon, XMarkIcon, TicketIcon, ArrowRightIcon, ClockIcon, BriefcaseIcon, ShieldCheckIcon } from '../Icons';
 import { api } from '../../lib/api';
 import { DashboardView } from '../../pages/DashboardPage';
@@ -36,6 +37,7 @@ interface BookingModalState {
 
 const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
     const { user } = useContext(AuthContext);
+    const { t } = useLanguage();
     const [activeServices, setActiveServices] = useState<UserService[]>([]); 
     const [availableServices, setAvailableServices] = useState<Service[]>([]);
     const [loading, setLoading] = useState(true);
@@ -155,7 +157,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                         <BriefcaseIcon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold">Dienstleistungen</h1>
+                        <h1 className="text-2xl font-bold">{t('dashboard.services.title')}</h1>
                         <p className="text-white/80 text-sm mt-1">
                             Verwalten Sie Ihre gebuchten Pakete und entdecken Sie weitere Möglichkeiten.
                         </p>
@@ -220,7 +222,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
              <div>
                 <div className="flex items-center gap-2 mb-4">
                     <PlusCircleIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Weitere Dienste buchen</h2>
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{t('dashboard.alerts.book_more_services')}</h2>
                 </div>
                 {availableServices.length > 0 ? (
                     <div className="grid gap-4 md:grid-cols-2">
@@ -301,7 +303,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
 
                                     <div className="flex gap-3">
                                         <button onClick={closeBookingModal} className="flex-1 py-3 rounded-lg font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700">
-                                            Abbrechen
+                                            {t('dashboard.alerts.cancel')}
                                         </button>
                                         <button onClick={handleConfirmBooking} className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-lg font-semibold hover:opacity-90 text-sm">
                                             Anfragen

@@ -1,6 +1,7 @@
 
 import React, { useContext, useState } from 'react';
 import { AuthContext, AppUser } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon } from '../Icons';
 import { DashboardView } from '../../pages/DashboardPage';
 
@@ -34,7 +35,9 @@ const NavLink: React.FC<{item: { view: DashboardView; label: string; icon: React
     );
 };
 
-const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({user, logout}) => (
+const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({user, logout}) => {
+    const { t } = useLanguage();
+    return (
     <div className="p-5 border-t border-slate-200/50 dark:border-slate-700/50 bg-gradient-to-b from-slate-50/80 to-white/80 dark:from-slate-900/80 dark:to-slate-900/80 backdrop-blur-sm shrink-0">
         <div className="flex items-center gap-3 mb-4">
             <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 via-violet-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20 ring-2 ring-white dark:ring-slate-700">
@@ -50,19 +53,21 @@ const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({u
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-red-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:border-red-700/50 dark:hover:text-red-400 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md group"
         >
             <ArrowLeftOnRectangleIcon className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"/>
-            Abmelden
+            {t('nav.logout')}
         </button>
     </div>
 );
+};
 
 const SidebarContent: React.FC<{
-    user: AppUser | null, 
-    activeView: DashboardView, 
-    setActiveView: (v: DashboardView) => void, 
-    setCurrentPage: (p: string) => void, 
+    user: AppUser | null,
+    activeView: DashboardView,
+    setActiveView: (v: DashboardView) => void,
+    setCurrentPage: (p: string) => void,
     closeSidebar: () => void,
     logout: () => void
 }> = ({ user, activeView, setActiveView, setCurrentPage, closeSidebar, logout }) => {
+    const { t } = useLanguage();
     const [adminGroupOpen, setAdminGroupOpen] = useState(true);
     const isTeam = user?.role === 'team' || user?.role === 'owner';
 
@@ -74,14 +79,14 @@ const SidebarContent: React.FC<{
     // --- USER NAVIGATION ---
     if (!isTeam) {
         const userNavItems = [
-            { view: 'übersicht', label: 'Übersicht', icon: <HomeIcon className="w-5 h-5"/> },
-            { view: 'ticket-support', label: 'Support Tickets', icon: <TicketIcon className="w-5 h-5"/> },
-            { view: 'dienstleistungen', label: 'Meine Dienste', icon: <BriefcaseIcon className="w-5 h-5"/> },
-            { view: 'transaktionen', label: 'Rechnungen', icon: <CreditCardIcon className="w-5 h-5"/> },
-            { view: 'einstellungen', label: 'Einstellungen', icon: <Cog6ToothIcon className="w-5 h-5"/> },
+            { view: 'übersicht', label: t('dashboard.nav.overview'), icon: <HomeIcon className="w-5 h-5"/> },
+            { view: 'ticket-support', label: t('dashboard.nav.tickets'), icon: <TicketIcon className="w-5 h-5"/> },
+            { view: 'dienstleistungen', label: t('dashboard.nav.services'), icon: <BriefcaseIcon className="w-5 h-5"/> },
+            { view: 'transaktionen', label: t('dashboard.nav.transactions'), icon: <CreditCardIcon className="w-5 h-5"/> },
+            { view: 'einstellungen', label: t('dashboard.nav.settings'), icon: <Cog6ToothIcon className="w-5 h-5"/> },
         ];
         const secondaryItems = [
-            { view: 'freunde-werben', label: 'Freunde werben', icon: <UserGroupIcon className="w-5 h-5"/> },
+            { view: 'freunde-werben', label: t('dashboard.nav.referrals'), icon: <UserGroupIcon className="w-5 h-5"/> },
             { view: 'partner-werden', label: 'Partner werden', icon: <BuildingStorefrontIcon className="w-5 h-5"/> },
         ];
 
@@ -120,13 +125,13 @@ const SidebarContent: React.FC<{
 
     // --- TEAM NAVIGATION ---
     const workspaceItems = [
-        { view: 'übersicht', label: 'Dashboard', icon: <HomeIcon className="w-5 h-5"/> },
-        { view: 'user-management', label: 'Kunden & Projekte', icon: <UsersIcon className="w-5 h-5"/> },
-        { view: 'ticket-support', label: 'Support Inbox', icon: <TicketIcon className="w-5 h-5"/> },
+        { view: 'übersicht', label: t('dashboard.nav.overview'), icon: <HomeIcon className="w-5 h-5"/> },
+        { view: 'user-management', label: t('dashboard.users.title'), icon: <UsersIcon className="w-5 h-5"/> },
+        { view: 'ticket-support', label: t('dashboard.nav.tickets'), icon: <TicketIcon className="w-5 h-5"/> },
     ];
 
     const adminTools = [
-        { view: 'discount-manager', label: 'Marketing', icon: <TagIcon className="w-5 h-5"/> },
+        { view: 'discount-manager', label: t('dashboard.discounts.title'), icon: <TagIcon className="w-5 h-5"/> },
     ];
 
     return (
@@ -163,7 +168,7 @@ const SidebarContent: React.FC<{
                     {adminGroupOpen && (
                         <div className="mt-1 space-y-0.5 animate-fade-in">
                             {adminTools.map((item: any) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
-                            <NavLink item={{ view: 'einstellungen', label: 'Einstellungen', icon: <Cog6ToothIcon className="w-5 h-5"/> }} activeView={activeView} onClick={handleNavClick} />
+                            <NavLink item={{ view: 'einstellungen', label: t('dashboard.nav.settings'), icon: <Cog6ToothIcon className="w-5 h-5"/> }} activeView={activeView} onClick={handleNavClick} />
                         </div>
                     )}
                 </div>

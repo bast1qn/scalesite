@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/api';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { TagIcon, PlusCircleIcon, XMarkIcon, PencilIcon } from '../Icons';
 import { alertSaveFailed, alertError } from '../../lib/dashboardAlerts';
 
 const DiscountManager: React.FC = () => {
+    const { t } = useLanguage();
     const [services, setServices] = useState<any[]>([]);
     const [discounts, setDiscounts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -115,7 +117,7 @@ const DiscountManager: React.FC = () => {
             <div className="grid gap-8 lg:grid-cols-2">
                 {/* Left: Services Pricing */}
                 <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
-                    <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">Paket-Verwaltung</h2>
+                    <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t('dashboard.discounts.title')}</h2>
                     <div className="space-y-4">
                         {services.map(service => (
                             <div key={service.id} className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-700 group hover:border-blue-400/50 transition-colors">
@@ -204,8 +206,8 @@ const DiscountManager: React.FC = () => {
                                 </div>
                             </div>
                             <div className="pt-2 flex justify-end gap-2">
-                                <button type="button" onClick={() => setShowDiscountModal(false)} className="px-4 py-2 text-sm font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Abbrechen</button>
-                                <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Speichern</button>
+                                <button type="button" onClick={() => setShowDiscountModal(false)} className="px-4 py-2 text-sm font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">{t('dashboard.alerts.cancel')}</button>
+                                <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">{t('dashboard.discounts.save')}</button>
                             </div>
                         </form>
                     </div>
@@ -286,9 +288,9 @@ const DiscountManager: React.FC = () => {
                             </div>
 
                             <div className="pt-4 flex justify-end gap-3">
-                                <button type="button" onClick={() => setShowServiceModal(false)} className="px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold">Abbrechen</button>
+                                <button type="button" onClick={() => setShowServiceModal(false)} className="px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold">{t('dashboard.alerts.cancel')}</button>
                                 <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md">
-                                    Speichern
+                                    {t('dashboard.alerts.save')}
                                 </button>
                             </div>
                         </form>

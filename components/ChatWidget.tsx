@@ -90,9 +90,7 @@ export const ChatWidget: React.FC = () => {
                     ? 'Wir bieten folgende Dienstleistungen an: Basic Website (99€), Starter Website (199€), Business Website (399€) sowie verschiedene Hosting-Pakete. Welches Paket interessiert Sie?'
                     : 'We offer the following services: Basic Website (€99), Starter Website (€199), Business Website (€399), and various hosting packages. Which package interests you?';
             } else if (lowerMessage.includes('hilfe') || lowerMessage.includes('support') || lowerMessage.includes('help')) {
-                responseText = language === 'de'
-                    ? 'Für technische Anliegen oder Fragen zu Ihrem Projekt können Sie unser Ticket-System im Dashboard verwenden. Unser Support-Team hilft Ihnen gerne weiter.'
-                    : 'For technical issues or questions about your project, you can use our ticket system in the dashboard. Our support team is happy to help.';
+                responseText = t('chat_widget.technical_questions');
             } else if (lowerMessage.includes('hallo') || lowerMessage.includes('hi') || lowerMessage.includes('hello')) {
                 responseText = language === 'de'
                     ? 'Hallo! Willkommen bei ScaleSite. Wie kann ich Ihnen heute helfen? Sie können mir Fragen zu unseren Dienstleistungen, Preisen oder Support-Themen stellen.'
