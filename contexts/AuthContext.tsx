@@ -96,7 +96,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] Session check result:', session ? 'Session found' : 'No session');
 
         if (session?.user) {
-          await loadUserProfile(session.user.id);
+          // Use auth metadata immediately - no DB query needed
+          const authUser: AppUser = {
+            id: session.user.id,
+            name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
+            email: session.user.email || '',
+            company: session.user.user_metadata?.company || null,
+            role: session.user.user_metadata?.role || 'user',
+            referral_code: session.user.user_metadata?.referral_code || null
+          };
+          setUser(authUser);
+          console.log('[AUTH] User set from auth metadata (checkSession):', authUser.email);
+          setLoading(false);
         } else {
           stopLoading();
         }
@@ -122,7 +133,35 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setSessionChecked(true);
 
       if (session?.user) {
-        await loadUserProfile(session.user.id);
+        // Use auth metadata immediately - no DB query needed
+        const authUser: AppUser = {
+          id: session.user.id,
+          name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
+          email: session.user.email || '',
+          company: session.user.user_metadata?.company || null,
+          role: session.user.user_metadata?.role || 'user',
+          referral_code: session.user.user_metadata?.referral_code || null
+        };
+        setUser(authUser);
+        console.log('[AUTH] User set from auth metadata:', authUser.email);
+        setLoading(false);
+
+        // Optionally load full profile in background (non-blocking)
+        getUserProfile(session.user.id).then(({ data }) => {
+          if (data && isMounted) {
+            console.log('[AUTH] Background profile update:', data.email);
+            setUser({
+              id: data.id,
+              name: data.name || '',
+              email: data.email || '',
+              company: data.company,
+              role: data.role as 'team' | 'user' | 'owner',
+              referral_code: data.referral_code
+            });
+          }
+        }).catch(() => {
+          // Ignore background errors
+        });
       } else {
         setUser(null);
         stopLoading();
