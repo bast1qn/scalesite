@@ -21,6 +21,15 @@ const staticShowcaseItems = [
     image_url: '',
     route: 'restaurant',
     gradient: 'from-amber-400 to-orange-500'
+  },
+  {
+    id: 'architecture',
+    title: 'Richter Architekten',
+    category: 'Architektur',
+    excerpt: 'Minimalistisches Portfolio für ein Architekturbüro mit filterbarer Projekt-Galerie.',
+    image_url: '',
+    route: 'architecture',
+    gradient: 'from-slate-400 to-slate-600'
   }
 ];
 

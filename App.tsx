@@ -30,6 +30,7 @@ const GlossarPage = lazy(() => import('./pages/GlossarPage'));
 const StoryPage = lazy(() => import('./pages/StoryPage'));
 const RessourcenPage = lazy(() => import('./pages/RessourcenPage'));
 const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
+const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 
 // Loading fallback component
 const PageLoader: React.FC = () => (
@@ -62,7 +63,8 @@ const AppContent: React.FC = () => {
             dashboard: 'Mein Dashboard',
             impressum: 'Impressum',
             datenschutz: 'Datenschutz',
-            restaurant: 'Café & Bistro | Showcase'
+            restaurant: 'Café & Bistro | Showcase',
+            architecture: 'Richter Architekten | Showcase'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
@@ -129,6 +131,7 @@ const AppContent: React.FC = () => {
             case 'story': return <StoryPage />;
             case 'ressourcen': return <RessourcenPage setCurrentPage={setCurrentPage} />;
             case 'restaurant': return <RestaurantPage setCurrentPage={setCurrentPage} />;
+            case 'architecture': return <ArchitecturePage setCurrentPage={setCurrentPage} />;
             case 'case-study': return <CaseStudyDetailPage postId={selectedPostId} setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
