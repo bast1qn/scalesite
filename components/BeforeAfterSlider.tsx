@@ -23,7 +23,10 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     if (!containerRef.current) return;
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+    // Defensively check for touches array existence before accessing [0]
+    const clientX = 'touches' in event && event.touches[0]
+      ? event.touches[0].clientX
+      : event.clientX;
 
     let position = ((clientX - containerRect.left) / containerRect.width) * 100;
     position = Math.max(0, Math.min(100, position));
@@ -83,7 +86,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           src={beforeImage}
           alt="Vorher"
           className="absolute inset-0 w-full h-full object-cover max-w-none"
-          style={{ width: containerRef.current ? containerRef.current.offsetWidth : '100%' }}
+          style={{ width: containerRef.current?.offsetWidth ?? '100%' }}
           draggable={false}
         />
         {/* Grayscale filter to emphasize 'bad' website */}

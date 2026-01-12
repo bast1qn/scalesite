@@ -25,10 +25,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setCurrentPage }) => {
         const handleUrlChange = () => {
             const params = new URLSearchParams(window.location.search);
             const viewParam = params.get('view');
-            if (viewParam) {
-                 setActiveView(viewParam as DashboardView);
+
+            // Defensively validate viewParam against allowed values
+            const validViews: DashboardView[] = [
+                'übersicht', 'ticket-support', 'dienstleistungen', 'transaktionen',
+                'einstellungen', 'freunde-werben', 'partner-werden', 'user-management', 'discount-manager'
+            ];
+
+            if (viewParam && validViews.includes(viewParam as DashboardView)) {
+                setActiveView(viewParam as DashboardView);
             } else {
-                 setActiveView('übersicht');
+                setActiveView('übersicht');
             }
         };
 

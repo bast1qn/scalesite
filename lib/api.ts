@@ -917,9 +917,14 @@ export const api = {
 
         if (ticket.error) return { data: null, error: handleSupabaseError(ticket.error) };
 
+        // Defensively check if ticket.data exists before accessing user_id
+        if (!ticket.data?.user_id) {
+            return { data: null, error: 'Ticket not found or has no user_id' };
+        }
+
         const { error } = await supabase.from('user_services').insert({
             id: generateId(),
-            user_id: ticket.data!.user_id,
+            user_id: ticket.data.user_id,
             service_id: serviceId,
             status: 'pending',
             progress: 0,

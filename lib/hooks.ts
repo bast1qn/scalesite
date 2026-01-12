@@ -101,7 +101,7 @@ export function useBodyScrollLock(enabled: boolean): void {
  */
 export function useChatScroll(
   containerRef: RefObject<HTMLDivElement>,
-  messages: unknown[],
+  messages: readonly unknown[],
   enabled: boolean = true,
   autoScrollThreshold: number = 100
 ): {

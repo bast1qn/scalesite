@@ -272,9 +272,17 @@ const AutomationenPage: React.FC<AutomationenPageProps> = ({ setCurrentPage }) =
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        const name = formData.get('name') as string;
-        const email = formData.get('email') as string;
-        const message = formData.get('message') as string;
+        // Defensively extract form data with null checks
+        const name = formData.get('name')?.toString() || '';
+        const email = formData.get('email')?.toString() || '';
+        const message = formData.get('message')?.toString() || '';
+
+        // Validate required fields
+        if (!name || !email) {
+            setIsSubmitting(false);
+            alert(language === 'de' ? "Bitte füllen Sie alle Pflichtfelder aus." : "Please fill in all required fields.");
+            return;
+        }
 
         // Safely extract description (MicroAutomation uses 'desc', AutomationPackage uses 'description')
         const getDescription = (pkg: AutomationItem): string => {
