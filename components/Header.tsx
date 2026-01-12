@@ -37,7 +37,7 @@ const NavButton: React.FC<{
             onMouseMove={handleMouseMove}
             className={`relative px-5 py-2.5 text-sm font-medium transition-all duration-500 rounded-full group overflow-hidden btn-micro-press ${
                 isActive
-                    ? 'text-white shadow-xl shadow-blue-500/30 scale-105'
+                    ? 'text-white shadow-glow-legendary-sm scale-105'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
             aria-current={isActive ? 'page' : undefined}
@@ -47,12 +47,12 @@ const NavButton: React.FC<{
                     : 'transparent',
             }}
         >
-            {/* Dynamic glow on hover */}
+            {/* Enhanced dynamic glow on hover */}
             {!isActive && isHovered && (
                 <span
-                    className="absolute inset-0 rounded-full opacity-50"
+                    className="absolute inset-0 rounded-full opacity-70"
                     style={{
-                        background: `radial-gradient(150px circle at ${glowPos.x}% ${glowPos.y}%, rgba(59, 130, 246, 0.15), transparent 70%)`,
+                        background: `radial-gradient(200px circle at ${glowPos.x}% ${glowPos.y}%, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.15), transparent 70%)`,
                     }}
                 ></span>
             )}
@@ -60,14 +60,15 @@ const NavButton: React.FC<{
             {children}
             {!isActive && (
                 <>
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-1/2 transition-all duration-300 rounded-full shadow-lg shadow-blue-500/50"></span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></span>
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-2/3 transition-all duration-300 rounded-full shadow-glow-legendary-sm"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/15 to-blue-500/0 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></span>
                 </>
             )}
             {isActive && (
                 <>
-                    <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full"></span>
-                    <span className="absolute inset-0 animate-shimmer-sweep"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent rounded-full"></span>
+                    <span className="absolute inset-0 shimmer-sweep"></span>
+                    <span className="absolute inset-0 animate-gradient-deluxe opacity-50"></span>
                 </>
             )}
         </button>
@@ -217,28 +218,29 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
 
     const headerClasses = `fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
         isScrolled || isMenuOpen
-            ? 'bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-premium-lg py-2'
+            ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border-b border-slate-200/60 dark:border-slate-800/60 shadow-legendary py-2'
             : 'bg-transparent border-transparent py-4'
     }`;
 
     return (
         <header className={headerClasses}>
-            {/* Animated border gradient */}
-            <div className={`absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}></div>
+            {/* Enhanced animated border gradient */}
+            <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/60 via-violet-500/60 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 lg:h-20">
                     {/* Logo */}
                     <button
                         onClick={() => setCurrentPage('home')}
-                        className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-all duration-300 hover:scale-105 active:scale-95 group"
+                        className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-all duration-500 hover:scale-105 active:scale-95 group relative"
                     >
-                        <ScaleSiteLogo className="h-7 lg:h-8 transition-transform duration-300 group-hover:rotate-3" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/20 to-blue-500/0 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <ScaleSiteLogo className="h-7 lg:h-8 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110 relative z-10" />
                     </button>
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center">
-                        <div className="flex items-center gap-1.5 bg-slate-100/60 dark:bg-slate-800/60 backdrop-blur-md px-2 py-1.5 rounded-full border border-slate-200/60 dark:border-slate-700/60 shadow-sm">
+                        <div className="flex items-center gap-1.5 bg-slate-100/70 dark:bg-slate-800/70 backdrop-blur-xl px-2 py-1.5 rounded-full border-2 border-slate-200/70 dark:border-slate-700/70 shadow-legendary">
                             {navItems.map(item => (
                                 <NavButton key={item.page} page={item.page} currentPage={currentPage} onClick={handleNavClick}>
                                     {item.label}
@@ -278,13 +280,13 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('preise')}
-                                    className="group relative flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 btn-micro-press overflow-hidden"
+                                    className="group relative flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl hover:shadow-glow-legendary-md hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 btn-micro-press overflow-hidden btn-legendary"
                                 >
                                     <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                                    <span className="absolute inset-0 animate-gradient-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
+                                    <span className="absolute inset-0 shimmer-sweep"></span>
                                     <span className="relative z-10 flex items-center gap-2">
                                         {t('nav.projectStart')}
-                                        <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
+                                        <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-125" />
                                     </span>
                                 </button>
                             </>
@@ -306,14 +308,14 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         </button>
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="relative p-2.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 group"
+                            className="relative p-2.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 group border border-transparent hover:border-blue-300/50 dark:hover:border-violet-600/50"
                             aria-label={isMenuOpen ? t('nav.menuClose') : t('nav.menuOpen')}
                         >
-                            <span className={`absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/10 to-violet-500/10 transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}></span>
+                            <span className={`absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/15 to-violet-500/15 transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}></span>
                             {isMenuOpen ? (
-                                <XMarkIcon className="w-6 h-6 relative transition-transform duration-300 rotate-90" />
+                                <XMarkIcon className="w-6 h-6 relative transition-transform duration-300 rotate-90 scale-110" />
                             ) : (
-                                <Bars3Icon className="w-6 h-6 relative transition-transform duration-300 group-hover:rotate-180" />
+                                <Bars3Icon className="w-6 h-6 relative transition-transform duration-300 group-hover:rotate-180 group-hover:scale-110" />
                             )}
                         </button>
                     </div>
@@ -327,15 +329,19 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                 }`}
                 style={{ zIndex: 99 }}
             >
-                {/* Animated background gradient for mobile menu */}
+                {/* Enhanced animated background gradient for mobile menu */}
                 <div className={`absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-violet-50 dark:from-slate-950 dark:via-slate-900 dark:to-violet-950/50 transition-opacity duration-700 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}></div>
 
-                {/* Noise texture overlay */}
-                <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.025] noise-bg"></div>
+                {/* Legendary animated mesh gradient overlay */}
+                <div className={`absolute inset-0 bg-aurora-legendary opacity-30 transition-opacity duration-700 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}></div>
 
-                {/* Floating decorative elements */}
-                <div className="absolute top-20 left-10 w-40 h-40 bg-blue-400/10 rounded-full blur-3xl animate-morph-blob"></div>
-                <div className="absolute bottom-20 right-10 w-40 h-40 bg-violet-400/10 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '3s' }}></div>
+                {/* Noise texture overlay */}
+                <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] noise-bg"></div>
+
+                {/* Enhanced floating decorative elements */}
+                <div className="absolute top-20 left-10 w-48 h-48 bg-blue-400/15 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
+                <div className="absolute bottom-20 right-10 w-48 h-48 bg-violet-400/15 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '3s' }}></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '1.5s' }}></div>
 
                 <nav className="flex flex-col items-center justify-center min-h-screen gap-5 p-8 relative z-10">
                     {navItems.map((item, index) => (
@@ -344,8 +350,8 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                             onClick={() => handleNavClick(item.page)}
                             className={`w-full max-w-xs text-xl font-medium transition-all duration-500 px-6 py-4 rounded-2xl text-center transform relative overflow-hidden group ${
                                 currentPage === item.page
-                                    ? 'text-white bg-gradient-to-r from-blue-600 to-violet-600 shadow-xl shadow-blue-500/25 scale-105'
-                                    : 'text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-800/80 hover:scale-105 hover:shadow-lg'
+                                    ? 'text-white bg-gradient-to-r from-blue-600 to-violet-600 shadow-glow-legendary-md scale-105'
+                                    : 'text-slate-700 dark:text-slate-300 hover:bg-white/90 dark:hover:bg-slate-800/90 hover:scale-105 hover:shadow-legendary'
                             }`}
                             style={{
                                 transitionDelay: isMenuOpen ? `${index * 50}ms` : '0ms',
@@ -354,8 +360,9 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                             }}
                         >
                             {currentPage === item.page && (
-                                <span className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-violet-500/20 animate-gradient-shimmer"></span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-violet-500/20 animate-gradient-deluxe"></span>
                             )}
+                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></span>
                             <span className="relative z-10 flex items-center justify-center gap-3">
                                 {item.label}
                                 {currentPage !== item.page && (
@@ -389,14 +396,14 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <div className="flex flex-col items-center gap-3 w-full max-w-xs">
                             <button
                                 onClick={() => handleNavClick('preise')}
-                                className="group w-full flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 btn-micro-press relative overflow-hidden"
+                                className="group w-full flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-glow-legendary-lg hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 btn-micro-press relative overflow-hidden btn-legendary"
                                 style={{ transitionDelay: '300ms' }}
                             >
-                                <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shimmer"></span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></span>
                                 <span className="absolute inset-0 shimmer-sweep"></span>
                                 <span className="relative z-10 flex items-center gap-2">
                                     {t('nav.projectStart')}
-                                    <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
+                                    <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-125" />
                                 </span>
                             </button>
                             <button

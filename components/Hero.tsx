@@ -318,112 +318,153 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
       {/* Animated gradient mesh with aurora effect */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/8 via-violet-500/6 to-indigo-500/4 dark:from-blue-500/12 dark:via-violet-500/8 dark:to-indigo-500/6 animate-aurora opacity-60"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/12 via-violet-500/10 to-indigo-500/8 dark:from-blue-500/16 dark:via-violet-500/12 dark:to-indigo-500/10 animate-aurora-deluxe opacity-70"></div>
       </div>
 
       {/* =========================================== */}
-      {/* WORLD CLASS GRADIENT ORBS WITH PHYSICS */}
+      {/* LEGENDARY GRADIENT ORBS WITH PHYSICS */}
       {/* =========================================== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Primary orb - large and dramatic */}
+        {/* Primary orb - massive and dramatic */}
         <div
-          className="absolute top-[10%] left-[0%] w-[800px] h-[800px] bg-gradient-to-br from-blue-500/25 via-violet-500/18 to-indigo-500/12 rounded-full blur-3xl will-change-transform animate-morph-shape"
+          className="absolute top-[10%] left-[0%] w-[900px] h-[900px] bg-gradient-to-br from-blue-500/30 via-violet-500/22 to-indigo-500/16 rounded-full blur-3xl will-change-transform animate-morph-deluxe shadow-glow-legendary-lg"
           style={{
-            transform: `translate(${mousePosition.x * -1.8 - scrollY * 0.12}px, ${mousePosition.y * -1.8 - scrollY * 0.06}px)`,
+            transform: `translate(${mousePosition.x * -2.2 - scrollY * 0.15}px, ${mousePosition.y * -2.2 - scrollY * 0.08}px)`,
           }}
         ></div>
 
-        {/* Secondary orb - balancing */}
+        {/* Secondary orb - balancing with glow */}
         <div
-          className="absolute bottom-[5%] right-[0%] w-[700px] h-[700px] bg-gradient-to-br from-violet-500/18 via-purple-500/14 to-pink-500/10 rounded-full blur-3xl will-change-transform animate-morph-shape"
+          className="absolute bottom-[5%] right-[0%] w-[800px] h-[800px] bg-gradient-to-br from-violet-500/22 via-purple-500/18 to-pink-500/14 rounded-full blur-3xl will-change-transform animate-morph-deluxe"
           style={{
-            transform: `translate(${mousePosition.x * 1.8 + scrollY * 0.1}px, ${mousePosition.y * 1.8 + scrollY * 0.05}px)`,
+            transform: `translate(${mousePosition.x * 2.2 + scrollY * 0.12}px, ${mousePosition.y * 2.2 + scrollY * 0.06}px)`,
             animationDelay: '3s',
           }}
         ></div>
 
-        {/* Tertiary orb - accent */}
+        {/* Tertiary orb - accent with teal */}
         <div
-          className="absolute top-[45%] left-[25%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/12 to-teal-400/10 rounded-full blur-3xl will-change-transform animate-morph-shape"
+          className="absolute top-[45%] left-[25%] w-[600px] h-[600px] bg-gradient-to-br from-emerald-400/16 to-teal-400/14 rounded-full blur-3xl will-change-transform animate-morph-deluxe"
           style={{
-            transform: `translate(${mousePosition.x * 1 - scrollY * 0.08}px, ${mousePosition.y * 1 - scrollY * 0.04}px)`,
+            transform: `translate(${mousePosition.x * 1.2 - scrollY * 0.1}px, ${mousePosition.y * 1.2 - scrollY * 0.05}px)`,
             animationDelay: '6s',
           }}
         ></div>
 
-        {/* Quaternary orb - warm accent */}
+        {/* Quaternary orb - warm accent with glow */}
         <div
-          className="absolute top-[25%] right-[15%] w-[400px] h-[400px] bg-gradient-to-br from-rose-400/10 to-pink-400/8 rounded-full blur-3xl will-change-transform animate-morph-shape"
+          className="absolute top-[25%] right-[15%] w-[500px] h-[500px] bg-gradient-to-br from-rose-400/14 to-pink-400/12 rounded-full blur-3xl will-change-transform animate-morph-deluxe shadow-glow-legendary-md"
           style={{
-            transform: `translate(${mousePosition.x * -0.7 + scrollY * 0.06}px, ${mousePosition.y * -0.7 + scrollY * 0.03}px)`,
+            transform: `translate(${mousePosition.x * -0.9 + scrollY * 0.08}px, ${mousePosition.y * -0.9 + scrollY * 0.04}px)`,
             animationDelay: '9s',
           }}
         ></div>
 
         {/* Small accent orb */}
         <div
-          className="absolute bottom-[30%] left-[15%] w-[300px] h-[300px] bg-gradient-to-br from-cyan-400/10 to-blue-400/8 rounded-full blur-3xl will-change-transform animate-morph-shape"
+          className="absolute bottom-[30%] left-[15%] w-[400px] h-[400px] bg-gradient-to-br from-cyan-400/14 to-blue-400/12 rounded-full blur-3xl will-change-transform animate-morph-deluxe"
           style={{
-            transform: `translate(${mousePosition.x * 0.5 - scrollY * 0.04}px, ${mousePosition.y * 0.5 - scrollY * 0.02}px)`,
+            transform: `translate(${mousePosition.x * 0.7 - scrollY * 0.06}px, ${mousePosition.y * 0.7 - scrollY * 0.03}px)`,
             animationDelay: '12s',
+          }}
+        ></div>
+
+        {/* Additional legendary orbs */}
+        <div
+          className="absolute top-[60%] right-[25%] w-[350px] h-[350px] bg-gradient-to-br from-amber-400/12 to-orange-400/10 rounded-full blur-3xl will-change-transform animate-float-deluxe shadow-glow-legendary-sm"
+          style={{
+            transform: `translate(${mousePosition.x * 0.5 + scrollY * 0.05}px, ${mousePosition.y * 0.5 + scrollY * 0.025}px)`,
+            animationDelay: '1s',
+          }}
+        ></div>
+
+        <div
+          className="absolute top-[15%] left-[45%] w-[300px] h-[300px] bg-gradient-to-br from-fuchsia-400/12 to-pink-400/10 rounded-full blur-3xl will-change-transform animate-float-deluxe"
+          style={{
+            transform: `translate(${mousePosition.x * -0.4 - scrollY * 0.04}px, ${mousePosition.y * -0.4 - scrollY * 0.02}px)`,
+            animationDelay: '4s',
           }}
         ></div>
       </div>
 
       {/* =========================================== */}
-      {/* WORLD CLASS PARTICLE SYSTEM */}
+      {/* LEGENDARY PARTICLE SYSTEM */}
       {/* =========================================== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Layer 1 - Small orbs */}
-        <FloatingParticle delay={0} duration={16} left="3%" size="6px" variant="orb" color="rgba(59, 130, 246, 0.6)" />
-        <FloatingParticle delay={2} duration={18} left="12%" size="5px" variant="glow" color="rgba(139, 92, 246, 0.7)" />
-        <FloatingParticle delay={4} duration={20} left="22%" size="7px" variant="ring" color="rgba(99, 102, 241, 0.5)" />
-        <FloatingParticle delay={1} duration={15} left="35%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.5)" />
-        <FloatingParticle delay={3} duration={22} left="48%" size="8px" variant="sparkle" color="rgba(139, 92, 246, 0.8)" />
-        <FloatingParticle delay={5} duration={17} left="62%" size="5px" variant="glow" color="rgba(59, 130, 246, 0.7)" />
-        <FloatingParticle delay={2.5} duration={19} left="75%" size="7px" variant="ring" color="rgba(168, 85, 247, 0.5)" />
-        <FloatingParticle delay={1.5} duration={16} left="88%" size="6px" variant="diamond" color="rgba(14, 165, 233, 0.6)" />
-        <FloatingParticle delay={0.5} duration={21} left="97%" size="9px" variant="star" color="rgba(245, 158, 11, 0.5)" />
+        {/* Layer 1 - Enhanced orbs with glow */}
+        <FloatingParticle delay={0} duration={16} left="3%" size="8px" variant="glow" color="rgba(59, 130, 246, 0.8)" />
+        <FloatingParticle delay={2} duration={18} left="12%" size="6px" variant="orb" color="rgba(139, 92, 246, 0.9)" />
+        <FloatingParticle delay={4} duration={20} left="22%" size="10px" variant="ring" color="rgba(99, 102, 241, 0.7)" />
+        <FloatingParticle delay={1} duration={15} left="35%" size="8px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={3} duration={22} left="48%" size="12px" variant="sparkle" color="rgba(139, 92, 246, 1)" />
+        <FloatingParticle delay={5} duration={17} left="62%" size="7px" variant="glow" color="rgba(59, 130, 246, 0.9)" />
+        <FloatingParticle delay={2.5} duration={19} left="75%" size="10px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={1.5} duration={16} left="88%" size="8px" variant="diamond" color="rgba(14, 165, 233, 0.8)" />
+        <FloatingParticle delay={0.5} duration={21} left="97%" size="14px" variant="star" color="rgba(245, 158, 11, 0.7)" />
 
-        {/* Layer 2 - Medium particles */}
-        <FloatingParticle delay={3.5} duration={20} left="55%" size="5px" variant="cross" color="rgba(99, 102, 241, 0.6)" />
-        <FloatingParticle delay={4.5} duration={18} left="30%" size="6px" variant="orb" color="rgba(16, 185, 129, 0.5)" />
-        <FloatingParticle delay={6} duration={22} left="42%" size="8px" variant="glow" color="rgba(245, 158, 11, 0.4)" />
-        <FloatingParticle delay={1.8} duration={19} left="68%" size="5px" variant="sparkle" color="rgba(236, 72, 153, 0.6)" />
-        <FloatingParticle delay={3.2} duration={17} left="8%" size="7px" variant="ring" color="rgba(59, 130, 246, 0.5)" />
-        <FloatingParticle delay={5.5} duration={23} left="92%" size="6px" variant="diamond" color="rgba(139, 92, 246, 0.7)" />
+        {/* Layer 2 - Medium particles with enhanced glow */}
+        <FloatingParticle delay={3.5} duration={20} left="55%" size="6px" variant="cross" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={4.5} duration={18} left="30%" size="8px" variant="orb" color="rgba(16, 185, 129, 0.7)" />
+        <FloatingParticle delay={6} duration={22} left="42%" size="10px" variant="glow" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={1.8} duration={19} left="68%" size="7px" variant="sparkle" color="rgba(236, 72, 153, 0.8)" />
+        <FloatingParticle delay={3.2} duration={17} left="8%" size="9px" variant="ring" color="rgba(59, 130, 246, 0.7)" />
+        <FloatingParticle delay={5.5} duration={23} left="92%" size="8px" variant="diamond" color="rgba(139, 92, 246, 0.9)" />
 
         {/* Layer 3 - Extra particles for richness */}
-        <FloatingParticle delay={0.8} duration={24} left="18%" size="4px" variant="glow" color="rgba(14, 165, 233, 0.5)" />
-        <FloatingParticle delay={2.2} duration={16} left="78%" size="5px" variant="orb" color="rgba(168, 85, 247, 0.6)" />
-        <FloatingParticle delay={4.8} duration={20} left="58%" size="6px" variant="sparkle" color="rgba(99, 102, 241, 0.5)" />
-        <FloatingParticle delay={6.5} duration={18} left="28%" size="7px" variant="ring" color="rgba(16, 185, 129, 0.4)" />
+        <FloatingParticle delay={0.8} duration={24} left="18%" size="5px" variant="glow" color="rgba(14, 165, 233, 0.7)" />
+        <FloatingParticle delay={2.2} duration={16} left="78%" size="6px" variant="orb" color="rgba(168, 85, 247, 0.8)" />
+        <FloatingParticle delay={4.8} duration={20} left="58%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.7)" />
+        <FloatingParticle delay={6.5} duration={18} left="28%" size="9px" variant="ring" color="rgba(16, 185, 129, 0.6)" />
+
+        {/* Layer 4 - Legendary wave particles */}
+        <FloatingParticle delay={1.2} duration={25} left="40%" size="5px" variant="glow" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={3.8} duration={21} left="65%" size="6px" variant="orb" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={5.2} duration={19} left="85%" size="7px" variant="diamond" color="rgba(139, 92, 246, 0.8)" />
+        <FloatingParticle delay={0.3} duration={26} left="7%" size="8px" variant="sparkle" color="rgba(59, 130, 246, 0.7)" />
+        <FloatingParticle delay={2.7} duration={23} left="53%" size="5px" variant="ring" color="rgba(14, 165, 233, 0.8)" />
+
+        {/* Layer 5 - Ambient floating particles */}
+        <FloatingParticle delay={4.2} duration={28} left="23%" size="4px" variant="glow" color="rgba(168, 85, 247, 0.6)" />
+        <FloatingParticle delay={6.8} duration={24} left="77%" size="5px" variant="orb" color="rgba(99, 102, 241, 0.7)" />
+        <FloatingParticle delay={1.5} duration={22} left="95%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.8)" />
+        <FloatingParticle delay={3.3} duration={26} left="38%" size="4px" variant="sparkle" color="rgba(16, 185, 129, 0.6)" />
       </div>
 
       {/* =========================================== */}
-      {/* ENHANCED GRID PATTERN WITH ANIMATION */}
+      {/* LEGENDARY ENHANCED GRID PATTERN */}
       {/* =========================================== */}
       <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+        className="absolute inset-0 opacity-[0.035] dark:opacity-[0.06]"
         style={{
           backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
           backgroundSize: '80px 80px',
-          animation: 'grid-pan 80s linear infinite',
+          animation: 'grid-pan 100s linear infinite',
         }}
       ></div>
 
-      {/* =========================================== */}
-      {/* WORLD CLASS VIGNETTE EFFECT */}
-      {/* =========================================== */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(255,255,255,0.4)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(15,23,42,0.5)_100%)]"></div>
+      {/* Legendary animated mesh gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-animated-legendary opacity-20 pointer-events-none"></div>
 
-      {/* Scanline effect for added depth */}
+      {/* =========================================== */}
+      {/* LEGENDARY VIGNETTE EFFECT */}
+      {/* =========================================== */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(255,255,255,0.5)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(15,23,42,0.6)_100%)]"></div>
+
+      {/* Enhanced scanline effect */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.015]"
+        className="absolute inset-0 pointer-events-none opacity-[0.02]"
         style={{
           background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px)',
         }}
       ></div>
+
+      {/* Legendary diagonal light rays */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+        <div
+          className="absolute top-0 left-1/4 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-500/5 to-transparent transform -skew-x-12 animate-gradient-deluxe"
+          style={{ animationDuration: '20s' }}
+        ></div>
+      </div>
 
       {/* =========================================== */}
       {/* WORLD CLASS CONTENT */}
@@ -449,11 +490,11 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
         <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.05] mb-8 animate-zoom-fade" style={{ animationDelay: '0.1s', letterSpacing: '-0.025em' }}>
           {t('hero.title_prefix')}{' '}
           <span className="relative inline-block px-2">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-shimmer drop-shadow-sm">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-deluxe drop-shadow-lg text-glow-md">
               {t('hero.title_highlight')}
             </span>
             {/* Animated underline with glow */}
-            <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <svg className="absolute -bottom-3 left-0 w-full" viewBox="0 0 400 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="hero-underline-enhanced" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#3b82f6" stopOpacity="0">
@@ -485,35 +526,35 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
           {t('hero.subtitle')}
         </p>
 
-        {/* World class CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20 animate-zoom-fade" style={{ animationDelay: '0.3s' }}>
-          <MagneticButton onClick={() => setCurrentPage('preise')} variant="primary" className="text-base">
+        {/* Legendary CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20 animate-zoom-fade" style={{ animationDelay: '0.3s' }}>
+          <MagneticButton onClick={() => setCurrentPage('preise')} variant="primary" className="text-lg btn-legendary">
             <span>Projekt starten</span>
-            <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
+            <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-125" />
           </MagneticButton>
-          <MagneticButton onClick={() => setCurrentPage('projekte')} variant="secondary" className="group text-base">
-            <span className="flex items-center gap-2">
+          <MagneticButton onClick={() => setCurrentPage('projekte')} variant="secondary" className="group text-lg px-10 py-5 hover:shadow-legendary-lg hover:shadow-blue-500/20">
+            <span className="flex items-center gap-3">
               Beispiele ansehen
-              <ArrowRightIcon className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
             </span>
           </MagneticButton>
         </div>
 
         {/* Enhanced guarantees with premium styling */}
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm text-slate-600 dark:text-slate-500 animate-zoom-fade" style={{ animationDelay: '0.4s' }}>
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 text-sm text-slate-600 dark:text-slate-500 animate-zoom-fade" style={{ animationDelay: '0.4s' }}>
           {guarantees.map((g, i) => (
-            <TiltCard key={i} className="inline-block" intensity={8} glowColor="rgba(59, 130, 246, 0.12)">
-              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-slate-100/90 dark:hover:bg-slate-700/80 transition-all duration-300 cursor-default border border-slate-200/70 dark:border-slate-700/60 hover:border-blue-300/50 dark:hover:border-violet-600/50 hover:shadow-lg hover:shadow-blue-500/10 group">
+            <TiltCard key={i} className="inline-block" intensity={12} glowColor="rgba(59, 130, 246, 0.2)">
+              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl hover:bg-slate-100/95 dark:hover:bg-slate-700/85 transition-all duration-500 cursor-default border-2 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-400/70 dark:hover:border-violet-600/70 hover:shadow-legendary hover:shadow-blue-500/20 group hover-3d-lift">
                 <span
-                  className="text-xl filter drop-shadow-sm animate-float"
+                  className="text-2xl filter drop-shadow-md animate-float-deluxe hover:animate-elastic-bounce"
                   style={{
-                    animationDelay: `${i * 0.25}s`,
-                    animationDuration: `${3 + i * 0.5}s`,
+                    animationDelay: `${i * 0.3}s`,
+                    animationDuration: `${4 + i * 0.5}s`,
                   }}
                 >
                   {g.icon}
                 </span>
-                <span className="font-semibold tracking-wide group-hover:text-slate-900 dark:group-hover:text-slate-300 transition-colors">{g.text}</span>
+                <span className="font-bold tracking-wide group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">{g.text}</span>
               </div>
             </TiltCard>
           ))}
@@ -526,7 +567,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
             <div className="absolute inset-0 shimmer-effect opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
             {/* Animated gradient glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/15 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shimmer"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-violet-500/15 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
 
             {/* Corner accents */}
             <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-transparent rounded-tl-3xl"></div>
@@ -535,7 +576,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
             <div className="flex items-center gap-2 relative z-10">
               <span className="text-slate-400 dark:text-slate-500 line-through text-lg">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
-              <span className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-shimmer drop-shadow-sm">
+              <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent animate-gradient-deluxe text-glow-sm drop-shadow-lg">
                 29€
               </span>
             </div>
@@ -546,30 +587,36 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
       </div>
 
       {/* =========================================== */}
-      {/* WORLD CLASS BOTTOM FADE */}
+      {/* LEGENDARY BOTTOM FADE */}
       {/* =========================================== */}
-      <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-white via-white/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-72 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-slate-950 dark:via-slate-950/95 to-transparent pointer-events-none"></div>
 
       {/* =========================================== */}
-      {/* WORLD CLASS SCROLL INDICATOR */}
+      {/* LEGENDARY SCROLL INDICATOR */}
       {/* =========================================== */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-fade-in" style={{ animationDelay: '0.8s' }}>
         <div className="relative group cursor-pointer" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
-          {/* Pulsing glow */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/30 to-violet-500/30 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-slow"></div>
+          {/* Legendary pulsing glow */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/40 via-violet-500/40 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-glow-breathe"></div>
 
-          {/* Container */}
-          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2 group-hover:border-blue-400 dark:group-hover:border-violet-500 transition-all duration-500 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
+          {/* Container with legendary effects */}
+          <div className="relative w-8 h-14 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2 group-hover:border-blue-400 dark:group-hover:border-violet-500 transition-all duration-500 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm shadow-legendary group-hover:shadow-glow-legendary-sm hover:scale-110 transition-transform">
             {/* Animated dot */}
-            <div className="w-1.5 h-3 rounded-full bg-gradient-to-b from-blue-500 to-violet-500 animate-scroll-indicator shadow-lg shadow-blue-500/50"></div>
+            <div className="w-2 h-4 rounded-full bg-gradient-to-b from-blue-500 to-violet-500 animate-scroll-indicator shadow-glow-legendary-sm"></div>
           </div>
 
           {/* Scroll hint text */}
-          <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-slate-400 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-slate-400 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap font-medium">
             Scroll
           </span>
         </div>
       </div>
+
+      {/* Legendary floating decorative elements */}
+      <div className="absolute top-1/4 left-10 w-3 h-3 bg-blue-500/40 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '0s' }}></div>
+      <div className="absolute top-1/3 right-16 w-2 h-2 bg-violet-500/30 rounded-full animate-float-deluxe" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute bottom-1/3 left-20 w-2.5 h-2.5 bg-emerald-500/30 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '4s' }}></div>
+      <div className="absolute top-2/3 right-24 w-2 h-2 bg-pink-500/30 rounded-full animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
     </section>
   );
 };
