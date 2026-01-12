@@ -133,7 +133,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const loadUserProfile = async (userId: string) => {
     try {
       console.log('[AUTH] Loading profile for user:', userId);
-      const { data, error } = await getUserProfile(userId);
+      console.log('[AUTH] Calling getUserProfile...');
+
+      // Add timeout wrapper - if query takes more than 5 seconds, use fallback
+      const profilePromise = getUserProfile(userId);
+      const timeoutPromise = new Promise<{ data: null; error: Error }>(resolve =>
+        setTimeout(() => resolve({ data: null, error: new Error('Profile query timeout') }), 5000)
+      );
+
+      const { data, error } = await Promise.race([profilePromise, timeoutPromise]);
+      console.log('[AUTH] getUserProfile returned:', { error: error?.message, hasData: !!data });
 
       if (error) {
         console.error('[AUTH] Error loading profile from DB:', error);
