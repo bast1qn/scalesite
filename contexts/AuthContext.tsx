@@ -45,17 +45,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Load user session on mount
   useEffect(() => {
+    let isMounted = true;
+
+    // Fallback timeout: stop loading after 2 seconds even if Supabase hasn't responded
+    const fallbackTimeout = setTimeout(() => {
+      if (isMounted) {
+        console.warn('Auth session took too long, proceeding without auth');
+        setLoading(false);
+      }
+    }, 2000);
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      clearTimeout(fallbackTimeout);
+      if (!isMounted) return;
+
       if (session?.user) {
         loadUserProfile(session.user.id);
       } else {
         setLoading(false);
       }
+    }).catch((err) => {
+      console.error('Error getting session:', err);
+      clearTimeout(fallbackTimeout);
+      if (isMounted) setLoading(false);
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return;
+
       if (session?.user) {
         await loadUserProfile(session.user.id);
       } else {
@@ -64,7 +83,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      clearTimeout(fallbackTimeout);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const loadUserProfile = async (userId: string) => {
