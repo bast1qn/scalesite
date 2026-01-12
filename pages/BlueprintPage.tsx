@@ -120,10 +120,11 @@ const generatePreviewHtml = (
                     <section class="py-20 px-6 bg-light-bg dark:bg-dark-bg">
                         <div class="max-w-lg mx-auto bg-surface dark:bg-dark-surface p-8 rounded-2xl shadow-xl border border-dark-text/10 dark:border-light-text/10">
                              <h3 class="font-serif text-2xl font-bold text-dark-text dark:text-light-text mb-6 text-center">${section.title}</h3>
-                             <form class="space-y-4" onsubmit="event.preventDefault();">
-                                <div><label class="block text-sm font-medium mb-1 opacity-70">Name</label><input type="text" class="form-input" /></div>
-                                <div><label class="block text-sm font-medium mb-1 opacity-70">E-Mail</label><input type="email" class="form-input" /></div>
-                                <div><label class="block text-sm font-medium mb-1 opacity-70">Nachricht</label><textarea rows="4" class="form-input"></textarea></div>
+                             <p class="text-sm opacity-60 text-center mb-4">Vorschau - Formular ist in der Demo nicht aktiv</p>
+                             <form class="space-y-4" onsubmit="event.preventDefault(); alert('Dies ist eine Vorschau. Das Kontaktformular wird nach der Veröffentlichung funktionieren.');">
+                                <div><label class="block text-sm font-medium mb-1 opacity-70">Name</label><input type="text" class="form-input" placeholder="Ihr Name" /></div>
+                                <div><label class="block text-sm font-medium mb-1 opacity-70">E-Mail</label><input type="email" class="form-input" placeholder="ihre@email.de" /></div>
+                                <div><label class="block text-sm font-medium mb-1 opacity-70">Nachricht</label><textarea rows="4" class="form-input" placeholder="Ihre Nachricht..."></textarea></div>
                                 <div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold mt-2">Nachricht senden</button></div>
                              </form>
                         </div>
@@ -241,10 +242,11 @@ const generatePreviewHtml = (
             <p>&copy; ${new Date().getFullYear()} Alle Rechte vorbehalten.</p>
         </footer>
         <script>
+            const targetOrigin = window.location.origin;
             document.getElementById('theme-toggle').addEventListener('click', () => {
                 const isCurrentlyDark = document.documentElement.classList.contains('dark');
                 const newTheme = isCurrentlyDark ? 'light' : 'dark';
-                window.parent.postMessage({ type: 'blueprint-theme-toggle', payload: { theme: newTheme } }, '*');
+                window.parent.postMessage({ type: 'blueprint-theme-toggle', payload: { theme: newTheme } }, targetOrigin);
             });
 
             document.querySelectorAll('.nav-link-btn').forEach(el => {
@@ -252,7 +254,7 @@ const generatePreviewHtml = (
                     e.preventDefault();
                     const page = e.currentTarget.getAttribute('data-page');
                     if (page) {
-                        window.parent.postMessage({ type: 'blueprint-nav', payload: { page } }, '*');
+                        window.parent.postMessage({ type: 'blueprint-nav', payload: { page } }, targetOrigin);
                     }
                 });
             });

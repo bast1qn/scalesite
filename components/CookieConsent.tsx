@@ -33,9 +33,7 @@ export const CookieConsent: React.FC = () => {
         setPreferences(prefs);
         setIsVisible(false);
         setShowSettings(false);
-        if (prefs.analytics) {
-            console.log("Analytics activated");
-        }
+        // Analytics integration would go here when prefs.analytics is true
     };
 
     const handleAcceptAll = () => {

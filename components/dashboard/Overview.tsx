@@ -31,6 +31,22 @@ interface OverviewProps {
     setCurrentPage: (page: string) => void;
 }
 
+// Helper function to format time ago
+const getTimeAgo = (date: Date): string => {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Gerade eben';
+    if (diffMins < 60) return `vor ${diffMins} Minute${diffMins > 1 ? 'n' : ''}`;
+    if (diffHours < 24) return `vor ${diffHours} Stunde${diffHours > 1 ? 'n' : ''}`;
+    if (diffDays < 7) return `vor ${diffDays} Tag${diffDays > 1 ? 'en' : ''}`;
+    if (diffDays < 30) return `vor ${Math.floor(diffDays / 7)} Woche${Math.floor(diffDays / 7) > 1 ? 'n' : ''}`;
+    return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
+};
+
 const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
     const { user } = useContext(AuthContext);
     const [stats, setStats] = useState({ ticketCount: 0, serviceCount: 0 });
@@ -48,7 +64,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
     });
 
     const [serverStats, setServerStats] = useState({
-        diskUsage: 24, 
+        diskUsage: 24,
         ramUsage: 42,
         bandwidth: 12,
         uptime: "99.9%"
@@ -64,7 +80,8 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
     ];
     const [tipOfTheDay] = useState(tips[Math.floor(Math.random() * tips.length)]);
 
-    // Simluated Server Stats Animation
+    // Demo Server Stats - Simulated for visualization purposes
+    // In production, this would come from actual server monitoring APIs
     useEffect(() => {
         const interval = setInterval(() => {
             setServerStats(prev => ({
@@ -86,10 +103,11 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
             }
             try {
                 if (isMounted) setLoading(true);
-                const [statsRes, projectsRes, transRes] = await Promise.all([
+                const [statsRes, projectsRes, transRes, ticketsRes] = await Promise.all([
                     api.getStats(),
                     api.getUserServices(),
-                    api.getTransactions()
+                    api.getTransactions(),
+                    api.getTickets()
                 ]);
 
                 if (!isMounted) return;
@@ -135,7 +153,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                         .sort((a:any,b:any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime())[0];
 
                     setFinanceData({
-                        totalBudget: spent + open, 
+                        totalBudget: spent + open,
                         spent,
                         open,
                         nextInvoice: upcoming ? new Date(upcoming.due_date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' }) : "-"
@@ -145,12 +163,48 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                      setFinanceData({ totalBudget: 0, spent: 0, open: 0, nextInvoice: "-" });
                 }
 
-                // Add Mock Activities if empty
-                setActivities([
-                    { id: 1, text: "System Backup erfolgreich erstellt.", time: "vor 2 Stunden", type: "success" },
-                    { id: 2, text: "Wöchentlicher SEO-Scan abgeschlossen.", time: "vor 5 Stunden", type: "system" },
-                    { id: 3, text: "Neuer Login erkannt.", time: "Gestern", type: "warning" }
-                ]);
+                // Generate activities from real data
+                const activities: any[] = [];
+
+                // Add ticket activities
+                if (ticketsRes.data && Array.isArray(ticketsRes.data)) {
+                    ticketsRes.data.slice(0, 3).forEach((t: any) => {
+                        const timeAgo = getTimeAgo(new Date(t.created_at));
+                        activities.push({
+                            id: `ticket-${t.id}`,
+                            text: `Ticket erstellt: ${t.subject}`,
+                            time: timeAgo,
+                            type: 'info'
+                        });
+                    });
+                }
+
+                // Add service activities
+                if (projectsRes.data && Array.isArray(projectsRes.data)) {
+                    projectsRes.data.slice(0, 2).forEach((s: any) => {
+                        if (s.status === 'active') {
+                            const timeAgo = getTimeAgo(new Date(s.created_at));
+                            activities.push({
+                                id: `service-${s.id}`,
+                                text: `Projekt gestartet: ${s.services?.name || 'Dienstleistung'}`,
+                                time: timeAgo,
+                                type: 'success'
+                            });
+                        }
+                    });
+                }
+
+                // Add a welcome message if no activities
+                if (activities.length === 0) {
+                    activities.push({
+                        id: 'welcome',
+                        text: 'Willkommen im Dashboard! Erstellen Sie Ihr erstes Projekt.',
+                        time: 'Jetzt',
+                        type: 'info'
+                    });
+                }
+
+                setActivities(activities.slice(0, 5));
 
             } catch (error: any) {
                 console.warn("Error fetching dashboard data:", error.message);
@@ -315,9 +369,12 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* Server Resources */}
                         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
-                            <div className="flex items-center gap-2 mb-4">
-                                <ServerIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                <h3 className="font-semibold text-slate-900 dark:text-white">Server Ressourcen</h3>
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-2">
+                                    <ServerIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">Server Ressourcen</h3>
+                                </div>
+                                <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-medium">Demo</span>
                             </div>
                             <div className="space-y-4">
                                 {[

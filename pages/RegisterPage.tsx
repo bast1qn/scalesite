@@ -3,10 +3,20 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { UserCircleIcon, CheckBadgeIcon } from '../components/Icons';
 import { useLanguage } from '../contexts/LanguageContext';
+import { validatePassword, getPasswordStrength } from '../lib/validation';
 
 interface RegisterPageProps {
     setCurrentPage: (page: string) => void;
 }
+
+const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
+    <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
+        <span className={`w-4 h-4 rounded-full flex items-center justify-center ${met ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
+            {met ? '✓' : '○'}
+        </span>
+        {text}
+    </div>
+);
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
   const [name, setName] = useState('');
@@ -19,12 +29,23 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
   const { register } = useContext(AuthContext);
   const { t } = useLanguage();
 
+  const passwordValidation = validatePassword(password);
+  const passwordStrength = getPasswordStrength(password);
+  const hasMinLength = password.length >= 8;
+  const hasLowercase = /[a-z]/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
     if (!name || !company || !email || !password) {
       setError(t('general.error'));
+      return;
+    }
+    if (!passwordValidation.isValid) {
+      setError(t('auth.password_requirements'));
       return;
     }
     setLoading(true);
@@ -39,6 +60,24 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
       }
     }
     setLoading(false);
+  };
+
+  const getStrengthColor = (strength: string) => {
+    switch (strength) {
+      case 'weak': return 'bg-red-500';
+      case 'medium': return 'bg-yellow-500';
+      case 'strong': return 'bg-emerald-500';
+      default: return 'bg-slate-200';
+    }
+  };
+
+  const getStrengthTextColor = (strength: string) => {
+    switch (strength) {
+      case 'weak': return 'text-red-600 dark:text-red-400';
+      case 'medium': return 'text-yellow-600 dark:text-yellow-400';
+      case 'strong': return 'text-emerald-600 dark:text-emerald-400';
+      default: return 'text-slate-400';
+    }
   };
 
   if (success) {
@@ -141,6 +180,29 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  {password && (
+                      <div className="mt-3 space-y-2">
+                          <div className="flex items-center justify-between">
+                              <span className="text-xs text-slate-500 dark:text-slate-400">
+                                  {t('auth.password_requirements')}
+                              </span>
+                              <span className={`text-xs font-semibold ${getStrengthTextColor(passwordStrength)}`}>
+                                  {t(`auth.password_${passwordStrength}`)}
+                              </span>
+                          </div>
+                          <div className="flex gap-1 h-1">
+                              <div className={`flex-1 rounded-full transition-colors ${passwordStrength === 'weak' ? getStrengthColor('weak') : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                              <div className={`flex-1 rounded-full transition-colors ${passwordStrength === 'medium' || passwordStrength === 'strong' ? getStrengthColor('medium') : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                              <div className={`flex-1 rounded-full transition-colors ${passwordStrength === 'strong' ? getStrengthColor('strong') : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 mt-2">
+                              <PasswordRequirement met={hasMinLength} text={t('auth.password_min_length')} />
+                              <PasswordRequirement met={hasLowercase} text={t('auth.password_lowercase')} />
+                              <PasswordRequirement met={hasUppercase} text={t('auth.password_uppercase')} />
+                              <PasswordRequirement met={hasNumber} text={t('auth.password_number')} />
+                          </div>
+                      </div>
+                  )}
                </div>
 
               {error && (

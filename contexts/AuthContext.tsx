@@ -70,7 +70,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Get initial session with better error handling
     const checkSession = async () => {
       try {
-        console.log('[AUTH] Checking session...');
         const { data: { session }, error } = await supabase.auth.getSession();
 
         if (!isMounted) return;
@@ -80,8 +79,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           // Don't stop loading here - let onAuthStateChange handle it
           return;
         }
-
-        console.log('[AUTH] Session check result:', session ? 'Found session' : 'No session');
 
         if (session?.user) {
           await loadUserProfile(session.user.id);
@@ -98,7 +95,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Listen for auth changes - this is the PRIMARY way we track auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('[AUTH] Auth state changed:', event, 'Has user:', !!session?.user);
       if (!isMounted) return;
 
       setSessionChecked(true);
@@ -120,7 +116,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const loadUserProfile = async (userId: string) => {
     try {
-      console.log('[AUTH] Loading user profile for:', userId);
       const { data, error } = await getUserProfile(userId);
 
       if (error) {
@@ -128,7 +123,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Create a basic user from auth data if profile doesn't exist yet
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          console.log('[AUTH] Creating basic user from auth data');
           setUser({
             id: user.id,
             name: user.user_metadata?.name || '',
@@ -143,7 +137,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       if (data) {
-        console.log('[AUTH] Profile loaded successfully:', data.email);
         setUser({
           id: data.id,
           name: data.name || '',
@@ -159,7 +152,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.error('[AUTH] Exception loading user profile:', e);
     } finally {
       setLoading(false);
-      console.log('[AUTH] Loading complete, user state:', user);
     }
   };
 

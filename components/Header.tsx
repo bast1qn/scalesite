@@ -59,7 +59,8 @@ const CurrencySelector: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }
                 <div className={`absolute right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 rounded-2xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 z-[200] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ${isMobile ? 'top-full left-0 w-full' : 'w-64 max-h-80 overflow-y-auto'}`}>
                     <div className="p-2">
                         {commonCurrencies.map(currCode => {
-                            const curr = currenciesList.find(c => c.code === currCode)!;
+                            const curr = currenciesList.find(c => c.code === currCode);
+                            if (!curr) return null;
                             return (
                                 <button
                                     key={curr.code}

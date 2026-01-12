@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components/Icons';
 import { useLanguage } from '../contexts/LanguageContext';
+import { supabase } from '../lib/supabase';
 
 interface LoginPageProps {
     setCurrentPage: (page: string) => void;
@@ -33,8 +34,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState<'google' | 'github' | null>(null);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [resetSuccess, setResetSuccess] = useState(false);
   const { login, socialLogin, loginWithToken } = useContext(AuthContext);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   // Check for Token in URL (Return from Social Login)
   useEffect(() => {
@@ -87,6 +90,30 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
           setSocialLoading(null);
       }
       // Bei Erfolg: Der Browser wurde bereits umgeleitet, also nichts weiter tun.
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError('');
+      if (!email) {
+          setError(t('general.error'));
+          return;
+      }
+      setLoading(true);
+      try {
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+              redirectTo: `${window.location.origin}/login`,
+          });
+          if (error) {
+              setError(error.message);
+          } else {
+              setResetSuccess(true);
+          }
+      } catch (err: any) {
+          setError(err.message || t('general.error'));
+      } finally {
+          setLoading(false);
+      }
   };
 
   const hasError = !!error;
@@ -155,7 +182,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 </div>
             </div>
 
-            <form className="space-y-5" onSubmit={handleSubmit} noValidate aria-describedby={hasError ? 'login-error' : undefined}>
+            <form className="space-y-5" onSubmit={showResetPassword ? handleResetPassword : handleSubmit} noValidate aria-describedby={hasError ? 'login-error' : undefined}>
               <div>
                     <input
                         id="email-address"
@@ -170,38 +197,60 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                         aria-invalid={hasError}
                     />
               </div>
-              <div>
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        autoComplete="current-password"
-                        required
-                        className={`w-full bg-slate-50 dark:bg-slate-700/50 border ${hasError ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-600 focus:border-blue-500 focus:ring-blue-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all`}
-                        placeholder={t('auth.password')}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        aria-invalid={hasError}
-                    />
-              </div>
+              {!showResetPassword && (
+                  <>
+                      <div>
+                          <input
+                              id="password"
+                              name="password"
+                              type="password"
+                              autoComplete="current-password"
+                              required={!showResetPassword}
+                              className={`w-full bg-slate-50 dark:bg-slate-700/50 border ${hasError ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 dark:border-slate-600 focus:border-blue-500 focus:ring-blue-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all`}
+                              placeholder={t('auth.password')}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              aria-invalid={hasError}
+                          />
+                      </div>
 
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center cursor-pointer">
-                    <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500" />
-                    <span className="ml-2 text-slate-600 dark:text-slate-400">{t('auth.remember_me')}</span>
-                </label>
-                <button
-                      onClick={(e) => e.preventDefault()}
-                      disabled
-                      className="font-semibold text-blue-600 dark:text-blue-400 hover:underline disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
-                    >
-                      {t('auth.forgot_password')}
-                    </button>
-              </div>
+                      <div className="flex items-center justify-between text-sm">
+                          <label className="flex items-center cursor-pointer">
+                              <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500" />
+                              <span className="ml-2 text-slate-600 dark:text-slate-400">{t('auth.remember_me')}</span>
+                          </label>
+                          <button
+                              type="button"
+                              onClick={() => setShowResetPassword(!showResetPassword)}
+                              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline transition-colors"
+                          >
+                              {showResetPassword ? t('auth.back_to_login') : t('auth.forgot_password')}
+                          </button>
+                      </div>
+                  </>
+              )}
+
+              {showResetPassword && (
+                  <div className="flex justify-end text-sm">
+                      <button
+                          type="button"
+                          onClick={() => setShowResetPassword(false)}
+                          className="font-semibold text-blue-600 dark:text-blue-400 hover:underline transition-colors"
+                      >
+                          {t('auth.back_to_login')}
+                      </button>
+                  </div>
+              )}
 
             {hasError && (
                 <div id="login-error" role="alert" className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-xl text-sm text-red-600 dark:text-red-400 text-center font-medium">
                     {error}
+                </div>
+            )}
+
+            {resetSuccess && (
+                <div id="reset-success" role="status" className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/30 rounded-xl text-sm text-green-600 dark:text-green-400 text-center font-medium">
+                    {language === 'de' ? 'Passwort-Reset Link wurde gesendet. Prüfe deine E-Mail.' : 'Password reset link sent. Check your email.'}
                 </div>
             )}
 
@@ -210,8 +259,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 disabled={loading || !!socialLoading}
                 className="w-full flex justify-center items-center py-4 px-4 border border-transparent font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-800 disabled:opacity-70 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
               >
-                {loading ? <LoadingSpinner /> : <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />}
-                {loading ? t('auth.logging_in') : t('auth.login_btn')}
+                {loading ? <LoadingSpinner /> : null}
+                {loading ? (t('auth.logging_in')) : showResetPassword ? (language === 'de' ? 'Link senden' : 'Send Link') : t('auth.login_btn')}
               </button>
             </form>
           </div>

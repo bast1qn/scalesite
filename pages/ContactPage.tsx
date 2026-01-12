@@ -126,7 +126,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                                     name="subject"
                                                     required
                                                     className="w-full bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 transition-all"
-                                                    placeholder=""
+                                                    placeholder={t('contact_page.subject_placeholder')}
                                                 />
                                             </div>
                                             <div>
@@ -137,7 +137,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                                     rows={5}
                                                     required
                                                     className="w-full bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none"
-                                                    placeholder=""
+                                                    placeholder={t('contact_page.message_placeholder')}
                                                 ></textarea>
                                             </div>
 

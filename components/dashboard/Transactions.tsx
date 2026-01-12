@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState, useContext } from 'react';
-import { DocumentArrowDownIcon } from '../Icons';
 import { api } from '../../lib/api';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -69,15 +68,12 @@ const Transactions: React.FC = () => {
                                 <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">Fällig am</th>
                                 <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">Betrag</th>
                                 <th scope="col" className="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap">Status</th>
-                                <th scope="col" className="relative px-6 py-4">
-                                    <span className="sr-only">Download</span>
-                                </th>
                             </tr>
                         </thead>
                         <tbody className="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-800">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={7} className="text-center py-12">Lade Daten...</td>
+                                    <td colSpan={6} className="text-center py-12">Lade Daten...</td>
                                 </tr>
                             ) : transactions.length > 0 ? transactions.map(invoice => (
                                 <tr key={invoice.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
@@ -91,15 +87,10 @@ const Transactions: React.FC = () => {
                                             {invoice.status}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button disabled title="Download in Kürze verfügbar." className="p-2 text-slate-400 hover:text-blue-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <DocumentArrowDownIcon />
-                                        </button>
-                                    </td>
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan={7} className="text-center py-12 text-slate-500 dark:text-slate-400">
+                                    <td colSpan={6} className="text-center py-12 text-slate-500 dark:text-slate-400">
                                         Keine Transaktionen gefunden.
                                     </td>
                                 </tr>

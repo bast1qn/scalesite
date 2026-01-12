@@ -4,6 +4,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { ThemeToggle } from '../ThemeToggle';
 import { api } from '../../lib/api';
 import { supabase } from '../../lib/supabase';
+import { validatePassword, getPasswordStrength } from '../../lib/validation';
 import {
     UserCircleIcon,
     ShieldCheckIcon,
@@ -11,12 +12,19 @@ import {
     CreditCardIcon,
     ArrowDownOnSquareIcon,
     TrashIcon,
-    DevicePhoneMobileIcon,
     GlobeAltIcon,
-    CheckBadgeIcon,
-    LockClosedIcon
+    CheckBadgeIcon
 } from '../Icons';
 import { alertError } from '../../lib/dashboardAlerts';
+
+const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
+    <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
+        <span className={`w-4 h-4 rounded-full flex items-center justify-center ${met ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
+            {met ? '✓' : '○'}
+        </span>
+        {text}
+    </div>
+);
 
 type SettingsTab = 'general' | 'security' | 'notifications' | 'billing';
 
@@ -37,8 +45,7 @@ const Settings: React.FC = () => {
     // --- SECURITY STATE ---
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [twoFactor, setTwoFactor] = useState(false);
-    
+
     // --- NOTIFICATIONS STATE ---
     const [notifyEmailMarketing, setNotifyEmailMarketing] = useState(true);
     const [notifyEmailSecurity, setNotifyEmailSecurity] = useState(true);
@@ -54,9 +61,9 @@ const Settings: React.FC = () => {
             setName(user.name || '');
             setCompany(user.company || '');
             setEmail(user.email || '');
-            // Mock Data init
-            setBillingAddress(`${user.company || 'Firma'}\nMusterstraße 1\n12345 Berlin`);
-            setVatId('DE123456789');
+            // Initialize billing fields (empty for user to fill)
+            setBillingAddress('');
+            setVatId('');
         }
     }, [user]);
 
@@ -84,7 +91,10 @@ const Settings: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            if(newPassword.length < 6) throw new Error("Passwort muss mindestens 6 Zeichen haben");
+            const validation = validatePassword(newPassword);
+            if (!validation.isValid) {
+                throw new Error('Password does not meet requirements');
+            }
 
             const { error } = await supabase.auth.updateUser({
                 password: newPassword
@@ -102,32 +112,81 @@ const Settings: React.FC = () => {
         }
     };
 
+    // Password strength tracking
+    const passwordValidation = validatePassword(newPassword);
+    const passwordStrength = getPasswordStrength(newPassword);
+    const hasMinLength = newPassword.length >= 8;
+    const hasLowercase = /[a-z]/.test(newPassword);
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+
+    const getStrengthColor = (strength: string) => {
+        switch (strength) {
+            case 'weak': return 'bg-red-500';
+            case 'medium': return 'bg-yellow-500';
+            case 'strong': return 'bg-emerald-500';
+            default: return 'bg-slate-200';
+        }
+    };
+
+    const getStrengthTextColor = (strength: string) => {
+        switch (strength) {
+            case 'weak': return 'text-red-600 dark:text-red-400';
+            case 'medium': return 'text-yellow-600 dark:text-yellow-400';
+            case 'strong': return 'text-emerald-600 dark:text-emerald-400';
+            default: return 'text-slate-400';
+        }
+    };
+
     const handleSaveBilling = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Mock API call
+        // Note: Billing data is stored locally only (not in database)
+        // To persist billing data, a separate billing table would be needed
         setTimeout(() => {
             setLoading(false);
-            showSuccess('Rechnungsdaten gespeichert');
-        }, 1000);
+            showSuccess('Rechnungsdaten lokal gespeichert (nicht in Datenbank)');
+        }, 500);
     };
 
-    const handleExportData = () => {
-        const data = {
-            user: { name, email, company, jobTitle, language, timezone },
-            preferences: { notifyEmailMarketing, notifyEmailSecurity, notifyPushTickets },
-            billing: { vatId, billingAddress },
-            exportDate: new Date().toISOString()
-        };
-        const jsonString = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const href = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = href;
-        link.download = `scalesite_data_export_${user?.id}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const handleExportData = async () => {
+        try {
+            // Fetch user's tickets, services, and transactions for export
+            const [ticketsRes, servicesRes, transactionsRes] = await Promise.all([
+                api.getTickets(),
+                api.getUserServices(),
+                api.getTransactions()
+            ]);
+
+            const data = {
+                user: {
+                    id: user?.id,
+                    name: user?.name,
+                    email: user?.email,
+                    company: user?.company,
+                    createdAt: user?.created_at
+                },
+                preferences: { notifyEmailMarketing, notifyEmailSecurity, notifyPushTickets, notifyWeeklyDigest },
+                tickets: ticketsRes.data || [],
+                services: servicesRes.data || [],
+                transactions: transactionsRes.data || [],
+                billing: { vatId, billingAddress },
+                exportDate: new Date().toISOString()
+            };
+
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const href = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = href;
+            link.download = `scalesite_data_export_${user?.id}_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showSuccess('Daten erfolgreich exportiert');
+        } catch (error: any) {
+            alertError(error.message || 'Fehler beim Exportieren der Daten');
+        }
     };
 
     const TabButton = ({ id, label, icon }: { id: SettingsTab, label: string, icon: React.ReactNode }) => (
@@ -169,20 +228,12 @@ const Settings: React.FC = () => {
                             {/* Profile Card */}
                             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
                                 <div className="flex items-center gap-6 mb-8 border-b border-slate-100 dark:border-slate-800 pb-8">
-                                    <div className="relative group cursor-pointer">
-                                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-800 shadow-lg">
-                                            {name.charAt(0)}
-                                        </div>
-                                        <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="text-xs text-white font-bold">Ändern</span>
-                                        </div>
+                                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-800 shadow-lg">
+                                        {name.charAt(0)}
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Profilbild</h3>
-                                        <p className="text-sm text-slate-500 mb-3">JPG, GIF oder PNG. Max 1MB.</p>
-                                        <button className="text-xs bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                                            Hochladen
-                                        </button>
+                                        <p className="text-sm text-slate-500">Profilbild wird aus Ihrem Initial generiert.</p>
                                     </div>
                                 </div>
 
@@ -264,69 +315,34 @@ const Settings: React.FC = () => {
                                     <div>
                                         <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Neues Passwort</label>
                                         <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="input-premium py-2.5" />
+                                        {newPassword && (
+                                            <div className="mt-3 space-y-2">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                                                        Passwort-Anforderungen:
+                                                    </span>
+                                                    <span className={`text-xs font-semibold ${getStrengthTextColor(passwordStrength)}`}>
+                                                        {passwordStrength === 'weak' ? 'Schwach' : passwordStrength === 'medium' ? 'Mittel' : 'Stark'}
+                                                    </span>
+                                                </div>
+                                                <div className="flex gap-1 h-1">
+                                                    <div className={`flex-1 rounded-full transition-colors ${passwordStrength === 'weak' ? getStrengthColor('weak') : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                                                    <div className={`flex-1 rounded-full transition-colors ${passwordStrength === 'medium' || passwordStrength === 'strong' ? getStrengthColor('medium') : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                                                    <div className={`flex-1 rounded-full transition-colors ${passwordStrength === 'strong' ? getStrengthColor('strong') : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-2 mt-2">
+                                                    <PasswordRequirement met={hasMinLength} text="Mindestens 8 Zeichen" />
+                                                    <PasswordRequirement met={hasLowercase} text="Kleinbuchstaben (a-z)" />
+                                                    <PasswordRequirement met={hasUppercase} text="Großbuchstaben (A-Z)" />
+                                                    <PasswordRequirement met={hasNumber} text="Mindestens eine Ziffer (0-9)" />
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                    <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 px-6 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50">
+                                    <button type="submit" disabled={loading || !passwordValidation.isValid} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 px-6 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50">
                                         {loading ? '...' : 'Passwort aktualisieren'}
                                     </button>
                                 </form>
-                            </div>
-
-                            {/* 2FA Section */}
-                            <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-                                <div className="flex items-start justify-between">
-                                    <div>
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Zwei-Faktor-Authentifizierung (2FA)</h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg">
-                                            Erhöhen Sie die Sicherheit Ihres Kontos, indem Sie einen zusätzlichen Bestätigungsschritt beim Login verlangen.
-                                        </p>
-                                    </div>
-                                    <label className="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" checked={twoFactor} onChange={() => setTwoFactor(!twoFactor)} className="sr-only peer" />
-                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    </label>
-                                </div>
-                                {twoFactor && (
-                                    <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl flex items-start gap-3 animate-fade-in">
-                                        <div className="p-2 bg-blue-100 dark:bg-blue-800 rounded-lg text-blue-600 dark:text-blue-300">
-                                            <LockClosedIcon className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <h4 className="text-sm font-bold text-blue-900 dark:text-blue-100">2FA ist aktiv</h4>
-                                            <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">Ihr Konto ist durch eine Authenticator-App geschützt.</p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Active Sessions */}
-                            <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Aktive Sitzungen</h3>
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                                                <DevicePhoneMobileIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Chrome auf Windows</p>
-                                                <p className="text-xs text-slate-500">Berlin, Deutschland • Aktuelle Sitzung</p>
-                                            </div>
-                                        </div>
-                                        <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">Aktiv</span>
-                                    </div>
-                                    <div className="flex items-center justify-between opacity-60">
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                                                <DevicePhoneMobileIcon className="w-6 h-6 text-slate-600 dark:text-slate-400" />
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Safari auf iPhone 14</p>
-                                                <p className="text-xs text-slate-500">Berlin, Deutschland • Vor 2 Tagen</p>
-                                            </div>
-                                        </div>
-                                        <button className="text-xs text-red-500 hover:underline">Abmelden</button>
-                                    </div>
-                                </div>
                             </div>
 
                             {/* Data & Danger Zone */}
