@@ -57,17 +57,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     };
 
-    // Fallback timeout: stop loading after 5 seconds even if Supabase hasn't responded
+    // Fallback timeout: stop loading after 3 seconds even if Supabase hasn't responded
     timeoutId = setTimeout(() => {
       if (!sessionChecked) {
         console.warn('[AUTH] Session check timeout - proceeding without auth');
         stopLoading();
       }
-    }, 5000);
+    }, 3000);
 
     // Get initial session with better error handling
     const checkSession = async () => {
       try {
+        console.log('[AUTH] Checking session...');
         const { data: { session }, error } = await supabase.auth.getSession();
 
         if (timeoutId) clearTimeout(timeoutId);
@@ -75,19 +76,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (!isMounted) return;
 
         if (error) {
-          console.error('[AUTH] Error getting session:', error);
+          console.error('[AUTH] Error getting session:', error.message);
           stopLoading();
           return;
         }
+
+        console.log('[AUTH] Session check result:', session ? 'Found session' : 'No session');
 
         if (session?.user) {
           await loadUserProfile(session.user.id);
         } else {
           stopLoading();
         }
-      } catch (err) {
+      } catch (err: any) {
         if (timeoutId) clearTimeout(timeoutId);
-        console.error('[AUTH] Exception getting session:', err);
+        console.error('[AUTH] Exception getting session:', err?.message || err);
         if (isMounted) stopLoading();
       }
     };
@@ -96,6 +99,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('[AUTH] Auth state changed:', event);
       if (!isMounted) return;
 
       if (event === 'INITIAL_SESSION') {
