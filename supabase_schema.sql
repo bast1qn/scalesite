@@ -497,11 +497,22 @@ BEGIN
     INSERT INTO public.profiles (id, name, email, role, referral_code, referred_by)
     VALUES (
         NEW.id,
-        COALESCE(NEW.raw_user_meta_data->>'name', 'User'),
+        COALESCE(
+            NEW.raw_user_meta_data->>'name',
+            NEW.user_metadata->>'name',
+            'User'
+        ),
         NEW.email,
         'user',
-        UPPER(SUBSTR(COALESCE(NEW.raw_user_meta_data->>'name', 'USR'), 1, 3)) || (FLOOR(RANDOM() * 9000) + 1000)::TEXT,
-        NEW.raw_user_meta_data->>'referred_by'
+        UPPER(SUBSTR(COALESCE(
+            NEW.raw_user_meta_data->>'name',
+            NEW.user_metadata->>'name',
+            'USR'
+        ), 1, 3)) || (FLOOR(RANDOM() * 9000) + 1000)::TEXT,
+        COALESCE(
+            NEW.raw_user_meta_data->>'referred_by',
+            NEW.user_metadata->>'referred_by'
+        )
     );
     RETURN NEW;
 END;
