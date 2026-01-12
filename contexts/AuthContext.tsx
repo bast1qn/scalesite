@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useEffect, useRef, ReactNode } from 'react';
-import { User, AuthError, Session } from '@supabase/supabase-js';
-import { supabase, getUserProfile, hasRole, UserProfile } from '../lib/supabase';
+import { Session } from '@supabase/supabase-js';
+import { supabase, getUserProfile, UserProfile } from '../lib/supabase';
 import { translations } from '../lib/translations';
 
 const getT = () => {
@@ -29,6 +29,24 @@ export interface AppUser {
   role: 'team' | 'user' | 'owner';
   referral_code: string | null;
 }
+
+const mapSessionToAppUser = (session: Session): AppUser => ({
+  id: session.user.id,
+  name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
+  email: session.user.email || '',
+  company: session.user.user_metadata?.company || null,
+  role: session.user.user_metadata?.role || 'user',
+  referral_code: session.user.user_metadata?.referral_code || null
+});
+
+const mapProfileToAppUser = (profile: UserProfile): AppUser => ({
+  id: profile.id,
+  name: profile.name || '',
+  email: profile.email || '',
+  company: profile.company,
+  role: profile.role as 'team' | 'user' | 'owner',
+  referral_code: profile.referral_code
+});
 
 interface AuthContextType {
   user: AppUser | null;
@@ -104,16 +122,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] Session check result:', session ? 'Session found' : 'No session');
 
         if (session?.user) {
-          const authUser: AppUser = {
-            id: session.user.id,
-            name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
-            email: session.user.email || '',
-            company: session.user.user_metadata?.company || null,
-            role: session.user.user_metadata?.role || 'user',
-            referral_code: session.user.user_metadata?.referral_code || null
-          };
-          setUser(authUser);
-          console.log('[AUTH] User set from auth metadata (checkSession):', authUser.email);
+          setUser(mapSessionToAppUser(session));
+          console.log('[AUTH] User set from auth metadata (checkSession):', session.user.email);
           setLoading(false);
         } else {
           stopLoading();
@@ -138,29 +148,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setSessionChecked(true);
 
       if (session?.user) {
-        const authUser: AppUser = {
-          id: session.user.id,
-          name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
-          email: session.user.email || '',
-          company: session.user.user_metadata?.company || null,
-          role: session.user.user_metadata?.role || 'user',
-          referral_code: session.user.user_metadata?.referral_code || null
-        };
-        setUser(authUser);
-        console.log('[AUTH] User set from auth metadata:', authUser.email);
+        setUser(mapSessionToAppUser(session));
+        console.log('[AUTH] User set from auth metadata:', session.user.email);
         setLoading(false);
 
         getUserProfile(session.user.id).then(({ data }) => {
           if (data && isMounted) {
             console.log('[AUTH] Background profile update:', data.email);
-            setUser({
-              id: data.id,
-              name: data.name || '',
-              email: data.email || '',
-              company: data.company,
-              role: data.role as 'team' | 'user' | 'owner',
-              referral_code: data.referral_code
-            });
+            setUser(mapProfileToAppUser(data));
           }
         }).catch(() => {
         });
@@ -192,14 +187,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       if (data) {
-        setUser({
-          id: data.id,
-          name: data.name || '',
-          email: data.email || '',
-          company: data.company,
-          role: data.role as 'team' | 'user' | 'owner',
-          referral_code: data.referral_code
-        });
+        setUser(mapProfileToAppUser(data));
         console.log('[AUTH] Profile loaded successfully:', data.email);
         setLoading(false);
       } else {

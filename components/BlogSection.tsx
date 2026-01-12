@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRightIcon, CalendarIcon, ClockIcon } from './Icons';
+import { ArrowRightIcon, CalendarDaysIcon, ClockIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -120,7 +120,7 @@ export const BlogSection: React.FC = () => {
                   {/* Meta */}
                   <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-500 mb-4">
                     <div className="flex items-center gap-1.5">
-                      <CalendarIcon className="w-3.5 h-3.5" />
+                      <CalendarDaysIcon className="w-3.5 h-3.5" />
                       <span>{post.date}</span>
                     </div>
                     <div className="flex items-center gap-1.5">

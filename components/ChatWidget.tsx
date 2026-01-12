@@ -70,10 +70,8 @@ export const ChatWidget: React.FC = () => {
         setIsLoading(true);
 
         try {
-            // Simulated AI response - replace with actual API call when backend is ready
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Generate contextual response based on keywords
             const lowerMessage = userMessage.toLowerCase();
             let responseText = t('chat_widget.error_connection');
 

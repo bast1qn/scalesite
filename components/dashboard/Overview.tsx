@@ -32,7 +32,6 @@ interface OverviewProps {
     setCurrentPage: (page: string) => void;
 }
 
-// Helper function to format time ago
 const getTimeAgo = (date: Date): string => {
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -82,8 +81,6 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
     ];
     const [tipOfTheDay] = useState(tips[Math.floor(Math.random() * tips.length)]);
 
-    // Demo Server Stats - Simulated for visualization purposes
-    // In production, this would come from actual server monitoring APIs
     useEffect(() => {
         const interval = setInterval(() => {
             setServerStats(prev => ({

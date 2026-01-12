@@ -316,13 +316,10 @@ export const api = {
     getTicketMembers: async (ticketId: string) => {
         const { data, error } = await supabase
             .from('ticket_members')
-            .select('user_id, profiles(id, name, email, role, added_at)')
+            .select('user_id, profiles(id, name, email, role)')
             .eq('ticket_id', ticketId);
 
-        const formatted = data?.map((member) => ({
-            ...member.profiles,
-            added_at: member.added_at
-        })) || [];
+        const formatted = data?.map((member) => member.profiles) || [];
 
         return { data: formatted, error: handleSupabaseError(error) };
     },
@@ -545,7 +542,7 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    adminAssignService: async (payload: { userId: string; serviceId: number; customService?: { name: string; description: string; price: number; price_details?: string } }) => {
+    adminAssignService: async (payload: { userId: string; serviceId?: number; customService?: { name: string; description: string; price: number; price_details: string } }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 

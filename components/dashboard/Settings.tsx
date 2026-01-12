@@ -143,8 +143,6 @@ const Settings: React.FC = () => {
     const handleSaveBilling = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Note: Billing data is stored locally only (not in database)
-        // To persist billing data, a separate billing table would be needed
         setTimeout(() => {
             setLoading(false);
             showSuccess('Rechnungsdaten lokal gespeichert (nicht in Datenbank)');
