@@ -1,8 +1,7 @@
 
-// Supabase API Client for ScaleSite
 import { supabase, UserProfile } from './supabase';
+import { generateId } from './utils';
 
-// Helper to check if user has team role
 const isTeamMember = async (userId: string): Promise<boolean> => {
     const { data } = await supabase
         .from('profiles')
@@ -12,16 +11,23 @@ const isTeamMember = async (userId: string): Promise<boolean> => {
     return data?.role === 'team' || data?.role === 'owner';
 };
 
-// Generate UUID for new records
-const generateId = () => crypto.randomUUID();
+const requireAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { user: null, error: 'Not authenticated' };
+    return { user, error: null };
+};
 
-// Supabase error type
+const requireTeamAccess = async (userId: string): Promise<{ authorized: boolean; error: string | null }> => {
+    const teamMember = await isTeamMember(userId);
+    if (!teamMember) return { authorized: false, error: 'Access denied' };
+    return { authorized: true, error: null };
+};
+
 interface SupabaseError {
     message?: string;
     code?: string;
 }
 
-// Error wrapper
 const handleSupabaseError = (error: SupabaseError | null): string | null => {
     if (error) {
         return error.message || 'An error occurred';
@@ -30,10 +36,6 @@ const handleSupabaseError = (error: SupabaseError | null): string | null => {
 };
 
 export const api = {
-    // ===== AUTH ENDPOINTS (handled by AuthContext) =====
-    // Login, Register, Logout are now in AuthContext using Supabase Auth
-
-    // ===== USER ENDPOINTS =====
     getMe: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -61,7 +63,6 @@ export const api = {
         return { data: { user: data }, error: handleSupabaseError(error) };
     },
 
-    // ===== SERVICES =====
     getServices: async () => {
         const { data, error } = await supabase
             .from('services')
@@ -70,7 +71,6 @@ export const api = {
         return { data, error: handleSupabaseError(error) };
     },
 
-    // ===== USER SERVICES =====
     getUserServices: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -91,7 +91,6 @@ export const api = {
 
         if (error) return { data: [], error: handleSupabaseError(error) };
 
-        // Format data to match expected structure
         const formatted = data?.map((row) => ({
             id: row.id,
             service_id: row.service_id,
@@ -111,7 +110,6 @@ export const api = {
         const id = generateId();
         const now = new Date().toISOString();
 
-        // Create user service
         const { error } = await supabase
             .from('user_services')
             .insert({
@@ -125,14 +123,12 @@ export const api = {
 
         if (error) return { data: null, error: handleSupabaseError(error) };
 
-        // Get service details for ticket
         const { data: service } = await supabase
             .from('services')
             .select('name')
             .eq('id', serviceId)
             .single();
 
-        // Create ticket
         if (service) {
             const ticketId = generateId();
             await supabase.from('tickets').insert({
@@ -163,12 +159,10 @@ export const api = {
         return { data: { success: true, id }, error: null };
     },
 
-    // ===== TICKETS =====
     getTickets: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
 
-        // Check if user is team member
         const teamMember = await isTeamMember(user.id);
 
         let query = supabase
@@ -177,7 +171,6 @@ export const api = {
             .order('last_update', { ascending: false });
 
         if (!teamMember) {
-            // Non-team users only see their own tickets or tickets they're members of
             query = supabase
                 .from('tickets')
                 .select('*, profiles!tickets_user_id_fkey(name, role, company)')
@@ -194,7 +187,6 @@ export const api = {
 
         if (error) return { data: [], error: handleSupabaseError(error) };
 
-        // Format to match expected structure with profiles
         const formatted = data?.map((ticket) => ({
             ...ticket,
             profiles: ticket.profiles || { name: 'Unknown', role: 'user', company: '' }
@@ -245,7 +237,6 @@ export const api = {
 
         const teamMember = await isTeamMember(user.id);
 
-        // Check access
         if (!teamMember) {
             const { data: memberCheck } = await supabase
                 .from('ticket_members')
@@ -300,7 +291,6 @@ export const api = {
 
         if (error) return { data: null, error: handleSupabaseError(error) };
 
-        // Update ticket status and last_update
         await supabase
             .from('tickets')
             .update({
@@ -327,7 +317,6 @@ export const api = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
-        // Check if user is team member or ticket owner
         const teamMember = await isTeamMember(user.id);
 
         const { data: ticket } = await supabase
@@ -340,7 +329,6 @@ export const api = {
             return { data: null, error: 'Access denied' };
         }
 
-        // Find user by email
         const { data: userToAdd } = await supabase
             .from('profiles')
             .select('id')
@@ -351,7 +339,6 @@ export const api = {
             return { data: null, error: 'Nutzer nicht gefunden' };
         }
 
-        // Check if already member
         const { data: existing } = await supabase
             .from('ticket_members')
             .select('1')
@@ -390,7 +377,6 @@ export const api = {
         return { data: { success: true }, error: null };
     },
 
-    // ===== TRANSACTIONS =====
     getTransactions: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -404,7 +390,6 @@ export const api = {
         return { data: data || [], error: handleSupabaseError(error) };
     },
 
-    // ===== STATS =====
     getStats: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: { ticketCount: 0, serviceCount: 0 }, error: 'Not authenticated' };
@@ -427,7 +412,6 @@ export const api = {
         };
     },
 
-    // ===== CONTACT =====
     sendContact: async (name: string, email: string, subject: string, message: string) => {
         const { error } = await supabase.from('contact_messages').insert({
             id: generateId(),
@@ -441,7 +425,6 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    // ===== NEWSLETTER =====
     subscribeNewsletter: async (name: string, email: string) => {
         const { error } = await supabase.from('newsletter_subscribers').insert({
             id: generateId(),
@@ -450,7 +433,6 @@ export const api = {
             created_at: new Date().toISOString()
         });
 
-        // Ignore duplicate errors
         if (error && error.code === '23505') {
             return { data: { success: true }, error: null };
         }
@@ -458,7 +440,6 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    // ===== ANALYTICS =====
     trackEvent: async (sessionId: string, type: string, path: string, element?: string, timestamp?: number) => {
         const { error } = await supabase.from('analytics_events').insert({
             id: generateId(),
@@ -577,7 +558,6 @@ export const api = {
             created_at: now
         });
 
-        // Get service details for transaction
         const { data: service } = await supabase
             .from('services')
             .select('name, price')
@@ -653,7 +633,6 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    // ===== BLOG =====
     getBlogPosts: async () => {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -713,7 +692,6 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    // ===== FILES =====
     getFiles: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -836,7 +814,6 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    // ===== DISCOUNTS =====
     getDiscounts: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -917,7 +894,6 @@ export const api = {
 
         if (ticket.error) return { data: null, error: handleSupabaseError(ticket.error) };
 
-        // Defensively check if ticket.data exists before accessing user_id
         if (!ticket.data?.user_id) {
             return { data: null, error: 'Ticket not found or has no user_id' };
         }

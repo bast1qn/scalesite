@@ -170,6 +170,7 @@ export function useDebounce<T>(value: T, delay: number): T {
 
 /**
  * Custom hook for localStorage with SSR safety
+ * @deprecated Use useStorage instead for better type inference and simplicity
  */
 export function useLocalStorage<T>(
   key: string,
@@ -194,6 +195,35 @@ export function useLocalStorage<T>(
       }
     } catch {
       // Error handling if needed
+    }
+  };
+
+  return [storedValue, setValue];
+}
+
+/**
+ * Simplified storage hook for primitive values (strings, booleans, numbers)
+ * Automatically serializes/deserializes values
+ */
+export function useStorage<T extends string | number | boolean>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === 'undefined') return initialValue;
+    try {
+      const item = window.localStorage.getItem(key);
+      if (item === null) return initialValue;
+      return item as T;
+    } catch {
+      return initialValue;
+    }
+  });
+
+  const setValue = (value: T) => {
+    setStoredValue(value);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(key, String(value));
     }
   };
 

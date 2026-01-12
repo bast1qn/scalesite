@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type CurrencyCode = 'EUR' | 'USD' | 'GBP' | 'CHF' | 'JPY' | 'CAD' | 'AUD' | 'SEK' | 'NOK' | 'DKK' | 'PLN' | 'CZK' | 'HUF' | 'RON' | 'BGN' | 'HRK' | 'RUB' | 'TRY' | 'CNY' | 'INR' | 'BRL' | 'MXN' | 'ZAR' | 'SGD' | 'HKD' | 'KRW' | 'IDR' | 'MYR' | 'PHP' | 'THB' | 'NZD' | 'ILS' | 'AED';
@@ -8,7 +7,7 @@ export interface Currency {
     symbol: string;
     name: string;
     flag: string;
-    rate: number; // Rate to EUR (1 EUR = X currency)
+    rate: number;
 }
 
 const currencies: Record<CurrencyCode, Currency> = {
@@ -74,7 +73,7 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
     const [currency, setCurrencyState] = useState<CurrencyCode>('EUR');
 
     useEffect(() => {
-        const savedCurrency = localStorage.getItem('app_currency') as CurrencyCode;
+        const savedCurrency = localStorage.getItem('app_currency') as CurrencyCode | null;
         if (savedCurrency && currencies[savedCurrency]) {
             setCurrencyState(savedCurrency);
         }
@@ -100,50 +99,42 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
         let formatted: string;
 
         if (['JPY', 'KRW', 'IDR'].includes(currency)) {
-            // No decimals for these currencies
             formatted = Math.round(converted).toLocaleString('de-DE');
         } else if (currency === 'EUR') {
             formatted = converted.toFixed(decimals).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         } else {
             formatted = converted.toFixed(decimals);
-            // Add thousands separator
             const parts = formatted.split('.');
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             formatted = parts.join('.');
         }
 
-        if (showSymbol) {
-            // Symbol position depends on currency
-            const symbolBefore = ['EUR', 'GBP', 'CHF', 'SEK', 'NOK', 'DKK', 'PLN', 'CZK', 'HUF', 'RON', 'BGN', 'HRK', 'RUB', 'TRY', 'ILS', 'CNY', 'JPY', 'KRW', 'INR', 'IDR', 'THB', 'PHP', 'MYR', 'SGD', 'HKD', 'BRL', 'MXN', 'ZAR', 'AED'].includes(currency);
+        if (!showSymbol) return formatted;
 
-            if (symbolBefore && curr.symbol !== currency) {
-                return `${formatted} ${curr.symbol}`;
-            } else if (currency === 'EUR') {
-                return `${formatted.replace('.', ',')} €`;
-            } else if (currency === 'GBP') {
-                return `£${formatted}`;
-            } else if (currency === 'CHF') {
-                return `CHF ${formatted}`;
-            } else if (currency === 'USD' || currency === 'CAD' || currency === 'AUD' || currency === 'SGD' || currency === 'HKD' || currency === 'NZD' || currency === 'BRL' || currency === 'MXN' || currency === 'ZAR') {
+        switch (currency) {
+            case 'EUR': return `${formatted.replace('.', ',')} €`;
+            case 'GBP': return `£${formatted}`;
+            case 'CHF': return `CHF ${formatted}`;
+            case 'USD':
+            case 'CAD':
+            case 'AUD':
+            case 'SGD':
+            case 'HKD':
+            case 'NZD':
+            case 'BRL':
+            case 'MXN':
+            case 'ZAR':
                 return `${curr.symbol}${formatted}`;
-            } else if (currency === 'CNY' || currency === 'JPY') {
+            case 'CNY':
+            case 'JPY':
                 return `${curr.symbol}${formatted}`;
-            } else if (currency === 'KRW') {
-                return `₩${formatted}`;
-            } else if (currency === 'INR') {
-                return `₹${formatted}`;
-            } else if (currency === 'ILS') {
-                return `₪${formatted}`;
-            } else if (currency === 'TRY') {
-                return `${formatted} ₺`;
-            } else if (currency === 'AED') {
-                return `${formatted} د.إ`;
-            } else {
-                return `${formatted} ${curr.symbol}`;
-            }
+            case 'KRW': return `₩${formatted}`;
+            case 'INR': return `₹${formatted}`;
+            case 'ILS': return `₪${formatted}`;
+            case 'TRY': return `${formatted} ₺`;
+            case 'AED': return `${formatted} د.إ`;
+            default: return `${formatted} ${curr.symbol}`;
         }
-
-        return formatted;
     };
 
     const value: CurrencyContextType = {

@@ -1,35 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { SunIcon, MoonIcon } from './Icons';
 
+type Theme = 'light' | 'dark';
+
+const THEME_KEY = 'theme' as const;
+const DEFAULT_THEME: Theme = 'dark';
+
+const getInitialTheme = (): Theme => {
+    if (typeof window === 'undefined') return DEFAULT_THEME;
+    try {
+        const saved = localStorage.getItem(THEME_KEY) as Theme | null;
+        return (saved === 'light' || saved === 'dark') ? saved : DEFAULT_THEME;
+    } catch {
+        return DEFAULT_THEME;
+    }
+};
+
+const applyTheme = (theme: Theme) => {
+    if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+};
+
 export const ThemeToggle: React.FC = () => {
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState<Theme>(getInitialTheme);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(savedTheme);
-        if (savedTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
+        applyTheme(theme);
+    }, [theme]);
 
     const toggleTheme = () => {
         setIsAnimating(true);
-        const newTheme = theme === 'light' ? 'dark' : 'light';
+        const newTheme: Theme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
+        localStorage.setItem(THEME_KEY, newTheme);
 
-        // Add transition class to body
         document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
-
-        if (newTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        applyTheme(newTheme);
 
         setTimeout(() => {
             setIsAnimating(false);
