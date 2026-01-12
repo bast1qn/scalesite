@@ -325,6 +325,19 @@ export const api = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
+        // Check if user is team member or ticket owner
+        const teamMember = await isTeamMember(user.id);
+
+        const { data: ticket } = await supabase
+            .from('tickets')
+            .select('user_id')
+            .eq('id', ticketId)
+            .single();
+
+        if (!teamMember && ticket?.user_id !== user.id) {
+            return { data: null, error: 'Access denied' };
+        }
+
         // Find user by email
         const { data: userToAdd } = await supabase
             .from('profiles')
@@ -354,11 +367,15 @@ export const api = {
             .eq('id', user.id)
             .single();
 
-        await supabase.from('ticket_members').insert({
+        const { error } = await supabase.from('ticket_members').insert({
             ticket_id: ticketId,
             user_id: userToAdd.id,
             added_at: new Date().toISOString()
         });
+
+        if (error) {
+            return { data: null, error: handleSupabaseError(error) };
+        }
 
         await supabase.from('ticket_messages').insert({
             id: generateId(),
@@ -533,14 +550,17 @@ export const api = {
         let finalServiceId = serviceId;
 
         if (customService) {
-            const { data } = await supabase.from('services').insert({
+            const { data, error } = await supabase.from('services').insert({
                 name: customService.name,
                 description: customService.description,
                 price: customService.price,
                 price_details: customService.price_details || 'einmalig'
             }).select('id').single();
 
-            if (data) finalServiceId = data.id;
+            if (error || !data) {
+                return { data: null, error: handleSupabaseError(error) || 'Failed to create custom service' };
+            }
+            finalServiceId = data.id;
         }
 
         const id = generateId();
