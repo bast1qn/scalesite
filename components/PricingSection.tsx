@@ -19,7 +19,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
   const { formatPrice } = useCurrency();
   const [withHosting, setWithHosting] = useState(false);
   const [isOfferActive, setIsOfferActive] = useState(true);
-  
+
   // Modal State
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
@@ -35,12 +35,12 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
 
   const pricingPackages = useMemo(() => {
     const defaults = [
-        { id: 1, name: "Basic", price: formatPrice(29), price_details: t('pricing.one_time'), description: language === 'de' ? "Perfekte One-Page Website für kleine Projekte" : "Perfect one-page website for small projects", features: [language === 'de' ? "1 Seite (One-Pager)" : "1 page (One-Pager)", language === 'de' ? "Mobiles Design" : "Mobile responsive", language === 'de' ? "Kontaktformular" : "Contact form", language === 'de' ? "Impressum" : "Legal imprint", language === 'de' ? "Fast fertig in 48h" : "Ready in 48h"], popular: false, with_hosting: false, basePrice: 29 },
-        { id: 2, name: "Starter", price: formatPrice(59), price_details: t('pricing.one_time'), description: language === 'de' ? "Kleine Website für Startups & Solopreneure" : "Small website for startups & solopreneurs", features: [language === 'de' ? "3-5 Seiten" : "3-5 pages", language === 'de' ? "Responsive Design" : "Responsive design", language === 'de' ? "Kontaktformular" : "Contact form", language === 'de' ? "Google Maps Integration" : "Google Maps integration", language === 'de' ? "Basis SEO" : "Basic SEO"], popular: true, with_hosting: false, basePrice: 59 },
-        { id: 3, name: "Business", price: formatPrice(89), price_details: t('pricing.one_time'), description: language === 'de' ? "Professionelle Website für kleine Unternehmen" : "Professional website for small businesses", features: [language === 'de' ? "5-8 Seiten" : "5-8 pages", language === 'de' ? "Blog-Sektion" : "Blog section", language === 'de' ? "Social Media Links" : "Social media links", language === 'de' ? "Erweitertes SEO" : "Extended SEO", language === 'de' ? "1 Monat Support" : "1 month support"], popular: false, with_hosting: false, basePrice: 89 },
-        { id: 4, name: "Basic+", price: formatPrice(5), price_details: t('pricing.per_month'), description: language === 'de' ? "Hosting für deine Basic Website" : "Hosting for your Basic website", features: [language === 'de' ? "Schnelles Hosting" : "Fast hosting", language === 'de' ? "SSL Zertifikat" : "SSL certificate", language === 'de' ? "E-Mail Support" : "Email support"], popular: false, with_hosting: true, basePrice: 5 },
-        { id: 5, name: "Starter+", price: formatPrice(9), price_details: t('pricing.per_month'), description: language === 'de' ? "All-Inclusive Hosting Paket" : "All-inclusive hosting package", features: [language === 'de' ? "Schnelles Hosting" : "Fast hosting", language === 'de' ? "Tägliche Backups" : "Daily backups", language === 'de' ? "SSL Zertifikat" : "SSL certificate", language === 'de' ? "Software Updates" : "Software updates"], popular: true, with_hosting: true, basePrice: 9 },
-        { id: 6, name: "Business+", price: formatPrice(15), price_details: t('pricing.per_month'), description: language === 'de' ? "Premium Hosting mit Support" : "Premium hosting with support", features: [language === 'de' ? "Priority Hosting" : "Priority hosting", language === 'de' ? "Tägliche Backups" : "Daily backups", language === 'de' ? "SSL & Updates" : "SSL & updates", language === 'de' ? "Priority Support" : "Priority support"], popular: false, with_hosting: true, basePrice: 15 },
+        { id: 1, name: "Basic", price: formatPrice(29), price_details: t('pricing.one_time'), description: language === 'de' ? "Perfekte One-Page Website fur kleine Projekte" : "Perfect one-page website for small projects", features: [language === 'de' ? "1 Seite (One-Pager)" : "1 page (One-Pager)", language === 'de' ? "Mobiles Design" : "Mobile responsive", language === 'de' ? "Kontaktformular" : "Contact form", language === 'de' ? "Impressum" : "Legal imprint", language === 'de' ? "Fast fertig in 48h" : "Ready in 48h"], popular: false, with_hosting: false, basePrice: 29 },
+        { id: 2, name: "Starter", price: formatPrice(59), price_details: t('pricing.one_time'), description: language === 'de' ? "Kleine Website fur Startups & Solopreneure" : "Small website for startups & solopreneurs", features: [language === 'de' ? "3-5 Seiten" : "3-5 pages", language === 'de' ? "Responsive Design" : "Responsive design", language === 'de' ? "Kontaktformular" : "Contact form", language === 'de' ? "Google Maps Integration" : "Google Maps integration", language === 'de' ? "Basis SEO" : "Basic SEO"], popular: true, with_hosting: false, basePrice: 59 },
+        { id: 3, name: "Business", price: formatPrice(89), price_details: t('pricing.one_time'), description: language === 'de' ? "Professionelle Website fur kleine Unternehmen" : "Professional website for small businesses", features: [language === 'de' ? "5-8 Seiten" : "5-8 pages", language === 'de' ? "Blog-Sektion" : "Blog section", language === 'de' ? "Social Media Links" : "Social media links", language === 'de' ? "Erweitertes SEO" : "Extended SEO", language === 'de' ? "1 Monat Support" : "1 month support"], popular: false, with_hosting: false, basePrice: 89 },
+        { id: 4, name: "Basic+", price: formatPrice(5), price_details: t('pricing.per_month'), description: language === 'de' ? "Hosting fur deine Basic Website" : "Hosting for your Basic website", features: [language === 'de' ? "Schnelles Hosting" : "Fast hosting", language === 'de' ? "SSL Zertifikat" : "SSL certificate", language === 'de' ? "E-Mail Support" : "Email support"], popular: false, with_hosting: true, basePrice: 5 },
+        { id: 5, name: "Starter+", price: formatPrice(9), price_details: t('pricing.per_month'), description: language === 'de' ? "All-Inclusive Hosting Paket" : "All-inclusive hosting package", features: [language === 'de' ? "Schnelles Hosting" : "Fast hosting", language === 'de' ? "Tagliche Backups" : "Daily backups", language === 'de' ? "SSL Zertifikat" : "SSL certificate", language === 'de' ? "Software Updates" : "Software updates"], popular: true, with_hosting: true, basePrice: 9 },
+        { id: 6, name: "Business+", price: formatPrice(15), price_details: t('pricing.per_month'), description: language === 'de' ? "Premium Hosting mit Support" : "Premium hosting with support", features: [language === 'de' ? "Priority Hosting" : "Priority hosting", language === 'de' ? "Tagliche Backups" : "Daily backups", language === 'de' ? "SSL & Updates" : "SSL & updates", language === 'de' ? "Priority Support" : "Priority support"], popular: false, with_hosting: true, basePrice: 15 },
     ];
 
     return defaults.map(pkg => {
@@ -61,7 +61,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
         };
     });
   }, [t, dbServices, language, formatPrice]);
-  
+
   const faqItems = useMemo(() => [
       { id: 1, question: t('pricing.faq.1.q'), answer: t('pricing.faq.1.a') },
       { id: 2, question: t('pricing.faq.2.q'), answer: t('pricing.faq.2.a') },
@@ -71,7 +71,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
 
   const displayedPackages = pricingPackages.filter(p => p.with_hosting === withHosting);
   const offerEndDate = new Date();
-  offerEndDate.setDate(offerEndDate.getDate() + 7); 
+  offerEndDate.setDate(offerEndDate.getDate() + 7);
 
   const handlePackageClick = (pkg: any) => {
       setSelectedPackage(pkg);
@@ -82,14 +82,14 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
   const handleFormSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setIsSubmitting(true);
-      
+
       const form = e.target as HTMLFormElement;
       const formData = new FormData(form);
-      
+
       const name = formData.get('name') as string;
       const email = formData.get('email') as string;
       const message = formData.get('message') as string;
-      
+
       const requestText = `
 ANFRAGE WEBSITE PAKET:
 ----------------------
@@ -126,21 +126,31 @@ ${message}
   };
 
   return (
-    <section className="py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+    <section className="py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
       {/* Animated background gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[15%] left-[5%] w-[500px] h-[500px] bg-gradient-to-br from-blue-400/5 to-violet-400/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-[15%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/4 to-teal-400/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-[10%] left-[0%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 via-violet-400/6 to-indigo-400/4 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-[10%] right-[0%] w-[600px] h-[600px] bg-gradient-to-br from-violet-400/6 via-purple-400/4 to-pink-400/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-[50%] left-[30%] w-[400px] h-[400px] bg-gradient-to-br from-emerald-400/4 to-teal-400/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '5s' }}></div>
       </div>
+
+      {/* Grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
+        style={{
+          backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      ></div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
             {/* Trust Badge */}
-            <div className="mb-8 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/30">
+            <div className="mb-8 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200/60 dark:border-emerald-800/30 shadow-lg">
                 <ShieldCheckIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
-                  30 Tage Geld-zurück Garantie
+                  30 Tage Geld-zuruck Garantie
                 </span>
             </div>
 
@@ -157,19 +167,19 @@ ${message}
 
           {/* Hosting Toggle */}
           <div className="mt-12 flex justify-center">
-              <div className="bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full inline-flex relative">
+              <div className="bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-sm p-1.5 rounded-full inline-flex relative shadow-inner">
                 <div
-                    className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-full shadow-sm transition-all duration-300 ${!withHosting ? 'left-1.5' : 'left-[calc(50%+4.5px)]'}`}
+                    className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-full shadow-md transition-all duration-500 ease-out ${!withHosting ? 'left-1.5' : 'left-[calc(50%+4.5px)]'}`}
                 ></div>
                 <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative z-10 px-8 py-2 rounded-full text-sm font-medium transition-colors ${!withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                    className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${!withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
                 >
                     {t('pricing.toggle_project')}
                 </button>
                 <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative z-10 px-8 py-2 rounded-full text-sm font-medium transition-colors ${withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                    className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
                 >
                      {t('pricing.toggle_service')}
                 </button>
@@ -178,8 +188,8 @@ ${message}
 
           {/* Limited Offer Banner */}
           {isOfferActive && (
-              <div className="mt-8 max-w-xl mx-auto bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <div className="flex items-center gap-2 font-medium text-blue-600 dark:text-blue-400 text-sm">
+              <div className="mt-8 max-w-xl mx-auto bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 dark:from-blue-900/20 dark:via-violet-900/20 dark:to-blue-900/20 border border-blue-200/60 dark:border-blue-800/30 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-center gap-4 shadow-lg shadow-blue-500/5">
+                  <div className="flex items-center gap-2 font-semibold text-blue-600 dark:text-blue-400 text-sm">
                       <TagIcon className="w-4 h-4" />
                       <span>{t('pricing.offer')}</span>
                   </div>
@@ -191,18 +201,25 @@ ${message}
         {/* Pricing Cards */}
         <AnimatedSection stagger>
           <div className="mt-16 grid gap-6 lg:grid-cols-3 items-start">
-            {displayedPackages.map((pkg) => (
+            {displayedPackages.map((pkg, index) => (
                 <div
                     key={pkg.name}
-                    className={`flex flex-col p-7 rounded-2xl transition-all duration-300 relative ${
+                    className={`group flex flex-col p-8 rounded-3xl transition-all duration-500 relative ${
                         pkg.popular
-                        ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-2xl shadow-slate-900/20 border-2 border-blue-500/40 lg:-translate-y-2'
-                        : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800/50 hover:shadow-xl'
+                        ? 'bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 text-white shadow-2xl shadow-slate-900/30 border border-blue-500/30 lg:-translate-y-4 hover:-translate-y-6 hover:shadow-2xl hover:shadow-blue-500/20'
+                        : index === 1
+                        ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600/50 hover:shadow-xl hover:-translate-y-2 hover:shadow-blue-500/10'
+                        : 'bg-white/80 dark:bg-slate-800/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-700/50 hover:shadow-xl hover:-translate-y-1'
                     }`}
                 >
+                    {/* Glow effect for popular card */}
                     {pkg.popular && (
-                         <div className="absolute -top-3 left-0 right-0 flex justify-center z-10">
-                            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-lg shadow-blue-500/25">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-indigo-500/20 rounded-3xl blur-xl -z-10 group-hover:opacity-75 transition-opacity duration-500"></div>
+                    )}
+
+                    {pkg.popular && (
+                         <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
+                            <span className="inline-flex items-center px-5 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-xl shadow-blue-500/30">
                                 {t('pricing.popular')}
                             </span>
                         </div>
@@ -215,22 +232,22 @@ ${message}
                         </p>
                     </div>
 
-                    <div className="flex items-baseline gap-1 mb-6 relative z-10">
+                    <div className="flex items-baseline gap-1.5 mb-6 relative z-10">
                         <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600'}`}>
                             {pkg.price}
                         </span>
                         <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
                     </div>
 
-                    <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700/50' : 'bg-slate-100 dark:bg-slate-700/50'}`}></div>
+                    <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-gradient-to-r from-transparent via-slate-600 to-transparent' : 'bg-slate-100 dark:bg-slate-700/50'}`}></div>
 
-                    <ul className="space-y-3 flex-grow mb-8 relative z-10">
+                    <ul className="space-y-3.5 flex-grow mb-8 relative z-10">
                         {pkg.features.map((feature: string) => (
                             <li key={feature} className="flex items-start gap-3">
                             <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
                                 pkg.popular
                                 ? 'bg-blue-500/20 text-blue-400'
-                                : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                : 'bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400'
                             }`}>
                                  <CheckBadgeIcon className="w-3 h-3" />
                             </div>
@@ -241,13 +258,13 @@ ${message}
 
                     <button
                         onClick={() => handlePackageClick(pkg)}
-                        className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 ${
+                        className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 overflow-hidden ${
                             pkg.popular
-                            ? 'bg-white text-slate-900 hover:bg-gray-100 shadow-lg'
-                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:opacity-90 hover:shadow-lg hover:shadow-blue-500/25'
+                            ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-lg hover:shadow-xl hover:-translate-y-0.5'
+                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:opacity-90 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5'
                         }`}
                     >
-                        {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
+                        {pkg.popular ? 'Jetzt starten' : 'Auswahlen'}
                     </button>
 
                     {/* Trust footer */}
@@ -261,7 +278,7 @@ ${message}
           </div>
           <p className="text-center text-sm text-slate-500 mt-8 max-w-2xl mx-auto flex items-center justify-center gap-2">
              <ShieldCheckIcon className="w-4 h-4 text-emerald-500" />
-             Keine Kreditkarte erforderlich. Kostenloses Beratungsgespräch inklusive.
+             Keine Kreditkarte erforderlich. Kostenloses Beratungsgesprach inklusive.
           </p>
         </AnimatedSection>
 
@@ -279,14 +296,17 @@ ${message}
                </div>
                <div className="space-y-3">
                   {faqItems.map((item) => (
-                    <details key={item.question} className="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-                        <summary className="flex justify-between items-center p-4 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                            {item.question}
-                            <span className="ml-4 flex-shrink-0 w-8 h-8 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center transition-transform group-open:rotate-180 text-slate-500">
+                    <details key={item.question} className="group bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:border-blue-200 dark:hover:border-blue-800/30 transition-all duration-300">
+                        <summary className="flex justify-between items-center p-5 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
+                            <span className="flex items-center gap-3">
+                                <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-violet-500 rounded-full opacity-0 group-open:opacity-100 transition-opacity duration-300"></span>
+                                {item.question}
+                            </span>
+                            <span className="ml-4 flex-shrink-0 w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center transition-transform duration-300 group-open:rotate-180 text-slate-500 group-open:bg-gradient-to-br group-open:from-blue-500 group-open:to-violet-500 group-open:text-white">
                                 <ChevronDownIcon className="w-4 h-4" />
                             </span>
                         </summary>
-                        <div className="px-4 pb-4 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-800/50">
+                        <div className="px-5 pb-5 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-700/50 ml-4">
                             {item.answer}
                         </div>
                     </details>
@@ -299,14 +319,17 @@ ${message}
         {/* BOOKING MODAL */}
         {showModal && selectedPackage && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-                <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-scale-in relative">
-                    <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
-                        <XMarkIcon className="w-6 h-6" />
+                <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-scale-in relative">
+                    <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-all hover:scale-110">
+                        <XMarkIcon className="w-5 h-5" />
                     </button>
 
                     <div className="p-8">
                         {!submitSuccess ? (
                             <>
+                                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-violet-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/25">
+                                    <TicketIcon className="w-6 h-6 text-white" />
+                                </div>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{t('pricing.modal.title').replace('{package}', selectedPackage.name)}</h3>
                                 <p className="text-sm text-slate-500 mb-6" dangerouslySetInnerHTML={{ __html: t('pricing.modal.subtitle').replace('{package}', selectedPackage.name).replace('{price}', selectedPackage.price).replace('{details}', selectedPackage.price_details) }}></p>
 
@@ -314,21 +337,21 @@ ${message}
                                     {!user && (
                                         <>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('pricing.modal.name')}</label>
-                                                <input name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Max Mustermann" />
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.name')}</label>
+                                                <input name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" placeholder="Max Mustermann" />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('pricing.modal.email')}</label>
-                                                <input name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="ihre@email.de" />
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.email')}</label>
+                                                <input name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" placeholder="ihre@email.de" />
                                             </div>
                                         </>
                                     )}
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('pricing.modal.message')}</label>
-                                        <textarea name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors resize-none" placeholder={t('pricing.modal.message_placeholder')}></textarea>
+                                        <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.message')}</label>
+                                        <textarea name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none" placeholder={t('pricing.modal.message_placeholder')}></textarea>
                                     </div>
-                                    
-                                    <button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3.5 rounded-xl transition-all mt-2 shadow-lg disabled:opacity-50 flex justify-center items-center">
+
+                                    <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white font-bold py-3.5 rounded-xl transition-all mt-2 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 disabled:opacity-50 flex justify-center items-center">
                                         {isSubmitting ? (
                                             <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                         ) : t('pricing.modal.btn_submit')}
@@ -338,8 +361,8 @@ ${message}
                             </>
                         ) : (
                             <div className="text-center py-8">
-                                <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6 animate-scale-in">
-                                    <CheckBadgeIcon className="w-10 h-10" />
+                                <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-6 animate-scale-in shadow-lg shadow-emerald-500/25">
+                                    <CheckBadgeIcon className="w-10 h-10 text-white" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('pricing.modal.success_title')}</h3>
                                 <p className="text-slate-500 mb-8">
@@ -347,11 +370,11 @@ ${message}
                                 </p>
                                 <div className="flex flex-col gap-3">
                                     {user && (
-                                        <button onClick={() => setCurrentPage('dashboard')} className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-8 rounded-xl hover:opacity-90 transition-colors flex items-center justify-center gap-2">
+                                        <button onClick={() => setCurrentPage('dashboard')} className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-8 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg">
                                             <TicketIcon className="w-4 h-4" /> {t('pricing.modal.to_dashboard')}
                                         </button>
                                     )}
-                                    <button onClick={() => setShowModal(false)} className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold py-3 px-8 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                    <button onClick={() => setShowModal(false)} className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold py-3 px-8 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
                                         {t('general.close')}
                                     </button>
                                 </div>
