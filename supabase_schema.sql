@@ -247,7 +247,15 @@ CREATE POLICY "Users can view own profile" ON profiles
 DROP POLICY IF EXISTS "Team can view all profiles" ON profiles;
 CREATE POLICY "Team can view all profiles" ON profiles
     FOR SELECT USING (
-        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+        -- Check auth.users metadata directly to avoid infinite recursion
+        (
+            SELECT 1 FROM auth.users
+            WHERE id = auth.uid()
+            AND (
+                raw_user_meta_data->>'role' IN ('team', 'owner')
+                OR raw_app_meta_data->>'role' IN ('team', 'owner')
+            )
+        ) IS NOT NULL
     );
 
 DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
