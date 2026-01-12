@@ -1,5 +1,4 @@
-
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { UserCircleIcon, CheckBadgeIcon } from '../components/Icons';
 import { useLanguage } from '../contexts/LanguageContext';

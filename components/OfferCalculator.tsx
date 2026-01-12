@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon } from './Icons';
 import { CustomSelect } from './CustomSelect';
 import { AuthContext } from '../contexts/AuthContext';

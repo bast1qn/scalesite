@@ -4,7 +4,7 @@ import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } f
 import { AuthContext } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useCurrency } from '../contexts/CurrencyContext';
-import { useScroll, useBodyScrollLock, useClickOutsideCallback } from '../lib/hooks';
+import { useScroll, useBodyScrollLock } from '../lib/hooks';
 
 interface HeaderProps {
     setCurrentPage: (page: string) => void;

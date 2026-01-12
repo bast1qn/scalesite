@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo, useEffect } from 'react';
+import { useState, useContext, useMemo, useEffect } from 'react';
 import { CountdownTimer } from './CountdownTimer';
 import { OfferCalculator } from './OfferCalculator';
 import { TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon } from './Icons';

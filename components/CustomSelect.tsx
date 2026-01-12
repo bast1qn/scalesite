@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { useClickOutsideCallback } from '../lib/hooks';
 
 interface Option {
   value: string;
@@ -14,22 +15,9 @@ interface CustomSelectProps {
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({ options, value, onChange, id }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
   const selectedOption = options.find(opt => opt.value === value);
 
-  // Close on outside click
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [wrapperRef]);
-  
   const handleSelect = (optionValue: string) => {
     onChange(optionValue);
     setIsOpen(false);

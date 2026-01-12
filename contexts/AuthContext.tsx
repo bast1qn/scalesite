@@ -1,25 +1,7 @@
 
-import React, { createContext, useState, useEffect, useRef, ReactNode } from 'react';
+import { createContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase, getUserProfile, UserProfile } from '../lib/supabase';
-import { translations } from '../lib/translations';
-
-const getT = () => {
-  const lang = (typeof localStorage !== 'undefined' && localStorage.getItem('app_language')) || 'en';
-  const langKey = lang === 'de' || lang === 'en' ? lang : 'en';
-  return (key: string): string => {
-    const keys = key.split('.');
-    let current: unknown = translations[langKey];
-    for (const k of keys) {
-      if (current && typeof current === 'object' && k in current) {
-        current = (current as Record<string, unknown>)[k];
-      } else {
-        return key;
-      }
-    }
-    return typeof current === 'string' ? current : key;
-  };
-};
 
 export interface AppUser {
   id: string;
@@ -201,7 +183,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (email: string, pass: string) => {
-    const t = getT();
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -217,14 +198,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { success: true, error: null };
       }
 
-      return { success: false, error: t('auth.login_failed') };
+      return { success: false, error: 'Login failed' };
     } catch (err) {
-      return { success: false, error: err instanceof Error ? err.message : t('auth.login_failed') };
+      return { success: false, error: err instanceof Error ? err.message : 'Login failed' };
     }
   };
 
   const socialLogin = async (provider: 'google' | 'github') => {
-    const t = getT();
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -239,7 +219,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return { success: true, error: null };
     } catch (err) {
-      return { success: false, error: err instanceof Error ? err.message : t('auth.social_login_failed') };
+      return { success: false, error: err instanceof Error ? err.message : 'Social login failed' };
     }
   };
 
@@ -268,7 +248,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
-    const t = getT();
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -291,7 +270,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (data.user && !data.session) {
         return {
           success: false,
-          error: t('auth.please_confirm_email'),
+          error: 'Please confirm your email',
           requiresConfirmation: true
         };
       }
@@ -309,9 +288,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { success: true, error: null, requiresConfirmation: false };
       }
 
-      return { success: false, error: t('auth.register_failed'), requiresConfirmation: false };
+      return { success: false, error: 'Registration failed', requiresConfirmation: false };
     } catch (err) {
-      return { success: false, error: err instanceof Error ? err.message : t('auth.unknown_error'), requiresConfirmation: false };
+      return { success: false, error: err instanceof Error ? err.message : 'Unknown error', requiresConfirmation: false };
     }
   };
 
