@@ -103,18 +103,18 @@ ${message}
 
       try {
           if (user) {
-              await api.post('/tickets', {
-                  subject: `Anfrage: ${selectedPackage.name} Paket`,
-                  priority: 'Hoch',
-                  message: requestText
-              });
+              await api.createTicket(
+                  `Anfrage: ${selectedPackage.name} Paket`,
+                  'Hoch',
+                  requestText
+              );
           } else {
-              await api.post('/contact', {
+              await api.sendContact(
                   name,
                   email,
-                  subject: `Anfrage: ${selectedPackage.name} Paket`,
-                  message: requestText
-              });
+                  `Anfrage: ${selectedPackage.name} Paket`,
+                  requestText
+              );
           }
           setSubmitSuccess(true);
       } catch (error) {

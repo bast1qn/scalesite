@@ -5,10 +5,20 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
+interface ReferralStats {
+    totalCount: number;
+    completedProjects: number;
+    earnedRewards: number;
+}
+
 const Referral: React.FC = () => {
     const { user } = useContext(AuthContext);
     const [referralCode, setReferralCode] = useState('');
-    const [referralCount, setReferralCount] = useState(0);
+    const [stats, setStats] = useState<ReferralStats>({
+        totalCount: 0,
+        completedProjects: 0,
+        earnedRewards: 0
+    });
 
     useEffect(() => {
         const fetchReferralData = async () => {
@@ -20,17 +30,40 @@ const Referral: React.FC = () => {
                     setReferralCode(user.referral_code);
                 }
 
-                // 2. Count referrals - users who have this user's referral_code in their referred_by field
-                // Note: This requires the 'referred_by' column in profiles table
-                const { count } = await supabase
+                // 2. Get all referred users
+                const { data: referredUsers, error } = await supabase
                     .from('profiles')
-                    .select('*', { count: 'exact', head: true })
+                    .select('id')
                     .eq('referred_by', user?.referral_code);
 
-                setReferralCount(count || 0);
+                if (error) throw error;
+
+                const userIds = referredUsers?.map(u => u.id) || [];
+
+                // 3. Count completed projects from referred users
+                let completedProjects = 0;
+                let earnedRewards = 0;
+
+                if (userIds.length > 0) {
+                    const { data: services } = await supabase
+                        .from('user_services')
+                        .select('id')
+                        .in('user_id', userIds)
+                        .eq('status', 'completed');
+
+                    completedProjects = services?.length || 0;
+                    // 100€ reward per completed project
+                    earnedRewards = completedProjects * 100;
+                }
+
+                setStats({
+                    totalCount: userIds.length,
+                    completedProjects,
+                    earnedRewards
+                });
             } catch(e) {
                 console.warn("Referral data error", e);
-                setReferralCount(0);
+                setStats({ totalCount: 0, completedProjects: 0, earnedRewards: 0 });
             }
         };
         fetchReferralData();
@@ -90,15 +123,15 @@ const Referral: React.FC = () => {
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Ihre Empfehlungs-Statistik</h2>
                 <div className="grid gap-6 sm:grid-cols-3">
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
-                        <p className="text-4xl font-bold text-blue-600">{referralCount}</p>
+                        <p className="text-4xl font-bold text-blue-600">{stats.totalCount}</p>
                         <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Registrierte Freunde</p>
                     </div>
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
-                        <p className="text-4xl font-bold text-blue-600">0</p>
+                        <p className="text-4xl font-bold text-blue-600">{stats.completedProjects}</p>
                         <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Abgeschlossene Projekte</p>
                     </div>
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
-                        <p className="text-4xl font-bold text-green-600">0 €</p>
+                        <p className="text-4xl font-bold text-green-600">{stats.earnedRewards} €</p>
                         <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Verdiente Prämie</p>
                     </div>
                 </div>

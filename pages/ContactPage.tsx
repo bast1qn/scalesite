@@ -27,7 +27,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
         };
 
         try {
-            await api.post('/contact', data);
+            await api.sendContact(data.name, data.email, data.subject, data.message);
             setIsSubmitted(true);
             form.reset();
         } catch (err: any) {

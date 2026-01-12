@@ -23,8 +23,7 @@ export const NewsletterSection: React.FC = () => {
         const email = formData.get('email') as string;
 
         try {
-            // Sende Daten an das Backend zur Speicherung (z.B. in eine 'leads' Tabelle)
-            await api.post('/newsletter/subscribe', { name, email });
+            await api.subscribeNewsletter(name, email);
             setIsSubmitted(true);
             form.reset();
         } catch (err: any) {

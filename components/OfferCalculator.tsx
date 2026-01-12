@@ -97,11 +97,11 @@ Monatlich: ${formatPrice(monthlyPrice)}
         `.trim();
 
         try {
-            const { error } = await api.post('/tickets', {
-                subject: `Anfrage: ${getSelectedLabel(projectType)}`,
-                priority: 'Hoch',
-                message: messageText
-            });
+            const { error } = await api.createTicket(
+                `Anfrage: ${getSelectedLabel(projectType)}`,
+                'Hoch',
+                messageText
+            );
 
             if (error) throw new Error(error);
             setRequestStep('success');

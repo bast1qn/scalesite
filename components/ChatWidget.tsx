@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ChatBubbleOvalLeftEllipsisIcon, XMarkIcon, PaperAirplaneIcon, SparklesIcon } from './Icons';
-import { api } from '../lib/api';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../lib/translations';
 
@@ -71,16 +70,36 @@ export const ChatWidget: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const result = await api.post('/chat', {
-                message: userMessage,
-                history: messages
-            });
+            // Simulated AI response - replace with actual API call when backend is ready
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
-            if (result.data && result.data.text) {
-                setMessages(prev => [...prev, { role: 'model', text: result.data.text }]);
-            } else {
-                throw new Error("No response received");
+            // Generate contextual response based on keywords
+            const lowerMessage = userMessage.toLowerCase();
+            let responseText = t('chat_widget.error_connection');
+
+            if (lowerMessage.includes('preis') || lowerMessage.includes('kosten') || lowerMessage.includes('price')) {
+                responseText = language === 'de'
+                    ? 'Unsere Preise beginnen bei 99€ für eine Basic Website. Sie können alle Preise und Pakete auf unserer Preise-Seite einsehen. Möchten Sie mehr über ein bestimmtes Paket erfahren?'
+                    : 'Our prices start at €99 for a Basic Website. You can view all packages and pricing on our pricing page. Would you like to know more about a specific package?';
+            } else if (lowerMessage.includes('kontakt') || lowerMessage.includes('email') || lowerMessage.includes('telefon') || lowerMessage.includes('contact')) {
+                responseText = language === 'de'
+                    ? 'Sie können uns über das Kontaktformular auf unserer Website erreichen, oder per E-Mail an info@scalesite.de. Wir antworten meist innerhalb von 24 Stunden.'
+                    : 'You can reach us through the contact form on our website, or by email at info@scalesite.de. We usually respond within 24 hours.';
+            } else if (lowerMessage.includes('dienstleistung') || lowerMessage.includes('service') || lowerMessage.includes('website')) {
+                responseText = language === 'de'
+                    ? 'Wir bieten folgende Dienstleistungen an: Basic Website (99€), Starter Website (199€), Business Website (399€) sowie verschiedene Hosting-Pakete. Welches Paket interessiert Sie?'
+                    : 'We offer the following services: Basic Website (€99), Starter Website (€199), Business Website (€399), and various hosting packages. Which package interests you?';
+            } else if (lowerMessage.includes('hilfe') || lowerMessage.includes('support') || lowerMessage.includes('help')) {
+                responseText = language === 'de'
+                    ? 'Für technische Anliegen oder Fragen zu Ihrem Projekt können Sie unser Ticket-System im Dashboard verwenden. Unser Support-Team hilft Ihnen gerne weiter.'
+                    : 'For technical issues or questions about your project, you can use our ticket system in the dashboard. Our support team is happy to help.';
+            } else if (lowerMessage.includes('hallo') || lowerMessage.includes('hi') || lowerMessage.includes('hello')) {
+                responseText = language === 'de'
+                    ? 'Hallo! Willkommen bei ScaleSite. Wie kann ich Ihnen heute helfen? Sie können mir Fragen zu unseren Dienstleistungen, Preisen oder Support-Themen stellen.'
+                    : 'Hello! Welcome to ScaleSite. How can I help you today? You can ask me about our services, pricing, or support topics.';
             }
+
+            setMessages(prev => [...prev, { role: 'model', text: responseText }]);
 
         } catch (error) {
             console.error("Chat Error:", error);

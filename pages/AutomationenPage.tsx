@@ -267,18 +267,18 @@ ${message || '- Keine Nachricht -'}
 
         try {
             if (user) {
-                await api.post('/tickets', {
-                    subject: `Automation: ${selectedPackage.title}`,
-                    priority: 'Hoch',
-                    message: detailedMessage
-                });
+                await api.createTicket(
+                    `Automation: ${selectedPackage.title}`,
+                    'Hoch',
+                    detailedMessage
+                );
             } else {
-                await api.post('/contact', {
+                await api.sendContact(
                     name,
                     email,
-                    subject: `Anfrage: ${selectedPackage.title}`,
-                    message: detailedMessage
-                });
+                    `Anfrage: ${selectedPackage.title}`,
+                    detailedMessage
+                );
             }
             setFormStep('success');
         } catch (e) {
