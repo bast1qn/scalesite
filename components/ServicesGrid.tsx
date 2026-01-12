@@ -44,7 +44,7 @@ export const ServicesGrid: React.FC = () => {
         <AnimatedSection>
           <div className="text-center mb-16">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border border-blue-200/60 dark:border-blue-800/30 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-8 shadow-lg">
+            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border border-blue-200/60 dark:border-blue-800/30 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
               {t('services.badge')}
             </div>
 
@@ -62,17 +62,17 @@ export const ServicesGrid: React.FC = () => {
             {services.map((service, index) => (
               <div
                 key={service.name}
-                className={`group relative bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-3xl p-8 transition-all duration-500 hover:shadow-2xl ${service.border} hover:-translate-y-2 overflow-hidden`}
+                className={`group relative bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 rounded-3xl p-8 transition-all duration-500 hover:shadow-2xl ${service.border} hover:-translate-y-2 overflow-hidden`}
                 style={{ transitionDelay: `${index * 50}ms` }}
               >
-                {/* Gradient glow effect on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-3xl`}></div>
+                {/* Animated gradient glow effect on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500 rounded-3xl`}></div>
 
                 {/* Gradient line on top (appears on hover) */}
-                <div className={`absolute top-0 left-6 right-6 h-1 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100`}></div>
+                <div className={`absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100 shadow-lg`}></div>
 
                 <div className="relative z-10 flex flex-col h-full">
-                    <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg`}>
+                    <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl`}>
                         <div className="group-hover:animate-float">
                             {iconMap[service.icon_name]}
                         </div>
@@ -94,7 +94,7 @@ export const ServicesGrid: React.FC = () => {
             ))}
 
              {/* Secondary CTA Card */}
-             <div className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border border-slate-700 dark:border-slate-600 rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/30 transition-all duration-500 overflow-hidden">
+             <div className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border border-slate-700 dark:border-slate-600 rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/40 transition-all duration-500 overflow-hidden">
                 {/* Background decoration */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-violet-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -104,12 +104,12 @@ export const ServicesGrid: React.FC = () => {
                 </div>
 
                 <div className="relative z-10">
-                    <div className="w-16 h-16 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 shadow-xl">
+                    <div className="w-16 h-16 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500 shadow-xl">
                          <ChatBubbleBottomCenterTextIcon className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="font-serif text-xl font-bold mb-3">{t('services.cta_card.title')}</h3>
                     <p className="text-slate-300 text-sm mb-8 leading-relaxed">{t('services.cta_card.text')}</p>
-                    <button className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold text-sm hover:bg-slate-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1 w-full">
+                    <button className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold text-sm hover:bg-slate-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-white/20 hover:-translate-y-1 w-full btn-press">
                         {t('services.cta_card.btn')}
                     </button>
                 </div>

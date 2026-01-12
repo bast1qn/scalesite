@@ -147,7 +147,7 @@ ${message}
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
             {/* Trust Badge */}
-            <div className="mb-8 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200/60 dark:border-emerald-800/30 shadow-lg">
+            <div className="mb-8 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200/60 dark:border-emerald-800/30 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <ShieldCheckIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
                   30 Tage Geld-zuruck Garantie
@@ -165,21 +165,22 @@ ${message}
             </p>
           </div>
 
-          {/* Hosting Toggle */}
+          {/* Modern Hosting Toggle */}
           <div className="mt-12 flex justify-center">
-              <div className="bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-sm p-1.5 rounded-full inline-flex relative shadow-inner">
+              <div className="relative bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-xl p-1.5 rounded-2xl inline-flex shadow-lg shadow-slate-200/50 dark:shadow-black/20 border border-slate-200/60 dark:border-slate-700/60">
+                {/* Animated slider background */}
                 <div
-                    className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white dark:bg-slate-700 rounded-full shadow-md transition-all duration-500 ease-out ${!withHosting ? 'left-1.5' : 'left-[calc(50%+4.5px)]'}`}
+                    className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-gradient-to-r from-blue-500 to-violet-500 rounded-xl shadow-lg transition-all duration-500 ease-out ${!withHosting ? 'left-1.5' : 'left-[calc(50%+4.5px)]'}`}
                 ></div>
                 <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${!withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                    className={`relative z-10 px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${!withHosting ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-300'}`}
                 >
                     {t('pricing.toggle_project')}
                 </button>
                 <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${withHosting ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                    className={`relative z-10 px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${withHosting ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-300'}`}
                 >
                      {t('pricing.toggle_service')}
                 </button>
@@ -204,22 +205,30 @@ ${message}
             {displayedPackages.map((pkg, index) => (
                 <div
                     key={pkg.name}
-                    className={`group flex flex-col p-8 rounded-3xl transition-all duration-500 relative ${
+                    className={`group relative flex flex-col p-8 rounded-3xl transition-all duration-500 ${
                         pkg.popular
-                        ? 'bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 text-white shadow-2xl shadow-slate-900/30 border border-blue-500/30 lg:-translate-y-4 hover:-translate-y-6 hover:shadow-2xl hover:shadow-blue-500/20'
+                        ? 'bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 text-white shadow-2xl shadow-slate-900/30 lg:-translate-y-4 hover:-translate-y-6'
                         : index === 1
-                        ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600/50 hover:shadow-xl hover:-translate-y-2 hover:shadow-blue-500/10'
-                        : 'bg-white/80 dark:bg-slate-800/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-700/50 hover:shadow-xl hover:-translate-y-1'
+                        ? 'bg-white/90 dark:bg-slate-800/80 backdrop-blur-xl text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-300/50 dark:hover:border-blue-600/50 hover:shadow-xl hover:-translate-y-2'
+                        : 'bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-200/50 dark:hover:border-blue-700/50 hover:shadow-xl hover:-translate-y-1'
                     }`}
                 >
+                    {/* Animated gradient border for popular */}
+                    {pkg.popular && (
+                        <>
+                            <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-70 blur-sm group-hover:opacity-100 transition-opacity duration-500 animate-gradient-xy"></div>
+                            <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+                        </>
+                    )}
+
                     {/* Glow effect for popular card */}
                     {pkg.popular && (
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-indigo-500/20 rounded-3xl blur-xl -z-10 group-hover:opacity-75 transition-opacity duration-500"></div>
+                        <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-indigo-500/10 rounded-3xl blur-2xl -z-10"></div>
                     )}
 
                     {pkg.popular && (
                          <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
-                            <span className="inline-flex items-center px-5 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-xl shadow-blue-500/30">
+                            <span className="inline-flex items-center px-5 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-xl shadow-blue-500/30 animate-pulse-slow">
                                 {t('pricing.popular')}
                             </span>
                         </div>
@@ -244,7 +253,7 @@ ${message}
                     <ul className="space-y-3.5 flex-grow mb-8 relative z-10">
                         {pkg.features.map((feature: string) => (
                             <li key={feature} className="flex items-start gap-3">
-                            <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                            <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
                                 pkg.popular
                                 ? 'bg-blue-500/20 text-blue-400'
                                 : 'bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400'
@@ -258,10 +267,10 @@ ${message}
 
                     <button
                         onClick={() => handlePackageClick(pkg)}
-                        className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 overflow-hidden ${
+                        className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 overflow-hidden btn-press ${
                             pkg.popular
-                            ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-lg hover:shadow-xl hover:-translate-y-0.5'
-                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:opacity-90 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5'
+                            ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-lg hover:shadow-xl hover:shadow-white/20'
+                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500 shadow-lg hover:shadow-xl hover:shadow-blue-500/25'
                         }`}
                     >
                         {pkg.popular ? 'Jetzt starten' : 'Auswahlen'}
@@ -290,23 +299,23 @@ ${message}
         <AnimatedSection>
           <div className="mt-24 max-w-3xl mx-auto">
                <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border border-blue-200/60 dark:border-blue-800/30 text-sm font-semibold text-blue-600 dark:text-blue-400 mb-4">
                         {t('pricing.faq_title')}
-                    </h3>
+                    </div>
                </div>
                <div className="space-y-3">
-                  {faqItems.map((item) => (
-                    <details key={item.question} className="group bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden hover:border-blue-200 dark:hover:border-blue-800/30 transition-all duration-300">
+                  {faqItems.map((item, idx) => (
+                    <details key={item.question} className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden hover:border-blue-300/50 dark:hover:border-blue-700/50 transition-all duration-300 shadow-sm hover:shadow-md" style={{ animationDelay: `${idx * 50}ms` }}>
                         <summary className="flex justify-between items-center p-5 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors">
                             <span className="flex items-center gap-3">
-                                <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-violet-500 rounded-full opacity-0 group-open:opacity-100 transition-opacity duration-300"></span>
-                                {item.question}
+                                <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-open:opacity-100 transition-all duration-300 group-open:scale-150 shadow-lg shadow-blue-500/50"></span>
+                                <span className="group-open:translate-x-1 transition-transform duration-300">{item.question}</span>
                             </span>
-                            <span className="ml-4 flex-shrink-0 w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center transition-transform duration-300 group-open:rotate-180 text-slate-500 group-open:bg-gradient-to-br group-open:from-blue-500 group-open:to-violet-500 group-open:text-white">
+                            <span className="ml-4 flex-shrink-0 w-9 h-9 bg-slate-100 dark:bg-slate-700/50 rounded-xl flex items-center justify-center transition-all duration-300 group-open:rotate-180 text-slate-500 group-open:bg-gradient-to-br group-open:from-blue-500 group-open:to-violet-500 group-open:text-white group-open:shadow-lg group-open:shadow-blue-500/30">
                                 <ChevronDownIcon className="w-4 h-4" />
                             </span>
                         </summary>
-                        <div className="px-5 pb-5 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-700/50 ml-4">
+                        <div className="px-5 pb-5 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100/50 dark:border-slate-700/50 ml-8 leading-relaxed animate-slide-down">
                             {item.answer}
                         </div>
                     </details>

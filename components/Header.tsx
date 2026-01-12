@@ -204,7 +204,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('preise')}
-                                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-full hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300"
+                                    className="group flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-full hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300 btn-press"
                                 >
                                     <span>{t('nav.projectStart')}</span>
                                     <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -290,7 +290,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <div className="flex flex-col items-center gap-3 w-full max-w-xs">
                             <button
                                 onClick={() => handleNavClick('preise')}
-                                className="w-full flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300"
+                                className="group w-full flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300 btn-press"
                                 style={{ transitionDelay: '300ms' }}
                             >
                                 <span>{t('nav.projectStart')}</span>

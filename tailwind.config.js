@@ -87,6 +87,15 @@ export default {
         'blur-in': 'blurIn 1s ease-out forwards',
         'scale-pulse': 'scalePulse 2s ease-in-out infinite',
         'tilt': 'tilt 0.5s ease-out forwards',
+        'slide-up': 'slideUp 0.5s ease-out forwards',
+        'slide-down': 'slideDown 0.5s ease-out forwards',
+        'rotate-slow': 'rotateSlow 20s linear infinite',
+        'border-beam': 'borderBeam 2s linear infinite',
+        'ripple': 'ripple 0.6s ease-out forwards',
+        'icon-bounce': 'iconBounce 0.5s ease-out forwards',
+        'sun-rise': 'sunRise 0.4s ease-out forwards',
+        'moon-rise': 'moonRise 0.4s ease-out forwards',
+        'card-flip': 'cardFlip 0.6s ease-out forwards',
         // Legacy animation names for compatibility
         fadeIn: 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         fadeUp: 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -186,6 +195,43 @@ export default {
         scalePulse: {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.05)' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideDown: {
+          '0%': { opacity: '0', transform: 'translateY(-20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        rotateSlow: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        borderBeam: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
+        ripple: {
+          '0%': { transform: 'scale(0)', opacity: '1' },
+          '100%': { transform: 'scale(4)', opacity: '0' },
+        },
+        iconBounce: {
+          '0%': { transform: 'scale(0.8)', opacity: '0' },
+          '50%': { transform: 'scale(1.1)' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        sunRise: {
+          '0%': { transform: 'rotate(-90deg) scale(0.5)', opacity: '0' },
+          '100%': { transform: 'rotate(0) scale(1)', opacity: '1' },
+        },
+        moonRise: {
+          '0%': { transform: 'rotate(90deg) scale(0.5)', opacity: '0' },
+          '100%': { transform: 'rotate(0) scale(1)', opacity: '1' },
+        },
+        cardFlip: {
+          '0%': { transform: 'rotateY(0deg)' },
+          '100%': { transform: 'rotateY(180deg)' },
         },
       }
     },

@@ -295,20 +295,23 @@ ${message || '- Keine Nachricht -'}
             {/* --- HERO SECTION --- */}
             <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
                 {/* Background Effects */}
-                <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none"></div>
-                <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/20 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+                <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br from-blue-600/20 via-purple-600/15 to-pink-600/10 blur-[120px] rounded-full pointer-events-none animate-pulse-slow"></div>
+                <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-br from-violet-600/15 via-purple-600/10 to-indigo-600/5 blur-[100px] rounded-full pointer-events-none mix-blend-screen animate-pulse" style={{ animationDelay: '2s' }}></div>
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
                 <AnimatedSection>
                     <div className="text-center max-w-5xl mx-auto relative z-10">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-300 text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-md shadow-lg shadow-blue-900/20 hover:bg-white/10 transition-colors cursor-default">
-                            <BoltIcon className="w-4 h-4" />
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-blue-300 text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-xl shadow-lg shadow-blue-900/20 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300 cursor-default">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                            </span>
                             {t('automation.hero_badge')}
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-white drop-shadow-2xl">
                             {t('automation.hero_title')} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 animate-gradient-xy">{t('automation.hero_title_highlight')}</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-[length:200%_auto] animate-gradient">{t('automation.hero_title_highlight')}</span>
                         </h1>
 
                         <p className="text-xl text-slate-400 mb-16 max-w-3xl mx-auto leading-relaxed font-light">
@@ -320,12 +323,14 @@ ${message || '- Keine Nachricht -'}
                         </div>
 
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <button onClick={() => setCurrentPage('contact')} className="bg-white text-slate-900 hover:bg-blue-50 font-bold px-8 py-4 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                            <button onClick={() => setCurrentPage('contact')} className="group relative bg-white text-slate-900 hover:bg-blue-50 font-bold px-8 py-4 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 btn-press overflow-hidden">
+                                <span className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
                                 <RocketLaunchIcon className="w-5 h-5 text-blue-600" />
                                 {t('automation.btn_potential')}
                             </button>
-                            <button onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="bg-white/5 text-white hover:bg-white/10 border border-white/10 font-bold px-8 py-4 rounded-full backdrop-blur-md transition-all flex items-center justify-center gap-2">
+                            <button onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="group bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-white/20 font-bold px-8 py-4 rounded-full backdrop-blur-xl transition-all duration-300 flex items-center justify-center gap-2 hover:-translate-y-0.5">
                                 {t('automation.btn_discover')}
+                                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                             </button>
                         </div>
                     </div>
@@ -333,10 +338,14 @@ ${message || '- Keine Nachricht -'}
             </section>
 
             {/* --- PACKAGES GRID --- */}
-            <section id="packages" className="py-24 bg-slate-950/50 relative border-t border-white/5">
+            <section id="packages" className="py-24 bg-gradient-to-b from-slate-950/50 to-black relative border-t border-white/5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <AnimatedSection>
                          <div className="text-center mb-16">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-wider mb-4">
+                                <SparklesIcon className="w-4 h-4" />
+                                Packages
+                            </div>
                             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-serif">{t('automation.packages_title')}</h2>
                             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
                                 {t('automation.packages_subtitle')}
@@ -347,19 +356,50 @@ ${message || '- Keine Nachricht -'}
                     <AnimatedSection stagger>
                         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 stagger-container">
                             {automationPackages.map((pkg) => (
-                                <div key={pkg.id} className="group relative bg-slate-900/60 backdrop-blur-md rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-300 flex flex-col overflow-hidden hover:shadow-2xl hover:shadow-purple-900/10 hover:-translate-y-1">
-                                    <div className={`absolute inset-0 bg-gradient-to-br from-${pkg.color}-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
+                                <div key={pkg.id} className="group relative bg-slate-900/60 backdrop-blur-xl rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-500 flex flex-col overflow-hidden hover:shadow-2xl hover:shadow-purple-900/20 hover:-translate-y-2">
+                                    {/* Gradient background on hover */}
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${
+                                        pkg.color === 'purple' ? 'from-purple-500/10 via-transparent to-pink-500/5' :
+                                        pkg.color === 'pink' ? 'from-pink-500/10 via-transparent to-rose-500/5' :
+                                        pkg.color === 'green' ? 'from-emerald-500/10 via-transparent to-teal-500/5' :
+                                        'from-blue-500/10 via-transparent to-indigo-500/5'
+                                    } opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
+
+                                    {/* Top gradient line */}
+                                    <div className={`absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r ${
+                                        pkg.color === 'purple' ? 'from-purple-500 to-pink-500' :
+                                        pkg.color === 'pink' ? 'from-pink-500 to-rose-500' :
+                                        pkg.color === 'green' ? 'from-emerald-500 to-teal-500' :
+                                        'from-blue-500 to-indigo-500'
+                                    } opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100`}></div>
 
                                     <div className="p-8 border-b border-white/5 relative z-10">
                                         <div className="flex justify-between items-start mb-4">
-                                            <div className={`w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 group-hover:border-${pkg.color}-500/30`}>
+                                            <div className={`w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 shadow-lg ${
+                                                pkg.color === 'purple' ? 'group-hover:bg-purple-500/20 group-hover:border-purple-500/50' :
+                                                pkg.color === 'pink' ? 'group-hover:bg-pink-500/20 group-hover:border-pink-500/50' :
+                                                pkg.color === 'green' ? 'group-hover:bg-emerald-500/20 group-hover:border-emerald-500/50' :
+                                                'group-hover:bg-blue-500/20 group-hover:border-blue-500/50'
+                                            }`}>
                                                 {pkg.icon}
                                             </div>
-                                            <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-${pkg.color}-500/10 text-${pkg.color}-400 border border-${pkg.color}-500/20`}>
+                                            <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all duration-300 ${
+                                                pkg.color === 'purple' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
+                                                pkg.color === 'pink' ? 'bg-pink-500/10 text-pink-400 border-pink-500/20' :
+                                                pkg.color === 'green' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                                'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                            }`}>
                                                 {pkg.subtitle}
                                             </div>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">{pkg.title}</h3>
+                                        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r transition-colors duration-300" style={{
+                                            background: pkg.color === 'purple' ? 'linear-gradient(to right, #a855f7, #ec4899)' :
+                                                   pkg.color === 'pink' ? 'linear-gradient(to right, #ec4899, #f43f5e)' :
+                                                   pkg.color === 'green' ? 'linear-gradient(to right, #10b981, #14b8a6)' :
+                                                   'linear-gradient(to right, #3b82f6, #6366f1)',
+                                            WebkitBackgroundClip: 'text',
+                                            WebkitTextFillColor: 'transparent'
+                                        }}>{pkg.title}</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed h-10">{pkg.description}</p>
                                     </div>
 
@@ -376,8 +416,13 @@ ${message || '- Keine Nachricht -'}
 
                                         <ul className="space-y-4 mb-8 flex-1">
                                             {pkg.features.map((feat, i) => (
-                                                <li key={i} className="flex items-start gap-3 text-sm text-slate-300">
-                                                    <CheckBadgeIcon className={`w-5 h-5 text-${pkg.color}-500 mt-0.5 flex-shrink-0`} />
+                                                <li key={i} className="flex items-start gap-3 text-sm text-slate-300 group-hover:translate-x-1 transition-transform duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
+                                                    <CheckBadgeIcon className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                                                        pkg.color === 'purple' ? 'text-purple-400' :
+                                                        pkg.color === 'pink' ? 'text-pink-400' :
+                                                        pkg.color === 'green' ? 'text-emerald-400' :
+                                                        'text-blue-400'
+                                                    }`} />
                                                     <span className="leading-snug">{feat}</span>
                                                 </li>
                                             ))}
@@ -385,10 +430,13 @@ ${message || '- Keine Nachricht -'}
 
                                         <button
                                             onClick={() => openModal(pkg)}
-                                            className="w-full py-4 bg-white text-slate-950 font-bold rounded-xl hover:bg-slate-200 transition-colors text-sm flex items-center justify-center gap-2 shadow-lg"
+                                            className="group/btn w-full py-4 bg-white text-slate-950 font-bold rounded-xl hover:bg-slate-200 transition-all duration-300 text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-xl btn-press relative overflow-hidden"
                                         >
-                                            <TagIcon className="w-4 h-4" />
-                                            {t('automation.btn_inquire')}
+                                            <span className="relative z-10 flex items-center gap-2">
+                                                <TagIcon className="w-4 h-4" />
+                                                {t('automation.btn_inquire')}
+                                            </span>
+                                            <ArrowRightIcon className="w-4 h-4 ml-1 opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-300" />
                                         </button>
                                     </div>
                                 </div>
@@ -399,16 +447,20 @@ ${message || '- Keine Nachricht -'}
             </section>
 
             {/* --- MICRO AUTOMATIONS LIBRARY --- */}
-            <section className="py-24 bg-black relative border-t border-white/5">
+            <section className="py-24 bg-gradient-to-b from-black to-slate-950 relative border-t border-white/5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <AnimatedSection>
                         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                             <div>
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
+                                    <BoltIcon className="w-4 h-4" />
+                                    Quick Start
+                                </div>
                                 <h2 className="text-3xl font-bold text-white mb-2">{t('automation.micro_title')}</h2>
                                 <p className="text-slate-400 text-lg">{t('automation.micro_subtitle')}</p>
                             </div>
-                            <div className="flex items-center gap-2 text-sm text-slate-500 bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                                <BoltIcon className="w-4 h-4 text-yellow-400" />
+                            <div className="flex items-center gap-2 text-sm text-slate-400 bg-white/5 px-4 py-2 rounded-full border border-white/5 hover:border-amber-500/30 transition-colors">
+                                <BoltIcon className="w-4 h-4 text-amber-400 animate-pulse" />
                                 <span>{t('automation.micro_setup_time')}</span>
                             </div>
                         </div>
@@ -417,19 +469,19 @@ ${message || '- Keine Nachricht -'}
                     <AnimatedSection stagger>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-container">
                             {microAutomations.map((item, idx) => (
-                                <div key={idx} className="flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all group cursor-default">
+                                <div key={idx} className="group flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 hover:bg-white/10 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-300 cursor-default hover:-translate-y-1">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800/50 border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-purple-500/20 group-hover:to-pink-500/20 group-hover:border-purple-500/30 transition-all duration-300">
                                             {item.icon}
                                         </div>
                                         <div>
-                                            <h4 className="text-white font-bold text-sm">{item.title}</h4>
+                                            <h4 className="text-white font-bold text-sm group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 transition-colors duration-300">{item.title}</h4>
                                             <p className="text-slate-500 text-xs mt-0.5">{item.desc}</p>
                                         </div>
                                     </div>
                                     <button
                                         onClick={() => openModal(item)}
-                                        className="px-4 py-2 bg-slate-800 hover:bg-primary text-white text-xs font-bold rounded-lg transition-colors border border-white/5"
+                                        className="px-4 py-2 bg-slate-800/50 hover:bg-gradient-to-r hover:from-blue-500 hover:to-violet-500 text-white text-xs font-bold rounded-lg transition-all duration-300 border border-white/5 hover:border-transparent"
                                     >
                                         {item.price}
                                     </button>

@@ -217,15 +217,21 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                         <div className="space-y-3">
                                             <button
                                                 onClick={() => setCurrentPage('preise')}
-                                                className="w-full bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-all duration-300 text-sm hover:-translate-y-0.5 hover:shadow-lg"
+                                                className="w-full group bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-all duration-300 text-sm hover:-translate-y-0.5 hover:shadow-lg btn-press"
                                             >
-                                                {t('contact_page.box_btn_calc')}
+                                                <span className="flex items-center justify-center gap-2">
+                                                    {t('contact_page.box_btn_calc')}
+                                                    <ArrowRightIcon className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                                                </span>
                                             </button>
                                             <button
                                                 onClick={() => setCurrentPage('login')}
-                                                className="w-full bg-transparent border-2 border-white/20 text-white font-semibold py-3 rounded-xl hover:bg-white/10 transition-all duration-300 text-sm hover:border-white/30"
+                                                className="group w-full bg-transparent border-2 border-white/20 text-white font-semibold py-3 rounded-xl hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-sm btn-press"
                                             >
-                                                {t('contact_page.box_btn_dash')}
+                                                <span className="flex items-center justify-center gap-2">
+                                                    {t('contact_page.box_btn_dash')}
+                                                    <ArrowRightIcon className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                                                </span>
                                             </button>
                                         </div>
                                     </div>
