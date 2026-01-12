@@ -194,13 +194,21 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                                 <span>{t('nav.dashboard')}</span>
                             </button>
                         ) : (
-                            <button
-                                onClick={() => setCurrentPage('preise')}
-                                className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-full hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 transition-all duration-300"
-                            >
-                                <span>{t('nav.projectStart')}</span>
-                                <ArrowRightIcon className="w-4 h-4" />
-                            </button>
+                            <>
+                                <button
+                                    onClick={() => setCurrentPage('login')}
+                                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                                >
+                                    {t('nav.login')}
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage('preise')}
+                                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-full hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 transition-all duration-300"
+                                >
+                                    <span>{t('nav.projectStart')}</span>
+                                    <ArrowRightIcon className="w-4 h-4" />
+                                </button>
+                            </>
                         )}
 
                         <div className="pl-2 border-l border-slate-200 dark:border-slate-700">
