@@ -209,33 +209,43 @@ ${message}
             {displayedPackages.map((pkg, index) => (
                 <div
                     key={pkg.name}
-                    className={`group relative flex flex-col p-8 rounded-3xl transition-all duration-500 ${
+                    className={`group relative flex flex-col p-8 rounded-3xl transition-all duration-500 overflow-hidden ${
                         pkg.popular
-                        ? 'bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 text-white shadow-premium-lg lg:-translate-y-4 hover:-translate-y-6'
+                        ? 'bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 text-white shadow-premium-lg lg:-translate-y-4 hover:-translate-y-6 animate-breathing-glow'
                         : index === 1
-                        ? 'bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/60 dark:hover:border-blue-600/60 hover:shadow-premium hover:-translate-y-2'
+                        ? 'bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/60 dark:hover:border-blue-600/60 hover:shadow-premium-lg hover:-translate-y-2 hover:shadow-blue-500/10'
                         : 'bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-300/50 dark:hover:border-blue-700/50 hover:shadow-premium hover:-translate-y-1'
                     }`}
+                    style={{ animationDelay: `${index * 100}ms` }}
                 >
+                    {/* Shimmer sweep effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                        <div className="absolute inset-0 shimmer-sweep"></div>
+                    </div>
+
                     {/* Animated gradient border for popular */}
                     {pkg.popular && (
                         <>
-                            <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-80 blur-sm group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shimmer"></div>
-                            <div className="absolute -inset-[2px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
+                            <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-90 blur-md group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shimmer"></div>
+                            <div className="absolute -inset-[3px] bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl opacity-0 group-hover:opacity-40 blur-2xl transition-opacity duration-500"></div>
                         </>
                     )}
 
                     {/* Glow effect for popular card */}
                     {pkg.popular && (
-                        <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/15 via-violet-500/15 to-indigo-500/15 rounded-3xl blur-2xl -z-10"></div>
+                        <div className="absolute -inset-6 bg-gradient-to-r from-blue-500/20 via-violet-500/15 to-indigo-500/20 rounded-3xl blur-3xl -z-10 animate-morph-shape"></div>
                     )}
+
+                    {/* Spotlight effect on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-3xl"></div>
+                    </div>
 
                     {pkg.popular && (
                          <div className="absolute -top-4 left-0 right-0 flex justify-center z-10">
-                            <span className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-xl shadow-blue-500/30 relative overflow-hidden">
-                                <span className="absolute inset-0 animate-gradient-shimmer"></span>
+                            <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-xl shadow-blue-500/40 relative overflow-hidden animate-shimmer-sweep">
                                 <span className="relative z-10 flex items-center gap-2">
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg className="w-4 h-4 animate-icon-bounce" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                     {t('pricing.popular')}
                                 </span>
                             </span>
@@ -250,7 +260,7 @@ ${message}
                     </div>
 
                     <div className="flex items-baseline gap-1.5 mb-6 relative z-10">
-                        <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600'}`}>
+                        <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 animate-gradient-shimmer'}`}>
                             {pkg.price}
                         </span>
                         <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
@@ -260,13 +270,13 @@ ${message}
 
                     <ul className="space-y-4 flex-grow mb-8 relative z-10">
                         {pkg.features.map((feature: string, idx: number) => (
-                            <li key={feature} className="flex items-start gap-3" style={{ animationDelay: `${idx * 50}ms` }}>
-                            <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                            <li key={feature} className="flex items-start gap-3 group/feature" style={{ animationDelay: `${idx * 50}ms` }}>
+                            <div className={`flex-shrink-0 w-6 h-6 rounded-xl flex items-center justify-center transition-all duration-300 group-hover/feature:scale-125 group-hover/feature:rotate-12 ${
                                 pkg.popular
-                                ? 'bg-blue-500/20 text-blue-400'
-                                : 'bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400'
+                                ? 'bg-blue-500/20 text-blue-400 shadow-lg shadow-blue-500/30'
+                                : 'bg-gradient-to-br from-blue-100 to-violet-100 dark:from-blue-900/30 dark:to-violet-900/30 text-blue-600 dark:text-blue-400 shadow-sm'
                             }`}>
-                                 <CheckBadgeIcon className="w-3 h-3" />
+                                 <CheckBadgeIcon className="w-3.5 h-3.5" />
                             </div>
                             <span className={`text-sm leading-tight ${pkg.popular ? 'text-slate-200' : 'text-slate-700 dark:text-slate-300'}`}>{feature}</span>
                             </li>
@@ -277,12 +287,18 @@ ${message}
                         onClick={() => handlePackageClick(pkg)}
                         className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 overflow-hidden group/btn ${
                             pkg.popular
-                            ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-lg hover:shadow-xl hover:shadow-white/20 hover:-translate-y-0.5'
-                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500 shadow-lg hover:shadow-xl hover:shadow-blue-500/25 hover:-translate-y-0.5'
+                            ? 'bg-white text-slate-900 hover:bg-gray-50 shadow-xl hover:shadow-2xl hover:shadow-white/30 hover:-translate-y-1 btn-micro-press'
+                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1 btn-micro-press'
                         }`}
                     >
-                        <span className="absolute inset-0 animate-gradient-shimmer opacity-0 group-hover/btn:opacity-30 transition-opacity"></span>
-                        <span className="relative z-10">{pkg.popular ? 'Jetzt starten' : 'Auswahlen'}</span>
+                        <span className="absolute inset-0 animate-gradient-shimmer opacity-0 group-hover/btn:opacity-40 transition-opacity"></span>
+                        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000"></span>
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                            {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
+                            <svg className="w-4 h-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </span>
                     </button>
 
                     {/* Trust footer */}
@@ -294,7 +310,7 @@ ${message}
                   </div>
             ))}
           </div>
-          <p className="text-center text-sm text-slate-500 mt-10 max-w-2xl mx-auto flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-200/60 dark:border-slate-700/40">
+          <p className="text-center text-sm text-slate-500 mt-10 max-w-2xl mx-auto flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-300">
              <ShieldCheckIcon className="w-4 h-4 text-emerald-500" />
              Keine Kreditkarte erforderlich. Kostenloses Beratungsgesprach inklusive.
           </p>

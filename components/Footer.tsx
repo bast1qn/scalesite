@@ -9,15 +9,17 @@ interface FooterProps {
 
 const FooterLink: React.FC<{page: string; setCurrentPage: (page: string) => void; children: React.ReactNode;}> = ({ page, setCurrentPage, children }) => (
     <li>
-        <button onClick={() => setCurrentPage(page)} className="text-sm text-slate-600 dark:text-slate-400 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:to-violet-600 dark:hover:text-white transition-all duration-300 text-left relative group py-1">
+        <button onClick={() => setCurrentPage(page)} className="text-sm text-slate-600 dark:text-slate-400 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-600 hover:to-violet-600 dark:hover:text-white transition-all duration-300 text-left relative group py-1 btn-micro-press">
             <span className="relative z-10 flex items-center gap-2">
                 {children}
                 <svg className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
             </span>
-            {/* Animated underline */}
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-full transition-all duration-300 rounded-full"></span>
+            {/* Enhanced animated underline with glow */}
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-full transition-all duration-300 rounded-full shadow-lg shadow-blue-500/50"></span>
+            {/* Hover glow */}
+            <span className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></span>
         </button>
     </li>
 );
@@ -76,27 +78,31 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
 
                 {/* Enhanced social links with better hover effects */}
                 <div className="flex gap-3">
-                     <a href="https://www.instagram.com/scalesite_app" target="_blank" rel="noopener noreferrer" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-lg hover:shadow-pink-500/20">
+                     <a href="https://www.instagram.com/scalesite_app" target="_blank" rel="noopener noreferrer" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-xl hover:shadow-pink-500/30">
                         <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 opacity-0 group-hover/social:opacity-100 transition-opacity duration-300"></div>
-                        <span className="relative z-10 group-hover/social:text-white transition-colors duration-300">
+                        <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/social:opacity-30 transition-opacity duration-300"></span>
+                        <span className="relative z-10 group-hover/social:text-white transition-colors duration-300 group-hover/social:scale-110">
                             <InstagramIcon />
                         </span>
                      </a>
-                     <a href="https://discord.gg/65a4PygTJ3" target="_blank" rel="noopener noreferrer" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-lg hover:shadow-indigo-500/20">
+                     <a href="https://discord.gg/65a4PygTJ3" target="_blank" rel="noopener noreferrer" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-xl hover:shadow-indigo-500/30">
                         <div className="absolute inset-0 bg-[#5865F2] opacity-0 group-hover/social:opacity-100 transition-opacity duration-300"></div>
-                        <span className="relative z-10 group-hover/social:text-white transition-colors duration-300">
+                        <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/social:opacity-30 transition-opacity duration-300"></span>
+                        <span className="relative z-10 group-hover/social:text-white transition-colors duration-300 group-hover/social:scale-110">
                             <DiscordIcon />
                         </span>
                      </a>
-                     <a href="#" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-lg hover:shadow-blue-500/20">
+                     <a href="#" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-xl hover:shadow-blue-500/30">
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-violet-600 opacity-0 group-hover/social:opacity-100 transition-opacity duration-300"></div>
-                        <span className="relative z-10 group-hover/social:text-white transition-colors duration-300">
+                        <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/social:opacity-30 transition-opacity duration-300"></span>
+                        <span className="relative z-10 group-hover/social:text-white transition-colors duration-300 group-hover/social:scale-110">
                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </span>
                      </a>
-                     <a href="#" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-lg hover:shadow-slate-900/20">
+                     <a href="#" className="group/social relative w-12 h-12 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/60 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-slate-500 dark:text-slate-400 transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden hover:shadow-xl hover:shadow-slate-900/30">
                         <div className="absolute inset-0 bg-slate-900 dark:bg-white opacity-0 group-hover/social:opacity-100 transition-opacity duration-300"></div>
-                        <span className="relative z-10 group-hover/social:text-white dark:group-hover/social:text-slate-900 transition-colors duration-300">
+                        <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/social:opacity-30 transition-opacity duration-300"></span>
+                        <span className="relative z-10 group-hover/social:text-white dark:group-hover/social:text-slate-900 transition-colors duration-300 group-hover/social:scale-110">
                             <GitHubIcon />
                         </span>
                      </a>
@@ -147,12 +153,13 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
             </p>
 
              {/* Enhanced tech stack badge */}
-             <div className="group flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm px-7 py-3.5 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/50 shadow-premium hover:shadow-premium-lg hover:shadow-blue-500/5 transition-all duration-300 hover:scale-105">
-                <span>{t('footer.built_with')}</span>
-                <div className="w-px h-5 bg-slate-300 dark:bg-slate-600"></div>
-                <ReactIcon className="w-5 h-5 text-blue-500 animate-spin-slow" />
-                <span className="font-medium text-slate-700 dark:text-slate-300">React & TypeScript</span>
+             <div className="group flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm px-7 py-3.5 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/50 shadow-premium hover:shadow-premium-lg hover:shadow-blue-500/10 transition-all duration-300 hover:scale-105 relative overflow-hidden">
+                <span className="relative z-10">{t('footer.built_with')}</span>
+                <div className="w-px h-5 bg-slate-300 dark:bg-slate-600 relative z-10"></div>
+                <ReactIcon className="w-5 h-5 text-blue-500 animate-spin-slow relative z-10 group-hover:animate-icon-bounce" />
+                <span className="font-medium text-slate-700 dark:text-slate-300 relative z-10">React & TypeScript</span>
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/5 via-violet-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shimmer"></div>
+                <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
             </div>
         </div>
       </div>

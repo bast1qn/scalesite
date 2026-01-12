@@ -18,14 +18,24 @@ const NavButton: React.FC<{
     children: React.ReactNode;
 }> = ({ page, currentPage, onClick, children }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
     const isActive = currentPage === page;
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setGlowPos({
+            x: ((e.clientX - rect.left) / rect.width) * 100,
+            y: ((e.clientY - rect.top) / rect.height) * 100,
+        });
+    };
 
     return (
         <button
             onClick={() => onClick(page)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`relative px-5 py-2.5 text-sm font-medium transition-all duration-500 rounded-full group overflow-hidden ${
+            onMouseMove={handleMouseMove}
+            className={`relative px-5 py-2.5 text-sm font-medium transition-all duration-500 rounded-full group overflow-hidden btn-micro-press ${
                 isActive
                     ? 'text-white shadow-xl shadow-blue-500/30 scale-105'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -34,20 +44,31 @@ const NavButton: React.FC<{
             style={{
                 background: isActive
                     ? 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)'
-                    : isHovered
-                        ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%)'
-                        : 'transparent',
+                    : 'transparent',
             }}
         >
+            {/* Dynamic glow on hover */}
+            {!isActive && isHovered && (
+                <span
+                    className="absolute inset-0 rounded-full opacity-50"
+                    style={{
+                        background: `radial-gradient(150px circle at ${glowPos.x}% ${glowPos.y}%, rgba(59, 130, 246, 0.15), transparent 70%)`,
+                    }}
+                ></span>
+            )}
+
             {children}
             {!isActive && (
                 <>
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-1/2 transition-all duration-300 rounded-full"></span>
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-1/2 transition-all duration-300 rounded-full shadow-lg shadow-blue-500/50"></span>
                     <span className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></span>
                 </>
             )}
             {isActive && (
-                <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full"></span>
+                <>
+                    <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full"></span>
+                    <span className="absolute inset-0 animate-shimmer-sweep"></span>
+                </>
             )}
         </button>
     );
@@ -257,13 +278,13 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('preise')}
-                                    className="group relative flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300 btn-press overflow-hidden"
+                                    className="group relative flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 btn-micro-press overflow-hidden"
                                 >
                                     <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                                    <span className="absolute inset-0 animate-gradient-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100"></span>
+                                    <span className="absolute inset-0 animate-gradient-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
                                     <span className="relative z-10 flex items-center gap-2">
                                         {t('nav.projectStart')}
-                                        <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                                        <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
                                     </span>
                                 </button>
                             </>
@@ -368,13 +389,14 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <div className="flex flex-col items-center gap-3 w-full max-w-xs">
                             <button
                                 onClick={() => handleNavClick('preise')}
-                                className="group w-full flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300 btn-press relative overflow-hidden"
+                                className="group w-full flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 btn-micro-press relative overflow-hidden"
                                 style={{ transitionDelay: '300ms' }}
                             >
                                 <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shimmer"></span>
+                                <span className="absolute inset-0 shimmer-sweep"></span>
                                 <span className="relative z-10 flex items-center gap-2">
                                     {t('nav.projectStart')}
-                                    <ArrowRightIcon className="w-5 h-5" />
+                                    <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
                                 </span>
                             </button>
                             <button

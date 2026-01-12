@@ -132,7 +132,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                     {filteredItems.map((item: any, idx: number) => (
                     <div
                         key={item.id}
-                        className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/50 dark:hover:border-violet-500/50 hover:shadow-premium-lg transition-all duration-500 hover:-translate-y-2"
+                        className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/60 dark:hover:border-violet-500/60 hover:shadow-premium-lg hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2"
                         style={{ animationDelay: `${idx * 80}ms` }}
                     >
                         <div className="aspect-video w-full overflow-hidden relative">
@@ -147,23 +147,29 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                                     decoding="async"
                                 />
                             )}
-                            {/* Overlay on Hover */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                <button onClick={() => setCurrentPage((item as any).route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105">
+                            {/* Premium overlay on Hover */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                <button onClick={() => setCurrentPage((item as any).route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105 btn-micro-press relative overflow-hidden group/btn-2">
+                                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
                                     <EyeIcon className="w-5 h-5" />
                                     {t('showcase.view_btn')}
                                 </button>
                             </div>
+                            {/* Shimmer effect on image */}
+                            <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-700"></div>
                         </div>
                         <div className="p-7 flex flex-col flex-grow relative">
                             {/* Shimmer effect */}
-                            <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none"></div>
+                            <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                            {/* Gradient glow on hover */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
 
                             <div className="flex-grow relative z-10">
-                                <span className="text-xs font-bold bg-gradient-to-r from-blue-500/10 to-violet-500/10 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-full uppercase tracking-wider-plus border border-blue-200/50 dark:border-blue-800/30">
+                                <span className="text-xs font-bold bg-gradient-to-r from-blue-500/15 to-violet-500/15 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-full uppercase tracking-wider-plus border border-blue-200/50 dark:border-blue-800/30 shadow-sm">
                                     {item.category}
                                 </span>
-                                <h3 className="mt-5 text-xl font-bold text-slate-900 dark:text-white font-serif">{item.title}</h3>
+                                <h3 className="mt-5 text-xl font-bold text-slate-900 dark:text-white font-serif group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-violet-600 transition-all duration-300">{item.title}</h3>
                                 <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed-plus text-sm">{item.excerpt}</p>
                             </div>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
@@ -171,8 +177,10 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                                     onClick={() => setCurrentPage((item as any).route || 'preise')}
                                     className="inline-flex items-center gap-2 text-blue-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-blue-700 dark:hover:text-violet-300"
                                 >
-                                {t('showcase.details_btn')}
-                                <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+                                    {t('showcase.details_btn')}
+                                </span>
+                                <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
                                 </button>
                             </div>
                         </div>
