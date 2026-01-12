@@ -480,7 +480,7 @@ export const api = {
 
         const { data, error } = await supabase
             .from('profiles')
-            .select('id, name, email, role, company, created_at')
+            .select('id, name, email, role, company, referral_code, created_at')
             .order('created_at', { ascending: false });
 
         return { data: data || [], error: handleSupabaseError(error) };
