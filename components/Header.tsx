@@ -515,40 +515,70 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                 }`}
                 style={{ zIndex: 99 }}
             >
-                {/* Multi-layer animated background gradients */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-blue-50 via-white via-violet-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:via-violet-950/50 dark:to-cyan-950/30 transition-opacity duration-700 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}></div>
+                {/* COSMIC QUANTUM MOBILE MENU BACKGROUND */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950/50 to-violet-950 dark:from-slate-950 dark:via-blue-950/70 dark:to-violet-950/60 transition-opacity duration-700 animate-cosmic-shimmer"></div>
 
-                {/* Legendary animated mesh gradient overlay */}
-                <div className={`absolute inset-0 bg-aurora-legendary transition-opacity duration-700 ${isMenuOpen ? 'opacity-40' : 'opacity-0'}`}></div>
+                {/* COSMIC AURORA LEGENDARY OVERLAY */}
+                <div className={`absolute inset-0 bg-aurora-gradient animate-aurora-wave transition-opacity duration-1000 ${isMenuOpen ? 'opacity-60' : 'opacity-0'}`}></div>
+
+                {/* COSMIC NEBULA OVERLAY */}
+                <div className={`absolute inset-0 animate-nebula-cloud transition-opacity duration-1000 ${isMenuOpen ? 'opacity-50' : 'opacity-0'}`}
+                    style={{
+                        background: 'radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.2) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)',
+                        animationDuration: '30s',
+                    }}
+                ></div>
+
+                {/* GALAXY SWIRL OVERLAY */}
+                <div className={`absolute inset-0 animate-galaxy-swirl transition-opacity duration-1000 ${isMenuOpen ? 'opacity-40' : 'opacity-0'}`}
+                    style={{
+                        background: 'radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(ellipse at 30% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 40%), radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 40%)',
+                        animationDuration: '40s',
+                    }}
+                ></div>
 
                 {/* Holographic overlay */}
-                <div className={`absolute inset-0 holographic-base transition-opacity duration-700 ${isMenuOpen ? 'opacity-20' : 'opacity-0'}`}></div>
+                <div className={`absolute inset-0 holographic-base transition-opacity duration-700 ${isMenuOpen ? 'opacity-25' : 'opacity-0'}`}></div>
 
                 {/* Noise texture overlay */}
-                <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] noise-bg"></div>
+                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] noise-bg noise-bg-animated"></div>
 
-                {/* Transcendent floating decorative elements */}
-                <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-cyan-400/15 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
-                <div className="absolute bottom-20 right-10 w-72 h-72 bg-gradient-to-br from-violet-400/20 to-pink-400/15 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '3s' }}></div>
-                <div className="absolute top-1/3 left-1/4 w-48 h-48 bg-gradient-to-br from-emerald-400/15 to-teal-400/10 rounded-full blur-3xl animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '1.5s' }}></div>
-                <div className="absolute bottom-1/3 right-1/4 w-40 h-40 bg-gradient-to-br from-rose-400/15 to-orange-400/10 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '2.5s' }}></div>
+                {/* COSMIC FLOATING DECORATIVE ORBS */}
+                <div className={`absolute top-20 left-10 w-80 h-80 bg-gradient-to-br from-blue-500/30 to-cyan-500/20 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic transition-all duration-1000 ${isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} style={{ animationDelay: '0s' }}></div>
+                <div className={`absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-violet-500/30 to-pink-500/20 rounded-full blur-3xl animate-nebula-cloud shadow-glow-nebula transition-all duration-1000 ${isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} style={{ animationDelay: '3s' }}></div>
+                <div className={`absolute top-1/3 left-1/4 w-64 h-64 bg-gradient-to-br from-emerald-400/20 to-teal-400/15 rounded-full blur-3xl animate-antigravity shadow-glow-aurora transition-all duration-1000 ${isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} style={{ animationDelay: '1.5s' }}></div>
+                <div className={`absolute bottom-1/3 right-1/4 w-56 h-56 bg-gradient-to-br from-rose-400/20 to-orange-400/15 rounded-full blur-3xl animate-antigravity shadow-glow-solar transition-all duration-1000 ${isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} style={{ animationDelay: '2.5s' }}></div>
 
-                {/* Animated grid pattern */}
-                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{
-                    backgroundImage: 'radial-gradient(circle, currentColor 1.5px, transparent 1.5px)',
-                    backgroundSize: '40px 40px',
+                {/* Additional cosmic orbs */}
+                <div className={`absolute top-[15%] right-[20%] w-40 h-40 bg-gradient-to-br from-cyan-400/25 to-blue-400/20 rounded-full blur-3xl animate-quantum-shift glow-cyan transition-all duration-1000 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} style={{ animationDelay: '4s' }}></div>
+                <div className={`absolute bottom-[25%] left-[15%] w-48 h-48 bg-gradient-to-br from-fuchsia-400/20 to-pink-400/15 rounded-full blur-3xl animate-magnetic-pulse glow-fuchsia transition-all duration-1000 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} style={{ animationDelay: '5s' }}></div>
+
+                {/* COSMIC ANIMATED GRID PATTERN */}
+                <div className={`absolute inset-0 opacity-[0.05] dark:opacity-[0.08] transition-opacity duration-700 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} style={{
+                    backgroundImage: 'radial-gradient(circle, currentColor 2px, transparent 2px)',
+                    backgroundSize: '50px 50px',
+                    animation: 'grid-pan 60s linear infinite',
                 }}></div>
 
-                {/* Floating particles */}
-                {isMenuOpen && Array.from({ length: 20 }).map((_, i) => (
+                {/* COSMIC STARDUST FIELD */}
+                <div className={`absolute inset-0 stardust-field transition-opacity duration-700 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}></div>
+
+                {/* COSMIC FLOATING PARTICLES - ENHANCED */}
+                {isMenuOpen && Array.from({ length: 50 }).map((_, i) => (
                     <div
                         key={`particle-${i}`}
-                        className="absolute w-1 h-1 rounded-full bg-blue-400/40 dark:bg-blue-300/40 animate-float-up-particle shadow-glow-legendary-sm"
+                        className={`absolute rounded-full animate-antigravity transition-all duration-1000 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
                         style={{
+                            width: `${2 + Math.random() * 4}px`,
+                            height: `${2 + Math.random() * 4}px`,
                             left: `${Math.random() * 100}%`,
-                            bottom: `${Math.random() * 30}%`,
-                            animationDelay: `${Math.random() * 2}s`,
-                            animationDuration: `${3 + Math.random() * 2}s`,
+                            bottom: `${Math.random() * 40}%`,
+                            animationDelay: `${Math.random() * 3}s`,
+                            animationDuration: `${4 + Math.random() * 4}s`,
+                            background: Math.random() > 0.5
+                                ? 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)'
+                                : 'radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%)',
+                            boxShadow: `0 0 ${5 + Math.random() * 10}px ${Math.random() > 0.5 ? 'rgba(59, 130, 246, 0.6)' : 'rgba(139, 92, 246, 0.6)'}`,
                         }}
                     ></div>
                 ))}

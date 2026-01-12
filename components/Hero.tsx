@@ -424,62 +424,186 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
       </div>
 
       {/* =========================================== */}
-      {/* TRANSCENDENT PARTICLE SYSTEM */}
+      {/* COSMIC PARTICLE SYSTEM - MAXIMUM PARTICLES */}
       {/* =========================================== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Layer 1 - Enhanced orbs with glow */}
-        <FloatingParticle delay={0} duration={16} left="3%" size="8px" variant="glow" color="rgba(59, 130, 246, 0.8)" />
-        <FloatingParticle delay={2} duration={18} left="12%" size="6px" variant="orb" color="rgba(139, 92, 246, 0.9)" />
-        <FloatingParticle delay={4} duration={20} left="22%" size="10px" variant="ring" color="rgba(99, 102, 241, 0.7)" />
-        <FloatingParticle delay={1} duration={15} left="35%" size="8px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
-        <FloatingParticle delay={3} duration={22} left="48%" size="12px" variant="sparkle" color="rgba(139, 92, 246, 1)" />
-        <FloatingParticle delay={5} duration={17} left="62%" size="7px" variant="glow" color="rgba(59, 130, 246, 0.9)" />
-        <FloatingParticle delay={2.5} duration={19} left="75%" size="10px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
-        <FloatingParticle delay={1.5} duration={16} left="88%" size="8px" variant="diamond" color="rgba(14, 165, 233, 0.8)" />
-        <FloatingParticle delay={0.5} duration={21} left="97%" size="14px" variant="star" color="rgba(245, 158, 11, 0.7)" />
+        {/* COSMIC LAYER 1 - Primary particle field */}
+        <FloatingParticle delay={0} duration={16} left="2%" size="8px" variant="glow" color="rgba(59, 130, 246, 0.8)" />
+        <FloatingParticle delay={0.5} duration={18} left="5%" size="6px" variant="orb" color="rgba(139, 92, 246, 0.9)" />
+        <FloatingParticle delay={1} duration={20} left="8%" size="10px" variant="ring" color="rgba(99, 102, 241, 0.7)" />
+        <FloatingParticle delay={1.5} duration={15} left="11%" size="8px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={2} duration={22} left="14%" size="12px" variant="sparkle" color="rgba(139, 92, 246, 1)" />
+        <FloatingParticle delay={2.5} duration={17} left="17%" size="7px" variant="glow" color="rgba(59, 130, 246, 0.9)" />
+        <FloatingParticle delay={3} duration={19} left="20%" size="10px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={3.5} duration={16} left="23%" size="8px" variant="diamond" color="rgba(14, 165, 233, 0.8)" />
+        <FloatingParticle delay={4} duration={21} left="26%" size="14px" variant="star" color="rgba(245, 158, 11, 0.7)" />
+        <FloatingParticle delay={4.5} duration={18} left="29%" size="6px" variant="cross" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={5} duration={20} left="32%" size="8px" variant="orb" color="rgba(16, 185, 129, 0.7)" />
+        <FloatingParticle delay={5.5} duration={22} left="35%" size="10px" variant="glow" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={6} duration={19} left="38%" size="7px" variant="sparkle" color="rgba(236, 72, 153, 0.8)" />
+        <FloatingParticle delay={6.5} duration={17} left="41%" size="9px" variant="ring" color="rgba(59, 130, 246, 0.7)" />
+        <FloatingParticle delay={7} duration={23} left="44%" size="8px" variant="diamond" color="rgba(139, 92, 246, 0.9)" />
+        <FloatingParticle delay={7.5} duration={24} left="47%" size="5px" variant="glow" color="rgba(14, 165, 233, 0.7)" />
+        <FloatingParticle delay={8} duration={16} left="50%" size="6px" variant="orb" color="rgba(168, 85, 247, 0.8)" />
+        <FloatingParticle delay={8.5} duration={20} left="53%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.7)" />
+        <FloatingParticle delay={9} duration={18} left="56%" size="9px" variant="ring" color="rgba(16, 185, 129, 0.6)" />
+        <FloatingParticle delay={9.5} duration={25} left="59%" size="5px" variant="glow" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={10} duration={21} left="62%" size="6px" variant="orb" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={10.5} duration={19} left="65%" size="7px" variant="diamond" color="rgba(139, 92, 246, 0.8)" />
+        <FloatingParticle delay={11} duration={26} left="68%" size="8px" variant="sparkle" color="rgba(59, 130, 246, 0.7)" />
+        <FloatingParticle delay={11.5} duration={23} left="71%" size="5px" variant="ring" color="rgba(14, 165, 233, 0.8)" />
+        <FloatingParticle delay={12} duration={28} left="74%" size="4px" variant="glow" color="rgba(168, 85, 247, 0.6)" />
+        <FloatingParticle delay={12.5} duration={24} left="77%" size="5px" variant="orb" color="rgba(99, 102, 241, 0.7)" />
+        <FloatingParticle delay={13} duration={22} left="80%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.8)" />
+        <FloatingParticle delay={13.5} duration={26} left="83%" size="4px" variant="sparkle" color="rgba(16, 185, 129, 0.6)" />
+        <FloatingParticle delay={14} duration={30} left="86%" size="6px" variant="hexagon" color="rgba(16, 185, 129, 0.8)" />
+        <FloatingParticle delay={14.5} duration={25} left="89%" size="5px" variant="triangle" color="rgba(245, 158, 11, 0.7)" />
+        <FloatingParticle delay={15} duration={22} left="92%" size="7px" variant="pulse" color="rgba(236, 72, 153, 0.6)" />
+        <FloatingParticle delay={15.5} duration={28} left="95%" size="4px" variant="hexagon" color="rgba(59, 130, 246, 0.7)" />
+        <FloatingParticle delay={16} duration={24} left="98%" size="5px" variant="triangle" color="rgba(139, 92, 246, 0.8)" />
 
-        {/* Layer 2 - Medium particles with enhanced glow */}
-        <FloatingParticle delay={3.5} duration={20} left="55%" size="6px" variant="cross" color="rgba(99, 102, 241, 0.8)" />
-        <FloatingParticle delay={4.5} duration={18} left="30%" size="8px" variant="orb" color="rgba(16, 185, 129, 0.7)" />
-        <FloatingParticle delay={6} duration={22} left="42%" size="10px" variant="glow" color="rgba(245, 158, 11, 0.6)" />
-        <FloatingParticle delay={1.8} duration={19} left="68%" size="7px" variant="sparkle" color="rgba(236, 72, 153, 0.8)" />
-        <FloatingParticle delay={3.2} duration={17} left="8%" size="9px" variant="ring" color="rgba(59, 130, 246, 0.7)" />
-        <FloatingParticle delay={5.5} duration={23} left="92%" size="8px" variant="diamond" color="rgba(139, 92, 246, 0.9)" />
+        {/* COSMIC LAYER 2 - Secondary cosmic field */}
+        <FloatingParticle delay={0.3} duration={20} left="1%" size="6px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={1.3} duration={22} left="4%" size="6px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={2.3} duration={24} left="7%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={3.3} duration={20} left="10%" size="5px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={4.3} duration={26} left="13%" size="9px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={5.3} duration={18} left="16%" size="7px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={6.3} duration={21} left="19%" size="8px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={7.3} duration={23} left="22%" size="6px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={8.3} duration={19} left="25%" size="7px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={9.3} duration={25} left="28%" size="10px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={10.3} duration={20} left="31%" size="5px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={11.3} duration={22} left="34%" size="6px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={12.3} duration={24} left="37%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={13.3} duration={21} left="40%" size="8px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={14.3} duration={27} left="43%" size="5px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={15.3} duration={19} left="46%" size="6px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={16.3} duration={23} left="49%" size="7px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={17.3} duration={25} left="52%" size="8px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={18.3} duration={20} left="55%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={19.3} duration={26} left="58%" size="9px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={20.3} duration={22} left="61%" size="7px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={21.3} duration={24} left="64%" size="8px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={22.3} duration={28} left="67%" size="5px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={23.3} duration={21} left="70%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={24.3} duration={27} left="73%" size="7px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={25.3} duration={23} left="76%" size="8px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={26.3} duration={25} left="79%" size="5px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={27.3} duration={29} left="82%" size="6px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={28.3} duration={22} left="85%" size="7px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
+        <FloatingParticle delay={29.3} duration={26} left="88%" size="9px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        <FloatingParticle delay={30.3} duration={24} left="91%" size="5px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
+        <FloatingParticle delay={31.3} duration={28} left="94%" size="6px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
+        <FloatingParticle delay={32.3} duration={30} left="97%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
+        <FloatingParticle delay={33.3} duration={25} left="99%" size="8px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
 
-        {/* Layer 3 - Extra particles for richness */}
-        <FloatingParticle delay={0.8} duration={24} left="18%" size="5px" variant="glow" color="rgba(14, 165, 233, 0.7)" />
-        <FloatingParticle delay={2.2} duration={16} left="78%" size="6px" variant="orb" color="rgba(168, 85, 247, 0.8)" />
-        <FloatingParticle delay={4.8} duration={20} left="58%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.7)" />
-        <FloatingParticle delay={6.5} duration={18} left="28%" size="9px" variant="ring" color="rgba(16, 185, 129, 0.6)" />
+        {/* COSMIC LAYER 3 - Nebula particles */}
+        <FloatingParticle delay={0.7} duration={32} left="3%" size="4px" variant="hexagon" color="rgba(138, 43, 226, 0.8)" />
+        <FloatingParticle delay={1.7} duration={28} left="9%" size="5px" variant="triangle" color="rgba(186, 85, 211, 0.7)" />
+        <FloatingParticle delay={2.7} duration={35} left="15%" size="7px" variant="pulse" color="rgba(255, 20, 147, 0.6)" />
+        <FloatingParticle delay={3.7} duration={30} left="21%" size="6px" variant="hexagon" color="rgba(75, 0, 130, 0.7)" />
+        <FloatingParticle delay={4.7} duration={26} left="27%" size="5px" variant="triangle" color="rgba(138, 43, 226, 0.8)" />
+        <FloatingParticle delay={5.7} duration={33} left="33%" size="8px" variant="pulse" color="rgba(186, 85, 211, 0.7)" />
+        <FloatingParticle delay={6.7} duration={29} left="39%" size="4px" variant="hexagon" color="rgba(255, 20, 147, 0.6)" />
+        <FloatingParticle delay={7.7} duration={36} left="45%" size="6px" variant="triangle" color="rgba(75, 0, 130, 0.7)" />
+        <FloatingParticle delay={8.7} duration={31} left="51%" size="5px" variant="pulse" color="rgba(138, 43, 226, 0.8)" />
+        <FloatingParticle delay={9.7} duration={27} left="57%" size="7px" variant="hexagon" color="rgba(186, 85, 211, 0.7)" />
+        <FloatingParticle delay={10.7} duration={34} left="63%" size="4px" variant="triangle" color="rgba(255, 20, 147, 0.6)" />
+        <FloatingParticle delay={11.7} duration={30} left="69%" size="6px" variant="pulse" color="rgba(75, 0, 130, 0.7)" />
+        <FloatingParticle delay={12.7} duration={26} left="75%" size="5px" variant="hexagon" color="rgba(138, 43, 226, 0.8)" />
+        <FloatingParticle delay={13.7} duration={35} left="81%" size="8px" variant="triangle" color="rgba(186, 85, 211, 0.7)" />
+        <FloatingParticle delay={14.7} duration={32} left="87%" size="4px" variant="pulse" color="rgba(255, 20, 147, 0.6)" />
+        <FloatingParticle delay={15.7} duration={28} left="93%" size="6px" variant="hexagon" color="rgba(75, 0, 130, 0.7)" />
+        <FloatingParticle delay={16.7} duration={25} left="96%" size="5px" variant="triangle" color="rgba(138, 43, 226, 0.8)" />
 
-        {/* Layer 4 - Legendary wave particles */}
-        <FloatingParticle delay={1.2} duration={25} left="40%" size="5px" variant="glow" color="rgba(236, 72, 153, 0.7)" />
-        <FloatingParticle delay={3.8} duration={21} left="65%" size="6px" variant="orb" color="rgba(245, 158, 11, 0.6)" />
-        <FloatingParticle delay={5.2} duration={19} left="85%" size="7px" variant="diamond" color="rgba(139, 92, 246, 0.8)" />
-        <FloatingParticle delay={0.3} duration={26} left="7%" size="8px" variant="sparkle" color="rgba(59, 130, 246, 0.7)" />
-        <FloatingParticle delay={2.7} duration={23} left="53%" size="5px" variant="ring" color="rgba(14, 165, 233, 0.8)" />
+        {/* COSMIC LAYER 4 - Aurora particles */}
+        <FloatingParticle delay={0.2} duration={28} left="6%" size="5px" variant="glow" color="rgba(0, 255, 127, 0.7)" />
+        <FloatingParticle delay={1.2} duration={32} left="12%" size="6px" variant="orb" color="rgba(0, 191, 255, 0.8)" />
+        <FloatingParticle delay={2.2} duration={26} left="18%" size="7px" variant="ring" color="rgba(138, 43, 226, 0.7)" />
+        <FloatingParticle delay={3.2} duration={30} left="24%" size="5px" variant="diamond" color="rgba(255, 20, 147, 0.6)" />
+        <FloatingParticle delay={4.2} duration={34} left="30%" size="8px" variant="sparkle" color="rgba(0, 255, 127, 0.8)" />
+        <FloatingParticle delay={5.2} duration={28} left="36%" size="6px" variant="glow" color="rgba(0, 191, 255, 0.7)" />
+        <FloatingParticle delay={6.2} duration={31} left="42%" size="7px" variant="orb" color="rgba(138, 43, 226, 0.8)" />
+        <FloatingParticle delay={7.2} duration={27} left="48%" size="5px" variant="ring" color="rgba(255, 20, 147, 0.7)" />
+        <FloatingParticle delay={8.2} duration={35} left="54%" size="6px" variant="diamond" color="rgba(0, 255, 127, 0.6)" />
+        <FloatingParticle delay={9.2} duration={29} left="60%" size="8px" variant="sparkle" color="rgba(0, 191, 255, 0.8)" />
+        <FloatingParticle delay={10.2} duration={33} left="66%" size="5px" variant="glow" color="rgba(138, 43, 226, 0.7)" />
+        <FloatingParticle delay={11.2} duration={26} left="72%" size="7px" variant="orb" color="rgba(255, 20, 147, 0.8)" />
+        <FloatingParticle delay={12.2} duration={30} left="78%" size="6px" variant="ring" color="rgba(0, 255, 127, 0.7)" />
+        <FloatingParticle delay={13.2} duration={34} left="84%" size="8px" variant="diamond" color="rgba(0, 191, 255, 0.6)" />
+        <FloatingParticle delay={14.2} duration={28} left="90%" size="5px" variant="sparkle" color="rgba(138, 43, 226, 0.8)" />
+        <FloatingParticle delay={15.2} duration={32} left="96%" size="7px" variant="glow" color="rgba(255, 20, 147, 0.7)" />
 
-        {/* Layer 5 - Ambient floating particles */}
-        <FloatingParticle delay={4.2} duration={28} left="23%" size="4px" variant="glow" color="rgba(168, 85, 247, 0.6)" />
-        <FloatingParticle delay={6.8} duration={24} left="77%" size="5px" variant="orb" color="rgba(99, 102, 241, 0.7)" />
-        <FloatingParticle delay={1.5} duration={22} left="95%" size="6px" variant="diamond" color="rgba(236, 72, 153, 0.8)" />
-        <FloatingParticle delay={3.3} duration={26} left="38%" size="4px" variant="sparkle" color="rgba(16, 185, 129, 0.6)" />
+        {/* COSMIC LAYER 5 - Plasma particles */}
+        <FloatingParticle delay={0.4} duration={24} left="4%" size="6px" variant="glow" color="rgba(255, 0, 128, 0.7)" />
+        <FloatingParticle delay={1.4} duration={28} left="13%" size="5px" variant="orb" color="rgba(128, 0, 255, 0.8)" />
+        <FloatingParticle delay={2.4} duration={32} left="22%" size="7px" variant="ring" color="rgba(0, 128, 255, 0.7)" />
+        <FloatingParticle delay={3.4} duration={26} left="31%" size="6px" variant="diamond" color="rgba(255, 0, 128, 0.8)" />
+        <FloatingParticle delay={4.4} duration={30} left="40%" size="8px" variant="sparkle" color="rgba(128, 0, 255, 0.7)" />
+        <FloatingParticle delay={5.4} duration={24} left="49%" size="5px" variant="glow" color="rgba(0, 128, 255, 0.8)" />
+        <FloatingParticle delay={6.4} duration={28} left="58%" size="7px" variant="orb" color="rgba(255, 0, 128, 0.7)" />
+        <FloatingParticle delay={7.4} duration={32} left="67%" size="6px" variant="ring" color="rgba(128, 0, 255, 0.8)" />
+        <FloatingParticle delay={8.4} duration={26} left="76%" size="8px" variant="diamond" color="rgba(0, 128, 255, 0.7)" />
+        <FloatingParticle delay={9.4} duration={30} left="85%" size="5px" variant="sparkle" color="rgba(255, 0, 128, 0.8)" />
+        <FloatingParticle delay={10.4} duration={24} left="94%" size="7px" variant="glow" color="rgba(128, 0, 255, 0.7)" />
 
-        {/* Layer 6 - Transcendent extra particles */}
-        <FloatingParticle delay={0.2} duration={30} left="5%" size="6px" variant="hexagon" color="rgba(16, 185, 129, 0.8)" />
-        <FloatingParticle delay={1.4} duration={25} left="15%" size="5px" variant="triangle" color="rgba(245, 158, 11, 0.7)" />
-        <FloatingParticle delay={2.8} duration={22} left="25%" size="7px" variant="pulse" color="rgba(236, 72, 153, 0.6)" />
-        <FloatingParticle delay={4.1} duration={28} left="45%" size="4px" variant="hexagon" color="rgba(59, 130, 246, 0.7)" />
-        <FloatingParticle delay={5.3} duration={24} left="65%" size="5px" variant="triangle" color="rgba(139, 92, 246, 0.8)" />
-        <FloatingParticle delay={6.7} duration={26} left="85%" size="6px" variant="pulse" color="rgba(14, 165, 233, 0.7)" />
+        {/* COSMIC LAYER 6 - Quantum particles */}
+        <FloatingParticle delay={0.6} duration={36} left="7%" size="4px" variant="hexagon" color="rgba(59, 130, 246, 0.8)" />
+        <FloatingParticle delay={1.6} duration={30} left="14%" size="5px" variant="triangle" color="rgba(139, 92, 246, 0.7)" />
+        <FloatingParticle delay={2.6} duration={28} left="21%" size="6px" variant="pulse" color="rgba(236, 72, 153, 0.6)" />
+        <FloatingParticle delay={3.6} duration={32} left="28%" size="4px" variant="hexagon" color="rgba(6, 182, 212, 0.7)" />
+        <FloatingParticle delay={4.6} duration={26} left="35%" size="5px" variant="triangle" color="rgba(59, 130, 246, 0.8)" />
+        <FloatingParticle delay={5.6} duration={34} left="42%" size="6px" variant="pulse" color="rgba(139, 92, 246, 0.7)" />
+        <FloatingParticle delay={6.6} duration={30} left="49%" size="4px" variant="hexagon" color="rgba(236, 72, 153, 0.6)" />
+        <FloatingParticle delay={7.6} duration={28} left="56%" size="5px" variant="triangle" color="rgba(6, 182, 212, 0.7)" />
+        <FloatingParticle delay={8.6} duration={32} left="63%" size="6px" variant="pulse" color="rgba(59, 130, 246, 0.8)" />
+        <FloatingParticle delay={9.6} duration={26} left="70%" size="4px" variant="hexagon" color="rgba(139, 92, 246, 0.7)" />
+        <FloatingParticle delay={10.6} duration={34} left="77%" size="5px" variant="triangle" color="rgba(236, 72, 153, 0.6)" />
+        <FloatingParticle delay={11.6} duration={30} left="84%" size="6px" variant="pulse" color="rgba(6, 182, 212, 0.7)" />
+        <FloatingParticle delay={12.6} duration={28} left="91%" size="4px" variant="hexagon" color="rgba(59, 130, 246, 0.8)" />
+        <FloatingParticle delay={13.6} duration={32} left="95%" size="5px" variant="triangle" color="rgba(139, 92, 246, 0.7)" />
 
-        {/* Layer 7 - Glowing pulse particles */}
-        <FloatingParticle delay={0.6} duration={20} left="10%" size="8px" variant="glow" color="rgba(244, 63, 94, 0.6)" />
-        <FloatingParticle delay={1.8} duration={22} left="30%" size="6px" variant="ring" color="rgba(168, 85, 247, 0.7)" />
-        <FloatingParticle delay={3.1} duration={24} left="50%" size="7px" variant="sparkle" color="rgba(99, 102, 241, 0.8)" />
-        <FloatingParticle delay={4.4} duration={20} left="70%" size="5px" variant="diamond" color="rgba(236, 72, 153, 0.7)" />
-        <FloatingParticle delay={5.7} duration={26} left="90%" size="9px" variant="star" color="rgba(245, 158, 11, 0.6)" />
+        {/* COSMIC LAYER 7 - Stardust particles */}
+        <FloatingParticle delay={0.1} duration={38} left="1%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={0.8} duration={35} left="3%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={1.5} duration={40} left="5%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={2.2} duration={36} left="8%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={2.9} duration={39} left="11%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={3.6} duration={37} left="15%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={4.3} duration={41} left="19%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={5.0} duration={38} left="24%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={5.7} duration={35} left="29%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={6.4} duration={40} left="34%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={7.1} duration={36} left="39%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={7.8} duration={39} left="44%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={8.5} duration={37} left="49%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={9.2} duration={41} left="54%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={9.9} duration={38} left="59%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={10.6} duration={35} left="64%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={11.3} duration={40} left="69%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={12.0} duration={36} left="74%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={12.7} duration={39} left="79%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={13.4} duration={37} left="84%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={14.1} duration={41} left="89%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
+        <FloatingParticle delay={14.8} duration={38} left="93%" size="4px" variant="sparkle" color="rgba(255, 255, 255, 0.8)" />
+        <FloatingParticle delay={15.5} duration={35} left="97%" size="3px" variant="glow" color="rgba(255, 255, 255, 0.9)" />
       </div>
+
+      {/* =========================================== */}
+      {/* COSMIC STARDUST FIELD */}
+      {/* =========================================== */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none stardust-field animate-starfield"></div>
+
+      {/* =========================================== */}
+      {/* COSMIC NEBULA OVERLAY */}
+      {/* =========================================== */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none animate-nebula-cloud opacity-30"
+        style={{
+          background: 'radial-gradient(ellipse at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(236, 72, 153, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+          animationDuration: '25s',
+        }}
+      ></div>
 
       {/* =========================================== */}
       {/* TRANSCENDENT GRID PATTERN */}

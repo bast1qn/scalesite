@@ -6429,3 +6429,2371 @@ input[type=range]::-webkit-slider-runnable-track {
     0 0 20px rgba(0, 255, 255, 0.5),
     inset 0 0 10px rgba(0, 255, 255, 0.2);
 }
+
+/* ==================== COSMIC DESIGN KEYFRAME ANIMATIONS - 50+ NEW ==================== */
+
+/* 1. Cosmic Portal Effect */
+@keyframes cosmic-portal {
+  0% {
+    transform: rotate(0deg) scale(0.8);
+    opacity: 0;
+    box-shadow:
+      0 0 0 0 rgba(139, 92, 246, 0.5),
+      inset 0 0 0 0 rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 1;
+    box-shadow:
+      0 0 100px 50px rgba(139, 92, 246, 0.3),
+      inset 0 0 50px 20px rgba(59, 130, 246, 0.3);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.8);
+    opacity: 0;
+    box-shadow:
+      0 0 0 0 rgba(139, 92, 246, 0.5),
+      inset 0 0 0 0 rgba(59, 130, 246, 0.5);
+  }
+}
+
+/* 2. Black Hole Spiral */
+@keyframes black-hole-spiral {
+  0% {
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1) blur(0px);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+    filter: brightness(1.5) blur(2px);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.9);
+    filter: brightness(0.8) blur(4px);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.05);
+    filter: brightness(1.3) blur(2px);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    filter: brightness(1) blur(0px);
+  }
+}
+
+/* 3. Nebula Cloud Formation */
+@keyframes nebula-cloud {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg) scale(1);
+    filter: hue-rotate(0deg) blur(1px);
+    opacity: 0.6;
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: rotate(90deg) scale(1.1);
+    filter: hue-rotate(45deg) blur(2px);
+    opacity: 0.8;
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+    transform: rotate(180deg) scale(0.95);
+    filter: hue-rotate(90deg) blur(1.5px);
+    opacity: 0.7;
+  }
+  75% {
+    border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
+    transform: rotate(270deg) scale(1.05);
+    filter: hue-rotate(45deg) blur(2px);
+    opacity: 0.9;
+  }
+}
+
+/* 4. Supernova Explosion */
+@keyframes supernova-burst {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+    box-shadow:
+      0 0 0 0 rgba(255, 200, 100, 1),
+      0 0 0 0 rgba(255, 150, 50, 0.8),
+      0 0 0 0 rgba(255, 100, 0, 0.6);
+  }
+  10% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+    box-shadow:
+      0 0 100px 50px rgba(255, 200, 100, 0),
+      0 0 200px 100px rgba(255, 150, 50, 0),
+      0 0 300px 150px rgba(255, 100, 0, 0);
+  }
+}
+
+/* 5. Aurora Wave Dance */
+@keyframes aurora-wave-dance {
+  0%, 100% {
+    background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%;
+    filter: hue-rotate(0deg) saturate(1);
+    opacity: 0.6;
+  }
+  20% {
+    background-position: 50% 0%, 50% 100%, 0% 50%, 100% 50%;
+    filter: hue-rotate(30deg) saturate(1.2);
+    opacity: 0.8;
+  }
+  40% {
+    background-position: 100% 50%, 0% 50%, 100% 100%, 50% 0%;
+    filter: hue-rotate(60deg) saturate(1.1);
+    opacity: 0.7;
+  }
+  60% {
+    background-position: 50% 100%, 100% 0%, 0% 0%, 0% 100%;
+    filter: hue-rotate(30deg) saturate(1.3);
+    opacity: 0.9;
+  }
+  80% {
+    background-position: 0% 50%, 50% 50%, 50% 0%, 100% 100%;
+    filter: hue-rotate(15deg) saturate(1.2);
+    opacity: 0.75;
+  }
+}
+
+/* 6. Rainbow Spectrum Flow */
+@keyframes rainbow-spectrum {
+  0% {
+    filter: hue-rotate(0deg);
+    background-position: 0% 50%;
+  }
+  25% {
+    filter: hue-rotate(90deg);
+    background-position: 50% 100%;
+  }
+  50% {
+    filter: hue-rotate(180deg);
+    background-position: 100% 50%;
+  }
+  75% {
+    filter: hue-rotate(270deg);
+    background-position: 50% 0%;
+  }
+  100% {
+    filter: hue-rotate(360deg);
+    background-position: 0% 50%;
+  }
+}
+
+/* 7. Prism Refraction Effect */
+@keyframes prism-refraction {
+  0%, 100% {
+    filter: hue-rotate(0deg) saturate(1) brightness(1);
+    transform: rotate(0deg) scale(1) skewX(0deg);
+    box-shadow:
+      0 0 20px rgba(255, 0, 0, 0.2),
+      0 0 40px rgba(0, 255, 0, 0.2),
+      0 0 60px rgba(0, 0, 255, 0.2);
+  }
+  33% {
+    filter: hue-rotate(120deg) saturate(1.5) brightness(1.2);
+    transform: rotate(120deg) scale(1.05) skewX(5deg);
+    box-shadow:
+      0 0 30px rgba(0, 255, 0, 0.4),
+      0 0 60px rgba(0, 0, 255, 0.3),
+      0 0 90px rgba(255, 0, 0, 0.2);
+  }
+  66% {
+    filter: hue-rotate(240deg) saturate(1.3) brightness(0.9);
+    transform: rotate(240deg) scale(0.98) skewX(-5deg);
+    box-shadow:
+      0 0 40px rgba(0, 0, 255, 0.5),
+      0 0 80px rgba(255, 0, 0, 0.3),
+      0 0 120px rgba(0, 255, 0, 0.2);
+  }
+}
+
+/* 8. Crystal Diamond Sparkle */
+@keyframes crystal-sparkle {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1);
+    box-shadow:
+      0 0 10px rgba(255, 255, 255, 0.5),
+      0 0 20px rgba(200, 200, 255, 0.3);
+  }
+  25% {
+    transform: rotate(45deg) scale(1.1);
+    filter: brightness(1.5);
+    box-shadow:
+      0 0 30px rgba(255, 255, 255, 0.8),
+      0 0 60px rgba(200, 200, 255, 0.5);
+  }
+  50% {
+    transform: rotate(90deg) scale(1);
+    filter: brightness(1);
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 40px rgba(200, 200, 255, 0.4);
+  }
+  75% {
+    transform: rotate(135deg) scale(1.05);
+    filter: brightness(1.3);
+    box-shadow:
+      0 0 25px rgba(255, 255, 255, 0.7),
+      0 0 50px rgba(200, 200, 255, 0.4);
+  }
+}
+
+/* 9. Quantum Dimension Shift */
+@keyframes quantum-shift {
+  0%, 100% {
+    transform: translateZ(0) rotateX(0deg) rotateY(0deg);
+    filter: hue-rotate(0deg) blur(0px);
+    opacity: 1;
+  }
+  25% {
+    transform: translateZ(50px) rotateX(10deg) rotateY(10deg);
+    filter: hue-rotate(90deg) blur(1px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateZ(0) rotateX(0deg) rotateY(0deg);
+    filter: hue-rotate(180deg) blur(0px);
+    opacity: 1;
+  }
+  75% {
+    transform: translateZ(-50px) rotateX(-10deg) rotateY(-10deg);
+    filter: hue-rotate(270deg) blur(1px);
+    opacity: 0.8;
+  }
+}
+
+/* 10. Dimensional Portal Open */
+@keyframes dimensional-portal {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    clip-path: circle(50% at 50% 50%);
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    clip-path: circle(100% at 50% 50%);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 11. Teleport Dissolve */
+@keyframes teleport-dissolve {
+  0% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    transform: scale(0.8) translateZ(100px);
+    opacity: 0.5;
+    filter: blur(5px);
+  }
+  100% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* 12. Warp Speed Effect */
+@keyframes warp-speed {
+  0% {
+    transform: translateZ(0) scale(1);
+    opacity: 1;
+  }
+  20% {
+    transform: translateZ(-200px) scale(1.5);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translateZ(-400px) scale(2);
+    opacity: 0.5;
+  }
+  60% {
+    transform: translateZ(-200px) scale(1.5);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translateZ(-100px) scale(1.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateZ(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* 13. Galaxy Swirl */
+@keyframes galaxy-swirl {
+  0% {
+    transform: rotate(0deg) scale(1);
+    background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%;
+  }
+  25% {
+    transform: rotate(90deg) scale(1.05);
+    background-position: 100% 0%, 0% 100%, 50% 100%, 0% 0%;
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+    background-position: 100% 100%, 0% 0%, 0% 0%, 100% 100%;
+  }
+  75% {
+    transform: rotate(270deg) scale(0.95);
+    background-position: 50% 100%, 50% 0%, 100% 0%, 0% 100%;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%;
+  }
+}
+
+/* 14. Meteor Shower */
+@keyframes meteor-shower {
+  0% {
+    transform: translate(-100vw, -100vh) rotate(45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100vw, 100vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* 15. Starfield Parallax */
+@keyframes starfield-parallax {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-40px) translateX(-5px);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-20px) translateX(-15px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+}
+
+/* 16. Comet Trail */
+@keyframes comet-trail {
+  0% {
+    transform: translate(-200%, -200%) rotate(-45deg);
+    opacity: 0;
+    width: 0;
+  }
+  20% {
+    opacity: 1;
+    width: 200px;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(200%, 200%) rotate(-45deg);
+    opacity: 0;
+    width: 0;
+  }
+}
+
+/* 17. Lunar Phase */
+@keyframes lunar-phase {
+  0%, 100% {
+    box-shadow:
+      inset -30px 0 0 0 rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(255, 255, 200, 0.5);
+  }
+  25% {
+    box-shadow:
+      inset -15px 0 0 0 rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(255, 255, 200, 0.7);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 0 rgba(0, 0, 0, 0),
+      0 0 50px rgba(255, 255, 200, 0.9);
+  }
+  75% {
+    box-shadow:
+      inset 15px 0 0 0 rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(255, 255, 200, 0.7);
+  }
+}
+
+/* 18. Solar Flare Burst */
+@keyframes solar-flare-burst {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+    box-shadow:
+      0 0 20px rgba(255, 200, 0, 0.3),
+      0 0 40px rgba(255, 150, 0, 0.2),
+      0 0 60px rgba(255, 100, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+    box-shadow:
+      0 0 40px rgba(255, 200, 0, 0.6),
+      0 0 80px rgba(255, 150, 0, 0.4),
+      0 0 120px rgba(255, 100, 0, 0.2);
+  }
+}
+
+/* 19. Plasma Ball */
+@keyframes plasma-ball {
+  0%, 100% {
+    border-radius: 50%;
+    transform: scale(1);
+    filter: hue-rotate(0deg) blur(0px);
+  }
+  25% {
+    border-radius: 45% 55% 50% 50%;
+    transform: scale(1.05) rotate(5deg);
+    filter: hue-rotate(30deg) blur(1px);
+  }
+  50% {
+    border-radius: 55% 45% 55% 45%;
+    transform: scale(0.95) rotate(-5deg);
+    filter: hue-rotate(60deg) blur(0px);
+  }
+  75% {
+    border-radius: 50% 50% 45% 55%;
+    transform: scale(1.02) rotate(3deg);
+    filter: hue-rotate(30deg) blur(1px);
+  }
+}
+
+/* 20. Electric Storm */
+@keyframes electric-storm {
+  0%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 20px currentColor;
+  }
+  10% {
+    opacity: 0.7;
+    text-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor;
+  }
+  20% {
+    opacity: 1;
+    text-shadow:
+      0 0 30px currentColor,
+      0 0 60px currentColor,
+      0 0 90px currentColor;
+  }
+  30% {
+    opacity: 0.5;
+    text-shadow: none;
+  }
+  40% {
+    opacity: 1;
+    text-shadow:
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+}
+
+/* 21. Magnetic Pulse */
+@keyframes magnetic-pulse {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    box-shadow:
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 0 40px rgba(139, 92, 246, 0.2);
+  }
+  25% {
+    transform: translate(3px, -3px) rotate(2deg) scale(1.02);
+    box-shadow:
+      0 0 30px rgba(139, 92, 246, 0.5),
+      0 0 60px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    transform: translate(-3px, 3px) rotate(-2deg) scale(0.98);
+    box-shadow:
+      0 0 25px rgba(99, 102, 241, 0.4),
+      0 0 50px rgba(168, 85, 247, 0.2);
+  }
+  75% {
+    transform: translate(-2px, -2px) rotate(1deg) scale(1.01);
+    box-shadow:
+      0 0 35px rgba(59, 130, 246, 0.4),
+      0 0 70px rgba(139, 92, 246, 0.3);
+  }
+}
+
+/* 22. Hologram Scan */
+@keyframes hologram-scan {
+  0%, 100% {
+    background-position: 0% 0%;
+    filter: hue-rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    background-position: 100% 100%;
+    filter: hue-rotate(180deg);
+    opacity: 1;
+  }
+}
+
+/* 23. Cybernetic Pulse */
+@keyframes cybernetic-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 5px #0ff,
+      0 0 10px #0ff,
+      0 0 15px #0ff,
+      inset 0 0 5px rgba(0, 255, 255, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 20px #0ff,
+      0 0 40px #0ff,
+      0 0 60px #0ff,
+      inset 0 0 20px rgba(0, 255, 255, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+/* 24. Neon Flicker Enhanced */
+@keyframes neon-flicker-enhanced {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor,
+      0 0 80px currentColor;
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+}
+
+/* 25. Ethereal Materialize */
+@keyframes ethereal-materialize {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-10px) scale(1.05);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* 26. Void Collapse */
+@keyframes void-collapse {
+  0% {
+    transform: scale(3);
+    opacity: 0;
+    filter: blur(20px) hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+    filter: blur(10px) hue-rotate(180deg);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0) hue-rotate(360deg);
+  }
+}
+
+/* 27. Energy Construct */
+@keyframes energy-construct {
+  0% {
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    opacity: 0;
+  }
+  25% {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    opacity: 0.5;
+  }
+  50% {
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%);
+    opacity: 0.8;
+  }
+  100% {
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%);
+    opacity: 1;
+  }
+}
+
+/* 28. Data Stream */
+@keyframes data-stream {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+    text-shadow: none;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 20px currentColor;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+    text-shadow: none;
+  }
+}
+
+/* 29. Frequency Wave */
+@keyframes frequency-wave {
+  0%, 100% {
+    transform: scaleY(1) scaleX(1);
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    transform: scaleY(1.5) scaleX(0.9);
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    transform: scaleY(0.5) scaleX(1.1);
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    transform: scaleY(1.3) scaleX(0.95);
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* 30. Resonance Field */
+@keyframes resonance-field {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(59, 130, 246, 0.7),
+      0 0 0 0 rgba(139, 92, 246, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 30px 10px rgba(59, 130, 246, 0.3),
+      0 0 60px 20px rgba(139, 92, 246, 0.2);
+  }
+}
+
+/* 31. Antigravity Float */
+@keyframes antigravity-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    filter: brightness(1);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) rotate(3deg);
+    filter: brightness(1.1);
+  }
+  50% {
+    transform: translateY(-35px) translateX(-5px) rotate(-2deg);
+    filter: brightness(1.2);
+  }
+  75% {
+    transform: translateY(-15px) translateX(-10px) rotate(1deg);
+    filter: brightness(1.05);
+  }
+}
+
+/* 32. Chromatic Aberration */
+@keyframes chromatic-aberration {
+  0%, 100% {
+    text-shadow:
+      -2px 0 0 rgba(255, 0, 0, 0.5),
+      2px 0 0 rgba(0, 0, 255, 0.5);
+  }
+  25% {
+    text-shadow:
+      -2px 0 0 rgba(0, 255, 0, 0.5),
+      2px 0 0 rgba(255, 0, 255, 0.5);
+  }
+  50% {
+    text-shadow:
+      -2px 0 0 rgba(0, 0, 255, 0.5),
+      2px 0 0 rgba(255, 255, 0, 0.5);
+  }
+  75% {
+    text-shadow:
+      -2px 0 0 rgba(255, 0, 255, 0.5),
+      2px 0 0 rgba(0, 255, 255, 0.5);
+  }
+}
+
+/* 33. Pixel Dissolve */
+@keyframes pixel-dissolve {
+  0% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(5px);
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+/* 34. Glitch Distortion */
+@keyframes glitch-distortion {
+  0%, 100% {
+    transform: translate(0) skew(0deg);
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    transform: translate(-5px, 5px) skew(20deg);
+    filter: hue-rotate(90deg);
+  }
+  40% {
+    transform: translate(5px, -5px) skew(-20deg);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translate(-3px, 3px) skew(10deg);
+    filter: hue-rotate(270deg);
+  }
+  80% {
+    transform: translate(3px, -3px) skew(-10deg);
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* 35. Vaporwave */
+@keyframes vaporwave {
+  0%, 100% {
+    filter: hue-rotate(0deg) contrast(1) brightness(1);
+    transform: translateY(0);
+  }
+  25% {
+    filter: hue-rotate(30deg) contrast(1.1) brightness(1.2);
+    transform: translateY(-10px);
+  }
+  50% {
+    filter: hue-rotate(60deg) contrast(1) brightness(1);
+    transform: translateY(0);
+  }
+  75% {
+    filter: hue-rotate(30deg) contrast(0.9) brightness(0.9);
+    transform: translateY(10px);
+  }
+}
+
+/* 36. Synthwave Grid */
+@keyframes synthwave-grid {
+  0% {
+    background-position: 0% 0%;
+    transform: perspective(500px) rotateX(60deg) translateY(0);
+  }
+  100% {
+    background-position: 0% 100%;
+    transform: perspective(500px) rotateX(60deg) translateY(50px);
+  }
+}
+
+/* 37. Retrowave Sun */
+@keyframes retrowave-sun {
+  0%, 100% {
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+    box-shadow:
+      0 0 50px rgba(255, 100, 0, 0.5),
+      0 0 100px rgba(255, 50, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: hue-rotate(30deg);
+    box-shadow:
+      0 0 80px rgba(255, 100, 0, 0.8),
+      0 0 150px rgba(255, 50, 0, 0.5);
+  }
+}
+
+/* 38. Laser Beam */
+@keyframes laser-beam {
+  0%, 100% {
+    width: 2px;
+    opacity: 0.5;
+    box-shadow: 0 0 10px currentColor;
+  }
+  50% {
+    width: 4px;
+    opacity: 1;
+    box-shadow:
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+}
+
+/* 39. Digital Distortion */
+@keyframes digital-distortion {
+  0%, 100% {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: translate(0);
+  }
+  10% {
+    clip-path: polygon(0% 5%, 100% 0%, 100% 95%, 0% 100%);
+    transform: translate(-2px, 0);
+  }
+  20% {
+    clip-path: polygon(5% 0%, 100% 5%, 95% 100%, 0% 95%);
+    transform: translate(2px, 0);
+  }
+  30% {
+    clip-path: polygon(0% 0%, 95% 5%, 100% 100%, 5% 95%);
+    transform: translate(-1px, 0);
+  }
+}
+
+/* 40. Binary Rain */
+@keyframes binary-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* 41. Circuit Flow */
+@keyframes circuit-flow {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* 42. Nanobot Swarm */
+@keyframes nanobot-swarm {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  25% {
+    transform: translate(10px, -10px) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-5px, 5px) scale(0.9);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translate(-10px, -5px) scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* 43. Molecular Bond */
+@keyframes molecular-bond {
+  0%, 100% {
+    transform: rotate(0deg) translateX(30px);
+  }
+  25% {
+    transform: rotate(90deg) translateX(30px);
+  }
+  50% {
+    transform: rotate(180deg) translateX(30px);
+  }
+  75% {
+    transform: rotate(270deg) translateX(30px);
+  }
+}
+
+/* 44. Atomic Orbit */
+@keyframes atomic-orbit {
+  0% {
+    transform: rotate(0deg) translateX(40px) rotate(0deg);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
+  }
+  100% {
+    transform: rotate(360deg) translateX(40px) rotate(-360deg);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* 45. Fusion Reaction */
+@keyframes fusion-reaction {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.5;
+    filter: brightness(1) blur(5px);
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+    filter: brightness(2) blur(0px);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+    filter: brightness(1.5) blur(2px);
+  }
+}
+
+/* 46. Particle Explosion */
+@keyframes particle-explosion {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 100px), var(--ty, -100px)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* 47. Wave Interference */
+@keyframes wave-interference {
+  0%, 100% {
+    transform: translateY(0) scaleX(1);
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) scaleX(1.2);
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    transform: translateY(0) scaleX(0.8);
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    transform: translateY(15px) scaleX(1.1);
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* 48. Hologram Flicker */
+@keyframes hologram-flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+  10% {
+    opacity: 0.8;
+    transform: translate(-1px, 1px);
+  }
+  20% {
+    opacity: 0.9;
+    transform: translate(1px, -1px);
+  }
+  30% {
+    opacity: 0.7;
+    transform: translate(-1px, -1px);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(1px, 1px);
+  }
+}
+
+/* 49. Space Fold */
+@keyframes space-fold {
+  0% {
+    transform: perspective(1000px) rotateX(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: perspective(1000px) rotateX(90deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+/* 50. Time Dilation */
+@keyframes time-dilation {
+  0%, 100% {
+    transform: scale(1);
+    filter: blur(0px) hue-rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.1);
+    filter: blur(2px) hue-rotate(45deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(0.9);
+    filter: blur(4px) hue-rotate(90deg);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(1.05);
+    filter: blur(2px) hue-rotate(45deg);
+    opacity: 0.9;
+  }
+}
+
+/* 51. Cosmic Energy */
+@keyframes cosmic-energy {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg) saturate(1);
+    transform: scale(1);
+  }
+  25% {
+    background-position: 50% 100%;
+    filter: hue-rotate(90deg) saturate(1.5);
+    transform: scale(1.02);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(180deg) saturate(1);
+    transform: scale(1);
+  }
+  75% {
+    background-position: 50% 0%;
+    filter: hue-rotate(270deg) saturate(1.5);
+    transform: scale(0.98);
+  }
+}
+
+/* 52. Stellar Evolution */
+@keyframes stellar-evolution {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.3;
+    filter: brightness(0.5) hue-rotate(0deg);
+    box-shadow: 0 0 20px rgba(255, 100, 0, 0.3);
+  }
+  25% {
+    transform: scale(0.8);
+    opacity: 0.6;
+    filter: brightness(0.8) hue-rotate(30deg);
+    box-shadow: 0 0 40px rgba(255, 150, 0, 0.5);
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1.2) hue-rotate(60deg);
+    box-shadow: 0 0 60px rgba(255, 200, 100, 0.7);
+  }
+  75% {
+    transform: scale(0.9);
+    opacity: 0.8;
+    filter: brightness(0.9) hue-rotate(30deg);
+    box-shadow: 0 0 30px rgba(100, 150, 255, 0.5);
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0.3;
+    filter: brightness(0.5) hue-rotate(0deg);
+    box-shadow: 0 0 20px rgba(100, 100, 255, 0.3);
+  }
+}
+
+/* 53. Dimensional Rift */
+@keyframes dimensional-rift {
+  0% {
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    transform: scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    clip-path: polygon(30% 30%, 70% 30%, 70% 70%, 30% 70%);
+    transform: scale(0.9) rotate(90deg);
+    opacity: 0.5;
+  }
+  50% {
+    clip-path: polygon(10% 10%, 90% 10%, 90% 90%, 10% 90%);
+    transform: scale(1) rotate(180deg);
+    opacity: 1;
+  }
+  75% {
+    clip-path: polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%);
+    transform: scale(1.05) rotate(270deg);
+    opacity: 0.8;
+  }
+  100% {
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    transform: scale(0.8) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* 54. Quantum Entanglement Enhanced */
+@keyframes quantum-entangle-enhanced {
+  0%, 100% {
+    transform: rotate(0deg) scale(1) translate(0, 0);
+    filter: hue-rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: rotate(72deg) scale(1.1) translate(5px, -5px);
+    filter: hue-rotate(72deg);
+    opacity: 0.8;
+  }
+  40% {
+    transform: rotate(144deg) scale(0.9) translate(-5px, 5px);
+    filter: hue-rotate(144deg);
+    opacity: 1;
+  }
+  60% {
+    transform: rotate(216deg) scale(1.05) translate(-3px, -3px);
+    filter: hue-rotate(216deg);
+    opacity: 0.9;
+  }
+  80% {
+    transform: rotate(288deg) scale(0.95) translate(3px, 3px);
+    filter: hue-rotate(288deg);
+    opacity: 1;
+  }
+}
+
+/* 55. Nebula Pulse */
+@keyframes nebula-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1) blur(2px) hue-rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    transform: scale(1.1);
+    filter: brightness(1.3) blur(3px) hue-rotate(30deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    filter: brightness(1.5) blur(4px) hue-rotate(60deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.05);
+    filter: brightness(1.2) blur(2px) hue-rotate(30deg);
+    opacity: 0.7;
+  }
+}
+
+/* ==================== COSMIC UTILITY CLASSES ==================== */
+
+/* Cosmic Animation Classes */
+.animate-cosmic-portal {
+  animation: cosmic-portal 8s ease-in-out infinite;
+}
+
+.animate-black-hole {
+  animation: black-hole-spiral 12s ease-in-out infinite;
+}
+
+.animate-nebula-cloud {
+  animation: nebula-cloud 20s ease-in-out infinite;
+}
+
+.animate-supernova {
+  animation: supernova-burst 6s ease-out infinite;
+}
+
+.animate-aurora-wave {
+  animation: aurora-wave-dance 15s ease-in-out infinite;
+}
+
+.animate-rainbow-spectrum {
+  animation: rainbow-spectrum 10s linear infinite;
+}
+
+.animate-prism-refraction {
+  animation: prism-refraction 8s ease-in-out infinite;
+}
+
+.animate-crystal-sparkle {
+  animation: crystal-sparkle 3s ease-in-out infinite;
+}
+
+.animate-quantum-shift {
+  animation: quantum-shift 6s ease-in-out infinite;
+}
+
+.animate-dimensional-portal {
+  animation: dimensional-portal 2s ease-out forwards;
+}
+
+.animate-teleport {
+  animation: teleport-dissolve 1.5s ease-in-out;
+}
+
+.animate-warp-speed {
+  animation: warp-speed 4s ease-in-out;
+}
+
+.animate-galaxy-swirl {
+  animation: galaxy-swirl 30s linear infinite;
+}
+
+.animate-meteor {
+  animation: meteor-shower 3s linear infinite;
+}
+
+.animate-starfield {
+  animation: starfield-parallax 20s ease-in-out infinite;
+}
+
+.animate-comet {
+  animation: comet-trail 4s linear infinite;
+}
+
+.animate-lunar {
+  animation: lunar-phase 20s ease-in-out infinite;
+}
+
+.animate-solar-flare {
+  animation: solar-flare-burst 5s ease-in-out infinite;
+}
+
+.animate-plasma-ball {
+  animation: plasma-ball 8s ease-in-out infinite;
+}
+
+.animate-electric-storm {
+  animation: electric-storm 2s ease-in-out infinite;
+}
+
+.animate-magnetic-pulse {
+  animation: magnetic-pulse 4s ease-in-out infinite;
+}
+
+.animate-hologram-scan {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.3),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: hologram-scan 3s linear infinite;
+}
+
+.animate-cybernetic-pulse {
+  animation: cybernetic-pulse 3s ease-in-out infinite;
+}
+
+.animate-neon-flicker-enhanced {
+  animation: neon-flicker-enhanced 4s ease-in-out infinite;
+}
+
+.animate-ethereal-materialize {
+  animation: ethereal-materialize 1s ease-out forwards;
+}
+
+.animate-void-collapse {
+  animation: void-collapse 1.5s ease-out forwards;
+}
+
+.animate-energy-construct {
+  animation: energy-construct 1s ease-out forwards;
+}
+
+.animate-data-stream {
+  animation: data-stream 5s linear infinite;
+}
+
+.animate-frequency-wave {
+  animation: frequency-wave 4s ease-in-out infinite;
+}
+
+.animate-resonance-field {
+  animation: resonance-field 3s ease-in-out infinite;
+}
+
+.animate-antigravity {
+  animation: antigravity-float 8s ease-in-out infinite;
+}
+
+.animate-chromatic-aberration {
+  animation: chromatic-aberration 3s ease-in-out infinite;
+}
+
+.animate-pixel-dissolve {
+  animation: pixel-dissolve 0.5s ease-out;
+}
+
+.animate-glitch-distortion {
+  animation: glitch-distortion 0.3s ease-in-out infinite;
+}
+
+.animate-vaporwave {
+  animation: vaporwave 10s ease-in-out infinite;
+}
+
+.animate-laser-beam {
+  animation: laser-beam 2s ease-in-out infinite;
+}
+
+.animate-digital-distortion {
+  animation: digital-distortion 0.5s ease-in-out infinite;
+}
+
+.animate-binary-rain {
+  animation: binary-rain 3s linear infinite;
+}
+
+.animate-nanobot {
+  animation: nanobot-swarm 5s ease-in-out infinite;
+}
+
+.animate-atomic-orbit {
+  animation: atomic-orbit 10s linear infinite;
+}
+
+.animate-fusion {
+  animation: fusion-reaction 4s ease-in-out infinite;
+}
+
+.animate-wave-interference {
+  animation: wave-interference 6s ease-in-out infinite;
+}
+
+.animate-hologram-flicker {
+  animation: hologram-flicker 0.5s ease-in-out infinite;
+}
+
+.animate-space-fold {
+  animation: space-fold 2s ease-in-out;
+}
+
+.animate-time-dilation {
+  animation: time-dilation 8s ease-in-out infinite;
+}
+
+.animate-cosmic-energy {
+  animation: cosmic-energy 12s linear infinite;
+}
+
+.animate-stellar-evolution {
+  animation: stellar-evolution 15s ease-in-out infinite;
+}
+
+.animate-dimensional-rift {
+  animation: dimensional-rift 4s ease-in-out;
+}
+
+.animate-quantum-entangle {
+  animation: quantum-entangle-enhanced 10s linear infinite;
+}
+
+.animate-nebula-pulse {
+  animation: nebula-pulse 10s ease-in-out infinite;
+}
+
+/* ==================== COSMIC SHADOW SYSTEM ==================== */
+
+/* Shadow Glow Multi-Color */
+.shadow-glow-cosmic {
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.5),
+    0 0 40px rgba(139, 92, 246, 0.3),
+    0 0 60px rgba(236, 72, 153, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-glow-cosmic-lg {
+  box-shadow:
+    0 0 40px rgba(59, 130, 246, 0.6),
+    0 0 80px rgba(139, 92, 246, 0.4),
+    0 0 120px rgba(236, 72, 153, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-glow-rainbow {
+  box-shadow:
+    0 0 20px rgba(255, 0, 0, 0.3),
+    0 0 30px rgba(255, 165, 0, 0.3),
+    0 0 40px rgba(255, 255, 0, 0.3),
+    0 0 50px rgba(0, 255, 0, 0.3),
+    0 0 60px rgba(0, 0, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-glow-prism {
+  box-shadow:
+    0 0 30px rgba(255, 0, 0, 0.2),
+    0 0 40px rgba(0, 255, 0, 0.2),
+    0 0 50px rgba(0, 0, 255, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-glow-nebula {
+  box-shadow:
+    0 0 40px rgba(138, 43, 226, 0.4),
+    0 0 80px rgba(75, 0, 130, 0.3),
+    0 0 120px rgba(255, 20, 147, 0.2),
+    0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-glow-solar {
+  box-shadow:
+    0 0 50px rgba(255, 200, 0, 0.5),
+    0 0 100px rgba(255, 150, 0, 0.3),
+    0 0 150px rgba(255, 100, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-glow-aurora {
+  box-shadow:
+    0 0 30px rgba(0, 255, 127, 0.4),
+    0 0 60px rgba(0, 191, 255, 0.3),
+    0 0 90px rgba(138, 43, 226, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-glow-plasma {
+  box-shadow:
+    0 0 40px rgba(255, 0, 128, 0.4),
+    0 0 80px rgba(128, 0, 255, 0.3),
+    0 0 120px rgba(0, 128, 255, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-glow-quantum {
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.4),
+    0 0 40px rgba(139, 92, 246, 0.3),
+    0 0 60px rgba(236, 72, 153, 0.2),
+    0 0 80px rgba(255, 255, 255, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== COSMIC GRADIENT BACKGROUNDS ==================== */
+
+.bg-cosmic-gradient {
+  background: linear-gradient(
+    135deg,
+    #0f0c29 0%,
+    #302b63 25%,
+    #24243e 50%,
+    #0f0c29 75%,
+    #302b63 100%
+  );
+  background-size: 400% 400%;
+  animation: cosmic-shimmer 15s ease infinite;
+}
+
+.bg-nebula-gradient {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 20, 147, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(75, 0, 130, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 70%, rgba(0, 191, 255, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  animation: nebula-cloud 20s ease-in-out infinite;
+}
+
+.bg-galaxy-gradient {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 30%, rgba(59, 130, 246, 0.2) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+  animation: galaxy-swirl 30s linear infinite;
+}
+
+.bg-aurora-gradient {
+  background:
+    linear-gradient(135deg, rgba(0, 255, 127, 0.1) 0%, transparent 25%),
+    linear-gradient(225deg, rgba(0, 191, 255, 0.1) 0%, transparent 25%),
+    linear-gradient(315deg, rgba(138, 43, 226, 0.1) 0%, transparent 25%),
+    linear-gradient(45deg, rgba(255, 20, 147, 0.1) 0%, transparent 25%),
+    linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  animation: aurora-wave-dance 15s ease-in-out infinite;
+}
+
+.bg-plasma-gradient {
+  background: linear-gradient(
+    45deg,
+    #0f0c29,
+    #302b63,
+    #24243e,
+    #480048,
+    #c04848,
+    #480048,
+    #24243e,
+    #302b63,
+    #0f0c29
+  );
+  background-size: 600% 600%;
+  animation: plasma-ball 20s ease infinite;
+}
+
+.bg-solar-gradient {
+  background: radial-gradient(
+    circle at 50% 50%,
+    #ff9500 0%,
+    #ff5e3a 20%,
+    #ff2d00 40%,
+    #c20000 60%,
+    #4a0000 80%,
+    #1a0000 100%
+  );
+  animation: solar-flare-burst 10s ease-in-out infinite;
+}
+
+.bg-stellar-gradient {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 30%),
+    radial-gradient(ellipse at 70% 60%, rgba(255, 200, 100, 0.1) 0%, transparent 40%),
+    radial-gradient(ellipse at 40% 80%, rgba(100, 150, 255, 0.1) 0%, transparent 35%),
+    linear-gradient(180deg, #000000 0%, #0a0a1a 50%, #000014 100%);
+  animation: stellar-evolution 30s ease-in-out infinite;
+}
+
+.bg-quantum-gradient {
+  background:
+    linear-gradient(45deg, rgba(59, 130, 246, 0.1) 0%, transparent 25%),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 25%),
+    linear-gradient(225deg, rgba(236, 72, 153, 0.1) 0%, transparent 25%),
+    linear-gradient(315deg, rgba(6, 182, 212, 0.1) 0%, transparent 25%),
+    linear-gradient(90deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+  animation: quantum-shift 15s ease-in-out infinite;
+}
+
+/* ==================== COSMIC TEXT EFFECTS ==================== */
+
+.text-cosmic-gradient {
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #f59e0b,
+    #10b981,
+    #06b6d4,
+    #3b82f6
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: cosmic-shimmer 8s linear infinite;
+}
+
+.text-nebula-gradient {
+  background: linear-gradient(
+    90deg,
+    #8a2be2,
+    #ba55d3,
+    #ff1493,
+    #00bfff,
+    #8a2be2
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: nebula-pulse 6s ease-in-out infinite;
+}
+
+.text-aurora-gradient {
+  background: linear-gradient(
+    90deg,
+    #00ff7f,
+    #00bfff,
+    #8a2be2,
+    #ff1493,
+    #00ff7f
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aurora-wave-dance 8s ease-in-out infinite;
+}
+
+.text-plasma-gradient {
+  background: linear-gradient(
+    90deg,
+    #ff0080,
+    #8000ff,
+    #0080ff,
+    #ff0080
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: plasma-ball 4s ease-in-out infinite;
+}
+
+.text-solar-gradient {
+  background: linear-gradient(
+    90deg,
+    #ffcc00,
+    #ff9500,
+    #ff5e00,
+    #ff2d00,
+    #ff5e00,
+    #ff9500,
+    #ffcc00
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: solar-flare-burst 5s ease-in-out infinite;
+}
+
+.text-glow-cosmic-sm {
+  text-shadow:
+    0 0 10px rgba(59, 130, 246, 0.8),
+    0 0 20px rgba(139, 92, 246, 0.6),
+    0 0 30px rgba(236, 72, 153, 0.4);
+}
+
+.text-glow-cosmic-md {
+  text-shadow:
+    0 0 15px rgba(59, 130, 246, 0.9),
+    0 0 30px rgba(139, 92, 246, 0.7),
+    0 0 45px rgba(236, 72, 153, 0.5),
+    0 0 60px rgba(236, 72, 153, 0.3);
+}
+
+.text-glow-cosmic-lg {
+  text-shadow:
+    0 0 20px rgba(59, 130, 246, 1),
+    0 0 40px rgba(139, 92, 246, 0.8),
+    0 0 60px rgba(236, 72, 153, 0.6),
+    0 0 80px rgba(236, 72, 153, 0.4),
+    0 0 100px rgba(236, 72, 153, 0.2);
+}
+
+.text-glow-neon-cyan {
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 10px #0ff,
+    0 0 20px #0ff,
+    0 0 40px #0ff;
+}
+
+.text-glow-neon-pink {
+  text-shadow:
+    0 0 5px #f0f,
+    0 0 10px #f0f,
+    0 0 20px #f0f,
+    0 0 40px #f0f;
+}
+
+.text-glow-neon-green {
+  text-shadow:
+    0 0 5px #0f0,
+    0 0 10px #0f0,
+    0 0 20px #0f0,
+    0 0 40px #0f0;
+}
+
+/* ==================== COSMIC BORDER EFFECTS ==================== */
+
+.border-cosmic-animated {
+  position: relative;
+}
+
+.border-cosmic-animated::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #f59e0b,
+    #10b981,
+    #06b6d4,
+    #3b82f6
+  );
+  background-size: 300% 100%;
+  border-radius: inherit;
+  z-index: -1;
+  animation: cosmic-shimmer 6s linear infinite;
+  filter: blur(8px);
+  opacity: 0.7;
+}
+
+.border-rainbow-animated {
+  position: relative;
+}
+
+.border-rainbow-animated::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff8000,
+    #ffff00,
+    #00ff00,
+    #0080ff,
+    #8000ff,
+    #ff0080,
+    #ff0000
+  );
+  background-size: 300% 100%;
+  border-radius: inherit;
+  z-index: -1;
+  animation: rainbow-spectrum 4s linear infinite;
+  filter: blur(6px);
+  opacity: 0.8;
+}
+
+.border-prismatic {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-prismatic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff8000,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0080ff,
+    #8000ff,
+    #ff0080,
+    #ff0000
+  );
+  background-size: 400% 400%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  border-radius: inherit;
+  animation: prism-refraction 8s linear infinite;
+}
+
+/* ==================== COSMIC GLASS VARIATIONS ==================== */
+
+.glass-cosmic {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 50%,
+    rgba(236, 72, 153, 0.05) 100%
+  );
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-nebula {
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.15) 0%,
+    rgba(75, 0, 130, 0.1) 50%,
+    rgba(255, 20, 147, 0.1) 100%
+  );
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(138, 43, 226, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-aurora {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 127, 0.1) 0%,
+    rgba(0, 191, 255, 0.1) 50%,
+    rgba(138, 43, 226, 0.1) 100%
+  );
+  backdrop-filter: blur(35px) saturate(190%);
+  -webkit-backdrop-filter: blur(35px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px rgba(0, 255, 127, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.glass-plasma {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 128, 0.1) 0%,
+    rgba(128, 0, 255, 0.1) 50%,
+    rgba(0, 128, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(32px) saturate(185%);
+  -webkit-backdrop-filter: blur(32px) saturate(185%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px rgba(255, 0, 128, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.glass-quantum {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.08) 0%,
+    rgba(139, 92, 246, 0.08) 25%,
+    rgba(236, 72, 153, 0.08) 50%,
+    rgba(6, 182, 212, 0.08) 75%,
+    rgba(59, 130, 246, 0.08) 100%
+  );
+  backdrop-filter: blur(50px) saturate(200%);
+  -webkit-backdrop-filter: blur(50px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== COSMIC HOVER EFFECTS ==================== */
+
+.hover-cosmic-glow {
+  transition: all 0.4s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.hover-cosmic-glow:hover {
+  box-shadow:
+    0 0 30px rgba(59, 130, 246, 0.5),
+    0 0 60px rgba(139, 92, 246, 0.3),
+    0 0 90px rgba(236, 72, 153, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.hover-nebula-shift {
+  transition: all 0.5s ease;
+}
+
+.hover-nebula-shift:hover {
+  filter: hue-rotate(60deg) saturate(1.3);
+  box-shadow:
+    0 0 40px rgba(138, 43, 226, 0.4),
+    0 0 80px rgba(75, 0, 130, 0.2);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.hover-prismatic-shine {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.hover-prismatic-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 0, 0, 0.3),
+    rgba(0, 255, 0, 0.3),
+    rgba(0, 0, 255, 0.3),
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.hover-prismatic-shine:hover::before {
+  left: 100%;
+}
+
+.hover-quantum-shift {
+  transition: all 0.3s cubic-bezier(0.25, 0.4, 0.25, 1);
+  transform-style: preserve-3d;
+}
+
+.hover-quantum-shift:hover {
+  transform: translateY(-6px) rotateX(5deg) rotateY(5deg);
+  box-shadow:
+    0 20px 40px rgba(59, 130, 246, 0.2),
+    0 0 0 1px rgba(139, 92, 246, 0.1) inset;
+}
+
+.hover-dimensional-lift {
+  transition: all 0.5s cubic-bezier(0.25, 0.4, 0.25, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.hover-dimensional-lift:hover {
+  transform: translateY(-12px) rotateX(10deg) rotateY(-5deg) translateZ(20px);
+  box-shadow:
+    0 30px 60px rgba(59, 130, 246, 0.25),
+    0 0 0 1px rgba(139, 92, 246, 0.15) inset;
+}
+
+.hover-warp-effect {
+  transition: all 0.6s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.hover-warp-effect:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2) saturate(1.2);
+  box-shadow:
+    0 0 60px rgba(59, 130, 246, 0.4),
+    0 0 120px rgba(139, 92, 246, 0.2),
+    0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== COSMIC PARTICLE SYSTEMS ==================== */
+
+.cosmic-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cosmic-particles::before,
+.cosmic-particles::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  border-radius: 50%;
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(139, 92, 246, 0.5);
+  animation: antigravity-float 15s ease-in-out infinite;
+}
+
+.cosmic-particles::after {
+  animation-delay: -7.5s;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 1) 0%,
+    rgba(59, 130, 246, 0) 70%
+  );
+}
+
+.stardust-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stardust-field::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 50%, white, transparent),
+    radial-gradient(1px 1px at 70% 40%, white, transparent);
+  background-size: 200% 200%;
+  opacity: 0.5;
+  animation: starfield-parallax 60s linear infinite;
+}
+
+/* ==================== COSMIC BUTTON VARIATIONS ==================== */
+
+.btn-cosmic {
+  position: relative;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.4, 0.25, 1);
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  color: white;
+  border: none;
+  box-shadow:
+    0 4px 15px rgba(59, 130, 246, 0.3),
+    0 0 30px rgba(139, 92, 246, 0.2),
+    0 0 60px rgba(236, 72, 153, 0.1);
+}
+
+.btn-cosmic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-cosmic:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-cosmic:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 25px rgba(59, 130, 246, 0.4),
+    0 0 50px rgba(139, 92, 246, 0.3),
+    0 0 100px rgba(236, 72, 153, 0.2);
+}
+
+.btn-nebula {
+  position: relative;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 2rem;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  background: linear-gradient(
+    135deg,
+    #8a2be2 0%,
+    #ba55d3 50%,
+    #ff1493 100%
+  );
+  color: white;
+  border: none;
+  animation: nebula-pulse 4s ease-in-out infinite;
+}
+
+.btn-nebula:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.2) saturate(1.2);
+  box-shadow:
+    0 0 40px rgba(138, 43, 226, 0.5),
+    0 0 80px rgba(186, 85, 211, 0.3),
+    0 0 120px rgba(255, 20, 147, 0.2);
+}
+
+.btn-aurora {
+  position: relative;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  background: linear-gradient(
+    135deg,
+    #00ff7f 0%,
+    #00bfff 50%,
+    #8a2be2 100%
+  );
+  color: white;
+  border: none;
+  animation: aurora-wave-dance 6s ease-in-out infinite;
+}
+
+.btn-aurora:hover {
+  transform: translateY(-3px) rotate(2deg);
+  filter: brightness(1.3);
+  box-shadow:
+    0 0 50px rgba(0, 255, 127, 0.4),
+    0 0 100px rgba(0, 191, 255, 0.3),
+    0 0 150px rgba(138, 43, 226, 0.2);
+}
+
+.btn-plasma {
+  position: relative;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  background: linear-gradient(
+    135deg,
+    #ff0080 0%,
+    #8000ff 50%,
+    #0080ff 100%
+  );
+  color: white;
+  border: none;
+  animation: plasma-ball 3s ease-in-out infinite;
+}
+
+.btn-plasma:hover {
+  transform: scale(1.05);
+  filter: hue-rotate(30deg) saturate(1.3);
+  box-shadow:
+    0 0 40px rgba(255, 0, 128, 0.5),
+    0 0 80px rgba(128, 0, 255, 0.3),
+    0 0 120px rgba(0, 128, 255, 0.2);
+}
+
+/* ==================== COSMIC CARD VARIATIONS ==================== */
+
+.card-cosmic {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.25, 0.4, 0.25, 1);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.card-cosmic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 50%,
+    rgba(236, 72, 153, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card-cosmic:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow:
+    0 30px 60px rgba(59, 130, 246, 0.2),
+    0 0 0 1px rgba(139, 92, 246, 0.2) inset;
+}
+
+.card-cosmic:hover::before {
+  opacity: 1;
+}
+
+.card-nebula {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.1) 0%,
+    rgba(75, 0, 130, 0.1) 50%,
+    rgba(255, 20, 147, 0.05) 100%
+  );
+  backdrop-filter: blur(25px) saturate(180%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  animation: nebula-cloud 20s ease-in-out infinite;
+}
+
+.card-nebula:hover {
+  transform: translateY(-8px) rotateX(5deg);
+  box-shadow:
+    0 25px 50px rgba(138, 43, 226, 0.3),
+    0 0 0 1px rgba(186, 85, 211, 0.2) inset;
+}
+
+.card-prismatic {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.25, 0.4, 0.25, 1);
+}
+
+.card-prismatic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 70%
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: prism-refraction 3s linear infinite;
+}
+
+.card-prismatic:hover::before {
+  opacity: 1;
+}
+
+.card-prismatic:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* ==================== ADDITIONAL UTILITY CLASSES ==================== */
+
+/* Letter spacing refinements */
+.tracking-widest-plus {
+  letter-spacing: 0.15em;
+}
+
+.tracking-tightest {
+  letter-spacing: -0.05em;
+}
+
+/* Leading refinements */
+.leading-snug-plus {
+  line-height: 1.375;
+}
+
+.leading-relaxed-plus {
+  line-height: 1.725;
+}
+
+/* Font weight refinements */
+.font-extrabold {
+  font-weight: 800;
+}
+
+.font-black {
+  font-weight: 900;
+}
+
+/* Spacing refinements */
+.gap-xs {
+  gap: 0.5rem;
+}
+
+.gap-xl {
+  gap: 2rem;
+}
+
+.gap-2xl {
+  gap: 3rem;
+}
+
+.gap-3xl {
+  gap: 4rem;
+}
+
+/* ==================== COSMIC TYPOGRAPHY ==================== */
+
+.text-display-cosmic {
+  font-size: clamp(3rem, 15vw, 10rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.text-headline-cosmic {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.text-subheadline-cosmic {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+/* ==================== COSMIC MOBILE OPTIMIZATIONS ==================== */
+
+@media (max-width: 768px) {
+  .animate-cosmic-portal,
+  .animate-black-hole,
+  .animate-nebula-cloud,
+  .animate-galaxy-swirl {
+    animation-duration: 30s;
+  }
+
+  .cosmic-particles::before,
+  .cosmic-particles::after {
+    display: none;
+  }
+
+  .stardust-field::before {
+    animation-duration: 120s;
+  }
+
+  .card-cosmic:hover,
+  .card-nebula:hover,
+  .card-prismatic:hover {
+    transform: translateY(-4px);
+  }
+
+  .btn-cosmic:hover,
+  .btn-nebula:hover,
+  .btn-aurora:hover,
+  .btn-plasma:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+}

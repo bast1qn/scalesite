@@ -122,41 +122,55 @@ export const ServicesGrid: React.FC = () => {
 
   return (
     <section className="py-32 bg-gradient-to-b from-white via-slate-50/80 to-slate-100/50 dark:from-slate-950 dark:via-slate-900/80 dark:to-slate-950/60 relative overflow-hidden">
-      {/* Enhanced noise texture */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
+      {/* COSMIC NOISE TEXTURE */}
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] pointer-events-none noise-bg noise-bg-animated"></div>
 
-      {/* Legendary animated mesh gradient overlay */}
-      <div className="absolute inset-0 bg-aurora-legendary opacity-15 pointer-events-none"></div>
+      {/* COSMIC AURORA LEGENDARY OVERLAY */}
+      <div className="absolute inset-0 bg-aurora-gradient animate-aurora-wave opacity-20 pointer-events-none"></div>
 
-      {/* Enhanced animated background */}
+      {/* COSMIC NEBULA OVERLAY */}
+      <div className="absolute inset-0 animate-nebula-cloud opacity-15 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+          animationDuration: '45s',
+        }}
+      ></div>
+
+      {/* COSMIC ANIMATED BACKGROUND */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] right-[5%] w-[900px] h-[900px] bg-gradient-to-br from-blue-400/12 via-violet-400/10 to-indigo-400/8 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
-        <div className="absolute bottom-[10%] left-[5%] w-[800px] h-[800px] bg-gradient-to-br from-violet-400/10 via-purple-400/8 to-pink-400/6 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '5s' }}></div>
-        <div className="absolute top-[40%] left-[20%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/8 to-teal-400/6 rounded-full blur-3xl animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '2.5s' }}></div>
-        <div className="absolute bottom-[30%] right-[15%] w-[350px] h-[350px] bg-gradient-to-br from-rose-400/6 to-pink-400/4 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-[10%] right-[5%] w-[1000px] h-[1000px] bg-gradient-to-br from-blue-400/15 via-violet-400/12 to-indigo-400/10 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic"></div>
+        <div className="absolute bottom-[10%] left-[5%] w-[900px] h-[900px] bg-gradient-to-br from-violet-400/12 via-purple-400/10 to-pink-400/8 rounded-full blur-3xl animate-nebula-cloud shadow-glow-nebula" style={{ animationDelay: '5s' }}></div>
+        <div className="absolute top-[40%] left-[20%] w-[600px] h-[600px] bg-gradient-to-br from-emerald-400/10 to-teal-400/8 rounded-full blur-3xl animate-antigravity shadow-glow-aurora" style={{ animationDelay: '2.5s' }}></div>
+        <div className="absolute bottom-[30%] right-[15%] w-[400px] h-[400px] bg-gradient-to-br from-rose-400/8 to-pink-400/6 rounded-full blur-3xl animate-antigravity shadow-glow-plasma" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-[60%] right-[25%] w-[350px] h-[350px] bg-gradient-to-br from-cyan-400/10 to-blue-400/8 rounded-full blur-3xl animate-quantum-shift" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-[50%] left-[30%] w-[300px] h-[300px] bg-gradient-to-br from-fuchsia-400/10 to-pink-400/8 rounded-full blur-3xl animate-magnetic-pulse" style={{ animationDelay: '6s' }}></div>
       </div>
 
-      {/* Enhanced grid pattern */}
+      {/* COSMIC GRID PATTERN */}
       <div
-        className="absolute inset-0 opacity-[0.035] dark:opacity-[0.06]"
+        className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
         style={{
           backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
           backgroundSize: '60px 60px',
         }}
       ></div>
 
+      {/* COSMIC STARDUST FIELD */}
+      <div className="absolute inset-0 stardust-field opacity-40 pointer-events-none"></div>
+
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
           <div className="text-center mb-24">
-            {/* Legendary Badge */}
-            <div className="inline-flex items-center gap-3 px-7 py-4 rounded-2xl bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/25 dark:to-violet-900/25 border-2 border-blue-200/60 dark:border-blue-800/40 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider-plus mb-10 shadow-legendary hover:shadow-glow-legendary-md hover:shadow-blue-500/20 transition-all duration-500 hover:scale-105 cursor-default relative overflow-hidden group">
-              <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-              <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-violet-400 animate-pulse shadow-glow-legendary-sm animate-glow-breathe relative z-10"></span>
+            {/* COSMIC LEGENDARY BADGE */}
+            <div className="inline-flex items-center gap-3 px-7 py-4 rounded-2xl glass-nebula border border-blue-200/60 dark:border-blue-800/40 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider-plus mb-10 shadow-glow-cosmic hover:shadow-glow-aurora transition-all duration-500 hover:scale-105 cursor-default relative overflow-hidden group hover-prismatic-shine">
+              <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-violet-400 animate-pulse shadow-glow-cosmic-sm animate-crystal-sparkle relative z-10"></span>
               <span className="relative z-10">{t('services.badge')}</span>
             </div>
 
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight-plus">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-deluxe drop-shadow-md text-glow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-cosmic-shimmer drop-shadow-md text-glow-cosmic-md">
                 {t('services.title')}
               </span>
             </h2>
@@ -171,33 +185,33 @@ export const ServicesGrid: React.FC = () => {
             {services.map((service, index) => (
               <TiltCard3D
                 key={service.name}
-                gradient={`rgba(${parseInt(service.hexFrom.slice(1, 3), 16)}, ${parseInt(service.hexFrom.slice(3, 5), 16)}, ${parseInt(service.hexFrom.slice(5, 7), 16)}, 0.18)`}
+                gradient={`rgba(${parseInt(service.hexFrom.slice(1, 3), 16)}, ${parseInt(service.hexFrom.slice(3, 5), 16)}, ${parseInt(service.hexFrom.slice(5, 7), 16)}, 0.25)`}
               >
                 <div
-                  className={`group relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl border-2 border-slate-200/70 dark:border-slate-700/60 rounded-3xl p-8 transition-all duration-500 hover:shadow-glow-legendary-md ${service.border} hover:-translate-y-3 overflow-hidden hover-3d-lift`}
+                  className={`group relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl border-2 border-slate-200/70 dark:border-slate-700/60 rounded-3xl p-8 transition-all duration-500 hover:shadow-glow-cosmic ${service.border} hover:-translate-y-3 overflow-hidden hover-nebula-shift`}
                   style={{ transitionDelay: `${index * 60}ms` }}
                 >
-                  {/* Multi-layer premium shimmer effect */}
+                  {/* Cosmic shimmer effect */}
                   <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                   {/* Holographic overlay */}
-                  <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-15 rounded-3xl transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-25 rounded-3xl transition-opacity duration-500"></div>
 
-                  {/* Enhanced gradient glow effect on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.2] transition-opacity duration-500 rounded-3xl animate-gradient-deluxe`}></div>
+                  {/* Cosmic gradient glow effect on hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.25] transition-opacity duration-500 rounded-3xl animate-cosmic-shimmer`}></div>
 
-                  {/* Enhanced gradient line on top (appears on hover) */}
-                  <div className={`absolute top-0 left-6 right-6 h-[3px] bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100 shadow-glow-legendary-sm`}></div>
+                  {/* Cosmic gradient line on top (appears on hover) */}
+                  <div className={`absolute top-0 left-6 right-6 h-[3px] bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100 shadow-glow-cosmic-sm animate-gradient-deluxe`}></div>
 
-                  {/* Enhanced floating accent orb */}
-                  <div className={`absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-full blur-2xl shadow-glow-legendary-sm animate-morph-blob`}></div>
+                  {/* Cosmic floating accent orb */}
+                  <div className={`absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-25 transition-opacity duration-500 rounded-full blur-2xl shadow-glow-cosmic animate-nebula-pulse`}></div>
 
                   {/* Corner accents */}
                   <span className={`absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 ${service.color.replace('text-', 'border-').replace('600', '400/0')} group-hover:${service.color.replace('text-', 'border-').replace('600', '400/60')} transition-all duration-500 rounded-tl-2xl`}></span>
                   <span className={`absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 ${service.color.replace('text-', 'border-').replace('600', '400/0')} group-hover:${service.color.replace('text-', 'border-').replace('600', '400/60')} transition-all duration-500 rounded-br-2xl`}></span>
 
                   <div className="relative z-10 flex flex-col h-full">
-                    <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 shadow-lg group-hover:shadow-xl group-hover:shadow-${service.color.split('-')[1]}-500/40 hover:shadow-glow-legendary-sm`}>
+                    <div className={`w-16 h-16 ${service.bg} ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 shadow-lg group-hover:shadow-xl group-hover:shadow-${service.color.split('-')[1]}-500/40 hover:shadow-glow-cosmic-sm animate-crystal-sparkle`}>
                       <div className="group-hover:animate-icon-bounce">
                         {iconMap[service.icon_name]}
                       </div>
@@ -219,54 +233,55 @@ export const ServicesGrid: React.FC = () => {
                     </p>
 
                     <div className="mt-6 flex items-center text-sm font-bold opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 animate-gradient-deluxe">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 animate-cosmic-shimmer">
                         {t('services.more')}
                       </span>
                       <ArrowRightIcon className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-125" style={{ color: service.hexFrom }} />
                     </div>
                   </div>
 
-                  {/* Enhanced decorative corner accent */}
-                  <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl ${service.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-tl-3xl`}></div>
+                  {/* Cosmic decorative corner accent */}
+                  <div className={`absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl ${service.gradient} opacity-0 group-hover:opacity-25 transition-opacity duration-500 rounded-tl-3xl animate-nebula-cloud`}></div>
                 </div>
               </TiltCard3D>
             ))}
 
-            {/* Transcendent Secondary CTA Card */}
-            <TiltCard3D gradient="rgba(59, 130, 246, 0.3)">
-              <div className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700/50 dark:border-slate-600/50 rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:-translate-y-3 hover:shadow-glow-legendary-lg hover:shadow-blue-500/30 transition-all duration-500 overflow-hidden btn-holographic">
+            {/* COSMIC SECONDARY CTA CARD */}
+            <TiltCard3D gradient="rgba(59, 130, 246, 0.4)">
+              <div className="group relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border-2 border-slate-700/50 dark:border-slate-600/50 rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:-translate-y-3 hover:shadow-glow-cosmic hover:shadow-blue-500/30 transition-all duration-500 overflow-hidden btn-holographic animate-glow-breathe">
                 {/* Premium shimmer effect */}
                 <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                 {/* Holographic overlay */}
-                <div className="absolute inset-0 holographic-base opacity-40 rounded-3xl animate-holographic-shift"></div>
+                <div className="absolute inset-0 holographic-base opacity-50 rounded-3xl animate-holographic-shift"></div>
 
-                {/* Enhanced background decoration */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/25 via-violet-500/25 to-cyan-500/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
+                {/* Cosmic background decoration */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 via-violet-500/30 to-cyan-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-cosmic-shimmer"></div>
 
-                {/* Enhanced animated gradient border effect */}
+                {/* Cosmic animated gradient border effect */}
                 <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 via-cyan-500 to-blue-500 rounded-3xl blur-2xl animate-gradient-flow"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 via-cyan-500 to-blue-500 rounded-3xl blur-2xl animate-gradient-deluxe"></div>
                 </div>
 
-                {/* Enhanced floating orbs with glow */}
-                <div className="absolute top-4 left-4 w-3 h-3 bg-blue-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-blue" style={{ animationDelay: '0s' }}></div>
-                <div className="absolute bottom-4 right-4 w-3 h-3 bg-violet-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-violet" style={{ animationDelay: '2s' }}></div>
-                <div className="absolute top-1/2 right-4 w-2.5 h-2.5 bg-indigo-400 rounded-full animate-float-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '4s' }}></div>
-                <div className="absolute bottom-1/3 left-4 w-2 h-2 bg-pink-400 rounded-full animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
+                {/* Cosmic floating orbs with glow */}
+                <div className="absolute top-4 left-4 w-3 h-3 bg-blue-400 rounded-full animate-antigravity shadow-glow-cosmic-sm glow-cyan" style={{ animationDelay: '0s' }}></div>
+                <div className="absolute bottom-4 right-4 w-3 h-3 bg-violet-400 rounded-full animate-antigravity shadow-glow-cosmic-sm glow-violet" style={{ animationDelay: '2s' }}></div>
+                <div className="absolute top-1/2 right-4 w-2.5 h-2.5 bg-indigo-400 rounded-full animate-antigravity shadow-glow-cosmic-sm" style={{ animationDelay: '4s' }}></div>
+                <div className="absolute bottom-1/3 left-4 w-2 h-2 bg-pink-400 rounded-full animate-antigravity" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-[20%] right-[20%] w-2 h-2 bg-cyan-400 rounded-full animate-quantum-shift" style={{ animationDelay: '3s' }}></div>
 
-                {/* Enhanced corner accents */}
-                <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-blue-500/40 to-transparent rounded-tl-3xl"></div>
-                <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-violet-500/40 to-transparent rounded-br-3xl"></div>
+                {/* Cosmic corner accents */}
+                <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-blue-500/50 to-transparent rounded-tl-3xl animate-nebula-pulse"></div>
+                <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-violet-500/50 to-transparent rounded-br-3xl animate-nebula-pulse" style={{ animationDelay: '2s' }}></div>
 
                 <div className="relative z-10">
-                  <div className="w-16 h-16 bg-white/10 backdrop-blur-2xl rounded-2xl flex items-center justify-center mb-6 group-hover:scale-125 group-hover:-rotate-12 transition-all duration-500 shadow-xl group-hover:shadow-2xl group-hover:shadow-white/20 hover:shadow-glow-legendary-sm">
+                  <div className="w-16 h-16 glass-quantum rounded-2xl flex items-center justify-center mb-6 group-hover:scale-125 group-hover:-rotate-12 transition-all duration-500 shadow-xl group-hover:shadow-2xl group-hover:shadow-white/20 hover:shadow-glow-cosmic-sm animate-crystal-sparkle">
                     <ChatBubbleBottomCenterTextIcon className="w-8 h-8 text-white group-hover:animate-icon-bounce" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-violet-400 transition-all duration-300 animate-gradient-deluxe">{t('services.cta_card.title')}</h3>
+                  <h3 className="font-serif text-xl font-bold mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-violet-400 transition-all duration-300 animate-cosmic-shimmer">{t('services.cta_card.title')}</h3>
                   <p className="text-slate-300 text-sm mb-8 leading-relaxed-plus group-hover:text-slate-200 transition-colors duration-300">{t('services.cta_card.text')}</p>
-                  <button className="bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-slate-100 transition-all duration-500 shadow-xl hover:shadow-glow-legendary-md hover:shadow-white/40 hover:-translate-y-1 w-full btn-micro-press relative overflow-hidden group/btn btn-legendary">
-                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-hover/btn:opacity-30 transition-opacity duration-500 animate-gradient-deluxe"></span>
+                  <button className="bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-slate-100 transition-all duration-500 shadow-xl hover:shadow-glow-cosmic hover:shadow-white/40 hover:-translate-y-1 w-full btn-micro-press relative overflow-hidden group/btn btn-legendary">
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-hover/btn:opacity-30 transition-opacity duration-500 animate-cosmic-shimmer"></span>
                     <span className="absolute inset-0 shimmer-sweep opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500"></span>
                     <span className="relative z-10">{t('services.cta_card.btn')}</span>
                   </button>

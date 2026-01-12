@@ -96,30 +96,37 @@ export const UspSection: React.FC = () => {
 
   return (
     <section className="py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
-      {/* Subtle noise texture */}
-      <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.025] pointer-events-none noise-bg"></div>
+      {/* COSMIC NOISE TEXTURE */}
+      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg noise-bg-animated"></div>
 
-      {/* Enhanced animated background gradients */}
+      {/* COSMIC AURORA LEGENDARY OVERLAY */}
+      <div className="absolute inset-0 bg-aurora-gradient animate-aurora-wave opacity-15 pointer-events-none"></div>
+
+      {/* COSMIC animated background gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] right-[10%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 to-violet-400/6 rounded-full blur-3xl animate-morph-blob"></div>
-        <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/6 to-teal-400/4 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-[10%] right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-blue-400/12 to-violet-400/10 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic"></div>
+        <div className="absolute bottom-[10%] left-[10%] w-[700px] h-[700px] bg-gradient-to-br from-emerald-400/10 to-teal-400/8 rounded-full blur-3xl animate-nebula-cloud shadow-glow-aurora" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-[50%] left-[30%] w-[400px] h-[400px] bg-gradient-to-br from-fuchsia-400/10 to-pink-400/8 rounded-full blur-3xl animate-quantum-shift" style={{ animationDelay: '2s' }}></div>
       </div>
 
       {/* Grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
         style={{
-          backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
-          backgroundSize: '40px 40px',
+          backgroundImage: `radial-gradient(circle, currentColor 2px, transparent 2px)`,
+          backgroundSize: '50px 50px',
         }}
       ></div>
 
+      {/* COSMIC STARDUST FIELD */}
+      <div className="absolute inset-0 stardust-field opacity-30 pointer-events-none"></div>
+
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
-          {/* Enhanced Header */}
+          {/* COSMIC Header */}
           <div className="text-center mb-20">
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6 tracking-tight-plus">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 animate-gradient-shimmer">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-600 animate-cosmic-shimmer text-glow-cosmic-md">
                 {t('usps.title')}
               </span>
             </h2>
@@ -130,7 +137,7 @@ export const UspSection: React.FC = () => {
         </AnimatedSection>
 
         <AnimatedSection stagger>
-          {/* Enhanced Grid with 3D cards */}
+          {/* COSMIC Grid with 3D cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-container">
             {usps.map((usp, index) => (
               <TiltCard
@@ -138,24 +145,26 @@ export const UspSection: React.FC = () => {
                 className="group"
                 gradient={`linear-gradient(to right, ${usp.gradient.split(' ')[0].replace('from-', '')}, ${usp.gradient.split(' ')[1].replace('to-', '')})`}
               >
-                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-6 border border-slate-200/60 dark:border-slate-700/60 h-full transition-all duration-300 shadow-premium hover:shadow-premium-lg overflow-hidden">
+                <div className="relative glass-quantum rounded-2xl p-6 border border-slate-200/60 dark:border-slate-700/60 h-full transition-all duration-500 shadow-glow-cosmic hover:shadow-glow-nebula hover:-translate-y-2 overflow-hidden hover-prismatic-shine">
                   {/* Shimmer effect */}
-                  <div className="absolute inset-0 card-shimmer"></div>
+                  <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                  {/* Holographic overlay */}
+                  <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-500"></div>
 
                   {/* Top gradient line */}
-                  <div className={`absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                  <div className={`absolute top-0 left-4 right-4 h-[3px] bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-glow-cosmic-sm animate-cosmic-shimmer`}></div>
 
                   {/* Icon container with glow */}
                   <div className="relative mb-5">
-                    <div className={`w-16 h-16 rounded-2xl ${usp.bg} ${usp.color} flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg`}>
-                      <div className="icon-glow" style={{ background: usp.color }}>
-                        {usp.icon}
-                      </div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${usp.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 animate-glow-breathe shadow-glow-cosmic`}></div>
+                    <div className={`relative w-16 h-16 rounded-2xl ${usp.bg} ${usp.color} flex items-center justify-center transition-all duration-500 group-hover:scale-125 group-hover:rotate-6 shadow-lg hover:shadow-glow-cosmic-md animate-crystal-sparkle`}>
+                      {usp.icon}
                     </div>
                   </div>
 
                   {/* Floating emoji */}
-                  <div className="absolute top-5 right-5 text-2xl opacity-20 group-hover:opacity-50 group-hover:scale-125 transition-all duration-300 animate-float" style={{ animationDelay: `${index * 0.3}s` }}>
+                  <div className="absolute top-5 right-5 text-2xl opacity-30 group-hover:opacity-70 group-hover:scale-150 transition-all duration-500 animate-antigravity" style={{ animationDelay: `${index * 0.5}s` }}>
                     {usp.emoji}
                   </div>
 
@@ -163,12 +172,12 @@ export const UspSection: React.FC = () => {
                   <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white mb-2.5 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r transition-all duration-300" style={{ backgroundImage: `linear-gradient(to right, ${usp.gradient.split(' ')[0].replace('from-', '#')}, ${usp.gradient.split(' ')[1].replace('to-', '#')})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     {t(usp.nameKey)}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
                     {t(usp.descKey)}
                   </p>
 
                   {/* Decorative corner accent */}
-                  <div className={`absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl ${usp.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-tl-3xl`}></div>
+                  <div className={`absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl ${usp.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-tl-3xl animate-nebula-pulse`}></div>
                 </div>
               </TiltCard>
             ))}

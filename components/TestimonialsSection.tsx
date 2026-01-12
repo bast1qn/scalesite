@@ -79,39 +79,39 @@ const FeatureCard: React.FC<{
             onMouseLeave={handleMouseLeave}
             onMouseEnter={handleMouseEnter}
         >
-            {/* 3D glow effect following cursor */}
+            {/* PRISMATIC 3D glow effect following cursor */}
             <div
                 className="absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 pointer-events-none"
                 style={{
-                    background: `radial-gradient(350px circle at ${glowPos.x}% ${glowPos.y}%, ${feature.hexFrom}25, transparent 60%)`,
+                    background: `radial-gradient(400px circle at ${glowPos.x}% ${glowPos.y}%, ${feature.hexFrom}33, ${feature.hexTo}22, transparent 60%)`,
                     opacity: isHovered ? 1 : 0,
                 }}
             />
 
             <div
-                className={`group relative bg-gradient-to-br ${feature.bgGradient} rounded-3xl p-10 shadow-legendary border-2 border-slate-200/60 dark:border-slate-700/50 ${feature.borderColor} hover:shadow-glow-legendary-lg hover:-translate-y-3 transition-all duration-500 overflow-hidden hover-3d-lift`}
+                className={`group relative bg-gradient-to-br ${feature.bgGradient} rounded-3xl p-10 shadow-glow-prism border-2 border-slate-200/60 dark:border-slate-700/50 ${feature.borderColor} hover:shadow-glow-cosmic hover:-translate-y-4 transition-all duration-500 overflow-hidden hover-prismatic-shine card-prismatic`}
                 style={{ transitionDelay: `${index * 80}ms` }}
             >
-                {/* Multi-layer shimmer effect */}
+                {/* PRISMATIC shimmer effect */}
                 <div className="absolute inset-0 shimmer-sweep rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                 {/* Holographic overlay */}
-                <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 rounded-3xl transition-opacity duration-500"></div>
+                <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-30 rounded-3xl transition-opacity duration-500 animate-holographic-shimmer"></div>
 
-                {/* Enhanced animated gradient accent */}
-                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left shadow-glow-legendary-sm`}></div>
+                {/* PRISMATIC animated gradient accent */}
+                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left shadow-glow-cosmic-sm animate-prism-refraction`}></div>
 
-                {/* Enhanced animated background glow on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.2] transition-opacity duration-500 animate-gradient-deluxe`}></div>
+                {/* PRISMATIC animated background glow on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.3] transition-opacity duration-500 animate-cosmic-shimmer`}></div>
 
-                {/* Corner accents */}
-                <span className={`absolute top-4 right-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-legendary-sm animate-pulse-slow`}></span>
-                <span className={`absolute bottom-4 left-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-legendary-sm animate-pulse-slow`} style={{ transitionDelay: '0.2s' }}></span>
+                {/* PRISMATIC Corner accents */}
+                <span className={`absolute top-4 right-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-cosmic-sm animate-crystal-sparkle`}></span>
+                <span className={`absolute bottom-4 left-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-cosmic-sm animate-crystal-sparkle`} style={{ transitionDelay: '0.2s' }}></span>
 
-                {/* Icon container with enhanced animated background */}
+                {/* Icon container with PRISMATIC animated background */}
                 <div className="relative">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500 animate-glow-breathe`}></div>
-                    <div className={`relative w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-xl transform group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 hover:shadow-glow-legendary-md`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-80 transition-opacity duration-500 animate-glow-breathe shadow-glow-cosmic`}></div>
+                    <div className={`relative w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-xl transform group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 hover:shadow-glow-cosmic-md animate-crystal-sparkle`}>
                         <div className="group-hover:animate-icon-bounce">
                             {feature.icon}
                         </div>
@@ -129,8 +129,8 @@ const FeatureCard: React.FC<{
                     {t(feature.descKey)}
                 </p>
 
-                {/* Enhanced corner accent */}
-                <div className={`absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl ${feature.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-tl-3xl`}></div>
+                {/* PRISMATIC corner accent */}
+                <div className={`absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl ${feature.gradient} opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-tl-3xl animate-nebula-pulse`}></div>
             </div>
         </div>
     );
@@ -141,51 +141,68 @@ export const TestimonialsSection: React.FC = () => {
 
     return (
         <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 to-dark-bg relative overflow-hidden">
-            {/* Legendary animated mesh gradient overlay */}
-            <div className="absolute inset-0 bg-aurora-legendary opacity-25 pointer-events-none"></div>
+            {/* COSMIC AURORA LEGENDARY OVERLAY */}
+            <div className="absolute inset-0 bg-aurora-gradient animate-aurora-wave opacity-25 pointer-events-none"></div>
 
-            {/* Holographic overlay */}
-            <div className="absolute inset-0 holographic-base opacity-10 pointer-events-none animate-holographic-shift"></div>
+            {/* COSMIC NEBULA OVERLAY */}
+            <div className="absolute inset-0 animate-nebula-cloud opacity-15 pointer-events-none"
+                style={{
+                    background: 'radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+                    animationDuration: '50s',
+                }}
+            ></div>
 
-            {/* Enhanced animated background gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent dark:from-blue-900/30"></div>
+            {/* HOLOGRAPHIC overlay */}
+            <div className="absolute inset-0 holographic-base opacity-15 pointer-events-none animate-holographic-shimmer"></div>
 
-            {/* Enhanced floating gradient orbs */}
-            <div className="absolute top-20 left-[10%] w-80 h-80 bg-gradient-to-br from-blue-400/25 to-cyan-400/20 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
-            <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-gradient-to-br from-violet-400/25 to-pink-400/20 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute top-1/2 left-[50%] w-60 h-60 bg-gradient-to-br from-emerald-400/15 to-teal-400/10 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '1s' }}></div>
+            {/* COSMIC animated background gradient */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent dark:from-blue-900/30 animate-cosmic-shimmer"></div>
 
-            {/* Floating particles */}
-            {Array.from({ length: 12 }).map((_, i) => (
+            {/* COSMIC floating gradient orbs */}
+            <div className="absolute top-20 left-[10%] w-80 h-80 bg-gradient-to-br from-blue-400/30 to-cyan-400/25 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic"></div>
+            <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-gradient-to-br from-violet-400/30 to-pink-400/25 rounded-full blur-3xl animate-nebula-cloud shadow-glow-nebula" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute top-1/2 left-[50%] w-60 h-60 bg-gradient-to-br from-emerald-400/20 to-teal-400/15 rounded-full blur-3xl animate-antigravity shadow-glow-aurora" style={{ animationDelay: '1s' }}></div>
+
+            {/* COSMIC PARTICLES */}
+            {Array.from({ length: 25 }).map((_, i) => (
                 <div
                     key={`particle-${i}`}
-                    className="absolute w-1 h-1 rounded-full bg-blue-400/30 dark:bg-blue-300/30 animate-float-up-particle shadow-glow-legendary-sm"
+                    className="absolute w-1 h-1 rounded-full animate-antigravity shadow-glow-cosmic-sm"
                     style={{
-                        left: `${10 + Math.random() * 80}%`,
-                        bottom: `${Math.random() * 40}%`,
-                        animationDelay: `${Math.random() * 3}s`,
-                        animationDuration: `${4 + Math.random() * 2}s`,
+                        left: `${5 + Math.random() * 90}%`,
+                        bottom: `${Math.random() * 50}%`,
+                        animationDelay: `${Math.random() * 4}s`,
+                        animationDuration: `${5 + Math.random() * 5}s`,
+                        background: Math.random() > 0.5
+                          ? 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%)',
+                        boxShadow: `0 0 ${6 + Math.random() * 8}px ${Math.random() > 0.5 ? 'rgba(59, 130, 246, 0.6)' : 'rgba(139, 92, 246, 0.6)'}`,
                     }}
                 ></div>
             ))}
 
-            {/* Enhanced dot pattern */}
-            <div className="absolute inset-0 opacity-35 dark:opacity-15 pointer-events-none" style={{
-                backgroundImage: 'radial-gradient(circle, currentColor 1.5px, transparent 1.5px)',
-                backgroundSize: '32px 32px',
+            {/* COSMIC dot pattern */}
+            <div className="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none animate-starfield" style={{
+                backgroundImage: 'radial-gradient(circle, currentColor 2px, transparent 2px)',
+                backgroundSize: '40px 40px',
                 color: 'rgb(148 163 184)'
             }}></div>
+
+            {/* COSMIC STARDUST FIELD */}
+            <div className="absolute inset-0 stardust-field opacity-30 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <AnimatedSection>
                     <div className="text-center max-w-3xl mx-auto mb-24">
-                        <span className="inline-block px-6 py-2 mb-8 rounded-2xl bg-gradient-to-r from-blue-100 to-violet-100 dark:from-blue-900/40 dark:to-violet-900/40 text-sm font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider border border-blue-200/60 dark:border-blue-800/40 shadow-legendary hover:shadow-glow-legendary-sm hover:shadow-blue-500/20 transition-all duration-500 hover:scale-105 relative overflow-hidden group">
-                            <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-                            <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-500"></div>
+                        <span className="inline-block px-6 py-2 mb-8 rounded-2xl glass-prismatic text-sm font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider border border-blue-200/60 dark:border-blue-800/40 shadow-glow-cosmic hover:shadow-glow-aurora hover:shadow-blue-500/20 transition-all duration-500 hover:scale-105 relative overflow-hidden group hover-prismatic-shine">
+                            <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                            <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-30 rounded-2xl transition-opacity duration-500"></div>
                             <span className="relative z-10">{t('value_props.subtitle')}</span>
                         </span>
                         <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
-                            {t('value_props.title')}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-600 animate-cosmic-shimmer">
+                                {t('value_props.title')}
+                            </span>
                         </h2>
                     </div>
                 </AnimatedSection>

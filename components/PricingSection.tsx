@@ -327,37 +327,51 @@ ${message}
 
   return (
     <section className="py-32 bg-gradient-to-b from-white via-slate-50/50 to-slate-100/50 dark:from-slate-950 dark:via-slate-900/50 dark:to-slate-950/80 relative overflow-hidden">
-      {/* Enhanced noise texture */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
+      {/* COSMIC NOISE TEXTURE */}
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] pointer-events-none noise-bg noise-bg-animated"></div>
 
-      {/* Legendary animated mesh gradient overlay */}
-      <div className="absolute inset-0 bg-aurora-legendary opacity-15 pointer-events-none"></div>
+      {/* COSMIC AURORA LEGENDARY OVERLAY */}
+      <div className="absolute inset-0 bg-aurora-gradient animate-aurora-wave opacity-20 pointer-events-none"></div>
 
-      {/* Enhanced animated background gradients */}
+      {/* COSMIC NEBULA OVERLAY */}
+      <div className="absolute inset-0 animate-nebula-cloud opacity-15 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at 30% 20%, rgba(138, 43, 226, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+          animationDuration: '40s',
+        }}
+      ></div>
+
+      {/* COSMIC ANIMATED BACKGROUND GRADIENTS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[0%] w-[800px] h-[800px] bg-gradient-to-br from-blue-400/12 via-violet-400/10 to-indigo-400/8 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
-        <div className="absolute bottom-[10%] right-[0%] w-[800px] h-[800px] bg-gradient-to-br from-violet-400/10 via-purple-400/8 to-pink-400/6 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '4s' }}></div>
-        <div className="absolute top-[50%] left-[30%] w-[600px] h-[600px] bg-gradient-to-br from-emerald-400/8 to-teal-400/6 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-[30%] left-[20%] w-[400px] h-[400px] bg-gradient-to-br from-rose-400/6 to-pink-400/4 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '6s' }}></div>
+        <div className="absolute top-[10%] left-[0%] w-[900px] h-[900px] bg-gradient-to-br from-blue-400/15 via-violet-400/12 to-indigo-400/10 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic"></div>
+        <div className="absolute bottom-[10%] right-[0%] w-[900px] h-[900px] bg-gradient-to-br from-violet-400/12 via-purple-400/10 to-pink-400/8 rounded-full blur-3xl animate-nebula-cloud shadow-glow-nebula" style={{ animationDelay: '5s' }}></div>
+        <div className="absolute top-[50%] left-[30%] w-[700px] h-[700px] bg-gradient-to-br from-emerald-400/10 to-teal-400/8 rounded-full blur-3xl animate-antigravity shadow-glow-aurora" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-[30%] left-[20%] w-[500px] h-[500px] bg-gradient-to-br from-rose-400/8 to-pink-400/6 rounded-full blur-3xl animate-antigravity shadow-glow-plasma" style={{ animationDelay: '6s' }}></div>
+        <div className="absolute top-[20%] right-[15%] w-[400px] h-[400px] bg-gradient-to-br from-cyan-400/10 to-blue-400/8 rounded-full blur-3xl animate-quantum-shift" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-[40%] right-[30%] w-[350px] h-[350px] bg-gradient-to-br from-fuchsia-400/10 to-pink-400/8 rounded-full blur-3xl animate-magnetic-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      {/* Enhanced grid pattern */}
+      {/* COSMIC GRID PATTERN */}
       <div
-        className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05]"
+        className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
         style={{
           backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
           backgroundSize: '60px 60px',
         }}
       ></div>
 
+      {/* COSMIC STARDUST FIELD */}
+      <div className="absolute inset-0 stardust-field opacity-40 pointer-events-none"></div>
+
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
-            {/* Legendary Trust Badge */}
-            <div className="mb-10 inline-flex items-center gap-3 px-7 py-4 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 border-2 border-emerald-200/60 dark:border-emerald-800/40 shadow-legendary hover:shadow-glow-legendary-md hover:shadow-emerald-500/30 transition-all duration-500 hover:scale-105 relative overflow-hidden group">
-              <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 animate-pulse shadow-glow-legendary-sm animate-glow-breathe relative z-10"></div>
-              <ShieldCheckIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400 relative z-10" />
+            {/* COSMIC TRUST BADGE */}
+            <div className="mb-10 inline-flex items-center gap-3 px-7 py-4 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 border-2 border-emerald-200/60 dark:border-emerald-800/40 shadow-glow-cosmic hover:shadow-glow-aurora hover:shadow-emerald-500/30 transition-all duration-500 hover:scale-105 relative overflow-hidden group hover-prismatic-shine">
+              <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 animate-pulse shadow-glow-cosmic-sm animate-glow-breathe relative z-10"></div>
+              <ShieldCheckIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400 relative z-10 animate-crystal-sparkle" style={{ animationDuration: '3s' }} />
               <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300 tracking-wide uppercase relative z-10">
                 30 Tage Geld-zuruck Garantie
               </span>
@@ -365,7 +379,7 @@ ${message}
 
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight-plus mb-6">
               {t('pricing.title_prefix')}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-deluxe drop-shadow-md text-glow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-cosmic-shimmer drop-shadow-md text-glow-cosmic-md">
                   {t('pricing.title_highlight')}
               </span>
             </h2>
@@ -374,35 +388,40 @@ ${message}
             </p>
           </div>
 
-          {/* Enhanced Hosting Toggle */}
+          {/* COSMIC QUANTUM DIMENSIONAL TOGGLE */}
           <div className="mt-14 flex justify-center">
-              <div className="relative bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-2xl p-2 rounded-3xl inline-flex shadow-legendary border-2 border-slate-200/70 dark:border-slate-700/60">
-                {/* Enhanced animated slider background */}
+              <div className="relative glass-quantum p-2 rounded-3xl inline-flex shadow-glow-cosmic border border-blue-200/50 dark:border-violet-700/50 overflow-hidden group">
+                {/* Cosmic animated slider background */}
                 <div
-                    className={`absolute top-2 bottom-2 w-[calc(50%-8px)] bg-gradient-to-r from-blue-500 to-violet-500 rounded-2xl shadow-glow-legendary-sm transition-all duration-500 ease-out ${!withHosting ? 'left-2' : 'left-[calc(50%+6px)]'}`}
+                    className={`absolute top-2 bottom-2 w-[calc(50%-8px)] bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 rounded-2xl shadow-glow-cosmic transition-all duration-500 ease-out animate-cosmic-shimmer ${!withHosting ? 'left-2' : 'left-[calc(50%+6px)]'}`}
                 ></div>
+                {/* Dimensional glow effect */}
+                <div className={`absolute top-2 bottom-2 w-[calc(50%-8px)] bg-gradient-to-r from-blue-400/50 to-violet-400/50 rounded-2xl blur-xl -z-10 transition-all duration-500 ease-out ${!withHosting ? 'left-2' : 'left-[calc(50%+6px)]'}`}></div>
+                {/* Holographic overlay */}
+                <div className="absolute inset-0 holographic-base opacity-20 rounded-3xl pointer-events-none"></div>
                 <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative z-10 px-10 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${!withHosting ? 'text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                    className={`relative z-10 px-10 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 hover-nebula-shift ${!withHosting ? 'text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
                 >
                     {t('pricing.toggle_project')}
                 </button>
                 <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative z-10 px-10 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${withHosting ? 'text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
+                    className={`relative z-10 px-10 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 hover-nebula-shift ${withHosting ? 'text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}`}
                 >
                      {t('pricing.toggle_service')}
                 </button>
             </div>
           </div>
 
-          {/* Enhanced Limited Offer Banner */}
+          {/* COSMIC LIMITED OFFER BANNER */}
           {isOfferActive && (
-              <div className="mt-10 max-w-xl mx-auto bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 dark:from-blue-900/25 dark:via-violet-900/25 dark:to-blue-900/25 border-2 border-blue-200/60 dark:border-blue-800/40 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-center gap-4 shadow-legendary hover:shadow-glow-legendary-md hover:shadow-blue-500/20 transition-all duration-500 hover:scale-105 relative overflow-hidden group">
-                <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-violet-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-deluxe"></div>
+              <div className="mt-10 max-w-xl mx-auto glass-nebula border border-blue-200/60 dark:border-blue-800/40 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-center gap-4 shadow-glow-aurora hover:shadow-glow-cosmic transition-all duration-500 hover:scale-105 relative overflow-hidden group hover-prismatic-shine">
+                <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-cosmic-shimmer"></div>
+                <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
                   <div className="flex items-center gap-2.5 font-bold text-blue-600 dark:text-blue-400 text-sm relative z-10">
-                      <TagIcon className="w-5 h-5 animate-icon-bounce" />
+                      <TagIcon className="w-5 h-5 animate-crystal-sparkle" />
                       <span>{t('pricing.offer')}</span>
                   </div>
                   <CountdownTimer targetDate={offerEndDate} onComplete={() => setIsOfferActive(false)} />

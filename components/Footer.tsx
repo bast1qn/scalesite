@@ -116,63 +116,84 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
 
   return (
     <footer className="relative bg-gradient-to-b from-slate-50 via-slate-100/80 to-slate-100/50 dark:from-slate-950 dark:via-slate-950/90 dark:to-slate-950/80 pt-28 pb-16 overflow-hidden">
-      {/* Multi-layer background effects */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
+      {/* COSMIC BACKGROUND EFFECTS */}
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] pointer-events-none noise-bg noise-bg-animated"></div>
 
-      {/* Transcendent gradient accent line at top */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-blue-500/90 via-violet-500/90 via-cyan-500/70 to-transparent"></div>
-      <div className="absolute top-0 left-0 right-0 h-[8px] bg-gradient-to-r from-transparent via-blue-400/50 via-violet-400/50 to-transparent blur-xl"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[3px] bg-gradient-to-r from-transparent via-cyan-400 via-violet-400 to-transparent animate-gradient-flow opacity-80"></div>
+      {/* COSMIC GRADIENT ACCENT LINE AT TOP */}
+      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-transparent via-blue-500/95 via-violet-500/95 via-cyan-500/80 to-transparent animate-gradient-flow"></div>
+      <div className="absolute top-0 left-0 right-0 h-[12px] bg-gradient-to-r from-transparent via-blue-400/60 via-violet-400/60 to-transparent blur-xl animate-aurora-wave"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[4px] bg-gradient-to-r from-transparent via-cyan-400 via-violet-400 to-transparent animate-gradient-deluxe opacity-90"></div>
 
-      {/* Legendary animated mesh gradient overlay */}
-      <div className="absolute inset-0 bg-aurora-legendary opacity-25 pointer-events-none"></div>
+      {/* COSMIC AURORA LEGENDARY OVERLAY */}
+      <div className="absolute inset-0 bg-aurora-gradient animate-aurora-wave opacity-30 pointer-events-none"></div>
 
-      {/* Holographic overlay */}
-      <div className="absolute inset-0 holographic-base opacity-10 pointer-events-none animate-holographic-shift"></div>
+      {/* COSMIC NEBULA OVERLAY */}
+      <div className="absolute inset-0 animate-nebula-cloud opacity-20 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at 20% 80%, rgba(138, 43, 226, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)',
+          animationDuration: '35s',
+        }}
+      ></div>
+
+      {/* HOLOGRAPHIC OVERLAY */}
+      <div className="absolute inset-0 holographic-base opacity-15 pointer-events-none animate-holographic-shimmer"></div>
 
       {/* Enhanced dot pattern background */}
-      <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.07] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08] pointer-events-none animate-starfield">
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle, currentColor 1.5px, transparent 1.5px)',
-          backgroundSize: '40px 40px',
+          backgroundImage: 'radial-gradient(circle, currentColor 2px, transparent 2px)',
+          backgroundSize: '50px 50px',
         }}></div>
       </div>
 
-      {/* Transcendent decorative gradient background with morphing blobs */}
+      {/* COSMIC DECORATIVE GRADIENT BACKGROUND WITH MORPHING BLOBS */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute bottom-0 left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-blue-500/15 via-violet-500/12 via-cyan-500/10 to-indigo-500/8 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm"></div>
-        <div className="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-violet-500/12 via-purple-500/10 via-pink-500/8 to-rose-500/6 rounded-full blur-3xl animate-morph-deluxe shadow-glow-legendary-sm" style={{ animationDelay: '6s' }}></div>
-        <div className="absolute top-20 left-1/3 w-[500px] h-[500px] bg-gradient-to-br from-blue-400/12 to-cyan-400/10 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '2.5s' }}></div>
-        <div className="absolute top-40 right-1/3 w-[400px] h-[400px] bg-gradient-to-br from-emerald-400/10 to-teal-400/8 rounded-full blur-3xl animate-float-deluxe" style={{ animationDelay: '4s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-rose-400/8 to-pink-400/6 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '8s' }}></div>
+        <div className="absolute bottom-0 left-1/4 w-[1000px] h-[1000px] bg-gradient-to-br from-blue-500/18 via-violet-500/15 via-cyan-500/12 to-indigo-500/10 rounded-full blur-3xl animate-nebula-cloud shadow-glow-cosmic"></div>
+        <div className="absolute bottom-0 right-1/4 w-[900px] h-[900px] bg-gradient-to-br from-violet-500/15 via-purple-500/12 via-pink-500/10 to-rose-500/8 rounded-full blur-3xl animate-nebula-cloud shadow-glow-nebula" style={{ animationDelay: '8s' }}></div>
+        <div className="absolute top-10 left-1/3 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/15 to-cyan-400/12 rounded-full blur-3xl animate-antigravity shadow-glow-aurora" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-20 right-1/3 w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/12 to-teal-400/10 rounded-full blur-3xl animate-antigravity shadow-glow-cyan" style={{ animationDelay: '5s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-br from-rose-400/10 to-pink-400/8 rounded-full blur-3xl animate-nebula-cloud shadow-glow-plasma" style={{ animationDelay: '10s' }}></div>
+
+        {/* Additional cosmic orbs */}
+        <div className="absolute bottom-20 left-[10%] w-[400px] h-[400px] bg-gradient-to-br from-fuchsia-400/12 to-pink-400/10 rounded-full blur-3xl animate-quantum-shift" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-40 right-[10%] w-[350px] h-[350px] bg-gradient-to-br from-cyan-400/12 to-blue-400/10 rounded-full blur-3xl animate-magnetic-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      {/* Transcendent floating orbs with legendary animations */}
-      <div className="absolute top-24 right-[8%] w-3 h-3 bg-blue-500/60 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-blue" style={{ animationDuration: '6s' }}></div>
-      <div className="absolute top-36 right-[12%] w-2.5 h-2.5 bg-violet-500/50 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-violet" style={{ animationDuration: '7s', animationDelay: '1.5s' }}></div>
-      <div className="absolute bottom-40 left-[12%] w-3 h-3 bg-cyan-500/60 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-cyan" style={{ animationDuration: '8s', animationDelay: '3s' }}></div>
-      <div className="absolute bottom-56 left-[18%] w-2.5 h-2.5 bg-blue-500/50 rounded-full animate-float-deluxe glow-blue" style={{ animationDuration: '7s', animationDelay: '0.5s' }}></div>
-      <div className="absolute top-48 left-[8%] w-2 h-2 bg-emerald-500/50 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-emerald" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
-      <div className="absolute bottom-32 right-[15%] w-2.5 h-2.5 bg-pink-500/50 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-pink" style={{ animationDuration: '6s', animationDelay: '4s' }}></div>
-      <div className="absolute top-1/3 right-[20%] w-2 h-2 bg-amber-500/40 rounded-full animate-float-deluxe glow-amber" style={{ animationDuration: '9s', animationDelay: '1s' }}></div>
-      <div className="absolute bottom-1/4 left-[20%] w-2 h-2 bg-rose-500/40 rounded-full animate-float-deluxe shadow-glow-legendary-sm glow-rose" style={{ animationDuration: '10s', animationDelay: '5s' }}></div>
+      {/* COSMIC FLOATING ORBS WITH LEGENDARY ANIMATIONS */}
+      <div className="absolute top-24 right-[8%] w-3 h-3 bg-blue-500/70 rounded-full animate-antigravity glow-cyan shadow-glow-cosmic-sm" style={{ animationDuration: '8s' }}></div>
+      <div className="absolute top-36 right-[12%] w-2.5 h-2.5 bg-violet-500/60 rounded-full animate-antigravity glow-violet shadow-glow-cosmic-sm" style={{ animationDuration: '9s', animationDelay: '1s' }}></div>
+      <div className="absolute bottom-40 left-[12%] w-3 h-3 bg-cyan-500/70 rounded-full animate-antigravity glow-cyan shadow-glow-cosmic-sm" style={{ animationDuration: '10s', animationDelay: '2s' }}></div>
+      <div className="absolute bottom-56 left-[18%] w-2.5 h-2.5 bg-blue-500/60 rounded-full animate-antigravity glow-blue shadow-glow-cosmic-sm" style={{ animationDuration: '9s', animationDelay: '3s' }}></div>
+      <div className="absolute top-48 left-[8%] w-2 h-2 bg-emerald-500/60 rounded-full animate-antigravity glow-emerald shadow-glow-cosmic-sm" style={{ animationDuration: '7s', animationDelay: '1.5s' }}></div>
+      <div className="absolute bottom-32 right-[15%] w-2.5 h-2.5 bg-pink-500/60 rounded-full animate-antigravity glow-rose shadow-glow-cosmic-sm" style={{ animationDuration: '8s', animationDelay: '4s' }}></div>
+      <div className="absolute top-1/3 right-[20%] w-2 h-2 bg-amber-500/50 rounded-full animate-antigravity glow-amber shadow-glow-cosmic-sm" style={{ animationDuration: '11s', animationDelay: '0.5s' }}></div>
+      <div className="absolute bottom-1/4 left-[20%] w-2 h-2 bg-rose-500/50 rounded-full animate-antigravity glow-rose shadow-glow-cosmic-sm" style={{ animationDuration: '12s', animationDelay: '5s' }}></div>
 
-      {/* Floating particles */}
-      {Array.from({ length: 15 }).map((_, i) => (
+      {/* GALAXY FLOATING PARTICLES */}
+      {Array.from({ length: 30 }).map((_, i) => (
         <div
-            key={`particle-${i}`}
-            className="absolute w-1 h-1 rounded-full bg-blue-400/30 dark:bg-blue-300/30 animate-float-up-particle shadow-glow-legendary-sm"
-            style={{
-                left: `${10 + Math.random() * 80}%`,
-                bottom: `${Math.random() * 40}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${4 + Math.random() * 3}s`,
-            }}
+          key={`particle-${i}`}
+          className="absolute w-1 h-1 rounded-full animate-antigravity shadow-glow-cosmic-sm"
+          style={{
+            left: `${5 + Math.random() * 90}%`,
+            bottom: `${Math.random() * 50}%`,
+            animationDelay: `${Math.random() * 4}s`,
+            animationDuration: `${5 + Math.random() * 5}s`,
+            background: Math.random() > 0.6
+              ? 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)'
+              : Math.random() > 0.3
+              ? 'radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(236, 72, 153, 0.8) 0%, transparent 70%)',
+            boxShadow: `0 0 ${6 + Math.random() * 8}px ${Math.random() > 0.6 ? 'rgba(59, 130, 246, 0.6)' : Math.random() > 0.3 ? 'rgba(139, 92, 246, 0.6)' : 'rgba(236, 72, 153, 0.6)'}`,
+          }}
         ></div>
       ))}
 
+      {/* COSMIC STARDUST FIELD */}
+      <div className="absolute inset-0 stardust-field opacity-50 pointer-events-none"></div>
+
       {/* Gradient mesh overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/[0.08] via-violet-500/[0.05] via-cyan-500/[0.03] to-transparent opacity-80 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/[0.1] via-violet-500/[0.08] via-cyan-500/[0.05] to-transparent opacity-90 pointer-events-none animate-cosmic-shimmer"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-10 mb-20">
