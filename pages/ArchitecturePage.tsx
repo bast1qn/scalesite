@@ -568,3 +568,5 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
     </div>
   );
 };
+
+export default ArchitecturePage;

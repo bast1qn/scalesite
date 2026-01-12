@@ -620,3 +620,5 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
     </div>
   );
 };
+
+export default RealEstatePage;

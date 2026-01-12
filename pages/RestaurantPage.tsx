@@ -545,3 +545,5 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
     </div>
   );
 };
+
+export default RestaurantPage;
