@@ -6,6 +6,7 @@ import { ServiceFeatures } from '../components/ServiceFeatures';
 import { BeforeAfterSlider } from '../components/BeforeAfterSlider';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
+import { SparklesIcon } from '../components/Icons';
 
 interface LeistungenPageProps {
     setCurrentPage: (page: string) => void;
@@ -15,46 +16,77 @@ const LeistungenPage: React.FC<LeistungenPageProps> = ({ setCurrentPage }) => {
     const { t } = useLanguage();
 
     return (
-        <main>
+        <main className="overflow-hidden">
             <ServicesGrid />
-            
+
             {/* Redesign Section */}
-            <section className="py-24 bg-light-bg dark:bg-dark-bg">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+                {/* Animated background */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-gradient-to-br from-blue-400/5 to-violet-400/5 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] bg-gradient-to-br from-emerald-400/4 to-teal-400/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+                </div>
+
+                <div className="max-w-7xl mx-auto px-6 relative z-10">
                     <AnimatedSection>
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="grid lg:grid-cols-2 gap-16 items-center">
+                            {/* Content */}
                             <div>
-                                <span className="text-primary font-bold tracking-widest uppercase text-xs">{t('leistungen_page.redesign.badge')}</span>
-                                <h2 className="mt-2 text-3xl md:text-4xl font-bold text-dark-text dark:text-light-text font-serif mb-6">
-                                    {t('leistungen_page.redesign.title_prefix')} <br/><span className="text-gradient">{t('leistungen_page.redesign.title_highlight')}</span>
+                                {/* Badge */}
+                                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 mb-6">
+                                    <SparklesIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                                    <span className="text-sm font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wider">
+                                        {t('leistungen_page.redesign.badge')}
+                                    </span>
+                                </div>
+
+                                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
+                                    {t('leistungen_page.redesign.title_prefix')}{' '}
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:200%_auto] animate-gradient">
+                                        {t('leistungen_page.redesign.title_highlight')}
+                                    </span>
                                 </h2>
-                                <p className="text-lg text-dark-text/70 dark:text-light-text/70 mb-8 leading-relaxed">
+
+                                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
                                     {t('leistungen_page.redesign.text_1')}
-                                    <br/><br/>
+                                </p>
+                                <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
                                     {t('leistungen_page.redesign.text_2')}
                                 </p>
-                                <ul className="space-y-3 mb-8">
+
+                                {/* Features List */}
+                                <ul className="space-y-4">
                                     {[
                                         t('leistungen_page.redesign.list.1'),
                                         t('leistungen_page.redesign.list.2'),
                                         t('leistungen_page.redesign.list.3'),
                                         t('leistungen_page.redesign.list.4')
                                     ].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-dark-text/80 dark:text-light-text/80">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                                            {item}
+                                        <li key={i} className="flex items-center gap-4 text-slate-700 dark:text-slate-300">
+                                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center flex-shrink-0">
+                                                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                                </svg>
+                                            </div>
+                                            <span className="font-medium">{item}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
+
+                            {/* Slider */}
                             <div className="relative">
-                                <div className="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-blue-500/20 rounded-[2.5rem] blur-xl opacity-70"></div>
-                                <BeforeAfterSlider 
-                                    beforeImage="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop&sat=-100" 
-                                    afterImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop" 
-                                    beforeLabel={t('leistungen_page.redesign.slider.before')}
-                                    afterLabel={t('leistungen_page.redesign.slider.after')}
-                                />
+                                {/* Glow effect */}
+                                <div className="absolute -inset-6 bg-gradient-to-tr from-blue-500/20 via-violet-500/10 to-emerald-500/20 rounded-[3rem] blur-2xl opacity-60"></div>
+
+                                <div className="relative">
+                                    <BeforeAfterSlider
+                                        beforeImage="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop&sat=-100"
+                                        afterImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"
+                                        beforeLabel={t('leistungen_page.redesign.slider.before')}
+                                        afterLabel={t('leistungen_page.redesign.slider.after')}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </AnimatedSection>
