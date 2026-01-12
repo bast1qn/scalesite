@@ -52,7 +52,7 @@ const Referral: React.FC = () => {
                 </div>
             </div>
 
-            <div className="mt-8 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10">
+            <div className="mt-8 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">So funktioniert's</h2>
                  <p className="mt-2 text-slate-900/80 dark:text-white/80">
                     Teilen Sie Ihren persönlichen Empfehlungslink. Für jeden Neukunden, der über Ihren Link ein Projekt startet, erhalten Sie eine Gutschrift von <span className="font-bold text-blue-600">100 €</span> für Ihre nächste Rechnung. Der geworbene Kunde erhält ebenfalls <span className="font-bold">10% Rabatt</span> auf sein erstes Projekt. Eine Win-Win-Situation!
@@ -67,12 +67,12 @@ const Referral: React.FC = () => {
                             id="referral-link"
                             readOnly
                             value={referralLink}
-                            className="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-dark-text/20 dark:border-light-text/20 bg-light-bg dark:bg-dark-bg text-slate-900/70 px-4"
+                            className="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900/70 px-4"
                         />
                         <button
                             onClick={copyToClipboard}
                             disabled={!referralCode}
-                            className="relative -ml-px inline-flex items-center space-x-2 px-4 py-2 border border-dark-text/20 dark:border-light-text/20 text-sm font-medium rounded-r-md text-slate-900/80 dark:text-white/80 bg-white dark:bg-slate-900 hover:bg-light-bg dark:hover:bg-dark-bg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                            className="relative -ml-px inline-flex items-center space-x-2 px-4 py-2 border border-slate-300 dark:border-slate-600 text-sm font-medium rounded-r-md text-slate-900/80 dark:text-white/80 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         >
                             Kopieren
                         </button>
@@ -83,16 +83,16 @@ const Referral: React.FC = () => {
             <div className="mt-8">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Ihre Empfehlungs-Statistik</h2>
                 <div className="grid gap-6 sm:grid-cols-3">
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 text-center">
+                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
                         <p className="text-4xl font-bold text-blue-600">{referralCount}</p>
                         <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Registrierte Freunde</p>
                     </div>
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 text-center">
+                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
                         <p className="text-4xl font-bold text-blue-600">0</p>
                         <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Abgeschlossene Projekte</p>
                     </div>
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 text-center">
-                        <p className="text-4xl font-bold text-accent-2">0 €</p>
+                    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
+                        <p className="text-4xl font-bold text-green-600">0 €</p>
                         <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Verdiente Prämie</p>
                     </div>
                 </div>

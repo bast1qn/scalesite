@@ -272,7 +272,7 @@ const TicketSupport: React.FC = () => {
     if (loading) {
         return (
              <div className="h-64 flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
                 <p className="text-slate-900/70 dark:text-white/70">Lade Tickets...</p>
             </div>
         )
@@ -301,8 +301,8 @@ const TicketSupport: React.FC = () => {
                 </button>
                 <div className="grid lg:grid-cols-3 gap-6">
                     {/* CHAT AREA */}
-                    <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 flex flex-col h-[600px]">
-                        <div className="border-b border-dark-text/10 dark:border-light-text/10 pb-4 mb-4">
+                    <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 flex flex-col h-[600px]">
+                        <div className="border-b border-slate-200 dark:border-slate-700 pb-4 mb-4">
                              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white break-words">{selectedTicket.subject}</h1>
                              <div className="flex items-center gap-2 mt-2">
                                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${getStatusColor(selectedTicket.status)}`}>{selectedTicket.status}</span>
@@ -325,12 +325,12 @@ const TicketSupport: React.FC = () => {
 
                                 return (
                                     <div key={msg.id} className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-                                        <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${isUser ? 'bg-primary/20' : 'bg-slate-200 dark:bg-slate-200'}`}>
+                                        <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${isUser ? 'bg-blue-100' : 'bg-slate-200 dark:bg-slate-200'}`}>
                                             {isSupport ? <TicketIcon className="w-5 h-5 text-blue-600" /> : <UserCircleIcon className="w-5 h-5" />}
                                         </div>
                                         <div className={`p-4 max-w-lg rounded-2xl text-sm whitespace-pre-wrap break-words ${
                                             isUser 
-                                            ? 'bg-primary text-white rounded-tr-none' 
+                                            ? 'bg-blue-600 text-white rounded-tr-none' 
                                             : isSystemMessage 
                                                 ? 'bg-slate-100 dark:bg-slate-800 border-l-4 border-yellow-500 text-slate-900 dark:text-white rounded-tl-none font-mono text-xs'
                                                 : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-tl-none'
@@ -345,9 +345,9 @@ const TicketSupport: React.FC = () => {
                             <div ref={messagesEndRef} />
                         </div>
 
-                        <form onSubmit={handleAddReply} className={`mt-4 pt-4 border-t border-dark-text/10 dark:border-light-text/10 flex items-center gap-3 ${selectedTicket.status === 'Geschlossen' && user?.role === 'user' ? 'hidden' : ''}`}>
-                            <textarea value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Ihre Antwort..." rows={2} className="flex-1 block w-full px-4 py-3 text-sm rounded-md shadow-sm bg-light-bg dark:bg-dark-bg border border-dark-text/20 dark:border-light-text/20 placeholder-dark-text/60 dark:placeholder-light-text/60 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                            <button type="submit" className="p-3 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors disabled:bg-blue-500 self-end" disabled={!reply.trim() || actionLoading}>
+                        <form onSubmit={handleAddReply} className={`mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center gap-3 ${selectedTicket.status === 'Geschlossen' && user?.role === 'user' ? 'hidden' : ''}`}>
+                            <textarea value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Ihre Antwort..." rows={2} className="flex-1 block w-full px-4 py-3 text-sm rounded-md shadow-sm bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            <button type="submit" className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-600/90 transition-colors disabled:bg-blue-500 self-end" disabled={!reply.trim() || actionLoading}>
                                 <PaperAirplaneIcon />
                             </button>
                         </form>
@@ -380,10 +380,10 @@ const TicketSupport: React.FC = () => {
                                             required 
                                             value={inviteEmail}
                                             onChange={e => setInviteEmail(e.target.value)}
-                                            className="flex-1 px-2 py-1 text-xs rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary" 
+                                            className="flex-1 px-2 py-1 text-xs rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" 
                                             placeholder="kollege@firma.de"
                                         />
-                                        <button type="submit" disabled={inviteLoading} className="bg-primary text-white text-xs font-bold px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50">
+                                        <button type="submit" disabled={inviteLoading} className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50">
                                             {inviteLoading ? '...' : 'Add'}
                                         </button>
                                     </div>
@@ -483,7 +483,7 @@ const TicketSupport: React.FC = () => {
                             </div>
                         )}
 
-                        <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10">
+                        <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
                             <h3 className="font-semibold mb-4 text-slate-900 dark:text-white">Details</h3>
                             <dl className="space-y-3 text-sm">
                                 <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Status</dt><dd className="font-medium text-slate-900 dark:text-white">{selectedTicket.status}</dd></div>
@@ -508,14 +508,14 @@ const TicketSupport: React.FC = () => {
                         {isTeamOrOwner ? 'Verwalten Sie eingehende Kundenanfragen.' : 'Hier können Sie Unterstützung anfordern und Anfragen verwalten.'}
                     </p>
                 </div>
-                <button onClick={() => setShowCreateModal(true)} className="bg-primary text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2">
+                <button onClick={() => setShowCreateModal(true)} className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2">
                     <PlusCircleIcon className="w-5 h-5" />
                     <span className="hidden sm:inline">Neues Ticket</span>
                 </button>
             </div>
             
-            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 overflow-hidden">
-                 <div className="flex border-b border-dark-text/10 dark:border-light-text/10">
+            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+                 <div className="flex border-b border-slate-200 dark:border-slate-700">
                     <button 
                         onClick={() => setFilter('active')} 
                         className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${filter === 'active' ? 'bg-blue-50 text-blue-600 border-b-2 border-primary' : 'text-slate-900/60 dark:text-white/60 hover:bg-slate-100 dark:hover:bg-slate-50'}`}
@@ -554,7 +554,7 @@ const TicketSupport: React.FC = () => {
                                      <span>•</span>
                                      <span>{formatTimeAgo(ticket.last_update)}</span>
                                 </div>
-                                <div className={`w-2 h-2 rounded-full border-2 ${ticket.priority === 'Hoch' ? 'bg-primary border-primary' : ticket.priority === 'Mittel' ? 'bg-yellow-500 border-yellow-500' : 'bg-gray-400 border-gray-400'}`} title={`Priorität: ${ticket.priority}`}></div>
+                                <div className={`w-2 h-2 rounded-full border-2 ${ticket.priority === 'Hoch' ? 'bg-blue-600 border-blue-600' : ticket.priority === 'Mittel' ? 'bg-yellow-500 border-yellow-500' : 'bg-gray-400 border-gray-400'}`} title={`Priorität: ${ticket.priority}`}></div>
                             </div>
                         </div>
                     )) : (
@@ -616,7 +616,7 @@ const CreateTicketForm: React.FC<{ onSubmit: (subject: string, priority: 'Niedri
                 <textarea required value={message} onChange={e => setMessage(e.target.value)} rows={4} className="input-premium resize-none" placeholder="Beschreiben Sie Ihr Anliegen so genau wie möglich..." />
             </div>
             <div className="pt-2 flex justify-end">
-                <button type="submit" disabled={loading} className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-md">
+                <button type="submit" disabled={loading} className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-md">
                     {loading ? 'Erstelle...' : 'Ticket erstellen'}
                 </button>
             </div>

@@ -17,7 +17,7 @@ const Partner: React.FC = () => {
                 </div>
             </div>
 
-            <div className="mt-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10">
+            <div className="mt-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
                 <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Das Partnerprogramm (in Kürze verfügbar)</h2>
                 <p className="mt-4 text-slate-900/80 dark:text-white/80">
                     Ich bin stets auf der Suche nach Kooperationen mit Designern, Marketing-Agenturen und anderen Kreativen, die für ihre Kunden eine professionelle technische Umsetzung benötigen. Als White-Label-Partner übernehme ich die komplette Webentwicklung, während Sie der Ansprechpartner für Ihren Kunden bleiben.
@@ -47,7 +47,7 @@ const Partner: React.FC = () => {
                 <div className="mt-8 text-center">
                     <p className="font-semibold text-slate-900/90 dark:text-white/90">Interesse geweckt?</p>
                     <p className="mt-1 text-slate-900/80 dark:text-white/80">Das offizielle Partnerprogramm startet bald. Wenn Sie vorab Interesse an einer Kooperation haben, schreiben Sie mir gerne eine E-Mail.</p>
-                    <a href="mailto:info.scalesite@gmail.com?subject=Partneranfrage" className="mt-4 inline-block bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-primary/90 transition-colors">
+                    <a href="mailto:info.scalesite@gmail.com?subject=Partneranfrage" className="mt-4 inline-block bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-600/90 transition-colors">
                         Kontakt aufnehmen
                     </a>
                 </div>

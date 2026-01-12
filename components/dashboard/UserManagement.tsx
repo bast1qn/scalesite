@@ -129,7 +129,7 @@ const UserManagement: React.FC = () => {
                     placeholder="Suchen..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="px-4 py-2 text-sm rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-full sm:w-64"
+                    className="px-4 py-2 text-sm rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none w-full sm:w-64"
                 />
             </div>
 
@@ -227,8 +227,8 @@ const ProjectManagementModal: React.FC<{ user: UserProfile; services: Service[];
                 </div>
                 
                 <div className="flex border-b border-slate-100 dark:border-slate-800">
-                    <button onClick={() => setActiveTab('manage')} className={`flex-1 py-3 text-sm font-semibold border-b-2 ${activeTab === 'manage' ? 'border-primary text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}>Laufend</button>
-                    <button onClick={() => setActiveTab('assign')} className={`flex-1 py-3 text-sm font-semibold border-b-2 ${activeTab === 'assign' ? 'border-primary text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}>Zuweisen</button>
+                    <button onClick={() => setActiveTab('manage')} className={`flex-1 py-3 text-sm font-semibold border-b-2 ${activeTab === 'manage' ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}>Laufend</button>
+                    <button onClick={() => setActiveTab('assign')} className={`flex-1 py-3 text-sm font-semibold border-b-2 ${activeTab === 'assign' ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}>Zuweisen</button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-slate-50 dark:bg-slate-950/50">
@@ -349,7 +349,7 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
                 </div>
             )}
 
-            <button type="submit" disabled={loading} className="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-blue-700 shadow-lg transition-all disabled:opacity-50 flex justify-center items-center gap-2">
+            <button type="submit" disabled={loading} className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 shadow-lg transition-all disabled:opacity-50 flex justify-center items-center gap-2">
                 {loading ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 ) : (
@@ -405,7 +405,7 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
                         </div>
                     )) : <div>Keine Updates.</div>}
                 </div>
-                <input type="text" value={updateText} onChange={e => setUpdateText(e.target.value)} placeholder="Neues Update schreiben..." className="w-full text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded px-3 py-2 focus:outline-none focus:border-primary" />
+                <input type="text" value={updateText} onChange={e => setUpdateText(e.target.value)} placeholder="Neues Update schreiben..." className="w-full text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
             </div>
             <div className="flex justify-end">
                  <button onClick={handleSave} disabled={saving} className="text-xs bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
