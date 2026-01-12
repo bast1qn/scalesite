@@ -22,17 +22,14 @@ const NavButton: React.FC<{
     return (
         <button
             onClick={() => onClick(page)}
-            className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 ${
+            className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full ${
                 isActive
-                    ? 'text-slate-900 dark:text-white'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    ? 'text-white bg-gradient-to-r from-blue-600 to-violet-600 shadow-md shadow-blue-500/25'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
             aria-current={isActive ? 'page' : undefined}
         >
             {children}
-            {isActive && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gradient-to-r from-blue-600 to-violet-600" />
-            )}
         </button>
     );
 };
@@ -145,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
 
     const headerClasses = `fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
         isScrolled || isMenuOpen
-            ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm'
+            ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-lg shadow-slate-200/50 dark:shadow-black/20'
             : 'bg-transparent border-transparent'
     }`;
 
@@ -163,7 +160,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center">
-                        <div className="flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/50 rounded-full px-2 py-1 border border-slate-200/50 dark:border-slate-700/50">
+                        <div className="flex items-center gap-1">
                             {navItems.map(item => (
                                 <NavButton key={item.page} page={item.page} currentPage={currentPage} onClick={handleNavClick}>
                                     {item.label}
@@ -203,7 +200,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('preise')}
-                                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-full hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 transition-all duration-300"
+                                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-full hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300"
                                 >
                                     <span>{t('nav.projectStart')}</span>
                                     <ArrowRightIcon className="w-4 h-4" />
@@ -227,7 +224,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         </button>
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            className="p-2.5 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all hover:scale-105 active:scale-95"
                             aria-label={isMenuOpen ? t('nav.menuClose') : t('nav.menuOpen')}
                         >
                             {isMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
@@ -248,10 +245,10 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <button
                             key={item.page}
                             onClick={() => handleNavClick(item.page)}
-                            className={`text-2xl font-medium transition-all duration-300 ${
+                            className={`text-2xl font-medium transition-all duration-300 px-6 py-3 rounded-2xl ${
                                 currentPage === item.page
-                                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600'
-                                    : 'text-slate-700 dark:text-slate-300'
+                                    ? 'text-white bg-gradient-to-r from-blue-600 to-violet-600 shadow-lg shadow-blue-500/25'
+                                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                             }`}
                         >
                             {item.label}
@@ -264,7 +261,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <div className="flex flex-col items-center gap-4 w-full max-w-xs">
                             <button
                                 onClick={() => handleNavClick('dashboard')}
-                                className="w-full flex items-center justify-center gap-3 px-6 py-4 text-lg font-medium text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-800 rounded-2xl hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"
+                                className="w-full flex items-center justify-center gap-3 px-6 py-4 text-lg font-medium text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-800 rounded-2xl hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-lg transition-all"
                             >
                                 <UserCircleIcon className="w-5 h-5" />
                                 {t('nav.dashboard')}
@@ -280,7 +277,7 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <>
                             <button
                                 onClick={() => handleNavClick('preise')}
-                                className="flex items-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-xl hover:shadow-blue-500/25 hover:-translate-y-1 transition-all duration-300"
+                                className="flex items-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300"
                             >
                                 <span>{t('nav.projectStart')}</span>
                                 <ArrowRightIcon className="w-5 h-5" />
