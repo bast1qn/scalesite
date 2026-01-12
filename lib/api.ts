@@ -900,7 +900,8 @@ export const api = {
             user_id: ticket.data!.user_id,
             service_id: serviceId,
             status: 'pending',
-            progress: 0
+            progress: 0,
+            created_at: new Date().toISOString()
         });
 
         return { data: { success: !error }, error: handleSupabaseError(error) };
