@@ -53,14 +53,20 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, onCo
   ];
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3 text-dark-text dark:text-light-text">
+    <div className="flex items-center gap-3 sm:gap-4 text-dark-text dark:text-light-text">
       {timerComponents.map((c, i) => (
-        <div key={c.label} className="flex items-center gap-1">
-            <div className="flex flex-col items-center">
-                <span className="text-xl sm:text-2xl font-bold bg-surface dark:bg-dark-surface px-2 py-1 rounded-md shadow-sm">{String(c.value).padStart(2, '0')}</span>
-                <span className="text-[10px] uppercase tracking-wide opacity-70">{c.label}</span>
+        <div key={c.label} className="flex items-center gap-2">
+            <div className="flex flex-col items-center group">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-br from-primary-600 to-violet-600 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105 block px-3 py-2">
+                  {String(c.value).padStart(2, '0')}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium mt-1 transition-colors duration-300 group-hover:text-primary-600 dark:group-hover:text-violet-400">
+                  {c.label}
+                </span>
             </div>
-            {i < timerComponents.length - 1 && <span className="text-xl sm:text-2xl font-bold mb-4">:</span>}
+            {i < timerComponents.length - 1 && (
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-slate-300 dark:text-slate-700 mb-5 px-1">:</span>
+            )}
         </div>
       ))}
     </div>
