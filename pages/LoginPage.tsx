@@ -20,10 +20,10 @@ const SocialButton: React.FC<{ icon: React.ReactNode; provider: string; onClick:
         type="button"
         onClick={onClick}
         disabled={disabled}
-        className="group relative w-full inline-flex justify-center items-center gap-3 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+        className="group relative w-full inline-flex justify-center items-center gap-3 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 transition-all duration-250 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
     >
         <span className="relative flex items-center gap-3">
-            <span className="transition-transform duration-300 group-hover:scale-105">{icon}</span>
+            <span className="transition-transform duration-250 ease-out group-hover:scale-105">{icon}</span>
             <span>{label}</span>
         </span>
     </button>
@@ -170,12 +170,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
           </div>
 
           {/* Login Card with glass-morphism */}
-          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-8 sm:p-10 animate-scale-in overflow-hidden hover:shadow-blue-500/10 transition-shadow duration-500">
+          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-8 sm:p-10 animate-scale-in overflow-hidden hover:shadow-primary-500/10 transition-shadow duration-300">
               {/* Decorative gradient border */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-t-3xl"></div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 via-violet-500 to-primary-600 rounded-t-3xl"></div>
 
               {/* Subtle glow effect */}
-              <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-blue-400/5 to-violet-400/5 rounded-full blur-3xl pointer-events-none"></div>
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-primary-400/5 to-violet-400/5 rounded-full blur-3xl pointer-events-none"></div>
 
               <div className="relative">
                 <div className="text-center mb-8">
@@ -223,7 +223,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                         type="email"
                         autoComplete="email"
                         required
-                        className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all duration-300 placeholder:text-slate-400`}
+                        className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all duration-250 placeholder:text-slate-400`}
                         placeholder={t('placeholders.email_example')}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -239,7 +239,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                               type="password"
                               autoComplete="current-password"
                               required={!showResetPassword}
-                              className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all duration-300 placeholder:text-slate-400`}
+                              className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all duration-250 placeholder:text-slate-400`}
                               placeholder={t('auth.password')}
                               value={password}
                               onChange={(e) => setPassword(e.target.value)}
@@ -249,13 +249,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
 
                       <div className="flex items-center justify-between text-sm">
                           <label className="flex items-center cursor-pointer group">
-                              <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500/50 transition-all" />
-                              <span className="ml-2 text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{t('auth.remember_me')}</span>
+                              <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-primary-600 border-slate-300 rounded focus:ring-2 focus:ring-primary-500/50 transition-all" />
+                              <span className="ml-2 text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-200">{t('auth.remember_me')}</span>
                           </label>
                           <button
                               type="button"
                               onClick={() => setShowResetPassword(!showResetPassword)}
-                              className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                              className="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200"
                           >
                               {showResetPassword ? t('auth.back_to_login') : t('auth.forgot_password')}
                           </button>
@@ -268,7 +268,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                       <button
                           type="button"
                           onClick={() => setShowResetPassword(false)}
-                          className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                          className="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200"
                       >
                           {t('auth.back_to_login')}
                       </button>
@@ -292,14 +292,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
               <button
                 type="submit"
                 disabled={loading || !!socialLoading}
-                className="group relative w-full flex justify-center items-center py-3.5 px-4 border border-transparent font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-800 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 active:scale-[0.98] active:shadow-none transition-all duration-300"
+                className="group relative w-full flex justify-center items-center py-3.5 px-4 border border-transparent font-semibold rounded-xl text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-slate-800 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 active:scale-[0.98] active:shadow-none transition-all duration-250"
               >
                 <span className="relative flex items-center gap-2">
                     {loading ? <LoadingSpinner /> : null}
                     {loading ? (t('auth.logging_in')) : showResetPassword ? (language === 'de' ? 'Link senden' : 'Send Link') : (
                         <>
                             <span>{t('auth.login_btn')}</span>
-                            <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                            <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-250 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                         </>
                     )}
                 </span>
@@ -311,7 +311,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
            <div className="mt-8 text-center text-sm">
               <p className="text-slate-600 dark:text-slate-400">
                 {t('auth.no_account')}{' '}
-                <button onClick={() => setCurrentPage('register')} className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors focus:outline-none hover:underline">
+                <button onClick={() => setCurrentPage('register')} className="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 focus:outline-none hover:underline">
                   {t('auth.register_now')}
                 </button>
               </p>

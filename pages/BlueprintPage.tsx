@@ -338,7 +338,7 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
     }, [props.companyName, props.industry, props.primaryColor, props.secondaryColor]);
 
     return (
-        <div className="w-full bg-gradient-to-br from-slate-100 to-slate-200/50 dark:from-slate-900 dark:to-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-300/50 dark:border-slate-700/50 ring-1 ring-slate-900/5">
+        <div className="w-full bg-gradient-to-br from-slate-100 to-slate-200/50 dark:from-slate-900 dark:to-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-300/50 dark:border-slate-700/50 ring-1 ring-slate-900/5 transition-shadow duration-300 hover:shadow-3xl">
             {/* Browser chrome header */}
             <div className="bg-gradient-to-r from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-900 px-4 py-3 border-b border-slate-300/50 dark:border-slate-700/50 flex items-center gap-3">
                 <div className="flex gap-2">
@@ -432,11 +432,11 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     }> = ({ name, label, value, onChange }) => (
         <div>
-            <label htmlFor={name} className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{label}</label>
+            <label htmlFor={name} className="block text-sm font-semibold text-slate-900 dark:text-white mb-2 tracking-tight">{label}</label>
             <div className="relative mt-2">
-                <div className="flex items-center h-12 w-full border border-slate-200 dark:border-slate-700 rounded-xl px-3 bg-light-bg dark:bg-dark-bg shadow-sm overflow-hidden transition-colors hover:border-slate-300 dark:hover:border-slate-600">
-                    <div className="w-6 h-6 rounded-full border border-slate-200 dark:border-slate-600 shadow-inner ring-2 ring-white dark:ring-slate-800 transition-transform hover:scale-110" style={{ backgroundColor: value }}></div>
-                    <span className="ml-3 font-mono text-sm text-slate-700 dark:text-slate-300 uppercase">{value}</span>
+                <div className="flex items-center h-11 w-full border border-slate-200 dark:border-slate-700 rounded-xl px-3 bg-white dark:bg-slate-800 shadow-sm overflow-hidden transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 group">
+                    <div className="w-5 h-5 rounded-full border border-slate-200 dark:border-slate-600 shadow-inner ring-1 ring-white dark:ring-slate-700 transition-transform duration-200 group-hover:scale-110" style={{ backgroundColor: value }}></div>
+                    <span className="ml-3 font-mono text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wide">{value}</span>
                     <input
                         type="color"
                         name={name}
@@ -475,14 +475,14 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                     </div>
                 </AnimatedSection>
             </section>
-            
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 items-start">
                     {/* Form */}
                     <div className="lg:col-span-1 order-2 lg:order-1">
-                        <form onSubmit={handleSubmit} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-premium border border-slate-200/70 dark:border-slate-700/70 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative overflow-hidden hover:shadow-premium-lg transition-shadow duration-350 ease-out">
+                        <form onSubmit={handleSubmit} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-premium border border-slate-200/70 dark:border-slate-700/70 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative overflow-hidden hover:shadow-premium-lg transition-all duration-300 ease-out">
                             {/* Decorative gradient border */}
-                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 via-violet-500 to-secondary-500 rounded-t-3xl"></div>
+                            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 via-violet-500 to-primary-600 rounded-t-3xl"></div>
 
                             <div>
                                 <label htmlFor="companyName" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('blueprint.company_name')}</label>
@@ -522,7 +522,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 <ColorPicker name="secondaryColor" label="Akzentfarbe" value={formData.secondaryColor} onChange={handleChange} />
                             </div>
                             <div className="pt-4">
-                                <button type="submit" disabled={isLoading} className="btn-primary w-full py-4 px-4 text-base">
+                                <button type="submit" disabled={isLoading} className="btn-primary w-full py-3.5 px-4 text-base">
                                     {isLoading ? (
                                         <span className="flex items-center justify-center gap-2">
                                             <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -531,7 +531,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                     ) : (
                                         <span className="flex items-center justify-center gap-2">
                                             <span>Blueprint generieren</span>
-                                            <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                            <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-250 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                         </span>
                                     )}
                                 </button>
@@ -548,10 +548,10 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9IiNlNWU3ZWIiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9nPjwvc3ZnPg==')] [size:40px]"></div>
                                 </div>
 
-                                <div className="w-20 h-20 bg-gradient-to-br from-primary-100 to-violet-100 dark:from-primary-900/30 dark:to-violet-900/30 rounded-2xl flex items-center justify-center mb-8 shadow-premium relative">
-                                    <svg className="animate-spin h-10 w-10 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-violet-100 dark:from-primary-900/30 dark:to-violet-900/30 rounded-2xl flex items-center justify-center mb-6 shadow-premium relative">
+                                    <svg className="animate-spin h-8 w-8 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                 </div>
-                                <p className="text-lg font-semibold text-slate-900 dark:text-white mb-2 relative">{t('blueprint.analyzing')}</p>
+                                <p className="text-base font-semibold text-slate-900 dark:text-white mb-2 relative">{t('blueprint.analyzing')}</p>
                                 <p className="text-sm text-slate-500 dark:text-slate-400 relative">Design-Vorschlag wird generiert...</p>
                             </div>
                         )}
@@ -562,10 +562,10 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-primary-400/5 to-violet-400/5 rounded-full blur-3xl"></div>
                                 <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-gradient-to-br from-violet-400/5 to-secondary-400/5 rounded-full blur-3xl"></div>
 
-                                <div className="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700/50 rounded-2xl flex items-center justify-center mb-8 shadow-premium border border-slate-200 dark:border-slate-700 relative">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-slate-400 dark:text-slate-600"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <div className="w-16 h-16 bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700/50 rounded-2xl flex items-center justify-center mb-6 shadow-premium border border-slate-200 dark:border-slate-700 relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-slate-400 dark:text-slate-600"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 </div>
-                                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3 relative">{t('blueprint.preview_empty')}</h3>
+                                <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-3 relative">{t('blueprint.preview_empty')}</h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md relative">Füllen Sie das Formular auf der linken Seite aus, um einen individuellen Design-Vorschlag für Ihr Unternehmen zu erhalten.</p>
                             </div>
                         )}
@@ -589,7 +589,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
                                             <button onClick={() => setCurrentPage('preise')} className="group btn-primary flex items-center justify-center gap-2">
                                                 {t('blueprint.request_project')}
-                                                <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                                <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-250 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                             </button>
                                             <button onClick={() => document.getElementById('companyName')?.focus()} className="btn-secondary">
                                                 Neuen Blueprint erstellen
