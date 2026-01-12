@@ -124,19 +124,19 @@ Monatlich: ${formatPrice(monthlyPrice)}
     return (
         <div className="mt-24">
             <div className="text-center mb-12">
-                 <h3 className="text-3xl font-bold text-dark-text dark:text-light-text tracking-tight font-serif">
+                 <h3 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                     {t('calculator.title')}
                  </h3>
-                 <p className="mt-4 max-w-2xl mx-auto text-lg text-dark-text/70 dark:text-light-text/70">
+                 <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
                     {t('calculator.subtitle')}
                  </p>
             </div>
-            <div className="max-w-6xl mx-auto bg-white dark:bg-dark-surface rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="max-w-6xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200 dark:border-slate-700 overflow-hidden">
                 <div className="grid md:grid-cols-12">
                     {/* Inputs */}
                     <div className="md:col-span-7 p-8 sm:p-10 space-y-8">
                         <div>
-                            <label htmlFor="projectType" className="block text-sm font-bold text-dark-text dark:text-light-text mb-3 uppercase tracking-wider">{t('calculator.project_type')}</label>
+                            <label htmlFor="projectType" className="block text-sm font-bold text-slate-900 dark:text-white mb-3 uppercase tracking-wider">{t('calculator.project_type')}</label>
                             <CustomSelect
                                 id="projectType"
                                 options={projectTypeOptions}
@@ -147,8 +147,8 @@ Monatlich: ${formatPrice(monthlyPrice)}
                         
                         <div>
                             <div className="flex justify-between items-center mb-4">
-                                <label htmlFor="pageCount" className="block text-sm font-bold text-dark-text dark:text-light-text uppercase tracking-wider">{t('calculator.scope')}</label>
-                                <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-lg bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20">
+                                <label htmlFor="pageCount" className="block text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">{t('calculator.scope')}</label>
+                                <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm shadow-lg">
                                     {pageCount} {pageCount === 1 ? t('calculator.page') : t('calculator.pages')}
                                 </span>
                             </div>
@@ -172,78 +172,78 @@ Monatlich: ${formatPrice(monthlyPrice)}
                         </div>
 
                         {/* Special Features Section */}
-                        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <p className="text-sm font-bold text-dark-text dark:text-light-text uppercase tracking-wider mb-2">{language === 'de' ? 'Extras' : 'Extras'}</p>
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${contactForm ? 'bg-primary/5 border-primary dark:bg-primary/10' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:border-primary/50'}`}>
+                        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-700">
+                            <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{language === 'de' ? 'Extras' : 'Extras'}</p>
+                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${contactForm ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="contactForm"
                                     type="checkbox"
                                     checked={contactForm}
                                     onChange={e => setContactForm(e.target.checked)}
-                                    className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-dark-text dark:text-light-text group-hover:text-primary transition-colors">{language === 'de' ? 'Kontaktformular' : 'Contact Form'} (+{formatPrice(15)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Kontaktformular' : 'Contact Form'} (+{formatPrice(15)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Einfaches Formular für Anfragen' : 'Simple inquiry form'}</span>
                                 </div>
                             </label>
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${blog ? 'bg-primary/5 border-primary dark:bg-primary/10' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:border-primary/50'}`}>
+                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${blog ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="blog"
                                     type="checkbox"
                                     checked={blog}
                                     onChange={e => setBlog(e.target.checked)}
-                                    className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-dark-text dark:text-light-text group-hover:text-primary transition-colors">{language === 'de' ? 'Blog-Sektion' : 'Blog Section'} (+{formatPrice(25)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Blog-Sektion' : 'Blog Section'} (+{formatPrice(25)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Blog mit Beiträgen' : 'Blog with posts'}</span>
                                 </div>
                             </label>
                         </div>
 
-                         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <p className="text-sm font-bold text-dark-text dark:text-light-text uppercase tracking-wider mb-2">{t('calculator.monthly_services')}</p>
+                         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-700">
+                            <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('calculator.monthly_services')}</p>
 
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${hosting ? 'bg-primary/5 border-primary dark:bg-primary/10' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:border-primary/50'}`}>
+                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${hosting ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="hosting"
                                     type="checkbox"
                                     checked={hosting}
                                     onChange={e => setHosting(e.target.checked)}
-                                    className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-dark-text dark:text-light-text group-hover:text-primary transition-colors">{t('calculator.hosting')} (+{formatPrice(9)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t('calculator.hosting')} (+{formatPrice(9)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Schnelles & sicheres Hosting' : 'Fast & secure hosting'}</span>
                                 </div>
                             </label>
 
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${domain ? 'bg-primary/5 border-primary dark:bg-primary/10' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:border-primary/50'}`}>
+                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${domain ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="domain"
                                     type="checkbox"
                                     checked={domain}
                                     onChange={e => setDomain(e.target.checked)}
-                                    className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-dark-text dark:text-light-text group-hover:text-primary transition-colors">{t('calculator.domain')} (+{formatPrice(2)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t('calculator.domain')} (+{formatPrice(2)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? '.de Domain inklusive' : '.de domain included'}</span>
                                 </div>
                                 <GlobeAltIcon className="text-slate-400 w-5 h-5" />
                             </label>
 
-                             <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${maintenance ? 'bg-primary/5 border-primary dark:bg-primary/10' : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 hover:border-primary/50'}`}>
+                             <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${maintenance ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="maintenance"
                                     type="checkbox"
                                     checked={maintenance}
                                     onChange={e => setMaintenance(e.target.checked)}
-                                    className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-dark-text dark:text-light-text group-hover:text-primary transition-colors">{t('calculator.maintenance')} (+{formatPrice(15)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t('calculator.maintenance')} (+{formatPrice(15)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Updates & Support' : 'Updates & support'}</span>
                                 </div>
                             </label>
@@ -251,22 +251,22 @@ Monatlich: ${formatPrice(monthlyPrice)}
                     </div>
 
                     {/* Results */}
-                    <div className="md:col-span-5 bg-slate-50 dark:bg-slate-900 p-8 sm:p-10 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl"></div>
-                        
+                    <div className="md:col-span-5 bg-slate-50 dark:bg-slate-900 p-8 sm:p-10 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-violet-500/10 rounded-full blur-3xl"></div>
+
                         <div className="relative z-10">
                             <div className="flex items-center gap-3 mb-6 text-slate-500 dark:text-slate-400">
-                                <div className="w-10 h-10 flex items-center justify-center bg-white dark:bg-dark-surface rounded-xl shadow-sm">
+                                <div className="w-10 h-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-xl shadow-sm">
                                     <CalculatorIcon />
                                 </div>
                                 <span className="font-bold uppercase tracking-wider text-xs">{t('calculator.your_estimate')}</span>
                             </div>
-                            
+
                             <div className="mb-8">
                                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{t('calculator.one_time_costs')}</p>
                                 <div className="flex items-baseline gap-2">
-                                    <p className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
+                                    <p className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 tracking-tight">
                                         {formatPrice(oneTimePriceRange.min)}
                                     </p>
                                 </div>
@@ -274,10 +274,10 @@ Monatlich: ${formatPrice(monthlyPrice)}
                             </div>
 
                             {(monthlyPrice > 0 || contactForm || blog) && (
-                                <div className="mb-8 pt-6 border-t border-slate-200 dark:border-slate-800 animate-fade-in">
+                                <div className="mb-8 pt-6 border-t border-slate-200 dark:border-slate-700 animate-fade-in">
                                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{t('calculator.monthly_costs')}</p>
                                     <div className="flex items-baseline gap-2">
-                                        <p className="text-3xl font-bold text-primary tracking-tight">
+                                        <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 tracking-tight">
                                             {formatPrice(monthlyPrice)}
                                         </p>
                                         <span className="text-slate-500 dark:text-slate-400 font-medium">{t('pricing.per_month')}</span>
@@ -296,9 +296,9 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                 <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
                                     {t('calculator.disclaimer')}
                                 </p>
-                                <button 
+                                <button
                                     onClick={handleRequestClick}
-                                    className="w-full btn-primary bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-6 rounded-xl hover:opacity-90 transition-all shadow-lg transform hover:scale-[1.02]"
+                                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-6 rounded-xl hover:opacity-90 transition-all shadow-lg hover:shadow-xl hover:shadow-slate-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5"
                                 >
                                     {t('calculator.request_btn')}
                                 </button>

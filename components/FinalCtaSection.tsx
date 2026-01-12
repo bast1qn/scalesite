@@ -1,76 +1,100 @@
 
 import React from 'react';
-import { AnimatedSection } from './AnimatedSection';
-import { RocketLaunchIcon, PaperAirplaneIcon, ShieldCheckIcon } from './Icons';
+import { ArrowRightIcon, CheckBadgeIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface FinalCtaSectionProps {
-    setCurrentPage: (page: string) => void;
+  setCurrentPage: (page: string) => void;
 }
 
 export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ setCurrentPage }) => {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
 
-    return (
-        <section className="py-24 px-4 bg-light-bg dark:bg-dark-bg">
-            <AnimatedSection>
-                <div className="max-w-6xl mx-auto relative overflow-hidden rounded-[2.5rem] bg-dark-bg text-white shadow-2xl border border-white/10 group">
-                     {/* Background gradients */}
-                    <div className="absolute inset-0 z-0 opacity-70 group-hover:opacity-100 transition-opacity duration-700">
-                         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/30 rounded-full blur-[120px] transform translate-x-1/3 -translate-y-1/3 animate-pulse-slow"></div>
-                         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/30 rounded-full blur-[120px] transform -translate-x-1/3 translate-y-1/3 animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
-                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-grid-pattern opacity-10"></div>
-                    </div>
+  return (
+    <section className="py-32 px-4 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"></div>
 
-                    <div className="relative z-10 px-8 py-16 md:px-20 md:py-28 text-center">
+      {/* Animated decorations */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-[700px] h-[700px] bg-gradient-to-br from-blue-500/10 to-violet-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-1/4 w-[700px] h-[700px] bg-gradient-to-br from-emerald-500/5 to-teal-500/5 rounded-full blur-3xl"></div>
+      </div>
 
-                        {/* Trust Badge */}
-                        <div className="inline-flex items-center gap-2 bg-green-500/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-green-500/30 animate-fade-up">
-                            <ShieldCheckIcon className="w-4 h-4 text-green-400" />
-                            <span className="text-green-300">{t('hero_final_cta.guarantee')}</span>
-                        </div>
+      {/* Grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:64px_64px]"></div>
 
-                        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight animate-fade-up" style={{ animationDelay: '0.1s' }}>
-                            {t('hero_final_cta.title')} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-400 to-orange-400 animate-gradient-xy">{t('hero_final_cta.title_highlight')}</span>
-                        </h2>
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20"></div>
 
-                        <p className="max-w-2xl mx-auto text-lg text-gray-300 mb-4 leading-relaxed font-light animate-fade-up" style={{ animationDelay: '0.2s' }}>
-                           {t('hero_final_cta.subtitle')}
-                        </p>
+      <div className="relative z-10 max-w-5xl mx-auto">
+        <div className="text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2.5 bg-white/5 backdrop-blur-md border border-white/10 px-6 py-3 rounded-full text-sm font-semibold text-emerald-400 mb-12">
+            <CheckBadgeIcon className="w-4 h-4" />
+            <span>{t('hero_final_cta.guarantee')}</span>
+          </div>
 
-                        {/* Price Anchor */}
-                        <p className="text-2xl font-bold text-green-400 mb-8 animate-fade-up" style={{ animationDelay: '0.25s' }}>
-                            {t('hero_final_cta.price_anchor')}
-                        </p>
+          {/* Heading */}
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            {t('hero_final_cta.title')}{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-emerald-400 bg-[length:200%_auto] animate-gradient">
+              {t('hero_final_cta.title_highlight')}
+            </span>
+          </h2>
 
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
-                            <button
-                                onClick={() => setCurrentPage('preise')}
-                                className="btn-glow group bg-white text-dark-bg font-bold px-8 py-4 text-lg rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl shadow-white/10 active:scale-95 flex items-center gap-2 relative overflow-hidden"
-                            >
-                               <RocketLaunchIcon className="w-5 h-5 text-primary group-hover:text-primary-hover" />
-                               <span className="relative z-10">{t('hero_final_cta.cta_primary')}</span>
-                            </button>
-                            <button
-                                onClick={() => setCurrentPage('contact')}
-                                className="group bg-white/5 border border-white/20 text-white font-semibold px-6 py-4 text-base rounded-full hover:bg-white/10 transition-all duration-300 backdrop-blur-sm active:scale-95 flex items-center gap-2"
-                            >
-                               <PaperAirplaneIcon className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                               <span>{t('hero_final_cta.cta_secondary')}</span>
-                            </button>
-                        </div>
+          <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+            {t('hero_final_cta.subtitle')}
+          </p>
 
-                        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-center gap-6 opacity-70 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                             <span className="text-xs font-bold tracking-widest uppercase">{t('hero_final_cta.trust_delivery')}</span>
-                             <span className="hidden md:block w-1 h-1 bg-white rounded-full"></span>
-                             <span className="text-xs font-bold tracking-widest uppercase">{t('hero_final_cta.trust_guarantee')}</span>
-                             <span className="hidden md:block w-1 h-1 bg-white rounded-full"></span>
-                             <span className="text-xs font-bold tracking-widest uppercase">{t('hero_final_cta.trust_no_card')}</span>
-                        </div>
-                    </div>
-                </div>
-            </AnimatedSection>
-        </section>
-    );
+          {/* Price hint */}
+          <div className="inline-flex items-center gap-6 px-8 py-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10 mb-14">
+            <span className="text-slate-500 line-through text-lg">99€ - 299€</span>
+            <div className="h-6 w-px bg-white/20"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-slate-400">Ab</span>
+              <span className="text-2xl font-bold text-white">
+                29€
+              </span>
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <button
+              onClick={() => setCurrentPage('preise')}
+              className="group relative px-12 py-4.5 bg-white dark:bg-white text-slate-900 font-semibold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/10 hover:-translate-y-1"
+            >
+              <span className="relative z-10 flex items-center gap-2.5 text-lg">
+                <span>{t('hero_final_cta.cta_primary')}</span>
+                <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+            </button>
+            <button
+              onClick={() => setCurrentPage('contact')}
+              className="px-12 py-4.5 bg-transparent border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:-translate-y-1 text-lg"
+            >
+              {t('hero_final_cta.cta_secondary')}
+            </button>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-slate-400">
+            <div className="flex items-center gap-2.5">
+              <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
+              <span className="font-medium">48h Lieferung</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+              <span className="font-medium">100% Zufriedenheitsgarantie</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-2 h-2 rounded-full bg-violet-400"></div>
+              <span className="font-medium">Keine Kreditkarte erforderlich</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };

@@ -126,25 +126,31 @@ ${message}
   };
 
   return (
-    <section className="py-20 bg-light-bg dark:bg-dark-bg relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+      {/* Animated background gradients */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[15%] left-[5%] w-[500px] h-[500px] bg-gradient-to-br from-blue-400/5 to-violet-400/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-[15%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/4 to-teal-400/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
             {/* Trust Badge */}
-            <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/30">
-                <ShieldCheckIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
-                <span className="text-sm font-medium text-green-700 dark:text-green-300">
+            <div className="mb-8 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/30">
+                <ShieldCheckIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
                   30 Tage Geld-zurück Garantie
                 </span>
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
-              {t('pricing.title_prefix')} <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
+              {t('pricing.title_prefix')}{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:200%_auto] animate-gradient">
                   {t('pricing.title_highlight')}
               </span>
             </h2>
-            <p className="mt-6 text-lg text-slate-600 dark:text-slate-400">
+            <p className="mt-6 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
               {t('pricing.subtitle')}
             </p>
           </div>
@@ -188,15 +194,15 @@ ${message}
             {displayedPackages.map((pkg) => (
                 <div
                     key={pkg.name}
-                    className={`flex flex-col p-6 rounded-2xl transition-all duration-200 relative ${
+                    className={`flex flex-col p-7 rounded-2xl transition-all duration-300 relative ${
                         pkg.popular
-                        ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-xl border-2 border-blue-500/30 lg:-translate-y-2'
-                        : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-800/50 hover:shadow-md'
+                        ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-2xl shadow-slate-900/20 border-2 border-blue-500/40 lg:-translate-y-2'
+                        : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800/50 hover:shadow-xl'
                     }`}
                 >
                     {pkg.popular && (
                          <div className="absolute -top-3 left-0 right-0 flex justify-center z-10">
-                            <span className="inline-flex items-center px-4 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase">
+                            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-violet-500 text-white uppercase tracking-wider shadow-lg shadow-blue-500/25">
                                 {t('pricing.popular')}
                             </span>
                         </div>
@@ -216,14 +222,14 @@ ${message}
                         <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>{pkg.price_details}</span>
                     </div>
 
-                    <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700' : 'bg-slate-100 dark:bg-slate-800'}`}></div>
+                    <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700/50' : 'bg-slate-100 dark:bg-slate-700/50'}`}></div>
 
                     <ul className="space-y-3 flex-grow mb-8 relative z-10">
                         {pkg.features.map((feature: string) => (
                             <li key={feature} className="flex items-start gap-3">
                             <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
                                 pkg.popular
-                                ? 'bg-blue-500 text-white'
+                                ? 'bg-blue-500/20 text-blue-400'
                                 : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                             }`}>
                                  <CheckBadgeIcon className="w-3 h-3" />
@@ -238,7 +244,7 @@ ${message}
                         className={`w-full py-4 rounded-xl text-sm font-semibold transition-all relative z-10 ${
                             pkg.popular
                             ? 'bg-white text-slate-900 hover:bg-gray-100 shadow-lg'
-                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:opacity-90'
+                            : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:opacity-90 hover:shadow-lg hover:shadow-blue-500/25'
                         }`}
                     >
                         {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
@@ -246,15 +252,15 @@ ${message}
 
                     {/* Trust footer */}
                      <div className={`mt-6 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
-                        <ShieldCheckIcon className="w-3 h-3" />
+                        <ShieldCheckIcon className="w-3.5 h-3.5" />
                         <span>48h Lieferung • Garantie</span>
                      </div>
 
                   </div>
             ))}
           </div>
-          <p className="text-center text-sm text-slate-500 mt-6 max-w-2xl mx-auto flex items-center justify-center gap-2">
-             <ShieldCheckIcon className="w-4 h-4 text-green-500" />
+          <p className="text-center text-sm text-slate-500 mt-8 max-w-2xl mx-auto flex items-center justify-center gap-2">
+             <ShieldCheckIcon className="w-4 h-4 text-emerald-500" />
              Keine Kreditkarte erforderlich. Kostenloses Beratungsgespräch inklusive.
           </p>
         </AnimatedSection>

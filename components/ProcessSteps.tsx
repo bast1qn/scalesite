@@ -2,70 +2,138 @@
 import React from 'react';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
+import { ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './Icons';
+
+const steps = [
+  {
+    icon: <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />,
+    emoji: '💬',
+    nameKey: 'process.steps.1.name',
+    descKey: 'process.steps.1.desc',
+    color: 'from-blue-500 to-cyan-500',
+    bg: 'bg-blue-50 dark:bg-blue-900/20',
+    textColor: 'text-blue-600 dark:text-blue-400',
+  },
+  {
+    icon: <ClipboardDocumentCheckIcon className="w-6 h-6" />,
+    emoji: '📋',
+    nameKey: 'process.steps.2.name',
+    descKey: 'process.steps.2.desc',
+    color: 'from-violet-500 to-purple-500',
+    bg: 'bg-violet-50 dark:bg-violet-900/20',
+    textColor: 'text-violet-600 dark:text-violet-400',
+  },
+  {
+    icon: <RocketLaunchIcon className="w-6 h-6" />,
+    emoji: '🚀',
+    nameKey: 'process.steps.3.name',
+    descKey: 'process.steps.3.desc',
+    color: 'from-orange-500 to-amber-500',
+    bg: 'bg-orange-50 dark:bg-orange-900/20',
+    textColor: 'text-orange-600 dark:text-orange-400',
+  },
+  {
+    icon: <SparklesIcon className="w-6 h-6" />,
+    emoji: '✨',
+    nameKey: 'process.steps.4.name',
+    descKey: 'process.steps.4.desc',
+    color: 'from-emerald-500 to-teal-500',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    textColor: 'text-emerald-600 dark:text-emerald-400',
+  },
+];
 
 export const ProcessSteps: React.FC = () => {
   const { t } = useLanguage();
 
-  const processSteps = [
-    { id: 1, name: t('process.steps.1.name'), description: t('process.steps.1.desc') },
-    { id: 2, name: t('process.steps.2.name'), description: t('process.steps.2.desc') },
-    { id: 3, name: t('process.steps.3.name'), description: t('process.steps.3.desc') },
-    { id: 4, name: t('process.steps.4.name'), description: t('process.steps.4.desc') },
-  ];
-
   return (
-    <section className="py-24 sm:py-32 relative overflow-hidden">
-      {/* Background element */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
+    <section className="py-28 bg-white dark:bg-slate-900 relative overflow-hidden">
+      {/* Animated background gradient */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[20%] left-[5%] w-[500px] h-[500px] bg-gradient-to-br from-blue-400/5 to-violet-400/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-[20%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/5 to-teal-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
-          <div className="text-center">
-            <span className="text-primary font-bold tracking-widest uppercase text-xs">{t('process.badge')}</span>
-            <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-dark-text dark:text-light-text tracking-tight font-serif">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
+              {t('process.badge')}
+            </span>
+            <h2 className="mt-6 font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
               {t('process.title')}
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-dark-text/70 dark:text-light-text/70">
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
               {t('process.subtitle')}
             </p>
           </div>
         </AnimatedSection>
+
         <AnimatedSection stagger>
-          <div className="mt-20 relative">
-            {/* Connecting line */}
-            <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/0 via-primary/30 to-primary/0 hidden md:block" aria-hidden="true"></div>
-            
-            <div className="space-y-12 md:space-y-0 grid md:grid-cols-2 md:gap-x-12 lg:gap-x-24 stagger-container">
-              {processSteps.map((step, index) => (
-                <div 
-                  key={step.name} 
-                  className={`relative group ${index % 2 !== 0 ? 'md:ml-auto md:text-right' : ''} ${index > 0 ? 'mt-12 md:mt-24' : ''}`}
-                >
-                   <div className="md:hidden absolute top-0 h-full w-0.5 bg-dark-text/10 dark:bg-light-text/10 left-5" aria-hidden="true"></div>
-                  
-                  <div className={`relative flex items-center gap-6 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
-                     {/* Number Bubble */}
-                     <div className={`z-10 flex-shrink-0 w-12 h-12 flex items-center justify-center bg-white dark:bg-dark-surface border-2 border-primary text-primary font-bold rounded-full shadow-glow-sm group-hover:scale-110 transition-transform duration-300 ${index % 2 !== 0 ? 'md:ml-auto' : ''}`}>
-                      {index + 1}
-                    </div>
-                     <h3 className="text-2xl font-bold text-dark-text dark:text-light-text md:hidden">
-                      {step.name}
-                    </h3>
+          {/* Steps Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-container">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className="group relative"
+              >
+                {/* Connector line (desktop) */}
+                {index < steps.length - 1 && (
+                  <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-700"></div>
+                )}
+
+                {/* Card */}
+                <div className="relative bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+                  {/* Step number badge */}
+                  <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 text-white dark:text-slate-900 text-sm font-bold flex items-center justify-center shadow-lg">
+                    {index + 1}
                   </div>
-                  
-                  <div className={`mt-4 pl-16 md:pl-0 p-6 rounded-2xl hover:bg-white/50 dark:hover:bg-slate-900/50 transition-colors duration-300 ${index % 2 !== 0 ? 'md:pr-16' : 'md:pl-16'}`}>
-                      <h3 className="text-2xl font-bold text-dark-text dark:text-light-text hidden md:block mb-2">
-                          {step.name}
-                      </h3>
-                    <p className="text-lg text-dark-text/70 dark:text-light-text/70 leading-relaxed">
-                      {step.description}
-                    </p>
+
+                  {/* Icon */}
+                  <div className={`w-14 h-14 rounded-xl ${step.bg} ${step.textColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    {step.icon}
                   </div>
+
+                  {/* Emoji badge */}
+                  <div className="absolute top-4 right-4 text-2xl opacity-50 group-hover:opacity-100 transition-opacity">
+                    {step.emoji}
+                  </div>
+
+                  {/* Content */}
+                  <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white mb-2">
+                    {t(step.nameKey)}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {t(step.descKey)}
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </AnimatedSection>
+
+        {/* Timeline for mobile */}
+        <div className="md:hidden mt-8 relative">
+          <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-violet-500 to-emerald-500"></div>
+          <div className="space-y-6">
+            {steps.map((step, index) => (
+              <div key={index} className="flex items-start gap-4">
+                <div className={`relative z-10 w-12 h-12 rounded-full ${step.bg} ${step.textColor} flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-900`}>
+                  {step.icon}
+                </div>
+                <div className="flex-1 pt-2">
+                  <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white mb-1">
+                    {t(step.nameKey)}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    {t(step.descKey)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

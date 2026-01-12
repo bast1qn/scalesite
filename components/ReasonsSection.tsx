@@ -1,56 +1,69 @@
 
 import React from 'react';
-import { ArrowTrendingUpIcon, SparklesIcon, DevicePhoneMobileIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
+import { ClockIcon, ShieldCheckIcon, SparklesIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const iconMap: { [key: string]: React.ReactNode } = {
-  'ArrowTrendingUpIcon': <ArrowTrendingUpIcon />,
-  'SparklesIcon': <SparklesIcon />,
-  'DevicePhoneMobileIcon': <DevicePhoneMobileIcon />,
-};
+const reasons = [
+  {
+    icon: <ClockIcon className="w-5 h-5" />,
+    title: '48h Lieferung',
+    description: 'Deine Website ist schneller fertig als bei anderen Agenturen.',
+    color: 'text-blue-600 dark:text-blue-400',
+    bg: 'bg-blue-50 dark:bg-blue-900/20',
+  },
+  {
+    icon: <ShieldCheckIcon className="w-5 h-5" />,
+    title: '30 Tage Garantie',
+    description: 'Volle Geld-zurück Garantie ohne Wenn und Aber.',
+    color: 'text-emerald-600 dark:text-emerald-400',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+  },
+  {
+    icon: <SparklesIcon className="w-5 h-5" />,
+    title: 'Alles inklusive',
+    description: 'SSL, Hosting, Domain, Impressum, Datenschutz – alles fertig.',
+    color: 'text-violet-600 dark:text-violet-400',
+    bg: 'bg-violet-50 dark:bg-violet-900/20',
+  }
+];
 
 export const ReasonsSection: React.FC = () => {
   const { t } = useLanguage();
 
-  const reasons = [
-    { id: 1, title: t('reasons.items.conversion.title'), description: t('reasons.items.conversion.desc'), icon_name: "ArrowTrendingUpIcon" },
-    { id: 2, title: t('reasons.items.branding.title'), description: t('reasons.items.branding.desc'), icon_name: "SparklesIcon" },
-    { id: 3, title: t('reasons.items.tech.title'), description: t('reasons.items.tech.desc'), icon_name: "DevicePhoneMobileIcon" },
-  ];
-
   return (
-    <section className="py-24 sm:py-32 bg-surface dark:bg-dark-surface relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection>
-          <div className="lg:text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-dark-text dark:text-light-text tracking-tight font-serif">
-              {t('reasons.title')}
-            </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-dark-text/70 dark:text-light-text/70 leading-relaxed">
-              {t('reasons.subtitle')}
-            </p>
-          </div>
-        </AnimatedSection>
-        
-        <AnimatedSection stagger>
-          <div className="grid gap-8 md:grid-cols-3 stagger-container">
-            {reasons.map((reason) => (
-              <div key={reason.title} className="group relative bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl hover:border-primary/20 transition-all duration-300 hover:-translate-y-1">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/100 transition-all duration-500"></div>
-                <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-900 dark:text-white mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
-                  {iconMap[reason.icon_name] || <SparklesIcon />}
-                </div>
-                <h3 className="text-xl font-bold text-dark-text dark:text-light-text mb-3 group-hover:text-primary transition-colors">
-                  {reason.title}
-                </h3>
-                <p className="text-dark-text/70 dark:text-light-text/70 leading-relaxed">
-                  {reason.description}
-                </p>
+    <section className="py-28 bg-slate-50 dark:bg-slate-950">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+            {t('reasons.title')}
+          </h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            {t('reasons.subtitle')}
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {reasons.map((reason, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+            >
+              {/* Icon */}
+              <div className={`w-12 h-12 rounded-xl ${reason.bg} ${reason.color} flex items-center justify-center mb-4`}>
+                {reason.icon}
               </div>
-            ))}
-          </div>
-        </AnimatedSection>
+
+              <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white mb-2">
+                {reason.title}
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                {reason.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
