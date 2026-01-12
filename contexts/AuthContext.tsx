@@ -57,13 +57,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     };
 
-    // Fallback timeout: stop loading after 3 seconds even if Supabase hasn't responded
-    timeoutId = setTimeout(() => {
-      if (!sessionChecked) {
-        console.warn('[AUTH] Session check timeout - proceeding without auth');
-        stopLoading();
-      }
-    }, 3000);
+    // NO timeout anymore - let onAuthStateChange handle it
+    // The onAuthStateChange event fires reliably and faster
 
     // Get initial session with better error handling
     const checkSession = async () => {
@@ -71,13 +66,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] Checking session...');
         const { data: { session }, error } = await supabase.auth.getSession();
 
-        if (timeoutId) clearTimeout(timeoutId);
-
         if (!isMounted) return;
 
         if (error) {
           console.error('[AUTH] Error getting session:', error.message);
-          stopLoading();
+          // Don't stop loading here - let onAuthStateChange handle it
           return;
         }
 
@@ -89,28 +82,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           stopLoading();
         }
       } catch (err: any) {
-        if (timeoutId) clearTimeout(timeoutId);
         console.error('[AUTH] Exception getting session:', err?.message || err);
-        if (isMounted) stopLoading();
+        // Don't stop loading here - let onAuthStateChange handle it
       }
     };
 
     checkSession();
 
-    // Listen for auth changes
+    // Listen for auth changes - this is the PRIMARY way we track auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('[AUTH] Auth state changed:', event);
+      console.log('[AUTH] Auth state changed:', event, 'Has user:', !!session?.user);
       if (!isMounted) return;
 
-      if (event === 'INITIAL_SESSION') {
-        setSessionChecked(true);
-      }
+      setSessionChecked(true);
 
       if (session?.user) {
         await loadUserProfile(session.user.id);
       } else {
         setUser(null);
-        setLoading(false);
+        stopLoading();
       }
     });
 
@@ -123,8 +113,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      console.log('[AUTH] Loading user profile for:', userId);
       const { data, error } = await getUserProfile(userId);
+
+      if (error) {
+        console.error('[AUTH] Error loading profile from DB:', error);
+        // Create a basic user from auth data if profile doesn't exist yet
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          console.log('[AUTH] Creating basic user from auth data');
+          setUser({
+            id: user.id,
+            name: user.user_metadata?.name || '',
+            email: user.email || '',
+            company: user.user_metadata?.company || null,
+            role: 'user',
+            referral_code: null
+          });
+        }
+        setLoading(false);
+        return;
+      }
+
       if (data) {
+        console.log('[AUTH] Profile loaded successfully:', data.email);
         setUser({
           id: data.id,
           name: data.name || '',
@@ -134,12 +146,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           referral_code: data.referral_code
         });
       } else {
-        console.error('Error loading profile:', error);
+        console.error('[AUTH] No profile data found');
       }
     } catch (e) {
-      console.error('Error loading user profile:', e);
+      console.error('[AUTH] Exception loading user profile:', e);
     } finally {
       setLoading(false);
+      console.log('[AUTH] Loading complete, user state:', user);
     }
   };
 
