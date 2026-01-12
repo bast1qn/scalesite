@@ -27,76 +27,76 @@ interface RestaurantPageProps {
 const menuCategories = [
   {
     id: 'coffee',
-    name: 'Kaffee & Espresso',
+    name: 'Coffee & Espresso',
     items: [
-      { name: 'Espresso', description: 'Doppelter Espresso', price: '2,50 €' },
-      { name: 'Cappuccino', description: 'Espresso mit aufgeschäumter Milch', price: '3,50 €' },
-      { name: 'Caffè Latte', description: 'Espresso mit viel Milch', price: '4,00 €' },
-      { name: 'Flat White', description: 'Espresso mit mikrogeschäumter Milch', price: '4,50 €' },
-      { name: 'Matcha Latte', description: 'Grüner Tee mit Milch', price: '5,00 €' },
+      { name: 'Espresso', description: 'Double espresso', price: '$4.50' },
+      { name: 'Cappuccino', description: 'Espresso with steamed milk', price: '$5.50' },
+      { name: 'Caffè Latte', description: 'Espresso with extra milk', price: '$6.00' },
+      { name: 'Flat White', description: 'Espresso with micro-foamed milk', price: '$6.50' },
+      { name: 'Matcha Latte', description: 'Green tea with milk', price: '$7.00' },
     ]
   },
   {
     id: 'breakfast',
-    name: 'Frühstück',
+    name: 'Breakfast',
     items: [
-      { name: 'Croissant', description: 'Buttercroissant, frisch gebacken', price: '3,00 €' },
-      { name: 'Brötchenkorbsp', 'description': '3 Brötchen mit Butter & Marmelade', price: '5,50 €' },
-      { name: 'Avocado Toast', description: 'Sauerteigtoast, Avocado, Ei', price: '9,50 €' },
-      { name: 'Full English', description: 'Eier, Bacon, Wurst, Beans, Toast', price: '14,50 €' },
-      { name: 'Pfannkuchen', description: '3 Pfannkuchen mit Ahornsirup', price: '8,50 €' },
+      { name: 'Croissant', description: 'Butter croissant, fresh baked', price: '$4.50' },
+      { name: 'Breakfast Basket', description: '3 rolls with butter & jam', price: '$8.00' },
+      { name: 'Avocado Toast', description: 'Sourdough toast, avocado, egg', price: '$14.00' },
+      { name: 'Full English', description: 'Eggs, bacon, sausage, beans, toast', price: '$21.00' },
+      { name: 'Pancakes', description: '3 pancakes with maple syrup', price: '$12.00' },
     ]
   },
   {
     id: 'cakes',
     name: 'Cakes & Desserts',
     items: [
-      { name: 'Cheesecake', description: 'New Yorker Style', price: '5,50 €' },
-      { name: 'Schokoladenkuchen', description: 'Mit Belgischer Schokolade', price: '5,00 €' },
-      { name: 'Apfelkuchen', description: 'Mit Vanilleeis', price: '4,50 €' },
-      { name: 'Tiramisu', description: 'Klassisch italienisch', price: '6,00 €' },
-      { name: 'Crème Brûlée', description: 'Mit karamellisierter Kruste', price: '5,50 €' },
+      { name: 'Cheesecake', description: 'New York style', price: '$8.50' },
+      { name: 'Chocolate Cake', description: 'With Belgian chocolate', price: '$7.50' },
+      { name: 'Apple Pie', description: 'With vanilla ice cream', price: '$7.00' },
+      { name: 'Tiramisu', description: 'Classic Italian', price: '$9.00' },
+      { name: 'Crème Brûlée', description: 'With caramelized crust', price: '$8.50' },
     ]
   },
   {
     id: 'snacks',
     name: 'Snacks',
     items: [
-      { name: 'Caesar Salad', description: 'Mit Hähnchen, Croûtons, Parmesan', price: '11,00 €' },
-      { name: 'Club Sandwich', description: 'Hähnchen, Bacon, Tomate, Salat', price: '12,50 €' },
-      { name: 'Veggie Bowl', description: 'Quinoa, Avocado, Gemüse', price: '13,00 €' },
-      { name: 'Fish & Chips', description: 'Mit Erbsenpuree', price: '15,50 €' },
+      { name: 'Caesar Salad', description: 'With chicken, croutons, parmesan', price: '$16.00' },
+      { name: 'Club Sandwich', description: 'Chicken, bacon, tomato, lettuce', price: '$18.00' },
+      { name: 'Veggie Bowl', description: 'Quinoa, avocado, vegetables', price: '$19.00' },
+      { name: 'Fish & Chips', description: 'With pea puree', price: '$22.00' },
     ]
   }
 ];
 
 // Gallery images (using placeholder gradients)
 const galleryImages = [
-  { id: 1, color: 'from-amber-400 to-orange-500', label: 'Café Atmosphäre' },
+  { id: 1, color: 'from-amber-400 to-orange-500', label: 'Café Atmosphere' },
   { id: 2, color: 'from-stone-400 to-stone-600', label: 'Espresso Bar' },
-  { id: 3, color: 'from-yellow-400 to-amber-500', label: 'Frühstücksgericht' },
-  { id: 4, color: 'from-rose-400 to-pink-500', label: 'Café Latte Kunst' },
-  { id: 5, color: 'from-emerald-400 to-teal-500', label: 'Gartenbereich' },
-  { id: 6, color: 'from-violet-400 to-purple-500', label: 'Dessert Spezialität' },
+  { id: 3, color: 'from-yellow-400 to-amber-500', label: 'Breakfast Dish' },
+  { id: 4, color: 'from-rose-400 to-pink-500', label: 'Latte Art' },
+  { id: 5, color: 'from-emerald-400 to-teal-500', label: 'Garden Area' },
+  { id: 6, color: 'from-violet-400 to-purple-500', label: 'Dessert Specialty' },
 ];
 
 // Testimonials
 const testimonials = [
   {
     id: 1,
-    text: 'Der beste Cappuccino in der Stadt! Die Atmosphäre ist gemütlich und das Personal super freundlich.',
+    text: 'Best cappuccino in town! The atmosphere is cozy and the staff is super friendly.',
     author: 'Maria M.',
     rating: 5
   },
   {
     id: 2,
-    text: 'Perfekter Ort zum Arbeiten. Schnelles WLAN, tolle Kaffees und leckere Snacks.',
+    text: 'Perfect place to work. Fast WiFi, great coffee, and delicious snacks.',
     author: 'Thomas K.',
     rating: 5
   },
   {
     id: 3,
-    text: 'Das Frühstück ist hervorragend. Komme immer wieder gerne hierher.',
+    text: 'The breakfast is excellent. I love coming back here.',
     author: 'Sarah L.',
     rating: 5
   }
@@ -132,7 +132,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
         className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-full shadow-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
       >
         <ChevronLeftIcon className="w-5 h-5" />
-        <span className="text-sm font-medium">Zurück</span>
+        <span className="text-sm font-medium">Back</span>
       </button>
 
       {/* Hero Section */}
@@ -162,20 +162,20 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
               Café & Bistro
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Genießen Sie handgebrühten Kaffee, hausgemachte Cakes und ein entspanntes Ambiente
+              Enjoy handcrafted coffee, homemade cakes, and a relaxed atmosphere
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a
                 href="#menu"
                 className="px-8 py-4 bg-white text-slate-900 rounded-full font-semibold hover:bg-slate-100 transition-colors"
               >
-                Zur Speisekarte
+                View Menu
               </a>
               <a
                 href="#reservation"
                 className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-colors"
               >
-                Tisch reservieren
+                Reserve a Table
               </a>
             </div>
           </AnimatedSection>
@@ -193,12 +193,12 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                     <ClockIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Öffnungszeiten</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Opening Hours</h3>
                 </div>
                 <ul className="space-y-2 text-slate-600 dark:text-slate-400">
-                  <li className="flex justify-between"><span>Montag - Freitag</span><span>07:00 - 19:00</span></li>
-                  <li className="flex justify-between"><span>Samstag</span><span>08:00 - 20:00</span></li>
-                  <li className="flex justify-between"><span>Sonntag</span><span>09:00 - 18:00</span></li>
+                  <li className="flex justify-between"><span>Monday - Friday</span><span>07:00 - 19:00</span></li>
+                  <li className="flex justify-between"><span>Saturday</span><span>08:00 - 20:00</span></li>
+                  <li className="flex justify-between"><span>Sunday</span><span>09:00 - 18:00</span></li>
                 </ul>
               </div>
 
@@ -208,10 +208,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
                     <MapPinIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Standort</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Location</h3>
                 </div>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Hauptstraße 123<br />
+                  Main Street 123<br />
                   10115 Berlin-Mitte
                 </p>
                 <p className="mt-2 text-sm text-slate-500">U-Bahn U2/U5 Hausvogteiplatz</p>
@@ -223,7 +223,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   <div className="p-3 bg-violet-100 dark:bg-violet-900/30 rounded-lg">
                     <PhoneIcon className="w-6 h-6 text-violet-600 dark:text-violet-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Kontakt</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Contact</h3>
                 </div>
                 <ul className="space-y-2 text-slate-600 dark:text-slate-400">
                   <li className="flex items-center gap-2">
@@ -247,10 +247,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                Unsere Speisekarte
+                Our Menu
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                Frische Zutaten, hausgemachte Qualität
+                Fresh ingredients, homemade quality
               </p>
             </div>
 
@@ -300,10 +300,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                Einblicke
+                Gallery
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                Entdecken Sie unser Café
+                Take a look inside
               </p>
             </div>
 
@@ -351,7 +351,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                Das sagen unsere Gäste
+                What Our Guests Say
               </h2>
             </div>
 
@@ -386,10 +386,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
           <AnimatedSection>
             <div className="text-center mb-10">
               <h2 className="font-serif text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                Tisch reservieren
+                Reserve a Table
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                Sichern Sie sich Ihren Lieblingsplatz
+                Secure your favorite spot
               </p>
             </div>
 
@@ -402,10 +402,10 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                     </svg>
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                    Reservierung bestätigt!
+                    Reservation Confirmed!
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Wir bestätigen Ihre Reservierung per E-Mail.
+                    We'll confirm your reservation via email.
                   </p>
                 </div>
               ) : (
@@ -420,14 +420,14 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                       value={reservationForm.name}
                       onChange={(e) => setReservationForm({ ...reservationForm, name: e.target.value })}
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                      placeholder="Ihr Name"
+                      placeholder="Your name"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                        Datum *
+                        Date *
                       </label>
                       <input
                         type="date"
@@ -439,7 +439,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                        Uhrzeit *
+                        Time *
                       </label>
                       <select
                         required
@@ -447,7 +447,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                         onChange={(e) => setReservationForm({ ...reservationForm, time: e.target.value })}
                         className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                       >
-                        <option value="">Uhrzeit wählen</option>
+                        <option value="">Select time</option>
                         <option value="08:00">08:00</option>
                         <option value="09:00">09:00</option>
                         <option value="10:00">10:00</option>
@@ -465,7 +465,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                      Anzahl Gäste *
+                      Number of Guests *
                     </label>
                     <select
                       required
@@ -474,17 +474,17 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                     >
                       <option value="1">1 Person</option>
-                      <option value="2">2 Personen</option>
-                      <option value="3">3 Personen</option>
-                      <option value="4">4 Personen</option>
-                      <option value="5">5 Personen</option>
-                      <option value="6">6+ Personen (Große Gruppe)</option>
+                      <option value="2">2 People</option>
+                      <option value="3">3 People</option>
+                      <option value="4">4 People</option>
+                      <option value="5">5 People</option>
+                      <option value="6">6+ People (Large Group)</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                      E-Mail *
+                      Email *
                     </label>
                     <input
                       type="email"
@@ -492,13 +492,13 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                       value={reservationForm.email}
                       onChange={(e) => setReservationForm({ ...reservationForm, email: e.target.value })}
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                      placeholder="ihre@email.de"
+                      placeholder="your@email.com"
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                      Telefon
+                      Phone
                     </label>
                     <input
                       type="tel"
@@ -514,7 +514,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                     className="w-full py-4 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                   >
                     <CalendarDaysIcon className="w-5 h-5" />
-                    Reservieren
+                    Reserve Now
                   </button>
                 </div>
               )}
@@ -529,7 +529,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
           <div className="text-center">
             <MapPinIcon className="w-12 h-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-600 dark:text-slate-400">
-              Hauptstraße 123, 10115 Berlin
+              Main Street 123, 10115 Berlin
             </p>
             <a
               href="https://maps.google.com"
@@ -537,7 +537,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
               rel="noopener noreferrer"
               className="inline-block mt-4 px-6 py-2 bg-white dark:bg-slate-700 rounded-lg text-slate-900 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors"
             >
-              In Google Maps öffnen
+              Open in Google Maps
             </a>
           </div>
         </div>

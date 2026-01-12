@@ -6,94 +6,93 @@ import {
   XMarkIcon,
   EnvelopeIcon,
   PhoneIcon,
-  MapPinIcon,
   ChevronDownIcon
 } from '../components/Icons';
 
-interface ArchitecturePageProps {
-  setCurrentPage: (page: string) => void;
-}
-
 // MapPinIcon - simple SVG component
-const MapPinIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (
+const MapPinIcon: React.FC<{ className?: string }> = ({ className = '' }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
   </svg>
 );
 
+interface ArchitecturePageProps {
+  setCurrentPage: (page: string) => void;
+}
+
 // Projects data
 const projectCategories = [
-  { id: 'all', name: 'Alle Projekte' },
-  { id: 'wohnen', name: 'Wohnen' },
-  { id: 'gewerbe', name: 'Gewerbe' },
-  { id: 'innen', name: 'Innenarchitektur' }
+  { id: 'all', name: 'All Projects' },
+  { id: 'residential', name: 'Residential' },
+  { id: 'commercial', name: 'Commercial' },
+  { id: 'interior', name: 'Interior' }
 ];
 
 const projects = [
   {
     id: 1,
-    title: 'Villa am See',
-    category: 'wohnen',
-    location: 'Müritz, Mecklenburg-Vorpommern',
+    title: 'Lakeside Villa',
+    category: 'residential',
+    location: 'Lake Müritz, Mecklenburg-Vorpommern',
     year: '2023',
     size: '350 m²',
-    description: 'Moderne Ferienvilla mit panoramic Fenstern und nachhaltiger Holzbauweise.',
+    description: 'Modern holiday villa with panoramic windows and sustainable timber construction.',
     gradient: 'from-slate-300 to-slate-500',
     images: ['from-slate-300 to-slate-500', 'from-amber-200 to-amber-400', 'from-stone-300 to-stone-500']
   },
   {
     id: 2,
-    title: 'Bürokomplex TechPark',
-    category: 'gewerbe',
+    title: 'TechPark Office Complex',
+    category: 'commercial',
     location: 'Berlin-Mitte',
     year: '2022',
-    size: '5.200 m²',
-    description: 'Innovativer Bürokomplex mit Dachgarten und Smart-Home Integration.',
+    size: '5,200 m²',
+    description: 'Innovative office complex with rooftop garden and smart home integration.',
     gradient: 'from-blue-300 to-blue-500',
     images: ['from-blue-300 to-blue-500', 'from-slate-400 to-slate-600', 'from-cyan-300 to-cyan-500']
   },
   {
     id: 3,
     title: 'Loft Apartment',
-    category: 'innen',
+    category: 'interior',
     location: 'Hamburg-Altona',
     year: '2023',
     size: '120 m²',
-    description: 'Industrie-Chic Loft mit offener Wohnfläche und minimalistischem Design.',
+    description: 'Industrial-chic loft with open living area and minimalist design.',
     gradient: 'from-rose-300 to-rose-500',
     images: ['from-rose-300 to-rose-500', 'from-orange-200 to-orange-400', 'from-red-300 to-red-500']
   },
   {
     id: 4,
-    title: 'Mehrfamilienhaus Urban',
-    category: 'wohnen',
+    title: 'Urban Multi-Family',
+    category: 'residential',
     location: 'Kreuzberg, Berlin',
     year: '2021',
-    size: '1.800 m²',
-    description: 'Stadtverträgliches Mehrfamilienhaus mit Fassadengrünung.',
+    size: '1,800 m²',
+    description: 'City-compatible multi-family building with green façade.',
     gradient: 'from-green-300 to-green-500',
     images: ['from-green-300 to-green-500', 'from-emerald-300 to-emerald-500', 'from-lime-200 to-lime-400']
   },
   {
     id: 5,
     title: 'Restaurant Interior',
-    category: 'innen',
-    location: 'München-Schwabing',
+    category: 'interior',
+    location: 'Munich-Schwabing',
     year: '2022',
     size: '280 m²',
-    description: 'Gourmet-Restaurant mit akustisch optimiertem Ambiente.',
+    description: 'Gourmet restaurant with acoustically optimized ambiance.',
     gradient: 'from-violet-300 to-violet-500',
     images: ['from-violet-300 to-violet-500', 'from-purple-300 to-purple-500', 'from-fuchsia-300 to-fuchsia-500']
   },
   {
     id: 6,
-    title: 'Produktionshalle',
-    category: 'gewerbe',
+    title: 'Production Hall',
+    category: 'commercial',
     location: 'Dresden',
     year: '2023',
-    size: '8.500 m²',
-    description: 'Nachhaltige Industriehalle mit Solardach und Wärmerückgewinnung.',
+    size: '8,500 m²',
+    description: 'Sustainable industrial hall with solar roof and heat recovery.',
     gradient: 'from-zinc-300 to-zinc-500',
     images: ['from-zinc-300 to-zinc-500', 'from-gray-400 to-gray-600', 'from-neutral-300 to-neutral-500']
   }
@@ -104,26 +103,26 @@ const team = [
   {
     id: 1,
     name: 'Anna Richter',
-    role: 'Gründerin & Architektin',
-    description: 'Über 15 Jahre Erfahrung im nachhaltigen Bauen.'
+    role: 'Founder & Architect',
+    description: 'Over 15 years of experience in sustainable building.'
   },
   {
     id: 2,
     name: 'Thomas Bergmann',
     role: 'Associate Partner',
-    description: 'Spezialist für Gewerbebau und Stadtplanung.'
+    description: 'Specialist in commercial construction and urban planning.'
   },
   {
     id: 3,
     name: 'Sofia Chen',
-    role: 'Innenarchitektur',
-    description: 'Fokus auf minimalistisches und funktionales Design.'
+    role: 'Interior Design',
+    description: 'Focus on minimalist and functional design.'
   },
   {
     id: 4,
     name: 'Marcus Weber',
-    role: 'Projektleitung',
-    description: 'Expertise in Baumanagement und Koordination.'
+    role: 'Project Management',
+    description: 'Expertise in construction management and coordination.'
   }
 ];
 
@@ -131,21 +130,21 @@ const team = [
 const services = [
   {
     id: 1,
-    title: 'Architektur',
-    description: 'Von der ersten Skizze bis zum schlüsselfertigen Bau.',
-    items: ['Neubau', 'Sanierung', 'Erweiterung', 'Innenausbau']
+    title: 'Architecture',
+    description: 'From the first sketch to turnkey construction.',
+    items: ['New Build', 'Renovation', 'Extension', 'Interior Design']
   },
   {
     id: 2,
-    title: 'Planung',
-    description: 'Umfassende Planungsleistungen aller Leistungsphasen.',
-    items: ['Entwurf', 'Genehmigung', 'Ausführung', 'Baubegleitung']
+    title: 'Planning',
+    description: 'Comprehensive planning services for all phases.',
+    items: ['Design', 'Permitting', 'Construction', 'Site Supervision']
   },
   {
     id: 3,
     title: 'Consulting',
-    description: 'Beratung bei Bauprojekten und Immobilienentwicklung.',
-    items: ['Baugrundstück', 'Wirtschaftlichkeit', 'Nachhaltigkeit', 'Smart Home']
+    description: 'Consulting for construction projects and real estate development.',
+    items: ['Property Search', 'Feasibility', 'Sustainability', 'Smart Home']
   }
 ];
 
@@ -177,7 +176,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
         className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-full shadow-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
       >
         <ChevronLeftIcon className="w-5 h-5" />
-        <span className="text-sm font-medium">Zurück</span>
+        <span className="text-sm font-medium">Back</span>
       </button>
 
       {/* Hero Section - Minimalist */}
@@ -191,16 +190,16 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
         <div className="relative z-10 w-full px-8 md:px-16">
           <AnimatedSection>
             <div className="max-w-4xl">
-              <p className="text-white/80 text-lg mb-4 tracking-widest uppercase">Architekturbüro</p>
+              <p className="text-white/80 text-lg mb-4 tracking-widest uppercase">Architecture Studio</p>
               <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-none mb-8">
-                Richter<br/>Architekten
+                Richter<br/>Architects
               </h1>
               <p className="text-white/90 text-xl md:text-2xl max-w-xl">
-                Nachhaltiges Bauen mit Vision und Präzision.
+                Sustainable building with vision and precision.
               </p>
               <div className="mt-12 flex items-center gap-3 text-white/80">
                 <div className="w-16 h-px bg-white/50"></div>
-                <span>Seit 2015</span>
+                <span>Since 2015</span>
               </div>
             </div>
           </AnimatedSection>
@@ -218,36 +217,36 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
           <AnimatedSection>
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Über uns</p>
+                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">About Us</p>
                 <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8">
-                  Wir gestalten<br/>Räume für Menschen.
+                  We design spaces<br/>for people.
                 </h2>
                 <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-                  Unser Architekturbüro in Berlin-Mitte schafft nachhaltige, ästhetische
-                  und funktionale Bauten. Jedes Projekt ist eine einzigartige Antwort auf
-                  Standort, Kontext und Anforderungen unserer Bauherren.
+                  Our architecture studio in Berlin-Mitte creates sustainable, aesthetic,
+                  and functional buildings. Each project is a unique response to
+                  location, context, and our clients' requirements.
                 </p>
                 <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Mit über 50 realisierten Projekten und zahlreichen Auszeichnungen
-                  gehören wir zu den führenden Büros für zeitgenössische Architektur in Deutschland.
+                  With over 50 completed projects and numerous awards,
+                  we are among the leading studios for contemporary architecture in Germany.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-slate-100 dark:bg-slate-900 rounded-2xl p-8 text-center">
                   <p className="font-serif text-5xl font-bold text-blue-600 dark:text-blue-400">50+</p>
-                  <p className="text-slate-600 dark:text-slate-400 mt-2">Projekte</p>
+                  <p className="text-slate-600 dark:text-slate-400 mt-2">Projects</p>
                 </div>
                 <div className="bg-slate-100 dark:bg-slate-900 rounded-2xl p-8 text-center">
                   <p className="font-serif text-5xl font-bold text-blue-600 dark:text-blue-400">8</p>
-                  <p className="text-slate-600 dark:text-slate-400 mt-2">Jahre Erfahrung</p>
+                  <p className="text-slate-600 dark:text-slate-400 mt-2">Years Experience</p>
                 </div>
                 <div className="bg-slate-100 dark:bg-slate-900 rounded-2xl p-8 text-center">
                   <p className="font-serif text-5xl font-bold text-blue-600 dark:text-blue-400">12</p>
-                  <p className="text-slate-600 dark:text-slate-400 mt-2">Auszeichnungen</p>
+                  <p className="text-slate-600 dark:text-slate-400 mt-2">Awards</p>
                 </div>
                 <div className="bg-slate-100 dark:bg-slate-900 rounded-2xl p-8 text-center">
                   <p className="font-serif text-5xl font-bold text-blue-600 dark:text-blue-400">100%</p>
-                  <p className="text-slate-600 dark:text-slate-400 mt-2">Kundenzufriedenheit</p>
+                  <p className="text-slate-600 dark:text-slate-400 mt-2">Client Satisfaction</p>
                 </div>
               </div>
             </div>
@@ -260,9 +259,9 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
         <div className="max-w-6xl mx-auto px-6">
           <AnimatedSection>
             <div className="text-center mb-16">
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Leistungen</p>
+              <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Services</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
-                Was wir bieten
+                What We Offer
               </h2>
             </div>
 
@@ -296,9 +295,9 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
           <AnimatedSection>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
               <div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Projekte</p>
+                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Projects</p>
                 <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
-                  Unsere Arbeiten
+                  Our Work
                 </h2>
               </div>
 
@@ -331,7 +330,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                   <div className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${project.gradient} mb-4 overflow-hidden relative`}>
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-slate-900 px-6 py-3 rounded-full font-medium">
-                        Projekt ansehen
+                        View Project
                       </span>
                     </div>
                   </div>
@@ -395,15 +394,15 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
               </p>
               <div className="flex flex-wrap gap-6 text-sm">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400">Jahr:</span>
+                  <span className="text-slate-500 dark:text-slate-400">Year:</span>
                   <span className="ml-2 font-medium text-slate-900 dark:text-white">{selectedProject.year}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400">Größe:</span>
+                  <span className="text-slate-500 dark:text-slate-400">Size:</span>
                   <span className="ml-2 font-medium text-slate-900 dark:text-white">{selectedProject.size}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400">Kategorie:</span>
+                  <span className="text-slate-500 dark:text-slate-400">Category:</span>
                   <span className="ml-2 font-medium text-slate-900 dark:text-white capitalize">
                     {projectCategories.find(c => c.id === selectedProject.category)?.name}
                   </span>
@@ -421,7 +420,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
             <div className="text-center mb-16">
               <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Team</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
-                Unsere Architekten
+                Our Architects
               </h2>
             </div>
 
@@ -453,18 +452,18 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
             <div className="grid md:grid-cols-2 gap-16">
               {/* Contact Info */}
               <div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Kontakt</p>
+                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Contact</p>
                 <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8">
-                  Starten Sie Ihr Projekt.
+                  Start Your Project.
                 </h2>
 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <MapPinIconLocal className="w-6 h-6 text-slate-700 dark:text-slate-300" />
+                      <MapPinIcon className="w-6 h-6 text-slate-700 dark:text-slate-300" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-slate-900 dark:text-white">Adresse</h4>
+                      <h4 className="font-semibold text-slate-900 dark:text-white">Address</h4>
                       <p className="text-slate-600 dark:text-slate-400">
                         Linienstraße 123<br/>10115 Berlin-Mitte
                       </p>
@@ -476,7 +475,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                       <PhoneIcon className="w-6 h-6 text-slate-700 dark:text-slate-300" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-slate-900 dark:text-white">Telefon</h4>
+                      <h4 className="font-semibold text-slate-900 dark:text-white">Phone</h4>
                       <p className="text-slate-600 dark:text-slate-400">+49 30 123 456 78</p>
                     </div>
                   </div>
@@ -486,7 +485,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                       <EnvelopeIcon className="w-6 h-6 text-slate-700 dark:text-slate-300" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-slate-900 dark:text-white">E-Mail</h4>
+                      <h4 className="font-semibold text-slate-900 dark:text-white">Email</h4>
                       <p className="text-slate-600 dark:text-slate-400">kontakt@richter-architekten.de</p>
                     </div>
                   </div>
@@ -503,10 +502,10 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                       </svg>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                      Nachricht gesendet!
+                      Message Sent!
                     </h3>
                     <p className="text-slate-600 dark:text-slate-400">
-                      Wir melden uns schnellstmöglich bei Ihnen.
+                      We'll get back to you as soon as possible.
                     </p>
                   </div>
                 ) : (
@@ -521,13 +520,13 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                         value={contactForm.name}
                         onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                         className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                        placeholder="Ihr Name"
+                        placeholder="Your name"
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                        E-Mail *
+                        Email *
                       </label>
                       <input
                         type="email"
@@ -535,13 +534,13 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                         value={contactForm.email}
                         onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                         className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                        placeholder="ihre@email.de"
+                        placeholder="your@email.com"
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                        Nachricht *
+                        Message *
                       </label>
                       <textarea
                         required
@@ -549,7 +548,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                         value={contactForm.message}
                         onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                         className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
-                        placeholder="Erzählen Sie uns von Ihrem Projekt..."
+                        placeholder="Tell us about your project..."
                       />
                     </div>
 
@@ -557,7 +556,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                       type="submit"
                       className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 transition-opacity"
                     >
-                      Nachricht senden
+                      Send Message
                     </button>
                   </form>
                 )}

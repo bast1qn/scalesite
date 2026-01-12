@@ -9,17 +9,6 @@ import {
   ChevronDownIcon
 } from '../components/Icons';
 
-// Custom Calendar Icon
-const CalendarIcon: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-  </svg>
-);
-
-interface RealEstatePageProps {
-  setCurrentPage: (page: string) => void;
-}
-
 // Custom Icons
 const MapPinIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -40,125 +29,135 @@ const BuildingIconLocal: React.FC<{ className?: string }> = ({ className = '' })
   </svg>
 );
 
+const CalendarIcon: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+  </svg>
+);
+
+interface RealEstatePageProps {
+  setCurrentPage: (page: string) => void;
+}
+
 // Properties data
 const properties = [
   {
     id: 1,
-    title: 'Moderne Villa in Bestlage',
-    type: 'haus',
-    location: 'München-Bogenhausen',
+    title: 'Modern Villa in Prime Location',
+    type: 'house',
+    location: 'Munich-Bogenhausen',
     price: 1250000,
     rooms: 6,
     area: 280,
     bathrooms: 3,
     year: 2019,
-    description: 'Exklusive Villa mit Pool, großem Garten und hochwertiger Ausstattung. Offener Wohnbereich mit Deckenhohen Fenstern und direktem Gartenzugang.',
-    features: ['Pool', 'Garage', 'Garten', 'Terrasse', 'Kamin', 'Smart Home'],
+    description: 'Exclusive villa with pool, large garden and high-end amenities. Open living area with floor-to-ceiling windows and direct garden access.',
+    features: ['Pool', 'Garage', 'Garden', 'Terrace', 'Fireplace', 'Smart Home'],
     images: ['from-emerald-200 to-emerald-400', 'from-slate-200 to-slate-400', 'from-amber-100 to-amber-300'],
     highlighted: true
   },
   {
     id: 2,
-    title: 'Charme-Altbau Downtown',
-    type: 'wohnung',
+    title: 'Charming Altbau Downtown',
+    type: 'apartment',
     location: 'Berlin-Mitte',
     price: 685000,
     rooms: 3,
     area: 95,
     bathrooms: 1,
     year: 1920,
-    description: 'Wunderschön renovierte Altbauwohnung mit Stuck, Dielenboden und moderner Einbauküche. Hohe Räume und viel Tageslicht.',
-    features: ['Balkon', 'Einbauküche', 'Kellerraum', 'Fahrradkeller'],
+    description: 'Beautifully renovated apartment with stucco, parquet floors and modern fitted kitchen. High rooms and plenty of natural light.',
+    features: ['Balcony', 'Fitted Kitchen', 'Basement', 'Bike Storage'],
     images: ['from-blue-200 to-blue-400', 'from-slate-300 to-slate-500', 'from-cyan-200 to-cyan-400'],
     highlighted: false
   },
   {
     id: 3,
-    title: 'Familienhaus im Grünen',
-    type: 'haus',
+    title: 'Family Home in Green Area',
+    type: 'house',
     location: 'Hamburg-Norderstedt',
     price: 720000,
     rooms: 5,
     area: 165,
     bathrooms: 2,
     year: 2005,
-    description: 'Geräumiges Einfamilienhaus in ruhiger Wohnlage. Großzügiger Garten, ideale Wohnlage für Familien mit Schulen und Einkaufsmöglichkeiten in der Nähe.',
-    features: ['Garten', 'Garage', 'Keller', 'Terrasse', 'Einbauküche'],
+    description: 'Spacious single-family home in a quiet residential area. Large garden, ideal location for families with schools and shopping nearby.',
+    features: ['Garden', 'Garage', 'Basement', 'Terrace', 'Fitted Kitchen'],
     images: ['from-green-200 to-green-400', 'from-lime-100 to-lime-300', 'from-emerald-100 to-emerald-300'],
     highlighted: false
   },
   {
     id: 4,
-    title: 'Penthouse mit Dachterrasse',
-    type: 'wohnung',
+    title: 'Penthouse with Rooftop Terrace',
+    type: 'apartment',
     location: 'Frankfurt-Westend',
     price: 890000,
     rooms: 4,
     area: 145,
     bathrooms: 2,
     year: 2021,
-    description: 'Luxuriöses Penthouse auf dem Dachstadt mit spektakulärem Blick. Hochwertige Ausstattung, große Dachterrasse und zwei Parkplätze.',
-    features: ['Dachterrasse', '2 Parkplätze', 'Aufzug', 'Klimaanlage', 'Smart Home'],
+    description: 'Luxurious penthouse on the roof floor with spectacular view. High-end amenities, large rooftop terrace and two parking spaces.',
+    features: ['Rooftop Terrace', '2 Parking', 'Elevator', 'A/C', 'Smart Home'],
     images: ['from-violet-200 to-violet-400', 'from-purple-200 to-purple-400', 'from-fuchsia-200 to-fuchsia-400'],
     highlighted: true
   },
   {
     id: 5,
-    title: 'Reihenhaus Neubau',
-    type: 'haus',
-    location: 'Köln-Mülheim',
+    title: 'New Build Townhouse',
+    type: 'house',
+    location: 'Cologne-Mülheim',
     price: 595000,
     rooms: 4,
     area: 135,
     bathrooms: 2,
     year: 2023,
-    description: 'Neu errichtetes Reihenhaus mit modernem Grundriss und energiesparender Bauweise. Large Terrasse und privater Garten.',
-    features: ['Garten', 'Terrasse', 'Energy Plus', 'Garage', 'Einbauküche'],
+    description: 'Newly built townhouse with modern floor plan and energy-efficient construction. Large terrace and private garden.',
+    features: ['Garden', 'Terrace', 'Energy Plus', 'Garage', 'Fitted Kitchen'],
     images: ['from-orange-200 to-orange-400', 'from-amber-200 to-amber-400', 'from-yellow-200 to-yellow-400'],
     highlighted: false
   },
   {
     id: 6,
-    title: 'Loft-Wohnung Industriestyle',
-    type: 'wohnung',
+    title: 'Industrial Style Loft',
+    type: 'apartment',
     location: 'Leipzig-Plagwitz',
     price: 420000,
     rooms: 2,
     area: 85,
     bathrooms: 1,
     year: 2018,
-    description: 'Industrielles Loft in umgebauter Fabrik mit hohen Decken, offenen Wohnbereichen und viel Platz für Kreatives.',
-    features: ['Industriestyle', 'Offene Küche', 'Bodenheizung', 'Fahrradkeller'],
+    description: 'Industrial loft in converted factory with high ceilings, open living areas and plenty of space for creativity.',
+    features: ['Industrial Style', 'Open Kitchen', 'Floor Heating', 'Bike Storage'],
     images: ['from-zinc-200 to-zinc-400', 'from-stone-200 to-stone-400', 'from-gray-200 to-gray-400'],
     highlighted: false
   },
   {
     id: 7,
-    title: 'Landhaus mit Weitblick',
-    type: 'haus',
+    title: 'Country House with Mountain View',
+    type: 'house',
     location: 'Freiburg im Breisgau',
     price: 880000,
     rooms: 5,
     area: 190,
     bathrooms: 2,
     year: 2015,
-    description: 'Traditionelles Landhaus mit modernem Komfort. Großzügige Räume, schöner Garten und herrlicher Blick auf die Schwarzwaldberge.',
-    features: ['Bergblick', 'Garten', 'Terrasse', 'Kamin', 'Garage'],
+    description: 'Traditional country house with modern comfort. Spacious rooms, beautiful garden and stunning view of the Black Forest mountains.',
+    features: ['Mountain View', 'Garden', 'Terrace', 'Fireplace', 'Garage'],
     images: ['from-rose-200 to-rose-400', 'from-red-200 to-red-400', 'from-pink-200 to-pink-400'],
     highlighted: true
   },
   {
     id: 8,
-    title: 'Junggesellenabsolut',
-    type: 'wohnung',
+    title: 'Bachelor Apartment',
+    type: 'apartment',
     location: 'Stuttgart-Mitte',
     price: 355000,
     rooms: 1,
     area: 45,
-    boundaries: 1,
+    bathrooms: 1,
     year: 2022,
-    description: 'Moderne 1-Zimmer-Wohnung im Zentrum von Stuttgart. Ideal für Singles und Berufseinsteiger mit guter Anbindung.',
-    features: ['Zentral', 'Aufzug', 'Einbauküche', 'Kellerabteil'],
+    description: 'Modern 1-room apartment in the center of Stuttgart. Ideal for singles and young professionals with excellent connections.',
+    features: ['Central', 'Elevator', 'Fitted Kitchen', 'Basement Compartment'],
     images: ['from-teal-200 to-teal-400', 'from-cyan-200 to-cyan-400', 'from-sky-200 to-sky-400'],
     highlighted: false
   }
@@ -166,9 +165,9 @@ const properties = [
 
 // Format price
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('de-DE', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'EUR',
+    currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(price);
@@ -176,9 +175,9 @@ const formatPrice = (price: number) => {
 
 export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }) => {
   const [filters, setFilters] = useState({
-    type: 'alle',
-    priceRange: 'alle',
-    rooms: 'alle'
+    type: 'all',
+    priceRange: 'all',
+    rooms: 'all'
   });
   const [selectedProperty, setSelectedProperty] = useState<typeof properties[0] | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -188,13 +187,13 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
   // Filter properties
   const filteredProperties = properties.filter(property => {
-    if (filters.type !== 'alle' && property.type !== filters.type) return false;
-    if (filters.priceRange !== 'alle') {
+    if (filters.type !== 'all' && property.type !== filters.type) return false;
+    if (filters.priceRange !== 'all') {
       const [min, max] = filters.priceRange.split('-').map(Number);
       if (max && (property.price < min || property.price > max)) return false;
       if (!max && property.price < min) return false;
     }
-    if (filters.rooms !== 'alle') {
+    if (filters.rooms !== 'all') {
       const roomFilter = parseInt(filters.rooms);
       if (roomFilter === 4 && property.rooms < 4) return false;
       if (roomFilter !== 4 && property.rooms !== roomFilter) return false;
@@ -220,7 +219,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
         className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-full shadow-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
       >
         <ChevronLeftIcon className="w-5 h-5" />
-        <span className="text-sm font-medium">Zurück</span>
+        <span className="text-sm font-medium">Back</span>
       </button>
 
       {/* Hero Section with Search */}
@@ -235,10 +234,10 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedSection>
               <h1 className="font-serif text-4xl md:text-6xl font-bold text-white mb-6">
-                Finden Sie Ihr Traumhaus
+                Find Your Dream Home
               </h1>
-              <p class="text-xl text-white/90 mb-12">
-                Exklusive Immobilien in ganz Deutschland
+              <p className="text-xl text-white/90 mb-12">
+                Exclusive properties across Germany
               </p>
             </AnimatedSection>
 
@@ -249,52 +248,52 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   {/* Type Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Immobilientyp
+                      Property Type
                     </label>
                     <select
                       value={filters.type}
                       onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                     >
-                      <option value="alle">Alle Typen</option>
-                      <option value="haus">Häuser</option>
-                      <option value="wohnung">Wohnungen</option>
+                      <option value="all">All Types</option>
+                      <option value="house">Houses</option>
+                      <option value="apartment">Apartments</option>
                     </select>
                   </div>
 
                   {/* Price Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Preis
+                      Price Range
                     </label>
                     <select
                       value={filters.priceRange}
                       onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                     >
-                      <option value="alle">Alle Preise</option>
-                      <option value="0-400000">bis 400.000 €</option>
-                      <option value="400000-700000">400.000 - 700.000 €</option>
-                      <option value="700000-1000000">700.000 - 1.000.000 €</option>
-                      <option value="1000000">über 1.000.000 €</option>
+                      <option value="all">All Prices</option>
+                      <option value="0-400000">Under $400k</option>
+                      <option value="400000-700000">$400k - $700k</option>
+                      <option value="700000-1000000">$700k - $1M</option>
+                      <option value="1000000">$1M+</option>
                     </select>
                   </div>
 
                   {/* Rooms Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Zimmer
+                      Rooms
                     </label>
                     <select
                       value={filters.rooms}
                       onChange={(e) => setFilters({ ...filters, rooms: e.target.value })}
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                     >
-                      <option value="alle">Alle Zimmer</option>
-                      <option value="1">1 Zimmer</option>
-                      <option value="2">2 Zimmer</option>
-                      <option value="3">3 Zimmer</option>
-                      <option value="4">4+ Zimmer</option>
+                      <option value="all">All Rooms</option>
+                      <option value="1">1 Room</option>
+                      <option value="2">2 Rooms</option>
+                      <option value="3">3 Rooms</option>
+                      <option value="4">4+ Rooms</option>
                     </select>
                   </div>
 
@@ -304,7 +303,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                       <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                         {filteredProperties.length}
                       </p>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">Immobilien</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400">Properties</p>
                     </div>
                   </div>
                 </div>
@@ -325,10 +324,10 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
           <AnimatedSection>
             <div className="flex items-center justify-between mb-8">
               <h2 className="font-serif text-3xl font-bold text-slate-900 dark:text-white">
-                {filters.type === 'alle' ? 'Alle Immobilien' : filters.type === 'haus' ? 'Häuser' : 'Wohnungen'}
+                {filters.type === 'all' ? 'All Properties' : filters.type === 'house' ? 'Houses' : 'Apartments'}
               </h2>
               <p className="text-slate-500 dark:text-slate-400">
-                {filteredProperties.length} Ergebnisse
+                {filteredProperties.length} results
               </p>
             </div>
 
@@ -344,7 +343,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   <div className={`aspect-video bg-gradient-to-br ${property.images[0]} relative`}>
                     {property.highlighted && (
                       <span className="absolute top-4 left-4 px-3 py-1 bg-amber-500 text-white text-xs font-semibold rounded-full">
-                        Highlights
+                        Featured
                       </span>
                     )}
                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
@@ -368,7 +367,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                     <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
                       <span className="flex items-center gap-1">
                         <BedIconLocal className="w-4 h-4" />
-                        {property.rooms} Zi.
+                        {property.rooms} bed
                       </span>
                       <span className="flex items-center gap-1">
                         <BuildingIconLocal className="w-4 h-4" />
@@ -383,7 +382,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
             {filteredProperties.length === 0 && (
               <div className="text-center py-20">
                 <p className="text-xl text-slate-600 dark:text-slate-400">
-                  Keine Immobilien gefunden. Passen Sie Ihre Filter an.
+                  No properties found. Adjust your filters.
                 </p>
               </div>
             )}
@@ -452,7 +451,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
                   <EnvelopeIcon className="w-5 h-5" />
-                  Besichtigung anfragen
+                  Request Viewing
                 </button>
               </div>
 
@@ -461,30 +460,30 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center">
                   <BedIconLocal className="w-6 h-6 text-slate-400 mx-auto mb-2" />
                   <p className="text-lg font-bold text-slate-900 dark:text-white">{selectedProperty.rooms}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Zimmer</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Rooms</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center">
                   <BuildingIconLocal className="w-6 h-6 text-slate-400 mx-auto mb-2" />
                   <p className="text-lg font-bold text-slate-900 dark:text-white">{selectedProperty.area} m²</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Wohnfläche</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Living Space</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center">
                   <svg className="w-6 h-6 text-slate-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                   </svg>
                   <p className="text-lg font-bold text-slate-900 dark:text-white">{selectedProperty.bathrooms}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Bäder</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Bathrooms</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center">
                   <CalendarIcon className="w-6 h-6 text-slate-400 mx-auto mb-2" />
                   <p className="text-lg font-bold text-slate-900 dark:text-white">{selectedProperty.year}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Baujahr</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Year Built</p>
                 </div>
               </div>
 
               {/* Description */}
               <div className="mb-8">
-                <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-3">Beschreibung</h3>
+                <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-3">Description</h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                   {selectedProperty.description}
                 </p>
@@ -492,7 +491,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
               {/* Features */}
               <div className="mb-8">
-                <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-3">Ausstattung</h3>
+                <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-3">Amenities</h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedProperty.features.map((feature, idx) => (
                     <span
@@ -516,16 +515,16 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                         </svg>
                       </div>
                       <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                        Anfrage gesendet!
+                        Request Sent!
                       </h3>
                       <p className="text-slate-600 dark:text-slate-400">
-                        Wir melden uns schnellstmöglich für einen Besichtigungstermin.
+                        We'll contact you soon to schedule a viewing.
                       </p>
                     </div>
                   ) : (
                     <form onSubmit={handleViewingSubmit} className="space-y-4">
                       <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-4">
-                        Besichtigung anfragen
+                        Request a Viewing
                       </h3>
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
@@ -538,12 +537,12 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                             value={viewingForm.name}
                             onChange={(e) => setViewingForm({ ...viewingForm, name: e.target.value })}
                             className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Ihr Name"
+                            placeholder="Your name"
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                            Telefon *
+                            Phone *
                           </label>
                           <input
                             type="tel"
@@ -551,13 +550,13 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                             value={viewingForm.phone}
                             onChange={(e) => setViewingForm({ ...viewingForm, phone: e.target.value })}
                             className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Ihre Telefonnummer"
+                            placeholder="Your phone number"
                           />
                         </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                          E-Mail *
+                          Email *
                         </label>
                         <input
                           type="email"
@@ -565,26 +564,26 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                           value={viewingForm.email}
                           onChange={(e) => setViewingForm({ ...viewingForm, email: e.target.value })}
                           className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                          placeholder="ihre@email.de"
+                          placeholder="your@email.com"
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                          Nachricht (optional)
+                          Message (optional)
                         </label>
                         <textarea
                           rows={3}
                           value={viewingForm.message}
                           onChange={(e) => setViewingForm({ ...viewingForm, message: e.target.value })}
                           className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-                          placeholder="Fragen oder Wünsche für die Besichtigung..."
+                          placeholder="Questions or requests for the viewing..."
                         />
                       </div>
                       <button
                         type="submit"
                         className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
                       >
-                        Anfrage absenden
+                        Send Request
                       </button>
                     </form>
                   )}
@@ -600,19 +599,19 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
         <div className="max-w-4xl mx-auto px-6 text-center">
           <AnimatedSection>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
-              Noch nicht das Richtige gefunden?
+              Haven't Found What You're Looking For?
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
-              Wir informieren Sie gerne über neue Angebote, die zu Ihren Kriterien passen.
+              We'll keep you updated about new listings matching your criteria.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="tel:+493012345678" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2">
                 <PhoneIcon className="w-5 h-5" />
                 +49 30 123 456 78
               </a>
-              <a href="mailto:info@immobilien.de" className="px-8 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2">
+              <a href="mailto:info@realestate.de" className="px-8 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2">
                 <EnvelopeIcon className="w-5 h-5" />
-                E-Mail schreiben
+                Send Email
               </a>
             </div>
           </AnimatedSection>

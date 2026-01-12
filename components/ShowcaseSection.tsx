@@ -15,27 +15,27 @@ interface ShowcaseSectionProps {
 const staticShowcaseItems = [
   {
     id: 'restaurant',
-    title: 'Café & Bistro',
-    category: 'Gastronomie',
-    excerpt: 'Moderne Website für ein lokales Café mit Speisekarte, Reservierungsformular und Galerie.',
+    title: 'The Coffee House',
+    category: 'Restaurant',
+    excerpt: 'Modern café website with menu, reservations, and photo gallery.',
     image_url: '',
     route: 'restaurant',
     gradient: 'from-amber-400 to-orange-500'
   },
   {
     id: 'architecture',
-    title: 'Richter Architekten',
-    category: 'Architektur',
-    excerpt: 'Minimalistisches Portfolio für ein Architekturbüro mit filterbarer Projekt-Galerie.',
+    title: 'Richter Architects',
+    category: 'Architecture',
+    excerpt: 'Minimalist portfolio with filterable project gallery and team section.',
     image_url: '',
     route: 'architecture',
     gradient: 'from-slate-400 to-slate-600'
   },
   {
     id: 'realestate',
-    title: 'Premium Immobilien',
-    category: 'Immobilien',
-    excerpt: 'Immobilien-Website mit Suchfiltern, Property Cards und Besichtigungs-Anfrage.',
+    title: 'Premium Properties',
+    category: 'Real Estate',
+    excerpt: 'Property listings with search filters, detail views, and viewing requests.',
     image_url: '',
     route: 'realestate',
     gradient: 'from-blue-400 to-blue-600'
