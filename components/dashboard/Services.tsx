@@ -127,8 +127,8 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
     if (loading) {
         return (
             <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Ihre Dienstleistungen</h1>
-                <p className="mt-2 text-dark-text/80 dark:text-light-text/80">Lade Dienste...</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ihre Dienstleistungen</h1>
+                <p className="mt-2 text-slate-900/80 dark:text-white/80">Lade Dienste...</p>
                 <div className="mt-8 w-16 h-16 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
             </div>
         );
@@ -137,7 +137,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
     if (error) {
          return (
             <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Ihre Dienstleistungen</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ihre Dienstleistungen</h1>
                  <div className="mt-8 bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-600/50 text-red-700 dark:text-red-300 px-4 py-3 rounded relative" role="alert">
                     <strong className="font-bold">Fehler!</strong>
                     <span className="block sm:inline ml-2">{error}</span>

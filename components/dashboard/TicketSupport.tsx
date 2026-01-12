@@ -273,7 +273,7 @@ const TicketSupport: React.FC = () => {
         return (
              <div className="h-64 flex flex-col items-center justify-center">
                 <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-dark-text/70 dark:text-light-text/70">Lade Tickets...</p>
+                <p className="text-slate-900/70 dark:text-white/70">Lade Tickets...</p>
             </div>
         )
     }
@@ -281,7 +281,7 @@ const TicketSupport: React.FC = () => {
     if (error) {
         return (
            <div>
-               <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Ticket-Support</h1>
+               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ticket-Support</h1>
                 <div className="mt-8 bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-600/50 text-red-700 dark:text-red-300 px-4 py-3 rounded relative" role="alert">
                    <strong className="font-bold">Verbindungsfehler:</strong>
                    <span className="block sm:inline ml-2">{error}</span>
@@ -295,15 +295,15 @@ const TicketSupport: React.FC = () => {
     if (view === 'detail' && selectedTicket) {
         return (
             <div>
-                <button onClick={() => setView('list')} className="flex items-center gap-2 text-sm font-semibold text-dark-text/80 dark:text-light-text/80 hover:text-primary transition-colors mb-4">
+                <button onClick={() => setView('list')} className="flex items-center gap-2 text-sm font-semibold text-slate-900/80 dark:text-white/80 hover:text-blue-600 transition-colors mb-4">
                     <ArrowLeftIcon />
                     Zurück zur Übersicht
                 </button>
                 <div className="grid lg:grid-cols-3 gap-6">
                     {/* CHAT AREA */}
-                    <div className="lg:col-span-2 bg-surface dark:bg-dark-surface p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 flex flex-col h-[600px]">
+                    <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 flex flex-col h-[600px]">
                         <div className="border-b border-dark-text/10 dark:border-light-text/10 pb-4 mb-4">
-                             <h1 className="text-xl sm:text-2xl font-bold text-dark-text dark:text-light-text break-words">{selectedTicket.subject}</h1>
+                             <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white break-words">{selectedTicket.subject}</h1>
                              <div className="flex items-center gap-2 mt-2">
                                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${getStatusColor(selectedTicket.status)}`}>{selectedTicket.status}</span>
                                  <span className="text-xs text-slate-500 dark:text-slate-400">#{selectedTicket.id.slice(0,8)}</span>
@@ -325,15 +325,15 @@ const TicketSupport: React.FC = () => {
 
                                 return (
                                     <div key={msg.id} className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-                                        <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${isUser ? 'bg-primary/20' : 'bg-dark-text/10 dark:bg-light-text/10'}`}>
-                                            {isSupport ? <TicketIcon className="w-5 h-5 text-primary" /> : <UserCircleIcon className="w-5 h-5" />}
+                                        <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${isUser ? 'bg-primary/20' : 'bg-slate-200 dark:bg-slate-200'}`}>
+                                            {isSupport ? <TicketIcon className="w-5 h-5 text-blue-600" /> : <UserCircleIcon className="w-5 h-5" />}
                                         </div>
                                         <div className={`p-4 max-w-lg rounded-2xl text-sm whitespace-pre-wrap break-words ${
                                             isUser 
                                             ? 'bg-primary text-white rounded-tr-none' 
                                             : isSystemMessage 
-                                                ? 'bg-slate-100 dark:bg-slate-800 border-l-4 border-yellow-500 text-dark-text dark:text-light-text rounded-tl-none font-mono text-xs'
-                                                : 'bg-slate-100 dark:bg-slate-800 text-dark-text dark:text-light-text rounded-tl-none'
+                                                ? 'bg-slate-100 dark:bg-slate-800 border-l-4 border-yellow-500 text-slate-900 dark:text-white rounded-tl-none font-mono text-xs'
+                                                : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-tl-none'
                                         }`}>
                                             <p>{msg.text.replace('SYSTEM:', '').trim()}</p>
                                             <p className={`text-[10px] mt-2 opacity-70 text-right`}>{authorName}, {formatTimeAgo(msg.created_at)}</p>
@@ -347,7 +347,7 @@ const TicketSupport: React.FC = () => {
 
                         <form onSubmit={handleAddReply} className={`mt-4 pt-4 border-t border-dark-text/10 dark:border-light-text/10 flex items-center gap-3 ${selectedTicket.status === 'Geschlossen' && user?.role === 'user' ? 'hidden' : ''}`}>
                             <textarea value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Ihre Antwort..." rows={2} className="flex-1 block w-full px-4 py-3 text-sm rounded-md shadow-sm bg-light-bg dark:bg-dark-bg border border-dark-text/20 dark:border-light-text/20 placeholder-dark-text/60 dark:placeholder-light-text/60 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                            <button type="submit" className="p-3 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors disabled:bg-primary/50 self-end" disabled={!reply.trim() || actionLoading}>
+                            <button type="submit" className="p-3 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors disabled:bg-blue-500 self-end" disabled={!reply.trim() || actionLoading}>
                                 <PaperAirplaneIcon />
                             </button>
                         </form>
@@ -356,7 +356,7 @@ const TicketSupport: React.FC = () => {
                     {/* SIDEBAR INFO */}
                     <div className="lg:col-span-1 space-y-6">
                         {/* Participants Section */}
-                        <div className="bg-white dark:bg-dark-surface p-5 rounded-lg shadow-md border border-slate-200 dark:border-slate-700/50">
+                        <div className="bg-white dark:bg-slate-900 p-5 rounded-lg shadow-md border border-slate-200 dark:border-slate-700/50">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 text-sm">
                                     <UserCircleIcon className="w-4 h-4" />
@@ -364,7 +364,7 @@ const TicketSupport: React.FC = () => {
                                 </h3>
                                 <button 
                                     onClick={() => setShowInviteInput(!showInviteInput)} 
-                                    className="text-primary hover:bg-primary/10 p-1 rounded transition-colors" 
+                                    className="text-blue-600 hover:bg-blue-100 p-1 rounded transition-colors" 
                                     title="Nutzer hinzufügen"
                                 >
                                     <UserPlusIcon className="w-5 h-5" />
@@ -383,7 +383,7 @@ const TicketSupport: React.FC = () => {
                                             className="flex-1 px-2 py-1 text-xs rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary" 
                                             placeholder="kollege@firma.de"
                                         />
-                                        <button type="submit" disabled={inviteLoading} className="bg-primary text-white text-xs font-bold px-3 py-1 rounded hover:bg-primary-hover disabled:opacity-50">
+                                        <button type="submit" disabled={inviteLoading} className="bg-primary text-white text-xs font-bold px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50">
                                             {inviteLoading ? '...' : 'Add'}
                                         </button>
                                     </div>
@@ -428,7 +428,7 @@ const TicketSupport: React.FC = () => {
                                     {selectedTicket.profiles.company && (
                                         <div>
                                             <span className="block text-xs text-blue-700 dark:text-blue-400 uppercase tracking-wide font-bold">Firma</span>
-                                            <span className="text-dark-text dark:text-light-text font-medium">
+                                            <span className="text-slate-900 dark:text-white font-medium">
                                                 {selectedTicket.profiles.company}
                                             </span>
                                         </div>
@@ -436,7 +436,7 @@ const TicketSupport: React.FC = () => {
                                     {selectedTicket.profiles.email && (
                                         <div>
                                              <span className="block text-xs text-blue-700 dark:text-blue-400 uppercase tracking-wide font-bold">E-Mail</span>
-                                             <a href={`mailto:${selectedTicket.profiles.email}`} className="text-primary hover:underline flex items-center gap-2 break-all">
+                                             <a href={`mailto:${selectedTicket.profiles.email}`} className="text-blue-600 hover:underline flex items-center gap-2 break-all">
                                                  <EnvelopeIcon className="w-3 h-3"/> {selectedTicket.profiles.email}
                                              </a>
                                         </div>
@@ -483,13 +483,13 @@ const TicketSupport: React.FC = () => {
                             </div>
                         )}
 
-                        <div className="bg-surface dark:bg-dark-surface p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10">
-                            <h3 className="font-semibold mb-4 text-dark-text dark:text-light-text">Details</h3>
+                        <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10">
+                            <h3 className="font-semibold mb-4 text-slate-900 dark:text-white">Details</h3>
                             <dl className="space-y-3 text-sm">
-                                <div className="flex justify-between"><dt className="text-dark-text/70 dark:text-light-text/70">Status</dt><dd className="font-medium text-dark-text dark:text-light-text">{selectedTicket.status}</dd></div>
-                                <div className="flex justify-between"><dt className="text-dark-text/70 dark:text-light-text/70">Priorität</dt><dd className="font-medium text-dark-text dark:text-light-text">{selectedTicket.priority}</dd></div>
-                                <div className="flex justify-between"><dt className="text-dark-text/70 dark:text-light-text/70">Erstellt am</dt><dd className="text-dark-text/90 dark:text-light-text/90">{new Date(selectedTicket.created_at).toLocaleDateString()}</dd></div>
-                                <div className="flex justify-between"><dt className="text-dark-text/70 dark:text-light-text/70">Letztes Update</dt><dd className="text-dark-text/90 dark:text-light-text/90">{formatTimeAgo(selectedTicket.last_update)}</dd></div>
+                                <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Status</dt><dd className="font-medium text-slate-900 dark:text-white">{selectedTicket.status}</dd></div>
+                                <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Priorität</dt><dd className="font-medium text-slate-900 dark:text-white">{selectedTicket.priority}</dd></div>
+                                <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Erstellt am</dt><dd className="text-slate-900/90 dark:text-white/90">{new Date(selectedTicket.created_at).toLocaleDateString()}</dd></div>
+                                <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Letztes Update</dt><dd className="text-slate-900/90 dark:text-white/90">{formatTimeAgo(selectedTicket.last_update)}</dd></div>
                             </dl>
                         </div>
                     </div>
@@ -503,28 +503,28 @@ const TicketSupport: React.FC = () => {
         <div>
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Ticket-Support</h1>
-                    <p className="mt-2 text-dark-text/80 dark:text-light-text/80">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Ticket-Support</h1>
+                    <p className="mt-2 text-slate-900/80 dark:text-white/80">
                         {isTeamOrOwner ? 'Verwalten Sie eingehende Kundenanfragen.' : 'Hier können Sie Unterstützung anfordern und Anfragen verwalten.'}
                     </p>
                 </div>
-                <button onClick={() => setShowCreateModal(true)} className="bg-primary text-white font-semibold py-2 px-4 rounded-full hover:bg-primary-hover transition-all shadow-lg flex items-center gap-2">
+                <button onClick={() => setShowCreateModal(true)} className="bg-primary text-white font-semibold py-2 px-4 rounded-full hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2">
                     <PlusCircleIcon className="w-5 h-5" />
                     <span className="hidden sm:inline">Neues Ticket</span>
                 </button>
             </div>
             
-            <div className="bg-surface dark:bg-dark-surface rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 overflow-hidden">
+            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-dark-text/10 dark:border-light-text/10 overflow-hidden">
                  <div className="flex border-b border-dark-text/10 dark:border-light-text/10">
                     <button 
                         onClick={() => setFilter('active')} 
-                        className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${filter === 'active' ? 'bg-primary/5 text-primary border-b-2 border-primary' : 'text-dark-text/60 dark:text-light-text/60 hover:bg-dark-text/5 dark:hover:bg-light-text/5'}`}
+                        className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${filter === 'active' ? 'bg-blue-50 text-blue-600 border-b-2 border-primary' : 'text-slate-900/60 dark:text-white/60 hover:bg-slate-100 dark:hover:bg-slate-50'}`}
                     >
                         Offene Anfragen
                     </button>
                     <button 
                         onClick={() => setFilter('closed')} 
-                        className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${filter === 'closed' ? 'bg-primary/5 text-primary border-b-2 border-primary' : 'text-dark-text/60 dark:text-light-text/60 hover:bg-dark-text/5 dark:hover:bg-light-text/5'}`}
+                        className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${filter === 'closed' ? 'bg-blue-50 text-blue-600 border-b-2 border-primary' : 'text-slate-900/60 dark:text-white/60 hover:bg-slate-100 dark:hover:bg-slate-50'}`}
                     >
                         Archiv (Geschlossen)
                     </button>
@@ -532,10 +532,10 @@ const TicketSupport: React.FC = () => {
 
                 <div className="divide-y divide-dark-text/10 dark:divide-light-text/10">
                     {filteredTickets.length > 0 ? filteredTickets.map(ticket => (
-                        <div key={ticket.id} onClick={() => handleViewTicket(ticket.id)} className="p-4 hover:bg-dark-text/5 dark:hover:bg-light-text/5 cursor-pointer transition-colors group">
+                        <div key={ticket.id} onClick={() => handleViewTicket(ticket.id)} className="p-4 hover:bg-slate-100 dark:hover:bg-slate-50 cursor-pointer transition-colors group">
                             <div className="flex justify-between items-start mb-1">
                                 <div>
-                                    <h3 className="font-semibold text-dark-text dark:text-light-text group-hover:text-primary transition-colors flex items-center gap-2">
+                                    <h3 className="font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors flex items-center gap-2">
                                         {ticket.subject}
                                         {ticket.profiles?.name && (
                                             <span className="text-xs font-normal text-slate-500 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 rounded">
@@ -548,7 +548,7 @@ const TicketSupport: React.FC = () => {
                                     {ticket.status}
                                 </span>
                             </div>
-                            <div className="flex justify-between items-center text-sm text-dark-text/60 dark:text-light-text/60 mt-2">
+                            <div className="flex justify-between items-center text-sm text-slate-900/60 dark:text-white/60 mt-2">
                                 <div className="flex items-center gap-3">
                                      <span>#{ticket.id.slice(0,8)}</span>
                                      <span>•</span>
@@ -558,7 +558,7 @@ const TicketSupport: React.FC = () => {
                             </div>
                         </div>
                     )) : (
-                        <div className="p-12 text-center text-dark-text/50 dark:text-light-text/50 flex flex-col items-center">
+                        <div className="p-12 text-center text-slate-900/50 dark:text-white/50 flex flex-col items-center">
                             <TicketIcon className="w-12 h-12 opacity-20 mb-4" />
                             <p>Keine Tickets in dieser Ansicht.</p>
                         </div>
@@ -569,7 +569,7 @@ const TicketSupport: React.FC = () => {
             {/* Create Ticket Modal */}
             {showCreateModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-white dark:bg-dark-surface w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-scale-in">
+                    <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-scale-in">
                         <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white">Neues Ticket</h3>
                             <button onClick={() => setShowCreateModal(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
@@ -599,11 +599,11 @@ const CreateTicketForm: React.FC<{ onSubmit: (subject: string, priority: 'Niedri
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label className="block text-sm font-medium text-dark-text dark:text-light-text mb-1">Betreff</label>
+                <label className="block text-sm font-medium text-slate-900 dark:text-white mb-1">Betreff</label>
                 <input type="text" required value={subject} onChange={e => setSubject(e.target.value)} className="input-premium py-2" placeholder="Kurze Zusammenfassung" />
             </div>
              <div>
-                <label className="block text-sm font-medium text-dark-text dark:text-light-text mb-1">Priorität</label>
+                <label className="block text-sm font-medium text-slate-900 dark:text-white mb-1">Priorität</label>
                 <CustomSelect 
                     id="priority" 
                     options={priorityOptions} 
@@ -612,11 +612,11 @@ const CreateTicketForm: React.FC<{ onSubmit: (subject: string, priority: 'Niedri
                 />
             </div>
              <div>
-                <label className="block text-sm font-medium text-dark-text dark:text-light-text mb-1">Nachricht</label>
+                <label className="block text-sm font-medium text-slate-900 dark:text-white mb-1">Nachricht</label>
                 <textarea required value={message} onChange={e => setMessage(e.target.value)} rows={4} className="input-premium resize-none" placeholder="Beschreiben Sie Ihr Anliegen so genau wie möglich..." />
             </div>
             <div className="pt-2 flex justify-end">
-                <button type="submit" disabled={loading} className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-hover transition-colors disabled:opacity-50 shadow-md">
+                <button type="submit" disabled={loading} className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-md">
                     {loading ? 'Erstelle...' : 'Ticket erstellen'}
                 </button>
             </div>

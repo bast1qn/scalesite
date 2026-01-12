@@ -107,21 +107,21 @@ const DiscountManager: React.FC = () => {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Marketing & Rabatte</h1>
-                    <p className="mt-2 text-dark-text/80 dark:text-light-text/80">Preise anpassen, Übersetzungen pflegen und Gutscheincodes verwalten.</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Marketing & Rabatte</h1>
+                    <p className="mt-2 text-slate-900/80 dark:text-white/80">Preise anpassen, Übersetzungen pflegen und Gutscheincodes verwalten.</p>
                 </div>
             </div>
 
             <div className="grid gap-8 lg:grid-cols-2">
                 {/* Left: Services Pricing */}
-                <div className="bg-surface dark:bg-dark-surface p-6 rounded-xl shadow-md border border-dark-text/10 dark:border-light-text/10">
-                    <h2 className="text-xl font-bold mb-4 text-dark-text dark:text-light-text">Paket-Verwaltung</h2>
+                <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-md border border-dark-text/10 dark:border-light-text/10">
+                    <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">Paket-Verwaltung</h2>
                     <div className="space-y-4">
                         {services.map(service => (
                             <div key={service.id} className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg border border-dark-text/10 dark:border-light-text/10 group hover:border-primary/50 transition-colors">
                                 <div className="flex justify-between items-start mb-3">
                                     <div>
-                                        <span className="font-bold text-dark-text dark:text-light-text block">{service.name}</span>
+                                        <span className="font-bold text-slate-900 dark:text-white block">{service.name}</span>
                                         {service.name_en && <span className="text-xs text-slate-400 block italic">EN: {service.name_en}</span>}
                                     </div>
                                     <button 
@@ -139,7 +139,7 @@ const DiscountManager: React.FC = () => {
                                     </div>
                                     <div className="flex-1">
                                         <span className="text-xs text-slate-500 block">Angebot</span>
-                                        <span className={`font-mono ${service.sale_price ? 'text-primary font-bold' : 'text-slate-400'}`}>
+                                        <span className={`font-mono ${service.sale_price ? 'text-blue-600 font-bold' : 'text-slate-400'}`}>
                                             {service.sale_price ? `${service.sale_price}€` : '-'}
                                         </span>
                                     </div>
@@ -150,10 +150,10 @@ const DiscountManager: React.FC = () => {
                 </div>
 
                 {/* Right: Discount Codes */}
-                <div className="bg-surface dark:bg-dark-surface p-6 rounded-xl shadow-md border border-dark-text/10 dark:border-light-text/10">
+                <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-md border border-dark-text/10 dark:border-light-text/10">
                      <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold text-dark-text dark:text-light-text">Gutscheincodes</h2>
-                        <button onClick={() => setShowDiscountModal(true)} className="text-xs bg-primary text-white px-3 py-1.5 rounded-full font-bold hover:bg-primary-hover transition-colors">
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Gutscheincodes</h2>
+                        <button onClick={() => setShowDiscountModal(true)} className="text-xs bg-primary text-white px-3 py-1.5 rounded-full font-bold hover:bg-blue-700 transition-colors">
                             + Erstellen
                         </button>
                     </div>
@@ -163,8 +163,8 @@ const DiscountManager: React.FC = () => {
                             <div key={d.id} className="flex justify-between items-center bg-light-bg dark:bg-dark-bg p-3 rounded-lg border border-dark-text/10 dark:border-light-text/10">
                                 <div>
                                     <div className="flex items-center gap-2">
-                                        <TagIcon className="w-4 h-4 text-primary" />
-                                        <span className="font-mono font-bold text-dark-text dark:text-light-text">{d.code}</span>
+                                        <TagIcon className="w-4 h-4 text-blue-600" />
+                                        <span className="font-mono font-bold text-slate-900 dark:text-white">{d.code}</span>
                                     </div>
                                     <p className="text-xs text-slate-500 mt-0.5">
                                         -{d.value}{d.type === 'percent' ? '%' : '€'} • {d.used_count}x genutzt
@@ -183,7 +183,7 @@ const DiscountManager: React.FC = () => {
             {/* DISCOUNT MODAL */}
              {showDiscountModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-white dark:bg-dark-surface w-full max-w-sm rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 animate-scale-in">
+                    <div className="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 animate-scale-in">
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Neuen Code erstellen</h3>
                         <form onSubmit={handleCreateCode} className="space-y-4">
                             <div>
@@ -205,7 +205,7 @@ const DiscountManager: React.FC = () => {
                             </div>
                             <div className="pt-2 flex justify-end gap-2">
                                 <button type="button" onClick={() => setShowDiscountModal(false)} className="px-4 py-2 text-sm font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Abbrechen</button>
-                                <button type="submit" className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-hover transition-colors">Speichern</button>
+                                <button type="submit" className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Speichern</button>
                             </div>
                         </form>
                     </div>
@@ -215,7 +215,7 @@ const DiscountManager: React.FC = () => {
             {/* SERVICE EDIT MODAL */}
             {showServiceModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-white dark:bg-dark-surface w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 animate-scale-in max-h-[90vh] overflow-y-auto custom-scrollbar">
+                    <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 animate-scale-in max-h-[90vh] overflow-y-auto custom-scrollbar">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Service bearbeiten</h3>
                             <button onClick={() => setShowServiceModal(false)} className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
@@ -229,14 +229,14 @@ const DiscountManager: React.FC = () => {
                                 <button 
                                     type="button"
                                     onClick={() => setEditLang('de')}
-                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'de' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'de' ? 'border-primary text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
                                 >
                                     Deutsch (Standard)
                                 </button>
                                 <button 
                                     type="button"
                                     onClick={() => setEditLang('en')}
-                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'en' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'en' ? 'border-primary text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
                                 >
                                     Englisch
                                 </button>
@@ -287,7 +287,7 @@ const DiscountManager: React.FC = () => {
 
                             <div className="pt-4 flex justify-end gap-3">
                                 <button type="button" onClick={() => setShowServiceModal(false)} className="px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold">Abbrechen</button>
-                                <button type="submit" className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-hover transition-colors shadow-md">
+                                <button type="submit" className="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md">
                                     Speichern
                                 </button>
                             </div>

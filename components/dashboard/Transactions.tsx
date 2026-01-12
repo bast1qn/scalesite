@@ -53,12 +53,12 @@ const Transactions: React.FC = () => {
 
     return (
         <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-dark-text dark:text-light-text">Transaktionen</h1>
-            <p className="mt-2 text-dark-text/80 dark:text-light-text/80">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Transaktionen</h1>
+            <p className="mt-2 text-slate-900/80 dark:text-white/80">
                 Hier finden Sie eine Übersicht aller Ihrer Rechnungen und Zahlungen.
             </p>
 
-            <div className="mt-8 bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="mt-8 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
                 <div className="overflow-x-auto custom-scrollbar">
                     <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
                         <thead className="bg-slate-50 dark:bg-slate-900/50">
@@ -74,25 +74,25 @@ const Transactions: React.FC = () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white dark:bg-dark-surface divide-y divide-slate-200 dark:divide-slate-800">
+                        <tbody className="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-800">
                             {loading ? (
                                 <tr>
                                     <td colSpan={7} className="text-center py-12">Lade Daten...</td>
                                 </tr>
                             ) : transactions.length > 0 ? transactions.map(invoice => (
                                 <tr key={invoice.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-dark-text dark:text-light-text">{invoice.id}</td>
-                                    <td className="px-6 py-4 text-sm text-dark-text/80 dark:text-light-text/80 whitespace-nowrap">{invoice.description}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-dark-text/80 dark:text-light-text/80">{formatDate(invoice.date)}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-dark-text/80 dark:text-light-text/80">{invoice.due_date ? formatDate(invoice.due_date) : '-'}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-dark-text dark:text-light-text font-mono">{formatCurrency(invoice.amount)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-slate-900 dark:text-white">{invoice.id}</td>
+                                    <td className="px-6 py-4 text-sm text-slate-900/80 dark:text-white/80 whitespace-nowrap">{invoice.description}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900/80 dark:text-white/80">{formatDate(invoice.date)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900/80 dark:text-white/80">{invoice.due_date ? formatDate(invoice.due_date) : '-'}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 dark:text-white font-mono">{formatCurrency(invoice.amount)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full ${getStatusColor(invoice.status)}`}>
                                             {invoice.status}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button disabled title="Download in Kürze verfügbar." className="p-2 text-slate-400 hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                                        <button disabled title="Download in Kürze verfügbar." className="p-2 text-slate-400 hover:text-blue-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
                                             <DocumentArrowDownIcon />
                                         </button>
                                     </td>

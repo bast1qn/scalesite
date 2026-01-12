@@ -88,7 +88,7 @@ const SidebarContent: React.FC<{
         return (
                 <div className="flex flex-col h-full bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 border-r border-slate-200/50 dark:border-slate-700/50">
                 <div className="px-6 py-6 flex items-center justify-between flex-shrink-0 border-b border-slate-100/80 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-                    <button onClick={() => setCurrentPage('home')} className="text-dark-text dark:text-light-text transition-opacity hover:opacity-80 group">
+                    <button onClick={() => setCurrentPage('home')} className="text-slate-900 dark:text-white transition-opacity hover:opacity-80 group">
                         <ScaleSiteLogo className="h-7 transition-transform duration-300 group-hover:scale-105" />
                     </button>
                     <button
@@ -132,7 +132,7 @@ const SidebarContent: React.FC<{
     return (
         <div className="flex flex-col h-full bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 border-r border-slate-200/50 dark:border-slate-700/50">
             <div className="px-6 py-6 border-b border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center flex-shrink-0 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-                    <button onClick={() => setCurrentPage('home')} className="text-dark-text dark:text-light-text flex items-center gap-3 hover:opacity-80 group">
+                    <button onClick={() => setCurrentPage('home')} className="text-slate-900 dark:text-white flex items-center gap-3 hover:opacity-80 group">
                     <ScaleSiteLogo className="h-6 transition-transform duration-300 group-hover:scale-105" />
                     <span className="text-[10px] font-bold bg-gradient-to-r from-blue-600 to-violet-600 text-white px-2.5 py-1 rounded-full tracking-wide shadow-md shadow-blue-500/20">TEAM</span>
                 </button>
