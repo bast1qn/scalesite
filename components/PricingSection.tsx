@@ -28,7 +28,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
   const [dbServices, setDbServices] = useState<any[]>([]);
 
   useEffect(() => {
-    api.get('/services').then(res => {
+    api.getServices().then(res => {
         if(res.data) setDbServices(res.data);
     }).catch(err => console.warn("Pricing fetch error", err));
   }, []);
