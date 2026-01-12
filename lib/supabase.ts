@@ -5,22 +5,25 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('Missing Supabase environment variables. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
+    throw new Error('Missing Supabase environment variables. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
 }
+
+// Export flag to check if Supabase is configured
+export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey);
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        flowType: 'pkce', // Use PKCE flow for better security
+        flowType: 'pkce',
     },
     global: {
         fetch: (url, options = {}) => {
             return fetch(url, {
                 ...options,
-                // Add 10 second timeout to all fetch requests
-                signal: AbortSignal.timeout(10000),
+                // Add 30 second timeout to fetch requests (increased from 10s)
+                signal: AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined,
             }).catch((err) => {
                 console.error('[SUPABASE] Fetch error:', err);
                 throw err;

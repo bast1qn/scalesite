@@ -49,14 +49,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     let isMounted = true;
     let safetyTimeout: NodeJS.Timeout | null = null;
 
-    // Safety timeout: stop loading after 10 seconds even if auth hasn't completed
+    // Safety timeout: stop loading after 30 seconds even if auth hasn't completed
     safetyTimeout = setTimeout(() => {
       if (isMounted && loading) {
-        console.warn('[AUTH] Safety timeout triggered - stopping loading after 10s');
+        console.error('[AUTH] Safety timeout triggered after 30s - Supabase connection may be failing');
+        console.error('[AUTH] Check your Supabase configuration in .env file');
         setLoading(false);
         setSessionChecked(true);
       }
-    }, 10000);
+    }, 30000);
 
     // Immediately check if we should stop loading
     const stopLoading = () => {
@@ -70,15 +71,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Get initial session with better error handling
     const checkSession = async () => {
       try {
+        console.log('[AUTH] Checking session...');
         const { data: { session }, error } = await supabase.auth.getSession();
 
         if (!isMounted) return;
 
         if (error) {
           console.error('[AUTH] Error getting session:', error.message);
-          // Don't stop loading here - let onAuthStateChange handle it
+          stopLoading();
           return;
         }
+
+        console.log('[AUTH] Session check result:', session ? 'Session found' : 'No session');
 
         if (session?.user) {
           await loadUserProfile(session.user.id);
@@ -87,7 +91,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } catch (err: any) {
         console.error('[AUTH] Exception getting session:', err?.message || err);
-        // Don't stop loading here - let onAuthStateChange handle it
+        stopLoading();
       }
     };
 
@@ -95,6 +99,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     // Listen for auth changes - this is the PRIMARY way we track auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('[AUTH] Auth state changed:', event, 'Has user:', !!session?.user);
       if (!isMounted) return;
 
       setSessionChecked(true);
