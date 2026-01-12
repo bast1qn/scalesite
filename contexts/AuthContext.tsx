@@ -10,12 +10,15 @@ const getT = () => {
   const langKey = lang === 'de' || lang === 'en' ? lang : 'en';
   return (key: string): string => {
     const keys = key.split('.');
-    let current: any = translations[langKey];
+    let current: unknown = translations[langKey];
     for (const k of keys) {
-      if (current?.[k] === undefined) return key;
-      current = current[k];
+      if (current && typeof current === 'object' && k in current) {
+        current = (current as Record<string, unknown>)[k];
+      } else {
+        return key;
+      }
     }
-    return current;
+    return typeof current === 'string' ? current : key;
   };
 };
 
@@ -127,14 +130,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } else {
           stopLoading();
         }
-      } catch (err: any) {
+      } catch (err) {
         // AbortError is expected on timeout - treat as no session
-        if (err?.name === 'AbortError') {
+        if (err instanceof Error && err.name === 'AbortError') {
           console.log('[AUTH] Session request aborted (timeout or cancelled)');
           stopLoading();
           return;
         }
-        console.error('[AUTH] Exception getting session:', err?.message || err);
+        console.error('[AUTH] Exception getting session:', err instanceof Error ? err.message : err);
         stopLoading();
       }
     };
@@ -245,8 +248,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return { success: false, error: t('auth.login_failed') };
-    } catch (err: any) {
-      return { success: false, error: err.message || t('auth.login_failed') };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : t('auth.login_failed') };
     }
   };
 
@@ -265,8 +268,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return { success: true, error: null };
-    } catch (err: any) {
-      return { success: false, error: err.message || t('auth.social_login_failed') };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : t('auth.social_login_failed') };
     }
   };
 
@@ -337,8 +340,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       return { success: false, error: t('auth.register_failed'), requiresConfirmation: false };
-    } catch (err: any) {
-      return { success: false, error: err.message || t('auth.unknown_error'), requiresConfirmation: false };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : t('auth.unknown_error'), requiresConfirmation: false };
     }
   };
 

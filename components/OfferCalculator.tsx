@@ -106,8 +106,8 @@ Monatlich: ${formatPrice(monthlyPrice)}
             if (error) throw new Error(error);
             setRequestStep('success');
             triggerConfetti(); // TRIGGER CONFETTI
-        } catch (e: any) {
-            setRequestError(t('general.error') + ": " + (e.message || String(e)));
+        } catch (e) {
+            setRequestError(t('general.error') + ": " + (e instanceof Error ? e.message : String(e)));
             setRequestStep('confirm');
         }
     };

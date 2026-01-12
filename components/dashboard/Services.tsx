@@ -63,14 +63,14 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
             const { data: allServices } = await api.getServices();
             const { data: userBookings } = await api.getUserServices();
 
-            const booked = (userBookings as any[] || []);
+            const booked = (userBookings as Array<{id: number; service_id: number; status: string; progress?: number}> || []);
             setActiveServices(booked);
 
             const bookedIds = booked.map(b => b.service_id);
             const available = (allServices as Service[] || []).filter(s => !bookedIds.includes(s.id));
             setAvailableServices(available);
 
-        } catch (err: any) {
+        } catch (err) {
             console.error("Error fetching services:", err);
             setError("Dienste konnten nicht geladen werden.");
         } finally {
@@ -106,11 +106,11 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
              } else {
                  throw new Error("Unbekannter Fehler");
              }
-        } catch (err: any) {
-            setBookingModal(prev => ({ 
-                ...prev, 
-                step: 'error', 
-                errorMessage: err.message || "Fehler bei der Buchung." 
+        } catch (err) {
+            setBookingModal(prev => ({
+                ...prev,
+                step: 'error',
+                errorMessage: err instanceof Error ? err.message : "Fehler bei der Buchung."
             }));
         }
     }

@@ -31,16 +31,17 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const t = (path: string): string => {
     const keys = path.split('.');
-    let current: any = translations[language];
-    
+    let current: unknown = translations[language];
+
     for (const key of keys) {
-      if (current[key] === undefined) {
+      if (current && typeof current === 'object' && key in current) {
+        current = (current as Record<string, unknown>)[key];
+      } else {
         console.warn(`Translation missing for key: ${path} in language: ${language}`);
-        return path; 
+        return path;
       }
-      current = current[key];
     }
-    return current as string;
+    return typeof current === 'string' ? current : path;
   };
 
   return (

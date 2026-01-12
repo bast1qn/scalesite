@@ -172,7 +172,7 @@ export const ShowcasePreview: React.FC<ShowcasePreviewProps> = ({ setCurrentPage
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <button
-                onClick={() => setCurrentPage(showcase.id as any)}
+                onClick={() => setCurrentPage(String(showcase.id))}
                 className="group w-full text-left"
               >
                 <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 hover:shadow-premium-xl hover:-translate-y-2 transition-all duration-450 ease-spring">

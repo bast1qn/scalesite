@@ -15,8 +15,14 @@ const isTeamMember = async (userId: string): Promise<boolean> => {
 // Generate UUID for new records
 const generateId = () => crypto.randomUUID();
 
+// Supabase error type
+interface SupabaseError {
+    message?: string;
+    code?: string;
+}
+
 // Error wrapper
-const handleSupabaseError = (error: any) => {
+const handleSupabaseError = (error: SupabaseError | null): string | null => {
     if (error) {
         console.error('Supabase error:', error);
         return error.message || 'An error occurred';
@@ -87,7 +93,7 @@ export const api = {
         if (error) return { data: [], error: handleSupabaseError(error) };
 
         // Format data to match expected structure
-        const formatted = data?.map((row: any) => ({
+        const formatted = data?.map((row) => ({
             id: row.id,
             service_id: row.service_id,
             status: row.status,
@@ -190,7 +196,7 @@ export const api = {
         if (error) return { data: [], error: handleSupabaseError(error) };
 
         // Format to match expected structure with profiles
-        const formatted = data?.map((ticket: any) => ({
+        const formatted = data?.map((ticket) => ({
             ...ticket,
             profiles: ticket.profiles || { name: 'Unknown', role: 'user', company: '' }
         })) || [];
@@ -268,7 +274,7 @@ export const api = {
 
         if (error) return { data: [], error: handleSupabaseError(error) };
 
-        const formatted = data?.map((msg: any) => ({
+        const formatted = data?.map((msg) => ({
             ...msg,
             profiles: msg.profiles || { name: 'System', role: 'system' }
         })) || [];
@@ -313,7 +319,7 @@ export const api = {
             .select('user_id, profiles(id, name, email, role, added_at)')
             .eq('ticket_id', ticketId);
 
-        const formatted = data?.map((member: any) => ({
+        const formatted = data?.map((member) => ({
             ...member.profiles,
             added_at: member.added_at
         })) || [];
@@ -539,7 +545,7 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    adminAssignService: async (payload: { userId: string; serviceId: number; customService?: any }) => {
+    adminAssignService: async (payload: { userId: string; serviceId: number; customService?: { name: string; description: string; price: number; price_details?: string } }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
@@ -597,7 +603,7 @@ export const api = {
         return { data: { success: true }, error: null };
     },
 
-    adminUpdateService: async (serviceId: number, updates: any) => {
+    adminUpdateService: async (serviceId: number, updates: { name?: string; description?: string; description_en?: string; name_en?: string; price?: number; price_details?: string; price_details_en?: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
@@ -626,7 +632,7 @@ export const api = {
             .order('created_at', { ascending: true })
             .limit(50);
 
-        const formatted = data?.map((msg: any) => ({
+        const formatted = data?.map((msg) => ({
             ...msg,
             profiles: msg.profiles || { name: 'Unknown', role: 'user' }
         })) || [];
@@ -661,7 +667,7 @@ export const api = {
         return { data: data || [], error: handleSupabaseError(error) };
     },
 
-    createBlogPost: async (post: any) => {
+    createBlogPost: async (post: { title: string; content: string; excerpt?: string; author_name?: string; published?: boolean }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
@@ -681,7 +687,7 @@ export const api = {
         return { data, error: handleSupabaseError(error) };
     },
 
-    updateBlogPost: async (postId: string, post: any) => {
+    updateBlogPost: async (postId: string, post: { title?: string; content?: string; excerpt?: string; published?: boolean }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
@@ -804,7 +810,7 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    updateTeamTask: async (taskId: string, updates: any) => {
+    updateTeamTask: async (taskId: string, updates: { title?: string; client_name?: string; priority?: string; column_id?: string; status?: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 

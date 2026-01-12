@@ -12,12 +12,28 @@ interface PricingSectionProps {
   setCurrentPage: (page: string) => void;
 }
 
+interface PricingPackage {
+  id: number;
+  name: string;
+  price: string;
+  price_details: string;
+  description: string;
+  features: string[];
+  popular: boolean;
+  with_hosting: boolean;
+  basePrice: number;
+}
+
+interface TranslationFunction {
+  (key: string): string;
+}
+
 // Clean pricing card with subtle hover
 const PricingCard: React.FC<{
-    pkg: any;
+    pkg: PricingPackage;
     index: number;
-    onClick: (pkg: any) => void;
-    t: any;
+    onClick: (pkg: PricingPackage) => void;
+    t: TranslationFunction;
 }> = ({ pkg, index, onClick, t }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -112,10 +128,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
 
   // Modal State
   const [showModal, setShowModal] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<any>(null);
+  const [selectedPackage, setSelectedPackage] = useState<PricingPackage | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [dbServices, setDbServices] = useState<any[]>([]);
+  const [dbServices, setDbServices] = useState<Array<{id: number; name: string; name_en?: string; description?: string; description_en?: string; price: number; price_details?: string; price_details_en?: string}>>([]);
 
   useEffect(() => {
     api.getServices().then(res => {
@@ -163,7 +179,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
   const offerEndDate = new Date();
   offerEndDate.setDate(offerEndDate.getDate() + 7);
 
-  const handlePackageClick = (pkg: any) => {
+  const handlePackageClick = (pkg: PricingPackage) => {
       setSelectedPackage(pkg);
       setSubmitSuccess(false);
       setShowModal(true);

@@ -26,7 +26,7 @@ export const NewsletterSection: React.FC = () => {
             await api.subscribeNewsletter(name, email);
             setIsSubmitted(true);
             form.reset();
-        } catch (err: any) {
+        } catch (err) {
             console.error("Newsletter Error", err);
             setError(t('newsletter.form.error'));
         } finally {

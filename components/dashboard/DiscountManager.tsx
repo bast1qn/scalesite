@@ -5,12 +5,32 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { TagIcon, PlusCircleIcon, XMarkIcon, PencilIcon } from '../Icons';
 import { alertSaveFailed, alertError } from '../../lib/dashboardAlerts';
 
+interface Service {
+    id: number;
+    name: string;
+    name_en?: string;
+    description?: string;
+    description_en?: string;
+    price: number;
+    sale_price?: number;
+    price_details?: string;
+    price_details_en?: string;
+}
+
+interface Discount {
+    id: string;
+    code: string;
+    type: string;
+    value: number;
+    created_at: string;
+}
+
 const DiscountManager: React.FC = () => {
     const { t } = useLanguage();
-    const [services, setServices] = useState<any[]>([]);
-    const [discounts, setDiscounts] = useState<any[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
+    const [discounts, setDiscounts] = useState<Discount[]>([]);
     const [loading, setLoading] = useState(true);
-    
+
     // Discount Code Form
     const [code, setCode] = useState('');
     const [type, setType] = useState('percent');
@@ -19,7 +39,7 @@ const DiscountManager: React.FC = () => {
 
     // Service Edit Modal
     const [showServiceModal, setShowServiceModal] = useState(false);
-    const [editingService, setEditingService] = useState<any>(null);
+    const [editingService, setEditingService] = useState<Service | null>(null);
     const [editLang, setEditLang] = useState<'de' | 'en'>('de');
     
     // Service Form State
@@ -50,7 +70,7 @@ const DiscountManager: React.FC = () => {
         fetchData();
     }, []);
 
-    const openServiceModal = (service: any) => {
+    const openServiceModal = (service: Service) => {
         setEditingService(service);
         setServiceForm({
             name: service.name || '',
@@ -77,8 +97,8 @@ const DiscountManager: React.FC = () => {
             });
             setShowServiceModal(false);
             fetchData();
-        } catch (e: any) {
-            alertSaveFailed(e.message);
+        } catch (e) {
+            alertSaveFailed(e instanceof Error ? e.message : 'Unknown error');
         }
     };
 
@@ -90,8 +110,8 @@ const DiscountManager: React.FC = () => {
             setCode('');
             setValue('');
             fetchData();
-        } catch (e: any) {
-            alertError(e.message);
+        } catch (e) {
+            alertError(e instanceof Error ? e.message : 'Unknown error');
         }
     };
 
@@ -100,8 +120,8 @@ const DiscountManager: React.FC = () => {
         try {
             await api.deleteDiscount(id);
             fetchData();
-        } catch (e: any) {
-            alertError(e.message);
+        } catch (e) {
+            alertError(e instanceof Error ? e.message : 'Unknown error');
         }
     }
 

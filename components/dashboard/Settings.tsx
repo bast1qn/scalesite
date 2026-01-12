@@ -82,8 +82,8 @@ const Settings: React.FC = () => {
             // Simulate saving extra fields
             await new Promise(r => setTimeout(r, 800));
             showSuccess('Profil erfolgreich aktualisiert');
-        } catch (error: any) {
-            alertError(error.message);
+        } catch (error) {
+            alertError(error instanceof Error ? error.message : 'Unknown error');
         } finally {
             setLoading(false);
         }
@@ -107,8 +107,8 @@ const Settings: React.FC = () => {
             setNewPassword('');
             setCurrentPassword('');
             showSuccess('Passwort erfolgreich geändert');
-        } catch (error: any) {
-            alertError(error.message || 'Fehler beim Ändern des Passworts');
+        } catch (error) {
+            alertError(error instanceof Error ? error.message : 'Fehler beim Ändern des Passworts');
         } finally {
             setLoading(false);
         }
@@ -186,8 +186,8 @@ const Settings: React.FC = () => {
             link.click();
             document.body.removeChild(link);
             showSuccess('Daten erfolgreich exportiert');
-        } catch (error: any) {
-            alertError(error.message || 'Fehler beim Exportieren der Daten');
+        } catch (error) {
+            alertError(error instanceof Error ? error.message : 'Fehler beim Exportieren der Daten');
         }
     };
 

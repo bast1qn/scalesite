@@ -60,8 +60,8 @@ const UserManagement: React.FC = () => {
                 setLoading(true);
                 const { data } = await api.adminGetUsers();
                 setUsers(data as UserProfile[] || []);
-            } catch (err: any) {
-                setError(err.message || "Fehler beim Laden.");
+            } catch (err) {
+                setError(err instanceof Error ? err.message : "Fehler beim Laden.");
             } finally {
                 setLoading(false);
             }
@@ -91,8 +91,8 @@ const UserManagement: React.FC = () => {
         setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
         try {
             await api.adminUpdateUserRole(userId, newRole);
-        } catch(err: any) {
-            alertError(err.message);
+        } catch(err) {
+            alertError(err instanceof Error ? err.message : 'Unknown error');
             setUsers(oldUsers);
         }
     };
@@ -266,8 +266,8 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
         setLoading(true);
         
         try {
-            const payload: any = { userId: user.id };
-            
+            const payload: { userId: string; serviceId?: number; customService?: { name: string; description: string; price: number; price_details: string } } = { userId: user.id };
+
             if (isCreatingNew) {
                 payload.customService = {
                     name: newName,
@@ -277,7 +277,7 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
                 };
             } else {
                 const selected = services.find(s => s.id.toString() === selectedServiceId);
-                
+
                 // Ensure we handle non-integer IDs correctly as custom services to force creation in DB
                 if (selected && typeof selected.id === 'string' && selected.id.toString().startsWith('auto-')) {
                     payload.customService = {
@@ -294,8 +294,8 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
 
             await api.adminAssignService(payload);
             onSuccess();
-        } catch (e: any) {
-            alertError(e.message);
+        } catch (e) {
+            alertError(e instanceof Error ? e.message : 'Unknown error');
         } finally { 
             setLoading(false); 
         }
@@ -379,7 +379,7 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
                 setUpdateText('');
             }
             onUpdate();
-        } catch(e: any) { alertSaveFailed(e.message); } finally { setSaving(false); }
+        } catch(e) { alertSaveFailed(e instanceof Error ? e.message : 'Unknown error'); } finally { setSaving(false); }
     }
 
     return (

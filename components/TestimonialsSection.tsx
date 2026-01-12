@@ -44,7 +44,7 @@ const features = [
 const FeatureCard: React.FC<{
     feature: typeof features[0];
     index: number;
-    t: any;
+    t: (key: string) => string;
 }> = ({ feature, index, t }) => {
     const [transform, setTransform] = useState('');
     const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });

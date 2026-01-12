@@ -12,7 +12,13 @@ interface DashboardLayoutProps {
     setCurrentPage: (page: string) => void;
 }
 
-const NavLink: React.FC<{item: { view: DashboardView; label: string; icon: React.ReactNode }, activeView: DashboardView, onClick: (view: DashboardView) => void }> = ({ item, activeView, onClick }) => {
+interface NavItem {
+    view: DashboardView;
+    label: string;
+    icon: React.ReactNode;
+}
+
+const NavLink: React.FC<{item: NavItem, activeView: DashboardView, onClick: (view: DashboardView) => void }> = ({ item, activeView, onClick }) => {
     const isActive = activeView === item.view;
     return (
         <button
@@ -141,7 +147,7 @@ const SidebarContent: React.FC<{
                             Hauptmenü
                         </p>
                         <nav className="space-y-1">
-                            {userNavItems.map((item: any) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
+                            {userNavItems.map((item) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
                         </nav>
                     </div>
                     <div>
@@ -150,7 +156,7 @@ const SidebarContent: React.FC<{
                             Community
                         </p>
                         <nav className="space-y-1">
-                            {secondaryItems.map((item: any) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
+                            {secondaryItems.map((item) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
                         </nav>
                     </div>
                 </div>
@@ -194,7 +200,7 @@ const SidebarContent: React.FC<{
                         Workspace
                     </p>
                     <div className="space-y-1">
-                        {workspaceItems.map((item: any) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
+                        {workspaceItems.map((item) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
                     </div>
                 </div>
 
@@ -214,7 +220,7 @@ const SidebarContent: React.FC<{
 
                     {adminGroupOpen && (
                         <div className="mt-2 space-y-1 animate-slide-down">
-                            {adminTools.map((item: any) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
+                            {adminTools.map((item) => <NavLink key={item.view} item={item} activeView={activeView} onClick={handleNavClick} />)}
                             <NavLink item={{ view: 'einstellungen', label: t('dashboard.nav.settings'), icon: <Cog6ToothIcon className="w-5 h-5"/> }} activeView={activeView} onClick={handleNavClick} />
                         </div>
                     )}

@@ -127,9 +127,9 @@ const TicketSupport: React.FC = () => {
             setError(null);
             const { data } = await api.getTickets();
             setTickets(data);
-        } catch (err: any) {
+        } catch (err) {
             console.warn('Ticket fetch failed:', err);
-            setError('Tickets konnten nicht geladen werden: ' + (err.message || 'Unbekannter Fehler'));
+            setError('Tickets konnten nicht geladen werden: ' + (err instanceof Error ? err.message : 'Unbekannter Fehler'));
         } finally {
             setLoading(false);
         }
@@ -167,7 +167,7 @@ const TicketSupport: React.FC = () => {
         try {
             const { data } = await api.getTicketMessages(ticketId);
             setTicketMessages(data);
-        } catch (err: any) {
+        } catch (err) {
             console.error('Error fetching messages:', err);
         }
     };
@@ -176,7 +176,7 @@ const TicketSupport: React.FC = () => {
         try {
             const { data } = await api.getTicketMembers(ticketId);
             setTicketMembers(data || []);
-        } catch (err: any) {
+        } catch (err) {
             console.error('Error fetching members:', err);
         }
     };
@@ -184,7 +184,7 @@ const TicketSupport: React.FC = () => {
     const selectedTicket = useMemo(() => {
         return tickets.find(t => t.id === selectedTicketId) || null;
     }, [tickets, selectedTicketId]);
-    
+
     const handleViewTicket = (ticketId: string) => {
         setSelectedTicketId(ticketId);
         setTicketMessages([]); // Clear old messages
@@ -203,9 +203,9 @@ const TicketSupport: React.FC = () => {
             await api.createTicket(subject, priority, message);
             await fetchTickets();
             setShowCreateModal(false);
-        } catch (err: any) {
+        } catch (err) {
             console.error("Error creating ticket:", err);
-            alertCreateFailed(err.message);
+            alertCreateFailed(err instanceof Error ? err.message : 'Unknown error');
         } finally {
             setActionLoading(false);
         }
@@ -214,7 +214,7 @@ const TicketSupport: React.FC = () => {
     const handleAddReply = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!reply.trim() || !selectedTicket || !user) return;
-        
+
         setActionLoading(true);
         try {
             await api.replyToTicket(selectedTicket.id, reply);
@@ -222,9 +222,9 @@ const TicketSupport: React.FC = () => {
             setShouldScroll(true); // Force scroll on own message
             await fetchMessages(selectedTicket.id);
             await fetchTickets();
-        } catch (err: any) {
+        } catch (err) {
             console.error("Error replying:", err);
-            alertError(err.message);
+            alertError(err instanceof Error ? err.message : 'Unknown error');
         } finally {
             setActionLoading(false);
         }
@@ -240,8 +240,8 @@ const TicketSupport: React.FC = () => {
             setShowInviteInput(false);
             await fetchMembers(selectedTicketId);
             await fetchMessages(selectedTicketId); // Fetch messages again to see system message immediately
-        } catch (e: any) {
-            alertError(e.message || "Nutzer konnte nicht hinzugefügt werden.");
+        } catch (e) {
+            alertError(e instanceof Error ? e.message : "Nutzer konnte nicht hinzugefügt werden.");
         } finally {
             setInviteLoading(false);
         }
@@ -257,8 +257,8 @@ const TicketSupport: React.FC = () => {
             alertAssigned();
             await fetchMessages(selectedTicketId);
             await fetchTickets(); // Update status in list
-        } catch (e: any) {
-            alertAssignFailed(e.message);
+        } catch (e) {
+            alertAssignFailed(e instanceof Error ? e.message : 'Unknown error');
         } finally {
             setAssignLoading(false);
         }
@@ -595,7 +595,7 @@ const CreateTicketForm: React.FC<{ onSubmit: (subject: string, priority: 'Niedri
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(subject, priority as any, message);
+        onSubmit(subject, priority as 'Niedrig' | 'Mittel' | 'Hoch', message);
     }
 
     return (

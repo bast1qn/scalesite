@@ -11,8 +11,18 @@ interface ShowcaseSectionProps {
   subtitle?: string;
 }
 
+interface ShowcaseItem {
+  id: string | number;
+  title: string;
+  category: string;
+  excerpt: string;
+  image_url?: string;
+  route?: string;
+  gradient?: string;
+}
+
 // Static showcase items
-const staticShowcaseItems = [
+const staticShowcaseItems: ShowcaseItem[] = [
   {
     id: 'restaurant',
     title: 'The Coffee House',
@@ -129,15 +139,15 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
 
                 <AnimatedSection stagger key={activeFilter}>
                 <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3 stagger-container">
-                    {filteredItems.map((item: any, idx: number) => (
+                    {filteredItems.map((item, idx: number) => (
                     <div
                         key={item.id}
                         className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/60 dark:hover:border-violet-500/60 hover:shadow-premium-lg hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2"
                         style={{ animationDelay: `${idx * 80}ms` }}
                     >
                         <div className="aspect-video w-full overflow-hidden relative">
-                            {(item as any).gradient ? (
-                                <div className={`w-full h-full bg-gradient-to-br ${(item as any).gradient} group-hover:scale-110 transition-transform duration-700`}></div>
+                            {item.gradient ? (
+                                <div className={`w-full h-full bg-gradient-to-br ${item.gradient} group-hover:scale-110 transition-transform duration-700`}></div>
                             ) : (
                                 <img
                                     src={item.image_url}
@@ -149,7 +159,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                             )}
                             {/* Premium overlay on Hover */}
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                <button onClick={() => setCurrentPage((item as any).route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105 btn-micro-press relative overflow-hidden group/btn-2">
+                                <button onClick={() => setCurrentPage(item.route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105 btn-micro-press relative overflow-hidden group/btn-2">
                                     <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
                                     <EyeIcon className="w-5 h-5" />
                                     {t('showcase.view_btn')}
@@ -174,7 +184,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                             </div>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
                                 <button
-                                    onClick={() => setCurrentPage((item as any).route || 'preise')}
+                                    onClick={() => setCurrentPage(item.route || 'preise')}
                                     className="inline-flex items-center gap-2 text-blue-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-blue-700 dark:hover:text-violet-300"
                                 >
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">

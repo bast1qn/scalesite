@@ -56,7 +56,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
     const [loading, setLoading] = useState(true);
 
     // --- REAL DATA STATES (INITIALIZED TO 0) ---
-    const [activities, setActivities] = useState<any[]>([]);
+    const [activities, setActivities] = useState<Array<{id: string; text: string; time: string; type: 'info' | 'success' | 'warning' | 'system'}>>([]);
     
     const [financeData, setFinanceData] = useState({
         totalBudget: 0,
@@ -72,7 +72,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
         uptime: "99.9%"
     });
 
-    const [nextMilestone, setNextMilestone] = useState<any>(null);
+    const [nextMilestone, setNextMilestone] = useState<{title: string; description: string; date: string; daysLeft: number} | null>(null);
 
     const tips = [
         "Bilder vor dem Upload komprimieren spart Ladezeit.",
@@ -115,9 +115,9 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                 if (!isMounted) return;
 
                 if (!statsRes.error) setStats(statsRes.data);
-                
+
                 if (projectsRes.data && Array.isArray(projectsRes.data)) {
-                    const formattedProjects = projectsRes.data.map((s: any) => ({
+                    const formattedProjects = projectsRes.data.map((s) => ({
                         id: s.id,
                         name: s.services?.name || "Unbekannter Service",
                         status: s.status,
@@ -145,14 +145,14 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                 if (transRes.data && Array.isArray(transRes.data)) {
                     let spent = 0;
                     let open = 0;
-                    transRes.data.forEach((t: any) => {
+                    transRes.data.forEach((t) => {
                         if (t.status === 'Bezahlt') spent += t.amount;
                         if (t.status === 'Offen') open += t.amount;
                     });
                     // Find next due invoice
                     const upcoming = transRes.data
-                        .filter((t:any) => t.status === 'Offen' || t.status === 'Überfällig')
-                        .sort((a:any,b:any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime())[0];
+                        .filter((t) => t.status === 'Offen' || t.status === 'Überfällig')
+                        .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime())[0];
 
                     setFinanceData({
                         totalBudget: spent + open,
@@ -166,11 +166,11 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                 }
 
                 // Generate activities from real data
-                const activities: any[] = [];
+                const activities: Array<{id: string; text: string; time: string; type: 'info' | 'success' | 'warning' | 'system'}> = [];
 
                 // Add ticket activities
                 if (ticketsRes.data && Array.isArray(ticketsRes.data)) {
-                    ticketsRes.data.slice(0, 3).forEach((t: any) => {
+                    ticketsRes.data.slice(0, 3).forEach((t) => {
                         const timeAgo = getTimeAgo(new Date(t.created_at));
                         activities.push({
                             id: `ticket-${t.id}`,
@@ -183,7 +183,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
 
                 // Add service activities
                 if (projectsRes.data && Array.isArray(projectsRes.data)) {
-                    projectsRes.data.slice(0, 2).forEach((s: any) => {
+                    projectsRes.data.slice(0, 2).forEach((s) => {
                         if (s.status === 'active') {
                             const timeAgo = getTimeAgo(new Date(s.created_at));
                             activities.push({
@@ -208,8 +208,8 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
 
                 setActivities(activities.slice(0, 5));
 
-            } catch (error: any) {
-                console.warn("Error fetching dashboard data:", error.message);
+            } catch (error) {
+                console.warn("Error fetching dashboard data:", error instanceof Error ? error.message : error);
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -249,7 +249,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
         }
     };
 
-    const KPICard = ({ title, value, icon, subtext, onClick }: any) => (
+    const KPICard = ({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: React.ReactNode; subtext?: React.ReactNode; onClick?: () => void}) => (
         <div
             onClick={onClick}
             className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden ${onClick ? 'cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-300/50 dark:hover:border-blue-700/50 transition-all duration-300 hover:-translate-y-1' : ''}`}
