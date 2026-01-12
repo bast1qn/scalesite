@@ -101,6 +101,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           stopLoading();
         }
       } catch (err: any) {
+        // AbortError is expected on timeout - treat as no session
+        if (err?.name === 'AbortError') {
+          console.log('[AUTH] Session request aborted (timeout or cancelled)');
+          stopLoading();
+          return;
+        }
         console.error('[AUTH] Exception getting session:', err?.message || err);
         stopLoading();
       }

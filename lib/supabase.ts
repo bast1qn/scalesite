@@ -17,15 +17,28 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         autoRefreshToken: true,
         detectSessionInUrl: true,
         flowType: 'pkce',
+        debug: false, // Set to true to see all auth logs
     },
     global: {
         fetch: (url, options = {}) => {
+            // Create a fresh AbortController for each request with 60 second timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000);
+
             return fetch(url, {
                 ...options,
-                // Add 30 second timeout to fetch requests (increased from 10s)
-                signal: AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined,
-            }).catch((err) => {
-                console.error('[SUPABASE] Fetch error:', err);
+                signal: controller.signal,
+            })
+            .then(response => {
+                clearTimeout(timeoutId);
+                return response;
+            })
+            .catch((err) => {
+                clearTimeout(timeoutId);
+                // Don't log AbortError as it's expected on timeout
+                if (err.name !== 'AbortError') {
+                    console.error('[SUPABASE] Fetch error:', err);
+                }
                 throw err;
             });
         },
