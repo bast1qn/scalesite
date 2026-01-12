@@ -228,7 +228,9 @@ export const StaggerItem: React.FC<{
   className?: string;
   delay?: number;
 }> = ({ children, className = '', delay = 0 }) => {
-  if (prefersReducedMotion()) {
+  const prefersReduced = prefersReducedMotion();
+
+  if (prefersReduced) {
     return <div className={className}>{children}</div>;
   }
 
