@@ -1,5 +1,5 @@
 
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { User, AuthError, Session } from '@supabase/supabase-js';
 import { supabase, getUserProfile, hasRole, UserProfile } from '../lib/supabase';
 
@@ -44,14 +44,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [sessionChecked, setSessionChecked] = useState(false);
 
+  // Use ref to track loading state for safety timeout (avoids stale closure)
+  const loadingRef = useRef(true);
+
+  // Update ref when loading state changes
+  useEffect(() => {
+    loadingRef.current = loading;
+    console.log('[AUTH] Loading state changed to:', loading);
+  }, [loading]);
+
   // Load user session on mount
   useEffect(() => {
     let isMounted = true;
     let safetyTimeout: NodeJS.Timeout | null = null;
 
     // Safety timeout: stop loading after 30 seconds even if auth hasn't completed
+    // Use loadingRef.current to check the ACTUAL current loading state, not the stale closure value
     safetyTimeout = setTimeout(() => {
-      if (isMounted && loading) {
+      if (isMounted && loadingRef.current) {
         console.error('[AUTH] Safety timeout triggered after 30s - Supabase connection may be failing');
         console.error('[AUTH] Check your Supabase configuration in .env file');
         setLoading(false);
@@ -62,6 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Immediately check if we should stop loading
     const stopLoading = () => {
       if (isMounted) {
+        console.log('[AUTH] stopLoading called');
         setLoading(false);
         setSessionChecked(true);
         if (safetyTimeout) clearTimeout(safetyTimeout);
@@ -121,6 +132,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      console.log('[AUTH] Loading profile for user:', userId);
       const { data, error } = await getUserProfile(userId);
 
       if (error) {
@@ -136,8 +148,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             role: 'user',
             referral_code: null
           });
+          setLoading(false);
+          console.log('[AUTH] Created fallback user from auth data');
+        } else {
+          setLoading(false);
         }
-        setLoading(false);
         return;
       }
 
@@ -150,12 +165,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           role: data.role as 'team' | 'user' | 'owner',
           referral_code: data.referral_code
         });
+        console.log('[AUTH] Profile loaded successfully:', data.email);
+        setLoading(false);
       } else {
         console.error('[AUTH] No profile data found');
+        setLoading(false);
       }
     } catch (e) {
       console.error('[AUTH] Exception loading user profile:', e);
-    } finally {
       setLoading(false);
     }
   };
