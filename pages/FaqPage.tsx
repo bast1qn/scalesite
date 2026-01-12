@@ -89,15 +89,21 @@ const FaqPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCur
                                     {cat.questions.map((item, idx) => (
                                         <details
                                             key={idx}
-                                            className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-blue-200 dark:hover:border-blue-800"
+                                            className="group relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 dark:border-slate-700/70 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 dark:hover:shadow-black/40 hover:border-blue-300/60 dark:hover:border-blue-700/50"
                                         >
-                                            <summary className="flex justify-between items-center p-6 font-semibold text-slate-900 dark:text-white cursor-pointer select-none list-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                                                <span className="pr-4">{item.q}</span>
-                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center transition-all duration-300 group-open:rotate-180">
-                                                    <ChevronDownIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                                            {/* Gradient accent on open */}
+                                            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-open:opacity-100 transition-opacity duration-300"></div>
+
+                                            <summary className="flex justify-between items-center p-5 font-semibold text-slate-900 dark:text-white cursor-pointer select-none list-none hover:bg-gradient-to-r hover:from-slate-50/50 hover:to-blue-50/20 dark:hover:from-slate-700/30 dark:hover:to-blue-900/10 transition-colors">
+                                                <span className="pr-4 flex items-center gap-3">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600 group-open:bg-blue-500 transition-colors duration-300"></span>
+                                                    {item.q}
+                                                </span>
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center transition-all duration-300 group-open:rotate-180 group-open:bg-gradient-to-br group-open:from-blue-100 group-open:to-indigo-100 dark:group-open:from-blue-900/30 dark:group-open:to-indigo-900/30 shadow-sm">
+                                                    <ChevronDownIcon className="w-4 h-4 text-slate-500 dark:text-slate-400 group-open:text-blue-600 dark:group-open:text-blue-400 transition-colors" />
                                                 </div>
                                             </summary>
-                                            <div className="px-6 pb-6 pt-2 text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-700/50 whitespace-pre-line leading-relaxed">
+                                            <div className="px-6 pb-6 pt-3 text-slate-600 dark:text-slate-400 border-t border-slate-100/70 dark:border-slate-700/50 whitespace-pre-line leading-relaxed animate-slide-down">
                                                 {item.a}
                                             </div>
                                         </details>

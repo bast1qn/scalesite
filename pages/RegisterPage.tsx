@@ -109,22 +109,46 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-12 relative overflow-hidden">
-       {/* Animated background */}
+       {/* Animated gradient background */}
        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[20%] left-[10%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 to-violet-400/6 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/6 to-teal-400/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+            {/* Floating gradient orbs */}
+            <div className="absolute top-[10%] left-[5%] w-[600px] h-[600px] bg-gradient-to-br from-emerald-400/15 via-teal-400/10 to-green-400/8 rounded-full blur-3xl animate-gradient-orb-1"></div>
+            <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-blue-400/12 via-indigo-400/8 to-violet-400/5 rounded-full blur-3xl animate-gradient-orb-2"></div>
+            <div className="absolute top-[40%] right-[30%] w-[300px] h-[300px] bg-gradient-to-br from-violet-400/10 to-purple-400/6 rounded-full blur-3xl animate-gradient-orb-3"></div>
+
+            {/* Animated particles */}
+            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-500/30 rounded-full animate-float-up" style={{ animationDelay: '0s' }}></div>
+            <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-teal-500/30 rounded-full animate-float-up" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-green-500/30 rounded-full animate-float-up" style={{ animationDelay: '4s' }}></div>
+
+            {/* Grid pattern overlay */}
+            <div
+                className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+                style={{
+                    backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+                    backgroundSize: '60px 60px',
+                }}
+            ></div>
        </div>
 
        <div className="relative z-10 max-w-md w-full">
-          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200 dark:border-slate-700 p-8 sm:p-10">
-            <div className="text-center mb-8">
-                <h2 className="font-serif text-3xl font-bold text-slate-900 dark:text-white">
-                    {t('auth.register_title')}
-                </h2>
-                <p className="mt-2 text-slate-600 dark:text-slate-400">
-                    {t('auth.register_subtitle')}
-                </p>
-            </div>
+          {/* Register Card with glass-morphism */}
+          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-8 sm:p-10 animate-scale-in overflow-hidden">
+              {/* Decorative gradient border */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500"></div>
+
+              {/* Subtle glow effect */}
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-emerald-400/5 to-teal-400/5 rounded-full blur-3xl pointer-events-none"></div>
+
+              <div className="relative">
+                <div className="text-center mb-8">
+                    <h2 className="font-serif text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+                        {t('auth.register_title')}
+                    </h2>
+                    <p className="mt-2 text-slate-600 dark:text-slate-400">
+                        {t('auth.register_subtitle')}
+                    </p>
+                </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>
                <div>
@@ -246,6 +270,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
                 {t('auth.back_home')}
               </button>
             </div>
+              </div>
           </div>
        </div>
     </div>
