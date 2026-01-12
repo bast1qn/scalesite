@@ -30,6 +30,15 @@ const staticShowcaseItems = [
     image_url: '',
     route: 'architecture',
     gradient: 'from-slate-400 to-slate-600'
+  },
+  {
+    id: 'realestate',
+    title: 'Premium Immobilien',
+    category: 'Immobilien',
+    excerpt: 'Immobilien-Website mit Suchfiltern, Property Cards und Besichtigungs-Anfrage.',
+    image_url: '',
+    route: 'realestate',
+    gradient: 'from-blue-400 to-blue-600'
   }
 ];
 
