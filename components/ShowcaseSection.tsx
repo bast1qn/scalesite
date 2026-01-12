@@ -11,6 +11,19 @@ interface ShowcaseSectionProps {
   subtitle?: string;
 }
 
+// Static showcase items
+const staticShowcaseItems = [
+  {
+    id: 'restaurant',
+    title: 'Café & Bistro',
+    category: 'Gastronomie',
+    excerpt: 'Moderne Website für ein lokales Café mit Speisekarte, Reservierungsformular und Galerie.',
+    image_url: '',
+    route: 'restaurant',
+    gradient: 'from-amber-400 to-orange-500'
+  }
+];
+
 export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
   setCurrentPage,
   title,
@@ -30,15 +43,20 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
     return showcaseData;
   }, [language]);
 
+  // Combine static items with database items
+  const allItems = useMemo(() => {
+    return [...staticShowcaseItems, ...items.map(item => ({ ...item, route: 'preise' }))];
+  }, [items]);
+
   const categories = useMemo(() => {
-    const cats = [t('showcase.filter_all'), ...Array.from(new Set(items.map(item => item.category)))];
+    const cats = [t('showcase.filter_all'), ...Array.from(new Set(allItems.map(item => item.category)))];
     return cats;
-  }, [items, t]);
+  }, [allItems, t]);
 
   const displayTitle = title || t('showcase.title');
   const displaySubtitle = subtitle || t('showcase.subtitle');
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = allItems.filter(item =>
     activeFilter === t('showcase.filter_all') || item.category === activeFilter
   );
 
@@ -56,7 +74,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
           </div>
         </AnimatedSection>
 
-        {items.length > 0 ? (
+        {allItems.length > 0 ? (
             <>
                 <div className="my-12 flex justify-center flex-wrap gap-3">
                     {categories.map(category => (
@@ -76,22 +94,26 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
 
                 <AnimatedSection stagger key={activeFilter}>
                 <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3 stagger-container">
-                    {filteredItems.map((item) => (
+                    {filteredItems.map((item: any) => (
                     <div
                         key={item.id}
                         className="fancy-card group bg-light-bg dark:bg-dark-bg rounded-3xl shadow-lg shadow-dark-text/5 dark:shadow-black/30 overflow-hidden flex flex-col border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
                     >
                         <div className="aspect-video w-full overflow-hidden relative">
-                            <img
-                                src={item.image_url}
-                                alt={item.title}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                loading="lazy"
-                                decoding="async"
-                            />
+                            {(item as any).gradient ? (
+                                <div className={`w-full h-full bg-gradient-to-br ${(item as any).gradient}`}></div>
+                            ) : (
+                                <img
+                                    src={item.image_url}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            )}
                             {/* Overlay on Hover */}
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                                <button onClick={() => setCurrentPage('preise')} className="bg-white text-slate-900 font-bold py-3 px-6 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 flex items-center gap-2">
+                                <button onClick={() => setCurrentPage((item as any).route || 'preise')} className="bg-white text-slate-900 font-bold py-3 px-6 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 flex items-center gap-2">
                                     <EyeIcon className="w-5 h-5" />
                                     {t('showcase.view_btn')}
                                 </button>
@@ -107,7 +129,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                             </div>
                             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
                                 <button
-                                    onClick={() => setCurrentPage('preise')}
+                                    onClick={() => setCurrentPage((item as any).route || 'preise')}
                                     className="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-3 transition-all"
                                 >
                                 {t('showcase.details_btn')}
