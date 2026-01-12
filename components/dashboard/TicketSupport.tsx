@@ -249,11 +249,13 @@ const TicketSupport: React.FC = () => {
 
     const handleAssignService = async () => {
         if (!selectedTicketId || !selectedServiceId) return;
+        const serviceIdNum = parseInt(selectedServiceId);
+        if (isNaN(serviceIdNum)) return;
         setAssignLoading(true);
         try {
             // Use correct payload structure. parseInt is only for legacy DB services.
             // If ID is string (automation services), API handles it.
-            await api.adminAssignServiceToTicket(selectedTicketId, parseInt(selectedServiceId));
+            await api.adminAssignServiceToTicket(selectedTicketId, serviceIdNum);
             alertAssigned();
             await fetchMessages(selectedTicketId);
             await fetchTickets(); // Update status in list

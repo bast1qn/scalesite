@@ -189,7 +189,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                     className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Kontaktformular' : 'Contact Form'} (+{formatPrice(15)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Kontaktformular' : 'Contact Form'} (+{formatPrice(10)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? 'Einfaches Formular fur Anfragen' : 'Simple inquiry form'}</span>
                                 </div>
                             </label>
@@ -202,7 +202,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                     className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
-                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Blog-Sektion' : 'Blog Section'} (+{formatPrice(25)})</span>
+                                    <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Blog-Sektion' : 'Blog Section'} (+{formatPrice(15)})</span>
                                     <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? 'Blog mit Beitragen' : 'Blog with posts'}</span>
                                 </div>
                             </label>

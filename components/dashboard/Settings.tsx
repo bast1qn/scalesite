@@ -229,7 +229,7 @@ const Settings: React.FC = () => {
                             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
                                 <div className="flex items-center gap-6 mb-8 border-b border-slate-100 dark:border-slate-800 pb-8">
                                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-800 shadow-lg">
-                                        {name.charAt(0)}
+                                        {name?.charAt(0) || '?'}
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Profilbild</h3>

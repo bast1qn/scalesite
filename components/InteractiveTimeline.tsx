@@ -135,7 +135,7 @@ export const InteractiveTimeline: React.FC = () => {
                                 <div
                                     key={milestone.id}
                                     id={`milestone-${milestone.id}`}
-                                    ref={(el) => { if (refs.current) refs.current[index] = el; }}
+                                    ref={(el) => { refs.current[index] = el; }}
                                     className="scroll-mt-28 transition-all duration-500 ease-out"
                                 >
                                     {/* Mobile year display */}
@@ -160,7 +160,7 @@ export const InteractiveTimeline: React.FC = () => {
                                         <div className="relative">
                                             {/* Icon container */}
                                             <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-lg mb-6 sm:mb-8 transform transition-all duration-500 ease-out ${isActive ? 'scale-100' : 'scale-95'}`}>
-                                                <span className="w-8 h-8 sm:w-10 sm:h-10">{iconMap[milestone.icon_name]}</span>
+                                                <span className="w-8 h-8 sm:w-10 sm:h-10">{iconMap[milestone.icon_name] ?? <CodeBracketIcon />}</span>
                                             </div>
 
                                             <h3 className="text-xl sm:text-2xl font-bold text-dark-text dark:text-light-text mb-3">{milestone.title}</h3>
