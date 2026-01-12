@@ -55,7 +55,7 @@ export const ShowcasePreview: React.FC<ShowcasePreviewProps> = ({ setCurrentPage
           {/* Showcase Cards */}
           <div className="grid md:grid-cols-3 gap-8">
             {showcases.map((showcase, idx) => (
-              <AnimatedSection key={showcase.id} stagger delay={idx * 100}>
+              <AnimatedSection key={showcase.id} delay={idx * 100}>
                 <button
                   onClick={() => setCurrentPage(showcase.id as any)}
                   className="group text-left"
