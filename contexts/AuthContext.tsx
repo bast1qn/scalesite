@@ -139,36 +139,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const loadUserProfile = async (userId: string) => {
     try {
       console.log('[AUTH] Loading profile for user:', userId);
-      console.log('[AUTH] Calling getUserProfile...');
-
-      // Add timeout wrapper - if query takes more than 5 seconds, use fallback
-      const profilePromise = getUserProfile(userId);
-      const timeoutPromise = new Promise<{ data: null; error: Error }>(resolve =>
-        setTimeout(() => resolve({ data: null, error: new Error('Profile query timeout') }), 5000)
-      );
-
-      const { data, error } = await Promise.race([profilePromise, timeoutPromise]);
-      console.log('[AUTH] getUserProfile returned:', { error: error?.message, hasData: !!data });
+      const { data, error } = await getUserProfile(userId);
 
       if (error) {
-        console.error('[AUTH] Error loading profile from DB:', error);
-        // Create a basic user from auth data if profile doesn't exist yet
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          setUser({
-            id: user.id,
-            name: user.user_metadata?.name || '',
-            email: user.email || '',
-            company: user.user_metadata?.company || null,
-            role: 'user',
-            referral_code: null
-          });
+        console.error('[AUTH] Error loading profile from DB:', error.message);
+        // For PGRLS error, use minimal fallback - don't call getUser() again
+        if (error.message?.includes('PGRST') || error.message?.includes('JWT') || error.code === 'PGRST116') {
+          console.log('[AUTH] RLS/JWT error - waiting for auth to settle');
           setLoading(false);
-          console.log('[AUTH] Created fallback user from auth data');
-        } else {
-          setLoading(false);
+          return;
         }
-        return;
       }
 
       if (data) {
@@ -183,11 +163,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] Profile loaded successfully:', data.email);
         setLoading(false);
       } else {
-        console.error('[AUTH] No profile data found');
+        console.log('[AUTH] No profile data - using minimal user info');
         setLoading(false);
       }
-    } catch (e) {
-      console.error('[AUTH] Exception loading user profile:', e);
+    } catch (e: any) {
+      console.error('[AUTH] Exception loading user profile:', e?.message || e);
       setLoading(false);
     }
   };

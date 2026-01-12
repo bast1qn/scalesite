@@ -239,24 +239,10 @@ ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 -- RLS POLICIES
 -- ============================================
 
--- Profiles: Users can read their own profile, team can read all
+-- Profiles: Users can read their own profile
 DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 CREATE POLICY "Users can view own profile" ON profiles
     FOR SELECT USING (auth.uid() = id);
-
-DROP POLICY IF EXISTS "Team can view all profiles" ON profiles;
-CREATE POLICY "Team can view all profiles" ON profiles
-    FOR SELECT USING (
-        -- Check auth.users metadata directly to avoid infinite recursion
-        (
-            SELECT 1 FROM auth.users
-            WHERE id = auth.uid()
-            AND (
-                raw_user_meta_data->>'role' IN ('team', 'owner')
-                OR raw_app_meta_data->>'role' IN ('team', 'owner')
-            )
-        ) IS NOT NULL
-    );
 
 DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
