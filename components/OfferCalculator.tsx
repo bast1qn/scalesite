@@ -122,21 +122,21 @@ Monatlich: ${formatPrice(monthlyPrice)}
     };
 
     return (
-        <div className="mt-24">
-            <div className="text-center mb-12">
-                 <h3 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
+        <div className="mt-32">
+            <div className="text-center mb-16">
+                 <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight-plus">
                     {t('calculator.title')}
                  </h3>
-                 <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
+                 <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed-plus">
                     {t('calculator.subtitle')}
                  </p>
             </div>
-            <div className="max-w-6xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div className="max-w-6xl mx-auto bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium-lg border border-slate-200/70 dark:border-slate-700/60 overflow-hidden">
                 <div className="grid md:grid-cols-12">
                     {/* Inputs */}
-                    <div className="md:col-span-7 p-8 sm:p-10 space-y-8">
+                    <div className="md:col-span-7 p-8 sm:p-12 space-y-10">
                         <div>
-                            <label htmlFor="projectType" className="block text-sm font-bold text-slate-900 dark:text-white mb-3 uppercase tracking-wider">{t('calculator.project_type')}</label>
+                            <label htmlFor="projectType" className="block text-sm font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wider-plus">{t('calculator.project_type')}</label>
                             <CustomSelect
                                 id="projectType"
                                 options={projectTypeOptions}
@@ -144,15 +144,15 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                 onChange={setProjectType}
                             />
                         </div>
-                        
+
                         <div>
-                            <div className="flex justify-between items-center mb-4">
-                                <label htmlFor="pageCount" className="block text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">{t('calculator.scope')}</label>
-                                <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm shadow-lg">
+                            <div className="flex justify-between items-center mb-5">
+                                <label htmlFor="pageCount" className="block text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider-plus">{t('calculator.scope')}</label>
+                                <span className="inline-flex items-center justify-center px-5 py-2 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 text-white font-bold text-sm shadow-lg shadow-blue-500/25">
                                     {pageCount} {pageCount === 1 ? t('calculator.page') : t('calculator.pages')}
                                 </span>
                             </div>
-                            <div className="relative py-2">
+                            <div className="relative py-3">
                                 <input
                                     id="pageCount"
                                     type="range"
@@ -161,10 +161,13 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                     step="1"
                                     value={pageCount}
                                     onChange={handlePageCountChange}
-                                    className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 focus:outline-none"
+                                    className="w-full h-3 bg-gradient-to-r from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 rounded-full appearance-none cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-500/20"
+                                    style={{
+                                        backgroundImage: 'linear-gradient(to right, #3b82f6 0%, #3b82f6 ' + ((pageCount - 1) / 19 * 100) + '%, #cbd5e1 ' + ((pageCount - 1) / 19 * 100) + '%, #cbd5e1 100%)'
+                                    }}
                                 />
                             </div>
-                            <div className="flex justify-between mt-2 text-xs text-slate-400 font-medium px-1">
+                            <div className="flex justify-between mt-3 text-xs text-slate-400 dark:text-slate-500 font-medium px-1">
                                 <span>1 {t('calculator.page')}</span>
                                 <span>10 {t('calculator.pages')}</span>
                                 <span>20 {t('calculator.pages')}</span>
@@ -172,135 +175,146 @@ Monatlich: ${formatPrice(monthlyPrice)}
                         </div>
 
                         {/* Special Features Section */}
-                        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-700">
-                            <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{language === 'de' ? 'Extras' : 'Extras'}</p>
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${contactForm ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
+                        <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-slate-700/50">
+                            <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider-plus mb-3 flex items-center gap-2">
+                                <SparklesIcon className="w-4 h-4 text-violet-500" />
+                                {language === 'de' ? 'Extras' : 'Extras'}
+                            </p>
+                            <label className={`flex items-center p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 group ${contactForm ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/25 dark:to-violet-900/25 border-blue-400 dark:border-blue-500 shadow-lg shadow-blue-500/10' : 'bg-slate-50/80 dark:bg-slate-700/30 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="contactForm"
                                     type="checkbox"
                                     checked={contactForm}
                                     onChange={e => setContactForm(e.target.checked)}
-                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
                                     <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Kontaktformular' : 'Contact Form'} (+{formatPrice(15)})</span>
-                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Einfaches Formular für Anfragen' : 'Simple inquiry form'}</span>
+                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? 'Einfaches Formular fur Anfragen' : 'Simple inquiry form'}</span>
                                 </div>
                             </label>
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${blog ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
+                            <label className={`flex items-center p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 group ${blog ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/25 dark:to-violet-900/25 border-blue-400 dark:border-blue-500 shadow-lg shadow-blue-500/10' : 'bg-slate-50/80 dark:bg-slate-700/30 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="blog"
                                     type="checkbox"
                                     checked={blog}
                                     onChange={e => setBlog(e.target.checked)}
-                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
                                     <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{language === 'de' ? 'Blog-Sektion' : 'Blog Section'} (+{formatPrice(25)})</span>
-                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Blog mit Beiträgen' : 'Blog with posts'}</span>
+                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? 'Blog mit Beitragen' : 'Blog with posts'}</span>
                                 </div>
                             </label>
                         </div>
 
-                         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-700">
-                            <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('calculator.monthly_services')}</p>
+                         <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-slate-700/50">
+                            <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider-plus mb-3 flex items-center gap-2">
+                                <GlobeAltIcon className="w-4 h-4 text-blue-500" />
+                                {t('calculator.monthly_services')}
+                            </p>
 
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${hosting ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
+                            <label className={`flex items-center p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 group ${hosting ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/25 dark:to-violet-900/25 border-blue-400 dark:border-blue-500 shadow-lg shadow-blue-500/10' : 'bg-slate-50/80 dark:bg-slate-700/30 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="hosting"
                                     type="checkbox"
                                     checked={hosting}
                                     onChange={e => setHosting(e.target.checked)}
-                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
                                     <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t('calculator.hosting')} (+{formatPrice(9)})</span>
-                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Schnelles & sicheres Hosting' : 'Fast & secure hosting'}</span>
+                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? 'Schnelles & sicheres Hosting' : 'Fast & secure hosting'}</span>
                                 </div>
                             </label>
 
-                            <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${domain ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
+                            <label className={`flex items-center p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 group ${domain ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/25 dark:to-violet-900/25 border-blue-400 dark:border-blue-500 shadow-lg shadow-blue-500/10' : 'bg-slate-50/80 dark:bg-slate-700/30 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="domain"
                                     type="checkbox"
                                     checked={domain}
                                     onChange={e => setDomain(e.target.checked)}
-                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
                                     <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t('calculator.domain')} (+{formatPrice(2)})</span>
-                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? '.de Domain inklusive' : '.de domain included'}</span>
+                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? '.de Domain inklusive' : '.de domain included'}</span>
                                 </div>
-                                <GlobeAltIcon className="text-slate-400 w-5 h-5" />
+                                <GlobeAltIcon className="text-slate-400 w-5 h-5 ml-2" />
                             </label>
 
-                             <label className={`flex items-center p-4 rounded-xl border cursor-pointer transition-all duration-200 group ${maintenance ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-400' : 'bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600'}`}>
+                             <label className={`flex items-center p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 group ${maintenance ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/25 dark:to-violet-900/25 border-blue-400 dark:border-blue-500 shadow-lg shadow-blue-500/10' : 'bg-slate-50/80 dark:bg-slate-700/30 border-slate-200/70 dark:border-slate-700/60 hover:border-blue-300 dark:hover:border-blue-600'}`}>
                                 <input
                                     id="maintenance"
                                     type="checkbox"
                                     checked={maintenance}
                                     onChange={e => setMaintenance(e.target.checked)}
-                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                    className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                 />
                                 <div className="ml-4 flex-grow">
                                     <span className="block text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{t('calculator.maintenance')} (+{formatPrice(15)})</span>
-                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{language === 'de' ? 'Updates & Support' : 'Updates & support'}</span>
+                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">{language === 'de' ? 'Updates & Support' : 'Updates & support'}</span>
                                 </div>
                             </label>
                         </div>
                     </div>
 
                     {/* Results */}
-                    <div className="md:col-span-5 bg-slate-50 dark:bg-slate-900 p-8 sm:p-10 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-violet-500/10 rounded-full blur-3xl"></div>
+                    <div className="md:col-span-5 bg-gradient-to-b from-slate-50 to-slate-100/50 dark:from-slate-900/50 dark:to-slate-950 p-8 sm:p-12 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-700/50 relative overflow-hidden">
+                        {/* Animated background gradients */}
+                        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-56 h-56 bg-gradient-to-br from-blue-500/15 to-violet-500/15 rounded-full blur-3xl animate-morph-blob"></div>
+                        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-56 h-56 bg-gradient-to-br from-violet-500/15 to-purple-500/15 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '3s' }}></div>
 
                         <div className="relative z-10">
-                            <div className="flex items-center gap-3 mb-6 text-slate-500 dark:text-slate-400">
-                                <div className="w-10 h-10 flex items-center justify-center bg-white dark:bg-slate-800 rounded-xl shadow-sm">
+                            <div className="flex items-center gap-3 mb-8 text-slate-500 dark:text-slate-400">
+                                <div className="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-800 rounded-2xl shadow-premium">
                                     <CalculatorIcon />
                                 </div>
-                                <span className="font-bold uppercase tracking-wider text-xs">{t('calculator.your_estimate')}</span>
+                                <span className="font-bold uppercase tracking-wider-plus text-xs">{t('calculator.your_estimate')}</span>
                             </div>
 
-                            <div className="mb-8">
-                                <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{t('calculator.one_time_costs')}</p>
+                            <div className="mb-10">
+                                <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">{t('calculator.one_time_costs')}</p>
                                 <div className="flex items-baseline gap-2">
-                                    <p className="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 tracking-tight">
+                                    <p className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 tracking-tight-plus drop-shadow-sm">
                                         {formatPrice(oneTimePriceRange.min)}
                                     </p>
                                 </div>
-                                <p className="text-sm text-slate-400 mt-1">{t('calculator.up_to')} {formatPrice(oneTimePriceRange.max)} {t('calculator.depending_on')}</p>
+                                <p className="text-sm text-slate-400 mt-2">{t('calculator.up_to')} {formatPrice(oneTimePriceRange.max)} {t('calculator.depending_on')}</p>
                             </div>
 
                             {(monthlyPrice > 0 || contactForm || blog) && (
-                                <div className="mb-8 pt-6 border-t border-slate-200 dark:border-slate-700 animate-fade-in">
-                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{t('calculator.monthly_costs')}</p>
+                                <div className="mb-10 pt-8 border-t border-slate-200/80 dark:border-slate-700/50 animate-fade-in">
+                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">{t('calculator.monthly_costs')}</p>
                                     <div className="flex items-baseline gap-2">
-                                        <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 tracking-tight">
+                                        <p className="text-4xl font-bold text-blue-600 dark:text-blue-400 tracking-tight-plus">
                                             {formatPrice(monthlyPrice)}
                                         </p>
                                         <span className="text-slate-500 dark:text-slate-400 font-medium">{t('pricing.per_month')}</span>
                                     </div>
-                                    <div className="flex flex-wrap gap-2 mt-2">
-                                        {hosting && <span className="text-xs bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">{t('calculator_labels.addon_hosting')}</span>}
-                                        {domain && <span className="text-xs bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">{t('calculator_labels.addon_domain')}</span>}
-                                        {maintenance && <span className="text-xs bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">{t('calculator_labels.addon_maintenance')}</span>}
-                                        {contactForm && <span className="text-xs bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">{language === 'de' ? 'Kontaktformular' : 'Contact Form'}</span>}
-                                        {blog && <span className="text-xs bg-white dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">{language === 'de' ? 'Blog' : 'Blog'}</span>}
+                                    <div className="flex flex-wrap gap-2 mt-3">
+                                        {hosting && <span className="text-xs bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">{t('calculator_labels.addon_hosting')}</span>}
+                                        {domain && <span className="text-xs bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">{t('calculator_labels.addon_domain')}</span>}
+                                        {maintenance && <span className="text-xs bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">{t('calculator_labels.addon_maintenance')}</span>}
+                                        {contactForm && <span className="text-xs bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">{language === 'de' ? 'Kontaktformular' : 'Contact Form'}</span>}
+                                        {blog && <span className="text-xs bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">{language === 'de' ? 'Blog' : 'Blog'}</span>}
                                     </div>
                                 </div>
                             )}
 
-                            <div className="w-full space-y-3 mt-auto">
-                                <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+                            <div className="w-full space-y-4 mt-auto">
+                                <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed-plus">
                                     {t('calculator.disclaimer')}
                                 </p>
                                 <button
                                     onClick={handleRequestClick}
-                                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-6 rounded-xl hover:opacity-90 transition-all shadow-lg hover:shadow-xl hover:shadow-slate-900/20 dark:hover:shadow-white/10 hover:-translate-y-0.5"
+                                    className="w-full bg-gradient-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-slate-900 font-bold py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-slate-900/20 dark:hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1 shadow-lg relative overflow-hidden group/btn"
                                 >
-                                    {t('calculator.request_btn')}
+                                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-violet-500/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></span>
+                                    <span className="relative z-10 flex items-center justify-center gap-2">
+                                        <TicketIcon className="w-4 h-4" />
+                                        {t('calculator.request_btn')}
+                                    </span>
                                 </button>
                             </div>
                         </div>

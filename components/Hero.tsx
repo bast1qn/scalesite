@@ -19,7 +19,7 @@ const FloatingParticle: React.FC<{
   duration: number;
   left: string;
   size: string;
-  variant?: 'orb' | 'sparkle' | 'glow' | 'ring';
+  variant?: 'orb' | 'sparkle' | 'glow' | 'ring' | 'diamond';
   color?: string;
 }> = ({ delay, duration, left, size, variant = 'orb', color }) => {
   const getParticleStyle = () => {
@@ -28,27 +28,35 @@ const FloatingParticle: React.FC<{
         return {
           background: `radial-gradient(circle, ${color || '#8b5cf6'} 0%, transparent 70%)`,
           clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
+          filter: 'drop-shadow(0 0 6px currentColor)',
         };
       case 'glow':
         return {
           background: `radial-gradient(circle, ${color || '#3b82f6'} 0%, transparent 70%)`,
-          filter: 'blur(8px)',
+          filter: 'blur(10px)',
         };
       case 'ring':
         return {
           background: 'transparent',
-          border: `1.5px solid ${color || 'rgba(139, 92, 246, 0.4)'}`,
+          border: `2px solid ${color || 'rgba(139, 92, 246, 0.5)'}`,
+          boxShadow: `0 0 10px ${color || 'rgba(139, 92, 246, 0.3)'}`,
+        };
+      case 'diamond':
+        return {
+          background: `linear-gradient(135deg, ${color || 'rgba(59, 130, 246, 0.4)'} 0%, ${color || 'rgba(139, 92, 246, 0.2)'} 100%)`,
+          clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
         };
       default:
         return {
-          background: `linear-gradient(135deg, ${color || 'rgba(59, 130, 246, 0.3)'} 0%, ${color || 'rgba(139, 92, 246, 0.2)'} 100%)`,
+          background: `linear-gradient(135deg, ${color || 'rgba(59, 130, 246, 0.4)'} 0%, ${color || 'rgba(139, 92, 246, 0.2)'} 100%)`,
+          boxShadow: `0 0 20px ${color || 'rgba(59, 130, 246, 0.2)'}`,
         };
     }
   };
 
   return (
     <div
-      className="absolute pointer-events-none"
+      className="absolute pointer-events-none will-change-transform"
       style={{
         left,
         animation: `float-up ${duration}s ease-in-out ${delay}s infinite`,
@@ -62,7 +70,7 @@ const FloatingParticle: React.FC<{
   );
 };
 
-// 3D Tilt Card Component
+// 3D Tilt Card Component - Premium
 const TiltCard: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -71,6 +79,7 @@ const TiltCard: React.FC<{
   const cardRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState('');
   const [glowPosition, setGlowPosition] = useState({ x: 50, y: 50 });
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -84,7 +93,7 @@ const TiltCard: React.FC<{
     const rotateX = ((y - centerY) / centerY) * -intensity * 0.1;
     const rotateY = ((x - centerX) / centerX) * intensity * 0.1;
 
-    setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`);
+    setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
     setGlowPosition({
       x: (x / rect.width) * 100,
       y: (y / rect.height) * 100,
@@ -94,21 +103,25 @@ const TiltCard: React.FC<{
   const handleMouseLeave = () => {
     setTransform('perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)');
     setGlowPosition({ x: 50, y: 50 });
+    setIsHovered(false);
   };
+
+  const handleMouseEnter = () => setIsHovered(true);
 
   return (
     <div
       ref={cardRef}
-      className={`relative transition-transform duration-200 ease-out will-change-transform ${className}`}
+      className={`relative transition-transform duration-300 ease-out will-change-transform ${className}`}
       style={{ transform }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
     >
       <div
         className="absolute inset-0 rounded-inherit opacity-0 transition-opacity duration-300 pointer-events-none"
         style={{
-          background: `radial-gradient(600px circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(59, 130, 246, 0.15), transparent 40%)`,
-          opacity: transform !== '' ? 1 : 0,
+          background: `radial-gradient(500px circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1), transparent 50%)`,
+          opacity: isHovered ? 1 : 0,
         }}
       />
       {children}
@@ -116,7 +129,7 @@ const TiltCard: React.FC<{
   );
 };
 
-// Magnetic Button Component
+// Magnetic Button Component - Premium
 const MagneticButton: React.FC<{
   children: React.ReactNode;
   onClick?: () => void;
@@ -125,6 +138,8 @@ const MagneticButton: React.FC<{
 }> = ({ children, onClick, className = '', variant = 'primary' }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const [ripplePos, setRipplePos] = useState<{ x: number; y: number } | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!buttonRef.current) return;
@@ -134,16 +149,27 @@ const MagneticButton: React.FC<{
     const y = e.clientY - rect.top - rect.height / 2;
 
     // Magnetic effect - button moves slightly towards cursor
-    setPosition({ x: x * 0.2, y: y * 0.2 });
+    setPosition({ x: x * 0.25, y: y * 0.25 });
   };
 
   const handleMouseLeave = () => {
     setPosition({ x: 0, y: 0 });
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setIsHovered(true);
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    setRipplePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
   };
 
   const baseStyle = variant === 'primary'
-    ? 'group relative px-10 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/25 dark:hover:shadow-white/25'
-    : 'group px-10 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-full border-2 border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300';
+    ? 'group relative px-10 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/30 dark:hover:shadow-white/25'
+    : 'group px-10 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-400/60 dark:hover:border-violet-500/60 hover:bg-slate-50/80 dark:hover:bg-slate-800/60 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300';
 
   return (
     <button
@@ -152,15 +178,28 @@ const MagneticButton: React.FC<{
       className={`${baseStyle} ${className}`}
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
-        transition: 'transform 0.2s ease-out',
+        transition: 'transform 0.15s ease-out',
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
     >
       {variant === 'primary' ? (
         <>
           <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-          <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 animate-gradient-xy opacity-0 group-hover:opacity-30"></span>
+          <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 animate-gradient-shimmer opacity-0 group-hover:opacity-40"></span>
+          {/* Ripple effect */}
+          {ripplePos && (
+            <span
+              className="absolute rounded-full bg-white/20 animate-ripple"
+              style={{
+                left: ripplePos.x,
+                top: ripplePos.y,
+                width: 0,
+                height: 0,
+              }}
+            />
+          )}
           <span className="relative z-10 flex items-center gap-2">{children}</span>
         </>
       ) : (
@@ -244,16 +283,18 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
       {/* Enhanced floating particles with variety */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <FloatingParticle delay={0} duration={15} left="8%" size="8px" variant="orb" color="rgba(59, 130, 246, 0.4)" />
-        <FloatingParticle delay={2} duration={18} left="18%" size="6px" variant="glow" color="rgba(139, 92, 246, 0.5)" />
-        <FloatingParticle delay={4} duration={20} left="32%" size="10px" variant="ring" color="rgba(99, 102, 241, 0.4)" />
-        <FloatingParticle delay={1} duration={16} left="48%" size="7px" variant="orb" color="rgba(236, 72, 153, 0.3)" />
-        <FloatingParticle delay={3} duration={19} left="62%" size="9px" variant="sparkle" color="rgba(139, 92, 246, 0.6)" />
-        <FloatingParticle delay={5} duration={17} left="73%" size="5px" variant="glow" color="rgba(59, 130, 246, 0.5)" />
-        <FloatingParticle delay={2.5} duration={21} left="83%" size="8px" variant="ring" color="rgba(168, 85, 247, 0.3)" />
-        <FloatingParticle delay={1.5} duration={14} left="92%" size="6px" variant="orb" color="rgba(14, 165, 233, 0.4)" />
-        <FloatingParticle delay={0.5} duration={22} left="5%" size="12px" variant="glow" color="rgba(236, 72, 153, 0.3)" />
-        <FloatingParticle delay={3.5} duration={16} left="55%" size="5px" variant="sparkle" color="rgba(99, 102, 241, 0.5)" />
+        <FloatingParticle delay={0} duration={18} left="5%" size="8px" variant="orb" color="rgba(59, 130, 246, 0.5)" />
+        <FloatingParticle delay={2} duration={20} left="15%" size="6px" variant="glow" color="rgba(139, 92, 246, 0.6)" />
+        <FloatingParticle delay={4} duration={22} left="28%" size="10px" variant="ring" color="rgba(99, 102, 241, 0.5)" />
+        <FloatingParticle delay={1} duration={16} left="40%" size="7px" variant="diamond" color="rgba(236, 72, 153, 0.4)" />
+        <FloatingParticle delay={3} duration={24} left="52%" size="9px" variant="sparkle" color="rgba(139, 92, 246, 0.7)" />
+        <FloatingParticle delay={5} duration={19} left="65%" size="5px" variant="glow" color="rgba(59, 130, 246, 0.6)" />
+        <FloatingParticle delay={2.5} duration={21} left="75%" size="8px" variant="ring" color="rgba(168, 85, 247, 0.4)" />
+        <FloatingParticle delay={1.5} duration={17} left="85%" size="6px" variant="diamond" color="rgba(14, 165, 233, 0.5)" />
+        <FloatingParticle delay={0.5} duration={23} left="95%" size="12px" variant="glow" color="rgba(236, 72, 153, 0.4)" />
+        <FloatingParticle delay={3.5} duration={18} left="60%" size="5px" variant="sparkle" color="rgba(99, 102, 241, 0.6)" />
+        <FloatingParticle delay={4.5} duration={20} left="35%" size="7px" variant="orb" color="rgba(16, 185, 129, 0.4)" />
+        <FloatingParticle delay={6} duration={25} left="45%" size="9px" variant="ring" color="rgba(245, 158, 11, 0.3)" />
       </div>
 
       {/* Enhanced grid pattern overlay with subtle animation */}

@@ -79,14 +79,31 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
   );
 
   return (
-    <section className="py-24 sm:py-32 bg-surface dark:bg-dark-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
+      {/* Noise texture */}
+      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
+
+      {/* Animated background gradients */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[20%] left-[10%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 via-violet-400/6 to-indigo-400/4 rounded-full blur-3xl animate-morph-blob"></div>
+        <div className="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-gradient-to-br from-violet-400/6 via-purple-400/4 to-pink-400/3 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '4s' }}></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
           <div className="text-center">
-            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-dark-text dark:text-light-text tracking-tight">
-              {displayTitle}
+            {/* Enhanced Badge */}
+            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border border-blue-200/60 dark:border-blue-800/30 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider-plus mb-8 shadow-premium">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              {t('showcase.portfolio')}
+            </div>
+
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight-plus">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-shimmer drop-shadow-sm">
+                {displayTitle}
+              </span>
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-dark-text/70 dark:text-light-text/70">
+            <p className="mt-8 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed-plus">
               {displaySubtitle}
             </p>
           </div>
@@ -94,15 +111,15 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
 
         {allItems.length > 0 ? (
             <>
-                <div className="my-12 flex justify-center flex-wrap gap-3">
+                <div className="mt-14 flex justify-center flex-wrap gap-3">
                     {categories.map(category => (
                         <button
                             key={category}
                             onClick={() => setActiveFilter(category)}
-                            className={`filter-btn px-6 py-2.5 font-semibold rounded-full border transition-all duration-300 ${
+                            className={`filter-btn px-6 py-3 font-semibold rounded-2xl border-2 transition-all duration-300 ${
                                 activeFilter === category
-                                ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25 scale-105'
-                                : 'bg-surface dark:bg-dark-surface border-dark-text/10 dark:border-light-text/10 text-dark-text/70 dark:text-light-text/70 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white border-transparent shadow-xl shadow-blue-500/25 scale-105'
+                                : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-200/70 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:border-blue-300/50 dark:hover:border-violet-500/50 hover:bg-slate-50/80 dark:hover:bg-slate-700/50'
                             }`}
                         >
                             {category}
@@ -111,15 +128,16 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                 </div>
 
                 <AnimatedSection stagger key={activeFilter}>
-                <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3 stagger-container">
-                    {filteredItems.map((item: any) => (
+                <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3 stagger-container">
+                    {filteredItems.map((item: any, idx: number) => (
                     <div
                         key={item.id}
-                        className="fancy-card group bg-light-bg dark:bg-dark-bg rounded-3xl shadow-lg shadow-dark-text/5 dark:shadow-black/30 overflow-hidden flex flex-col border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
+                        className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/50 dark:hover:border-violet-500/50 hover:shadow-premium-lg transition-all duration-500 hover:-translate-y-2"
+                        style={{ animationDelay: `${idx * 80}ms` }}
                     >
                         <div className="aspect-video w-full overflow-hidden relative">
                             {(item as any).gradient ? (
-                                <div className={`w-full h-full bg-gradient-to-br ${(item as any).gradient}`}></div>
+                                <div className={`w-full h-full bg-gradient-to-br ${(item as any).gradient} group-hover:scale-110 transition-transform duration-700`}></div>
                             ) : (
                                 <img
                                     src={item.image_url}
@@ -130,28 +148,31 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                                 />
                             )}
                             {/* Overlay on Hover */}
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                                <button onClick={() => setCurrentPage((item as any).route || 'preise')} className="bg-white text-slate-900 font-bold py-3 px-6 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 flex items-center gap-2">
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                <button onClick={() => setCurrentPage((item as any).route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105">
                                     <EyeIcon className="w-5 h-5" />
                                     {t('showcase.view_btn')}
                                 </button>
                             </div>
                         </div>
-                        <div className="p-6 sm:p-8 flex flex-col flex-grow relative">
-                            <div className="flex-grow">
-                                <span className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-wider">
+                        <div className="p-7 flex flex-col flex-grow relative">
+                            {/* Shimmer effect */}
+                            <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none"></div>
+
+                            <div className="flex-grow relative z-10">
+                                <span className="text-xs font-bold bg-gradient-to-r from-blue-500/10 to-violet-500/10 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-full uppercase tracking-wider-plus border border-blue-200/50 dark:border-blue-800/30">
                                     {item.category}
                                 </span>
-                                <h3 className="mt-4 text-2xl font-bold text-dark-text dark:text-light-text">{item.title}</h3>
-                                <p className="mt-3 text-dark-text/70 dark:text-light-text/70 leading-relaxed">{item.excerpt}</p>
+                                <h3 className="mt-5 text-xl font-bold text-slate-900 dark:text-white font-serif">{item.title}</h3>
+                                <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed-plus text-sm">{item.excerpt}</p>
                             </div>
-                            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800">
+                            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
                                 <button
                                     onClick={() => setCurrentPage((item as any).route || 'preise')}
-                                    className="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-3 transition-all"
+                                    className="inline-flex items-center gap-2 text-blue-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-blue-700 dark:hover:text-violet-300"
                                 >
                                 {t('showcase.details_btn')}
-                                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                                <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                                 </button>
                             </div>
                         </div>
@@ -161,15 +182,15 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
                 </AnimatedSection>
             </>
         ) : (
-            <div className="mt-16 text-center py-20 bg-light-bg dark:bg-dark-bg rounded-3xl border-2 border-dashed border-dark-text/10 dark:border-light-text/10 relative overflow-hidden">
+            <div className="mt-16 text-center py-24 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700 relative overflow-hidden shadow-premium">
                  <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
                  <div className="relative z-10">
-                    <p className="text-2xl font-bold text-dark-text dark:text-light-text mb-2">{t('showcase.loading')}</p>
-                    <p className="text-dark-text/60 dark:text-light-text/60 max-w-md mx-auto">{t('showcase.loading_sub')}</p>
-                    <div className="mt-8 flex justify-center gap-2">
-                        <span className="w-2 h-2 bg-primary rounded-full animate-bounce"></span>
-                        <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></span>
-                        <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                    <p className="text-2xl font-bold text-slate-900 dark:text-white mb-3 font-serif">{t('showcase.loading')}</p>
+                    <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed-plus">{t('showcase.loading_sub')}</p>
+                    <div className="mt-10 flex justify-center gap-3">
+                        <span className="w-2.5 h-2.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-blue-500/30"></span>
+                        <span className="w-2.5 h-2.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-blue-500/30" style={{ animationDelay: '0.15s' }}></span>
+                        <span className="w-2.5 h-2.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-blue-500/30" style={{ animationDelay: '0.3s' }}></span>
                     </div>
                  </div>
             </div>
