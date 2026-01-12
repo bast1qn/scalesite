@@ -192,14 +192,14 @@ const Settings: React.FC = () => {
     const TabButton = ({ id, label, icon }: { id: SettingsTab, label: string, icon: React.ReactNode }) => (
         <button
             onClick={() => setActiveTab(id)}
-            className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
-                activeTab === id 
-                ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700' 
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50'
+            className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ease-out ${
+                activeTab === id
+                ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700 scale-[1.02]'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:scale-[1.01] active:scale-[0.99]'
             }`}
         >
-            <span className={activeTab === id ? 'text-blue-600' : 'text-slate-400'}>{icon}</span>
-            {label}
+            <span className={`transition-colors duration-200 ${activeTab === id ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-500'}`}>{icon}</span>
+            <span className="font-medium">{label}</span>
         </button>
     );
 
@@ -226,47 +226,47 @@ const Settings: React.FC = () => {
                     {activeTab === 'general' && (
                         <div className="space-y-6">
                             {/* Profile Card */}
-                            <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-                                <div className="flex items-center gap-6 mb-8 border-b border-slate-100 dark:border-slate-800 pb-8">
-                                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-800 shadow-lg">
-                                        {name?.charAt(0) || '?'}
+                            <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+                                <div className="flex items-center gap-4 sm:gap-6 mb-6 sm:mb-8 border-b border-slate-100 dark:border-slate-800 pb-6 sm:pb-8">
+                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-md ring-4 ring-white dark:ring-slate-800 transition-transform hover:scale-105 duration-200">
+                                        {name?.charAt(0)?.toUpperCase() || '?'}
                                     </div>
-                                    <div>
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Profilbild</h3>
-                                        <p className="text-sm text-slate-500">Profilbild wird aus Ihrem Initial generiert.</p>
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Profilbild</h3>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 truncate">Profilbild wird aus Ihrem Initial generiert.</p>
                                     </div>
                                 </div>
 
-                                <form onSubmit={handleSaveGeneral} className="grid gap-6 md:grid-cols-2">
+                                <form onSubmit={handleSaveGeneral} className="grid gap-4 sm:gap-6 md:grid-cols-2">
                                     <div className="md:col-span-2">
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Persönliche Daten</h3>
+                                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">Persönliche Daten</h3>
                                     </div>
-                                    
+
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.name')}</label>
-                                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="input-premium py-2.5" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Job Titel</label>
-                                        <input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className="input-premium py-2.5" placeholder="z.B. Marketing Manager" />
+                                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">{t('dashboard.settings.name')}</label>
+                                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="input-premium py-2.5 transition-shadow focus:shadow-lg focus:shadow-blue-500/10" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.email')}</label>
-                                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input-premium py-2.5" />
+                                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Job Titel</label>
+                                        <input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className="input-premium py-2.5 transition-shadow focus:shadow-lg focus:shadow-blue-500/10" placeholder="z.B. Marketing Manager" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">{t('dashboard.settings.company_label')}</label>
-                                        <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="input-premium py-2.5" />
+                                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">{t('dashboard.settings.email')}</label>
+                                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input-premium py-2.5 transition-shadow focus:shadow-lg focus:shadow-blue-500/10" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">{t('dashboard.settings.company_label')}</label>
+                                        <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="input-premium py-2.5 transition-shadow focus:shadow-lg focus:shadow-blue-500/10" />
                                     </div>
 
                                     <div className="md:col-span-2 pt-4 border-t border-slate-100 dark:border-slate-800">
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Lokalisierung & Design</h3>
+                                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">Lokalisierung & Design</h3>
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Sprache</label>
+                                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Sprache</label>
                                         <div className="relative">
-                                            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="input-premium py-2.5 appearance-none">
+                                            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="input-premium py-2.5 appearance-none transition-shadow focus:shadow-lg focus:shadow-blue-500/10 cursor-pointer">
                                                 <option value="de">Deutsch (Deutschland)</option>
                                                 <option value="en">English (United States)</option>
                                             </select>
@@ -274,25 +274,25 @@ const Settings: React.FC = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold uppercase text-slate-500 mb-1.5">Zeitzone</label>
-                                        <select value={timezone} onChange={(e) => setTimezone(e.target.value)} className="input-premium py-2.5">
+                                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Zeitzone</label>
+                                        <select value={timezone} onChange={(e) => setTimezone(e.target.value)} className="input-premium py-2.5 transition-shadow focus:shadow-lg focus:shadow-blue-500/10 cursor-pointer">
                                             <option value="Europe/Berlin">Berlin (GMT+1)</option>
                                             <option value="Europe/London">London (GMT+0)</option>
                                             <option value="America/New_York">New York (GMT-5)</option>
                                         </select>
                                     </div>
                                     
-                                    <div className="md:col-span-2 flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
-                                        <div>
-                                            <span className="block text-sm font-bold text-slate-900 dark:text-white">Erscheinungsbild</span>
-                                            <span className="text-xs text-slate-500">Wechseln Sie zwischen Hell- und Dunkelmodus.</span>
+                                    <div className="md:col-span-2 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                                        <div className="flex-1 min-w-0">
+                                            <span className="block text-sm font-semibold text-slate-900 dark:text-white">Erscheinungsbild</span>
+                                            <span className="text-xs text-slate-500 dark:text-slate-400">Wechseln Sie zwischen Hell- und Dunkelmodus.</span>
                                         </div>
                                         <ThemeToggle />
                                     </div>
 
-                                    <div className="md:col-span-2 flex items-center justify-end gap-4 mt-4">
-                                        {successMsg && <span className="text-green-500 text-sm font-bold animate-fade-in flex items-center gap-1"><CheckBadgeIcon className="w-4 h-4" /> {successMsg}</span>}
-                                        <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2.5 px-6 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50">
+                                    <div className="md:col-span-2 flex items-center justify-end gap-3 mt-4">
+                                        {successMsg && <span className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold animate-fade-in flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg"><CheckBadgeIcon className="w-4 h-4" /> {successMsg}</span>}
+                                        <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold py-2.5 px-6 rounded-xl hover:shadow-lg hover:shadow-slate-900/20 dark:hover:shadow-white/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-md">
                                             {loading ? 'Speichere...' : t('dashboard.settings.update_profile')}
                                         </button>
                                     </div>
