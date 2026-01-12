@@ -52,7 +52,25 @@ const defaultContent = {
     }
 };
 
-export const placeholderContent: { [key: string]: any } = {
+export const placeholderContent: Record<string, {
+    pages: Record<string, {
+        sections: Array<{
+            type: string;
+            title?: string;
+            subtitle?: string;
+            content?: string;
+            items?: Array<{
+                title?: string;
+                name?: string;
+                description?: string;
+                desc?: string;
+                price?: string;
+                icon?: string;
+                imageUrl?: string;
+            }>;
+        }>;
+    }>;
+}> = {
   dienstleistung: {
     pages: {
         home: {

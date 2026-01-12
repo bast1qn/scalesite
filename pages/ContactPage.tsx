@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { AnimatedSection } from '../components/AnimatedSection';
-import { EnvelopeIcon, CheckBadgeIcon, TicketIcon, SparklesIcon } from '../components/Icons';
+import { EnvelopeIcon, CheckBadgeIcon, TicketIcon, SparklesIcon, ArrowRightIcon } from '../components/Icons';
 import { api } from '../lib/api';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -31,7 +31,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
             await api.sendContact(data.name, data.email, data.subject, data.message);
             setIsSubmitted(true);
             form.reset();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Kontaktfehler:", err);
             setError(t('general.error'));
         } finally {

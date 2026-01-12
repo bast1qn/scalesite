@@ -114,8 +114,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
           } else {
               setResetSuccess(true);
           }
-      } catch (err: any) {
-          setError(err.message || t('general.error'));
+      } catch (err: unknown) {
+          setError(err instanceof Error ? err.message : t('general.error'));
       } finally {
           setLoading(false);
       }

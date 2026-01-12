@@ -3,8 +3,8 @@
 # ==========================================
 # KONFIGURATION
 # ==========================================
-set MAX_LOOPS 15              # Anzahl der Runden
-set PAUSE_SECONDS 1200         # Pause zwischen Runden (600s = 10 Min)
+set MAX_LOOPS 10              # Anzahl der Runden
+set PAUSE_SECONDS 60         # Pause zwischen Runden (600s = 10 Min)
 set LOG_FILE "agent.log"      # Log-Datei
 
 # ==========================================

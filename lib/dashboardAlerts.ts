@@ -8,11 +8,11 @@ export const setDashboardLanguage = (lang: 'de' | 'en') => {
 
 export const t = (key: string): string => {
   const keys = key.split('.');
-  let value: any = translations[currentLanguage];
+  let value: unknown = translations[currentLanguage];
   for (const k of keys) {
-    value = value?.[k];
+    value = (value as Record<string, unknown>)?.[k];
   }
-  return value || key;
+  return typeof value === 'string' ? value : key;
 };
 
 // Alert functions using translations

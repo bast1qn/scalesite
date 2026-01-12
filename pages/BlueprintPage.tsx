@@ -5,13 +5,52 @@ import { CustomSelect } from '../components/CustomSelect';
 import { icons, placeholderContent } from '../lib/blueprintPlaceholders';
 import { useLanguage } from '../contexts/LanguageContext';
 
+// --- TYPE DEFINITIONS FOR BLUEPRINT ---
+interface BlueprintSectionItem {
+    title: string;
+    description: string;
+    icon?: string;
+}
+
+interface BlueprintSectionProductItem {
+    name: string;
+    price: string;
+    imageUrl: string;
+}
+
+type BlueprintSection =
+    | { type: 'hero'; title: string; subtitle: string }
+    | { type: 'cta'; title: string }
+    | { type: 'pageHeader'; title: string }
+    | { type: 'textBlock'; content: string }
+    | { type: 'contactForm'; title: string }
+    | { type: 'services'; title: string; items: BlueprintSectionItem[] }
+    | { type: 'products'; title: string; items: BlueprintSectionProductItem[] }
+    // Allow additional dynamic section types for blueprint placeholders
+    | { type: string; title?: string; [key: string]: unknown };
+
+interface BlueprintPage {
+    sections: BlueprintSection[];
+}
+
+interface BlueprintContent {
+    pages: Record<string, BlueprintPage>;
+    [key: string]: unknown; // Allow additional properties
+}
+
+interface BlueprintTemplate {
+    industry_key: string;
+    industry_label: string;
+    content_json: BlueprintContent;
+}
+
 // --- PREVIEW COMPONENT ---
 interface BlueprintPreviewProps {
     companyName: string;
     industry: string;
     primaryColor: string;
     secondaryColor: string;
-    blueprintTemplates: any[];
+    blueprintTemplates: BlueprintTemplate[];
     t: (key: string) => string;
 }
 
@@ -31,7 +70,7 @@ const generatePreviewHtml = (
     secondaryColor: string,
     activePage: string,
     theme: 'light' | 'dark',
-    blueprintTemplates: any[],
+    blueprintTemplates: BlueprintTemplate[],
     t: (key: string) => string,
 ): string => {
     const defaultTemplate = blueprintTemplates.find(t => t.industry_key === 'dienstleistung');
@@ -55,7 +94,7 @@ const generatePreviewHtml = (
     
     const safeCompanyName = escapeHtml(companyName);
 
-    const getSectionHtml = (section: any) => {
+    const getSectionHtml = (section: BlueprintSection) => {
         const allIcons: { [key: string]: string } = icons;
         const iconHtml = (iconName: string) => {
              if (iconName.trim().startsWith('<svg')) return iconName;
@@ -66,8 +105,8 @@ const generatePreviewHtml = (
             case 'hero':
                 return `
                     <section class="text-center px-6 py-24 bg-surface dark:bg-dark-surface">
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold text-dark-text dark:text-light-text leading-tight">${section.title.replace('[Firma]', safeCompanyName)}</h2>
-                        <p class="max-w-2xl mx-auto mt-6 text-lg text-dark-text/80 dark:text-light-text/80 leading-relaxed">${section.subtitle.replace('[Firma]', safeCompanyName)}</p>
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold text-dark-text dark:text-light-text leading-tight">${(section.title || '').replace('[Firma]', safeCompanyName)}</h2>
+                        <p class="max-w-2xl mx-auto mt-6 text-lg text-dark-text/80 dark:text-light-text/80 leading-relaxed">${String(('subtitle' in section ? section.subtitle as string : '') || '').replace('[Firma]', safeCompanyName)}</p>
                         <button class="nav-link-btn mt-10 btn-primary px-8 py-3 rounded-full font-semibold text-lg shadow-lg transform hover:scale-105 transition-transform" data-page="contact">Mehr erfahren</button>
                     </section>`;
             case 'services':
@@ -76,9 +115,9 @@ const generatePreviewHtml = (
                         <div class="max-w-6xl mx-auto">
                             <h3 class="text-center font-serif text-3xl font-bold text-dark-text dark:text-light-text mb-12">${section.title}</h3>
                             <div class="grid md:grid-cols-3 gap-8">
-                                ${section.items.map((s: any) => `
+                                ${(('items' in section ? section.items as BlueprintSectionItem[] : [])).map((s: BlueprintSectionItem) => `
                                     <div class="bg-surface dark:bg-dark-surface p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-dark-text/5 dark:border-light-text/5">
-                                        <div class="w-14 h-14 flex items-center justify-center bg-primary/10 rounded-xl text-primary mb-6">${iconHtml(s.icon)}</div>
+                                        <div class="w-14 h-14 flex items-center justify-center bg-primary/10 rounded-xl text-primary mb-6">${iconHtml(s.icon || '')}</div>
                                         <h4 class="font-bold text-xl text-dark-text dark:text-light-text mb-3">${s.title}</h4>
                                         <p class="text-dark-text/70 dark:text-light-text/70 leading-relaxed">${s.description}</p>
                                     </div>
@@ -91,7 +130,7 @@ const generatePreviewHtml = (
                     <section class="py-20 px-6 max-w-6xl mx-auto">
                         <h3 class="text-center font-serif text-3xl font-bold text-dark-text dark:text-light-text mb-12">${section.title}</h3>
                         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            ${section.items.map((p: any) => `
+                            ${(('items' in section ? section.items as BlueprintSectionProductItem[] : [])).map((p: BlueprintSectionProductItem) => `
                                 <div class="bg-surface dark:bg-dark-surface rounded-xl shadow-sm overflow-hidden group border border-dark-text/5 dark:border-light-text/5">
                                     <div class="aspect-square bg-gray-100 dark:bg-gray-800 overflow-hidden relative">
                                        <div class="absolute inset-0 flex items-center justify-center text-gray-300 dark:text-gray-600">IMG</div>
@@ -117,7 +156,7 @@ const generatePreviewHtml = (
             case 'pageHeader':
                 return `<header class="py-24 bg-surface dark:bg-dark-surface text-center border-b border-dark-text/5 dark:border-light-text/5"><h1 class="font-serif text-4xl md:text-5xl font-bold text-dark-text dark:text-light-text">${section.title}</h1></header>`;
             case 'textBlock':
-                return `<section class="max-w-3xl mx-auto px-6 py-16 text-lg leading-loose text-dark-text/80 dark:text-light-text/80"><p>${section.content.replace('[Firma]', safeCompanyName)}</p></section>`;
+                return `<section class="max-w-3xl mx-auto px-6 py-16 text-lg leading-loose text-dark-text/80 dark:text-light-text/80"><p>${String('content' in section ? (section as { content: string }).content : '').replace('[Firma]', safeCompanyName)}</p></section>`;
             case 'contactForm':
                  return `
                     <section class="py-20 px-6 bg-light-bg dark:bg-dark-bg">

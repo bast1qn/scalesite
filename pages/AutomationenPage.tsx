@@ -35,10 +35,36 @@ interface AutomationenPageProps {
     setCurrentPage: (page: string) => void;
 }
 
-// --- AUTOMATION PACKAGES DATA ---
+// --- TYPE DEFINITIONS ---
 type FormatPriceFunc = (priceInEur: number, showSymbol?: boolean, decimals?: number) => string;
 
-const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFunc) => {
+type PackageColor = 'purple' | 'pink' | 'green' | 'blue';
+
+interface AutomationPackage {
+    id: string;
+    title: string;
+    subtitle: string;
+    price: string;
+    priceDetail: string;
+    monthly: string;
+    basePrice: number;
+    description: string;
+    features: string[];
+    icon: React.ReactNode;
+    color: PackageColor;
+}
+
+interface MicroAutomation {
+    title: string;
+    price: string;
+    basePrice: number;
+    desc: string;
+    icon: React.ReactNode;
+}
+
+type AutomationItem = AutomationPackage | MicroAutomation;
+
+const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFunc): AutomationPackage[] => {
     const t = translations[language].automation;
     return [
         {
@@ -112,7 +138,7 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
     ];
 };
 
-const getMicroAutomations = (language: 'de' | 'en', formatPrice: FormatPriceFunc) => {
+const getMicroAutomations = (language: 'de' | 'en', formatPrice: FormatPriceFunc): MicroAutomation[] => {
     return [
         { title: language === 'de' ? "Rechnung zu Dropbox" : "Invoice to Dropbox", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Speichert E-Mail Anhänge automatisch." : "Auto-saves email attachments.", icon: <DocumentArrowDownIcon className="w-5 h-5"/> },
         { title: language === 'de' ? "Lead zu Slack" : "Lead to Slack", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Benachrichtigung bei neuem Lead." : "Notification for new leads.", icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
@@ -226,14 +252,14 @@ const AutomationenPage: React.FC<AutomationenPageProps> = ({ setCurrentPage }) =
     const { t, language } = useLanguage();
     const { formatPrice } = useCurrency();
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedPackage, setSelectedPackage] = useState<any>(null);
+    const [selectedPackage, setSelectedPackage] = useState<AutomationItem | null>(null);
     const [formStep, setFormStep] = useState<'form' | 'success'>('form');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const automationPackages = useMemo(() => getAutomationPackages(language as 'de' | 'en', formatPrice), [language, formatPrice]);
     const microAutomations = useMemo(() => getMicroAutomations(language as 'de' | 'en', formatPrice), [language, formatPrice]);
 
-    const openModal = (pkg: any) => {
+    const openModal = (pkg: AutomationItem) => {
         setSelectedPackage(pkg);
         setFormStep('form');
         setModalOpen(true);
@@ -250,12 +276,18 @@ const AutomationenPage: React.FC<AutomationenPageProps> = ({ setCurrentPage }) =
         const email = formData.get('email') as string;
         const message = formData.get('message') as string;
 
+        // Safely extract description (MicroAutomation uses 'desc', AutomationPackage uses 'description')
+        const getDescription = (pkg: AutomationItem): string => {
+            if ('desc' in pkg) return pkg.desc;
+            return pkg.description;
+        };
+
         const detailedMessage = `
 ANFRAGE AUTOMATISIERUNG
 -----------------------
 Paket: ${selectedPackage.title}
 Preis: ${selectedPackage.price}
-Beschreibung: ${selectedPackage.desc || selectedPackage.description}
+Beschreibung: ${getDescription(selectedPackage)}
 
 Kunden-Details:
 Name: ${name}

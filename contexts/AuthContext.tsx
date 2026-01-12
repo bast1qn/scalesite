@@ -224,8 +224,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log('[AUTH] No profile data - using minimal user info');
         setLoading(false);
       }
-    } catch (e: any) {
-      console.error('[AUTH] Exception loading user profile:', e?.message || e);
+    } catch (e: unknown) {
+      console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
       setLoading(false);
     }
   };
