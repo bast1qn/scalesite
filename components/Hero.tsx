@@ -15,23 +15,23 @@ const guarantees = [
 // Icons for guarantees
 const GuaranteeIcons = {
   lightning: () => (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
     </svg>
   ),
   shield: () => (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
     </svg>
   ),
   sparkle: () => (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
     </svg>
   ),
 };
 
-// Clean floating particle
+// Refined floating particle
 const FloatingParticle: React.FC<{
   delay: number;
   duration: number;
@@ -41,7 +41,7 @@ const FloatingParticle: React.FC<{
 }> = ({ delay, duration, left, size, opacity }) => {
   return (
     <div
-      className="absolute rounded-full bg-blue-500/20 dark:bg-blue-400/15 pointer-events-none"
+      className="absolute rounded-full bg-primary-500/15 dark:bg-primary-400/10 pointer-events-none"
       style={{
         left,
         width: size,
@@ -53,7 +53,7 @@ const FloatingParticle: React.FC<{
   );
 };
 
-// Clean card with subtle spotlight
+// Refined card with subtle spotlight
 const SpotlightCard: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -79,11 +79,11 @@ const SpotlightCard: React.FC<{
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Subtle spotlight effect */}
+      {/* Refined spotlight effect */}
       <div
-        className="absolute inset-0 rounded-inherit opacity-0 transition-opacity duration-300 pointer-events-none"
+        className="absolute inset-0 rounded-inherit opacity-0 transition-opacity duration-350 pointer-events-none"
         style={{
-          background: `radial-gradient(300px circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(59, 130, 246, 0.08), transparent 50%)`,
+          background: `radial-gradient(350px circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(75, 90, 237, 0.06), transparent 50%)`,
           opacity: isHovered ? 1 : 0,
         }}
       />
@@ -92,7 +92,7 @@ const SpotlightCard: React.FC<{
   );
 };
 
-// Clean button with subtle hover
+// Refined button with subtle hover
 const CleanButton: React.FC<{
   children: React.ReactNode;
   onClick?: () => void;
@@ -100,8 +100,8 @@ const CleanButton: React.FC<{
   className?: string;
 }> = ({ children, onClick, variant = 'primary', className = '' }) => {
   const baseStyle = variant === 'primary'
-    ? 'relative px-8 py-4 bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] hover:-translate-y-0.5'
-    : 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:-translate-y-0.5';
+    ? 'relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-350 ease-smooth hover:shadow-glow hover:scale-[1.01] active:scale-[0.98] hover:-translate-y-0.5'
+    : 'px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-350 ease-smooth hover:-translate-y-0.5 hover:shadow-soft';
 
   return (
     <button
@@ -123,59 +123,59 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
   }, []);
 
   return (
-    <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Clean background layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-[#0a0a0a] dark:via-slate-950 dark:to-violet-950/20"></div>
+    <section ref={heroRef} className="relative min-h-[100vh] flex items-center justify-center pt-24 pb-12 overflow-hidden">
+      {/* Refined background layers */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary-50/20 dark:from-[#030305] dark:via-slate-950 dark:to-violet-950/10"></div>
 
-      {/* Subtle gradient orbs */}
+      {/* Refined gradient orbs with blob animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Primary orb - top left */}
         <div
-          className="absolute top-[10%] left-[0%] w-[600px] h-[600px] bg-gradient-to-br from-blue-500/15 to-violet-500/10 rounded-full blur-3xl"
-          style={{ animation: 'float 8s ease-in-out infinite' }}
+          className="absolute top-[8%] left-[-5%] w-[700px] h-[700px] bg-gradient-to-br from-primary-500/12 to-violet-500/8 rounded-full blur-3xl"
+          style={{ animation: 'blob 12s ease-in-out infinite' }}
         ></div>
 
         {/* Secondary orb - bottom right */}
         <div
-          className="absolute bottom-[10%] right-[0%] w-[500px] h-[500px] bg-gradient-to-br from-violet-500/12 to-blue-500/8 rounded-full blur-3xl"
-          style={{ animation: 'float 10s ease-in-out infinite', animationDelay: '2s' }}
+          className="absolute bottom-[5%] right-[-5%] w-[600px] h-[600px] bg-gradient-to-br from-violet-500/10 to-primary-500/6 rounded-full blur-3xl"
+          style={{ animation: 'blob 14s ease-in-out infinite', animationDelay: '3s' }}
         ></div>
 
         {/* Accent orb - center */}
         <div
-          className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-gradient-to-br from-blue-400/10 to-violet-400/8 rounded-full blur-3xl"
-          style={{ animation: 'float 12s ease-in-out infinite', animationDelay: '4s' }}
+          className="absolute top-[45%] left-[25%] w-[500px] h-[500px] bg-gradient-to-br from-primary-400/8 to-violet-400/6 rounded-full blur-3xl"
+          style={{ animation: 'blob 16s ease-in-out infinite', animationDelay: '6s' }}
         ></div>
       </div>
 
-      {/* Subtle particle system */}
+      {/* Refined particle system */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <FloatingParticle delay={0} duration={8} left="5%" size="4px" opacity={0.3} />
-        <FloatingParticle delay={1} duration={10} left="15%" size="3px" opacity={0.25} />
-        <FloatingParticle delay={2} duration={9} left="25%" size="5px" opacity={0.2} />
-        <FloatingParticle delay={3} duration={11} left="35%" size="3px" opacity={0.3} />
-        <FloatingParticle delay={4} duration={8} left="45%" size="4px" opacity={0.25} />
-        <FloatingParticle delay={5} duration={10} left="55%" size="3px" opacity={0.2} />
-        <FloatingParticle delay={6} duration={9} left="65%" size="5px" opacity={0.3} />
-        <FloatingParticle delay={7} duration={11} left="75%" size="4px" opacity={0.25} />
-        <FloatingParticle delay={8} duration={8} left="85%" size="3px" opacity={0.2} />
-        <FloatingParticle delay={9} duration={10} left="95%" size="4px" opacity={0.3} />
+        <FloatingParticle delay={0} duration={10} left="3%" size="5px" opacity={0.25} />
+        <FloatingParticle delay={1} duration={12} left="12%" size="4px" opacity={0.2} />
+        <FloatingParticle delay={2} duration={11} left="22%" size="6px" opacity={0.18} />
+        <FloatingParticle delay={3} duration={13} left="32%" size="4px" opacity={0.22} />
+        <FloatingParticle delay={4} duration={10} left="42%" size="5px" opacity={0.2} />
+        <FloatingParticle delay={5} duration={12} left="52%" size="4px" opacity={0.18} />
+        <FloatingParticle delay={6} duration={11} left="62%" size="6px" opacity={0.25} />
+        <FloatingParticle delay={7} duration={13} left="72%" size="5px" opacity={0.2} />
+        <FloatingParticle delay={8} duration={10} left="82%" size="4px" opacity={0.22} />
+        <FloatingParticle delay={9} duration={12} left="92%" size="5px" opacity={0.18} />
       </div>
 
-      {/* Subtle dot pattern */}
+      {/* Refined dot pattern */}
       <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+        className="absolute inset-0 opacity-[0.025] dark:opacity-[0.04] pointer-events-none"
         style={{
           backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
+          backgroundSize: '48px 48px',
         }}
       ></div>
 
       {/* Main content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         {/* Badge */}
-        <SpotlightCard className={`inline-block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-shadow duration-300">
+        <SpotlightCard className={`inline-block mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-shadow duration-350">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {t('hero.guarantee_badge')}
@@ -185,27 +185,27 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
         {/* Headline */}
         <h1
-          className={`font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-8 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white leading-[1.1] mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '100ms' }}
         >
           {t('hero.title_prefix')}{' '}
           <span className="relative inline-block">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-violet-600 to-primary-600">
               {t('hero.title_highlight')}
             </span>
-            {/* Subtle underline */}
-            <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 400 16" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            {/* Refined underline */}
+            <svg className="absolute -bottom-3 left-0 w-full" viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
               <path
-                d="M0 12C100 4 300 4 400 8"
+                d="M0 12C100 2 300 2 400 10"
                 stroke="url(#hero-underline)"
-                strokeWidth="4"
+                strokeWidth="5"
                 strokeLinecap="round"
                 fill="none"
               />
               <defs>
                 <linearGradient id="hero-underline" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                  <stop offset="0%" stopColor="#4b5aed" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.7" />
                 </linearGradient>
               </defs>
             </svg>
@@ -222,18 +222,18 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
         {/* CTAs */}
         <div
-          className={`flex flex-col sm:flex-row items-center justify-center gap-5 mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '300ms' }}
         >
           <CleanButton onClick={() => setCurrentPage('preise')} variant="primary">
-            <span className="flex items-center gap-2">
-              Projekt starten
+            <span className="flex items-center gap-2.5">
+              <span>Projekt starten</span>
               <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </CleanButton>
           <CleanButton onClick={() => setCurrentPage('projekte')} variant="secondary">
-            <span className="flex items-center gap-2">
-              Beispiele ansehen
+            <span className="flex items-center gap-2.5">
+              <span>Beispiele ansehen</span>
               <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
             </span>
           </CleanButton>
@@ -241,13 +241,13 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
         {/* Guarantees */}
         <div
-          className={`flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600 dark:text-slate-500 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`flex flex-wrap items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-500 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '400ms' }}
         >
           {guarantees.map((g, i) => (
             <SpotlightCard key={i} className="inline-block">
-              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-blue-300/70 dark:hover:border-violet-500/70 transition-all duration-300">
-                <span className="text-blue-500 dark:text-violet-400">
+              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-350 hover:shadow-soft">
+                <span className="text-primary-500 dark:text-violet-400">
                   {React.createElement(GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]())}
                 </span>
                 <span className="font-medium">{g.text}</span>
@@ -258,14 +258,14 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
 
         {/* Price hint */}
         <SpotlightCard
-          className={`mt-12 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`mt-14 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
-          <div className="flex items-center gap-6 px-8 py-4 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div className="flex items-center gap-6 px-8 py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-shadow duration-350">
             <div className="flex items-center gap-3">
-              <span className="text-slate-400 dark:text-slate-500 line-through text-lg">99€ - 299€</span>
+              <span className="text-slate-400 dark:text-slate-500 line-through text-base">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
-              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 29€
               </span>
             </div>
@@ -275,20 +275,20 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
         </SpotlightCard>
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-[#0a0a0a] dark:via-slate-950/80 to-transparent pointer-events-none"></div>
+      {/* Bottom fade - refined */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/90 to-transparent dark:from-[#030305] dark:via-slate-950/90 to-transparent pointer-events-none"></div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - refined */}
       <div
-        className={`absolute bottom-10 left-1/2 -translate-x-1/2 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        className={`absolute bottom-12 left-1/2 -translate-x-1/2 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
         style={{ transitionDelay: '600ms' }}
       >
         <div
           className="group cursor-pointer"
           onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
         >
-          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2 group-hover:border-blue-400 dark:group-hover:border-violet-500 transition-colors duration-300 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
-            <div className="w-1.5 h-3 rounded-full bg-slate-400 dark:bg-slate-500 group-hover:bg-blue-500 dark:group-hover:bg-violet-400 transition-colors duration-300 animate-bounce" style={{ animationDuration: '2s' }}></div>
+          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2.5 group-hover:border-primary-400 dark:group-hover:border-violet-500 transition-colors duration-350 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+            <div className="w-1.5 h-3 rounded-full bg-slate-400 dark:bg-slate-500 group-hover:bg-primary-500 dark:group-hover:bg-violet-400 transition-colors duration-350 animate-bounce" style={{ animationDuration: '2.5s' }}></div>
           </div>
         </div>
       </div>
@@ -296,10 +296,10 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
       <style>{`
         @keyframes float {
           0%, 100% {
-            transform: translateY(0) scale(1);
+            transform: translateY(0) rotate(0deg);
           }
           50% {
-            transform: translateY(-20px) scale(1.05);
+            transform: translateY(-20px) rotate(1deg);
           }
         }
       `}</style>
