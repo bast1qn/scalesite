@@ -24,48 +24,61 @@ interface RestaurantPageProps {
 }
 
 // Menu data
-const menuCategories = [
+interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+}
+
+interface MenuCategory {
+  id: string;
+  name: string;
+  items: MenuItem[];
+}
+
+const menuCategories: MenuCategory[] = [
   {
     id: 'coffee',
     name: 'Coffee & Espresso',
     items: [
-      { name: 'Espresso', description: 'Double espresso', price: '$4.50' },
-      { name: 'Cappuccino', description: 'Espresso with steamed milk', price: '$5.50' },
-      { name: 'Caffè Latte', description: 'Espresso with extra milk', price: '$6.00' },
-      { name: 'Flat White', description: 'Espresso with micro-foamed milk', price: '$6.50' },
-      { name: 'Matcha Latte', description: 'Green tea with milk', price: '$7.00' },
+      { id: 'coffee-1', name: 'Espresso', description: 'Double espresso', price: '$4.50' },
+      { id: 'coffee-2', name: 'Cappuccino', description: 'Espresso with steamed milk', price: '$5.50' },
+      { id: 'coffee-3', name: 'Caffè Latte', description: 'Espresso with extra milk', price: '$6.00' },
+      { id: 'coffee-4', name: 'Flat White', description: 'Espresso with micro-foamed milk', price: '$6.50' },
+      { id: 'coffee-5', name: 'Matcha Latte', description: 'Green tea with milk', price: '$7.00' },
     ]
   },
   {
     id: 'breakfast',
     name: 'Breakfast',
     items: [
-      { name: 'Croissant', description: 'Butter croissant, fresh baked', price: '$4.50' },
-      { name: 'Breakfast Basket', description: '3 rolls with butter & jam', price: '$8.00' },
-      { name: 'Avocado Toast', description: 'Sourdough toast, avocado, egg', price: '$14.00' },
-      { name: 'Full English', description: 'Eggs, bacon, sausage, beans, toast', price: '$21.00' },
-      { name: 'Pancakes', description: '3 pancakes with maple syrup', price: '$12.00' },
+      { id: 'breakfast-1', name: 'Croissant', description: 'Butter croissant, fresh baked', price: '$4.50' },
+      { id: 'breakfast-2', name: 'Breakfast Basket', description: '3 rolls with butter & jam', price: '$8.00' },
+      { id: 'breakfast-3', name: 'Avocado Toast', description: 'Sourdough toast, avocado, egg', price: '$14.00' },
+      { id: 'breakfast-4', name: 'Full English', description: 'Eggs, bacon, sausage, beans, toast', price: '$21.00' },
+      { id: 'breakfast-5', name: 'Pancakes', description: '3 pancakes with maple syrup', price: '$12.00' },
     ]
   },
   {
     id: 'cakes',
     name: 'Cakes & Desserts',
     items: [
-      { name: 'Cheesecake', description: 'New York style', price: '$8.50' },
-      { name: 'Chocolate Cake', description: 'With Belgian chocolate', price: '$7.50' },
-      { name: 'Apple Pie', description: 'With vanilla ice cream', price: '$7.00' },
-      { name: 'Tiramisu', description: 'Classic Italian', price: '$9.00' },
-      { name: 'Crème Brûlée', description: 'With caramelized crust', price: '$8.50' },
+      { id: 'cake-1', name: 'Cheesecake', description: 'New York style', price: '$8.50' },
+      { id: 'cake-2', name: 'Chocolate Cake', description: 'With Belgian chocolate', price: '$7.50' },
+      { id: 'cake-3', name: 'Apple Pie', description: 'With vanilla ice cream', price: '$7.00' },
+      { id: 'cake-4', name: 'Tiramisu', description: 'Classic Italian', price: '$9.00' },
+      { id: 'cake-5', name: 'Crème Brûlée', description: 'With caramelized crust', price: '$8.50' },
     ]
   },
   {
     id: 'snacks',
     name: 'Snacks',
     items: [
-      { name: 'Caesar Salad', description: 'With chicken, croutons, parmesan', price: '$16.00' },
-      { name: 'Club Sandwich', description: 'Chicken, bacon, tomato, lettuce', price: '$18.00' },
-      { name: 'Veggie Bowl', description: 'Quinoa, avocado, vegetables', price: '$19.00' },
-      { name: 'Fish & Chips', description: 'With pea puree', price: '$22.00' },
+      { id: 'snack-1', name: 'Caesar Salad', description: 'With chicken, croutons, parmesan', price: '$16.00' },
+      { id: 'snack-2', name: 'Club Sandwich', description: 'Chicken, bacon, tomato, lettuce', price: '$18.00' },
+      { id: 'snack-3', name: 'Veggie Bowl', description: 'Quinoa, avocado, vegetables', price: '$19.00' },
+      { id: 'snack-4', name: 'Fish & Chips', description: 'With pea puree', price: '$22.00' },
     ]
   }
 ];
@@ -273,11 +286,11 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
 
             {/* Menu Items */}
             <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-8">
-              {menuCategories.find(cat => cat.id === activeCategory)?.items.map((item, idx) => (
+              {menuCategories.find(cat => cat.id === activeCategory)?.items.map((item, idx, arr) => (
                 <div
-                  key={idx}
+                  key={item.id}
                   className={`flex justify-between items-start py-4 ${
-                    idx < menuCategories.find(cat => cat.id === activeCategory)!.items.length - 1
+                    idx < arr.length - 1
                       ? 'border-b border-slate-200 dark:border-slate-800'
                       : ''
                   }`}

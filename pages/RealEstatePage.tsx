@@ -189,12 +189,26 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
   const filteredProperties = properties.filter(property => {
     if (filters.type !== 'all' && property.type !== filters.type) return false;
     if (filters.priceRange !== 'all') {
-      const [min, max] = filters.priceRange.split('-').map(Number);
-      if (max && (property.price < min || property.price > max)) return false;
-      if (!max && property.price < min) return false;
+      // Defensive: Validate priceRange format before splitting
+      if (!filters.priceRange.includes('-')) {
+        return false;
+      }
+      const [minStr, maxStr] = filters.priceRange.split('-');
+      const min = Number(minStr);
+      const max = maxStr ? Number(maxStr) : undefined;
+
+      // Validate parsed numbers
+      if (isNaN(min)) return false;
+
+      if (max !== undefined && !isNaN(max)) {
+        if (property.price < min || property.price > max) return false;
+      } else if (property.price < min) {
+        return false;
+      }
     }
     if (filters.rooms !== 'all') {
-      const roomFilter = parseInt(filters.rooms);
+      const roomFilter = parseInt(filters.rooms, 10);
+      if (isNaN(roomFilter)) return false;
       if (roomFilter === 4 && property.rooms < 4) return false;
       if (roomFilter !== 4 && property.rooms !== roomFilter) return false;
     }

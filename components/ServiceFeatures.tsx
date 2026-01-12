@@ -7,8 +7,22 @@ import { useLanguage } from '../contexts/LanguageContext';
 export const ServiceFeatures: React.FC = () => {
   const { t } = useLanguage();
 
-  const includedFeatures = t('service_features.included') as string[];
-  const excludedFeatures = t('service_features.excluded') as string[];
+  // Defensive: Ensure translation returns array, fallback to empty array
+  const getFeatureList = (key: string): string[] => {
+    const value = t(key);
+    if (Array.isArray(value)) {
+      return value as string[];
+    }
+    // Fallback for string translations (comma-separated)
+    if (typeof value === 'string') {
+      return value.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    console.warn(`ServiceFeatures: Expected array for ${key}, got ${typeof value}`);
+    return [];
+  };
+
+  const includedFeatures = getFeatureList('service_features.included');
+  const excludedFeatures = getFeatureList('service_features.excluded');
 
   return (
         <section className="py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">

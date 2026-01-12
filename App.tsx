@@ -93,7 +93,7 @@ const AppContent: React.FC = () => {
             case 'register': return <RegisterPage setCurrentPage={setCurrentPage} />;
             case 'dashboard':
                 if (!user) {
-                    setTimeout(() => setCurrentPage('login'), 0);
+                    // Use useEffect instead of setTimeout during render - redirect handled by useEffect
                     return null;
                 }
                 return <DashboardPage setCurrentPage={setCurrentPage} />;
@@ -106,6 +106,13 @@ const AppContent: React.FC = () => {
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };
+
+    // Redirect to login if accessing dashboard without auth
+    useEffect(() => {
+        if (currentPage === 'dashboard' && !user && !loading) {
+            setCurrentPage('login');
+        }
+    }, [currentPage, user, loading, setCurrentPage]);
 
     if (loading) {
         return (

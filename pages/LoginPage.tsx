@@ -63,7 +63,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
     } else if (urlError) {
         setError(t('general.error'));
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Intentionally empty - should only run once on mount to check URL params
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

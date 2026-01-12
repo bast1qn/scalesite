@@ -30,17 +30,17 @@ const mockups = [
 
 export const DeviceMockupCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const nextSlide = useCallback(() => {
     if (mockups.length === 0) return;
     setCurrentIndex((prevIndex) => (prevIndex + 1) % mockups.length);
   }, []);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     if (mockups.length === 0) return;
     setCurrentIndex((prevIndex) => (prevIndex - 1 + mockups.length) % mockups.length);
-  };
+  }, []);
 
   useEffect(() => {
     const slideInterval = setInterval(nextSlide, 5000);
