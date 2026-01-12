@@ -8,14 +8,16 @@ interface AnimatedSectionProps {
   className?: string;
   id?: string;
   delay?: number;
-  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none' | 'scale';
   once?: boolean;
+  stagger?: boolean;
 }
 
 /**
- * Optimized AnimatedSection Component
+ * Enhanced AnimatedSection Component
  * Triggers animation when element enters viewport using IntersectionObserver
  * Respects prefers-reduced-motion for accessibility
+ * Supports staggered children animations
  */
 export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
@@ -23,7 +25,8 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   id,
   delay = 0,
   direction = 'up',
-  once = true
+  once = true,
+  stagger = false
 }) => {
   const controls = useAnimation();
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -48,8 +51,8 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       },
       {
         root: null,
-        rootMargin: '0px 0px -100px 0px',
-        threshold: 0.1,
+        rootMargin: '0px 0px -80px 0px',
+        threshold: 0.15,
       }
     );
 
@@ -65,7 +68,7 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     };
   }, [controls, once]);
 
-  // Direction-based variants
+  // Enhanced direction-based variants
   const getVariants = () => {
     if (prefersReducedMotion()) {
       return {
@@ -74,17 +77,26 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       };
     }
 
+    const springConfig = {
+      type: 'spring',
+      damping: 25,
+      stiffness: 300,
+    };
+
     const baseVariants = {
       hidden: {
         opacity: 0,
-        transition: { duration: 0.4 },
       },
       visible: {
         opacity: 1,
         transition: {
-          duration: 0.5,
+          duration: 0.6,
           delay: delay * 0.001,
           ease: [0.25, 0.4, 0.25, 1],
+          ...(stagger && {
+            staggerChildren: 0.1,
+            delayChildren: 0.1,
+          }),
         },
       },
     };
@@ -92,23 +104,28 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     switch (direction) {
       case 'up':
         return {
-          hidden: { ...baseVariants.hidden, y: 40 },
-          visible: { ...baseVariants.visible, y: 0 },
+          hidden: { ...baseVariants.hidden, y: 50, scale: 0.98 },
+          visible: { ...baseVariants.visible, y: 0, scale: 1 },
         };
       case 'down':
         return {
-          hidden: { ...baseVariants.hidden, y: -40 },
-          visible: { ...baseVariants.visible, y: 0 },
+          hidden: { ...baseVariants.hidden, y: -50, scale: 0.98 },
+          visible: { ...baseVariants.visible, y: 0, scale: 1 },
         };
       case 'left':
         return {
-          hidden: { ...baseVariants.hidden, x: 40 },
-          visible: { ...baseVariants.visible, x: 0 },
+          hidden: { ...baseVariants.hidden, x: 50, scale: 0.98 },
+          visible: { ...baseVariants.visible, x: 0, scale: 1 },
         };
       case 'right':
         return {
-          hidden: { ...baseVariants.hidden, x: -40 },
-          visible: { ...baseVariants.visible, x: 0 },
+          hidden: { ...baseVariants.hidden, x: -50, scale: 0.98 },
+          visible: { ...baseVariants.visible, x: 0, scale: 1 },
+        };
+      case 'scale':
+        return {
+          hidden: { ...baseVariants.hidden, scale: 0.9 },
+          visible: { ...baseVariants.visible, scale: 1 },
         };
       case 'none':
       default:
@@ -141,13 +158,14 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
 };
 
 /**
- * StaggerContainer for animating children in sequence
+ * Enhanced StaggerContainer for animating children in sequence
  */
 export const StaggerContainer: React.FC<{
   children: React.ReactNode;
   className?: string;
   staggerDelay?: number;
-}> = ({ children, className = '', staggerDelay = 0.1 }) => {
+  threshold?: number;
+}> = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }) => {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -163,7 +181,7 @@ export const StaggerContainer: React.FC<{
           controls.start('visible');
         }
       },
-      { threshold: 0.1 }
+      { threshold }
     );
 
     const currentRef = containerRef.current;
@@ -176,7 +194,7 @@ export const StaggerContainer: React.FC<{
         observer.unobserve(currentRef);
       }
     };
-  }, [controls]);
+  }, [controls, threshold]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -203,12 +221,13 @@ export const StaggerContainer: React.FC<{
 };
 
 /**
- * StaggerItem for use inside StaggerContainer
+ * Enhanced StaggerItem for use inside StaggerContainer
  */
 export const StaggerItem: React.FC<{
   children: React.ReactNode;
   className?: string;
-}> = ({ children, className = '' }) => {
+  delay?: number;
+}> = ({ children, className = '', delay = 0 }) => {
   if (prefersReducedMotion()) {
     return <div className={className}>{children}</div>;
   }
@@ -216,12 +235,14 @@ export const StaggerItem: React.FC<{
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 20 },
+        hidden: { opacity: 0, y: 30, scale: 0.98 },
         visible: {
           opacity: 1,
           y: 0,
+          scale: 1,
           transition: {
-            duration: 0.4,
+            duration: 0.5,
+            delay,
             ease: [0.25, 0.4, 0.25, 1],
           },
         },
