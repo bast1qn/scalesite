@@ -28,6 +28,14 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   once = true,
   stagger = false
 }) => {
+  // TEMPORARY: Disabled to debug hook error
+  return (
+    <div id={id} className={className}>
+      {children}
+    </div>
+  );
+  /*
+  // Original code disabled for debugging
   const controls = useAnimation();
   const sectionRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
@@ -155,6 +163,7 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       {children}
     </motion.div>
   );
+  */
 };
 
 /**
@@ -166,6 +175,10 @@ export const StaggerContainer: React.FC<{
   staggerDelay?: number;
   threshold?: number;
 }> = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }) => {
+  // TEMPORARY: Disabled to debug hook error
+  return <div className={className}>{children}</div>;
+
+  /* Original code disabled for debugging
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -218,6 +231,7 @@ export const StaggerContainer: React.FC<{
       {children}
     </motion.div>
   );
+  */
 };
 
 /**
@@ -228,6 +242,10 @@ export const StaggerItem: React.FC<{
   className?: string;
   delay?: number;
 }> = ({ children, className = '', delay = 0 }) => {
+  // TEMPORARY: Disabled to debug hook error
+  return <div className={className}>{children}</div>;
+
+  /* Original code disabled for debugging
   const prefersReduced = prefersReducedMotion();
 
   if (prefersReduced) {
@@ -254,4 +272,5 @@ export const StaggerItem: React.FC<{
       {children}
     </motion.div>
   );
+  */
 };
