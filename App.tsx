@@ -68,8 +68,9 @@ const AppContent: React.FC = () => {
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
         if (loading) {
-            // If loading takes more than 3 seconds, offer a reset option
-            timer = setTimeout(() => setShowReset(true), 3000);
+            // If loading takes more than 8 seconds, offer a reset option
+            // Increased from 3s because auth can take longer on some connections
+            timer = setTimeout(() => setShowReset(true), 8000);
         } else {
             setShowReset(false);
         }

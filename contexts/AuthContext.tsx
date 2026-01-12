@@ -47,18 +47,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Load user session on mount
   useEffect(() => {
     let isMounted = true;
-    let timeoutId: NodeJS.Timeout | null = null;
+    let safetyTimeout: NodeJS.Timeout | null = null;
+
+    // Safety timeout: stop loading after 10 seconds even if auth hasn't completed
+    safetyTimeout = setTimeout(() => {
+      if (isMounted && loading) {
+        console.warn('[AUTH] Safety timeout triggered - stopping loading after 10s');
+        setLoading(false);
+        setSessionChecked(true);
+      }
+    }, 10000);
 
     // Immediately check if we should stop loading
     const stopLoading = () => {
       if (isMounted) {
         setLoading(false);
         setSessionChecked(true);
+        if (safetyTimeout) clearTimeout(safetyTimeout);
       }
     };
-
-    // NO timeout anymore - let onAuthStateChange handle it
-    // The onAuthStateChange event fires reliably and faster
 
     // Get initial session with better error handling
     const checkSession = async () => {
@@ -106,7 +113,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     return () => {
       isMounted = false;
-      if (timeoutId) clearTimeout(timeoutId);
+      if (safetyTimeout) clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };
   }, []);
