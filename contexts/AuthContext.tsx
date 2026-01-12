@@ -47,13 +47,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     let isMounted = true;
 
-    // Fallback timeout: stop loading after 2 seconds even if Supabase hasn't responded
+    // Fallback timeout: stop loading after 8 seconds even if Supabase hasn't responded
     const fallbackTimeout = setTimeout(() => {
-      if (isMounted) {
+      if (isMounted && loading) {
         console.warn('Auth session took too long, proceeding without auth');
         setLoading(false);
       }
-    }, 2000);
+    }, 8000);
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
