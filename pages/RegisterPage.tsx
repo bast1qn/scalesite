@@ -40,83 +40,152 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
     }
     setLoading(false);
   };
-  
+
   if (success) {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg px-4 py-12">
-            <div className="max-w-md w-full text-center p-10 bg-surface dark:bg-dark-surface rounded-2xl shadow-lg">
-                <CheckBadgeIcon className="w-16 h-16 text-green-500 mx-auto" />
-                <h2 className="mt-4 text-2xl font-bold text-dark-text dark:text-light-text">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-12 relative overflow-hidden">
+            {/* Animated background */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/8 to-teal-400/6 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] bg-gradient-to-br from-blue-400/6 to-violet-400/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+            </div>
+
+            <div className="relative z-10 max-w-md w-full text-center p-10 bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700">
+                <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckBadgeIcon className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h2 className="font-serif text-2xl font-bold text-slate-900 dark:text-white">
                     {t('auth.success_reg_title')}
                 </h2>
-                <p className="mt-2 text-dark-text/80 dark:text-light-text/80">
+                <p className="mt-3 text-slate-600 dark:text-slate-400">
                     {success}
                 </p>
-                <button onClick={() => setCurrentPage('login')} className="mt-6 w-full bg-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                <button onClick={() => setCurrentPage('login')} className="mt-8 w-full bg-gradient-to-r from-blue-600 to-violet-600 text-white font-bold py-4 rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 transition-all">
                     {t('auth.to_login')}
                 </button>
             </div>
         </div>
     );
   }
-  
-  const inputClasses = "block w-full px-4 py-3 text-sm rounded-md shadow-sm bg-light-bg dark:bg-dark-bg border border-dark-text/20 dark:border-light-text/20 placeholder-dark-text/60 dark:placeholder-light-text/60 focus:outline-none focus:ring-2 focus:ring-blue-500";
-
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg px-4 py-12">
-      <div className="max-w-md w-full space-y-8 p-10 bg-surface dark:bg-dark-surface rounded-2xl shadow-lg">
-        <div>
-          <h2 className="text-center text-3xl font-bold text-dark-text dark:text-light-text">
-            {t('auth.register_title')}
-          </h2>
-          <p className="mt-2 text-center text-sm text-dark-text/80 dark:text-light-text/80">
-            {t('auth.register_subtitle')}
-          </p>
-        </div>
-        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-           <div>
-              <label htmlFor="name" className="block text-sm font-medium text-dark-text/90 dark:text-light-text/90 mb-1">{t('auth.name')}</label>
-              <input id="name" name="name" type="text" required className={inputClasses} placeholder={t('placeholders.name_example')} value={name} onChange={(e) => setName(e.target.value)} />
-            </div>
-             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-dark-text/90 dark:text-light-text/90 mb-1">{t('auth.company')}</label>
-              <input id="company" name="company" type="text" required className={inputClasses} placeholder={t('placeholders.company_example')} value={company} onChange={(e) => setCompany(e.target.value)} />
-            </div>
-            <div>
-              <label htmlFor="email-address" className="block text-sm font-medium text-dark-text/90 dark:text-light-text/90 mb-1">{t('auth.email')}</label>
-              <input id="email-address" name="email" type="email" autoComplete="email" required className={inputClasses} placeholder={t('placeholders.email_example_alt')} value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-dark-text/90 dark:text-light-text/90 mb-1">{t('auth.password')}</label>
-              <input id="password" name="password" type="password" autoComplete="new-password" required className={inputClasses} placeholder={t('auth.password_placeholder')} value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-          
-          {error && <p className="text-sm text-primary text-center pt-2">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-12 relative overflow-hidden">
+       {/* Animated background */}
+       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-[20%] left-[10%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 to-violet-400/6 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] bg-gradient-to-br from-emerald-400/6 to-teal-400/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+       </div>
 
-          <div className="pt-2">
-            <button type="submit" disabled={loading} className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:bg-primary/60 dark:focus:ring-offset-dark-surface">
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <UserCircleIcon className="h-5 w-5 text-primary/50 group-hover:text-primary/40" />
-              </span>
-              {loading ? t('auth.registering') : t('auth.register_btn')}
-            </button>
+       <div className="relative z-10 max-w-md w-full">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200 dark:border-slate-700 p-8 sm:p-10">
+            <div className="text-center mb-8">
+                <h2 className="font-serif text-3xl font-bold text-slate-900 dark:text-white">
+                    {t('auth.register_title')}
+                </h2>
+                <p className="mt-2 text-slate-600 dark:text-slate-400">
+                    {t('auth.register_subtitle')}
+                </p>
+            </div>
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
+               <div>
+                  <label htmlFor="name" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('auth.name')}</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    className="w-full bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                    placeholder={t('placeholders.name_example')}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+               </div>
+                <div>
+                  <label htmlFor="company" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('auth.company')}</label>
+                  <input
+                    id="company"
+                    name="company"
+                    type="text"
+                    required
+                    className="w-full bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                    placeholder={t('placeholders.company_example')}
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                  />
+               </div>
+                <div>
+                  <label htmlFor="email-address" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('auth.email')}</label>
+                  <input
+                    id="email-address"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="w-full bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                    placeholder={t('placeholders.email_example_alt')}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+               </div>
+               <div>
+                  <label htmlFor="password" className="block text-sm font-bold text-slate-900 dark:text-white mb-2">{t('auth.password')}</label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                    className="w-full bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                    placeholder={t('auth.password_placeholder')}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+               </div>
+
+              {error && (
+                  <p className="text-sm text-red-600 dark:text-red-400 text-center bg-red-50 dark:bg-red-900/20 rounded-xl p-3 border border-red-200 dark:border-red-800/30">
+                      {error}
+                  </p>
+              )}
+
+              <div className="pt-2">
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="group relative w-full flex justify-center items-center py-4 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-800 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
+                >
+                  {loading ? (
+                      <span className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        {t('auth.registering')}
+                      </span>
+                  ) : (
+                      <>
+                        <UserCircleIcon className="w-5 h-5 mr-2 opacity-70" />
+                        {t('auth.register_btn')}
+                      </>
+                  )}
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-8 text-sm text-center space-y-4">
+              <p className="text-slate-600 dark:text-slate-400">
+                {t('auth.has_account')}{' '}
+                <button onClick={() => setCurrentPage('login')} className="font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                  {t('auth.login_now')}
+                </button>
+              </p>
+              <button onClick={() => setCurrentPage('home')} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                {t('auth.back_home')}
+              </button>
+            </div>
           </div>
-        </form>
-        <div className="text-sm text-center">
-          <p className="text-dark-text/80 dark:text-light-text/80">
-            {t('auth.has_account')}{' '}
-            <button onClick={() => setCurrentPage('login')} className="font-medium text-primary hover:text-primary/90">
-              {t('auth.login_now')}
-            </button>
-          </p>
-          <p className="mt-4">
-            <button onClick={() => setCurrentPage('home')} className="font-medium text-dark-text/60 hover:text-dark-text/80 dark:hover:text-light-text/80">
-              {t('auth.back_home')}
-            </button>
-          </p>
-        </div>
-      </div>
+       </div>
     </div>
   );
 };
