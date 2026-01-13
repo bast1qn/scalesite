@@ -307,3 +307,23 @@
 [2026-01-13 18:04:48] INFO: Build Check...
 [2026-01-13 18:05:03] SUCCESS: Build SUCCESS
 [2026-01-13 18:05:03] INFO: Git Commit für Woche 29...
+[2026-01-13 18:05:03] SUCCESS: Woche 29 committed
+[2026-01-13 18:05:03] SUCCESS: Woche 29 fertig! Nächste Woche: 30
+[2026-01-13 18:05:03] INFO: Neustart mit: \033[1m./scalesite-auto.fish\033[0m
+[2026-01-13 18:05:03] INFO: Logs: /home/basti/projects/scalesite/.autoloop.log
+[2026-01-13 18:05:03] INFO: Metrics: /home/basti/projects/scalesite/.autoloop_metrics.jsonl
+[2026-01-13 18:43:47] SUCCESS: Project Root gefunden: /home/basti/projects/scalesite
+[2026-01-13 18:43:47] SUCCESS: MASTER_PLAN.md gefunden
+[2026-01-13 18:43:47] SUCCESS: zclaude function verfügbar ✓
+[2026-01-13 18:43:47] SUCCESS: Git Repository gefunden
+[2026-01-13 18:43:47] SUCCESS: npm gefunden
+[2026-01-13 18:43:47] SUCCESS: package.json gefunden
+[2026-01-13 18:43:47] INFO: Initial Build Check...
+[2026-01-13 18:44:01] SUCCESS: Initial Build SUCCESS
+[2026-01-13 18:44:01] INFO: Aktueller Branch: main
+[2026-01-13 18:44:01] WARNING: Uncommitted Changes gefunden!
+[2026-01-13 18:44:12] INFO: Generiere Prompt für Woche 30...
+[2026-01-13 18:50:07] INFO: Claude erfolgreich beendet
+[2026-01-13 18:50:07] INFO: Build Check...
+[2026-01-13 18:50:21] SUCCESS: Build SUCCESS
+[2026-01-13 18:50:21] INFO: Git Commit für Woche 30...
