@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, Users, Zap, AlertTriangle, TrendingUp, TrendingDown, Clock, CheckCircle2 } from 'lucide-react';
+import { Users, Zap, AlertTriangle, TrendingUp, TrendingDown, Clock, CheckCircle2 } from 'lucide-react';
+import { ActivityIcon } from '../Icons';
 
 interface MetricCardProps {
   title: string;
@@ -170,7 +171,7 @@ const PostLaunchMonitoring: React.FC = () => {
           title="Page Views"
           value={metrics.pageViews.toLocaleString()}
           change={8}
-          icon={Activity}
+          icon={ActivityIcon}
           color="purple"
           trend="up"
         />
@@ -309,7 +310,7 @@ const PostLaunchMonitoring: React.FC = () => {
         <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <button className="flex items-center justify-center gap-2 p-3 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg border border-blue-500/30 transition-colors">
-            <Activity className="w-5 h-5" />
+            <ActivityIcon className="w-5 h-5" />
             <span>Run Health Check</span>
           </button>
           <button className="flex items-center justify-center gap-2 p-3 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg border border-purple-500/30 transition-colors">
