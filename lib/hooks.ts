@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, RefObject, useCallback, MouseEvent, MouseEventHandler } from 'react';
 
+// Re-export debounce hooks for convenience
+export { useDebounce, useDebouncedCallback, useThrottle } from './hooks/useDebounce';
+
 /**
  * Custom hook for hover state management
  * Returns handlers for mouse enter/leave events and the current hover state

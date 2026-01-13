@@ -1,4 +1,5 @@
 
+import { useMemo, memo } from 'react';
 import { ArrowRightIcon, CalendarDaysIcon, ClockIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
@@ -13,41 +14,42 @@ interface BlogPost {
   image: string;
 }
 
-const blogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Website-Optimierung: 5 Tipps für bessere Performance',
-    excerpt: 'Lernen Sie, wie Sie Ihre Website schneller und effizienter machen können mit diesen bewährten Methoden.',
-    category: 'Performance',
-    date: '12. Jan 2025',
-    readTime: '5 min',
-    gradient: 'from-blue-500 to-cyan-500',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: '2',
-    title: 'KI-gestütztes Webdesign: Die Zukunft ist jetzt',
-    excerpt: 'Entdecken Sie, wie künstliche Intelligenz das Webdesign revolutioniert und Ihre Arbeit erleichtert.',
-    category: 'KI & Technologie',
-    date: '10. Jan 2025',
-    readTime: '7 min',
-    gradient: 'from-violet-500 to-purple-500',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: '3',
-    title: 'Mobile-First Design: Warum es wichtig ist',
-    excerpt: 'Warum Mobile-First Design keine Option mehr, sondern eine Notwendigkeit für moderne Websites ist.',
-    category: 'Design',
-    date: '8. Jan 2025',
-    readTime: '4 min',
-    gradient: 'from-pink-500 to-rose-500',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop'
-  }
-];
-
 export const BlogSection = () => {
   const { t } = useLanguage();
+
+  // Memoize blogPosts array to prevent recreation on every render
+  const blogPosts = useMemo<BlogPost[]>(() => [
+    {
+      id: '1',
+      title: 'Website-Optimierung: 5 Tipps für bessere Performance',
+      excerpt: 'Lernen Sie, wie Sie Ihre Website schneller und effizienter machen können mit diesen bewährten Methoden.',
+      category: 'Performance',
+      date: '12. Jan 2025',
+      readTime: '5 min',
+      gradient: 'from-blue-500 to-cyan-500',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: '2',
+      title: 'KI-gestütztes Webdesign: Die Zukunft ist jetzt',
+      excerpt: 'Entdecken Sie, wie künstliche Intelligenz das Webdesign revolutioniert und Ihre Arbeit erleichtert.',
+      category: 'KI & Technologie',
+      date: '10. Jan 2025',
+      readTime: '7 min',
+      gradient: 'from-violet-500 to-purple-500',
+      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      id: '3',
+      title: 'Mobile-First Design: Warum es wichtig ist',
+      excerpt: 'Warum Mobile-First Design keine Option mehr, sondern eine Notwendigkeit für moderne Websites ist.',
+      category: 'Design',
+      date: '8. Jan 2025',
+      readTime: '4 min',
+      gradient: 'from-pink-500 to-rose-500',
+      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop'
+    }
+  ], []); // Empty dependency array - this data never changes
 
   return (
     <section className="py-28 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
@@ -100,6 +102,8 @@ export const BlogSection = () => {
                     src={post.image}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                    decoding="async"
                   />
 
                   {/* Category badge */}
@@ -167,3 +171,6 @@ export const BlogSection = () => {
     </section>
   );
 };
+
+// Memoize BlogSection to prevent unnecessary re-renders
+export const BlogSectionMemo = memo(BlogSection);

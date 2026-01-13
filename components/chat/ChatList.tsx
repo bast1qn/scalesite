@@ -163,6 +163,8 @@ const ChatListItem = ({ conversation, isActive, onClick, currentUserId }: ChatLi
                         src={avatarUrl}
                         alt={displayName}
                         className="w-12 h-12 rounded-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                     />
                 ) : (
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white font-semibold text-lg">

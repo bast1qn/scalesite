@@ -85,6 +85,8 @@ export const BeforeAfterSlider = ({
         alt="Nachher"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         draggable={false}
+        loading="lazy"
+        decoding="async"
       />
       {/* Subtle overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/6 via-transparent to-transparent pointer-events-none"></div>
@@ -102,6 +104,8 @@ export const BeforeAfterSlider = ({
           src={beforeImage}
           alt="Vorher"
           className="absolute inset-0 w-full h-full object-cover max-w-none"
+          loading="lazy"
+          decoding="async"
           style={{ width: containerRef.current?.offsetWidth ?? '100%' }}
           draggable={false}
         />

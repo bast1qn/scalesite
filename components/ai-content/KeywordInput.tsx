@@ -3,7 +3,7 @@
 // Tag Input System with Suggestions & Validation
 // ============================================
 
-import { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import { useState, useRef, useEffect, KeyboardEvent, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ============================================
@@ -67,12 +67,14 @@ export function KeywordInput({
     const inputRef = useRef<HTMLInputElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Filter suggestions based on input and existing keywords
-    const filteredSuggestions = suggestions.filter(suggestion => {
-        const matchesInput = suggestion.toLowerCase().includes(inputValue.toLowerCase());
-        const notAlreadyAdded = allowDuplicates || !value.includes(suggestion);
-        return matchesInput && notAlreadyAdded && inputValue.length > 0;
-    });
+    // Memoize filtered suggestions to prevent recalculation on every render
+    const filteredSuggestions = useMemo(() => {
+        return suggestions.filter(suggestion => {
+            const matchesInput = suggestion.toLowerCase().includes(inputValue.toLowerCase());
+            const notAlreadyAdded = allowDuplicates || !value.includes(suggestion);
+            return matchesInput && notAlreadyAdded && inputValue.length > 0;
+        });
+    }, [suggestions, inputValue, value, allowDuplicates]);
 
     // Handle clicking outside to close suggestions
     useEffect(() => {
@@ -87,7 +89,7 @@ export function KeywordInput({
     }, []);
 
     // Validate and add keyword
-    const addKeyword = (keyword: string) => {
+    const addKeyword = useCallback((keyword: string) => {
         const trimmed = keyword.trim();
 
         // Clear previous errors
@@ -118,16 +120,16 @@ export function KeywordInput({
         onChange([...value, trimmed]);
         setInputValue('');
         setShowSuggestions(false);
-    };
+    }, [value, allowDuplicates, maxKeywords, maxKeywordLength, minKeywordLength, onChange]);
 
     // Remove keyword
-    const removeKeyword = (indexToRemove: number) => {
+    const removeKeyword = useCallback((indexToRemove: number) => {
         onChange(value.filter((_, index) => index !== indexToRemove));
         setError(null);
-    };
+    }, [value, onChange]);
 
     // Handle keyboard input
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && inputValue.trim()) {
             e.preventDefault();
             addKeyword(inputValue);
@@ -137,19 +139,19 @@ export function KeywordInput({
         } else if (e.key === 'Escape') {
             setShowSuggestions(false);
         }
-    };
+    }, [inputValue, value, addKeyword, removeKeyword]);
 
     // Handle suggestion click
-    const handleSuggestionClick = (suggestion: string) => {
+    const handleSuggestionClick = useCallback((suggestion: string) => {
         addKeyword(suggestion);
-    };
+    }, [addKeyword]);
 
     // Handle input change
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
         setShowSuggestions(true);
         setError(null);
-    };
+    }, []);
 
     // Can add more keywords?
     const canAddMore = value.length < maxKeywords;
