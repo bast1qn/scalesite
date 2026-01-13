@@ -16,9 +16,9 @@ import {
     useSendMessage,
     useMessageActions,
     useCreateChat
-} from '../lib/hooks-chat';
-import { getCurrentUser } from '../lib/supabase';
-import type { ChatConversationWithDetails } from '../lib/chat';
+} from '../lib/hooks-chat.js';
+import { getCurrentUser } from '../lib/supabase.js';
+import type { ChatConversationWithDetails } from '../lib/chat.js';
 
 interface ChatPageProps {
     setCurrentPage: (page: string) => void;
