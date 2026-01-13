@@ -153,7 +153,7 @@ export const InteractiveTimeline = () => {
 
                                     {/* Card */}
                                     <div
-                                        className={`group relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/90 backdrop-blur-sm border transition-all duration-500 ease-out ${isActive ? `border-primary-200 dark:border-primary-800/50 shadow-premium-lg scale-100` : 'border-slate-200 dark:border-slate-800 scale-[0.98] opacity-60'}`}
+                                        className={`group relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/90 backdrop-blur-sm border transition-all duration-300 ease-out cursor-pointer ${isActive ? `border-primary-200 dark:border-primary-800/50 shadow-premium-lg scale-100` : 'border-slate-200 dark:border-slate-800 scale-[0.98] opacity-60 hover:scale-105 hover:opacity-100 active:scale-95'}`}
                                     >
                                         {/* Animated gradient border for active card */}
                                         {isActive && (
@@ -162,11 +162,11 @@ export const InteractiveTimeline = () => {
 
                                         <div className="relative">
                                             {/* Icon container */}
-                                            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-lg mb-6 sm:mb-8 transform transition-all duration-500 ease-out ${isActive ? 'scale-100' : 'scale-95'}`}>
+                                            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-lg mb-6 sm:mb-8 transform transition-all duration-300 ease-out ${isActive ? 'scale-100' : 'scale-95 group-hover:scale-105'}`}>
                                                 <span className="w-8 h-8 sm:w-10 sm:h-10">{iconMap[milestone.icon_name] ?? <CodeBracketIcon />}</span>
                                             </div>
 
-                                            <h3 className="text-xl sm:text-2xl font-bold text-dark-text dark:text-light-text mb-3">{milestone.title}</h3>
+                                            <h3 className="text-xl sm:text-2xl font-bold text-dark-text dark:text-light-text mb-3 leading-snug">{milestone.title}</h3>
                                             <p className="text-base sm:text-lg text-dark-text/60 dark:text-light-text/60 leading-relaxed">
                                                 {milestone.description}
                                             </p>

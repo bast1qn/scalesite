@@ -258,19 +258,19 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
     const KPICard = useCallback(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => (
         <div
             onClick={onClick}
-            className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
+            className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden transition-all duration-300 ${onClick ? 'cursor-pointer hover:scale-105 active:scale-95 hover:shadow-glow' : ''}`}
         >
             {/* Hover gradient overlay */}
             {onClick && (
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-violet-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:via-violet-500/5 group-hover:to-indigo-500/5 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-violet-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:via-violet-500/5 group-hover:to-indigo-500/5 transition-all duration-300"></div>
             )}
 
             <div className="relative flex justify-between items-start mb-4">
                 <div>
                     <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">{title}</p>
-                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{value}</h3>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">{value}</h3>
                 </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700/50 shadow-sm ${onClick ? 'group-hover:scale-110 group-hover:rotate-3 transition-all duration-300' : ''}`}>
+                <div className={`p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700/50 shadow-sm transition-all duration-300 ${onClick ? 'group-hover:scale-110 group-hover:rotate-3' : ''}`}>
                     {icon}
                 </div>
             </div>
@@ -301,11 +301,11 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                         <p className="text-white/80 mt-1 font-medium">{t('dashboard.overview.your_progress')}</p>
                     </div>
                     <div className="flex gap-3">
-                        <button onClick={() => setActiveView('ticket-support')} className="group px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2 border border-white/20 hover:border-white/30 hover:shadow-lg hover:shadow-white/10">
+                        <button onClick={() => setActiveView('ticket-support')} className="group px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2 border border-white/20 hover:border-white/30 hover:shadow-lg hover:shadow-white/10 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-white/50 min-h-11">
                             <TicketIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
                             {t('dashboard.nav.tickets')}
                         </button>
-                        <button onClick={() => setCurrentPage('preise')} className="group px-5 py-2.5 bg-white text-blue-600 hover:bg-blue-50 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                        <button onClick={() => setCurrentPage('preise')} className="group px-5 py-2.5 bg-white text-blue-600 hover:bg-blue-50 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500/50 min-h-11">
                             <PlusCircleIcon className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
                             {t('dashboard.alerts.new_project')}
                         </button>
@@ -356,19 +356,19 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                             <div key={i} className="skeleton h-28 rounded-xl"></div>
                          ))
                     ) : projects.length > 0 ? projects.map((project) => (
-                         <div key={project.id} className="group p-5 rounded-xl border border-slate-200/70 dark:border-slate-800/70 hover:border-blue-300/60 dark:hover:border-blue-700/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50">
+                         <div key={project.id} className="group p-5 rounded-xl border border-slate-200/70 dark:border-slate-800/70 hover:border-blue-300/60 dark:hover:border-blue-700/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50 hover:scale-105 active:scale-95 cursor-pointer">
                             <div className="flex justify-between items-start mb-4">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
-                                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.name}</h3>
+                                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{project.name}</h3>
                                         {getStatusBadge(project.status)}
                                     </div>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 leading-relaxed">
                                         <ClockIcon className="w-3.5 h-3.5" />
                                         Letztes Update: {project.latest_update || 'Keine Updates'}
                                     </p>
                                 </div>
-                                <span className="text-2xl font-black bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">{project.progress}%</span>
+                                <span className="text-2xl font-black bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent leading-tight">{project.progress}%</span>
                             </div>
 
                             <div className="relative w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
@@ -545,11 +545,11 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                     {/* Quick Actions */}
                     <div className="space-y-2">
                          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Schnellzugriff</h4>
-                         <button onClick={() => setActiveView('freunde-werben')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between">
+                         <button onClick={() => setActiveView('freunde-werben')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500/50 min-h-11">
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Freunde werben</span>
                             <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-500 transition-all" />
                          </button>
-                         <button onClick={() => setCurrentPage('contact')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between">
+                         <button onClick={() => setCurrentPage('contact')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500/50 min-h-11">
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Rückruf anfordern</span>
                             <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-500 transition-all" />
                          </button>
