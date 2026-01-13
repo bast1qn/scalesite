@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, lazy, Suspense, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider } from './contexts';
-import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary } from './components';
+import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider } from './contexts';
+import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer } from './components';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
@@ -158,6 +158,7 @@ const AppContent = () => {
             </ErrorBoundary>
             <ChatWidget />
             <CookieConsent />
+            <NotificationToastContainer />
         </Layout>
     );
 };
@@ -168,7 +169,9 @@ const App = () => {
             <AuthProvider>
                 <LanguageProvider>
                     <CurrencyProvider>
-                        <AppContent />
+                        <NotificationProvider>
+                            <AppContent />
+                        </NotificationProvider>
                     </CurrencyProvider>
                 </LanguageProvider>
             </AuthProvider>

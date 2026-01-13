@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext, useLanguage } from '../../contexts';
 import { ThemeToggle, UserCircleIcon, ShieldCheckIcon, BellIcon, CreditCardIcon, ArrowDownOnSquareIcon, TrashIcon, GlobeAltIcon, CheckBadgeIcon } from '../index';
 import { api, supabase, validatePassword, getPasswordStrength, alertError } from '../../lib';
+import NotificationPreferences from '../notifications/NotificationPreferences';
 
 const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
     <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
@@ -364,57 +365,7 @@ const Settings: React.FC = () => {
 
                     {/* --- NOTIFICATIONS TAB --- */}
                     {activeTab === 'notifications' && (
-                        <div className="space-y-6">
-                            <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">E-Mail Benachrichtigungen</h3>
-                                <div className="space-y-6">
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm font-bold text-slate-900 dark:text-white">Produkt-Updates & Marketing</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">Neuigkeiten zu Funktionen und Angeboten.</p>
-                                        </div>
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" checked={notifyEmailMarketing} onChange={() => setNotifyEmailMarketing(!notifyEmailMarketing)} className="sr-only peer" />
-                                            <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                        </label>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm font-bold text-slate-900 dark:text-white">Sicherheitswarnungen</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">Benachrichtigung bei neuen Logins oder Änderungen.</p>
-                                        </div>
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" checked={notifyEmailSecurity} onChange={() => setNotifyEmailSecurity(!notifyEmailSecurity)} className="sr-only peer" />
-                                            <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                        </label>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm font-bold text-slate-900 dark:text-white">Wöchentliche Zusammenfassung</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">Ein Überblick über Ihre Projektfortschritte jeden Montag.</p>
-                                        </div>
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" checked={notifyWeeklyDigest} onChange={() => setNotifyWeeklyDigest(!notifyWeeklyDigest)} className="sr-only peer" />
-                                            <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Browser & Push</h3>
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Support-Ticket Updates</p>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400">Sofortige Benachrichtigung bei Antworten vom Support.</p>
-                                    </div>
-                                    <label className="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" checked={notifyPushTickets} onChange={() => setNotifyPushTickets(!notifyPushTickets)} className="sr-only peer" />
-                                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <NotificationPreferences />
                     )}
 
                     {/* --- BILLING TAB --- */}

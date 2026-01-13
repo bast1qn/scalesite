@@ -87,3 +87,9 @@ export * from './seo';
 
 // Newsletter (Woche 23-24)
 export * from './newsletter';
+
+// Notifications (Woche 25)
+export { default as NotificationBell } from './notifications/NotificationBell';
+export { default as NotificationCenter } from './notifications/NotificationCenter';
+export { default as NotificationPreferences } from './notifications/NotificationPreferences';
+export { default as NotificationToast, NotificationToastContainer } from './notifications/NotificationToast';

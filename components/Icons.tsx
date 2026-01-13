@@ -30,6 +30,13 @@ export const ChatBubbleOvalLeftEllipsisIcon = ({ className }: IconProps = {}) =>
     </svg>
 );
 
+export const ChatBubbleLeftRightIcon = ({ className }: IconProps = {}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-.75 0H9m3.75 0v4.5m3-9v9m0 0a3 3 0 01-3 3h-3.75a3 3 0 01-3-3v-9a3 3 0 013-3h3.75a3 3 0 013 3zm-3.75 9a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H9.75zm5.25 0a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H15z" />
+    </svg>
+);
+
+
 export const QuestionMarkCircleIcon = ({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
@@ -615,6 +622,30 @@ export const CheckIcon = ({ className }: IconProps = {}) => (
 export const ExclamationTriangleIcon = ({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+    </svg>
+);
+
+export const InformationCircleIcon = ({ className }: IconProps = {}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+    </svg>
+);
+
+export const BellSlashIcon = ({ className }: IconProps = {}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.143 17.082a24.248 24.248 0 003.844.148m-3.844-.148A23.856 23.856 0 016.75 12c0-1.76.444-3.418 1.22-4.861M19.5 9c0 1.76-.444 3.418-1.22 4.861M7.5 12c0-1.76.444-3.418 1.22-4.861m10.718 0A8.954 8.954 0 0119.5 12m0 0v.75A2.25 2.25 0 0117.25 15h-2.25m-2.25 0h-3m2.25 0a2.25 2.25 0 002.25-2.25m-12 0V9A6 6 0 016 3v.75A2.25 2.25 0 018.25 6h.75M15 17.5v-.217c0-1.613.049-3.21.146-4.793a8.905 8.905 0 00-8.292 0c.097 1.583.146 3.18.146 4.793v.217M15 17.5a2.625 2.625 0 002.625-2.625M9 17.5a2.625 2.625 0 01-2.625-2.625m0 0A2.625 2.625 0 009 17.5m-4.5 0A2.625 2.625 0 009 17.5" />
+    </svg>
+);
+
+export const SpeakerWaveIcon = ({ className }: IconProps = {}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+    </svg>
+);
+
+export const SpeakerXMarkIcon = ({ className }: IconProps = {}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-5.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
     </svg>
 );
 

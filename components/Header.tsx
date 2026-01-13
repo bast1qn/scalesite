@@ -3,6 +3,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { useScroll, useBodyScrollLock, useClickOutsideCallback, useHover } from '../lib/hooks';
+import NotificationBell from './notifications/NotificationBell';
 
 interface HeaderProps {
     setCurrentPage: (page: string) => void;
@@ -191,6 +192,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
 
                         {user ? (
                             <>
+                                <NotificationBell />
                                 <button
                                     onClick={() => setCurrentPage('configurator')}
                                     className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 min-h-11"
