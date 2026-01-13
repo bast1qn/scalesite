@@ -39,8 +39,8 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
 
-    const commonCurrencies = ['EUR', 'USD', 'GBP', 'CHF', 'JPY', 'CAD', 'AUD', 'SEK', 'DKK', 'PLN', 'CZK', 'HUF', 'BRL', 'TRY'];
-    const otherCurrencies = currenciesList.filter(c => !commonCurrencies.includes(c.code));
+    const commonCurrencies = useMemo(() => ['EUR', 'USD', 'GBP', 'CHF', 'JPY', 'CAD', 'AUD', 'SEK', 'DKK', 'PLN', 'CZK', 'HUF', 'BRL', 'TRY'], []);
+    const otherCurrencies = useMemo(() => currenciesList.filter(c => !commonCurrencies.includes(c.code)), [currenciesList, commonCurrencies]);
 
     return (
         <div className="relative" ref={dropdownRef}>

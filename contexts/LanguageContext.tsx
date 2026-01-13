@@ -36,7 +36,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     document.documentElement.lang = lang;
   };
 
-  const t = (path: string): string => {
+  const t = useMemo(() => (path: string): string => {
     const keys = path.split('.');
     let current: unknown = translations[language];
 
@@ -52,13 +52,13 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       }
     }
     return typeof current === 'string' ? current : path;
-  };
+  }, [language]);
 
   const contextValue = useMemo(() => ({
     language,
     setLanguage,
     t,
-  }), [language]);
+  }), [language, t]);
 
   return (
     <LanguageContext.Provider value={contextValue}>

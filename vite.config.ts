@@ -28,6 +28,8 @@ export default defineConfig(({ mode }) => {
         minify: 'esbuild',
         sourcemap: false,
         chunkSizeWarningLimit: 1000,
+        // Enable better compression for modern browsers
+        reportCompressedSize: false,
         rollupOptions: {
           output: {
             // Better caching with content-based hashes
