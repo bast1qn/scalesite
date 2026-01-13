@@ -18,7 +18,7 @@ interface UserService {
     id: string;
     service_id: number;
     status: string;
-    services: Service;
+    services?: Service | null;
 }
 
 interface ServicesProps {
@@ -181,8 +181,8 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                                     <ClockIcon className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.services.name}</h3>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.services.description}</p>
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.services?.name || 'Unbekannter Service'}</h3>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.services?.description || ''}</p>
                                 </div>
                             </div>
                         ))}
@@ -204,8 +204,8 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                                     <CheckBadgeIcon className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.services.name}</h3>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.services.description}</p>
+                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.services?.name || 'Unbekannter Service'}</h3>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{item.services?.description || ''}</p>
                                 </div>
                             </div>
                         ))}

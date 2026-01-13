@@ -66,12 +66,16 @@ const getStatusColor = (status: Ticket['status']) => {
 function formatTimeAgo(dateString: string) {
     if (!dateString) return '';
     const date = new Date(dateString);
+    // Validate date
+    if (isNaN(date.getTime())) return '';
     const now = new Date();
     const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
+    // Handle future dates
+    if (seconds < 0) return 'in Kürze';
     if (seconds < 5) return "gerade eben";
     if (seconds < 60) return `vor ${seconds} Sekunden`;
-    
+
     let interval = seconds / 31536000;
     if (interval > 1) return `vor ${Math.floor(interval)} Jahren`;
     interval = seconds / 2592000;
@@ -397,11 +401,11 @@ const TicketSupport: React.FC = () => {
                                 {ticketMembers.map(member => (
                                     <div key={member.id} className="flex items-center gap-3">
                                         <div className="w-8 h-8 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-600">
-                                            {member.name.charAt(0)}
+                                            {member.name?.charAt(0) || '?'}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{member.name}</p>
-                                            <p className="text-[10px] text-slate-500 truncate">{member.email}</p>
+                                            <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{member.name || 'Unbekannt'}</p>
+                                            <p className="text-[10px] text-slate-500 truncate">{member.email || ''}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -478,7 +482,7 @@ const TicketSupport: React.FC = () => {
                             <dl className="space-y-3 text-sm">
                                 <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Status</dt><dd className="font-medium text-slate-900 dark:text-white">{selectedTicket.status}</dd></div>
                                 <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Priorität</dt><dd className="font-medium text-slate-900 dark:text-white">{selectedTicket.priority}</dd></div>
-                                <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Erstellt am</dt><dd className="text-slate-900/90 dark:text-white/90">{new Date(selectedTicket.created_at).toLocaleDateString()}</dd></div>
+                                <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Erstellt am</dt><dd className="text-slate-900/90 dark:text-white/90">{!isNaN(new Date(selectedTicket.created_at).getTime()) ? new Date(selectedTicket.created_at).toLocaleDateString() : '-'}</dd></div>
                                 <div className="flex justify-between"><dt className="text-slate-900/70 dark:text-white/70">Letztes Update</dt><dd className="text-slate-900/90 dark:text-white/90">{formatTimeAgo(selectedTicket.last_update)}</dd></div>
                             </dl>
                         </div>

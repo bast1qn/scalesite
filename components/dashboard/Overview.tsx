@@ -34,11 +34,15 @@ interface OverviewProps {
 
 const getTimeAgo = (date: Date): string => {
     const now = new Date();
+    // Validate date
+    if (isNaN(date.getTime())) return '-';
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
+    // Handle future dates
+    if (diffMs < 0) return 'in Kürze';
     if (diffMins < 1) return 'Gerade eben';
     if (diffMins < 60) return `vor ${diffMins} Minute${diffMins > 1 ? 'n' : ''}`;
     if (diffHours < 24) return `vor ${diffHours} Stunde${diffHours > 1 ? 'n' : ''}`;
