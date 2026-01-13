@@ -57,26 +57,26 @@ export const ThemeToggle = () => {
         <button
             onClick={toggleTheme}
             {...hover}
-            className="relative w-16 h-8 rounded-full transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 group"
+            className="relative w-16 h-8 min-h-11 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 group hover:scale-105 active:scale-95"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >
-            <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
+            <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
                 theme === 'dark'
-                    ? 'bg-gradient-to-r from-blue-600 to-violet-600 shadow-lg shadow-blue-500/25'
+                    ? 'bg-gradient-to-r from-primary-600 to-violet-600 shadow-lg shadow-primary-500/25'
                     : 'bg-gradient-to-r from-slate-200 to-slate-300'
-            } ${hover.isHovered ? 'scale-105' : ''}`}></div>
+            }`}></div>
 
             {theme === 'dark' && (
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-violet-500/20 blur-lg animate-pulse"></div>
             )}
 
-            <div className={`absolute top-1 bottom-1 w-6 rounded-full bg-white shadow-xl transform transition-all duration-500 ease-out flex items-center justify-center ${
+            <div className={`absolute top-1 bottom-1 w-6 rounded-full bg-white shadow-xl transform transition-all duration-300 ease-out flex items-center justify-center ${
                 theme === 'dark' ? 'left-[calc(100%-1.875rem)]' : 'left-1'
-            } ${isAnimating ? 'scale-90' : 'scale-100'} ${hover.isHovered ? 'scale-105' : ''}`}>
+            } ${isAnimating ? 'scale-90' : 'scale-100'}`}>
                 {theme === 'dark' ? (
-                    <MoonIcon className="w-3.5 h-3.5 text-violet-600 transition-transform duration-500" />
+                    <MoonIcon className="w-3.5 h-3.5 text-violet-600 transition-transform duration-300" />
                 ) : (
-                    <SunIcon className="w-3.5 h-3.5 text-amber-500 transition-transform duration-500" />
+                    <SunIcon className="w-3.5 h-3.5 text-amber-500 transition-transform duration-300" />
                 )}
             </div>
 

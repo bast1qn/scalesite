@@ -45,7 +45,7 @@ export const ProcessSteps: FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-white dark:bg-slate-900 relative overflow-hidden">
       {/* Subtle background gradient */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[20%] left-[5%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 to-violet-400/6 rounded-full blur-3xl"></div>
@@ -58,46 +58,46 @@ export const ProcessSteps: FC = () => {
         backgroundSize: '40px 40px',
       }}></div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
-          <div className="text-center mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200/60 dark:border-blue-800/40 text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+          <div className="text-center mb-12 md:mb-16">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
               {t('process.badge')}
             </span>
-            <h2 className="mt-6 font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+            <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('process.title')}
               </span>
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
+            <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
               {t('process.subtitle')}
             </p>
           </div>
         </AnimatedSection>
 
         <AnimatedSection stagger>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {steps.map((step, index) => (
               <div key={step.nameKey} className="group relative">
                 {/* Connector line (desktop) */}
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400"></div>
+                  <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-primary-400 via-violet-400 to-primary-400"></div>
                 )}
 
                 {/* Card */}
-                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md hover:-translate-y-1 transition-all duration-300 h-full">
+                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-300 h-full focus:ring-2 focus:ring-primary-500/50">
                   {/* Step number badge */}
                   <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold flex items-center justify-center shadow-md border-2 border-white dark:border-slate-800 z-10">
                     {index + 1}
                   </div>
 
                   {/* Icon */}
-                  <div className={`relative w-14 h-14 rounded-xl ${step.bg} ${step.textColor} flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110`}>
+                  <div className={`relative w-14 h-14 rounded-xl ${step.bg} ${step.textColor} flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-105`}>
                     <div className="relative z-10">{step.icon}</div>
                   </div>
 
                   {/* Content */}
-                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
                     {t(step.nameKey)}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">

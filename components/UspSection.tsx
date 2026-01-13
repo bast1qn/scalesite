@@ -63,7 +63,7 @@ export const UspSection: FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
       {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
@@ -76,35 +76,35 @@ export const UspSection: FC = () => {
       {/* Subtle gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-transparent pointer-events-none"></div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('usps.title')}
               </span>
             </h2>
-            <p className="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
               {t('usps.subtitle')}
             </p>
           </div>
         </AnimatedSection>
 
         <AnimatedSection stagger>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {usps.map((usp) => (
               <HoverCard key={usp.nameKey}>
-                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50">
                   {/* Top accent line */}
                   <div className={`absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
                   {/* Icon container */}
-                  <div className={`w-14 h-14 ${usp.bg} ${usp.color} rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110`}>
+                  <div className={`w-14 h-14 ${usp.bg} ${usp.color} rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-105`}>
                     {usp.icon}
                   </div>
 
                   {/* Content */}
-                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
                     {t(usp.nameKey)}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">

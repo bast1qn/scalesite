@@ -44,7 +44,7 @@ export const ReasonsSection: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-28 md:py-36 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 lg:py-28 xl:py-36 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
       {/* Refined background patterns */}
       <div className="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none" style={{
         backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
@@ -57,40 +57,40 @@ export const ReasonsSection: React.FC = () => {
       <div className="absolute bottom-1/4 right-[5%] w-80 h-80 md:w-96 md:h-96 bg-gradient-to-br from-violet-400/12 to-purple-400/10 rounded-full blur-3xl animate-blob" style={{ animationDelay: '3s' }}></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-emerald-400/8 to-teal-400/8 rounded-full blur-3xl animate-blob" style={{ animationDelay: '6s' }}></div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
+          transition={{ duration: 0.4 }}
+          className="text-center mb-12 md:mb-16 lg:mb-20"
         >
-          <span className="inline-block px-5 py-2 mb-8 rounded-full bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 shadow-premium">
+          <span className="inline-block px-4 md:px-5 py-2 mb-6 md:mb-8 rounded-full bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 shadow-premium">
             Warum ScaleSite?
           </span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-violet-600 to-primary-600 bg-[length:200%_auto] animate-gradient-shimmer">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
               {t('reasons.title')}
             </span>
           </h2>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
             {t('reasons.subtitle')}
           </p>
         </motion.div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {reasons.map((reason, index) => (
             <motion.div
               key={reason.title}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
             >
               <div
-                className={`group relative bg-gradient-to-br ${reason.bgGradient} backdrop-blur-sm p-7 md:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-700/50 ${reason.borderColor} shadow-premium hover:shadow-premium-lg ${reason.glowColor} hover:-translate-y-2 transition-all duration-450 ease-spring overflow-hidden`}
+                className={`group relative bg-gradient-to-br ${reason.bgGradient} backdrop-blur-sm p-6 md:p-7 lg:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-700/50 ${reason.borderColor} shadow-premium hover:shadow-premium-lg ${reason.glowColor} hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden focus:ring-2 focus:ring-primary-500/50`}
               >
                 {/* Animated gradient line at top */}
                 <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${reason.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}></div>
@@ -105,12 +105,12 @@ export const ReasonsSection: React.FC = () => {
 
                 {/* Icon */}
                 <div className="relative">
-                  <div className={`w-16 h-16 md:w-18 md:h-18 rounded-2xl bg-gradient-to-br ${reason.gradient} flex items-center justify-center text-white shadow-premium transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-450 ease-spring`}>
+                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${reason.gradient} flex items-center justify-center text-white shadow-premium transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-300`}>
                     {reason.icon}
                   </div>
                 </div>
 
-                <h3 className="relative font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-3 mt-7">
+                <h3 className="relative font-display text-lg md:text-xl lg:text-2xl font-bold text-slate-900 dark:text-white mb-3 mt-7 leading-tight">
                   {reason.title}
                 </h3>
                 <p className="relative text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -141,10 +141,10 @@ export const ReasonsSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-20 text-center"
+          transition={{ duration: 0.3, delay: 0.4 }}
+          className="mt-12 md:mt-16 lg:mt-20 text-center"
         >
-          <div className="inline-flex items-center gap-5 px-7 py-4 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-350">
+          <div className="inline-flex items-center gap-4 md:gap-5 px-5 md:px-7 py-3 md:py-4 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg hover:scale-105 active:scale-95 transition-all duration-300">
             <div className="flex -space-x-2">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-cyan-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold shadow-soft">S</div>
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold shadow-soft">M</div>
