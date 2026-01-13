@@ -1,5 +1,5 @@
 // Chat Window Component
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, CheckCheck, MoreVertical, Trash2, Edit2 } from 'lucide-react';
 import type { ChatMessageWithSender, ChatConversationWithDetails } from '../../lib/chat';
@@ -242,6 +242,3 @@ function formatDate(timestamp: string): string {
 
     return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
-
-// Import useState (was used in MessageBubble)
-import { useState } from 'react';

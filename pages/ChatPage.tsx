@@ -1,8 +1,8 @@
 // Chat Page - Real-time Messaging
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, MoreVertical, Phone, Video, Info } from 'lucide-react';
-import { AuthContext } from '../contexts';
+import { AuthContext, useLanguage } from '../contexts';
 import {
     ChatList,
     ChatWindow,
@@ -339,7 +339,3 @@ function getOtherParticipantName(conversation: ChatConversationWithDetails, curr
     const other = conversation.participants.find(p => p.user_id !== currentUserId);
     return other?.profile?.name || 'Unbekannt';
 };
-
-// Import missing dependencies
-import { useContext } from 'react';
-import { useLanguage } from '../contexts';

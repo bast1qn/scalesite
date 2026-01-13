@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useContext } from 'react';
-import { api } from '../../lib';
+import { api, formatCurrency, formatDate } from '../../lib';
 import { AuthContext } from '../../contexts';
 
 interface Invoice {
@@ -41,14 +41,6 @@ const Transactions: React.FC = () => {
             default: return 'bg-gray-500/20 text-gray-700';
         }
     };
-    
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(amount);
-    }
-    
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('de-DE');
-    }
 
     return (
         <div>

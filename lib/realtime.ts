@@ -845,10 +845,6 @@ export const showBrowserNotification = (
     options?: NotificationOptions
 ): void => {
     if (canShowNotifications()) {
-        // Play sound (optional, requires audio file)
-        // const audio = new Audio('/notification.mp3');
-        // audio.play().catch(() => {}); // Ignore autoplay errors
-
         new Notification(title, {
             icon: '/favicon.ico',
             badge: '/favicon.ico',

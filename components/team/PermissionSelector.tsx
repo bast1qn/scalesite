@@ -290,7 +290,7 @@ const PermissionSelector: React.FC<PermissionSelectorProps> = ({
                                             onClick={() => {
                                                 handlePermissionChange(expandedCategory, level);
                                                 setExpandedCategory(null);
-                                            }
+                                            }}
                                             className={`
                                                 flex-1 px-3 py-2 rounded-lg border text-sm font-medium
                                                 transition-all duration-200

@@ -8,6 +8,8 @@
  * - Manual invoice creation
  */
 
+import { API } from './constants';
+
 import { supabase } from './supabase';
 import type { Invoice, PaymentMethod } from './stripe';
 
@@ -152,7 +154,8 @@ export async function createInvoice(params: CreateInvoiceParams): Promise<{
         // Calculate dates
         const now = new Date();
         const issueDate = now.toISOString();
-        const dueDate = new Date(now.getTime() + (params.dueDays || 14) * 24 * 60 * 60 * 1000).toISOString();
+        const MS_PER_DAY = 24 * 60 * 60 * 1000;
+        const dueDate = new Date(now.getTime() + (params.dueDays || API.invoiceDueDays) * MS_PER_DAY).toISOString();
 
         // Build line items with IDs and totals
         const lineItems: InvoiceLineItem[] = params.lineItems.map((item, index) => ({
