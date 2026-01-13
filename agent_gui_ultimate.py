@@ -315,12 +315,19 @@ def run_agent():
 
         emit_notification('🚀 Agent Started', f'Running {config["max_loops"]} loops', 'info')
 
+        # Set Z.ai environment variables
+        env = os.environ.copy()
+        env['ANTHROPIC_AUTH_TOKEN'] = '5fcd17049e3b4b98bd3634993e32e923.TUudeRsviXYEU6D5'
+        env['ANTHROPIC_BASE_URL'] = 'https://api.z.ai/api/anthropic'
+        env['API_TIMEOUT_MS'] = '3000000'
+
         agent_process = subprocess.Popen(
             ["fish", script_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
             bufsize=1,
+            env=env,  # Pass environment variables
             preexec_fn=os.setsid  # Create new process group
         )
 
