@@ -21,6 +21,7 @@ const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
 const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
+const SEOPage = lazy(() => import('./pages/SEOPage'));
 
 const PageLoader = () => {
     const { t } = useLanguage();
@@ -63,7 +64,8 @@ const AppContent = () => {
             architecture: 'Richter Architects | Showcase',
             realestate: 'Premium Properties | Showcase',
             configurator: 'Website Konfigurator | ScaleSite',
-            analytics: 'Analytics | ScaleSite'
+            analytics: 'Analytics | ScaleSite',
+            seo: 'SEO Tools | ScaleSite'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
@@ -116,6 +118,7 @@ const AppContent = () => {
             case 'analytics':
                 if (!user) return null;
                 return <AnalyticsPage setCurrentPage={setCurrentPage} />;
+            case 'seo': return <SEOPage />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };

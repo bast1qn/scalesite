@@ -80,3 +80,6 @@ export { default as AnalyticsDashboard } from './analytics/AnalyticsDashboard';
 
 // Enhanced Ticket Support (Woche 15)
 export * from './tickets';
+
+// SEO Tools (Woche 21)
+export * from './seo';
