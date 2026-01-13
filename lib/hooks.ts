@@ -277,3 +277,70 @@ export function useMediaQuery(query: string): boolean {
 
   return matches;
 }
+
+/**
+ * Custom hook for IntersectionObserver
+ * Tracks when an element enters or exits the viewport
+ */
+export function useIntersectionObserver(
+  options: IntersectionObserverInit = {}
+): [RefObject<HTMLElement>, boolean] {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, { threshold: 0.1, ...options });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [options.threshold, options.rootMargin, options.root]);
+
+  return [ref, isIntersecting];
+}
+
+/**
+ * Custom hook for IntersectionObserver with once option
+ * Only triggers once when element enters viewport
+ */
+export function useIntersectionObserverOnce(
+  options: IntersectionObserverInit = {}
+): [RefObject<HTMLElement>, boolean] {
+  const [hasIntersected, setHasIntersected] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || hasIntersected) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setHasIntersected(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1, ...options });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [hasIntersected, options.threshold, options.rootMargin, options.root]);
+
+  return [ref, hasIntersected];
+}
+
+/**
+ * Custom hook to set document page title
+ * Automatically restores previous title on unmount
+ */
+export function usePageTitle(title: string): void {
+  useEffect(() => {
+    document.title = title;
+    return () => {
+      // Restore default title on unmount
+      document.title = 'ScaleSite - Premium Web Development';
+    };
+  }, [title]);
+}

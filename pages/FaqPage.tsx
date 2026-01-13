@@ -1,5 +1,5 @@
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { ChevronDownIcon, QuestionMarkCircleIcon } from '../components/Icons';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -9,7 +9,7 @@ interface FaqCategory {
     questions: { q: string; a: string }[];
 }
 
-const FaqPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
+const FaqPage = ({ setCurrentPage }: { setCurrentPage: (page: string) => void; }) => {
     const { t } = useLanguage();
 
     const faqCategories = useMemo<FaqCategory[]>(() => {

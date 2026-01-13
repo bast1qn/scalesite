@@ -1,7 +1,7 @@
 import { ArrowUpIcon } from './Icons';
 import { scrollToTop, useScroll } from '../lib/utils';
 
-export const BackToTopButton: React.FC = () => {
+export const BackToTopButton = () => {
   const isScrolled = useScroll(300);
 
   return (

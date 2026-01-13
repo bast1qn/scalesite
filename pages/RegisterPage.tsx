@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, type FormEvent } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { UserCircleIcon, CheckBadgeIcon } from '../components/Icons';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -8,7 +8,7 @@ interface RegisterPageProps {
     setCurrentPage: (page: string) => void;
 }
 
-const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
+const PasswordRequirement = ({ met, text }: { met: boolean; text: string }) => (
     <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
         <span className={`w-4 h-4 rounded-full flex items-center justify-center ${met ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
             {met ? '✓' : '○'}
@@ -17,7 +17,7 @@ const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, te
     </div>
 );
 
-const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
+const RegisterPage = ({ setCurrentPage }: RegisterPageProps) => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
@@ -35,7 +35,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ setCurrentPage }) => {
   const hasUppercase = /[A-Z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');

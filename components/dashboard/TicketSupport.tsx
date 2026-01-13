@@ -90,7 +90,7 @@ function formatTimeAgo(dateString: string) {
 }
 
 // --- MAIN COMPONENT ---
-const TicketSupport: React.FC = () => {
+const TicketSupport = () => {
     const { user } = useContext(AuthContext);
     const { t } = useLanguage();
     const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -580,7 +580,8 @@ const TicketSupport: React.FC = () => {
     );
 };
 
-const CreateTicketForm: React.FC<{ onSubmit: (subject: string, priority: 'Niedrig'|'Mittel'|'Hoch', message: string) => void; loading: boolean }> = ({ onSubmit, loading }) => {
+const CreateTicketForm = ({ onSubmit, loading }: { onSubmit: (subject: string, priority: 'Niedrig'|'Mittel'|'Hoch', message: string) => void; loading: boolean }) => {
+    const { t } = useLanguage();
     const [subject, setSubject] = useState('');
     const [priority, setPriority] = useState('Niedrig');
     const [message, setMessage] = useState('');

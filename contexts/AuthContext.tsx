@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useRef, ReactNode } from 'react';
+import { createContext, useState, useEffect, useRef, useContext, type ReactNode } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase, getUserProfile, UserProfile } from '../lib/supabase';
 
@@ -53,7 +53,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [sessionChecked, setSessionChecked] = useState(false);
@@ -283,4 +283,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+// Convenience hook for using the AuthContext
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

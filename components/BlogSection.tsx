@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { ArrowRightIcon, CalendarDaysIcon, ClockIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -48,7 +47,7 @@ const blogPosts: BlogPost[] = [
   }
 ];
 
-export const BlogSection: React.FC = () => {
+export const BlogSection = () => {
   const { t } = useLanguage();
 
   return (

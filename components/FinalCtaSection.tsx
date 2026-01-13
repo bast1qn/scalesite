@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowRightIcon, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, CreditCardIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -6,7 +5,7 @@ interface FinalCtaSectionProps {
   setCurrentPage: (page: string) => void;
 }
 
-export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ setCurrentPage }) => {
+export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
   const { t } = useLanguage();
 
   return (

@@ -8,7 +8,7 @@ interface CookiePreferences {
     marketing: boolean;
 }
 
-export const CookieConsent: React.FC = () => {
+export const CookieConsent = () => {
     const { t } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
     const [showSettings, setShowSettings] = useState(false);

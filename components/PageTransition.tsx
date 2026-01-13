@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { prefersReducedMotion, hardwareAccelerationProps } from '../lib/animations';
+import type { ReactNode } from 'react';
 
 interface PageTransitionProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   mode?: 'wait' | 'sync' | 'popLayout';
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
@@ -75,7 +75,6 @@ export const PageTransition = ({
         animate="enter"
         exit="exit"
         className={`w-full ${className}`}
-        {...hardwareAccelerationProps}
         onAnimationComplete={(definition) => {
           if (definition === 'enter') {
             (document.querySelector('[data-motion-container]') as HTMLElement)?.style.setProperty('will-change', 'auto');

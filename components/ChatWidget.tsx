@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { ChatBubbleOvalLeftEllipsisIcon, XMarkIcon, PaperAirplaneIcon, SparklesIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../lib/translations';
@@ -10,7 +10,7 @@ interface Message {
     text: string;
 }
 
-export const ChatWidget: React.FC = () => {
+export const ChatWidget = () => {
     const { t, language } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState('');
@@ -89,7 +89,7 @@ export const ChatWidget: React.FC = () => {
         }
     };
 
-    const handleSendMessage = (e: React.FormEvent) => {
+    const handleSendMessage = (e: FormEvent) => {
         e.preventDefault();
         if (input.trim()) {
             processMessage(input);

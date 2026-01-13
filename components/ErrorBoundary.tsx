@@ -1,5 +1,5 @@
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, type ReactNode } from 'react';
 import { XCircleIcon, ArrowLeftIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -58,7 +58,7 @@ export class ErrorBoundary extends Component<Props, State> {
  * Default Error Fallback Component
  * Displays a user-friendly error message with a reset button
  */
-const ErrorFallback: React.FC<{ error: Error | null; onReset: () => void }> = ({ error, onReset }) => {
+const ErrorFallback = ({ error, onReset }: { error: Error | null; onReset: () => void }) => {
   const { t } = useLanguage();
 
   return (

@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowsRightLeftIcon } from './Icons';
 
 interface BeforeAfterSliderProps {
@@ -9,7 +9,7 @@ interface BeforeAfterSliderProps {
   afterLabel?: string;
 }
 
-export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
+export const BeforeAfterSlider = ({
   beforeImage,
   afterImage,
   beforeLabel = "Vorher",
@@ -26,7 +26,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     // Defensively check for touches array existence before accessing [0]
     const clientX = 'touches' in event && event.touches[0]
       ? event.touches[0].clientX
-      : event.clientX;
+      : (event as MouseEvent).clientX;
 
     let position = ((clientX - containerRect.left) / containerRect.width) * 100;
     position = Math.max(0, Math.min(100, position));

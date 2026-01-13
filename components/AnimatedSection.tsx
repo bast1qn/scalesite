@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { prefersReducedMotion } from '../lib/animations';
+import { prefersReducedMotion, easings, intersectionOptions } from '../lib/animations';
 
 interface AnimatedSectionProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   id?: string;
   delay?: number;
@@ -43,8 +43,8 @@ export const AnimatedSection = ({
       },
       {
         root: null,
-        rootMargin: '0px 0px -80px 0px',
-        threshold: 0.15,
+        rootMargin: intersectionOptions.rootMargin,
+        threshold: intersectionOptions.threshold,
       }
     );
 
@@ -75,7 +75,7 @@ export const AnimatedSection = ({
         transition: {
           duration: 0.6,
           delay: delay * 0.001,
-          ease: [0.25, 0.4, 0.25, 1],
+          ease: easings.smooth,
           ...(stagger && {
             staggerChildren: 0.1,
             delayChildren: 0.1,
@@ -122,7 +122,7 @@ export const AnimatedSection = ({
 };
 
 export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   staggerDelay?: number;
   threshold?: number;
@@ -176,7 +176,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
 };
 
 export const StaggerItem = ({ children, className = '', delay = 0 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   delay?: number;
 }) => {
@@ -188,7 +188,7 @@ export const StaggerItem = ({ children, className = '', delay = 0 }: {
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 30, scale: 0.98 },
-        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, delay, ease: [0.25, 0.4, 0.25, 1] } },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, delay, ease: easings.smooth } },
       }}
       className={className}
     >

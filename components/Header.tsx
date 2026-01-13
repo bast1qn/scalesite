@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useRef, type ReactNode } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext } from '../contexts/AuthContext';
@@ -11,7 +11,7 @@ interface HeaderProps {
     currentPage: string;
 }
 
-const NavButton = ({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: React.ReactNode }) => {
+const NavButton = ({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: ReactNode }) => {
     const hover = useHover();
     const isActive = currentPage === page;
 

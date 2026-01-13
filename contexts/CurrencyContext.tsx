@@ -55,7 +55,7 @@ interface CurrencyContextType {
     currenciesList: Currency[];
 }
 
-const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
+export const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export const useCurrency = (): CurrencyContextType => {
     const context = useContext(CurrencyContext);

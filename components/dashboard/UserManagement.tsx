@@ -35,7 +35,7 @@ const DEFAULT_SERVICES: Service[] = [
     { id: 'auto-5', name: "Dokumenten-Analyse Bot", description: "KI liest PDFs und extrahiert Daten.", price: 129, price_details: "einmalig" },
 ];
 
-const UserManagement: React.FC = () => {
+const UserManagement = () => {
     const { user } = useContext(AuthContext);
     const { t } = useLanguage();
     const [users, setUsers] = useState<UserProfile[]>([]);
@@ -198,7 +198,8 @@ const UserManagement: React.FC = () => {
     );
 };
 
-const ProjectManagementModal: React.FC<{ user: UserProfile; services: Service[]; onClose: () => void; }> = ({ user, services, onClose }) => {
+const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile; services: Service[]; onClose: () => void; }) => {
+    const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<'manage' | 'assign'>('manage');
     const [userServices, setUserServices] = useState<UserService[]>([]);
     const [loadingData, setLoadingData] = useState(false);

@@ -1,10 +1,9 @@
 
-import React from 'react';
 import { AnimatedSection } from '../components/AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 import { ShieldCheckIcon, EyeIcon, LockClosedIcon, AdjustmentsHorizontalIcon } from '../components/Icons';
 
-const DatenschutzPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
+const DatenschutzPage = ({ setCurrentPage }: { setCurrentPage: (page: string) => void; }) => {
     const { t } = useLanguage();
 
     const privacySections = [

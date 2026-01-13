@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactNode } from 'react';
 
 interface LazyImageProps {
   src: string;
@@ -78,7 +78,7 @@ export const LazyImage = ({
 interface OptimizedBackgroundImageProps {
   src: string;
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export const OptimizedBackgroundImage = ({

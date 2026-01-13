@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo, useEffect } from 'react';
+import { useState, useContext, useMemo, useEffect, type FormEvent } from 'react';
 import { CountdownTimer } from './CountdownTimer';
 import { OfferCalculator } from './OfferCalculator';
 import { TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon } from './Icons';
@@ -29,12 +29,17 @@ interface TranslationFunction {
 }
 
 // Clean pricing card with subtle hover
-const PricingCard: React.FC<{
+const PricingCard = ({
+    pkg,
+    index,
+    onClick,
+    t,
+}: {
     pkg: PricingPackage;
     index: number;
     onClick: (pkg: PricingPackage) => void;
     t: TranslationFunction;
-}> = ({ pkg, index, onClick, t }) => {
+}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -119,7 +124,7 @@ const PricingCard: React.FC<{
     );
 };
 
-export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }) => {
+export const PricingSection = ({ setCurrentPage }: PricingSectionProps) => {
   const { user } = useContext(AuthContext);
   const { t, language } = useLanguage();
   const { formatPrice } = useCurrency();
@@ -187,7 +192,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ setCurrentPage }
       setShowModal(true);
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: FormEvent) => {
       e.preventDefault();
       setIsSubmitting(true);
 

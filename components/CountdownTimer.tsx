@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface CountdownTimerProps {
@@ -27,7 +27,7 @@ const calculateTimeLeft = (targetDate: Date) => {
   return timeLeft;
 };
 
-export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate, onComplete }) => {
+export const CountdownTimer = ({ targetDate, onComplete }: CountdownTimerProps) => {
   // Lazy initialization - calculateTimeLeft is only called once during initial render
   const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
   const { t } = useLanguage();

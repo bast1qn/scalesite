@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -28,7 +28,7 @@ const mockups = [
     }
 ];
 
-export const DeviceMockupCarousel: React.FC = () => {
+export const DeviceMockupCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { t } = useLanguage();
 

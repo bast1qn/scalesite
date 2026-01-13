@@ -13,7 +13,7 @@ interface CustomSelectProps {
   id: string;
 }
 
-export const CustomSelect: React.FC<CustomSelectProps> = ({ options, value, onChange, id }) => {
+export const CustomSelect = ({ options, value, onChange, id }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
   const selectedOption = options.find(opt => opt.value === value);

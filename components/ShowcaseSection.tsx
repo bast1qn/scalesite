@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { ArrowTopRightOnSquareIcon, EyeIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -52,11 +52,11 @@ const staticShowcaseItems: ShowcaseItem[] = [
   }
 ];
 
-export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
+export const ShowcaseSection = ({
   setCurrentPage,
   title,
   subtitle
-}) => {
+}: ShowcaseSectionProps) => {
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState(t('showcase.filter_all'));
 

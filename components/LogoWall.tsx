@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const logos = [
@@ -15,7 +14,7 @@ const logos = [
   { name: "Nova", color: "#06B6D4" },
 ];
 
-export const LogoWall: React.FC = () => {
+export const LogoWall = () => {
   const { t } = useLanguage();
 
   return (

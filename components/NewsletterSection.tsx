@@ -1,17 +1,17 @@
 
-import React, { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { EnvelopeIcon, CheckBadgeIcon, SparklesIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { api } from '../lib/api';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export const NewsletterSection: React.FC = () => {
+export const NewsletterSection = () => {
     const { t } = useLanguage();
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError(null);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, type ReactNode, type MouseEvent } from 'react';
 import { ArrowRightIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -32,13 +32,19 @@ const GuaranteeIcons = {
 };
 
 // Refined floating particle
-const FloatingParticle: React.FC<{
+const FloatingParticle = ({
+  delay,
+  duration,
+  left,
+  size,
+  opacity,
+}: {
   delay: number;
   duration: number;
   left: string;
   size: string;
   opacity: number;
-}> = ({ delay, duration, left, size, opacity }) => {
+}) => {
   return (
     <div
       className="absolute rounded-full bg-primary-500/15 dark:bg-primary-400/10 pointer-events-none"
@@ -54,15 +60,18 @@ const FloatingParticle: React.FC<{
 };
 
 // Refined card with subtle spotlight
-const SpotlightCard: React.FC<{
-  children: React.ReactNode;
+const SpotlightCard = ({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
   className?: string;
-}> = ({ children, className = '' }) => {
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [glowPosition, setGlowPosition] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     setGlowPosition({
@@ -93,12 +102,17 @@ const SpotlightCard: React.FC<{
 };
 
 // Refined button with subtle hover
-const CleanButton: React.FC<{
-  children: React.ReactNode;
+const CleanButton = ({
+  children,
+  onClick,
+  variant = 'primary',
+  className = '',
+}: {
+  children: ReactNode;
   onClick?: () => void;
   variant?: 'primary' | 'secondary';
   className?: string;
-}> = ({ children, onClick, variant = 'primary', className = '' }) => {
+}) => {
   const baseStyle = variant === 'primary'
     ? 'relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-350 ease-smooth hover:shadow-glow hover:scale-[1.01] active:scale-[0.98] hover:-translate-y-0.5'
     : 'px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-350 ease-smooth hover:-translate-y-0.5 hover:shadow-soft';
@@ -113,7 +127,7 @@ const CleanButton: React.FC<{
   );
 };
 
-export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
+export const Hero = ({ setCurrentPage }: HeroProps) => {
   const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -248,7 +262,7 @@ export const Hero: React.FC<HeroProps> = ({ setCurrentPage }) => {
             <SpotlightCard key={i} className="inline-block">
               <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-350 hover:shadow-soft">
                 <span className="text-primary-500 dark:text-violet-400">
-                  {React.createElement(GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]())}
+                  {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
                 </span>
                 <span className="font-medium">{g.text}</span>
               </div>

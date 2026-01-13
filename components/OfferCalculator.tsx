@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo, type ChangeEvent } from 'react';
 import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon } from './Icons';
 import { CustomSelect } from './CustomSelect';
 import { AuthContext } from '../contexts/AuthContext';
@@ -11,7 +11,7 @@ interface OfferCalculatorProps {
     setCurrentPage?: (page: string) => void;
 }
 
-export const OfferCalculator: React.FC<OfferCalculatorProps> = ({ setCurrentPage }) => {
+export const OfferCalculator = ({ setCurrentPage }: OfferCalculatorProps) => {
     const { user } = useContext(AuthContext);
     const { t, language } = useLanguage();
     const { formatPrice } = useCurrency();
@@ -111,7 +111,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
         }
     };
 
-    const handlePageCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePageCountChange = (e: ChangeEvent<HTMLInputElement>) => {
         const val = parseInt(e.target.value);
         if (val > 0 && val <= 50) {
             setPageCount(val);

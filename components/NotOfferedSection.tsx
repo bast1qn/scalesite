@@ -1,10 +1,9 @@
 
-import React from 'react';
 import { XCircleIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export const NotOfferedSection: React.FC = () => {
+export const NotOfferedSection = () => {
     const { t } = useLanguage();
 
     const notOfferedItems = [
