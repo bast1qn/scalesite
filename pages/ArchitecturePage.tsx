@@ -349,23 +349,23 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
 
           <div className="max-w-5xl w-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
             {/* Image Gallery */}
-            <div className={`aspect-video bg-gradient-to-br ${selectedProject.images[currentImageIndex]} relative`}>
+            <div className={`aspect-video bg-gradient-to-br ${selectedProject.images[currentImageIndex] ?? ''} relative`}>
               <button
-                onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : selectedProject.images.length - 1))}
+                onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : (selectedProject.images?.length ?? 1) - 1))}
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800 rounded-full flex items-center justify-center"
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
               <button
-                onClick={() => setCurrentImageIndex((prev) => (prev < selectedProject.images.length - 1 ? prev + 1 : 0))}
+                onClick={() => setCurrentImageIndex((prev) => (prev < (selectedProject.images?.length ?? 1) - 1 ? prev + 1 : 0))}
                 className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800 rounded-full flex items-center justify-center"
               >
                 <ArrowRightIcon className="w-5 h-5" />
               </button>
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {selectedProject.images.map((_, idx) => (
+                {selectedProject.images?.map((_, idx) => (
                   <button
-                    key={idx}
+                    key={`project-image-${selectedProject.id}-${idx}`}
                     onClick={() => setCurrentImageIndex(idx)}
                     className={`w-2 h-2 rounded-full transition-colors ${
                       idx === currentImageIndex ? 'bg-white' : 'bg-white/50'

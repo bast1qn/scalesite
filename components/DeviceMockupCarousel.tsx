@@ -44,7 +44,7 @@ export const DeviceMockupCarousel = () => {
   useEffect(() => {
     const slideInterval = setInterval(nextSlide, 5000);
     return () => clearInterval(slideInterval);
-  }, [nextSlide]);
+  }, [nextSlide, mockups.length]); // mockups.length is stable but ensures proper cleanup on data changes
 
   const currentMockup = mockups[currentIndex];
 
@@ -126,14 +126,14 @@ export const DeviceMockupCarousel = () => {
 
           {/* Dots */}
           <div className="flex justify-center gap-2 mt-12" role="tablist">
-              {mockups.map((_, index) => (
+              {mockups.map((mockup) => (
                   <button
-                      key={index}
+                      key={mockup.id}
                       role="tab"
-                      aria-selected={currentIndex === index}
-                      aria-controls={`slide-${index + 1}`}
-                      onClick={() => setCurrentIndex(index)}
-                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentIndex === index ? 'bg-blue-600 scale-125 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
+                      aria-selected={currentIndex === mockups.indexOf(mockup)}
+                      aria-controls={`slide-${mockup.id}`}
+                      onClick={() => setCurrentIndex(mockups.indexOf(mockup))}
+                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentIndex === mockups.indexOf(mockup) ? 'bg-blue-600 scale-125 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
                   />
               ))}
           </div>

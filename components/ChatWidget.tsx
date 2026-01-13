@@ -30,7 +30,7 @@ export const ChatWidget = () => {
         setMessages([
             { role: 'model', text: t('chat_widget.welcome_message') }
         ]);
-    }, [language, t]);
+    }, [language]); // t function is stable from useLanguage context - only re-run on language change
 
     // Initialize suggestions when language changes
     useEffect(() => {
@@ -151,7 +151,7 @@ export const ChatWidget = () => {
 
                     {messages.map((msg, idx) => (
                         <div
-                            key={idx}
+                            key={`${msg.role}-${idx}-${msg.text.slice(0, 20)}`}
                             className={`flex w-full z-10 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
@@ -172,7 +172,7 @@ export const ChatWidget = () => {
                             <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider ml-1 mb-1">{t('chat_widget.frequent_questions')}</p>
                             {suggestions.map((question, index) => (
                                 <button
-                                    key={index}
+                                    key={`suggestion-${question.slice(0, 15)}-${index}`}
                                     onClick={() => handleSuggestionClick(question)}
                                     className="text-left text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/40 text-slate-600 dark:text-slate-300 px-3 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98]"
                                 >

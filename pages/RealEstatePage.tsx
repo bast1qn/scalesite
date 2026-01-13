@@ -415,23 +415,23 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
             </div>
 
             {/* Image Gallery */}
-            <div className={`aspect-video bg-gradient-to-br ${selectedProperty.images[currentImageIndex]} relative`}>
+            <div className={`aspect-video bg-gradient-to-br ${selectedProperty.images[currentImageIndex] ?? ''} relative`}>
               <button
-                onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : selectedProperty.images.length - 1))}
+                onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : (selectedProperty.images?.length ?? 1) - 1))}
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-110 transition-all duration-300"
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
               <button
-                onClick={() => setCurrentImageIndex((prev) => (prev < selectedProperty.images.length - 1 ? prev + 1 : 0))}
+                onClick={() => setCurrentImageIndex((prev) => (prev < (selectedProperty.images?.length ?? 1) - 1 ? prev + 1 : 0))}
                 className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-110 transition-all duration-300"
               >
                 <ChevronRightIcon className="w-5 h-5" />
               </button>
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                {selectedProperty.images.map((_, idx) => (
+                {selectedProperty.images?.map((_, idx) => (
                   <button
-                    key={idx}
+                    key={`property-image-${selectedProperty.id}-${idx}`}
                     onClick={() => setCurrentImageIndex(idx)}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
                       idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/70'
@@ -466,24 +466,24 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                   <BedIconLocal className="w-5 h-5 text-slate-400 mx-auto mb-2" />
-                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.rooms}</p>
+                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.rooms ?? 0}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Rooms</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                   <BuildingIconLocal className="w-5 h-5 text-slate-400 mx-auto mb-2" />
-                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.area} m²</p>
+                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.area ?? 0} m²</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Living Space</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                   <svg className="w-5 h-5 text-slate-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                   </svg>
-                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.bathrooms}</p>
+                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.bathrooms ?? 0}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Bathrooms</p>
                 </div>
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                   <CalendarIcon className="w-5 h-5 text-slate-400 mx-auto mb-2" />
-                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.year}</p>
+                  <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.year ?? 0}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Year Built</p>
                 </div>
               </div>
@@ -500,9 +500,9 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               <div className="mb-8">
                 <h3 className="font-semibold text-base text-slate-900 dark:text-white mb-3">Amenities</h3>
                 <div className="flex flex-wrap gap-2">
-                  {selectedProperty.features.map((feature, idx) => (
+                  {selectedProperty.features?.map((feature, idx) => (
                     <span
-                      key={idx}
+                      key={`feature-${selectedProperty.id}-${feature}`}
                       className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                     >
                       {feature}

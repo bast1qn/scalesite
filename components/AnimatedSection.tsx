@@ -42,7 +42,7 @@ export const AnimatedSection = ({
       controls.start('hidden');
       hasAnimatedRef.current = false;
     }
-  }, [controls, isIntersecting, once]);
+  }, [controls, isIntersecting, once, hasAnimatedRef]);
 
   const getVariants = () => {
     if (prefersReducedMotion()) {
@@ -123,7 +123,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
     if (isIntersecting) {
       controls.start('visible');
     }
-  }, [controls, isIntersecting]);
+  }, [controls, isIntersecting, threshold]); // threshold is used in useIntersectionObserver
 
   const containerVariants = {
     hidden: { opacity: 0 },
