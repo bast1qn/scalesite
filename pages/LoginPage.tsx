@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, type FormEvent } from 'react';
 import { AuthContext, useLanguage } from '../contexts';
 import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components';
-import { supabase } from '../lib';
+import { supabase, validateEmail, validateString } from '../lib';
 
 interface LoginPageProps {
     setCurrentPage: (page: string) => void;
@@ -79,12 +79,31 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!email || !password) {
+
+    // SECURITY: Validate and sanitize email input
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
       setError(t('general.error'));
       return;
     }
+
+    // SECURITY: Validate password length (DoS prevention)
+    const passwordValidation = validateString(password, {
+      minLength: 8,
+      maxLength: 128,
+      allowEmpty: false
+    });
+
+    if (!passwordValidation.isValid) {
+      setError(t('general.error'));
+      return;
+    }
+
     setLoading(true);
-    const result = await login(email, password);
+
+    // Use sanitized email
+    const sanitizedEmail = emailValidation.sanitized || email;
+    const result = await login(sanitizedEmail, password);
 
     if (result.error) {
         setError(t('general.error'));
@@ -110,13 +129,18 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
   const handleResetPassword = async (e: FormEvent) => {
       e.preventDefault();
       setError('');
-      if (!email) {
+
+      // SECURITY: Validate email before sending reset
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
           setError(t('general.error'));
           return;
       }
+
       setLoading(true);
       try {
-          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          const sanitizedEmail = emailValidation.sanitized || email;
+          const { error } = await supabase.auth.resetPasswordForEmail(sanitizedEmail, {
               redirectTo: `${window.location.origin}/login`,
           });
           if (error) {
@@ -125,7 +149,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
               setResetSuccess(true);
           }
       } catch (err: unknown) {
-          setError(err instanceof Error ? err.message : t('general.error'));
+          setError(t('general.error'));
       } finally {
           setLoading(false);
       }

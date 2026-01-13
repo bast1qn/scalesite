@@ -154,13 +154,20 @@ const EmailPreview: React.FC<EmailPreviewProps> = ({
                                 <div
                                     dangerouslySetInnerHTML={{
                                         __html: (() => {
-                                            // Sanitize HTML content to prevent XSS
+                                            // SECURITY: Sanitize HTML content to prevent XSS
                                             const validation = validateContent(content, {
                                                 allowHTML: true,
                                                 sanitizeHTML: true,
                                                 maxLength: 50000
                                             });
-                                            return validation.sanitized || content;
+
+                                            // SECURITY: NEVER fall back to unsanitized content
+                                            if (!validation.isValid) {
+                                                console.error('[XSS] Invalid HTML content rejected:', validation.errors);
+                                                return '<p style="color: red;">[Invalid content - blocked for security reasons]</p>';
+                                            }
+
+                                            return validation.sanitized || '<p style="color: #999;">No content</p>';
                                         })()
                                     }}
                                     className="prose prose-slate max-w-none"

@@ -1,7 +1,7 @@
 import { useState, useContext, type FormEvent } from 'react';
 import { AuthContext, useLanguage } from '../contexts';
 import { UserCircleIcon, CheckBadgeIcon } from '../components';
-import { validatePassword, getPasswordStrength } from '../lib';
+import { validatePassword, getPasswordStrength, validateEmail, validateName } from '../lib';
 
 interface RegisterPageProps {
     setCurrentPage: (page: string) => void;
@@ -38,17 +38,39 @@ const RegisterPage = ({ setCurrentPage }: RegisterPageProps) => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    if (!name || !company || !email || !password) {
+
+    // SECURITY: Validate all inputs
+    const nameValidation = validateName(name);
+    if (!nameValidation.isValid) {
       setError(t('general.error'));
       return;
     }
+
+    const companyValidation = validateName(company);
+    if (!companyValidation.isValid) {
+      setError(t('general.error'));
+      return;
+    }
+
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+      setError(t('general.error'));
+      return;
+    }
+
     if (!passwordValidation.isValid) {
       setError(t('auth.password_requirements'));
       return;
     }
+
     setLoading(true);
     try {
-      const result = await register(name, company, email, password);
+      // Use sanitized values
+      const sanitizedEmail = emailValidation.sanitized || email;
+      const sanitizedName = nameValidation.sanitized || name;
+      const sanitizedCompany = companyValidation.sanitized || company;
+
+      const result = await register(sanitizedName, sanitizedCompany, sanitizedEmail, password);
       if (result.error) {
         setError(result.error);
       } else if (result.success) {
@@ -59,7 +81,7 @@ const RegisterPage = ({ setCurrentPage }: RegisterPageProps) => {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('general.error'));
+      setError(t('general.error'));
     } finally {
       setLoading(false);
     }

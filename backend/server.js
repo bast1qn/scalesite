@@ -21,7 +21,7 @@ const AUTH_RATE_LIMIT_MAX = 5;
 const CHAT_RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const CHAT_RATE_LIMIT_MAX = 10;
 const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
-const PASSWORD_HASH_ITERATIONS = 1000;
+const PASSWORD_HASH_ITERATIONS = 100000; // SECURITY: Increased from 1000 to 100000
 const REFERRAL_CODE_MIN = 1000;
 const REFERRAL_CODE_MAX = 9000;
 const TEAM_CHAT_MESSAGE_LIMIT = 50;
@@ -32,6 +32,34 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
+// SECURITY: HTTP Headers
+app.use((req, res, next) => {
+    // Prevent Clickjacking
+    res.setHeader('X-Frame-Options', 'DENY');
+
+    // Prevent MIME sniffing
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+
+    // Enable XSS filter
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+
+    // Restrict referrer information
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+    // Content Security Policy (basic)
+    res.setHeader('Content-Security-Policy',
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+        "style-src 'self' 'unsafe-inline'; " +
+        "img-src 'self' data: https:; " +
+        "font-src 'self' data:; " +
+        "connect-src 'self'; " +
+        "frame-ancestors 'none';"
+    );
+
+    next();
+});
 
 // Default limit for JSON/URL-encoded
 app.use(express.json({ limit: '1mb' }));
@@ -310,43 +338,54 @@ const authLimiter = rateLimit(AUTH_RATE_LIMIT_WINDOW_MS, AUTH_RATE_LIMIT_MAX);
 
 app.post('/api/auth/register', authLimiter, (req, res) => {
     const { name, company, email, password } = req.body;
-    if (!email || !password || !name) return res.status(400).json({ error: 'Missing required fields' });
-    
+
+    // SECURITY: Validate input format
+    if (!email || !password || !name || typeof email !== 'string' || typeof password !== 'string' || typeof name !== 'string') {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
     try {
         const id = uuidv4();
         const referralCode = name.substring(0, 3).toUpperCase() + Math.floor(REFERRAL_CODE_MIN + Math.random() * REFERRAL_CODE_MAX);
-        
+
         // Hash Password
         const { hash, salt } = hashPassword(password);
-        
+
         const stmt = db.prepare('INSERT INTO users (id, name, email, password, salt, role, company, referral_code, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
         stmt.run(id, name, email, hash, salt, 'user', company, referralCode, new Date().toISOString());
-        
+
         // Create Session
         const token = uuidv4();
         const expiresAt = new Date(Date.now() + SESSION_EXPIRY_MS).toISOString();
         db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, id, new Date().toISOString(), expiresAt);
-        
-        res.json({ 
-            token: token, 
-            user: { id, name, email, role: 'user', company, referral_code: referralCode } 
+
+        res.json({
+            token: token,
+            user: { id, name, email, role: 'user', company, referral_code: referralCode }
         });
     } catch (e) {
+        // SECURITY: Log detailed error server-side, return generic message
+        console.error('[AUTH] Registration error:', e.message);
+
         if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-            if (e.message.includes('referral_code')) {
-                 return res.status(400).json({ error: 'Technischer Fehler bei Code-Generierung. Bitte erneut versuchen.' });
-            }
-            return res.status(400).json({ error: 'E-Mail wird bereits verwendet.' });
+            // SECURITY: Don't reveal which field caused the constraint violation
+            return res.status(400).json({ error: 'User already exists' });
         }
-        res.status(500).json({ error: 'Server Error' });
+        res.status(500).json({ error: 'Registration failed' });
     }
 });
 
 app.post('/api/auth/login', authLimiter, (req, res) => {
     const { email, password } = req.body;
+
+    // SECURITY: Validate input format
+    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ error: 'Invalid request format' });
+    }
+
     try {
         const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
-        
+
         if (user && verifyPassword(password, user.password, user.salt)) {
             // Create Session
             const token = uuidv4();
@@ -355,15 +394,18 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
             db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, user.id, new Date().toISOString(), expiresAt);
 
             const { password: _, salt: __, ...safeUser } = user;
-            res.json({ 
-                token: token, 
+            res.json({
+                token: token,
                 user: safeUser
             });
         } else {
-            res.status(401).json({ error: 'Ungültige Anmeldedaten' });
+            // SECURITY: Generic error message (no information disclosure)
+            res.status(401).json({ error: 'Invalid credentials' });
         }
     } catch (e) {
-        res.status(500).json({ error: 'Login Error' });
+        // SECURITY: Log actual error server-side, return generic message to client
+        console.error('[AUTH] Login error:', e.message);
+        res.status(500).json({ error: 'Authentication failed' });
     }
 });
 
@@ -1071,9 +1113,55 @@ app.delete('/api/blog/:id', authenticateToken, requireTeam, (req, res) => {
 // Increase limit specifically for this route
 app.post('/api/files', authenticateToken, express.json({ limit: '50mb' }), (req, res) => {
     const { name, size, type, data } = req.body;
+
+    // SECURITY: Validate file upload
+    if (!name || typeof name !== 'string') {
+        return res.status(400).json({ error: 'Invalid file name' });
+    }
+
+    if (!size || typeof size !== 'number' || size <= 0 || size > 50 * 1024 * 1024) {
+        return res.status(400).json({ error: 'Invalid file size' });
+    }
+
+    if (!type || typeof type !== 'string') {
+        return res.status(400).json({ error: 'Invalid file type' });
+    }
+
+    // SECURITY: Block dangerous file types
+    const dangerousTypes = [
+        'application/x-msdownload',
+        'application/x-msdos-program',
+        'application/x-executable',
+        'application/exe',
+        'application/x-exe',
+        'application/x-sh',
+        'application/x-shellscript',
+        'application/x-python',
+        'text/x-php',
+        'application/x-javascript'
+    ];
+
+    const normalizedType = type.toLowerCase();
+    if (dangerousTypes.includes(normalizedType)) {
+        return res.status(400).json({ error: 'Dangerous file type blocked' });
+    }
+
+    // SECURITY: Sanitize filename
+    const sanitizedName = name
+        .replace(/[<>:"|?*]/g, '')  // Remove dangerous chars
+        .replace(/\.\./g, '')        // Remove path traversal
+        .replace(/\\/g, '')          // Remove backslashes
+        .replace(/\//g, '')          // Remove forward slashes
+        .trim()
+        .substring(0, 255);          // Limit length
+
+    if (!sanitizedName) {
+        return res.status(400).json({ error: 'Invalid file name after sanitization' });
+    }
+
     const id = uuidv4();
     db.prepare('INSERT INTO files (id, user_id, name, size, type, data, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)').run(
-        id, req.user.id, name, size, type, data, new Date().toISOString()
+        id, req.user.id, sanitizedName, size, type, data, new Date().toISOString()
     );
     res.json({ success: true });
 });

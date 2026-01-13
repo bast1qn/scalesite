@@ -996,3 +996,94 @@ export const validateFileName = (fileName: string): ValidationResult => {
         sanitized: fileName.trim()
     };
 };
+
+// ============================================
+// CSRF TOKEN VALIDATION
+// ============================================
+
+/**
+ * Validates CSRF token format
+ */
+export const validateCSRFToken = (token: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!token || token.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    // CSRF tokens should be at least 32 characters (UUID-like)
+    if (token.length < 32) {
+        errors.push('too_short');
+        return { isValid: false, errors };
+    }
+
+    // Check for reasonable format (alphanumeric + common special chars)
+    const tokenRegex = /^[a-zA-Z0-9\-_+.]+$/;
+    if (!tokenRegex.test(token)) {
+        errors.push('invalid_format');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: token.trim()
+    };
+};
+
+// ============================================
+// SESSION TOKEN VALIDATION
+// ============================================
+
+/**
+ * Validates session token format (UUID or similar)
+ */
+export const validateSessionToken = (token: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!token || token.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    // UUID v4 format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+    if (!uuidRegex.test(token)) {
+        errors.push('invalid_format');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: token.trim()
+    };
+};
+
+// ============================================
+// SUBJECT/MESSAGE VALIDATION
+// ============================================
+
+/**
+ * Validates message or subject text
+ */
+export const validateMessage = (message: string, options: {
+    minLength?: number;
+    maxLength: number;
+    allowEmpty?: boolean;
+} = { maxLength: 5000 }): ValidationResult => {
+    return validateString(message, options);
+};
+
+/**
+ * Validates subject line
+ */
+export const validateSubject = (subject: string): ValidationResult => {
+    return validateString(subject, {
+        minLength: 3,
+        maxLength: 200,
+        allowEmpty: false
+    });
+};
