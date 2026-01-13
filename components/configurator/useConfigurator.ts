@@ -28,6 +28,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
 
     /**
      * Load configuration from database
+     * @param id - Project ID to load configuration for
+     * @throws Error if project not found or loading fails
      */
     const loadConfig = useCallback(async (id: string) => {
         setLoading(true);
@@ -72,6 +74,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
 
     /**
      * Save configuration to database
+     * @param newConfig - Configuration to save (creates new project if no projectId)
+     * @throws Error if save operation fails
      */
     const saveConfig = useCallback(async (newConfig: ProjectConfig) => {
         setLoading(true);
@@ -173,6 +177,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
 
 /**
  * Validate configuration before saving
+ * @param config - Project configuration to validate
+ * @returns Object with valid flag and array of error messages
  */
 export const validateConfig = (config: ProjectConfig): { valid: boolean; errors: string[] } => {
     const errors: string[] = [];
@@ -205,14 +211,18 @@ export const validateConfig = (config: ProjectConfig): { valid: boolean; errors:
 };
 
 /**
- * Export configuration as JSON
+ * Export configuration as JSON string
+ * @param config - Project configuration to export
+ * @returns JSON string with 2-space indentation
  */
 export const exportConfig = (config: ProjectConfig): string => {
     return JSON.stringify(config, null, 2);
 };
 
 /**
- * Import configuration from JSON
+ * Import configuration from JSON string
+ * @param json - JSON string to parse and validate
+ * @returns Parsed configuration or null if invalid
  */
 export const importConfig = (json: string): ProjectConfig | null => {
     try {
@@ -240,14 +250,19 @@ export const generatePreviewUrl = (projectId: string): string => {
 };
 
 /**
- * Clone configuration
+ * Deep clone configuration object
+ * @param config - Project configuration to clone
+ * @returns New cloned configuration object
  */
 export const cloneConfig = (config: ProjectConfig): ProjectConfig => {
     return JSON.parse(JSON.stringify(config));
 };
 
 /**
- * Merge two configurations
+ * Merge two configurations with override taking precedence
+ * @param base - Base configuration
+ * @param override - Partial configuration to override base
+ * @returns Merged configuration object
  */
 export const mergeConfigs = (
     base: ProjectConfig,
@@ -263,7 +278,10 @@ export const mergeConfigs = (
 };
 
 /**
- * Check if configuration has unsaved changes
+ * Check if configuration has unsaved changes compared to original
+ * @param original - Original configuration to compare against
+ * @param current - Current configuration to check
+ * @returns true if configurations differ, false otherwise
  */
 export const hasChanges = (
     original: ProjectConfig,
@@ -273,7 +291,9 @@ export const hasChanges = (
 };
 
 /**
- * Get configuration summary for display
+ * Get configuration summary for display purposes
+ * @param config - Project configuration
+ * @returns Human-readable summary string
  */
 export const getConfigSummary = (config: ProjectConfig): string => {
     return `${config.layout} layout • ${config.features.length} features • ${config.content.headline.substring(0, 30)}...`;

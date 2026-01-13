@@ -5,14 +5,9 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import type { ColorPalette } from './Configurator';
 
-export interface ColorPalette {
-    primary: string;
-    secondary: string;
-    accent: string;
-    background: string;
-    text: string;
-}
+export { type ColorPalette };
 
 interface ColorPalettePickerProps {
     palettes: ColorPalette[];

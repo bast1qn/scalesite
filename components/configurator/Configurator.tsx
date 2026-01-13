@@ -56,8 +56,7 @@ interface ConfiguratorProps {
 // INITIAL STATE
 // ============================================
 
-const AUTO_SAVE_DELAY_MS = 3000;
-const SUCCESS_MESSAGE_DELAY_MS = 3000;
+import { AUTO_SAVE_DELAY, SUCCESS_MESSAGE_DELAY } from './constants';
 
 const DEFAULT_COLOR_PALETTES: ColorPalette[] = [
     {
@@ -219,7 +218,7 @@ export const Configurator = ({
             setSaveSuccess(true);
 
             // Reset success message after delay
-            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY_MS);
+            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
         } catch (error) {
             console.error('Auto-save failed:', error);
             setHasUnsavedChanges(true); // Keep unsaved changes indicator on error
@@ -243,7 +242,7 @@ export const Configurator = ({
             if (projectId) {
                 autoSaveTimeoutRef.current = setTimeout(() => {
                     debouncedAutoSave();
-                }, AUTO_SAVE_DELAY_MS);
+                }, AUTO_SAVE_DELAY);
             }
         }
     }, [state, projectId, debouncedAutoSave]);
@@ -275,7 +274,7 @@ export const Configurator = ({
             setSaveSuccess(true);
 
             // Reset success message after delay
-            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY_MS);
+            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
         } catch (error) {
             console.error('Failed to save configuration:', error);
             setHasUnsavedChanges(true);

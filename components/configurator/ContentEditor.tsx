@@ -6,13 +6,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AIContentGenerator } from './AIContentGenerator';
+import type { ContentConfig } from './Configurator';
+import { VALIDATION_LIMITS } from './constants';
 
-export interface ContentConfig {
-    headline: string;
-    subheadline: string;
-    aboutText: string;
-    services: string[];
-}
+export { type ContentConfig };
 
 interface ContentEditorProps {
     content: ContentConfig;
@@ -35,27 +32,33 @@ export const ContentEditor = ({
         setLocalContent(content);
     }, [content]);
 
+    /**
+     * Validates a single content field based on type and length constraints
+     * @param field - The field key to validate
+     * @param value - The value to validate
+     * @returns Error message if validation fails, null otherwise
+     */
     const validateField = (field: keyof ContentConfig, value: ContentConfig[keyof ContentConfig]): string | null => {
         switch (field) {
             case 'headline':
-                if (!value || typeof value !== 'string' || value.trim().length < 5) {
-                    return 'Headline muss mindestens 5 Zeichen lang sein';
+                if (!value || typeof value !== 'string' || value.trim().length < VALIDATION_LIMITS.HEADLINE_MIN) {
+                    return `Headline muss mindestens ${VALIDATION_LIMITS.HEADLINE_MIN} Zeichen lang sein`;
                 }
-                if (value.length > 100) {
-                    return 'Headline darf maximal 100 Zeichen lang sein';
+                if (value.length > VALIDATION_LIMITS.HEADLINE_MAX) {
+                    return `Headline darf maximal ${VALIDATION_LIMITS.HEADLINE_MAX} Zeichen lang sein`;
                 }
                 break;
             case 'subheadline':
-                if (value && typeof value === 'string' && value.length > 200) {
-                    return 'Subheadline darf maximal 200 Zeichen lang sein';
+                if (value && typeof value === 'string' && value.length > VALIDATION_LIMITS.SUBHEADLINE_MAX) {
+                    return `Subheadline darf maximal ${VALIDATION_LIMITS.SUBHEADLINE_MAX} Zeichen lang sein`;
                 }
                 break;
             case 'aboutText':
-                if (!value || typeof value !== 'string' || value.trim().length < 20) {
-                    return 'Über-uns Text muss mindestens 20 Zeichen lang sein';
+                if (!value || typeof value !== 'string' || value.trim().length < VALIDATION_LIMITS.ABOUT_TEXT_MIN) {
+                    return `Über-uns Text muss mindestens ${VALIDATION_LIMITS.ABOUT_TEXT_MIN} Zeichen lang sein`;
                 }
-                if (value.length > 2000) {
-                    return 'Text darf maximal 2000 Zeichen lang sein';
+                if (value.length > VALIDATION_LIMITS.ABOUT_TEXT_MAX) {
+                    return `Text darf maximal ${VALIDATION_LIMITS.ABOUT_TEXT_MAX} Zeichen lang sein`;
                 }
                 break;
             case 'services':
@@ -109,10 +112,22 @@ export const ContentEditor = ({
         handleChange('services', services);
     };
 
+    /**
+     * Formats character count display text
+     * @param text - The text to count
+     * @param max - Maximum allowed characters
+     * @returns Formatted string like "45/100"
+     */
     const getCharacterCount = (text: string, max: number) => {
         return `${text.length}/${max}`;
     };
 
+    /**
+     * Determines color class based on character usage percentage
+     * @param text - The text to check
+     * @param max - Maximum allowed characters
+     * @returns Tailwind color class string
+     */
     const getCharacterCountColor = (text: string, max: number) => {
         const percentage = (text.length / max) * 100;
         if (percentage >= 100) return 'text-red-500';
@@ -138,7 +153,7 @@ export const ContentEditor = ({
                         ${errors.headline ? 'border-red-500' : 'border-dark-text/20 dark:border-light-text/20'}
                         ${readOnly ? 'cursor-not-allowed opacity-50' : ''}
                     `}
-                    maxLength={100}
+                    maxLength={VALIDATION_LIMITS.HEADLINE_MAX}
                 />
                 <div className="flex justify-between mt-1">
                     <AnimatePresence>
@@ -153,8 +168,8 @@ export const ContentEditor = ({
                             </motion.span>
                         )}
                     </AnimatePresence>
-                    <span className={`text-sm ${getCharacterCountColor(localContent.headline, 100)}`}>
-                        {getCharacterCount(localContent.headline, 100)}
+                    <span className={`text-sm ${getCharacterCountColor(localContent.headline, VALIDATION_LIMITS.HEADLINE_MAX)}`}>
+                        {getCharacterCount(localContent.headline, VALIDATION_LIMITS.HEADLINE_MAX)}
                     </span>
                 </div>
             </div>
@@ -175,7 +190,7 @@ export const ContentEditor = ({
                         ${errors.subheadline ? 'border-red-500' : 'border-dark-text/20 dark:border-light-text/20'}
                         ${readOnly ? 'cursor-not-allowed opacity-50' : ''}
                     `}
-                    maxLength={200}
+                    maxLength={VALIDATION_LIMITS.SUBHEADLINE_MAX}
                 />
                 <div className="flex justify-between mt-1">
                     <AnimatePresence>
@@ -190,8 +205,8 @@ export const ContentEditor = ({
                             </motion.span>
                         )}
                     </AnimatePresence>
-                    <span className={`text-sm ${getCharacterCountColor(localContent.subheadline, 200)}`}>
-                        {getCharacterCount(localContent.subheadline, 200)}
+                    <span className={`text-sm ${getCharacterCountColor(localContent.subheadline, VALIDATION_LIMITS.SUBHEADLINE_MAX)}`}>
+                        {getCharacterCount(localContent.subheadline, VALIDATION_LIMITS.SUBHEADLINE_MAX)}
                     </span>
                 </div>
             </div>
@@ -212,7 +227,7 @@ export const ContentEditor = ({
                         ${errors.aboutText ? 'border-red-500' : 'border-dark-text/20 dark:border-light-text/20'}
                         ${readOnly ? 'cursor-not-allowed opacity-50' : ''}
                     `}
-                    maxLength={2000}
+                    maxLength={VALIDATION_LIMITS.ABOUT_TEXT_MAX}
                 />
                 <div className="flex justify-between mt-1">
                     <AnimatePresence>
@@ -227,8 +242,8 @@ export const ContentEditor = ({
                             </motion.span>
                         )}
                     </AnimatePresence>
-                    <span className={`text-sm ${getCharacterCountColor(localContent.aboutText, 2000)}`}>
-                        {getCharacterCount(localContent.aboutText, 2000)}
+                    <span className={`text-sm ${getCharacterCountColor(localContent.aboutText, VALIDATION_LIMITS.ABOUT_TEXT_MAX)}`}>
+                        {getCharacterCount(localContent.aboutText, VALIDATION_LIMITS.ABOUT_TEXT_MAX)}
                     </span>
                 </div>
             </div>
