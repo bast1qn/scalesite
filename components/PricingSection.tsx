@@ -1,7 +1,11 @@
-import { useState, useContext, useMemo, useEffect, type FormEvent } from 'react';
-import { CountdownTimer, OfferCalculator, TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon, AnimatedSection } from './index';
-import { AuthContext, useLanguage, useCurrency } from '../contexts';
+// React imports
+import { type FormEvent, useContext, useEffect, useMemo, useState } from 'react';
+
+// Internal imports
+import { AnimatedSection, ChevronDownIcon, CheckBadgeIcon, CountdownTimer, OfferCalculator, ShieldCheckIcon, TagIcon, TicketIcon, XMarkIcon } from './index';
+import { AuthContext, useCurrency, useLanguage } from '../contexts';
 import { api, validateEmail, validateName, validateString } from '../lib';
+import { TIMING } from '../lib/constants';
 
 interface PricingSectionProps {
   setCurrentPage: (page: string) => void;
@@ -179,7 +183,7 @@ export const PricingSection = ({ setCurrentPage }: PricingSectionProps) => {
 
   const displayedPackages = pricingPackages.filter(p => p.with_hosting === withHosting);
   const offerEndDate = new Date();
-  offerEndDate.setDate(offerEndDate.getDate() + 7);
+  offerEndDate.setDate(offerEndDate.getDate() + TIMING.offerDays);
 
   const handlePackageClick = (pkg: PricingPackage) => {
       setSelectedPackage(pkg);

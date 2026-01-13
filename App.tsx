@@ -1,7 +1,13 @@
-import { useState, useEffect, useContext, lazy, Suspense, useCallback } from 'react';
+// React imports
+import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
+
+// External libraries
 import { AnimatePresence } from 'framer-motion';
-import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider, ThemeProvider } from './contexts';
+
+// Internal imports
 import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer } from './components';
+import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider, ThemeProvider } from './contexts';
+import { TIMING } from './lib/constants';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
@@ -75,7 +81,7 @@ const AppContent = () => {
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
         if (loading) {
-            timer = setTimeout(() => setShowReset(true), 8000);
+            timer = setTimeout(() => setShowReset(true), TIMING.loadingTimeout);
         } else {
             setShowReset(false);
         }
