@@ -3,14 +3,19 @@
 // Live preview of the website configuration
 // ============================================
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { ProjectConfig, DeviceType } from './Configurator';
+import { Maximize2, Minimize2, ZoomIn, ZoomOut, RotateCcw } from '../Icons';
 
 interface PreviewFrameProps {
     config: ProjectConfig;
 }
 
 export const PreviewFrame = ({ config }: PreviewFrameProps) => {
+    const [zoom, setZoom] = useState(1);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
     const deviceWidths = {
         desktop: '100%',
         tablet: '768px',
@@ -19,8 +24,68 @@ export const PreviewFrame = ({ config }: PreviewFrameProps) => {
 
     const width = deviceWidths[config.device];
 
+    const handleZoomIn = () => {
+        setZoom(prev => Math.min(prev + 0.1, 1.5));
+    };
+
+    const handleZoomOut = () => {
+        setZoom(prev => Math.max(prev - 0.1, 0.5));
+    };
+
+    const handleResetZoom = () => {
+        setZoom(1);
+    };
+
+    const toggleFullscreen = () => {
+        setIsFullscreen(!isFullscreen);
+    };
+
     return (
-        <div className="space-y-4">
+        <div className={isFullscreen ? "fixed inset-0 z-50 bg-black/90 p-4" : "space-y-4"}>
+            {/* Control Bar */}
+            <div className={`flex items-center justify-between ${isFullscreen ? 'bg-slate-900 rounded-lg p-3 mb-4' : ''}`}>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={handleZoomOut}
+                        disabled={zoom <= 0.5}
+                        className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors disabled:opacity-50"
+                        title="Verkleinern"
+                    >
+                        <ZoomOut className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                    </button>
+                    <span className="text-sm font-medium text-slate-900 dark:text-white min-w-[60px] text-center">
+                        {Math.round(zoom * 100)}%
+                    </span>
+                    <button
+                        onClick={handleZoomIn}
+                        disabled={zoom >= 1.5}
+                        className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors disabled:opacity-50"
+                        title="Vergrößern"
+                    >
+                        <ZoomIn className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                    </button>
+                    <button
+                        onClick={handleResetZoom}
+                        disabled={zoom === 1}
+                        className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors disabled:opacity-50"
+                        title="Zurücksetzen"
+                    >
+                        <RotateCcw className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                    </button>
+                </div>
+                <button
+                    onClick={toggleFullscreen}
+                    className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors"
+                    title={isFullscreen ? "Vollbild verlassen" : "Vollbild"}
+                >
+                    {isFullscreen ? (
+                        <Minimize2 className="w-5 h-5 text-white" />
+                    ) : (
+                        <Maximize2 className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                    )}
+                </button>
+            </div>
+
             {/* Device Frame */}
             <motion.div
                 key={config.device}
@@ -29,9 +94,11 @@ export const PreviewFrame = ({ config }: PreviewFrameProps) => {
                 transition={{ duration: 0.3 }}
                 className="relative mx-auto border-4 border-dark-text/20 dark:border-light-text/20 rounded-lg overflow-hidden bg-white shadow-2xl"
                 style={{
-                    width: config.device === 'desktop' ? '100%' : width,
-                    height: config.device === 'desktop' ? '600px' : '700px',
-                    maxWidth: '100%'
+                    width: isFullscreen ? '100%' : (config.device === 'desktop' ? '100%' : width),
+                    height: isFullscreen ? 'calc(100vh - 80px)' : (config.device === 'desktop' ? '600px' : '700px'),
+                    maxWidth: '100%',
+                    transform: `scale(${zoom})`,
+                    transformOrigin: 'top center'
                 }}
             >
                 {/* Browser Chrome (only for desktop) */}
@@ -70,12 +137,14 @@ export const PreviewFrame = ({ config }: PreviewFrameProps) => {
                 </div>
             </motion.div>
 
-            {/* Device Info */}
-            <div className="text-center">
-                <span className="text-xs text-dark-text/50 dark:text-light-text/50 uppercase tracking-wide">
-                    {config.device} Preview
-                </span>
-            </div>
+            {/* Device Info (only in normal mode) */}
+            {!isFullscreen && (
+                <div className="text-center">
+                    <span className="text-xs text-dark-text/50 dark:text-light-text/50 uppercase tracking-wide">
+                        {config.device} Preview
+                    </span>
+                </div>
+            )}
         </div>
     );
 };

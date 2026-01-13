@@ -18,6 +18,7 @@ const FaqPage = lazy(() => import('./pages/FaqPage'));
 const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
 const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
+const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
 
 const PageLoader = () => {
     const { t } = useLanguage();
@@ -58,7 +59,8 @@ const AppContent = () => {
             faq: 'FAQ',
             restaurant: 'The Coffee House | Showcase',
             architecture: 'Richter Architects | Showcase',
-            realestate: 'Premium Properties | Showcase'
+            realestate: 'Premium Properties | Showcase',
+            configurator: 'Website Konfigurator | ScaleSite'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
@@ -106,6 +108,7 @@ const AppContent = () => {
             case 'restaurant': return <RestaurantPage setCurrentPage={setCurrentPage} />;
             case 'architecture': return <ArchitecturePage setCurrentPage={setCurrentPage} />;
             case 'realestate': return <RealEstatePage setCurrentPage={setCurrentPage} />;
+            case 'configurator': return <ConfiguratorPage setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };

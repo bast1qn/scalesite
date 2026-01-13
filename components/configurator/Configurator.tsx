@@ -3,7 +3,7 @@
 // Interactive Website Configuration with Live Preview
 // ============================================
 
-import { useReducer, useEffect, useState } from 'react';
+import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ColorPalettePicker } from './ColorPalettePicker';
 import { LayoutSelector } from './LayoutSelector';
@@ -172,20 +172,81 @@ export const Configurator = ({
     const [isSaving, setIsSaving] = useState(false);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
+    const [isAutoSaving, setIsAutoSaving] = useState(false);
 
-    // Track unsaved changes
+    // Auto-save with debounce (3 seconds)
+    const autoSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const lastSavedStateRef = useRef<ProjectConfig | null>(null);
+
+    // Debounced auto-save function
+    const debouncedAutoSave = useCallback(async () => {
+        if (!onSave || readOnly || !projectId) return;
+
+        // Don't auto-save if state hasn't changed since last save
+        if (lastSavedStateRef.current && JSON.stringify(state) === JSON.stringify(lastSavedStateRef.current)) {
+            return;
+        }
+
+        setIsAutoSaving(true);
+        try {
+            await onSave(state);
+            lastSavedStateRef.current = state;
+            setHasUnsavedChanges(false);
+            setSaveSuccess(true);
+
+            // Reset success message after 3 seconds
+            setTimeout(() => setSaveSuccess(false), 3000);
+        } catch (error) {
+            console.error('Auto-save failed:', error);
+            setHasUnsavedChanges(true); // Keep unsaved changes indicator on error
+        } finally {
+            setIsAutoSaving(false);
+        }
+    }, [state, onSave, readOnly, projectId]);
+
+    // Track unsaved changes and trigger auto-save
     useEffect(() => {
-        setHasUnsavedChanges(true);
-        setSaveSuccess(false);
-    }, [state]);
+        if (lastSavedStateRef.current && JSON.stringify(state) !== JSON.stringify(lastSavedStateRef.current)) {
+            setHasUnsavedChanges(true);
+            setSaveSuccess(false);
 
-    // Handle save
+            // Clear existing timeout
+            if (autoSaveTimeoutRef.current) {
+                clearTimeout(autoSaveTimeoutRef.current);
+            }
+
+            // Set new timeout for auto-save
+            if (projectId) {
+                autoSaveTimeoutRef.current = setTimeout(() => {
+                    debouncedAutoSave();
+                }, 3000);
+            }
+        }
+    }, [state, projectId, debouncedAutoSave]);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (autoSaveTimeoutRef.current) {
+                clearTimeout(autoSaveTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    // Handle manual save
     const handleSave = async () => {
         if (!onSave || readOnly) return;
+
+        // Cancel any pending auto-save
+        if (autoSaveTimeoutRef.current) {
+            clearTimeout(autoSaveTimeoutRef.current);
+            autoSaveTimeoutRef.current = null;
+        }
 
         setIsSaving(true);
         try {
             await onSave(state);
+            lastSavedStateRef.current = state;
             setHasUnsavedChanges(false);
             setSaveSuccess(true);
 
@@ -193,6 +254,7 @@ export const Configurator = ({
             setTimeout(() => setSaveSuccess(false), 3000);
         } catch (error) {
             console.error('Failed to save configuration:', error);
+            setHasUnsavedChanges(true);
         } finally {
             setIsSaving(false);
         }
@@ -221,8 +283,16 @@ export const Configurator = ({
                         </div>
 
                         <div className="flex items-center gap-4">
+                            {/* Auto-Saving Indicator */}
+                            {isAutoSaving && (
+                                <span className="text-sm text-blue-500 dark:text-blue-400 flex items-center gap-2">
+                                    <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                    Speichern...
+                                </span>
+                            )}
+
                             {/* Unsaved Changes Indicator */}
-                            {hasUnsavedChanges && (
+                            {hasUnsavedChanges && !isAutoSaving && (
                                 <span className="text-sm text-orange-500 dark:text-orange-400">
                                     Nicht gespeicherte Änderungen
                                 </span>
@@ -246,7 +316,7 @@ export const Configurator = ({
                             {!readOnly && (
                                 <button
                                     onClick={handleSave}
-                                    disabled={isSaving || !hasUnsavedChanges}
+                                    disabled={isSaving || isAutoSaving || !hasUnsavedChanges}
                                     className="px-6 py-2 bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
                                 >
                                     {isSaving ? 'Speichern...' : 'Speichern'}

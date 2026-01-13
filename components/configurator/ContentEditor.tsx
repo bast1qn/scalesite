@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AIContentGenerator } from './AIContentGenerator';
 
 export interface ContentConfig {
     headline: string;
@@ -27,6 +28,7 @@ export const ContentEditor = ({
     const [localContent, setLocalContent] = useState(content);
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [touched, setTouched] = useState<Record<string, boolean>>({});
+    const [isAIGeneratorOpen, setIsAIGeneratorOpen] = useState(false);
 
     // Update local state when prop changes
     useEffect(() => {
@@ -313,6 +315,7 @@ export const ContentEditor = ({
                         </p>
                         <button
                             type="button"
+                            onClick={() => setIsAIGeneratorOpen(true)}
                             disabled={readOnly}
                             className="text-sm text-primary hover:text-primary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
@@ -328,6 +331,23 @@ export const ContentEditor = ({
                     <span className="font-medium">Hinweis:</span> Felder mit <span className="text-red-500">*</span> sind Pflichtfelder.
                 </p>
             </div>
+
+            {/* AI Content Generator Modal */}
+            <AIContentGenerator
+                isOpen={isAIGeneratorOpen}
+                onClose={() => setIsAIGeneratorOpen(false)}
+                onContentGenerated={(generatedContent) => {
+                    const updated = {
+                        ...localContent,
+                        headline: generatedContent.headline,
+                        subheadline: generatedContent.subheadline,
+                        aboutText: generatedContent.aboutText
+                    };
+                    setLocalContent(updated);
+                    onChange(updated);
+                }}
+                currentContent={localContent}
+            />
         </div>
     );
 };

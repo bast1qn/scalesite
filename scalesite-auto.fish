@@ -513,15 +513,18 @@ function ask_week_count
     # Validate input
     if not echo "$weeks_count" | grep -qE '^[0-9]+$'
         log_error "Ungültige Eingabe! Verwende Nummer 1-32"
+        echo -n "" # Return empty on error
         return 1
     end
 
     if test "$weeks_count" -lt 1 -o "$weeks_count" -gt 32
         log_error "Ungültige Anzahl! Muss zwischen 1 und 32 sein."
+        echo -n "" # Return empty on error
         return 1
     end
 
-    echo "$weeks_count"
+    # Store in global variable instead of returning
+    set -g __weeks_count_input $weeks_count
 end
 
 function print_header
@@ -575,13 +578,16 @@ function main
     # Pre-flight checks
     pre_flight_check
 
-    # Ask how many weeks to do
-    set max_weeks (ask_week_count)
+    # Ask how many weeks to do (stores in global variable)
+    ask_week_count
 
     if test $status -ne 0
         log_error "Ungültige Eingabe!"
         exit 1
     end
+
+    # Get the value from global variable
+    set max_weeks $__weeks_count_input
 
     # Initialize metrics
     init_metrics
@@ -611,13 +617,13 @@ function main
 
     for week in (seq $current_week $end_week)
         set week_name (get_week_name "$week")
-        set status "⏳"
+        set week_status "⏳"
 
         if test (check_week_completed "$week") = "true"
-            set status "✅"
+            set week_status "✅"
         end
 
-        echo -e "  $status Woche $week: $week_name"
+        echo -e "  $week_status Woche $week: $week_name"
     end
 
     echo ""
