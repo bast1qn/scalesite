@@ -22,6 +22,7 @@ const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 const SEOPage = lazy(() => import('./pages/SEOPage'));
+const ChatPage = lazy(() => import('./pages/ChatPage'));
 
 const PageLoader = () => {
     const { t } = useLanguage();
@@ -65,7 +66,8 @@ const AppContent = () => {
             realestate: 'Premium Properties | Showcase',
             configurator: 'Website Konfigurator | ScaleSite',
             analytics: 'Analytics | ScaleSite',
-            seo: 'SEO Tools | ScaleSite'
+            seo: 'SEO Tools | ScaleSite',
+            chat: 'Chat | ScaleSite'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
@@ -119,12 +121,15 @@ const AppContent = () => {
                 if (!user) return null;
                 return <AnalyticsPage setCurrentPage={setCurrentPage} />;
             case 'seo': return <SEOPage />;
+            case 'chat':
+                if (!user) return null;
+                return <ChatPage setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };
 
     useEffect(() => {
-        if ((currentPage === 'dashboard' || currentPage === 'analytics') && !user && !loading) {
+        if ((currentPage === 'dashboard' || currentPage === 'analytics' || currentPage === 'chat') && !user && !loading) {
             handleNavigateToLogin();
         }
     }, [currentPage, user, loading, handleNavigateToLogin]);
