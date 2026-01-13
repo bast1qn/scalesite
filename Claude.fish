@@ -10,7 +10,7 @@ end
 # ==========================================
 # KONFIGURATION
 # ==========================================
-set MAX_LOOPS 20              # Anzahl der Runden (20 × 5 Phasen = 100 total)
+set MAX_LOOPS 5              # Anzahl der Runden (20 × 5 Phasen = 100 total)
 set PAUSE_SECONDS 240         # Pause zwischen Runden (240s = 4 Min)
 set LOG_FILE "agent.log"      # Haupt-Log-Datei
 set ERROR_LOG_FILE "agent_errors.log"  # Separate Error-Log
@@ -20,21 +20,21 @@ set MAX_FAILED_REPAIRS 5      # Emergency Stop nach X fehlgeschlagenen Repairs
 set MILESTONE_INTERVAL 5      # Git Tag alle 5 Loops
 set ENABLE_HTML_REPORT true   # HTML Final Report generieren
 
-# Statistik-Variablen
-set TOTAL_PHASES 0
-set SUCCESSFUL_PHASES 0
-set FAILED_REPAIRS 0
-set SKIPPED_PHASES 0
-set TOTAL_FILES_CHANGED 0
-set TOTAL_LINES_ADDED 0
-set TOTAL_LINES_REMOVED 0
+# Statistik-Variablen (global für Funktions-Zugriff)
+set -g TOTAL_PHASES 0
+set -g SUCCESSFUL_PHASES 0
+set -g FAILED_REPAIRS 0
+set -g SKIPPED_PHASES 0
+set -g TOTAL_FILES_CHANGED 0
+set -g TOTAL_LINES_ADDED 0
+set -g TOTAL_LINES_REMOVED 0
 
-# Phase-spezifische Erfolge
-set PHASE_1_SUCCESS 0
-set PHASE_2_SUCCESS 0
-set PHASE_3_SUCCESS 0
-set PHASE_4_SUCCESS 0
-set PHASE_5_SUCCESS 0
+# Phase-spezifische Erfolge (global für Funktions-Zugriff)
+set -g PHASE_1_SUCCESS 0
+set -g PHASE_2_SUCCESS 0
+set -g PHASE_3_SUCCESS 0
+set -g PHASE_4_SUCCESS 0
+set -g PHASE_5_SUCCESS 0
 
 # ==========================================
 # ADAPTIVE PROMPT SYSTEM
@@ -156,7 +156,7 @@ function get_adaptive_prompt_2
     set -l base_context "Handle als Lead UI/UX Designer (Referenz: Linear, Vercel, Stripe).
 
 KONTEXT: Phase 2 von 5 | Loop $loop_num/$MAX_LOOPS
-LIES: /home/user/scalesite/SCALESITE_AGENT.md
+LIES: $PWD/SCALESITE_AGENT.md
 
 ÄNDERUNGEN IN PHASE 1:
 $phase_1_changes"
