@@ -27,9 +27,13 @@ export default defineConfig(({ mode }) => {
         target: 'esnext',
         minify: 'esbuild',
         sourcemap: false,
-        chunkSizeWarningLimit: 600,
+        chunkSizeWarningLimit: 1000,
         rollupOptions: {
           output: {
+            // Better caching with content-based hashes
+            chunkFileNames: 'assets/[name]-[hash].js',
+            entryFileNames: 'assets/[name]-[hash].js',
+            assetFileNames: 'assets/[name]-[hash].[ext]',
             manualChunks(id) {
               // Vendor libraries
               if (id.includes('node_modules')) {
@@ -50,6 +54,10 @@ export default defineConfig(({ mode }) => {
                 }
                 if (id.includes('react-dropzone')) {
                   return 'file-upload';
+                }
+                // Lazy load lucide-react icons - they're heavy
+                if (id.includes('lucide-react')) {
+                  return 'icons';
                 }
                 return 'vendor';
               }

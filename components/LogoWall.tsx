@@ -1,5 +1,5 @@
 
-import { useMemo } from 'react';
+import { useMemo, memo, type FC } from 'react';
 import { useLanguage } from '../contexts';
 
 const logos = [
@@ -14,6 +14,21 @@ const logos = [
   { name: "Quantum", color: "#8B5CF6" },
   { name: "Nova", color: "#06B6D4" },
 ];
+
+// Memoized logo item component to prevent re-renders
+const LogoItem: FC<{ logo: typeof logos[0] }> = memo(({ logo }) => (
+  <div className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-105">
+    <div
+      className="w-8 h-8 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:scale-110"
+      style={{ backgroundColor: logo.color }}
+    ></div>
+    <span className="text-xl font-bold text-slate-700 dark:text-slate-200 font-serif tracking-tight transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-800 group-hover:to-slate-600 dark:group-hover:from-white dark:group-hover:to-slate-300">
+      {logo.name}
+    </span>
+  </div>
+));
+
+LogoItem.displayName = 'LogoItem';
 
 export const LogoWall = () => {
   const { t } = useLanguage();
@@ -43,18 +58,7 @@ export const LogoWall = () => {
       <div className="relative flex overflow-x-hidden">
         <div className="animate-marquee whitespace-nowrap flex gap-12 items-center px-8">
           {marqueeItems.map((logo, idx) => (
-            <div
-              key={idx}
-              className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-105"
-            >
-              <div
-                className="w-8 h-8 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:scale-110"
-                style={{ backgroundColor: logo.color }}
-              ></div>
-              <span className="text-xl font-bold text-slate-700 dark:text-slate-200 font-serif tracking-tight transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-800 group-hover:to-slate-600 dark:group-hover:from-white dark:group-hover:to-slate-300">
-                {logo.name}
-              </span>
-            </div>
+            <LogoItem key={`${logo.name}-${idx}`} logo={logo} />
           ))}
         </div>
       </div>

@@ -27,13 +27,36 @@ import type {
   AnalyticsSummary
 } from './types';
 
+// Simple in-memory cache for API responses (prevents duplicate requests)
+const apiCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 5000; // 5 seconds cache
+
+const getCached = <T>(key: string): T | null => {
+    const cached = apiCache.get(key);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return cached.data as T;
+    }
+    return null;
+};
+
+const setCached = <T>(key: string, data: T): void => {
+    apiCache.set(key, { data, timestamp: Date.now() });
+};
+
 const isTeamMember = async (userId: string): Promise<boolean> => {
+    // Check cache first
+    const cached = getCached<boolean>(`team_member_${userId}`);
+    if (cached !== null) return cached;
+
     const { data } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', userId)
         .single();
-    return data?.role === 'team' || data?.role === 'owner';
+
+    const result = data?.role === 'team' || data?.role === 'owner';
+    setCached(`team_member_${userId}`, result);
+    return result;
 };
 
 const requireAuth = async () => {
@@ -89,10 +112,19 @@ export const api = {
     },
 
     getServices: async () => {
+        // Check cache first to prevent duplicate requests
+        const cached = getCached<any[]>('services_all');
+        if (cached) return { data: cached, error: null };
+
         const { data, error } = await supabase
             .from('services')
             .select('*')
             .order('id');
+
+        if (!error && data) {
+            setCached('services_all', data);
+        }
+
         return { data, error: handleSupabaseError(error) };
     },
 
