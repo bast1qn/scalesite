@@ -1,5 +1,6 @@
 import { useState, useEffect, type ReactNode } from 'react';
 import { useIntersectionObserverOnce } from '../lib/hooks';
+import { getSafeURL } from '../lib/validation';
 
 interface LazyImageProps {
   src: string;
@@ -39,10 +40,18 @@ export const LazyImage = ({
     if (isInView) {
       const img = new Image();
 
+      // SECURITY: Validate URL before loading (OWASP A03:2021 - XSS Prevention)
+      const safeSrc = getSafeURL(src);
+      if (!safeSrc) {
+        console.error('[SECURITY] Invalid image URL blocked:', src);
+        setIsError(true);
+        return;
+      }
+
       // Lade das Bild
-      img.src = src;
+      img.src = safeSrc;
       img.onload = () => {
-        setImageSrc(src);
+        setImageSrc(safeSrc);
         setIsLoaded(true);
       };
       img.onerror = () => {

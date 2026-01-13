@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Image, Link, Eye, Copy, Download } from 'lucide-react';
+import { getSafeURL } from '../../lib/validation';
 
 interface OpenGraphData {
   ogTitle: string;
@@ -458,8 +459,9 @@ export const OpenGraphTags: React.FC<OpenGraphTagsProps> = ({
                 )}
                 {ogData.ogImage && !errors.ogImage && (
                   <div className="mt-2 p-2 bg-white/5 rounded border border-white/10">
+                    {/* SECURITY: Validate image URL before rendering (OWASP A03:2021) */}
                     <img
-                      src={ogData.ogImage}
+                      src={getSafeURL(ogData.ogImage) || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200"%3E%3Crect fill="%23374151" width="400" height="200"/%3E%3Ctext fill="%239CA3AF" font-family="sans-serif" font-size="14" dy="10.5" font-weight="bold" x="50%25" y="50%25" text-anchor="middle"%3EInvalid Image URL%3C/text%3E%3C/svg%3E'}
                       alt="OG Preview"
                       className="w-full h-48 object-cover rounded"
                       onError={(e) => {

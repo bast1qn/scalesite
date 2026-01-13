@@ -83,19 +83,41 @@ export const validateEmail = (email: string): ValidationResult => {
         return { isValid: false, errors };
     }
 
-    // Check for common injection patterns
+    // CRITICAL FIX: Decode URL encoding BEFORE checking for injection patterns
+    // Prevents CRLF injection via %0D%0A bypass (OWASP A03:2021)
+    let decodedEmail = email;
+    try {
+        // Decode URL-encoded characters (e.g. %0D%0A -> \r\n)
+        decodedEmail = decodeURIComponent(email.replace(/\+/g, ' '));
+    } catch {
+        // If decoding fails, use original email
+    }
+
+    // Check for common injection patterns (including in decoded content)
     const dangerousPatterns = [
         /\n/, /\r/, // CRLF injection
         /<script>/i, // XSS attempts
         /javascript:/i, // Protocol injection
         /data:/i, // Data URI injection
+        /on\w+\s*=/i, // Event handlers (onclick, onload, etc.)
+        /<iframe/i, // Iframe injection
+        /<embed/i, // Embed injection
     ];
 
+    // Check BOTH original and decoded email
     for (const pattern of dangerousPatterns) {
-        if (pattern.test(email)) {
+        if (pattern.test(email) || pattern.test(decodedEmail)) {
+            console.error('[XSS] Dangerous pattern in email:', { email, decodedEmail, pattern });
             errors.push('dangerous_content');
             return { isValid: false, errors };
         }
+    }
+
+    // Additional check: Reject if email contains URL-encoded chars (smuggling attempt)
+    if (email !== decodedEmail && /%[0-9A-F]{2}/i.test(email)) {
+        console.error('[XSS] URL-encoded characters detected in email - possible smuggling attempt');
+        errors.push('dangerous_content');
+        return { isValid: false, errors };
     }
 
     // Sanitize by trimming and lowercase
@@ -247,6 +269,8 @@ export const validateNumber = (
 /**
  * Validates URL format and security
  * Prevents javascript: and data: URL attacks
+ *
+ * CRITICAL: Use this for ALL user-controlled URLs in href/src attributes
  */
 export const validateURL = (url: string): ValidationResult => {
     const errors: string[] = [];
@@ -256,13 +280,61 @@ export const validateURL = (url: string): ValidationResult => {
         return { isValid: false, errors };
     }
 
+    // SECURITY: Decode URL encoding before validation
+    let decodedUrl = url;
+    try {
+        decodedUrl = decodeURIComponent(url.replace(/\+/g, ' '));
+    } catch {
+        // If decoding fails, use original URL
+    }
+
+    // Check for dangerous patterns in BOTH original and decoded URL
+    const dangerousPatterns = [
+        /javascript:/i,
+        /data:/i,
+        /vbscript:/i,
+        /file:/i,
+        /<script/i,
+        /on\w+\s*=/i, // onclick=, onload=, etc.
+    ];
+
+    for (const pattern of dangerousPatterns) {
+        if (pattern.test(url) || pattern.test(decodedUrl)) {
+            console.error('[XSS] Dangerous pattern in URL:', { url, decodedUrl, pattern });
+            errors.push('dangerous_content');
+            return { isValid: false, errors };
+        }
+    }
+
+    // Special case: mailto: and tel: URLs
+    if (url.startsWith('mailto:') || url.startsWith('tel:')) {
+        // Allow mailto: and tel: without full URL parsing
+        if (url.length > 500) {
+            errors.push('too_long');
+            return { isValid: false, errors };
+        }
+        return {
+            isValid: true,
+            errors: [],
+            sanitized: url.trim()
+        };
+    }
+
     try {
         const parsed = new URL(url);
 
         // Only allow safe protocols
         const allowedProtocols = ['http:', 'https:', 'mailto:', 'tel:'];
         if (!allowedProtocols.includes(parsed.protocol)) {
+            console.error('[XSS] Unsafe protocol in URL:', parsed.protocol);
             errors.push('unsafe_protocol');
+            return { isValid: false, errors };
+        }
+
+        // Additional security: Reject URLs with embedded credentials
+        if (parsed.username || parsed.password) {
+            console.error('[XSS] URL with credentials detected');
+            errors.push('unsafe_url');
             return { isValid: false, errors };
         }
 
@@ -271,10 +343,31 @@ export const validateURL = (url: string): ValidationResult => {
             errors: [],
             sanitized: parsed.href
         };
-    } catch {
+    } catch (err) {
+        console.error('[XSS] Invalid URL format:', url);
         errors.push('invalid_url');
         return { isValid: false, errors };
     }
+};
+
+/**
+ * Validates and sanitizes URLs for use in href/src attributes
+ * This is the SECURITY-WRAPPED version for React components
+ *
+ * @param url - The URL to validate
+ * @returns Safe URL or empty string if invalid
+ */
+export const getSafeURL = (url: string | null | undefined): string => {
+    if (!url) return '';
+
+    const validation = validateURL(url);
+
+    if (!validation.isValid) {
+        console.error('[SECURITY] Unsafe URL blocked:', url, validation.errors);
+        return ''; // Return empty string to prevent rendering
+    }
+
+    return validation.sanitized || '';
 };
 
 // ============================================

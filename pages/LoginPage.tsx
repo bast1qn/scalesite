@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, type FormEvent } from 'react';
 import { AuthContext, useLanguage } from '../contexts';
 import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components';
-import { supabase, validateEmail, validateString, validateSessionToken } from '../lib';
+import { supabase, validateEmail, validateString, validateSessionToken, handleLoginError } from '../lib';
 
 interface LoginPageProps {
     setCurrentPage: (page: string) => void;
@@ -136,7 +136,9 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
     const result = await login(sanitizedEmail, password);
 
     if (result.error) {
-        setError(t('general.error'));
+        // SECURITY: Use secure error handler to prevent information leakage (OWASP A01:2021)
+        const secureError = handleLoginError(result.error, language);
+        setError(secureError);
     } else if (result.success) {
       setCurrentPage('dashboard');
     }
@@ -174,11 +176,14 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
               redirectTo: `${window.location.origin}/login`,
           });
           if (error) {
-              setError(error.message);
+              // SECURITY: Use secure error handler (OWASP A04:2021)
+              const secureError = handleLoginError(error, language);
+              setError(secureError);
           } else {
               setResetSuccess(true);
           }
       } catch (err: unknown) {
+          // SECURITY: Never expose raw errors to user (OWASP A04:2021)
           setError(t('general.error'));
       } finally {
           setLoading(false);

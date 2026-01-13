@@ -2,7 +2,7 @@
 import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
 import { CustomSelect, PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../index';
 import { AuthContext, useLanguage } from '../../contexts';
-import { api } from '../../lib';
+import { api, getSafeURL } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 import { useChatScroll } from '../../lib/hooks';
 import { TicketCardSkeleton } from '../skeleton';
@@ -450,7 +450,8 @@ const TicketSupport = () => {
                                     {selectedTicket.profiles.email && (
                                         <div>
                                              <span className="block text-xs text-blue-700 dark:text-blue-400 uppercase tracking-wide font-bold">E-Mail</span>
-                                             <a href={`mailto:${selectedTicket.profiles.email}`} className="text-blue-600 hover:underline flex items-center gap-2 break-all font-medium transition-colors">
+                                             {/* SECURITY: getSafeURL prevents javascript: and mailto injection (OWASP A03:2021) */}
+                                             <a href={getSafeURL(`mailto:${selectedTicket.profiles.email}`)} className="text-blue-600 hover:underline flex items-center gap-2 break-all font-medium transition-colors">
                                                  <EnvelopeIcon className="w-3 h-3"/> {selectedTicket.profiles.email}
                                              </a>
                                         </div>

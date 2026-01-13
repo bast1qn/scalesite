@@ -32,3 +32,7 @@ export * from './dashboardAlerts';
 
 // Security components
 export { ProtectedRoute, withAuth } from './ProtectedRoute';
+
+// Security utilities
+export * from './sessionSecurity';
+export * from './errorHandler';
