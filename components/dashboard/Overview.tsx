@@ -1,5 +1,5 @@
 
-import { useContext, useState, useEffect, type FC, type ReactNode } from 'react';
+import { useContext, useState, useEffect, useCallback, type FC, type ReactNode } from 'react';
 import { AuthContext, useLanguage } from '../../contexts';
 import { api } from '../../lib';
 import {
@@ -59,7 +59,7 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
 
     // --- REAL DATA STATES (INITIALIZED TO 0) ---
     const [activities, setActivities] = useState<Array<{id: string; text: string; time: string; type: 'info' | 'success' | 'warning' | 'system'}>>([]);
-    
+
     const [financeData, setFinanceData] = useState({
         totalBudget: 0,
         spent: 0,
@@ -84,15 +84,51 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
     ];
     const [tipOfTheDay] = useState(tips[Math.floor(Math.random() * tips.length)]);
 
+    // Memoized getStatusBadge function to prevent recreation on every render
+    const getStatusBadge = useCallback((status: Project['status']) => {
+        switch (status) {
+            case 'pending': return (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    Geplant
+                </span>
+            );
+            case 'active': return (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/40 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                    Aktiv
+                </span>
+            );
+            case 'completed': return (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/40 shadow-sm">
+                    <svg className="w-3 h-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                    Fertig
+                </span>
+            );
+            case 'cancelled': return (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/30 text-red-700 dark:text-red-300 border border-red-200/60 dark:border-red-800/40 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    Storniert
+                </span>
+            );
+            default: return null;
+        }
+    }, []);
+
     useEffect(() => {
+        let isMounted = true;
         const interval = setInterval(() => {
+            if (!isMounted) return;
             setServerStats(prev => ({
                 ...prev,
                 ramUsage: Math.min(100, Math.max(10, prev.ramUsage + (Math.random() * 6 - 3))),
                 bandwidth: Math.min(100, Math.max(5, prev.bandwidth + (Math.random() * 4 - 2)))
             }));
         }, 3000);
-        return () => clearInterval(interval);
+        return () => {
+            isMounted = false;
+            clearInterval(interval);
+        };
     }, []);
 
     useEffect(() => {
@@ -219,37 +255,7 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
         return () => { isMounted = false; };
     }, [user]);
 
-    const getStatusBadge = (status: Project['status']) => {
-        switch (status) {
-            case 'pending': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    Geplant
-                </span>
-            );
-            case 'active': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/40 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                    Aktiv
-                </span>
-            );
-            case 'completed': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/40 shadow-sm">
-                    <svg className="w-3 h-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                    Fertig
-                </span>
-            );
-            case 'cancelled': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/30 text-red-700 dark:text-red-300 border border-red-200/60 dark:border-red-800/40 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                    Storniert
-                </span>
-            );
-            default: return null;
-        }
-    };
-
-    const KPICard = ({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => (
+    const KPICard = useCallback(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => (
         <div
             onClick={onClick}
             className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
@@ -273,7 +279,7 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                 {onClick && <ArrowRightIcon className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-blue-500 transition-all duration-300" />}
             </p>
         </div>
-    );
+    ), [ArrowRightIcon]);
 
     return (
         <div className="space-y-8 animate-fade-in">

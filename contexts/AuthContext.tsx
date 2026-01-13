@@ -145,6 +145,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const loadUserProfile = async (userId: string) => {
+    let isMounted = true;
     try {
       // Request deduplication: Check if there's already a pending request for this user
       const existingPromise = profileLoadPromiseRef.current.get(userId);

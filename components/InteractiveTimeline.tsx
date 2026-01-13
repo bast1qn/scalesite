@@ -29,7 +29,9 @@ export const InteractiveTimeline = () => {
     ], [t]);
 
     useEffect(() => {
+        let isMounted = true;
         const handleScroll = () => {
+            if (!isMounted) return;
             const scrollPosition = window.scrollY + window.innerHeight / 2;
 
             refs.current.forEach((ref, index) => {
@@ -42,8 +44,11 @@ export const InteractiveTimeline = () => {
             });
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            isMounted = false;
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [milestones]);
 
     return (

@@ -1,6 +1,31 @@
 
 import { supabase, UserProfile } from './supabase';
 import { generateId } from './utils';
+import type {
+  Project,
+  ProjectMilestone,
+  Service,
+  UserService,
+  Ticket,
+  TicketMessage,
+  TicketMember,
+  Transaction,
+  Invoice,
+  ContentGeneration,
+  TeamMember,
+  TeamInvitation,
+  TeamActivity,
+  Notification,
+  NewsletterSubscriber,
+  NewsletterCampaign,
+  File,
+  BlogPost,
+  Discount,
+  ApiResponse,
+  ApiArrayResponse,
+  DashboardStats,
+  AnalyticsSummary
+} from './types';
 
 const isTeamMember = async (userId: string): Promise<boolean> => {
     const { data } = await supabase
