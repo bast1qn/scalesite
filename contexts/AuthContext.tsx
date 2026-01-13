@@ -193,7 +193,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/login`,
+          redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/login` : '/login',
         },
       });
 
@@ -242,7 +242,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             company,
             referred_by: referralCode,
           },
-          emailRedirectTo: `${window.location.origin}/login`,
+          emailRedirectTo: typeof window !== 'undefined' ? `${window.location.origin}/login` : '/login',
         },
       });
 

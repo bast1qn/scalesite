@@ -19,25 +19,35 @@ export const CookieConsent = () => {
     });
 
     useEffect(() => {
-        const savedConsent = localStorage.getItem('cookie-consent');
-        if (!savedConsent) {
-            setTimeout(() => setIsVisible(true), 1000);
-        } else {
-            try {
+        try {
+            const savedConsent = localStorage.getItem('cookie-consent');
+            if (!savedConsent) {
+                setTimeout(() => setIsVisible(true), 1000);
+            } else {
                 const parsed = JSON.parse(savedConsent);
-                // Validate the parsed object has expected structure
-                if (parsed && typeof parsed === 'object' && 'essential' in parsed) {
-                    setPreferences(parsed as CookiePreferences);
+                // Type guard for CookiePreferences
+                if (parsed && typeof parsed === 'object' && 'essential' in parsed && 'analytics' in parsed && 'marketing' in parsed) {
+                    setPreferences({
+                        essential: Boolean(parsed.essential),
+                        analytics: Boolean(parsed.analytics),
+                        marketing: Boolean(parsed.marketing)
+                    });
+                } else {
+                    setTimeout(() => setIsVisible(true), 1000);
                 }
-            } catch {
-                // Invalid JSON in localStorage, ignore and use defaults
-                console.warn('Invalid cookie consent data in localStorage');
             }
+        } catch (error) {
+            console.warn('Failed to load cookie consent:', error);
+            setTimeout(() => setIsVisible(true), 1000);
         }
     }, []);
 
     const saveConsent = (prefs: CookiePreferences) => {
-        localStorage.setItem('cookie-consent', JSON.stringify(prefs));
+        try {
+            localStorage.setItem('cookie-consent', JSON.stringify(prefs));
+        } catch (error) {
+            console.warn('Failed to save cookie consent:', error);
+        }
         setPreferences(prefs);
         setIsVisible(false);
         setShowSettings(false);

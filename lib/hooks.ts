@@ -198,7 +198,8 @@ export function useLocalStorage<T>(
     if (typeof window === 'undefined') return initialValue;
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      if (!item) return initialValue;
+      return JSON.parse(item) as T;
     } catch {
       return initialValue;
     }
@@ -211,8 +212,8 @@ export function useLocalStorage<T>(
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
-    } catch {
-      // Error handling if needed
+    } catch (error) {
+      console.warn(`Failed to save to localStorage (key: ${key}):`, error);
     }
   };
 
@@ -232,6 +233,14 @@ export function useStorage<T extends string | number | boolean>(
     try {
       const item = window.localStorage.getItem(key);
       if (item === null) return initialValue;
+      // Type-safe parsing based on T
+      if (typeof initialValue === 'boolean') {
+        return (item === 'true') as T;
+      }
+      if (typeof initialValue === 'number') {
+        const num = Number(item);
+        return (isNaN(num) ? initialValue : num) as T;
+      }
       return item as T;
     } catch {
       return initialValue;
@@ -241,7 +250,11 @@ export function useStorage<T extends string | number | boolean>(
   const setValue = (value: T) => {
     setStoredValue(value);
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem(key, String(value));
+      try {
+        window.localStorage.setItem(key, String(value));
+      } catch (error) {
+        console.warn(`Failed to save to localStorage (key: ${key}):`, error);
+      }
     }
   };
 

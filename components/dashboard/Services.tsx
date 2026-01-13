@@ -62,11 +62,18 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
             const { data: allServices } = await api.getServices();
             const { data: userBookings } = await api.getUserServices();
 
-            const booked = (userBookings as Array<{id: number; service_id: number; status: string; progress?: number}> || []);
+            // Safely cast and validate user bookings
+            const booked = Array.isArray(userBookings)
+                ? userBookings.filter((b): b is UserService =>
+                    b && typeof b === 'object' && 'id' in b && 'service_id' in b && 'status' in b
+                )
+                : [];
             setActiveServices(booked);
 
-            const bookedIds = booked.map(b => b.service_id);
-            const available = (allServices as Service[] || []).filter(s => !bookedIds.includes(s.id));
+            const bookedIds = booked.map(b => b.service_id).filter((id): id is number => id != null);
+            const available = Array.isArray(allServices)
+                ? allServices.filter((s): s is Service => s && typeof s === 'object' && 'id' in s && !bookedIds.includes(s.id))
+                : [];
             setAvailableServices(available);
 
         } catch (err) {

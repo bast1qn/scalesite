@@ -314,7 +314,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); setShowContactForm(false); }}
                   className="group text-left bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-250"
                 >
-                  <div className={`aspect-video bg-gradient-to-br ${property.images[0]} relative overflow-hidden`}>
+                  <div className={`aspect-video bg-gradient-to-br ${property.images?.[0] ?? 'from-gray-200 to-gray-400'} relative overflow-hidden`}>
                     {property.highlighted && (
                       <span className="absolute top-3 left-3 px-2 py-1 bg-amber-500/90 backdrop-blur-sm text-white text-[11px] font-medium rounded-md">
                         Featured

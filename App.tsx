@@ -69,8 +69,16 @@ const AppContent = () => {
     }, [loading]);
 
     const handleReset = () => {
-        localStorage.clear();
-        sessionStorage.clear();
+        try {
+            localStorage.clear();
+        } catch (error) {
+            console.warn('Failed to clear localStorage:', error);
+        }
+        try {
+            sessionStorage.clear();
+        } catch (error) {
+            console.warn('Failed to clear sessionStorage:', error);
+        }
         window.location.reload();
     };
 

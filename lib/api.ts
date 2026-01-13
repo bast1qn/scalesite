@@ -91,14 +91,16 @@ export const api = {
 
         if (error) return { data: [], error: handleSupabaseError(error) };
 
-        const formatted = data?.map((row) => ({
-            id: row.id,
-            service_id: row.service_id,
-            status: row.status,
-            progress: row.progress,
-            created_at: row.created_at,
-            services: row.services
-        })) || [];
+        const formatted = Array.isArray(data)
+            ? data.map((row) => ({
+                id: row?.id,
+                service_id: row?.service_id,
+                status: row?.status,
+                progress: row?.progress,
+                created_at: row?.created_at,
+                services: row?.services
+              })).filter((item): item is NonNullable<typeof item> => item != null)
+            : [];
 
         return { data: formatted, error: null };
     },
@@ -187,10 +189,12 @@ export const api = {
 
         if (error) return { data: [], error: handleSupabaseError(error) };
 
-        const formatted = data?.map((ticket) => ({
-            ...ticket,
-            profiles: ticket.profiles || { name: 'Unknown', role: 'user', company: '' }
-        })) || [];
+        const formatted = Array.isArray(data)
+            ? data.map((ticket) => ({
+                ...ticket,
+                profiles: ticket?.profiles ?? { name: 'Unknown', role: 'user', company: '' }
+              }))
+            : [];
 
         return { data: formatted, error: null };
     },
@@ -264,10 +268,12 @@ export const api = {
 
         if (error) return { data: [], error: handleSupabaseError(error) };
 
-        const formatted = data?.map((msg) => ({
-            ...msg,
-            profiles: msg.profiles || { name: 'System', role: 'system' }
-        })) || [];
+        const formatted = Array.isArray(data)
+            ? data.map((msg) => ({
+                ...msg,
+                profiles: msg?.profiles ?? { name: 'System', role: 'system' }
+              }))
+            : [];
 
         return { data: formatted, error: null };
     },
@@ -308,7 +314,11 @@ export const api = {
             .select('user_id, profiles(id, name, email, role)')
             .eq('ticket_id', ticketId);
 
-        const formatted = data?.map((member) => member.profiles) || [];
+        const formatted = Array.isArray(data)
+            ? data
+                .map((member) => member?.profiles)
+                .filter((profile): profile is NonNullable<typeof profile> => profile != null)
+            : [];
 
         return { data: formatted, error: handleSupabaseError(error) };
     },
@@ -608,10 +618,12 @@ export const api = {
             .order('created_at', { ascending: true })
             .limit(50);
 
-        const formatted = data?.map((msg) => ({
-            ...msg,
-            profiles: msg.profiles || { name: 'Unknown', role: 'user' }
-        })) || [];
+        const formatted = Array.isArray(data)
+            ? data.map((msg) => ({
+                ...msg,
+                profiles: msg?.profiles ?? { name: 'Unknown', role: 'user' }
+              }))
+            : [];
 
         return { data: formatted, error: handleSupabaseError(error) };
     },
