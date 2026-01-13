@@ -54,6 +54,7 @@ export { InteractiveTimeline } from './InteractiveTimeline';
 // Utilities
 export { LazyImage, OptimizedBackgroundImage } from './LazyImage';
 export { Skeleton, CardSkeleton, PricingCardSkeleton, BlogCardSkeleton, TableSkeleton, LoadingSpinner } from './SkeletonLoader';
+export * from './skeleton';
 export { ErrorBoundary } from './ErrorBoundary';
 export { CookieConsent } from './CookieConsent';
 export { ThemeToggle } from './ThemeToggle';

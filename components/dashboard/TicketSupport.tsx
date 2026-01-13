@@ -5,6 +5,7 @@ import { AuthContext, useLanguage } from '../../contexts';
 import { api } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 import { useChatScroll } from '../../lib/hooks';
+import { TicketCardSkeleton } from '../skeleton';
 
 // --- TYPE DEFINITIONS ---
 interface Profile {
@@ -273,9 +274,20 @@ const TicketSupport = () => {
 
     if (loading) {
         return (
-             <div className="h-64 flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-slate-900/70 dark:text-white/70">Lade Tickets...</p>
+            <div>
+                <div className="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">{t('dashboard.tickets.title')}</h1>
+                        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                            {isTeamOrOwner ? 'Verwalten Sie eingehende Kundenanfragen.' : 'Hier können Sie Unterstützung anfordern und Anfragen verwalten.'}
+                        </p>
+                    </div>
+                </div>
+                <div className="space-y-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <TicketCardSkeleton key={i} />
+                    ))}
+                </div>
             </div>
         )
     }

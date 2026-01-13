@@ -9,6 +9,7 @@ import {
     ChevronDownIcon,
     BriefcaseIcon
 } from '../Icons';
+import { ProjectCardSkeleton } from '../skeleton';
 
 export interface Project {
     id: string;
@@ -290,13 +291,12 @@ export const ProjectList: FC<ProjectListProps> = ({
                 </AnimatePresence>
             </div>
 
-            {/* Loading State */}
+            {/* Loading State - Skeleton */}
             {loading && (
-                <div className="flex items-center justify-center py-12">
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-                        <p className="text-gray-600 dark:text-gray-400">Projekte werden geladen...</p>
-                    </div>
+                <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
+                    {Array.from({ length: viewMode === 'grid' ? 6 : 5 }).map((_, i) => (
+                        <ProjectCardSkeleton key={i} />
+                    ))}
                 </div>
             )}
 

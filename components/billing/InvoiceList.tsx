@@ -8,6 +8,7 @@ import {
     MagnifyingGlassIcon,
     ArrowPathIcon
 } from '../../components/Icons';
+import { InvoiceCardSkeleton } from '../skeleton';
 
 /**
  * InvoiceList Component
@@ -207,16 +208,8 @@ const InvoiceList: React.FC<InvoiceListProps> = ({
     if (loading) {
         return (
             <div className={`space-y-4 ${className}`}>
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 animate-pulse">
-                        <div className="flex items-center justify-between">
-                            <div className="space-y-2 flex-1">
-                                <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/4"></div>
-                                <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-                            </div>
-                            <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-20"></div>
-                        </div>
-                    </div>
+                {Array.from({ length: 5 }).map((_, i) => (
+                    <InvoiceCardSkeleton key={i} />
                 ))}
             </div>
         );
