@@ -104,7 +104,7 @@ const PricingCard = ({
 
                 <button
                     onClick={(e) => { e.stopPropagation(); onClick(pkg); }}
-                    className={`w-full py-3 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                    className={`w-full py-3.5 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
                         pkg.popular
                         ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                         : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:from-primary-500 hover:to-violet-500 shadow-md hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -299,20 +299,20 @@ ${message}
               <div className="relative inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200/60 dark:border-slate-700/50">
                 <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative px-4 md:px-5 py-2 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`relative px-5 md:px-6 py-2.5 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
                         !withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98]'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                     }`}
                 >
                     {t('pricing.toggle_project')}
                 </button>
                 <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative px-4 md:px-5 py-2 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`relative px-5 md:px-6 py-2.5 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
                         withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98]'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                     }`}
                 >
                      {t('pricing.toggle_service')}
@@ -365,8 +365,8 @@ ${message}
                </div>
                <div className="space-y-3">
                   {faqItems.map((item) => (
-                    <details key={item.question} className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-                        <summary className="flex justify-between items-center p-4 md:p-5 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors min-h-11">
+                    <details key={item.question} className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden">
+                        <summary className="flex justify-between items-center p-4 md:p-5 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all duration-200 min-h-11 hover:scale-[1.01] focus:ring-2 focus:ring-primary-500/50 focus-visible:ring-inset">
                             <span className="flex items-center gap-3">
                                 <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary-500 to-violet-500 opacity-0 group-open:opacity-100 transition-all duration-300"></span>
                                 <span className="text-sm md:text-base">{item.question}</span>
@@ -396,13 +396,13 @@ ${message}
                     <div className="p-8">
                         {!submitSuccess ? (
                             <>
-                                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-violet-500 rounded-xl flex items-center justify-center mb-6 shadow-md">
+                                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-violet-500 rounded-xl flex items-center justify-center mb-6 shadow-md">
                                     <TicketIcon className="w-6 h-6 text-white" />
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                                     {t('pricing.modal.title').replace('{package}', selectedPackage.name)}
                                 </h3>
-                                <p className="text-sm text-slate-500 mb-6">
+                                <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
                                     {t('pricing.modal.subtitle')
                                         .replace('{package}', selectedPackage.name)
                                         .replace('{price}', selectedPackage.price)
@@ -415,20 +415,20 @@ ${message}
                                         <>
                                             <div>
                                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.name')}</label>
-                                                <input name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" placeholder="Max Mustermann" />
+                                                <input name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="Max Mustermann" />
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.email')}</label>
-                                                <input name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" placeholder="ihre@email.de" />
+                                                <input name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="ihre@email.de" />
                                             </div>
                                         </>
                                     )}
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.message')}</label>
-                                        <textarea name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none" placeholder={t('pricing.modal.message_placeholder')}></textarea>
+                                        <textarea name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
                                     </div>
 
-                                    <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex justify-center items-center">
+                                    <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                                         {isSubmitting ? (
                                             <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                         ) : t('pricing.modal.btn_submit')}

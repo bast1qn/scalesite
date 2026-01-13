@@ -123,7 +123,7 @@ export const ChatWidget = () => {
                 }`}
             >
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 flex items-center justify-between text-white shadow-sm shrink-0">
+                <div className="bg-gradient-to-r from-primary-500 to-violet-500 px-4 py-3 flex items-center justify-between text-white shadow-sm shrink-0">
                     <div className="flex items-center gap-2.5">
                         <div className="bg-white/15 p-1.5 rounded-lg backdrop-blur-sm">
                             <SparklesIcon className="w-3.5 h-3.5" />
@@ -138,7 +138,7 @@ export const ChatWidget = () => {
                     </div>
                     <button
                         onClick={() => setIsOpen(false)}
-                        className="p-1.5 hover:bg-white/15 rounded-lg transition-all duration-150 active:scale-95 backdrop-blur-sm"
+                        className="p-2 hover:bg-white/15 rounded-lg transition-all duration-200 active:scale-[0.98] focus:ring-2 focus:ring-white/50 backdrop-blur-sm min-h-9 min-w-9"
                         aria-label={t('chat_widget.close_aria')}
                     >
                         <XMarkIcon className="w-4 h-4" />
@@ -159,9 +159,9 @@ export const ChatWidget = () => {
                             className={`flex w-full z-10 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
-                                className={`max-w-[85%] px-3.5 py-2.5 text-sm rounded-xl shadow-sm leading-relaxed transition-all duration-150 ${
+                                className={`max-w-[85%] px-4 py-3 text-sm rounded-xl shadow-sm leading-relaxed transition-all duration-200 ${
                                     msg.role === 'user'
-                                    ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-tr-sm'
+                                    ? 'bg-gradient-to-r from-primary-500 to-violet-500 text-white rounded-tr-sm'
                                     : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 rounded-tl-sm hover:border-slate-300/80 dark:hover:border-slate-600/80'
                                 }`}
                             >
@@ -178,7 +178,7 @@ export const ChatWidget = () => {
                                 <button
                                     key={`suggestion-${question.slice(0, 30).replace(/\s/g, '-')}`}
                                     onClick={() => handleSuggestionClick(question)}
-                                    className="text-left text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 hover:bg-blue-50 dark:hover:bg-blue-950/30 hover:border-blue-300/60 dark:hover:border-blue-600/40 text-slate-600 dark:text-slate-300 px-3 py-2.5 rounded-lg transition-all duration-150 shadow-sm hover:shadow-md active:scale-[0.98]"
+                                    className="text-left text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 hover:bg-primary-50 dark:hover:bg-primary-950/30 hover:border-primary-300/60 dark:hover:border-primary-600/40 text-slate-600 dark:text-slate-300 px-4 py-3 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     {question}
                                 </button>
@@ -205,13 +205,13 @@ export const ChatWidget = () => {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder={t('chat_widget.placeholder')}
-                        className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder-slate-400 border border-transparent hover:border-slate-300/60 dark:hover:border-slate-600/60"
+                        className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all placeholder-slate-400 border border-transparent hover:border-slate-300/60 dark:hover:border-slate-600/60 min-h-11"
                         maxLength={500}
                     />
                     <button
                         type="submit"
                         disabled={!input.trim() || isLoading}
-                        className="bg-gradient-to-r from-blue-500 to-violet-500 text-white p-2 rounded-lg hover:from-blue-600 hover:to-violet-600 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md active:scale-95"
+                        className="bg-gradient-to-r from-primary-500 to-violet-500 text-white p-3 rounded-lg hover:from-primary-600 hover:to-violet-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11 min-w-11"
                     >
                         <PaperAirplaneIcon className="w-4 h-4" />
                     </button>
@@ -221,10 +221,10 @@ export const ChatWidget = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`pointer-events-auto group flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-500/20 ${
+                className={`pointer-events-auto group flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-primary-500/20 ${
                     isOpen
                     ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rotate-90 hover:bg-slate-300 dark:hover:bg-slate-600'
-                    : 'bg-gradient-to-br from-blue-500 to-violet-500 text-white shadow-blue-500/25 hover:shadow-blue-500/35 hover:shadow-lg'
+                    : 'bg-gradient-to-br from-primary-500 to-violet-500 text-white shadow-primary-500/25 hover:shadow-primary-500/35 hover:shadow-lg'
                 }`}
                 aria-label={isOpen ? t('chat_widget.close_aria') : t('chat_widget.open_aria')}
             >

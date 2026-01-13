@@ -121,8 +121,8 @@ const CleanButton = ({
   className?: string;
 }) => {
   const baseStyle = variant === 'primary'
-    ? 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
-    : 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11';
+    ? 'relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11'
+    : 'px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11';
 
   return (
     <button
@@ -203,7 +203,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         {/* Badge */}
         <SpotlightCard className={`inline-block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {t('hero.guarantee_badge')}
@@ -274,7 +274,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
         >
           {guarantees.map((g) => (
             <SpotlightCard key={g.id} className="inline-block">
-              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
+              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11">
                 <span className="text-primary-500 dark:text-violet-400">
                   {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
                 </span>
@@ -289,7 +289,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`mt-14 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
-          <div className="flex items-center gap-6 px-8 py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
+          <div className="flex items-center gap-4 px-8 py-3.5 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">
             <div className="flex items-center gap-3">
               <span className="text-slate-400 dark:text-slate-500 line-through text-base">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
@@ -315,7 +315,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className="group cursor-pointer"
           onClick={handleScrollDown}
         >
-          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2.5 group-hover:border-primary-400 dark:group-hover:border-violet-500 transition-colors duration-350 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2.5 group-hover:border-primary-400 dark:group-hover:border-violet-500 transition-colors duration-350 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm min-h-11 min-w-11">
             <div className="w-1.5 h-3 rounded-full bg-slate-400 dark:bg-slate-500 group-hover:bg-primary-500 dark:group-hover:bg-violet-400 transition-colors duration-350 animate-bounce" style={{ animationDuration: '2.5s' }}></div>
           </div>
         </div>

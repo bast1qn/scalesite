@@ -19,7 +19,7 @@ const NavButton = ({ page, currentPage, onClick, children }: { page: string; cur
         <button
             onClick={() => onClick(page)}
             {...hover}
-            className={`relative px-5 py-2.5 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
+            className={`relative px-5 py-3 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
                 isActive
                     ? 'text-white bg-gradient-to-r from-primary-600 to-violet-600 shadow-premium'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -184,7 +184,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
 
                         <button
                             onClick={toggleLanguage}
-                            className="relative text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 w-12 h-11 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center uppercase tracking-wider"
+                            className="relative text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 w-12 h-11 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center uppercase tracking-wider"
                         >
                             {language}
                         </button>
@@ -196,7 +196,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                                 <NotificationBell />
                                 <button
                                     onClick={() => setCurrentPage('configurator')}
-                                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                     title="Website Konfigurator"
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,7 +206,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('dashboard')}
-                                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <UserCircleIcon className="w-4 h-4" />
                                     <span>{t('nav.dashboard')}</span>
@@ -216,13 +216,13 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                             <>
                                 <button
                                     onClick={() => setCurrentPage('login')}
-                                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300 px-5 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300 px-5 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     {t('nav.login')}
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('preise')}
-                                    className="flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 rounded-xl hover:shadow-premium hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 rounded-xl hover:shadow-premium hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <span>{t('nav.projectStart')}</span>
                                     <ArrowRightIcon className="w-4 h-4" />
@@ -239,13 +239,13 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                         <CurrencySelector />
                         <button
                             onClick={toggleLanguage}
-                            className="relative text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors duration-350 uppercase w-11 h-11 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center"
+                            className="relative text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 uppercase w-11 h-11 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
                         >
                             {language}
                         </button>
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="relative p-3 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-350 min-h-11"
+                            className="relative p-3 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 min-h-11 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
                             aria-label={isMenuOpen ? t('nav.menuClose') : t('nav.menuOpen')}
                         >
                             {isMenuOpen ? (
