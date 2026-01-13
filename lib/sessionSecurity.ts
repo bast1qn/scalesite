@@ -231,17 +231,19 @@ export const resetSessionSecurity = () => {
 
 /**
  * Hook for components to listen to session warnings
+ * FIXED: Returns proper cleanup function to remove event listener
  */
 export const useSessionWarning = (callback: (minutesLeft: number) => void) => {
-  const handleWarning = (event: CustomEvent) => {
-    callback(event.detail.minutesLeft);
+  const handleWarning = (event: Event) => {
+    const customEvent = event as CustomEvent<{ minutesLeft: number }>;
+    callback(customEvent.detail.minutesLeft);
   };
 
   // Add event listener on mount
-  window.addEventListener('sessionWarning', handleWarning as EventListener);
+  window.addEventListener('sessionWarning', handleWarning);
 
   // Return cleanup function
   return () => {
-    window.removeEventListener('sessionWarning', handleWarning as EventListener);
+    window.removeEventListener('sessionWarning', handleWarning);
   };
 };

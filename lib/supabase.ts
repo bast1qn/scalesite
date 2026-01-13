@@ -742,7 +742,7 @@ export const subscribeToBroadcast = (
 export const sendBroadcast = async (
     channel: RealtimeChannel,
     event: string,
-    payload: any
+    payload: Record<string, unknown>
 ): Promise<void> => {
     await channel.send({
         type: 'broadcast',

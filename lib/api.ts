@@ -1693,7 +1693,7 @@ export const api = {
             updated_at: now
         });
 
-        return { data: { success: !error, invoice_number }, error: handleSupabaseError(error) };
+        return { data: { success: !error, invoice_number: invoice_number }, error: handleSupabaseError(error) };
     },
 
     updateInvoiceStatus: async (invoiceId: string, status: string, paymentData?: {
@@ -1961,7 +1961,7 @@ export const api = {
     trackAnalyticsEvent: async (data: {
         project_id?: string;
         event_type: string;
-        event_data?: Record<string, any>;
+        event_data?: Record<string, string | number | boolean | null>;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -2231,7 +2231,7 @@ export const api = {
     /**
      * Update team member permissions (Woche 20)
      */
-    updateTeamMemberPermissions: async (memberId: string, permissions: Record<string, any>) => {
+    updateTeamMemberPermissions: async (memberId: string, permissions: Record<string, boolean | string>) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
@@ -2297,7 +2297,7 @@ export const api = {
         targetType?: string,
         targetId?: string,
         targetName?: string,
-        metadata?: Record<string, any>
+        metadata?: Record<string, string | number | boolean | null>
     ) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -2591,11 +2591,11 @@ export const api = {
         description: string;
         trigger: {
             type: 'welcome' | 'date' | 'action' | 'inactivity';
-            config: Record<string, any>;
+            config: Record<string, string | number | boolean>;
         };
         actions: Array<{
             type: 'send_email' | 'wait' | 'add_tag' | 'remove_tag';
-            config: Record<string, any>;
+            config: Record<string, string | number | boolean>;
         }>;
         status: 'active' | 'paused' | 'draft';
     }) => {

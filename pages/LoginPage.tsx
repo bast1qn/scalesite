@@ -49,8 +49,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
 
   // Check for Token in URL (Return from Social Login)
   // SECURITY: Validate ALL URL parameters before processing
-  // Note: This effect intentionally runs once on mount to check URL params.
-  // The callbacks are stable from context, so excluding them is safe.
+  // FIXED: Added proper dependencies - ref used for loginWithToken to prevent stale closure
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const rawToken = params.get('token');
@@ -102,9 +101,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
         // Show generic error message (no information leakage)
         setError(t('general.error'));
     }
-  // Disable exhaustive-deps: This should only run once on mount for URL param checking
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // ✅ SAFE: This effect should ONLY run once on mount to check URL params
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

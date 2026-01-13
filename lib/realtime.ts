@@ -7,8 +7,8 @@ import { supabase } from './supabase';
 import { RealtimeChannel } from '@supabase/supabase-js';
 
 interface RealtimePayloadLocal<T> {
-    old: T;
-    new: T;
+    old: T | null;
+    new: T | null;
 }
 
 interface SubscriptionCallbacks<T = unknown> {
@@ -59,6 +59,22 @@ interface ChatMessage {
     user_id: string;
     message: string;
     created_at: string;
+}
+
+interface ChatMessageWithSender {
+    id: string;
+    conversation_id: string;
+    sender_id: string;
+    content: string;
+    created_at: string;
+    updated_at?: string;
+    sender?: {
+        id: string;
+        name: string;
+        avatar_url?: string;
+    };
+    is_sender: boolean;
+    read_by: string[];
 }
 
 // ============================================
@@ -130,16 +146,16 @@ export const subscribeToNotifications = (
 
                 switch (eventType) {
                     case 'INSERT':
-                        callbacks.onInsert?.(newRecord as NotificationPayload);
+                        callbacks.onInsert?.({ old: null, new: newRecord as NotificationPayload });
                         break;
                     case 'UPDATE':
                         callbacks.onUpdate?.({
-                            old: oldRecord,
-                            new: newRecord
+                            old: oldRecord as NotificationPayload,
+                            new: newRecord as NotificationPayload
                         });
                         break;
                     case 'DELETE':
-                        callbacks.onDelete?.(oldRecord);
+                        callbacks.onDelete?.({ old: oldRecord as NotificationPayload, new: null });
                         break;
                 }
             }
@@ -640,9 +656,9 @@ export const trackPresence = (
     projectId: string,
     userId: string,
     callbacks: {
-        onJoin?: (presence: any) => void;
-        onLeave?: (presence: any) => void;
-        onSync?: (presences: any[]) => void;
+        onJoin?: (presence: { key: string; presences: PresenceState[] }) => void;
+        onLeave?: (presence: { key: string; presences: PresenceState[] }) => void;
+        onSync?: (presences: Record<string, PresenceState[]>) => void;
     }
 ): string => {
     const channelName = generateChannelName('presence', projectId);
@@ -755,7 +771,7 @@ export const subscribeToTicketMessages = (
                 filter: `ticket_id=eq.${ticketId}`
             },
             (payload) => {
-                callbacks.onInsert?.(payload.new);
+                callbacks.onInsert?.(payload.new as TicketMessage);
             }
         )
         .subscribe((status) => {
@@ -987,7 +1003,7 @@ export const subscribeToChatMessages = (
                 filter: `conversation_id=eq.${conversationId}`
             },
             async (payload) => {
-                const message = payload.new as any;
+                const message = payload.new as ChatMessageWithSender;
                 // Fetch sender details
                 const { data: sender } = await supabase
                     .from('profiles')
@@ -1014,7 +1030,7 @@ export const subscribeToChatMessages = (
                 filter: `conversation_id=eq.${conversationId}`
             },
             async (payload) => {
-                const message = payload.new as any;
+                const message = payload.new as ChatMessageWithSender;
                 const { data: sender } = await supabase
                     .from('profiles')
                     .select('id,name,avatar_url')
@@ -1076,7 +1092,7 @@ export const subscribeToTypingIndicators = (
                 filter: `conversation_id=eq.${conversationId}`
             },
             (payload) => {
-                const indicator = payload.new as any;
+                const indicator = payload.new as { conversation_id: string; user_id: string; created_at: string };
                 callbacks.onTypingStart?.({
                     conversation_id: indicator.conversation_id,
                     user_id: indicator.user_id
@@ -1092,7 +1108,7 @@ export const subscribeToTypingIndicators = (
                 filter: `conversation_id=eq.${conversationId}`
             },
             (payload) => {
-                const indicator = payload.old as any;
+                const indicator = payload.old as { conversation_id: string; user_id: string; created_at: string };
                 callbacks.onTypingStop?.({
                     conversation_id: indicator.conversation_id,
                     user_id: indicator.user_id

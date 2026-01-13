@@ -80,8 +80,7 @@ const AppContent = () => {
             chat: 'Chat | ScaleSite'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
+    }, [currentPage]); // ✅ CORRECT: Only currentPage is needed
 
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
