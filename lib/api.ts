@@ -1753,6 +1753,64 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
+    deleteCampaign: async (campaignId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase
+            .from('newsletter_campaigns')
+            .delete()
+            .eq('id', campaignId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // NEWSLETTER SUBSCRIBERS
+    // ============================================
+
+    getSubscribers: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: [], error: 'Access denied' };
+
+        const { data, error } = await supabase
+            .from('newsletter_subscribers')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    unsubscribeNewsletter: async (email: string) => {
+        const { error } = await supabase
+            .from('newsletter_subscribers')
+            .delete()
+            .eq('email', email);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    deleteSubscriber: async (subscriberId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase
+            .from('newsletter_subscribers')
+            .delete()
+            .eq('id', subscriberId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
     // ============================================
     // ANALYTICS (Feature 6)
     // ============================================

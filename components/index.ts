@@ -76,6 +76,7 @@ export { default as Settings } from './dashboard/Settings';
 export { default as Partner } from './dashboard/Partner';
 export { default as Referral } from './dashboard/Referral';
 export { default as DiscountManager } from './dashboard/DiscountManager';
+export { default as NewsletterManager } from './dashboard/NewsletterManager';
 export { default as AnalyticsDashboard } from './analytics/AnalyticsDashboard';
 
 // Enhanced Ticket Support (Woche 15)

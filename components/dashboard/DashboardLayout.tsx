@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react';
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
-import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon, ChartBarIcon } from '../Icons';
+import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon, ChartBarIcon, EnvelopeIcon } from '../Icons';
 import type { DashboardView } from '../../pages/DashboardPage';
 
 interface DashboardLayoutProps {
@@ -175,6 +175,7 @@ const SidebarContent: React.FC<{
 
     const adminTools = [
         { view: 'discount-manager', label: t('dashboard.discounts.title'), icon: <TagIcon className="w-5 h-5"/> },
+        { view: 'newsletter-manager', label: 'Newsletter', icon: <EnvelopeIcon className="w-5 h-5"/> },
     ];
 
     return (
