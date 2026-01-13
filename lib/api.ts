@@ -134,6 +134,10 @@ export const api = {
         return { data: { user: data }, error: handleSupabaseError(error) };
     },
 
+    /**
+     * Get all available services
+     * @returns Array of all services or error
+     */
     getServices: async () => {
         // Check cache first to prevent duplicate requests
         const cached = getCached<Service[]>('services_all');
@@ -151,6 +155,10 @@ export const api = {
         return { data, error: handleSupabaseError(error) };
     },
 
+    /**
+     * Get services for the current user
+     * @returns Array of user's purchased services or error
+     */
     getUserServices: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -184,7 +192,11 @@ export const api = {
 
         return { data: formatted, error: null };
     },
-
+    /**
+     * Book/purchase a service for the current user
+     * @param serviceId - ID of the service to book
+     * @returns Created booking record or error
+     */
     bookService: async (serviceId: number) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -479,7 +491,10 @@ export const api = {
 
         return { data: { success: true }, error: null };
     },
-
+    /**
+     * Get all transactions for the current user
+     * @returns Array of user transactions or error
+     */
     getTransactions: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -492,7 +507,10 @@ export const api = {
 
         return { data: data || [], error: handleSupabaseError(error) };
     },
-
+    /**
+     * Get dashboard statistics for the current user
+     * @returns Object containing ticketCount and serviceCount
+     */
     getStats: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: { ticketCount: 0, serviceCount: 0 }, error: 'Not authenticated' };
@@ -515,6 +533,14 @@ export const api = {
         };
     },
 
+    /**
+     * Send a contact message
+     * @param name - Sender name
+     * @param email - Sender email
+     * @param subject - Message subject
+     * @param message - Message content
+     * @returns Success status or error
+     */
     sendContact: async (name: string, email: string, subject: string, message: string) => {
         const { error } = await supabase.from('contact_messages').insert({
             id: generateId(),
@@ -528,6 +554,12 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
+    /**
+     * Subscribe to newsletter
+     * @param name - Subscriber name
+     * @param email - Subscriber email
+     * @returns Success status or error
+     */
     subscribeNewsletter: async (name: string, email: string) => {
         const { error } = await supabase.from('newsletter_subscribers').insert({
             id: generateId(),

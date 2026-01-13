@@ -172,6 +172,8 @@ interface ValidationResult {
 }
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_DOCUMENT_SIZE = 20 * 1024 * 1024; // 20MB
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 const ALLOWED_DOCUMENT_TYPES = [
     'application/pdf',
@@ -223,7 +225,7 @@ export const validateImageFile = (file: File): ValidationResult => {
         errors.push('Invalid image format. Allowed: JPEG, PNG, GIF, WebP');
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB for images
+    if (file.size > MAX_IMAGE_SIZE) { // 5MB for images
         errors.push('Image size exceeds 5MB limit');
     }
 
@@ -245,7 +247,7 @@ export const validateDocumentFile = (file: File): ValidationResult => {
         errors.push('Invalid document format. Allowed: PDF, DOC, DOCX, TXT, CSV');
     }
 
-    if (file.size > 20 * 1024 * 1024) { // 20MB for documents
+    if (file.size > MAX_DOCUMENT_SIZE) { // 20MB for documents
         errors.push('Document size exceeds 20MB limit');
     }
 
