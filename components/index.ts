@@ -30,6 +30,9 @@ export { PricingSection } from './PricingSection';
 export { OfferCalculator } from './OfferCalculator';
 export * from './pricing';
 
+// Project Tracking
+export * from './projects';
+
 // Projects & Showcase
 export { ShowcaseSection } from './ShowcaseSection';
 export { ShowcasePreview } from './ShowcasePreview';
