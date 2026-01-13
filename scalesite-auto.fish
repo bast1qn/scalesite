@@ -155,7 +155,7 @@ end
 
 function check_week_completed
     set week $argv[1]
-    set done_file "$PROJECT_ROOT/.week_$week_done"
+    set done_file "$PROJECT_ROOT/.week_"$week"_done"
 
     if test -f "$done_file"
         echo "true"
@@ -166,7 +166,7 @@ end
 
 function mark_week_completed
     set week $argv[1]
-    set done_file "$PROJECT_ROOT/.week_$week_done"
+    set done_file "$PROJECT_ROOT/.week_"$week"_done"
     touch "$done_file"
 
     # Update MASTER_PLAN.md

@@ -65,3 +65,41 @@
 [2026-01-13 14:32:46] INFO: Build Check...
 [2026-01-13 14:32:55] SUCCESS: Build SUCCESS
 [2026-01-13 14:32:55] INFO: Git Commit für Woche 4...
+[2026-01-13 14:32:55] SUCCESS: Woche 4 committed
+[2026-01-13 14:32:55] SUCCESS: Woche 4 fertig! Nächste Woche: 5
+[2026-01-13 14:32:55] INFO: Neustart mit: \033[1m./scalesite-auto.fish\033[0m
+[2026-01-13 14:32:55] INFO: Logs: /home/basti/projects/scalesite/.autoloop.log
+[2026-01-13 14:32:55] INFO: Metrics: /home/basti/projects/scalesite/.autoloop_metrics.jsonl
+[2026-01-13 14:34:29] SUCCESS: Project Root gefunden: /home/basti/projects/scalesite
+[2026-01-13 14:34:29] SUCCESS: MASTER_PLAN.md gefunden
+[2026-01-13 14:34:29] SUCCESS: zclaude function verfügbar ✓
+[2026-01-13 14:34:29] SUCCESS: Git Repository gefunden
+[2026-01-13 14:34:29] SUCCESS: npm gefunden
+[2026-01-13 14:34:29] SUCCESS: package.json gefunden
+[2026-01-13 14:34:29] INFO: Initial Build Check...
+[2026-01-13 14:34:40] SUCCESS: Initial Build SUCCESS
+[2026-01-13 14:34:40] INFO: Aktueller Branch: main
+[2026-01-13 14:34:40] WARNING: Uncommitted Changes gefunden!
+[2026-01-13 14:34:46] SUCCESS: Woche 5 bereits erledigt, überspringe...
+[2026-01-13 14:34:46] SUCCESS: Woche 6 bereits erledigt, überspringe...
+[2026-01-13 14:34:46] SUCCESS: Woche 7 bereits erledigt, überspringe...
+[2026-01-13 14:34:46] SUCCESS: Woche 8 bereits erledigt, überspringe...
+[2026-01-13 14:34:46] SUCCESS: Woche 9 bereits erledigt, überspringe...
+[2026-01-13 14:34:46] INFO: Neustart mit: \033[1m./scalesite-auto.fish\033[0m
+[2026-01-13 14:34:46] INFO: Logs: /home/basti/projects/scalesite/.autoloop.log
+[2026-01-13 14:34:46] INFO: Metrics: /home/basti/projects/scalesite/.autoloop_metrics.jsonl
+[2026-01-13 14:37:02] SUCCESS: Project Root gefunden: /home/basti/projects/scalesite
+[2026-01-13 14:37:02] SUCCESS: MASTER_PLAN.md gefunden
+[2026-01-13 14:37:02] SUCCESS: zclaude function verfügbar ✓
+[2026-01-13 14:37:02] SUCCESS: Git Repository gefunden
+[2026-01-13 14:37:02] SUCCESS: npm gefunden
+[2026-01-13 14:37:02] SUCCESS: package.json gefunden
+[2026-01-13 14:37:02] INFO: Initial Build Check...
+[2026-01-13 14:37:11] SUCCESS: Initial Build SUCCESS
+[2026-01-13 14:37:11] INFO: Aktueller Branch: main
+[2026-01-13 14:37:11] WARNING: Uncommitted Changes gefunden!
+[2026-01-13 14:37:22] INFO: Generiere Prompt für Woche 5...
+[2026-01-13 14:42:17] INFO: Claude erfolgreich beendet
+[2026-01-13 14:42:17] INFO: Build Check...
+[2026-01-13 14:42:26] SUCCESS: Build SUCCESS
+[2026-01-13 14:42:26] INFO: Git Commit für Woche 5...
