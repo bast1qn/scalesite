@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react';
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
-import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon } from '../Icons';
+import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon, ChartBarIcon } from '../Icons';
 import type { DashboardView } from '../../pages/DashboardPage';
 
 interface DashboardLayoutProps {
@@ -112,6 +112,7 @@ const SidebarContent: React.FC<{
     if (!isTeam) {
         const userNavItems = [
             { view: 'übersicht', label: t('dashboard.nav.overview'), icon: <HomeIcon className="w-5 h-5"/> },
+            { view: 'analytics', label: 'Analytics', icon: <ChartBarIcon className="w-5 h-5"/> },
             { view: 'ticket-support', label: t('dashboard.nav.tickets'), icon: <TicketIcon className="w-5 h-5"/> },
             { view: 'dienstleistungen', label: t('dashboard.nav.services'), icon: <BriefcaseIcon className="w-5 h-5"/> },
             { view: 'transaktionen', label: t('dashboard.nav.transactions'), icon: <CreditCardIcon className="w-5 h-5"/> },
@@ -167,6 +168,7 @@ const SidebarContent: React.FC<{
     // --- TEAM NAVIGATION ---
     const workspaceItems = [
         { view: 'übersicht', label: t('dashboard.nav.overview'), icon: <HomeIcon className="w-5 h-5"/> },
+        { view: 'analytics', label: 'Analytics', icon: <ChartBarIcon className="w-5 h-5"/> },
         { view: 'user-management', label: t('dashboard.users.title'), icon: <UsersIcon className="w-5 h-5"/> },
         { view: 'ticket-support', label: t('dashboard.nav.tickets'), icon: <TicketIcon className="w-5 h-5"/> },
     ];

@@ -10,10 +10,11 @@ import {
   Partner,
   Transactions,
   UserManagement,
-  DiscountManager
+  DiscountManager,
+  AnalyticsDashboard
 } from '../components';
 
-export type DashboardView = 'übersicht' | 'ticket-support' | 'dienstleistungen' | 'transaktionen' | 'einstellungen' | 'freunde-werben' | 'partner-werden' | 'user-management' | 'discount-manager';
+export type DashboardView = 'übersicht' | 'ticket-support' | 'dienstleistungen' | 'transaktionen' | 'einstellungen' | 'freunde-werben' | 'partner-werden' | 'user-management' | 'discount-manager' | 'analytics';
 
 interface DashboardPageProps {
     setCurrentPage: (page: string) => void;
@@ -31,7 +32,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setCurrentPage }) => {
             // Defensively validate viewParam against allowed values
             const validViews: DashboardView[] = [
                 'übersicht', 'ticket-support', 'dienstleistungen', 'transaktionen',
-                'einstellungen', 'freunde-werben', 'partner-werden', 'user-management', 'discount-manager'
+                'einstellungen', 'freunde-werben', 'partner-werden', 'user-management', 'discount-manager', 'analytics'
             ];
 
             if (viewParam && validViews.includes(viewParam as DashboardView)) {
@@ -82,6 +83,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setCurrentPage }) => {
                 return <UserManagement />;
             case 'discount-manager':
                 return <DiscountManager />;
+            case 'analytics':
+                return <AnalyticsDashboard />;
             default:
                 return <Overview setActiveView={handleViewSet} setCurrentPage={setCurrentPage} />;
         }
