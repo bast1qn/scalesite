@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, type ReactNode, type MouseEvent } from 'react';
+import { useEffect, useState, useRef, memo, type ReactNode, type MouseEvent, useCallback } from 'react';
 import { ArrowRightIcon } from './Icons';
 import { useLanguage } from '../contexts';
 
@@ -12,24 +12,31 @@ const guarantees = [
   { text: 'Alles inklusive', icon: 'sparkle' },
 ];
 
-// Icons for guarantees
+// Memoized icons for guarantees to prevent recreation on every render
+const LightningIcon = memo(() => (
+  <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+  </svg>
+));
+
+const ShieldIcon = memo(() => (
+  <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+  </svg>
+));
+
+const SparkleIcon = memo(() => (
+  <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+  </svg>
+));
+
+// Icon map for easy access
 const GuaranteeIcons = {
-  lightning: () => (
-    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-    </svg>
-  ),
-  shield: () => (
-    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  ),
-  sparkle: () => (
-    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-    </svg>
-  ),
-};
+  lightning: LightningIcon,
+  shield: ShieldIcon,
+  sparkle: SparkleIcon,
+} as const;
 
 // Refined floating particle
 const FloatingParticle = ({
@@ -136,6 +143,13 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
     setIsVisible(true);
   }, []);
 
+  // Memoize navigation handlers to prevent inline function creation
+  const handleNavigateToPricing = useCallback(() => setCurrentPage('preise'), [setCurrentPage]);
+  const handleNavigateToProjects = useCallback(() => setCurrentPage('projekte'), [setCurrentPage]);
+  const handleScrollDown = useCallback(() => {
+    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+  }, []);
+
   return (
     <section ref={heroRef} className="relative min-h-[100vh] flex items-center justify-center pt-24 pb-12 overflow-hidden">
       {/* Refined background layers */}
@@ -239,13 +253,13 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '300ms' }}
         >
-          <CleanButton onClick={() => setCurrentPage('preise')} variant="primary" className="min-h-12 sm:min-h-11">
+          <CleanButton onClick={handleNavigateToPricing} variant="primary" className="min-h-12 sm:min-h-11">
             <span className="flex items-center gap-3">
               <span>Projekt starten</span>
               <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </CleanButton>
-          <CleanButton onClick={() => setCurrentPage('projekte')} variant="secondary" className="min-h-12 sm:min-h-11">
+          <CleanButton onClick={handleNavigateToProjects} variant="secondary" className="min-h-12 sm:min-h-11">
             <span className="flex items-center gap-3">
               <span>Beispiele ansehen</span>
               <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -299,7 +313,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
       >
         <div
           className="group cursor-pointer"
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+          onClick={handleScrollDown}
         >
           <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2.5 group-hover:border-primary-400 dark:group-hover:border-violet-500 transition-colors duration-350 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
             <div className="w-1.5 h-3 rounded-full bg-slate-400 dark:bg-slate-500 group-hover:bg-primary-500 dark:group-hover:bg-violet-400 transition-colors duration-350 animate-bounce" style={{ animationDuration: '2.5s' }}></div>
