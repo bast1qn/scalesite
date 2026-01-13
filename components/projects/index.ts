@@ -6,3 +6,6 @@ export type { StatusTimelineProps } from './StatusTimeline';
 
 export { ProjectList } from './ProjectList';
 export type { ProjectListProps } from './ProjectList';
+
+export { MilestoneTracker } from './MilestoneTracker';
+export type { MilestoneTrackerProps } from './MilestoneTracker';

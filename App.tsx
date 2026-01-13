@@ -19,6 +19,7 @@ const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
 const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
 const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 
 const PageLoader = () => {
     const { t } = useLanguage();
@@ -109,6 +110,7 @@ const AppContent = () => {
             case 'architecture': return <ArchitecturePage setCurrentPage={setCurrentPage} />;
             case 'realestate': return <RealEstatePage setCurrentPage={setCurrentPage} />;
             case 'configurator': return <ConfiguratorPage setCurrentPage={setCurrentPage} />;
+            case 'project-detail': return <ProjectDetailPage setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };

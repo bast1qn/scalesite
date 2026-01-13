@@ -29,6 +29,7 @@ interface ProjectListProps {
     limit?: number;
     showTimeline?: boolean;
     className?: string;
+    setCurrentPage?: (page: string) => void;
 }
 
 const statusLabels: Record<FilterStatus, string> = {
@@ -52,7 +53,8 @@ export const ProjectList: FC<ProjectListProps> = ({
     onProjectClick,
     limit,
     showTimeline = true,
-    className = ''
+    className = '',
+    setCurrentPage
 }) => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
@@ -335,7 +337,17 @@ export const ProjectList: FC<ProjectListProps> = ({
                             <ProjectCard
                                 {...project}
                                 variant={viewMode === 'list' ? 'compact' : 'default'}
-                                onClick={() => onProjectClick?.(project.id)}
+                                onClick={() => {
+                                    if (onProjectClick) {
+                                        onProjectClick(project.id);
+                                    } else if (setCurrentPage) {
+                                        // Navigate to project detail page
+                                        // In a real app, this would use React Router with params
+                                        // For now, we'll use sessionStorage to pass the project ID
+                                        sessionStorage.setItem('selectedProjectId', project.id);
+                                        setCurrentPage('project-detail');
+                                    }
+                                }}
                             />
                         </motion.div>
                     ))}

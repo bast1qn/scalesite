@@ -1693,5 +1693,206 @@ export const api = {
             },
             error: null
         };
+    },
+
+    // ============================================
+    // AUTOMATIC MILESTONES (Woche 10)
+    // ============================================
+
+    autoCreateMilestones: async (projectId: string, projectType: string = 'website') => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Check if milestones already exist
+        const { data: existing } = await supabase
+            .from('project_milestones')
+            .select('id')
+            .eq('project_id', projectId);
+
+        if (existing && existing.length > 0) {
+            return { data: null, error: 'Milestones already exist for this project' };
+        }
+
+        // Define default milestones based on project type
+        const defaultMilestones = {
+            website: [
+                { title: 'Projekt-Kickoff', description: 'Erstes Meeting und Anforderungsanalyse', status: 'completed' },
+                { title: 'Konzeption abgeschlossen', description: 'Website-Konzept und Struktur stehen fest', status: 'pending' },
+                { title: 'Design-Review', description: 'Design-Vorschläge prüfen und freigeben', status: 'pending' },
+                { title: 'Content-Complete', description: 'Alle Texte und Inhalte sind bereit', status: 'pending' },
+                { title: 'Entwicklung abgeschlossen', description: 'Technische Implementierung fertiggestellt', status: 'pending' },
+                { title: 'Testing & QA', description: 'Qualitätssicherung und Bugfixing', status: 'pending' },
+                { title: 'Launch-Vorbereitung', description: 'Domain, Hosting und Go-Live Planung', status: 'pending' },
+                { title: 'Go-Live', description: 'Website ist live und erreichbar', status: 'pending' }
+            ],
+            ecommerce: [
+                { title: 'Projekt-Kickoff', description: 'Erstes Meeting und Anforderungsanalyse', status: 'completed' },
+                { title: 'Konzeption abgeschlossen', description: 'Shop-Konzept und Produktstruktur stehen fest', status: 'pending' },
+                { title: 'Design-Review', description: 'Design-Vorschläge prüfen und freigeben', status: 'pending' },
+                { title: 'Produkt-Daten bereit', description: 'Alle Produkte und Kategorien sind erfasst', status: 'pending' },
+                { title: 'Zahlungsintegration', description: 'Payment-Provider und Checkout eingerichtet', status: 'pending' },
+                { title: 'Entwicklung abgeschlossen', description: 'Technische Implementierung fertiggestellt', status: 'pending' },
+                { title: 'Testing & QA', description: 'Qualitätssicherung und Bugfixing', status: 'pending' },
+                { title: 'Go-Live', description: 'Shop ist live und erste Bestellungen kommen rein', status: 'pending' }
+            ],
+            default: [
+                { title: 'Projekt-Kickoff', description: 'Erstes Meeting und Anforderungsanalyse', status: 'completed' },
+                { title: 'Konzeption', description: 'Projekt-Konzept steht fest', status: 'pending' },
+                { title: 'Design', description: 'Design-Phase abgeschlossen', status: 'pending' },
+                { title: 'Entwicklung', description: 'Implementierung fertiggestellt', status: 'pending' },
+                { title: 'Testing', description: 'Qualitätssicherung abgeschlossen', status: 'pending' },
+                { title: 'Launch', description: 'Projekt erfolgreich gestartet', status: 'pending' }
+            ]
+        };
+
+        const milestones = defaultMilestones[projectType as keyof typeof defaultMilestones] || defaultMilestones.default;
+
+        // Calculate due dates (spread evenly over 12 weeks from now)
+        const startDate = new Date();
+        const weekInMs = 7 * 24 * 60 * 60 * 1000;
+
+        const milestonesToInsert = milestones.map((milestone, index) => {
+            const dueDate = new Date(startDate.getTime() + (index * 2 * weekInMs));
+            return {
+                id: generateId(),
+                project_id: projectId,
+                title: milestone.title,
+                description: milestone.description,
+                status: milestone.status,
+                due_date: dueDate.toISOString(),
+                order_index: index,
+                created_at: new Date().toISOString()
+            };
+        });
+
+        const { data, error } = await supabase
+            .from('project_milestones')
+            .insert(milestonesToInsert)
+            .select();
+
+        return { data, error: handleSupabaseError(error) };
+    },
+
+    calculateProjectProgress: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Get all milestones for the project
+        const { data: milestones, error } = await supabase
+            .from('project_milestones')
+            .select('status')
+            .eq('project_id', projectId);
+
+        if (error) return { data: null, error: handleSupabaseError(error) };
+
+        if (!milestones || milestones.length === 0) {
+            return { data: { progress: 0 }, error: null };
+        }
+
+        // Calculate progress based on completed milestones
+        const completedCount = milestones.filter(m => m.status === 'completed').length;
+        const progress = Math.round((completedCount / milestones.length) * 100);
+
+        // Update project progress
+        const { error: updateError } = await supabase
+            .from('projects')
+            .update({ progress })
+            .eq('id', projectId);
+
+        if (updateError) return { data: null, error: handleSupabaseError(updateError) };
+
+        return { data: { progress }, error: null };
+    },
+
+    updateProjectStatusFromMilestones: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Get milestones with their order
+        const { data: milestones, error } = await supabase
+            .from('project_milestones')
+            .select('status, order_index')
+            .eq('project_id', projectId)
+            .order('order_index', { ascending: true });
+
+        if (error) return { data: null, error: handleSupabaseError(error) };
+
+        if (!milestones || milestones.length === 0) {
+            return { data: null, error: 'No milestones found' };
+        }
+
+        // Determine status based on milestone completion
+        const totalMilestones = milestones.length;
+        const completedMilestones = milestones.filter(m => m.status === 'completed').length;
+        const inProgressMilestones = milestones.filter(m => m.status === 'in_progress').length;
+        const completionRatio = completedMilestones / totalMilestones;
+
+        let newStatus: 'konzeption' | 'design' | 'entwicklung' | 'review' | 'launch' | 'active';
+
+        if (completionRatio === 1) {
+            newStatus = 'active';
+        } else if (completionRatio >= 0.8) {
+            newStatus = 'launch';
+        } else if (completionRatio >= 0.6) {
+            newStatus = 'review';
+        } else if (completionRatio >= 0.3) {
+            newStatus = 'entwicklung';
+        } else if (completionRatio >= 0.15 || inProgressMilestones > 0) {
+            newStatus = 'design';
+        } else {
+            newStatus = 'konzeption';
+        }
+
+        // Update project status
+        const { error: updateError } = await supabase
+            .from('projects')
+            .update({ status: newStatus })
+            .eq('id', projectId);
+
+        if (updateError) return { data: null, error: handleSupabaseError(updateError) };
+
+        return { data: { status: newStatus }, error: null };
+    },
+
+    getProjectById: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('projects')
+            .select('*')
+            .eq('id', projectId)
+            .eq('user_id', user.id)
+            .single();
+
+        return { data, error: handleSupabaseError(error) };
+    },
+
+    getProjectTeam: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('projects')
+            .select('user_id')
+            .eq('id', projectId)
+            .single();
+
+        if (error || !data) return { data: null, error: handleSupabaseError(error) };
+
+        // For now, return just the owner as team member
+        // This can be extended later when teams are fully implemented
+        const teamMembers = [
+            {
+                id: generateId(),
+                team_id: data.user_id,
+                member_id: data.user_id,
+                role: 'owner',
+                status: 'active',
+                invited_at: new Date().toISOString()
+            }
+        ];
+
+        return { data: teamMembers, error: null };
     }
 };
