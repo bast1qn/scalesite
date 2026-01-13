@@ -5,6 +5,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 // ============================================
 // TYPES & INTERFACES
@@ -101,16 +102,19 @@ export function IndustrySelector({
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-    // Filter industries based on search and category
+    // Debounce search query to improve performance
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+    // Filter industries based on search and category (with debounced search)
     const filteredIndustries = useMemo(() => {
         return INDUSTRIES.filter(industry => {
             const matchesSearch = industry.name
                 .toLowerCase()
-                .includes(searchQuery.toLowerCase());
+                .includes(debouncedSearchQuery.toLowerCase());
             const matchesCategory = selectedCategory === 'All' || industry.category === selectedCategory;
             return matchesSearch && matchesCategory;
         });
-    }, [searchQuery, selectedCategory]);
+    }, [debouncedSearchQuery, selectedCategory]);
 
     // Get selected industry name
     const selectedIndustry = INDUSTRIES.find(ind => ind.id === value);

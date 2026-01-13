@@ -1,8 +1,9 @@
 // Chat List Component
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Users, Plus, Search, MoreVertical } from 'lucide-react';
 import type { ChatConversationWithDetails } from '../../lib/chat';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 interface ChatListProps {
     conversations: ChatConversationWithDetails[];
@@ -22,16 +23,21 @@ export const ChatList = ({
     const [searchQuery, setSearchQuery] = useState('');
     const [filterType, setFilterType] = useState<'all' | 'direct' | 'group'>('all');
 
-    // Filter conversations based on search and type
-    const filteredConversations = conversations.filter(conv => {
-        const matchesSearch = searchQuery === '' ||
-            (conv.type === 'direct' && getDisplayName(conv, currentUserId).toLowerCase().includes(searchQuery.toLowerCase())) ||
-            (conv.type === 'group' && conv.name?.toLowerCase().includes(searchQuery.toLowerCase()));
+    // Debounce search query to improve performance
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-        const matchesType = filterType === 'all' || conv.type === filterType;
+    // Filter conversations based on search and type (memoized)
+    const filteredConversations = useMemo(() => {
+        return conversations.filter(conv => {
+            const matchesSearch = debouncedSearchQuery === '' ||
+                (conv.type === 'direct' && getDisplayName(conv, currentUserId).toLowerCase().includes(debouncedSearchQuery.toLowerCase())) ||
+                (conv.type === 'group' && conv.name?.toLowerCase().includes(debouncedSearchQuery.toLowerCase()));
 
-        return matchesSearch && matchesType;
-    });
+            const matchesType = filterType === 'all' || conv.type === filterType;
+
+            return matchesSearch && matchesType;
+        });
+    }, [conversations, debouncedSearchQuery, filterType, currentUserId]);
 
     return (
         <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700">

@@ -16,6 +16,7 @@ import {
     SearchIcon
 } from 'lucide-react';
 import { FunnelIcon } from '../Icons';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 /**
  * CampaignList Component
@@ -84,7 +85,10 @@ const CampaignList: React.FC<CampaignListProps> = ({
     const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Filter and search campaigns
+    // Debounce search query to improve performance
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+    // Filter and search campaigns (with debounced search)
     const filteredCampaigns = useMemo(() => {
         return campaigns.filter((campaign) => {
             // Status filter
@@ -92,9 +96,9 @@ const CampaignList: React.FC<CampaignListProps> = ({
                 return false;
             }
 
-            // Search query
-            if (searchQuery) {
-                const query = searchQuery.toLowerCase();
+            // Search query (using debounced value)
+            if (debouncedSearchQuery) {
+                const query = debouncedSearchQuery.toLowerCase();
                 return (
                     campaign.name.toLowerCase().includes(query) ||
                     campaign.subject.toLowerCase().includes(query)
@@ -103,7 +107,7 @@ const CampaignList: React.FC<CampaignListProps> = ({
 
             return true;
         });
-    }, [campaigns, filterStatus, searchQuery]);
+    }, [campaigns, filterStatus, debouncedSearchQuery]);
 
     // Statistics
     const stats = useMemo(() => {

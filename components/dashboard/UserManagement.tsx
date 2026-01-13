@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
 import { CustomSelect, PlusCircleIcon, XMarkIcon, BriefcaseIcon, CheckBadgeIcon, ArrowPathIcon, SparklesIcon } from '../index';
 import { api } from '../../lib';
 import { setDashboardLanguage, alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 type UserProfile = AppUser;
 
@@ -39,7 +40,10 @@ const UserManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
-    
+
+    // Debounce search term to improve performance
+    const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
     const [showProjectModal, setShowProjectModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
     const [availableServices, setAvailableServices] = useState<Service[]>([]);
@@ -98,11 +102,14 @@ const UserManagement = () => {
         setShowProjectModal(true);
     };
 
-    const filteredUsers = users.filter(u =>
-        (u.name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (u.email?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (u.company?.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    // Memoized filtered users with debounced search
+    const filteredUsers = useMemo(() => {
+        return users.filter(u =>
+            (u.name?.toLowerCase().includes(debouncedSearchTerm.toLowerCase())) ||
+            (u.email?.toLowerCase().includes(debouncedSearchTerm.toLowerCase())) ||
+            (u.company?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()))
+        );
+    }, [users, debouncedSearchTerm]);
 
     const getRoleBadgeColor = (role: string) => {
         switch(role) {

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, ThumbsUp, ThumbsDown, Star, Send, Filter, Search, TrendingUp, Bug, Lightbulb } from 'lucide-react';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 interface Feedback {
   id: string;
@@ -22,6 +23,9 @@ const FeedbackCollection: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState<'all' | Feedback['type']>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showNewFeedbackModal, setShowNewFeedbackModal] = useState(false);
+
+  // Debounce search query to improve performance
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   useEffect(() => {
     loadFeedbacks();
@@ -72,14 +76,18 @@ const FeedbackCollection: React.FC = () => {
     }
   };
 
-  const filteredFeedbacks = feedbacks.filter(feedback => {
-    const matchesStatus = filter === 'all' || feedback.status === filter;
-    const matchesType = typeFilter === 'all' || feedback.type === typeFilter;
-    const matchesSearch = searchQuery === '' ||
-      feedback.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      feedback.message.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesStatus && matchesType && matchesSearch;
-  });
+  // Memoized filtered feedbacks with debounced search
+  const filteredFeedbacks = useMemo(() => {
+    return feedbacks.filter(feedback => {
+      const matchesStatus = filter === 'all' || feedback.status === filter;
+      const matchesType = typeFilter === 'all' || feedback.type === typeFilter;
+      const matchesSearch = debouncedSearchQuery === '' ||
+        feedback.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+        feedback.message.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
+
+      return matchesStatus && matchesType && matchesSearch;
+    });
+  }, [feedbacks, filter, typeFilter, debouncedSearchQuery]);
 
   const stats = {
     total: feedbacks.length,

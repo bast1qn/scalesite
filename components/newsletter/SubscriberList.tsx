@@ -13,6 +13,7 @@ import {
     CalendarIcon
 } from 'lucide-react';
 import { FunnelIcon } from '../Icons';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 /**
  * SubscriberList Component
@@ -78,6 +79,9 @@ const SubscriberList: React.FC<SubscriberListProps> = ({
     const [importFile, setImportFile] = useState<File | null>(null);
     const [isImporting, setIsImporting] = useState(false);
 
+    // Debounce search query to improve performance
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
     // Filter, search, and sort subscribers
     const filteredSubscribers = useMemo(() => {
         return subscribers
@@ -87,9 +91,9 @@ const SubscriberList: React.FC<SubscriberListProps> = ({
                     return false;
                 }
 
-                // Search query
-                if (searchQuery) {
-                    const query = searchQuery.toLowerCase();
+                // Search query (using debounced value)
+                if (debouncedSearchQuery) {
+                    const query = debouncedSearchQuery.toLowerCase();
                     return (
                         subscriber.email.toLowerCase().includes(query) ||
                         (subscriber.name && subscriber.name.toLowerCase().includes(query))
@@ -126,7 +130,7 @@ const SubscriberList: React.FC<SubscriberListProps> = ({
                     return aVal < bVal ? 1 : -1;
                 }
             });
-    }, [subscribers, filterStatus, searchQuery, sortField, sortOrder]);
+    }, [subscribers, filterStatus, debouncedSearchQuery, sortField, sortOrder]);
 
     // Statistics
     const stats = useMemo(() => {

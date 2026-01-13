@@ -4,6 +4,7 @@ import { TeamMember, MemberCard } from './MemberCard';
 import { TeamInvite } from './TeamInvite';
 import { TeamRole } from './RoleBadge';
 import { TeamCardSkeleton } from '../skeleton';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 
 /**
  * TeamList Component
@@ -49,6 +50,9 @@ const TeamList: React.FC<TeamListProps> = ({
     const [showInviteForm, setShowInviteForm] = useState(false);
     const [isInviting, setIsInviting] = useState(false);
 
+    // Debounce search query to improve performance
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
     // Filter and search members
     const filteredMembers = useMemo(() => {
         return members.filter((member) => {
@@ -62,9 +66,9 @@ const TeamList: React.FC<TeamListProps> = ({
                 return false;
             }
 
-            // Search query
-            if (searchQuery) {
-                const query = searchQuery.toLowerCase();
+            // Search query (using debounced value)
+            if (debouncedSearchQuery) {
+                const query = debouncedSearchQuery.toLowerCase();
                 return (
                     member.name.toLowerCase().includes(query) ||
                     member.email.toLowerCase().includes(query)
@@ -73,7 +77,7 @@ const TeamList: React.FC<TeamListProps> = ({
 
             return true;
         });
-    }, [members, filterRole, filterStatus, searchQuery]);
+    }, [members, filterRole, filterStatus, debouncedSearchQuery]);
 
     // Member statistics
     const stats = useMemo(() => {
