@@ -1234,6 +1234,137 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
+    deleteContentGeneration: async (generationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('content_generations')
+            .delete()
+            .eq('id', generationId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    getContentGenerationById: async (generationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('content_generations')
+            .select('*')
+            .eq('id', generationId)
+            .eq('user_id', user.id)
+            .single();
+
+        return { data, error: handleSupabaseError(error) };
+    },
+
+    getContentGenerationsByProject: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('content_generations')
+            .select('*')
+            .eq('project_id', projectId)
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    toggleFavoriteContentGeneration: async (generationId: string, isFavorite: boolean) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('content_generations')
+            .update({ is_favorite: isFavorite })
+            .eq('id', generationId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    getFavoriteContentGenerations: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('content_generations')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('is_favorite', true)
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    saveContentGenerationToProject: async (generationId: string, projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Verify project ownership
+        const { data: project } = await supabase
+            .from('projects')
+            .select('id')
+            .eq('id', projectId)
+            .eq('user_id', user.id)
+            .single();
+
+        if (!project) {
+            return { data: null, error: 'Project not found or access denied' };
+        }
+
+        // Update content generation with project ID
+        const { error } = await supabase
+            .from('content_generations')
+            .update({ project_id: projectId })
+            .eq('id', generationId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    duplicateContentGeneration: async (generationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Get original content generation
+        const { data: original } = await supabase
+            .from('content_generations')
+            .select('*')
+            .eq('id', generationId)
+            .eq('user_id', user.id)
+            .single();
+
+        if (!original) {
+            return { data: null, error: 'Content generation not found' };
+        }
+
+        // Create duplicate
+        const { error } = await supabase.from('content_generations').insert({
+            id: generateId(),
+            user_id: user.id,
+            project_id: original.project_id,
+            type: original.type,
+            industry: original.industry,
+            keywords: original.keywords,
+            tone: original.tone,
+            prompt: original.prompt,
+            generated_content: original.generated_content,
+            selected_content: original.selected_content,
+            variations: original.variations,
+            status: 'completed',
+            is_favorite: false,
+            created_at: new Date().toISOString()
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
     // ============================================
     // TEAM MEMBERS (Feature 9)
     // ============================================
