@@ -81,7 +81,7 @@ export function OptimizedList<T>({
       return itemKey(item);
     }
     if (typeof item === 'object' && item !== null && itemKey in item) {
-      return String((item as any)[itemKey]);
+      return String((item as Record<string, unknown>)[itemKey]);
     }
     return `item-${index}`;
   }, [itemKey]);
@@ -172,7 +172,7 @@ export function OptimizedGrid<T>({
       return itemKey(item);
     }
     if (typeof item === 'object' && item !== null && itemKey in item) {
-      return String((item as any)[itemKey]);
+      return String((item as Record<string, unknown>)[itemKey]);
     }
     return `item-${index}`;
   }, [itemKey]);
@@ -242,7 +242,7 @@ export function useListOptimizer<T>(
       return itemKey(item);
     }
     if (typeof item === 'object' && item !== null && itemKey in item) {
-      return String((item as any)[itemKey]);
+      return String((item as Record<string, unknown>)[itemKey]);
     }
     return `item-${index}`;
   }, [itemKey]);

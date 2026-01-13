@@ -487,7 +487,7 @@ const BillingOverview: React.FC<BillingOverviewProps> = ({ className = '' }) => 
                             invoiceNumber: inv.invoice_number,
                             date: inv.issue_date,
                             dueDate: inv.due_date,
-                            status: inv.status as any,
+                            status: inv.status as 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled',
                             subtotal: inv.amount - inv.tax_amount - inv.discount_amount,
                             taxAmount: inv.tax_amount,
                             total: inv.amount,

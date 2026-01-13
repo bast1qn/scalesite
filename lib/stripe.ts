@@ -221,9 +221,9 @@ async function callStripeAPI(endpoint: string, data: Record<string, unknown> = {
         }
 
         return await response.json();
-    } catch (error: any) {
+    } catch (error: unknown) {
         if (error instanceof StripeError) throw error;
-        throw new StripeError(error.message || 'Failed to call Stripe API', 'api_error', 500);
+        throw new StripeError(error instanceof Error ? error.message : 'Failed to call Stripe API', 'api_error', 500);
     }
 }
 

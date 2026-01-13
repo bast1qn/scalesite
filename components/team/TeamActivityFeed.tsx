@@ -29,7 +29,10 @@ export type ActivityEventType =
     | 'invoice_paid'
     | 'settings_updated'
     | 'login'
-    | 'logout';
+    | 'logout'
+    | 'all';
+
+export type ActivityCategory = 'all' | 'team' | 'project' | 'billing' | 'system';
 
 export interface ActivityEvent {
     id: string;
@@ -44,7 +47,7 @@ export interface ActivityEvent {
     targetId?: string;
     targetName?: string;
     description?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
     createdAt: string;
 }
 
@@ -475,7 +478,7 @@ const TeamActivityFeed: React.FC<TeamActivityFeedProps> = ({
                         <div>
                             <select
                                 value={filterCategory}
-                                onChange={(e) => setFilterCategory(e.target.value as any)}
+                                onChange={(e) => setFilterCategory(e.target.value as ActivityCategory)}
                                 className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="all">All Categories</option>
@@ -490,7 +493,7 @@ const TeamActivityFeed: React.FC<TeamActivityFeedProps> = ({
                         <div>
                             <select
                                 value={filterType}
-                                onChange={(e) => setFilterType(e.target.value as any)}
+                                onChange={(e) => setFilterType(e.target.value as ActivityEventType)}
                                 className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="all">All Events</option>

@@ -71,14 +71,14 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
             if (projectId) {
                 // Update existing project
                 result = await api.updateProject(projectId, {
-                    config: config as any,
+                    config: config as Record<string, unknown>,
                     updated_at: new Date().toISOString()
                 });
             } else {
                 // Create new project
                 result = await api.createProject({
                     name: config.content.headline || 'Neues Projekt',
-                    config: config as any,
+                    config: config as Record<string, unknown>,
                     status: 'draft',
                     user_id: user.id
                 });

@@ -40,26 +40,26 @@ const LaunchControl: React.FC = () => {
   const [selectedView, setSelectedView] = useState<'overview' | 'monitoring' | 'feedback' | 'settings'>('overview');
 
   useEffect(() => {
+    const loadLaunchData = async () => {
+      setIsLoading(true);
+      try {
+        // Load launch configuration from localStorage
+        const savedPhase = localStorage.getItem('launchPhase');
+        const savedPhases = localStorage.getItem('launchPhases');
+        const savedStats = localStorage.getItem('launchStats');
+
+        if (savedPhase) setLaunchPhase(savedPhase as 'soft' | 'full');
+        if (savedPhases) setPhases(JSON.parse(savedPhases));
+        if (savedStats) setStats(JSON.parse(savedStats));
+      } catch (error) {
+        console.error('Error loading launch data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     loadLaunchData();
-  }, []);
-
-  const loadLaunchData = async () => {
-    setIsLoading(true);
-    try {
-      // Load launch configuration from localStorage
-      const savedPhase = localStorage.getItem('launchPhase');
-      const savedPhases = localStorage.getItem('launchPhases');
-      const savedStats = localStorage.getItem('launchStats');
-
-      if (savedPhase) setLaunchPhase(savedPhase as 'soft' | 'full');
-      if (savedPhases) setPhases(JSON.parse(savedPhases));
-      if (savedStats) setStats(JSON.parse(savedStats));
-    } catch (error) {
-      console.error('Error loading launch data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, []); // ✅ FIXED: Function moved inside useEffect
 
   const startSoftLaunch = async () => {
     const updatedPhases = phases.map(p =>
@@ -276,7 +276,7 @@ const LaunchControl: React.FC = () => {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setSelectedView(tab.id as any)}
+            onClick={() => setSelectedView(tab.id as 'overview' | 'monitoring' | 'feedback' | 'settings')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all font-medium ${
               selectedView === tab.id
                 ? 'bg-blue-500 text-white'
