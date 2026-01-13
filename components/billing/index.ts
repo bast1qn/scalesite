@@ -8,6 +8,9 @@ export { default as InvoiceList } from './InvoiceList';
 export { default as InvoiceDetail } from './InvoiceDetail';
 export { default as InvoicePDF } from './InvoicePDF';
 export { default as PaymentHistory } from './PaymentHistory';
+export { default as BillingOverview } from './BillingOverview';
+export { default as PaymentMethodManager } from './PaymentMethodManager';
+export { default as SubscriptionManager } from './SubscriptionManager';
 
 export type {
     InvoiceStatus,
