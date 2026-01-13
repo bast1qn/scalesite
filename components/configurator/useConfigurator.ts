@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '../../lib/api';
+import { getDefaultColors, getDefaultContent } from './Configurator';
 import type { ProjectConfig } from './Configurator';
 
 interface UseConfiguratorReturn {
@@ -144,7 +145,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             features: []
         });
         setError(null);
-    }, []);
+    }, [getDefaultColors, getDefaultContent]);
 
     // Auto-load config if projectId provided
     useEffect(() => {
@@ -169,27 +170,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
 // ============================================
 // HELPER FUNCTIONS
 // ============================================
-
-/**
- * Get default color palette
- */
-export const getDefaultColors = () => ({
-    primary: '#6366f1',
-    secondary: '#8b5cf6',
-    accent: '#ec4899',
-    background: '#ffffff',
-    text: '#1f2937'
-});
-
-/**
- * Get default content
- */
-export const getDefaultContent = () => ({
-    headline: 'Ihr Erfolg beginnt hier',
-    subheadline: 'Professionelle Websites für Ihr Business',
-    aboutText: 'Wir sind Ihr Partner für professionelle Webseiten-Lösungen.',
-    services: ['Web Design', 'Entwicklung', 'SEO']
-});
 
 /**
  * Validate configuration before saving

@@ -1,9 +1,18 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext, useLanguage } from '../../contexts';
-import { CheckBadgeIcon, PlusCircleIcon, XMarkIcon, TicketIcon, ArrowRightIcon, ClockIcon, BriefcaseIcon, ShieldCheckIcon } from '../Icons';
-import { api } from '../../lib';
 import type { DashboardView } from '../../pages/DashboardPage';
+import { api } from '../../lib';
+import {
+    ArrowRightIcon,
+    BriefcaseIcon,
+    CheckBadgeIcon,
+    ClockIcon,
+    PlusCircleIcon,
+    ShieldCheckIcon,
+    TicketIcon,
+    XMarkIcon
+} from '../Icons';
 
 interface Service {
     id: number;
@@ -55,6 +64,10 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
         fetchData();
     }, [user]);
 
+    /**
+     * Fetches both available services and user's booked services
+     * Safely casts and validates API responses to prevent runtime errors
+     */
     const fetchData = async () => {
         if (!user) return;
         setLoading(true);
@@ -99,14 +112,13 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
 
     const handleConfirmBooking = async () => {
         if (!user || !bookingModal.serviceId) return;
-        
+
         setBookingModal(prev => ({ ...prev, step: 'processing' }));
-        
+
         try {
              const { data } = await api.bookService(bookingModal.serviceId);
-             if(data.success) {
+             if (data.success) {
                  setBookingModal(prev => ({ ...prev, step: 'success' }));
-                 // Refresh list in background
                  fetchData();
              } else {
                  throw new Error("Unbekannter Fehler");

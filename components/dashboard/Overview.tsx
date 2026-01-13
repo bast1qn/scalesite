@@ -12,17 +12,17 @@ import type { DashboardView } from '../../pages/DashboardPage';
 
 // Components
 import {
-    PlusCircleIcon,
-    TicketIcon,
-    BriefcaseIcon,
-    ShieldCheckIcon,
     ArrowRightIcon,
+    BellIcon,
+    BriefcaseIcon,
+    CalendarDaysIcon,
     ClockIcon,
     CreditCardIcon,
-    ServerIcon,
-    CalendarDaysIcon,
     LightBulbIcon,
-    BellIcon
+    PlusCircleIcon,
+    ServerIcon,
+    ShieldCheckIcon,
+    TicketIcon
 } from '../Icons';
 
 interface Project {
@@ -53,6 +53,11 @@ const TIME_CONSTANTS = {
     STORAGE_KEY: 'scalesite_onboarding_draft'
 } as const;
 
+/**
+ * Formats a timestamp as a human-readable "time ago" string in German
+ * @param date - The date to format
+ * @returns Formatted string like "vor 5 Minuten" or "Gerade eben"
+ */
 const getTimeAgo = (date: Date): string => {
     const now = new Date();
     // Validate date
@@ -106,7 +111,10 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     ];
     const [tipOfTheDay] = useState(tips[Math.floor(Math.random() * tips.length)]);
 
-    // Memoized getStatusBadge function to prevent recreation on every render
+    /**
+     * Memoized function to render status badge for projects
+     * Prevents recreation on every render for performance
+     */
     const getStatusBadge = useCallback((status: Project['status']) => {
         switch (status) {
             case 'pending': return (
@@ -277,6 +285,10 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         return () => { isMounted = false; };
     }, [user]);
 
+    /**
+     * Reusable KPI card component for dashboard metrics
+     * Supports optional click handling for navigation
+     */
     const KPICard = useCallback(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => {
         return (
         <div

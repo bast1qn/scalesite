@@ -7,14 +7,14 @@
 import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
 
 // Third-party imports
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // Component imports
 import { ColorPalettePicker } from './ColorPalettePicker';
-import { LayoutSelector } from './LayoutSelector';
 import { ContentEditor } from './ContentEditor';
-import { PreviewFrame } from './PreviewFrame';
 import { DeviceToggle } from './DeviceToggle';
+import { LayoutSelector } from './LayoutSelector';
+import { PreviewFrame } from './PreviewFrame';
 
 // ============================================
 // TYPES & INTERFACES
@@ -104,12 +104,28 @@ const DEFAULT_COLOR_PALETTES: ColorPalette[] = [
     }
 ];
 
-const INITIAL_CONTENT: ContentConfig = {
+export const INITIAL_CONTENT: ContentConfig = {
     headline: 'Ihr Erfolg beginnt hier',
     subheadline: 'Professionelle Websites für Ihr Business',
     aboutText: 'Wir sind Ihr Partner für professionelle Webseiten-Lösungen.',
     services: ['Web Design', 'Entwicklung', 'SEO']
 };
+
+/**
+ * Get default color palette
+ */
+export const getDefaultColors = () => ({
+    primary: '#6366f1',
+    secondary: '#8b5cf6',
+    accent: '#ec4899',
+    background: '#ffffff',
+    text: '#1f2937'
+});
+
+/**
+ * Get default content
+ */
+export const getDefaultContent = () => INITIAL_CONTENT;
 
 const getInitialState = (initialConfig?: Partial<ProjectConfig>): ProjectConfig => ({
     colors: initialConfig?.colors || DEFAULT_COLOR_PALETTES[0],
