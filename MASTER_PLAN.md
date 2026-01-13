@@ -13,6 +13,8 @@
 | 4 | Configurator | ⏳ PENDING | - |
 | 5 | Onboarding | ✅ COMPLETED | 2026-01-13 |
 | 6 | Onboarding | ✅ COMPLETED | 2026-01-13 |
+| 7 | Pricing | ✅ COMPLETED | 2026-01-13 |
+| 8 | Pricing | ⏳ PENDING | - |
 | ... | ... | ... | ... |
 
 ---
@@ -298,51 +300,84 @@
 ## WOCHE 7: Intelligent Pricing System - Foundation
 
 ### Status
-- **Status**: ⏳ PENDING
-- **Abhängigkeiten**: Woche 1-6 completed
+- **Status**: ✅ COMPLETED
+- **Abgeschlossen**: 2026-01-13
 
-### Aufgaben
+### Aufgaben (Alle erledigt)
 
-#### 1. Pricing Components Structure
-- [ ] components/pricing/ Verzeichnis erstellen
-- [ ] PricingCalculator.tsx (Main Container)
-  - State Management
-  - Real-time Calculations
+#### 1. Pricing Components Structure ✅
+- ✅ components/pricing/ Verzeichnis erstellt
+- ✅ PricingCalculator.tsx (340 Zeilen)
+  - State Management (useState, useEffect, useMemo)
+  - Real-time Calculations via lib/pricing.ts
   - LocalStorage Persistence
+  - Quantity Input mit +/- Buttons
+  - Discount Code Validation
 
-#### 2. Feature Toggle
-- [ ] FeatureToggle.tsx
-  - Available Services List
-  - Feature Add/Remove
-  - Visual Feedback
+#### 2. Feature Toggle ✅
+- ✅ FeatureToggle.tsx (365 Zeilen)
+  - Available Services List (13 Features)
+  - Feature Add/Remove mit Toggle
+  - Visual Feedback (Hover, Selected, Disabled)
   - Pricing Impact Display
+  - Grid/List Layout Option
+  - Kategorie-Gruppierung
+  - Max Selections Support
 
-#### 3. Volume Discount
-- [ ] VolumeDiscount.tsx
-  - Quantity Input
-  - Discount Tiers Display
+#### 3. Volume Discount ✅
+- ✅ VolumeDiscount.tsx (290 Zeilen)
+  - Quantity Input mit Quick-Add Buttons
+  - Discount Tiers Display (4 Stufen: 10%, 20%, 30%, 40%)
   - Progress Bar für Savings
   - Breakdown Visualization
+  - Next Tier Calculation
+  - Editable/Read-only Mode
 
-#### 4. Price Breakdown
-- [ ] PriceBreakdown.tsx
-  - Line Items
-  - Subtotal
-  - Discounts
-  - Tax
-  - Total
+#### 4. Price Breakdown ✅
+- ✅ PriceBreakdown.tsx (285 Zeilen)
+  - Line Items mit Aufschlüsselung
+  - Subtotal, Discounts, Tax, Total
+  - Savings Banner
+  - 3 Varianten (default, card, minimal)
+  - Compact Mode
+  - Per Unit Preis
 
 ### Auslieferung
-- [ ] PricingCalculator Component
-- [ ] FeatureToggle Component
-- [ ] VolumeDiscount Component
-- [ ] PriceBreakdown Component
+- ✅ PricingCalculator Component (340 Zeilen)
+- ✅ FeatureToggle Component (365 Zeilen)
+- ✅ VolumeDiscount Component (290 Zeilen)
+- ✅ PriceBreakdown Component (285 Zeilen)
+- ✅ index.ts Export Datei
+- ✅ README.md Dokumentation
 
 ### Dateien
-- components/pricing/PricingCalculator.tsx
-- components/pricing/FeatureToggle.tsx
-- components/pricing/VolumeDiscount.tsx
-- components/pricing/PriceBreakdown.tsx
+- ✅ components/pricing/PricingCalculator.tsx
+- ✅ components/pricing/FeatureToggle.tsx
+- ✅ components/pricing/VolumeDiscount.tsx
+- ✅ components/pricing/PriceBreakdown.tsx
+- ✅ components/pricing/index.ts
+- ✅ components/pricing/README.md
+- ✅ components/index.ts (aktualisiert)
+
+### Zusammenfassung Woche 7
+- **Neuer Code**: 1.280 Zeilen in 4 Hauptkomponenten
+- **Features**:
+  - Volle Integration mit lib/pricing.ts
+  - 13 verfügbare Features mit Preisen
+  - 4 Discount-Tiers (5-50 Einheiten)
+  - 5 aktive Discount-Codes
+  - LocalStorage Persistenz
+  - Multi-Währung Support
+  - Multi-Language Support (DE/EN)
+  - Dark Mode Support
+  - Responsive Design
+- **Build Status**: ✅ Erfolgreich (0 TypeScript Errors)
+
+### Nächste Schritte (Woche 8)
+- ⚠️ TimeLimitedOffer Komponente
+- ⚠️ DiscountCodeInput Komponente
+- ⚠️ Integration mit PricingSection
+- ⚠️ Analytics Tracking
 
 ---
 

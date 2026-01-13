@@ -28,6 +28,7 @@ export { NotOfferedSection } from './NotOfferedSection';
 // Pricing & Offer
 export { PricingSection } from './PricingSection';
 export { OfferCalculator } from './OfferCalculator';
+export * from './pricing';
 
 // Projects & Showcase
 export { ShowcaseSection } from './ShowcaseSection';
