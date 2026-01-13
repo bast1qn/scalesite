@@ -32,13 +32,18 @@ import type {
 } from './types';
 
 // Simple in-memory cache for API responses (prevents duplicate requests)
-const apiCache = new Map<string, { data: any; timestamp: number }>();
+interface CacheEntry<T> {
+    data: T;
+    timestamp: number;
+}
+
+const apiCache = new Map<string, CacheEntry<unknown>>();
 const CACHE_TTL = 5000; // 5 seconds cache
 
 const getCached = <T>(key: string): T | null => {
-    const cached = apiCache.get(key);
+    const cached = apiCache.get(key) as CacheEntry<T> | undefined;
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-        return cached.data as T;
+        return cached.data;
     }
     return null;
 };
@@ -131,7 +136,7 @@ export const api = {
 
     getServices: async () => {
         // Check cache first to prevent duplicate requests
-        const cached = getCached<any[]>('services_all');
+        const cached = getCached<Service[]>('services_all');
         if (cached) return { data: cached, error: null };
 
         const { data, error } = await supabase
@@ -1064,8 +1069,8 @@ export const api = {
         description?: string;
         industry?: string;
         service_id?: number;
-        config?: Record<string, any>;
-        content?: Record<string, any>;
+        config?: Record<string, unknown>;
+        content?: Record<string, unknown>;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -1142,7 +1147,7 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    updateProjectConfig: async (projectId: string, config: Record<string, any>) => {
+    updateProjectConfig: async (projectId: string, config: Record<string, unknown>) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 
@@ -1155,7 +1160,7 @@ export const api = {
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
 
-    updateProjectContent: async (projectId: string, content: Record<string, any>) => {
+    updateProjectContent: async (projectId: string, content: Record<string, unknown>) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
 

@@ -6,6 +6,7 @@ import { translations } from '../lib/translations';
 import { useChatScroll } from '../lib/hooks';
 
 interface Message {
+    id: string;
     role: 'user' | 'model';
     text: string;
 }
@@ -28,7 +29,7 @@ export const ChatWidget = () => {
     // Initialize messages when language changes or on mount
     useEffect(() => {
         setMessages([
-            { role: 'model', text: t('chat_widget.welcome_message') }
+            { id: 'welcome', role: 'model', text: t('chat_widget.welcome_message') }
         ]);
     }, [language, t]); // Added t to dependencies - t function comes from useLanguage context
 
@@ -51,12 +52,15 @@ export const ChatWidget = () => {
         const userMessage = text.trim();
 
         if (userMessage.length > 500) {
-             setMessages(prev => [...prev, { role: 'user', text: userMessage }, { role: 'model', text: t('chat_widget.error_too_long') }]);
+             setMessages(prev => [...prev,
+               { id: `user-${Date.now()}`, role: 'user', text: userMessage },
+               { id: `error-${Date.now()}`, role: 'model', text: t('chat_widget.error_too_long') }
+             ]);
              forceScroll();
              return;
         }
 
-        setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+        setMessages(prev => [...prev, { id: `user-${Date.now()}`, role: 'user', text: userMessage }]);
         forceScroll();
         setIsLoading(true);
 
@@ -86,10 +90,10 @@ export const ChatWidget = () => {
                     : 'Hello! Welcome to ScaleSite. How can I help you today? You can ask me about our services, pricing, or support topics.';
             }
 
-            setMessages(prev => [...prev, { role: 'model', text: responseText }]);
+            setMessages(prev => [...prev, { id: `model-${Date.now()}`, role: 'model', text: responseText }]);
 
         } catch (error) {
-            setMessages(prev => [...prev, { role: 'model', text: t('chat_widget.error_connection') }]);
+            setMessages(prev => [...prev, { id: `error-conn-${Date.now()}`, role: 'model', text: t('chat_widget.error_connection') }]);
         } finally {
             setIsLoading(false);
         }
@@ -149,9 +153,9 @@ export const ChatWidget = () => {
                 >
                      <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none"></div>
 
-                    {messages.map((msg, idx) => (
+                    {messages.map((msg) => (
                         <div
-                            key={`${msg.role}-${idx}-${msg.text.slice(0, 20)}`}
+                            key={msg.id}
                             className={`flex w-full z-10 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
@@ -170,9 +174,9 @@ export const ChatWidget = () => {
                     {messages.length === 1 && !isLoading && (
                         <div className="grid grid-cols-1 gap-2 mt-3 animate-fade-in z-10">
                             <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider ml-1 mb-1.5">{t('chat_widget.frequent_questions')}</p>
-                            {suggestions.map((question, index) => (
+                            {suggestions.map((question) => (
                                 <button
-                                    key={`suggestion-${question.slice(0, 15)}-${index}`}
+                                    key={`suggestion-${question.slice(0, 30).replace(/\s/g, '-')}`}
                                     onClick={() => handleSuggestionClick(question)}
                                     className="text-left text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 hover:bg-blue-50 dark:hover:bg-blue-950/30 hover:border-blue-300/60 dark:hover:border-blue-600/40 text-slate-600 dark:text-slate-300 px-3 py-2.5 rounded-lg transition-all duration-150 shadow-sm hover:shadow-md active:scale-[0.98]"
                                 >

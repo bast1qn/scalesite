@@ -7,10 +7,10 @@ interface HeroProps {
 }
 
 const guarantees = [
-  { text: '48h Lieferung', icon: 'lightning' },
-  { text: '30 Tage Geld-zurück', icon: 'shield' },
-  { text: 'Alles inklusive', icon: 'sparkle' },
-];
+  { id: 'lightning', text: '48h Lieferung', icon: 'lightning' },
+  { id: 'shield', text: '30 Tage Geld-zurück', icon: 'shield' },
+  { id: 'sparkle', text: 'Alles inklusive', icon: 'sparkle' },
+] as const;
 
 // Memoized icons for guarantees to prevent recreation on every render
 const LightningIcon = memo(() => (
@@ -272,8 +272,8 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`flex flex-wrap items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-500 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '400ms' }}
         >
-          {guarantees.map((g, i) => (
-            <SpotlightCard key={i} className="inline-block">
+          {guarantees.map((g) => (
+            <SpotlightCard key={g.id} className="inline-block">
               <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
                 <span className="text-primary-500 dark:text-violet-400">
                   {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}

@@ -40,7 +40,7 @@ export interface CreateNotificationInput {
  */
 export const createNotification = async (
     input: CreateNotificationInput
-): Promise<{ data: Notification | null; error: any }> => {
+): Promise<{ data: Notification | null; error: Error | null }> => {
     try {
         const { data, error } = await supabase
             .from('notifications')
@@ -58,9 +58,9 @@ export const createNotification = async (
             .select()
             .single();
 
-        return { data, error };
+        return { data, error: error || null };
     } catch (error) {
-        return { data: null, error };
+        return { data: null, error: error instanceof Error ? error : new Error(String(error)) };
     }
 };
 
@@ -274,7 +274,7 @@ export const broadcastNotification = async (
     message: string,
     type: NotificationType = 'info',
     link?: string
-): Promise<{ data: Notification[] | null; error: any }> => {
+): Promise<{ data: Notification[] | null; error: Error | null }> => {
     try {
         // Get all user IDs
         const { data: profiles, error: profilesError } = await supabase
@@ -284,7 +284,7 @@ export const broadcastNotification = async (
         if (profilesError) throw profilesError;
 
         if (!profiles || profiles.length === 0) {
-            return { data: null, error: 'No users found' };
+            return { data: null, error: new Error('No users found') };
         }
 
         // Create notifications for all users
@@ -302,9 +302,9 @@ export const broadcastNotification = async (
             .insert(notifications)
             .select();
 
-        return { data, error };
+        return { data, error: error || null };
     } catch (error) {
-        return { data: null, error };
+        return { data: null, error: error instanceof Error ? error : new Error(String(error)) };
     }
 };
 
@@ -317,7 +317,7 @@ export const sendBulkNotification = async (
     message: string,
     type: NotificationType = 'info',
     link?: string
-): Promise<{ data: Notification[] | null; error: any }> => {
+): Promise<{ data: Notification[] | null; error: Error | null }> => {
     try {
         const notifications = userIds.map((userId) => ({
             user_id: userId,
@@ -333,9 +333,9 @@ export const sendBulkNotification = async (
             .insert(notifications)
             .select();
 
-        return { data, error };
+        return { data, error: error || null };
     } catch (error) {
-        return { data: null, error };
+        return { data: null, error: error instanceof Error ? error : new Error(String(error)) };
     }
 };
 

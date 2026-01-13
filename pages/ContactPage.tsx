@@ -31,25 +31,25 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
         const messageValidation = validateString(rawMessage, { minLength: 10, maxLength: 5000 });
 
         if (!nameValidation.isValid) {
-            setError(t('general.error') + ': ' + (nameValidation.errors[0] || 'Invalid name'));
+            setError(t('general.error') + ': ' + (nameValidation.errors[0] ?? 'Invalid name'));
             setLoading(false);
             return;
         }
 
         if (!emailValidation.isValid) {
-            setError(t('general.error') + ': ' + (emailValidation.errors[0] || 'Invalid email'));
+            setError(t('general.error') + ': ' + (emailValidation.errors[0] ?? 'Invalid email'));
             setLoading(false);
             return;
         }
 
         if (!subjectValidation.isValid) {
-            setError(t('general.error') + ': ' + (subjectValidation.errors[0] || 'Invalid subject'));
+            setError(t('general.error') + ': ' + (subjectValidation.errors[0] ?? 'Invalid subject'));
             setLoading(false);
             return;
         }
 
         if (!messageValidation.isValid) {
-            setError(t('general.error') + ': ' + (messageValidation.errors[0] || 'Invalid message'));
+            setError(t('general.error') + ': ' + (messageValidation.errors[0] ?? 'Invalid message'));
             setLoading(false);
             return;
         }
