@@ -49,34 +49,34 @@ const PricingCard = ({
             onMouseLeave={() => setIsHovered(false)}
         >
             <div
-                className={`relative flex flex-col p-8 rounded-2xl transition-all duration-300 overflow-hidden cursor-pointer ${
+                className={`relative flex flex-col p-6 rounded-2xl transition-all duration-300 ease-out overflow-hidden cursor-pointer ${
                     pkg.popular
-                    ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-lg lg:-translate-y-2'
-                    : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-violet-500 hover:shadow-md hover:-translate-y-1'
+                    ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-xl lg:-translate-y-1 ring-1 ring-primary/50'
+                    : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5'
                 }`}
                 onClick={() => onClick(pkg)}
             >
                 {/* Popular badge */}
                 {pkg.popular && (
-                     <div className="absolute -top-3 left-0 right-0 flex justify-center z-10">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-blue-600 to-violet-600 text-white uppercase tracking-wider shadow-md">
-                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                     <div className="absolute -top-2.5 left-0 right-0 flex justify-center z-10">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-primary to-violet-600 text-white uppercase tracking-wider shadow-md">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                             {t('pricing.popular')}
                         </span>
                     </div>
                 )}
 
-                <div className="mb-6">
-                    <h3 className={`text-xl font-bold ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
+                <div className="mb-5 mt-2">
+                    <h3 className={`text-lg font-semibold ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
                         {pkg.name}
                     </h3>
-                    <p className={`mt-2 text-sm leading-relaxed ${pkg.popular ? 'text-slate-400' : 'text-slate-600 dark:text-slate-400'}`}>
+                    <p className={`mt-1.5 text-sm leading-relaxed ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
                         {pkg.description}
                     </p>
                 </div>
 
-                <div className="flex items-baseline gap-1 mb-6">
-                    <span className={`text-5xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600'}`}>
+                <div className="flex items-baseline gap-1 mb-5">
+                    <span className={`text-4xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-violet-600'}`}>
                         {pkg.price}
                     </span>
                     <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
@@ -84,19 +84,19 @@ const PricingCard = ({
                     </span>
                 </div>
 
-                <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700' : 'bg-slate-200 dark:bg-slate-700'}`}></div>
+                <div className={`h-px w-full mb-5 ${pkg.popular ? 'bg-slate-700/50' : 'bg-slate-200 dark:bg-slate-700/50'}`}></div>
 
-                <ul className="space-y-3 flex-grow mb-8">
+                <ul className="space-y-2.5 flex-grow mb-6">
                     {pkg.features.map((feature: string) => (
-                        <li key={feature} className="flex items-start gap-3">
-                            <div className={`flex-shrink-0 w-5 h-5 rounded-lg flex items-center justify-center ${
+                        <li key={feature} className="flex items-start gap-2.5">
+                            <div className={`flex-shrink-0 w-4 h-4 rounded-md flex items-center justify-center ${
                                 pkg.popular
-                                ? 'bg-blue-500/20 text-blue-400'
-                                : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                ? 'bg-primary/20 text-primary-300'
+                                : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-400'
                             }`}>
-                                <CheckBadgeIcon className="w-3 h-3" />
+                                <CheckBadgeIcon className="w-2.5 h-2.5" />
                             </div>
-                            <span className={`text-sm ${pkg.popular ? 'text-slate-300' : 'text-slate-700 dark:text-slate-300'}`}>
+                            <span className={`text-sm leading-relaxed ${pkg.popular ? 'text-slate-300' : 'text-slate-600 dark:text-slate-300'}`}>
                                 {feature}
                             </span>
                         </li>
@@ -105,17 +105,17 @@ const PricingCard = ({
 
                 <button
                     onClick={(e) => { e.stopPropagation(); onClick(pkg); }}
-                    className={`w-full py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                    className={`w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                         pkg.popular
-                        ? 'bg-white text-slate-900 hover:bg-gray-100 shadow-md'
-                        : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-500 hover:to-violet-500 shadow-md hover:shadow-lg'
+                        ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg active:scale-[0.98]'
+                        : 'bg-gradient-to-r from-primary to-violet-600 text-white hover:from-primary/90 hover:to-violet-600/90 shadow-md hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98]'
                     }`}
                 >
                     {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
                 </button>
 
                 {/* Trust footer */}
-                 <div className={`mt-5 flex items-center justify-center gap-2 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
+                 <div className={`mt-4 flex items-center justify-center gap-1.5 text-xs ${pkg.popular ? 'text-slate-400' : 'text-slate-400'}`}>
                     <ShieldCheckIcon className="w-3.5 h-3.5 text-emerald-500" />
                     <span>48h Lieferung • Garantie</span>
                  </div>
@@ -245,7 +245,7 @@ ${message}
     <section className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
       {/* Subtle background pattern */}
       <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04]"
         style={{
           backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
           backgroundSize: '40px 40px',
@@ -253,50 +253,50 @@ ${message}
       ></div>
 
       {/* Subtle gradient accent */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-transparent pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/4 via-transparent to-transparent pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <AnimatedSection>
           <div className="text-center max-w-3xl mx-auto">
             {/* Trust Badge */}
-            <div className="mb-8 inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-800/40">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-              <ShieldCheckIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-                30 Tage Geld-zuruck Garantie
+            <div className="mb-7 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/50 dark:border-emerald-800/30">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+              <ShieldCheckIcon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide">
+                30 Tage Geld-zurück Garantie
               </span>
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
               {t('pricing.title_prefix')}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-violet-600">
                 {t('pricing.title_highlight')}
               </span>
             </h2>
-            <p className="mt-6 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-5 text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               {t('pricing.subtitle')}
             </p>
           </div>
 
           {/* Toggle */}
-          <div className="mt-12 flex justify-center">
-              <div className="relative inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-700">
+          <div className="mt-11 flex justify-center">
+              <div className="relative inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200/60 dark:border-slate-700/50">
                 <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                         !withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                 >
                     {t('pricing.toggle_project')}
                 </button>
                 <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                         withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                 >
                      {t('pricing.toggle_service')}
@@ -306,9 +306,9 @@ ${message}
 
           {/* Limited offer banner */}
           {isOfferActive && (
-              <div className="mt-8 max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-center gap-3 shadow-sm border border-slate-200 dark:border-slate-700">
-                  <div className="flex items-center gap-2 font-semibold text-blue-600 dark:text-blue-400 text-sm">
-                      <TagIcon className="w-4 h-4" />
+              <div className="mt-7 max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-center gap-3 shadow-sm border border-slate-200/60 dark:border-slate-700/50">
+                  <div className="flex items-center gap-1.5 font-semibold text-primary dark:text-primary-400 text-sm">
+                      <TagIcon className="w-3.5 h-3.5" />
                       <span>{t('pricing.offer')}</span>
                   </div>
                   <CountdownTimer targetDate={offerEndDate} onComplete={() => setIsOfferActive(false)} />

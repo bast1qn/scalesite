@@ -75,12 +75,12 @@ export const AnimatedSection = ({
       visible: {
         opacity: 1,
         transition: {
-          duration: 0.6,
+          duration: 0.5,
           delay: delay * 0.001,
-          ease: easings.smooth,
+          ease: [0.25, 0.1, 0.25, 1],
           ...(stagger && {
-            staggerChildren: 0.1,
-            delayChildren: 0.1,
+            staggerChildren: 0.08,
+            delayChildren: 0.05,
           }),
         },
       },
@@ -88,15 +88,15 @@ export const AnimatedSection = ({
 
     switch (direction) {
       case 'up':
-        return { hidden: { ...baseVariants.hidden, y: 50, scale: 0.98 }, visible: { ...baseVariants.visible, y: 0, scale: 1 } };
+        return { hidden: { ...baseVariants.hidden, y: 40, scale: 0.98 }, visible: { ...baseVariants.visible, y: 0, scale: 1 } };
       case 'down':
-        return { hidden: { ...baseVariants.hidden, y: -50, scale: 0.98 }, visible: { ...baseVariants.visible, y: 0, scale: 1 } };
+        return { hidden: { ...baseVariants.hidden, y: -40, scale: 0.98 }, visible: { ...baseVariants.visible, y: 0, scale: 1 } };
       case 'left':
-        return { hidden: { ...baseVariants.hidden, x: 50, scale: 0.98 }, visible: { ...baseVariants.visible, x: 0, scale: 1 } };
+        return { hidden: { ...baseVariants.hidden, x: 40, scale: 0.98 }, visible: { ...baseVariants.visible, x: 0, scale: 1 } };
       case 'right':
-        return { hidden: { ...baseVariants.hidden, x: -50, scale: 0.98 }, visible: { ...baseVariants.visible, x: 0, scale: 1 } };
+        return { hidden: { ...baseVariants.hidden, x: -40, scale: 0.98 }, visible: { ...baseVariants.visible, x: 0, scale: 1 } };
       case 'scale':
-        return { hidden: { ...baseVariants.hidden, scale: 0.9 }, visible: { ...baseVariants.visible, scale: 1 } };
+        return { hidden: { ...baseVariants.hidden, scale: 0.95 }, visible: { ...baseVariants.visible, scale: 1 } };
       case 'none':
       default:
         return baseVariants;
@@ -165,7 +165,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
       opacity: 1,
       transition: {
         staggerChildren: staggerDelay,
-        delayChildren: 0.1,
+        delayChildren: 0.05,
       },
     },
   };
@@ -189,8 +189,8 @@ export const StaggerItem = ({ children, className = '', delay = 0 }: {
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 30, scale: 0.98 },
-        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, delay, ease: easings.smooth } },
+        hidden: { opacity: 0, y: 24, scale: 0.98 },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, delay, ease: [0.25, 0.1, 0.25, 1] } },
       }}
       className={className}
     >

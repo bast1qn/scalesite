@@ -74,7 +74,7 @@ export const BeforeAfterSlider = ({
 
   return (
     <div
-      className="relative w-full aspect-[4/3] md:aspect-video rounded-3xl overflow-hidden select-none shadow-xl dark:shadow-black/60 border border-slate-200/50 dark:border-white/10 group cursor-ew-resize transition-shadow duration-500 hover:shadow-2xl hover:shadow-blue-500/10"
+      className="relative w-full aspect-[4/3] md:aspect-video rounded-2xl overflow-hidden select-none shadow-lg dark:shadow-black/40 border border-slate-200/60 dark:border-white/8 group cursor-ew-resize transition-all duration-500 hover:shadow-xl hover:shadow-primary/8"
       ref={containerRef}
       onMouseDown={handleMouseDown}
       onTouchStart={handleMouseDown}
@@ -83,19 +83,19 @@ export const BeforeAfterSlider = ({
       <img
         src={afterImage}
         alt="Nachher"
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         draggable={false}
       />
       {/* Subtle overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/6 via-transparent to-transparent pointer-events-none"></div>
 
-      <div className="absolute top-5 right-5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm text-slate-900 dark:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg dark:shadow-black/50 pointer-events-none transition-all duration-300 group-hover:scale-105">
+      <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-900 dark:text-white px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-wide shadow-md dark:shadow-black/30 pointer-events-none transition-all duration-300 group-hover:scale-105 group-hover:bg-white/95">
         {afterLabel}
       </div>
 
       {/* Before Image (Clipped) */}
       <div
-        className="absolute inset-0 overflow-hidden transition-all duration-75 ease-out"
+        className="absolute inset-0 overflow-hidden transition-all duration-100 ease-out"
         style={{ width: `${sliderPosition}%` }}
       >
         <img
@@ -106,22 +106,30 @@ export const BeforeAfterSlider = ({
           draggable={false}
         />
         {/* Subtle desaturated overlay to emphasize difference */}
-        <div className="absolute inset-0 bg-slate-500/10 mix-blend-multiply pointer-events-none"></div>
+        <div className="absolute inset-0 bg-slate-400/8 mix-blend-multiply pointer-events-none"></div>
 
-        <div className="absolute top-5 left-5 bg-slate-900/95 dark:bg-slate-900/95 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg dark:shadow-black/50 pointer-events-none transition-all duration-300">
+        <div className="absolute top-4 left-4 bg-slate-900/90 dark:bg-slate-900/90 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-wide shadow-md dark:shadow-black/30 pointer-events-none transition-all duration-300">
           {beforeLabel}
         </div>
       </div>
 
       {/* Slider Line */}
       <div
-        className="absolute top-0 bottom-0 w-[2px] bg-white dark:bg-white/80 cursor-ew-resize z-10 shadow-lg"
+        className="absolute top-0 bottom-0 w-[1.5px] bg-white dark:bg-white/70 cursor-ew-resize z-10 shadow-sm"
         style={{ left: `${sliderPosition}%` }}
       >
         {/* Slider Handle */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white dark:bg-slate-100 rounded-full shadow-2xl shadow-black/20 dark:shadow-black/50 flex items-center justify-center text-slate-700 dark:text-slate-900 transition-all duration-300 hover:scale-110 active:scale-95 border-4 border-white dark:border-slate-300">
-          <ArrowsRightLeftIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white dark:bg-white rounded-full shadow-xl shadow-black/15 dark:shadow-black/40 flex items-center justify-center text-slate-700 dark:text-slate-900 transition-all duration-200 ease-out group-hover:scale-110 group-hover:shadow-primary/20 active:scale-95 border-[3px] border-white dark:border-slate-200">
+          <ArrowsRightLeftIcon className="w-4 h-4 transition-transform duration-500 ease-out group-hover:rotate-180" />
         </div>
+      </div>
+
+      {/* Interactive hint - shown on first load */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 dark:bg-black/60 backdrop-blur-sm text-white/90 text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+        </svg>
+        <span>Zum Vergleichen ziehen</span>
       </div>
     </div>
   );
