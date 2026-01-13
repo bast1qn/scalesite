@@ -3,6 +3,8 @@
 // Live Chat System for ScaleSite
 // ============================================
 
+export type ChatError = Error | { message: string; code?: string; statusCode?: number } | null;
+
 /**
  * Chat Conversation
  * Represents a chat conversation between users
@@ -333,7 +335,7 @@ export const getConversations = async (): Promise<{
  */
 export const getConversation = async (
     conversationId: string
-): Promise<{ data: ChatConversationWithDetails | null; error: any }> => {
+): Promise<{ data: ChatConversationWithDetails | null; error: ChatError }> => {
     const { data, error } = await supabase
         .from('chat_conversations')
         .select(`
@@ -374,7 +376,7 @@ export const getMessages = async (
     conversationId: string,
     limit: number = 50,
     before?: string
-): Promise<{ data: ChatMessageWithSender[] | null; error: any }> => {
+): Promise<{ data: ChatMessageWithSender[] | null; error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
@@ -429,7 +431,7 @@ export const getMessages = async (
  */
 export const createDirectChat = async (
     participantId: string
-): Promise<{ data: ChatConversationWithDetails | null; error: any }> => {
+): Promise<{ data: ChatConversationWithDetails | null; error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
@@ -486,7 +488,7 @@ export const createDirectChat = async (
  */
 export const createGroupChat = async (
     dto: CreateGroupChatDto
-): Promise<{ data: ChatConversationWithDetails | null; error: any }> => {
+): Promise<{ data: ChatConversationWithDetails | null; error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
@@ -530,7 +532,7 @@ export const createGroupChat = async (
  */
 export const sendMessage = async (
     dto: SendMessageDto
-): Promise<{ data: ChatMessageWithSender | null; error: any }> => {
+): Promise<{ data: ChatMessageWithSender | null; error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
@@ -579,7 +581,7 @@ export const sendMessage = async (
  */
 export const updateMessage = async (
     dto: UpdateMessageDto
-): Promise<{ data: ChatMessageWithSender | null; error: any }> => {
+): Promise<{ data: ChatMessageWithSender | null; error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
@@ -626,7 +628,7 @@ export const updateMessage = async (
  */
 export const deleteMessage = async (
     messageId: string
-): Promise<{ error: any }> => {
+): Promise<{ error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
@@ -657,7 +659,7 @@ export const deleteMessage = async (
 export const markAsRead = async (
     conversationId: string,
     messageId: string
-): Promise<{ error: any }> => {
+): Promise<{ error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
@@ -677,7 +679,7 @@ export const markAsRead = async (
  */
 export const getTypingUsers = async (
     conversationId: string
-): Promise<{ data: string[] | null; error: any }> => {
+): Promise<{ data: string[] | null; error: ChatError }> => {
     const now = new Date();
     const timeout = new Date(now.getTime() - 5000); // 5 seconds ago
 
@@ -699,7 +701,7 @@ export const getTypingUsers = async (
 export const setTypingIndicator = async (
     conversationId: string,
     isTyping: boolean
-): Promise<{ error: any }> => {
+): Promise<{ error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
@@ -738,7 +740,7 @@ export const addParticipant = async (
     conversationId: string,
     userId: string,
     role: 'member' | 'admin' = 'member'
-): Promise<{ error: any }> => {
+): Promise<{ error: ChatError }> => {
     const { error } = await supabase
         .from('chat_participants')
         .insert({
@@ -756,7 +758,7 @@ export const addParticipant = async (
 export const removeParticipant = async (
     conversationId: string,
     userId: string
-): Promise<{ error: any }> => {
+): Promise<{ error: ChatError }> => {
     const { error } = await supabase
         .from('chat_participants')
         .delete()
@@ -771,7 +773,7 @@ export const removeParticipant = async (
  */
 export const leaveConversation = async (
     conversationId: string
-): Promise<{ error: any }> => {
+): Promise<{ error: ChatError }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         return { error: new Error('Not authenticated') };

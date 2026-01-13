@@ -17,6 +17,20 @@ import type { Invoice, PaymentMethod } from './stripe';
 // TYPES
 // ============================================
 
+export type InvoiceError = Error | { message: string; code?: string; statusCode?: number } | null;
+
+export interface ValidationError {
+    field: string;
+    message: string;
+    code?: string;
+}
+
+export interface SubscriptionUpdateData {
+    status?: string;
+    current_period_end?: string;
+    [key: string]: unknown;
+}
+
 export interface InvoiceLineItem {
     id: string;
     description: string;
@@ -99,7 +113,7 @@ export function calculateInvoiceTotals(
  */
 export async function getDiscountByCode(code: string): Promise<{
     data: { id: string; type: string; value: number } | null;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         const { data, error } = await supabase
@@ -119,7 +133,7 @@ export async function getDiscountByCode(code: string): Promise<{
  */
 export async function createInvoice(params: CreateInvoiceParams): Promise<{
     data: Invoice | null;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         // Get discount if code provided
@@ -206,7 +220,7 @@ export async function createSubscriptionInvoice(
     description?: string
 ): Promise<{
     data: Invoice | null;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         // Get subscription details
@@ -266,7 +280,7 @@ export async function createServiceInvoice(
     projectId: string
 ): Promise<{
     data: Invoice | null;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         // Get service details
@@ -317,10 +331,10 @@ export async function updateInvoiceStatus(
     }
 ): Promise<{
     success: boolean;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
-        const updateData: any = {
+        const updateData: SubscriptionUpdateData = {
             status,
             updated_at: new Date().toISOString()
         };
@@ -347,7 +361,7 @@ export async function updateInvoiceStatus(
  */
 export async function markInvoiceAsSent(invoiceId: string): Promise<{
     success: boolean;
-    error: any;
+    error: InvoiceError;
 }> {
     return await updateInvoiceStatus(invoiceId, 'sent');
 }
@@ -357,7 +371,7 @@ export async function markInvoiceAsSent(invoiceId: string): Promise<{
  */
 export async function voidInvoice(invoiceId: string, reason?: string): Promise<{
     success: boolean;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         const { error } = await supabase
@@ -382,7 +396,7 @@ export async function voidInvoice(invoiceId: string, reason?: string): Promise<{
  */
 export async function getOverdueInvoices(): Promise<{
     data: Invoice[] | null;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         const now = new Date().toISOString();
@@ -413,7 +427,7 @@ export async function getOverdueInvoices(): Promise<{
  */
 export async function sendInvoiceReminder(invoiceId: string): Promise<{
     success: boolean;
-    error: any;
+    error: InvoiceError;
 }> {
     try {
         // Get invoice with user details
@@ -468,11 +482,11 @@ export function generateInvoicePreview(
 export async function generateBulkInvoices(subscriptionIds: string[]): Promise<{
     success: number;
     failed: number;
-    errors: any[];
+    errors: ValidationError[];
 }> {
     let success = 0;
     let failed = 0;
-    const errors: any[] = [];
+    const errors: ValidationError[] = [];
 
     for (const subscriptionId of subscriptionIds) {
         try {
@@ -502,9 +516,9 @@ export async function generateBulkInvoices(subscriptionIds: string[]): Promise<{
             } else {
                 success++;
             }
-        } catch (error: any) {
+        } catch (error) {
             failed++;
-            errors.push({ subscriptionId, error: error.message });
+            errors.push({ subscriptionId, error: error instanceof Error ? error.message : 'Unknown error' });
         }
     }
 

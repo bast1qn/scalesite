@@ -122,10 +122,39 @@ export interface TeamMember {
     team_id: string;
     member_id: string;
     role: 'owner' | 'admin' | 'member' | 'viewer';
-    permissions: Record<string, any>;
+    permissions: Record<string, boolean | string>;
     status: 'pending' | 'active' | 'inactive';
     invited_by?: string;
     invited_at: string;
+}
+
+// ============================================
+// COMMON TYPE DEFINITIONS
+// ============================================
+
+export type SupabaseError = Error | { message: string; code?: string; details?: unknown; hint?: string } | null;
+
+export interface InvoiceLineItem {
+    description: string;
+    quantity: number;
+    unitPrice: number;
+    total: number;
+}
+
+export interface DatabaseChangeEvent<T = unknown> {
+    type: 'INSERT' | 'UPDATE' | 'DELETE';
+    table: string;
+    old: T | null;
+    new: T | null;
+}
+
+export interface RealtimePayload<T = unknown> {
+    type: 'INSERT' | 'UPDATE' | 'DELETE';
+    table: string;
+    old: Record<string, unknown> | null;
+    new: Record<string, unknown> | null;
+    schema: string;
+    errors: string[] | null;
 }
 
 export interface Invoice {
@@ -142,7 +171,7 @@ export interface Invoice {
     payment_method?: string;
     payment_id?: string;
     download_url?: string;
-    line_items: any[];
+    line_items: InvoiceLineItem[];
     discount_code?: string;
     discount_amount: number;
     tax_amount: number;
@@ -170,7 +199,7 @@ export interface AnalyticsEvent {
     project_id?: string;
     user_id?: string;
     event_type: string;
-    event_data: Record<string, any>;
+    event_data: Record<string, string | number | boolean | null>;
     timestamp: string;
 }
 
@@ -320,7 +349,7 @@ export const signOut = async () => {
  * @param metadata - Metadata to update
  * @returns Updated user
  */
-export const updateUserMetadata = async (metadata: Record<string, any>) => {
+export const updateUserMetadata = async (metadata: Record<string, unknown>) => {
     const { data, error } = await supabase.auth.updateUser({
         data: metadata
     });
@@ -356,7 +385,7 @@ export const getSignedUrl = async (
     bucket: string,
     path: string,
     expiresIn: number = 60
-): Promise<{ url: string | null; error: any }> => {
+): Promise<{ url: string | null; error: SupabaseError }> => {
     const { data, error } = await supabase.storage
         .from(bucket)
         .createSignedUrl(path, expiresIn);
@@ -438,8 +467,8 @@ export const listFiles = async (
  * @returns Query result
  */
 export const executeQuery = async <T>(
-    queryBuilder: any
-): Promise<{ data: T | null; error: any }> => {
+    queryBuilder: PromiseLike<{ data: T; error: SupabaseError }>
+): Promise<{ data: T | null; error: SupabaseError }> => {
     try {
         const { data, error } = await queryBuilder;
         return { data, error };
@@ -459,7 +488,7 @@ export const getById = async <T>(
     table: string,
     id: string,
     columns: string = '*'
-): Promise<{ data: T | null; error: any }> => {
+): Promise<{ data: T | null; error: SupabaseError }> => {
     return executeQuery<T>(
         supabase
             .from(table)
@@ -482,7 +511,7 @@ export const getByUserId = async <T>(
     userId: string,
     columns: string = '*',
     orderBy?: { column: string; ascending?: boolean }
-): Promise<{ data: T[] | null; error: any }> => {
+): Promise<{ data: T[] | null; error: SupabaseError }> => {
     let query = supabase
         .from(table)
         .select(columns)
@@ -503,8 +532,8 @@ export const getByUserId = async <T>(
  */
 export const insertRecord = async <T>(
     table: string,
-    record: Record<string, any>
-): Promise<{ data: T | null; error: any }> => {
+    record: Record<string, unknown>
+): Promise<{ data: T | null; error: SupabaseError }> => {
     return executeQuery<T>(
         supabase
             .from(table)
@@ -522,8 +551,8 @@ export const insertRecord = async <T>(
  */
 export const insertRecords = async <T>(
     table: string,
-    records: Record<string, any>[]
-): Promise<{ data: T[] | null; error: any }> => {
+    records: Record<string, unknown>[]
+): Promise<{ data: T[] | null; error: SupabaseError }> => {
     return executeQuery<T[]>(
         supabase
             .from(table)
@@ -542,8 +571,8 @@ export const insertRecords = async <T>(
 export const updateRecord = async <T>(
     table: string,
     id: string,
-    updates: Record<string, any>
-): Promise<{ data: T | null; error: any }> => {
+    updates: Record<string, unknown>
+): Promise<{ data: T | null; error: SupabaseError }> => {
     return executeQuery<T>(
         supabase
             .from(table)
@@ -563,7 +592,7 @@ export const updateRecord = async <T>(
 export const deleteRecord = async (
     table: string,
     id: string
-): Promise<{ error: any }> => {
+): Promise<{ error: SupabaseError }> => {
     const { error } = await supabase
         .from(table)
         .delete()
@@ -580,8 +609,8 @@ export const deleteRecord = async (
  */
 export const countRecords = async (
     table: string,
-    filters?: Record<string, any>
-): Promise<{ count: number | null; error: any }> => {
+    filters?: Record<string, unknown>
+): Promise<{ count: number | null; error: SupabaseError }> => {
     let query = supabase
         .from(table)
         .select('*', { count: 'exact', head: true });
@@ -609,11 +638,11 @@ export const countRecords = async (
  */
 export const subscribeToTable = (
     table: string,
-    filter: { column: string; value: any } | null,
+    filter: { column: string; value: string | number | boolean } | null,
     callbacks: {
-        onInsert?: (payload: any) => void;
-        onUpdate?: (payload: any) => void;
-        onDelete?: (payload: any) => void;
+        onInsert?: (payload: RealtimePayload) => void;
+        onUpdate?: (payload: RealtimePayload) => void;
+        onDelete?: (payload: RealtimePayload) => void;
         onError?: (error: Error) => void;
     }
 ): RealtimeChannel => {
@@ -691,7 +720,7 @@ export const subscribeToTable = (
 export const subscribeToBroadcast = (
     channel: string,
     event: string,
-    callback: (payload: any) => void
+    callback: (payload: RealtimePayload) => void
 ): RealtimeChannel => {
     const ch = supabase.channel(channel);
 

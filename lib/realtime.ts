@@ -6,16 +6,27 @@
 import { supabase } from './supabase';
 import { RealtimeChannel } from '@supabase/supabase-js';
 
-interface RealtimePayload<T> {
+interface RealtimePayloadLocal<T> {
     old: T;
     new: T;
 }
 
 interface SubscriptionCallbacks<T = unknown> {
-    onInsert?: (payload: RealtimePayload<T>) => void;
-    onUpdate?: (payload: RealtimePayload<T>) => void;
-    onDelete?: (payload: RealtimePayload<T>) => void;
+    onInsert?: (payload: RealtimePayloadLocal<T>) => void;
+    onUpdate?: (payload: RealtimePayloadLocal<T>) => void;
+    onDelete?: (payload: RealtimePayloadLocal<T>) => void;
     onError?: (error: Error) => void;
+}
+
+export interface PresenceState {
+    user_id: string;
+    online_at: string;
+    project_id?: string;
+}
+
+export interface PresenceEvent {
+    key: string;
+    presences: PresenceState[];
 }
 
 interface NotificationPayload {
@@ -682,7 +693,7 @@ export const trackPresence = (
 export const broadcast = async (
     channelName: string,
     event: string,
-    payload: any
+    payload: Record<string, unknown>
 ): Promise<void> => {
     const channel = activeChannels.get(channelName);
     if (channel) {
@@ -704,7 +715,7 @@ export const broadcast = async (
 export const listenToBroadcasts = (
     channelName: string,
     event: string,
-    callback: (payload: any) => void
+    callback: (payload: Record<string, unknown>) => void
 ): string => {
     const channel = supabase
         .channel(channelName)
