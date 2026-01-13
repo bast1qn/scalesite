@@ -71,11 +71,11 @@ const PricingCard = ({
                     </div>
                 )}
 
-                <div className="mb-5 mt-2">
-                    <h3 className={`text-lg font-semibold ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
+                <div className="mb-6 mt-2">
+                    <h3 className={`text-lg font-semibold leading-snug ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
                         {pkg.name}
                     </h3>
-                    <p className={`mt-1.5 text-sm leading-relaxed ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                    <p className={`mt-2 text-sm leading-relaxed ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
                         {pkg.description}
                     </p>
                 </div>
@@ -89,11 +89,11 @@ const PricingCard = ({
                     </span>
                 </div>
 
-                <div className={`h-px w-full mb-5 ${pkg.popular ? 'bg-slate-700/50' : 'bg-slate-200 dark:bg-slate-700/50'}`}></div>
+                <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700/50' : 'bg-slate-200 dark:bg-slate-700/50'}`}></div>
 
-                <ul className="space-y-2.5 flex-grow mb-6">
+                <ul className="space-y-3 flex-grow mb-6">
                     {pkg.features.map((feature: string) => (
-                        <li key={feature} className="flex items-start gap-2.5">
+                        <li key={feature} className="flex items-start gap-3">
                             <div className={`flex-shrink-0 w-4 h-4 rounded-md flex items-center justify-center ${
                                 pkg.popular
                                 ? 'bg-primary/20 text-primary-300'
@@ -289,19 +289,19 @@ ${message}
               </span>
             </div>
 
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6">
               {t('pricing.title_prefix')}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('pricing.title_highlight')}
               </span>
             </h2>
-            <p className="mt-4 md:mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-4 md:mt-5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               {t('pricing.subtitle')}
             </p>
           </div>
 
           {/* Toggle */}
-          <div className="mt-8 md:mt-11 flex justify-center">
+          <div className="mt-8 md:mt-12 flex justify-center">
               <div className="relative inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200/60 dark:border-slate-700/50">
                 <button
                     onClick={() => setWithHosting(false)}
@@ -328,7 +328,7 @@ ${message}
 
           {/* Limited offer banner */}
           {isOfferActive && (
-              <div className="mt-6 md:mt-8 max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm border border-slate-200/60 dark:border-slate-700/50">
+              <div className="mt-6 md:mt-8 max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 shadow-sm border border-slate-200/60 dark:border-slate-700/50">
                   <div className="flex items-center gap-2 font-semibold text-primary dark:text-primary-400 text-sm">
                       <TagIcon className="w-3.5 h-3.5" />
                       <span>{t('pricing.offer')}</span>
@@ -340,7 +340,7 @@ ${message}
 
         {/* Pricing Cards */}
         <AnimatedSection stagger>
-          <div className="mt-12 md:mt-16 grid gap-4 md:gap-6 lg:grid-cols-3 items-start">
+          <div className="mt-12 md:mt-16 grid gap-4 md:gap-6 lg:grid-cols-3 items-stretch">
             {displayedPackages.map((pkg, index) => (
                 <PricingCard
                     key={pkg.name}
@@ -352,7 +352,7 @@ ${message}
             ))}
           </div>
           <p className="text-center text-sm text-slate-500 mt-6 md:mt-8 flex items-center justify-center gap-2">
-            <ShieldCheckIcon className="w-4 h-4 text-emerald-500" />
+            <ShieldCheckIcon className="w-4 h-4 text-emerald-500 flex-shrink-0" />
             <span>Keine Kreditkarte erforderlich. Kostenloses Beratungsgespräch inklusive.</span>
           </p>
         </AnimatedSection>
@@ -364,12 +364,12 @@ ${message}
         {/* FAQ Section */}
         <AnimatedSection>
           <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
-               <div className="text-center mb-6 md:mb-8">
+               <div className="text-center mb-8 md:mb-12">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/30 text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">
                         {t('pricing.faq_title')}
                     </div>
                </div>
-               <div className="space-y-3">
+               <div className="space-y-4">
                   {faqItems.map((item) => (
                     <details key={item.question} className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden">
                         <summary className="flex justify-between items-center p-4 md:p-6 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all duration-200 min-h-11 hover:scale-[1.01] focus:ring-2 focus:ring-primary-500/50 focus-visible:ring-inset">
@@ -381,7 +381,7 @@ ${message}
                                 <ChevronDownIcon className="w-4 h-4" />
                             </span>
                         </summary>
-                        <div className="px-4 md:px-6 pb-4 md:pb-6 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-700 ml-8 leading-relaxed">
+                        <div className="px-4 md:px-6 pb-4 md:pb-6 pt-2 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-100 dark:border-slate-700 ml-6 md:ml-8 leading-relaxed">
                             {item.answer}
                         </div>
                     </details>
@@ -405,7 +405,7 @@ ${message}
                                 <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-violet-500 rounded-xl flex items-center justify-center mb-6 shadow-md">
                                     <TicketIcon className="w-6 h-6 text-white" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                                <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
                                     {t('pricing.modal.title').replace('{package}', selectedPackage.name)}
                                 </h3>
                                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">

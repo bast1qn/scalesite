@@ -159,19 +159,19 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Primary orb - top left */}
         <div
-          className="absolute top-[8%] left-[-5%] w-[700px] h-[700px] bg-gradient-to-br from-primary-500/12 to-violet-500/8 rounded-full blur-3xl"
+          className="absolute top-[8%] left-[-10%] sm:left-[-5%] w-[300px] sm:w-[500px] md:w-[600px] lg:w-[700px] h-[300px] sm:h-[500px] md:h-[600px] lg:h-[700px] bg-gradient-to-br from-primary-500/12 to-violet-500/8 rounded-full blur-3xl"
           style={{ animation: 'blob 12s ease-in-out infinite' }}
         ></div>
 
         {/* Secondary orb - bottom right */}
         <div
-          className="absolute bottom-[5%] right-[-5%] w-[600px] h-[600px] bg-gradient-to-br from-violet-500/10 to-primary-500/6 rounded-full blur-3xl"
+          className="absolute bottom-[5%] right-[-10%] sm:right-[-5%] w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-violet-500/10 to-primary-500/6 rounded-full blur-3xl"
           style={{ animation: 'blob 14s ease-in-out infinite', animationDelay: '3s' }}
         ></div>
 
         {/* Accent orb - center */}
         <div
-          className="absolute top-[45%] left-[25%] w-[500px] h-[500px] bg-gradient-to-br from-primary-400/8 to-violet-400/6 rounded-full blur-3xl"
+          className="absolute top-[45%] left-[10%] sm:left-[25%] w-[200px] sm:w-[350px] md:w-[450px] lg:w-[500px] h-[200px] sm:h-[350px] md:h-[450px] lg:h-[500px] bg-gradient-to-br from-primary-400/8 to-violet-400/6 rounded-full blur-3xl"
           style={{ animation: 'blob 16s ease-in-out infinite', animationDelay: '6s' }}
         ></div>
       </div>
@@ -213,7 +213,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
 
         {/* Headline */}
         <h1
-          className={`font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white leading-tight mb-8 transition-all duration-300 tracking-tight ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-8 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '100ms' }}
         >
           {t('hero.title_prefix')}{' '}

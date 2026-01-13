@@ -152,19 +152,19 @@ export const ShowcaseSection = ({
     <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[20%] left-[10%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/8 via-violet-400/6 to-indigo-400/4 rounded-full blur-3xl animate-morph-blob"></div>
-        <div className="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-gradient-to-br from-violet-400/6 via-purple-400/4 to-pink-400/3 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-[20%] left-[-5%] sm:left-[10%] w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-400/8 via-violet-400/6 to-indigo-400/4 rounded-full blur-3xl animate-morph-blob"></div>
+        <div className="absolute bottom-[20%] right-[-5%] sm:right-[10%] w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-violet-400/6 via-purple-400/4 to-pink-400/3 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
           <div className="text-center">
-            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border border-blue-200/60 dark:border-blue-800/30 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider-plus mb-8 shadow-premium">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-primary-50 to-violet-50 dark:from-primary-900/20 dark:to-violet-900/20 border border-primary-200/60 dark:border-primary-800/30 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-8 shadow-premium">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
               {t('showcase.portfolio')}
             </div>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight-plus">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 bg-[length:300%_auto] animate-gradient-shimmer drop-shadow-sm">
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-violet-600 to-primary-600 bg-[length:300%_auto] animate-gradient-shimmer drop-shadow-sm">
                 {displayTitle}
               </span>
             </h2>

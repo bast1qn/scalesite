@@ -331,14 +331,14 @@
     @apply text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600;
   }
 
-  /* Premium container - consistent spacing */
+  /* Premium container - consistent spacing mobile p-4/6 → desktop p-8/12 */
   .container-premium {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
   }
 
   /* Section spacing - consistent 4, 6, 8, 12, 16, 20, 24 scale */
   .section-premium {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
   }
 }
 
