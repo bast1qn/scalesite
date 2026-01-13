@@ -20,6 +20,7 @@ const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
 const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 
 const PageLoader = () => {
     const { t } = useLanguage();
@@ -61,7 +62,8 @@ const AppContent = () => {
             restaurant: 'The Coffee House | Showcase',
             architecture: 'Richter Architects | Showcase',
             realestate: 'Premium Properties | Showcase',
-            configurator: 'Website Konfigurator | ScaleSite'
+            configurator: 'Website Konfigurator | ScaleSite',
+            analytics: 'Analytics | ScaleSite'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]);
@@ -111,12 +113,15 @@ const AppContent = () => {
             case 'realestate': return <RealEstatePage setCurrentPage={setCurrentPage} />;
             case 'configurator': return <ConfiguratorPage setCurrentPage={setCurrentPage} />;
             case 'project-detail': return <ProjectDetailPage setCurrentPage={setCurrentPage} />;
+            case 'analytics':
+                if (!user) return null;
+                return <AnalyticsPage setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
     };
 
     useEffect(() => {
-        if (currentPage === 'dashboard' && !user && !loading) {
+        if ((currentPage === 'dashboard' || currentPage === 'analytics') && !user && !loading) {
             handleNavigateToLogin();
         }
     }, [currentPage, user, loading, handleNavigateToLogin]);

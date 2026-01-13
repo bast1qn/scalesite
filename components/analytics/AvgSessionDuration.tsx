@@ -1,0 +1,83 @@
+import { FC, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowUpIcon, ArrowRightIcon } from '../Icons';
+import { DateRange } from './DateRangePicker';
+
+interface AvgSessionDurationProps {
+    dateRange: DateRange;
+    className?: string;
+}
+
+interface SessionDurationData {
+    current: number; // in minutes
+    previous: number;
+    trend: 'up' | 'down' | 'neutral';
+}
+
+const generateMockSessionDuration = (range: DateRange): SessionDurationData => {
+    const baseMinutes = 3 + Math.random() * 4; // 3-7 Minuten
+    const previousMinutes = baseMinutes + (Math.random() - 0.5) * 2;
+
+    const trend: SessionDurationData['trend'] =
+        baseMinutes > previousMinutes ? 'up' : baseMinutes < previousMinutes ? 'down' : 'neutral';
+
+    return {
+        current: Math.round(baseMinutes * 10) / 10,
+        previous: Math.round(previousMinutes * 10) / 10,
+        trend
+    };
+};
+
+const formatDuration = (minutes: number): string => {
+    const mins = Math.floor(minutes);
+    const secs = Math.round((minutes - mins) * 60);
+    return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
+};
+
+const AvgSessionDuration: FC<AvgSessionDurationProps> = ({ dateRange, className = '' }) => {
+    const data = useMemo(() => generateMockSessionDuration(dateRange), [dateRange]);
+
+    const percentageChange = data.previous !== 0
+        ? Math.round(((data.current - data.previous) / data.previous) * 100)
+        : 0;
+
+    const isPositive = data.trend === 'up'; // Höhere Dauer ist besser
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className={`bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 ${className}`}
+        >
+            <div className="flex items-start justify-between mb-4">
+                <div>
+                    <p className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">
+                        Ø Sitzungsdauer
+                    </p>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white">
+                        {formatDuration(data.current)}
+                    </h3>
+                </div>
+                <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium ${
+                    isPositive
+                        ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+                        : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+                }`}>
+                    {data.trend === 'up' ? (
+                        <ArrowUpIcon className="w-4 h-4" />
+                    ) : data.trend === 'down' ? (
+                        <ArrowRightIcon className="w-4 h-4 rotate-90" />
+                    ) : null}
+                    {Math.abs(percentageChange)}%
+                </div>
+            </div>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+                {isPositive ? 'Länger als' : 'Kürzer als'} Vorzeitraum ({formatDuration(data.previous)})
+            </p>
+        </motion.div>
+    );
+};
+
+export default AvgSessionDuration;

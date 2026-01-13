@@ -16,3 +16,4 @@ export { default as RealEstatePage } from './RealEstatePage';
 export { default as FaqPage } from './FaqPage';
 export { default as ImpressumPage } from './ImpressumPage';
 export { default as DatenschutzPage } from './DatenschutzPage';
+export { default as AnalyticsPage } from './AnalyticsPage';
