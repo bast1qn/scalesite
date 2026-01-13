@@ -11,11 +11,11 @@ import {
     EyeIcon,
     MousePointerClickIcon,
     UserMinusIcon,
-    FunnelIcon,
     LayoutGridIcon,
     ListIcon,
     SearchIcon
 } from 'lucide-react';
+import { FunnelIcon } from '../Icons';
 
 /**
  * CampaignList Component

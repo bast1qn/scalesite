@@ -17,6 +17,7 @@ import {
     ChatBubbleLeftRightIcon,
     TrashIcon,
     CheckIcon,
+    FunnelIcon,
 } from '../Icons';
 
 interface NotificationCenterProps {

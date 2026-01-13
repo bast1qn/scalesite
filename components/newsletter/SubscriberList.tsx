@@ -8,11 +8,11 @@ import {
     UploadIcon,
     XIcon,
     SearchIcon,
-    FunnelIcon,
     LayoutGridIcon,
     ListIcon,
     CalendarIcon
 } from 'lucide-react';
+import { FunnelIcon } from '../Icons';
 
 /**
  * SubscriberList Component
