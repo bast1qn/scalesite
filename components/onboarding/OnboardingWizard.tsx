@@ -3,8 +3,16 @@
 // Multi-Step Onboarding Flow with Progress & Validation
 // ============================================
 
+// React imports
 import { useReducer, useEffect, useCallback } from 'react';
+
+// Third-party imports
 import { motion, AnimatePresence } from 'framer-motion';
+
+// Internal imports
+import { GRADIENTS } from '../../lib/utils';
+
+// Component imports
 import { StepIndicator } from './StepIndicator';
 import { BasicInfoStep } from './BasicInfoStep';
 import { BusinessDataStep } from './BusinessDataStep';
@@ -74,6 +82,9 @@ type WizardAction =
 // ============================================
 // CONSTANTS
 // ============================================
+
+const DRAFT_AUTOSAVE_DELAY_MS = 1000;
+const SUCCESS_MESSAGE_TIMEOUT_MS = 3000;
 
 const STEPS: OnboardingStep[] = ['basic-info', 'business-data', 'design-prefs', 'content-req'];
 
@@ -251,7 +262,7 @@ export function OnboardingWizard({
             } catch (error) {
                 console.warn('Failed to save onboarding draft:', error);
             }
-        }, 1000);
+        }, DRAFT_AUTOSAVE_DELAY_MS);
 
         return () => clearTimeout(timer);
     }, [state.data]);
@@ -377,10 +388,10 @@ export function OnboardingWizard({
             await onSaveDraft?.(state.data);
             dispatch({ type: 'SET_SAVED', isSaved: true });
 
-            // Clear saved flag after 3 seconds
+            // Clear saved flag after delay
             setTimeout(() => {
                 dispatch({ type: 'SET_SAVED', isSaved: false });
-            }, 3000);
+            }, SUCCESS_MESSAGE_TIMEOUT_MS);
         } catch (error) {
             console.error('Failed to save draft:', error);
         } finally {
@@ -400,7 +411,7 @@ export function OnboardingWizard({
     }, [state.errors]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4">
+        <div className={`min-h-screen ${GRADIENTS.subtle} py-12 px-4`}>
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <motion.div
@@ -538,7 +549,7 @@ export function OnboardingWizard({
                         type="button"
                         onClick={handleNext}
                         disabled={state.isSubmitting}
-                        className="px-8 py-3 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
+                        className={`px-8 py-3 ${GRADIENTS.primary} ${GRADIENTS.primaryHover} text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl`}
                     >
                         {state.isSubmitting ? (
                             <>
@@ -563,7 +574,7 @@ export function OnboardingWizard({
                             initial={{ width: 0 }}
                             animate={{ width: `${((currentStepIndex + 1) / STEPS.length) * 100}%` }}
                             transition={{ duration: 0.5 }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-violet-600 to-blue-600"
+                            className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${GRADIENTS.primary}`}
                         />
                     </div>
                     <p className="text-center text-sm text-gray-600 dark:text-gray-400">

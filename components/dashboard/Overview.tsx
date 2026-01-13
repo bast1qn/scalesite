@@ -1,7 +1,16 @@
 
-import { useContext, useState, useEffect, useCallback, type FC, type ReactNode } from 'react';
+// React imports
+import { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+
+// Third-party imports
+import { motion } from 'framer-motion';
+
+// Internal imports
 import { AuthContext, useLanguage } from '../../contexts';
 import { api } from '../../lib';
+import type { DashboardView } from '../../pages/DashboardPage';
+
+// Components
 import {
     PlusCircleIcon,
     TicketIcon,
@@ -15,7 +24,6 @@ import {
     LightBulbIcon,
     BellIcon
 } from '../Icons';
-import type { DashboardView } from '../../pages/DashboardPage';
 
 interface Project {
     id: string;
@@ -31,26 +39,40 @@ interface OverviewProps {
     setCurrentPage: (page: string) => void;
 }
 
+// ============================================
+// CONSTANTS
+// ============================================
+
+const TIME_CONSTANTS = {
+    MS_PER_MINUTE: 60000,
+    MS_PER_HOUR: 3600000,
+    MS_PER_DAY: 86400000,
+    DAYS_IN_WEEK: 7,
+    DAYS_IN_MONTH: 30,
+    UPDATE_INTERVAL_MS: 3000,
+    STORAGE_KEY: 'scalesite_onboarding_draft'
+} as const;
+
 const getTimeAgo = (date: Date): string => {
     const now = new Date();
     // Validate date
     if (isNaN(date.getTime())) return '-';
     const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
+    const diffMins = Math.floor(diffMs / TIME_CONSTANTS.MS_PER_MINUTE);
+    const diffHours = Math.floor(diffMs / TIME_CONSTANTS.MS_PER_HOUR);
+    const diffDays = Math.floor(diffMs / TIME_CONSTANTS.MS_PER_DAY);
 
     // Handle future dates
     if (diffMs < 0) return 'in Kürze';
     if (diffMins < 1) return 'Gerade eben';
     if (diffMins < 60) return `vor ${diffMins} Minute${diffMins > 1 ? 'n' : ''}`;
     if (diffHours < 24) return `vor ${diffHours} Stunde${diffHours > 1 ? 'n' : ''}`;
-    if (diffDays < 7) return `vor ${diffDays} Tag${diffDays > 1 ? 'en' : ''}`;
-    if (diffDays < 30) return `vor ${Math.floor(diffDays / 7)} Woche${Math.floor(diffDays / 7) > 1 ? 'n' : ''}`;
+    if (diffDays < TIME_CONSTANTS.DAYS_IN_WEEK) return `vor ${diffDays} Tag${diffDays > 1 ? 'en' : ''}`;
+    if (diffDays < TIME_CONSTANTS.DAYS_IN_MONTH) return `vor ${Math.floor(diffDays / TIME_CONSTANTS.DAYS_IN_WEEK)} Woche${Math.floor(diffDays / TIME_CONSTANTS.DAYS_IN_WEEK) > 1 ? 'n' : ''}`;
     return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
 };
 
-const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
+const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     const { user } = useContext(AuthContext);
     const { t } = useLanguage();
     const [stats, setStats] = useState({ ticketCount: 0, serviceCount: 0 });
@@ -124,7 +146,7 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                 ramUsage: Math.min(100, Math.max(10, prev.ramUsage + (Math.random() * 6 - 3))),
                 bandwidth: Math.min(100, Math.max(5, prev.bandwidth + (Math.random() * 4 - 2)))
             }));
-        }, 3000);
+        }, TIME_CONSTANTS.UPDATE_INTERVAL_MS);
         return () => {
             isMounted = false;
             clearInterval(interval);

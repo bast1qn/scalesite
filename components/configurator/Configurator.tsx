@@ -3,8 +3,13 @@
 // Interactive Website Configuration with Live Preview
 // ============================================
 
+// React imports
 import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
+
+// Third-party imports
 import { motion, AnimatePresence } from 'framer-motion';
+
+// Component imports
 import { ColorPalettePicker } from './ColorPalettePicker';
 import { LayoutSelector } from './LayoutSelector';
 import { ContentEditor } from './ContentEditor';
@@ -50,6 +55,9 @@ interface ConfiguratorProps {
 // ============================================
 // INITIAL STATE
 // ============================================
+
+const AUTO_SAVE_DELAY_MS = 3000;
+const SUCCESS_MESSAGE_DELAY_MS = 3000;
 
 const DEFAULT_COLOR_PALETTES: ColorPalette[] = [
     {
@@ -194,10 +202,8 @@ export const Configurator = ({
             setHasUnsavedChanges(false);
             setSaveSuccess(true);
 
-            // Reset success message after 3 seconds
-            const successTimeout = setTimeout(() => setSaveSuccess(false), 3000);
-            // Store timeout ID for cleanup (we'll use a ref to track the current success timeout)
-            return () => clearTimeout(successTimeout);
+            // Reset success message after delay
+            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY_MS);
         } catch (error) {
             console.error('Auto-save failed:', error);
             setHasUnsavedChanges(true); // Keep unsaved changes indicator on error
@@ -221,7 +227,7 @@ export const Configurator = ({
             if (projectId) {
                 autoSaveTimeoutRef.current = setTimeout(() => {
                     debouncedAutoSave();
-                }, 3000);
+                }, AUTO_SAVE_DELAY_MS);
             }
         }
     }, [state, projectId, debouncedAutoSave]);
@@ -252,10 +258,8 @@ export const Configurator = ({
             setHasUnsavedChanges(false);
             setSaveSuccess(true);
 
-            // Reset success message after 3 seconds
-            const successTimeout = setTimeout(() => setSaveSuccess(false), 3000);
-            // Cleanup function to clear timeout if component unmounts
-            return () => clearTimeout(successTimeout);
+            // Reset success message after delay
+            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY_MS);
         } catch (error) {
             console.error('Failed to save configuration:', error);
             setHasUnsavedChanges(true);

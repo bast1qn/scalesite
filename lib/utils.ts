@@ -232,3 +232,49 @@ export function bgColor(light: string, dark: string): string {
 export function borderColor(light: string, dark: string): string {
   return `${light} ${dark}`;
 }
+
+// ===== GRADIENT UTILITIES =====
+
+/**
+ * Common gradient patterns used across the application
+ * Reduces duplication of gradient className strings
+ */
+export const GRADIENTS = {
+  /** Primary blue-violet gradient for CTAs and highlights */
+  primary: 'bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600',
+
+  /** Hover variant of primary gradient */
+  primaryHover: 'hover:from-blue-700 hover:to-violet-700 hover:to-indigo-700',
+
+  /** Subtle violet-blue gradient for backgrounds */
+  subtle: 'bg-gradient-to-br from-violet-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900',
+
+  /** Bold gradient for feature cards */
+  card: 'bg-gradient-to-br from-blue-600 to-violet-600',
+
+  /** Success gradient (green-emerald) */
+  success: 'bg-gradient-to-r from-emerald-500 to-green-500',
+
+  /** Warning gradient (amber-orange) */
+  warning: 'bg-gradient-to-r from-amber-500 to-orange-500',
+
+  /** Error gradient (red-rose) */
+  error: 'bg-gradient-to-r from-red-500 to-rose-500',
+} as const;
+
+/**
+ * Get a complete gradient className with hover states
+ *
+ * @param gradient - Base gradient from GRADIENTS
+ * @param includeHover - Whether to include hover variant
+ * @returns Combined className string
+ *
+ * @example
+ * gradientClass(GRADIENTS.primary, true)
+ * // Returns: 'bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 hover:from-blue-700 hover:to-violet-700 hover:to-indigo-700'
+ */
+export function gradientClass(gradient: string, includeHover = false): string {
+  return includeHover
+    ? `${gradient} ${GRADIENTS.primaryHover}`
+    : gradient;
+}
