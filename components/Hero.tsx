@@ -1,5 +1,10 @@
-import { useEffect, useState, useRef, memo, type ReactNode, type MouseEvent, useCallback } from 'react';
+// React
+import { useEffect, useState, useRef, memo, useCallback, type ReactNode, type MouseEvent } from 'react';
+
+// Internal - Components
 import { ArrowRightIcon } from './Icons';
+
+// Internal - Contexts
 import { useLanguage } from '../contexts';
 
 interface HeroProps {

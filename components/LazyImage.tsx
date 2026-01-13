@@ -1,6 +1,7 @@
 import { useState, useEffect, type ReactNode } from 'react';
 import { useIntersectionObserverOnce } from '../lib/hooks';
 import { getSafeURL } from '../lib/validation';
+import { INTERSECTION_THRESHOLD, IMAGE_LOADING } from '../lib/constants';
 
 interface LazyImageProps {
   src: string;
@@ -27,9 +28,9 @@ export const LazyImage = ({
   alt,
   className = '',
   placeholder = 'https://via.placeholder.com/400x300?text=Loading...',
-  threshold = 0.1,
+  threshold = INTERSECTION_THRESHOLD.default,
   blurDataURL,
-  blurAmount = 20
+  blurAmount = IMAGE_LOADING.defaultBlurAmount
 }: LazyImageProps) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>(blurDataURL);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -75,7 +76,7 @@ export const LazyImage = ({
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: `blur(${blurAmount}px)`,
-            transform: 'scale(1.1)' // Verhindert weiße Ränder durch Blur
+            transform: `scale(${IMAGE_LOADING.blurScaleFactor})` // Verhindert weiße Ränder durch Blur
           }}
         />
       )}
@@ -139,10 +140,10 @@ export const OptimizedBackgroundImage = ({
   className = '',
   children,
   blurDataURL,
-  blurAmount = 30
+  blurAmount = IMAGE_LOADING.backgroundBlurAmount
 }: OptimizedBackgroundImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [containerRef, isInView] = useIntersectionObserverOnce({ threshold: 0.1 });
+  const [containerRef, isInView] = useIntersectionObserverOnce({ threshold: INTERSECTION_THRESHOLD.default });
 
   useEffect(() => {
     if (isInView && !isLoaded) {
@@ -169,8 +170,8 @@ export const OptimizedBackgroundImage = ({
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: `blur(${blurAmount}px)`,
-            transform: 'scale(1.1)',
-            transition: 'filter 500ms ease-out'
+            transform: `scale(${IMAGE_LOADING.blurScaleFactor})`,
+            transition: `filter ${IMAGE_LOADING.transitionDuration}ms ease-out`
           }}
         />
       )}

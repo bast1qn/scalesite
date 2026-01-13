@@ -321,3 +321,33 @@ export const ANIMATION_VALUES = {
   /** Fade in opacity end */
   fadeEnd: 1,
 } as const;
+
+// ===== INTERSECTION OBSERVER =====
+
+/**
+ * Intersection Observer thresholds for lazy loading
+ */
+export const INTERSECTION_THRESHOLD = {
+  /** Default threshold for triggering element visibility (10%) */
+  default: 0.1,
+  /** Higher threshold for more precise triggering (50%) */
+  high: 0.5,
+  /** Lower threshold for earlier triggering (1%) */
+  low: 0.01,
+} as const;
+
+// ===== IMAGE LAZY LOADING =====
+
+/**
+ * Image loading and blur effect constants
+ */
+export const IMAGE_LOADING = {
+  /** Default blur amount for placeholder images in pixels */
+  defaultBlurAmount: 20,
+  /** Higher blur amount for background images in pixels */
+  backgroundBlurAmount: 30,
+  /** Scale factor to prevent white borders from blur */
+  blurScaleFactor: 1.1,
+  /** Transition duration for image loading in milliseconds */
+  transitionDuration: 500,
+} as const;

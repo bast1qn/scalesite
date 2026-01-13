@@ -1,12 +1,28 @@
 
+// React
 import { useEffect, useRef, useState } from 'react';
+
+// Internal - Components
 import { Hero, FinalCtaSection, ReasonsSection, ShowcasePreview, AnimatedSection } from '../components';
+
+// Internal - Constants
+import { INTERSECTION_THRESHOLD, ANIMATION_DELAY } from '../lib/constants';
 
 interface HomePageProps {
     setCurrentPage: (page: string) => void;
 }
 
-// Animated Section Divider Component
+/**
+ * SectionDivider - Animated section divider with multiple variants
+ *
+ * @param className - Optional additional CSS classes
+ * @param variant - Divider style variant (wave, curve, zigzag, fade)
+ *
+ * Features:
+ * - Intersection Observer for lazy animation triggering
+ * - Multiple SVG divider variants
+ * - Smooth fade-in animations
+ */
 const SectionDivider: React.FC<{
     className?: string;
     variant?: 'wave' | 'curve' | 'zigzag' | 'fade';
@@ -21,7 +37,7 @@ const SectionDivider: React.FC<{
                     setIsVisible(true);
                 }
             },
-            { threshold: 0.1 }
+            { threshold: INTERSECTION_THRESHOLD.default }
         );
 
         if (dividerRef.current) {
@@ -81,7 +97,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-slate-50/50 to-transparent dark:from-slate-950/50" />
             </div>
 
-            <AnimatedSection direction="up" delay={100}>
+            <AnimatedSection direction="up" delay={ANIMATION_DELAY.staggerNormal}>
                 <ShowcasePreview setCurrentPage={setCurrentPage} />
             </AnimatedSection>
 
@@ -90,7 +106,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 <SectionDivider variant="curve" />
             </div>
 
-            <AnimatedSection direction="up" delay={200}>
+            <AnimatedSection direction="up" delay={ANIMATION_DELAY.staggerNormal * 2}>
                 <ReasonsSection />
             </AnimatedSection>
 
@@ -99,7 +115,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 <SectionDivider variant="fade" />
             </div>
 
-            <AnimatedSection direction="up" delay={300}>
+            <AnimatedSection direction="up" delay={ANIMATION_DELAY.staggerNormal * 3}>
                 <FinalCtaSection setCurrentPage={setCurrentPage} />
             </AnimatedSection>
         </main>
