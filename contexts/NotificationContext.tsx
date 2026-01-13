@@ -411,7 +411,7 @@ export const NotificationProvider: FC<NotificationProviderProps> = ({ children }
                 // Show browser notification
                 showNotification(appNotification);
             },
-            onUpdate: (payload: any) => {
+            onUpdate: (payload) => {
                 if (!isMountedRef.current) return;
 
                 setNotifications(prev =>

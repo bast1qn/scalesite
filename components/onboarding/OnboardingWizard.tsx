@@ -63,7 +63,7 @@ type WizardAction =
     | { type: 'NEXT_STEP' }
     | { type: 'PREV_STEP' }
     | { type: 'GO_TO_STEP'; step: OnboardingStep }
-    | { type: 'UPDATE_DATA'; field: string; value: any }
+    | { type: 'UPDATE_DATA'; field: keyof OnboardingData; value: OnboardingData[keyof OnboardingData] }
     | { type: 'SET_ERRORS'; errors: Record<string, string> }
     | { type: 'CLEAR_ERROR'; field: string }
     | { type: 'SET_SUBMITTING'; isSubmitting: boolean }
@@ -389,7 +389,7 @@ export function OnboardingWizard({
     }, [state.data, onSaveDraft]);
 
     // Handle field change
-    const handleFieldChange = useCallback((field: string, value: any) => {
+    const handleFieldChange = useCallback((field: keyof OnboardingData, value: OnboardingData[keyof OnboardingData]) => {
         dispatch({ type: 'UPDATE_DATA', field, value });
         dispatch({ type: 'TOUCH_FIELD', field });
 

@@ -15,7 +15,7 @@ interface ContentReqStepProps {
     data: OnboardingData;
     errors: Record<string, string>;
     touched: Record<string, boolean>;
-    onChange: (field: string, value: any) => void;
+    onChange: (field: string, value: OnboardingData[keyof OnboardingData]) => void;
 }
 
 // ============================================

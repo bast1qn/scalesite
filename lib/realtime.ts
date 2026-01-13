@@ -6,10 +6,15 @@
 import { supabase } from './supabase';
 import { RealtimeChannel } from '@supabase/supabase-js';
 
-interface SubscriptionCallbacks {
-    onInsert?: (payload: any) => void;
-    onUpdate?: (payload: any) => void;
-        onDelete?: (payload: any) => void;
+interface RealtimePayload<T> {
+    old: T;
+    new: T;
+}
+
+interface SubscriptionCallbacks<T = unknown> {
+    onInsert?: (payload: RealtimePayload<T>) => void;
+    onUpdate?: (payload: RealtimePayload<T>) => void;
+    onDelete?: (payload: RealtimePayload<T>) => void;
     onError?: (error: Error) => void;
 }
 
@@ -95,7 +100,7 @@ export const unsubscribeAll = (): void => {
  */
 export const subscribeToNotifications = (
     userId: string,
-    callbacks: SubscriptionCallbacks
+    callbacks: SubscriptionCallbacks<NotificationPayload>
 ): string => {
     const channelName = generateChannelName('notifications', userId);
 

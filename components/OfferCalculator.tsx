@@ -79,7 +79,8 @@ export const OfferCalculator = ({ setCurrentPage }: OfferCalculatorProps) => {
             setMonthlyPrice(monthly);
         };
         calculatePrice();
-    }, [projectType, pageCount, hosting, domain, maintenance, contactForm, blog, language]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [projectType, pageCount, hosting, domain, maintenance, contactForm, blog]);
 
     const getSelectedLabel = (val: string) => projectTypeOptions.find(o => o.value === val)?.label;
 

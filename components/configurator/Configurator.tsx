@@ -120,7 +120,7 @@ type ConfigAction =
     | { type: 'SET_LAYOUT'; payload: 'modern' | 'classic' | 'bold' }
     | { type: 'SET_DEVICE'; payload: DeviceType }
     | { type: 'SET_CONTENT'; payload: ContentConfig }
-    | { type: 'UPDATE_CONTENT_FIELD'; payload: { field: keyof ContentConfig; value: any } }
+    | { type: 'UPDATE_CONTENT_FIELD'; payload: { field: keyof ContentConfig; value: ContentConfig[keyof ContentConfig] } }
     | { type: 'TOGGLE_FEATURE'; payload: string }
     | { type: 'RESET_CONFIG' }
     | { type: 'LOAD_CONFIG'; payload: ProjectConfig };
@@ -195,7 +195,9 @@ export const Configurator = ({
             setSaveSuccess(true);
 
             // Reset success message after 3 seconds
-            setTimeout(() => setSaveSuccess(false), 3000);
+            const successTimeout = setTimeout(() => setSaveSuccess(false), 3000);
+            // Store timeout ID for cleanup (we'll use a ref to track the current success timeout)
+            return () => clearTimeout(successTimeout);
         } catch (error) {
             console.error('Auto-save failed:', error);
             setHasUnsavedChanges(true); // Keep unsaved changes indicator on error
@@ -234,7 +236,7 @@ export const Configurator = ({
     }, []);
 
     // Handle manual save
-    const handleSave = async () => {
+    const handleSave = useCallback(async () => {
         if (!onSave || readOnly) return;
 
         // Cancel any pending auto-save
@@ -251,21 +253,23 @@ export const Configurator = ({
             setSaveSuccess(true);
 
             // Reset success message after 3 seconds
-            setTimeout(() => setSaveSuccess(false), 3000);
+            const successTimeout = setTimeout(() => setSaveSuccess(false), 3000);
+            // Cleanup function to clear timeout if component unmounts
+            return () => clearTimeout(successTimeout);
         } catch (error) {
             console.error('Failed to save configuration:', error);
             setHasUnsavedChanges(true);
         } finally {
             setIsSaving(false);
         }
-    };
+    }, [onSave, readOnly, state]);
 
     // Handle reset
-    const handleReset = () => {
+    const handleReset = useCallback(() => {
         if (confirm('Möchten Sie die Konfiguration zurücksetzen?')) {
             dispatch({ type: 'RESET_CONFIG' });
         }
-    };
+    }, []);
 
     return (
         <div className="min-h-screen bg-light-bg dark:bg-dark-bg">

@@ -35,10 +35,10 @@ export const ContentEditor = ({
         setLocalContent(content);
     }, [content]);
 
-    const validateField = (field: keyof ContentConfig, value: any): string | null => {
+    const validateField = (field: keyof ContentConfig, value: ContentConfig[keyof ContentConfig]): string | null => {
         switch (field) {
             case 'headline':
-                if (!value || value.trim().length < 5) {
+                if (!value || typeof value !== 'string' || value.trim().length < 5) {
                     return 'Headline muss mindestens 5 Zeichen lang sein';
                 }
                 if (value.length > 100) {
@@ -46,12 +46,12 @@ export const ContentEditor = ({
                 }
                 break;
             case 'subheadline':
-                if (value && value.length > 200) {
+                if (value && typeof value === 'string' && value.length > 200) {
                     return 'Subheadline darf maximal 200 Zeichen lang sein';
                 }
                 break;
             case 'aboutText':
-                if (!value || value.trim().length < 20) {
+                if (!value || typeof value !== 'string' || value.trim().length < 20) {
                     return 'Über-uns Text muss mindestens 20 Zeichen lang sein';
                 }
                 if (value.length > 2000) {
@@ -59,7 +59,7 @@ export const ContentEditor = ({
                 }
                 break;
             case 'services':
-                if (!value || value.length === 0) {
+                if (!value || !Array.isArray(value) || value.length === 0) {
                     return 'Mindestens ein Service erforderlich';
                 }
                 break;
@@ -67,7 +67,7 @@ export const ContentEditor = ({
         return null;
     };
 
-    const handleChange = (field: keyof ContentConfig, value: any) => {
+    const handleChange = (field: keyof ContentConfig, value: ContentConfig[keyof ContentConfig]) => {
         const updated = { ...localContent, [field]: value };
         setLocalContent(updated);
 
