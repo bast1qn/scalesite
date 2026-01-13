@@ -51,7 +51,7 @@ const PricingCard = ({
                 className={`relative flex flex-col p-6 rounded-2xl transition-all duration-300 overflow-hidden cursor-pointer focus:ring-2 focus:ring-primary-500/50 ${
                     pkg.popular
                     ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-xl lg:-translate-y-1 ring-1 ring-primary-500/50'
-                    : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 hover:shadow-lg hover:scale-105 active:scale-95'
+                    : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]'
                 }`}
                 onClick={() => onClick(pkg)}
             >
@@ -106,8 +106,8 @@ const PricingCard = ({
                     onClick={(e) => { e.stopPropagation(); onClick(pkg); }}
                     className={`w-full py-3 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
                         pkg.popular
-                        ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50'
-                        : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:from-primary-500 hover:to-violet-500 shadow-md hover:shadow-lg hover:shadow-primary-500/20 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50'
+                        ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
+                        : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:from-primary-500 hover:to-violet-500 shadow-md hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                     }`}
                 >
                     {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
@@ -283,7 +283,7 @@ ${message}
               </span>
             </div>
 
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug mb-6">
               {t('pricing.title_prefix')}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('pricing.title_highlight')}
@@ -302,7 +302,7 @@ ${message}
                     className={`relative px-4 md:px-5 py-2 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
                         !withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-105 active:scale-95'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98]'
                     }`}
                 >
                     {t('pricing.toggle_project')}
@@ -312,7 +312,7 @@ ${message}
                     className={`relative px-4 md:px-5 py-2 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
                         withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-105 active:scale-95'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98]'
                     }`}
                 >
                      {t('pricing.toggle_service')}

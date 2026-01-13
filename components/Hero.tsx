@@ -121,8 +121,8 @@ const CleanButton = ({
   className?: string;
 }) => {
   const baseStyle = variant === 'primary'
-    ? 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
-    : 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11';
+    ? 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
+    : 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11';
 
   return (
     <button
@@ -202,8 +202,8 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
       {/* Main content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         {/* Badge */}
-        <SpotlightCard className={`inline-block mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-105 active:scale-95 focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
+        <SpotlightCard className={`inline-block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {t('hero.guarantee_badge')}
@@ -213,7 +213,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
 
         {/* Headline */}
         <h1
-          className={`font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white leading-tight mb-8 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white leading-tight mb-8 transition-all duration-300 tracking-tight ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '100ms' }}
         >
           {t('hero.title_prefix')}{' '}
@@ -242,7 +242,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
 
         {/* Subtitle */}
         <p
-          className={`max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-400 leading-relaxed mb-12 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-12 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '200ms' }}
         >
           {t('hero.subtitle')}
@@ -274,7 +274,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
         >
           {guarantees.map((g, i) => (
             <SpotlightCard key={i} className="inline-block">
-              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
+              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
                 <span className="text-primary-500 dark:text-violet-400">
                   {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
                 </span>
@@ -289,7 +289,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`mt-14 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
-          <div className="flex items-center gap-6 px-8 py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-105 active:scale-95 focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
+          <div className="flex items-center gap-6 px-8 py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/40 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-12 sm:min-h-11">
             <div className="flex items-center gap-3">
               <span className="text-slate-400 dark:text-slate-500 line-through text-base">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />

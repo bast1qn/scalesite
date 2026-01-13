@@ -147,24 +147,29 @@
     letter-spacing: -0.02em;
   }
 
-  /* Hero: text-5xl/6xl, leading-tight */
+  /* Hero: text-5xl/6xl, leading-tight, tracking-tight */
   .text-hero {
-    @apply text-5xl sm:text-6xl font-bold leading-tight;
+    @apply text-5xl sm:text-6xl font-bold leading-tight tracking-tight;
   }
 
-  /* H1: text-4xl, leading-snug */
+  /* H1: text-4xl, leading-snug, tracking-tight */
   h1 {
-    @apply text-4xl sm:text-5xl font-bold leading-snug;
+    @apply text-4xl sm:text-5xl font-bold leading-snug tracking-tight;
   }
 
-  /* H2: text-3xl, leading-snug */
+  /* H2: text-3xl, leading-snug, tracking-tight */
   h2 {
-    @apply text-3xl sm:text-4xl font-semibold leading-snug;
+    @apply text-3xl sm:text-4xl font-semibold leading-snug tracking-tight;
   }
 
-  /* H3: text-2xl, leading-snug */
+  /* H3: text-2xl, leading-snug, tracking-tight */
   h3 {
-    @apply text-2xl sm:text-3xl font-semibold leading-snug;
+    @apply text-2xl sm:text-3xl font-semibold leading-snug tracking-tight;
+  }
+
+  /* H4: text-xl, leading-snug, tracking-tight */
+  h4 {
+    @apply text-xl sm:text-2xl font-semibold leading-snug tracking-tight;
   }
 
   /* Body: text-base, leading-relaxed */
@@ -218,9 +223,9 @@
     @apply badge bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-800/30;
   }
 
-  /* Button Styles - consistent interactive states */
+  /* Button Styles - consistent interactive states (hover: scale-[1.02], active: scale-[0.98]) */
   .btn-primary {
-    @apply relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] active:shadow-soft;
+    @apply relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-primary:focus-visible {
@@ -245,7 +250,7 @@
   }
 
   .btn-secondary {
-    @apply px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99];
+    @apply px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-secondary:focus-visible {
@@ -257,7 +262,7 @@
   }
 
   .btn-ghost {
-    @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99];
+    @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-ghost:focus-visible {
@@ -268,9 +273,9 @@
     @apply opacity-50 cursor-not-allowed;
   }
 
-  /* Card with subtle shadow - consistent hover state */
+  /* Card with subtle shadow - consistent hover state (hover: scale-[1.02]) */
   .card-premium {
-    @apply relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/60 dark:border-slate-700/60 shadow-card overflow-hidden transition-all duration-200 hover:shadow-card-hover hover:scale-[1.01];
+    @apply relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/60 dark:border-slate-700/60 shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:scale-[1.02] active:scale-[0.98];
   }
 
   /* Glass morphism effect */
@@ -303,9 +308,9 @@
     box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 12px 24px -6px rgba(139, 92, 246, 0.12);
   }
 
-  /* Premium hover lift - consistent hover: scale-[1.01] */
+  /* Premium hover lift - consistent hover: scale-[1.02], active: scale-[0.98] */
   .hover-lift {
-    @apply transition-all duration-200 hover:scale-[1.01] hover:shadow-premium-lg;
+    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-premium-lg active:scale-[0.98];
   }
 
   /* Premium link */
