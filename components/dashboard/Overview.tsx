@@ -255,7 +255,8 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
         return () => { isMounted = false; };
     }, [user]);
 
-    const KPICard = useCallback(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => (
+    const KPICard = useCallback(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => {
+        return (
         <div
             onClick={onClick}
             className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden transition-all duration-300 ${onClick ? 'cursor-pointer hover:scale-105 active:scale-95 hover:shadow-glow' : ''}`}
@@ -279,6 +280,7 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                 {onClick && <ArrowRightIcon className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-blue-500 transition-all duration-300" />}
             </p>
         </div>
+        );
     }, []); // Removed ArrowRightIcon from dependencies - it's a stable component import
 
     return (
