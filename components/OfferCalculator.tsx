@@ -3,6 +3,19 @@ import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon,
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { api, triggerConfetti } from '../lib';
 
+// Pricing Constants (€)
+const PRICE_ONEPAGE = 29;
+const PRICE_SMALL = 59;
+const PRICE_BUSINESS = 89;
+const PRICE_PER_PAGE = 10;
+const PRICE_CONTACT_FORM = 10;
+const PRICE_BLOG = 15;
+const PRICE_HOSTING = 5;
+const PRICE_DOMAIN = 2;
+const PRICE_MAINTENANCE = 10;
+const PRICE_MIN = 29;
+const PRICE_MAX = 150;
+
 interface OfferCalculatorProps {
     setCurrentPage?: (page: string) => void;
 }
@@ -34,34 +47,34 @@ export const OfferCalculator = ({ setCurrentPage }: OfferCalculatorProps) => {
     ], [language]);
 
     useEffect(() => {
+        /**
+         * Calculates pricing based on selected options
+         * Updates one-time and monthly price ranges
+         */
         const calculatePrice = () => {
-            // 1. Einmalige Kosten (Projekt)
-            let basePrice = 29; // Starting price for basic one-pager
+            let basePrice = PRICE_ONEPAGE;
 
             switch(projectType) {
-                case 'onepage': basePrice = 29; break;
-                case 'small': basePrice = 59; break;
-                case 'business': basePrice = 89; break;
+                case 'onepage': basePrice = PRICE_ONEPAGE; break;
+                case 'small': basePrice = PRICE_SMALL; break;
+                case 'business': basePrice = PRICE_BUSINESS; break;
             }
 
-            const pagePrice = Math.max(0, pageCount - 1) * 10; // 10€ per additional page
-            const addOnsPrice = (contactForm ? 10 : 0) + (blog ? 15 : 0);
+            const pagePrice = Math.max(0, pageCount - 1) * PRICE_PER_PAGE;
+            const addOnsPrice = (contactForm ? PRICE_CONTACT_FORM : 0) + (blog ? PRICE_BLOG : 0);
 
             const totalOneTime = basePrice + pagePrice + addOnsPrice;
-
-            // Cap at 150€ maximum
-            const cappedTotal = Math.min(totalOneTime, 150);
+            const cappedTotal = Math.min(totalOneTime, PRICE_MAX);
 
             setOneTimePriceRange({
-                min: Math.max(29, Math.floor(cappedTotal * 0.9 / 10) * 10),
-                max: Math.min(150, Math.ceil(cappedTotal * 1.1 / 10) * 10),
+                min: Math.max(PRICE_MIN, Math.floor(cappedTotal * 0.9 / 10) * 10),
+                max: Math.min(PRICE_MAX, Math.ceil(cappedTotal * 1.1 / 10) * 10),
             });
 
-            // 2. Monatliche Kosten (Service)
             let monthly = 0;
-            if (hosting) monthly += 5;
-            if (domain) monthly += 2;
-            if (maintenance) monthly += 10;
+            if (hosting) monthly += PRICE_HOSTING;
+            if (domain) monthly += PRICE_DOMAIN;
+            if (maintenance) monthly += PRICE_MAINTENANCE;
 
             setMonthlyPrice(monthly);
         };
@@ -76,6 +89,10 @@ export const OfferCalculator = ({ setCurrentPage }: OfferCalculatorProps) => {
         setRequestError(null);
     };
 
+    /**
+     * Confirms and submits the calculator request as a support ticket
+     * Creates a ticket with all selected options and pricing details
+     */
     const confirmRequest = async () => {
         if (!user) return;
         setRequestStep('sending');

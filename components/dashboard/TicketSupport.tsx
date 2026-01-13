@@ -53,6 +53,11 @@ interface TicketMember {
 // --- HELPER FUNCTIONS ---
 const priorityOptions = [ { value: 'Niedrig', label: 'Niedrig' }, { value: 'Mittel', label: 'Mittel' }, { value: 'Hoch', label: 'Hoch' }];
 
+/**
+ * Returns Tailwind CSS classes for ticket status badges
+ * @param status - The ticket status
+ * @returns CSS class string for status styling
+ */
 const getStatusColor = (status: Ticket['status']) => {
     switch (status) {
         case 'Offen': return 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400';
@@ -61,6 +66,11 @@ const getStatusColor = (status: Ticket['status']) => {
     }
 };
 
+/**
+ * Formats a date string as relative time (e.g., "vor 5 Minuten")
+ * @param dateString - ISO date string
+ * @returns Formatted relative time string in German
+ */
 function formatTimeAgo(dateString: string) {
     if (!dateString) return '';
     const date = new Date(dateString);

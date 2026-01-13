@@ -20,34 +20,25 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
-        // Enable CSS code splitting
         cssCodeSplit: true,
-        // Target modern browsers for smaller bundle
         target: 'esnext',
-        // Minify with esbuild (built-in, faster than terser)
         minify: 'esbuild',
         rollupOptions: {
           output: {
             manualChunks(id) {
-              // Vendor chunks for npm packages
               if (id.includes('node_modules')) {
-                // React and core libraries
                 if (id.includes('react') || id.includes('react-dom')) {
                   return 'react-core';
                 }
-                // UI framework
                 if (id.includes('framer-motion')) {
                   return 'ui-framework';
                 }
-                // Supabase and auth
                 if (id.includes('@supabase')) {
                   return 'supabase';
                 }
-                // Other vendor
                 return 'vendor';
               }
 
-              // App code chunks
               if (id.includes('/components/dashboard/')) {
                 return 'dashboard';
               }

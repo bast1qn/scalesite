@@ -9,11 +9,22 @@ const { GoogleGenAI } = require("@google/genai"); // Server-side import
 
 const app = express();
 
-// --- SECURITY CONFIGURATION ---
+// --- CONSTANTS ---
 const PORT = process.env.PORT || 3001;
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`;
-const API_KEY = process.env.API_KEY; // Gemini Key
+const API_KEY = process.env.API_KEY;
+
+// Security & Rate Limiting
+const AUTH_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const AUTH_RATE_LIMIT_MAX = 5;
+const CHAT_RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const CHAT_RATE_LIMIT_MAX = 10;
+const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
+const PASSWORD_HASH_ITERATIONS = 1000;
+const REFERRAL_CODE_MIN = 1000;
+const REFERRAL_CODE_MAX = 9000;
+const TEAM_CHAT_MESSAGE_LIMIT = 50;
 
 // CORS Hardening
 app.use(cors({
@@ -45,23 +56,29 @@ const OAUTH_CONFIG = {
 };
 
 // --- RATE LIMITER (Simple In-Memory) ---
+/**
+ * Creates a rate limiting middleware function
+ * @param {number} windowMs - Time window in milliseconds
+ * @param {number} maxRequests - Maximum number of requests allowed in the window
+ * @returns {Function} Express middleware function
+ */
 const rateLimit = (windowMs, maxRequests) => {
     const requests = new Map();
     return (req, res, next) => {
         const ip = req.ip;
         const now = Date.now();
-        
+
         if (!requests.has(ip)) {
             requests.set(ip, []);
         }
-        
+
         const timestamps = requests.get(ip);
         const validTimestamps = timestamps.filter(time => now - time < windowMs);
-        
+
         if (validTimestamps.length >= maxRequests) {
             return res.status(429).json({ error: "Too many requests, please try again later." });
         }
-        
+
         validTimestamps.push(now);
         requests.set(ip, validTimestamps);
         next();
@@ -69,14 +86,27 @@ const rateLimit = (windowMs, maxRequests) => {
 };
 
 // --- HELPERS ---
+/**
+ * Hashes a password using PBKDF2
+ * @param {string} password - The password to hash
+ * @param {string} [salt] - Optional salt, generates new one if not provided
+ * @returns {{hash: string, salt: string}} The hashed password and salt
+ */
 const hashPassword = (password, salt) => {
     if (!salt) salt = crypto.randomBytes(16).toString('hex');
-    const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+    const hash = crypto.pbkdf2Sync(password, salt, PASSWORD_HASH_ITERATIONS, 64, 'sha512').toString('hex');
     return { hash, salt };
 };
 
+/**
+ * Verifies a password against a hash
+ * @param {string} password - The password to verify
+ * @param {string} hash - The stored hash
+ * @param {string} salt - The stored salt
+ * @returns {boolean} True if password matches
+ */
 const verifyPassword = (password, hash, salt) => {
-    const verifyHash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+    const verifyHash = crypto.pbkdf2Sync(password, salt, PASSWORD_HASH_ITERATIONS, 64, 'sha512').toString('hex');
     return hash === verifyHash;
 };
 
@@ -234,6 +264,10 @@ db.exec(`
 `);
 
 // AUTH MIDDLEWARE (Secure Session Based)
+/**
+ * Middleware to authenticate JWT/session tokens
+ * Verifies session exists and is not expired
+ */
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -272,7 +306,7 @@ const requireTeam = (req, res, next) => {
 // --- AUTH ENDPOINTS ---
 
 // Rate Limit: 5 attempts per 15 minutes for login/register
-const authLimiter = rateLimit(15 * 60 * 1000, 5);
+const authLimiter = rateLimit(AUTH_RATE_LIMIT_WINDOW_MS, AUTH_RATE_LIMIT_MAX);
 
 app.post('/api/auth/register', authLimiter, (req, res) => {
     const { name, company, email, password } = req.body;
@@ -280,7 +314,7 @@ app.post('/api/auth/register', authLimiter, (req, res) => {
     
     try {
         const id = uuidv4();
-        const referralCode = name.substring(0, 3).toUpperCase() + Math.floor(1000 + Math.random() * 9000);
+        const referralCode = name.substring(0, 3).toUpperCase() + Math.floor(REFERRAL_CODE_MIN + Math.random() * REFERRAL_CODE_MAX);
         
         // Hash Password
         const { hash, salt } = hashPassword(password);
@@ -290,7 +324,7 @@ app.post('/api/auth/register', authLimiter, (req, res) => {
         
         // Create Session
         const token = uuidv4();
-        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24h
+        const expiresAt = new Date(Date.now() + SESSION_EXPIRY_MS).toISOString();
         db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, id, new Date().toISOString(), expiresAt);
         
         res.json({ 
@@ -316,7 +350,7 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
         if (user && verifyPassword(password, user.password, user.salt)) {
             // Create Session
             const token = uuidv4();
-            const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24h
+            const expiresAt = new Date(Date.now() + SESSION_EXPIRY_MS).toISOString();
             db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id); // Single session for demo simplicity
             db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, user.id, new Date().toISOString(), expiresAt);
 
@@ -341,7 +375,7 @@ const processOAuthUser = (email, name, provider) => {
     if (!user) {
         const id = uuidv4();
         const company = `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`;
-        const referralCode = name.replace(/[^a-zA-Z]/g, '').substring(0, 3).toUpperCase() + Math.floor(1000 + Math.random() * 9000);
+        const referralCode = name.replace(/[^a-zA-Z]/g, '').substring(0, 3).toUpperCase() + Math.floor(REFERRAL_CODE_MIN + Math.random() * REFERRAL_CODE_MAX);
         const randomPass = uuidv4();
         const { hash, salt } = hashPassword(randomPass);
 
@@ -353,7 +387,7 @@ const processOAuthUser = (email, name, provider) => {
 
     // Create Session for OAuth User
     const token = uuidv4();
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const expiresAt = new Date(Date.now() + SESSION_EXPIRY_MS).toISOString();
     db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
     db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, user.id, new Date().toISOString(), expiresAt);
 
@@ -492,7 +526,7 @@ app.put('/api/auth/update', authenticateToken, (req, res) => {
 
 // --- AI PROXY ENDPOINT ---
 // Rate Limit: 10 chat messages per minute to conserve tokens/costs
-const chatLimiter = rateLimit(60 * 1000, 10);
+const chatLimiter = rateLimit(CHAT_RATE_LIMIT_WINDOW_MS, CHAT_RATE_LIMIT_MAX);
 
 app.post('/api/chat', chatLimiter, async (req, res) => {
     const { message, history } = req.body;
@@ -935,7 +969,7 @@ app.get('/api/transactions', authenticateToken, (req, res) => {
 });
 
 app.get('/api/team_chat', authenticateToken, requireTeam, (req, res) => {
-    const msgs = db.prepare('SELECT m.*, u.name, u.role FROM team_chat_messages m JOIN users u ON m.user_id = u.id ORDER BY m.created_at ASC LIMIT 50').all();
+    const msgs = db.prepare('SELECT m.*, u.name, u.role FROM team_chat_messages m JOIN users u ON m.user_id = u.id ORDER BY m.created_at ASC LIMIT ?').all(TEAM_CHAT_MESSAGE_LIMIT);
     const formatted = msgs.map(m => ({
         id: m.id, user_id: m.user_id, content: m.content, created_at: m.created_at, profiles: { name: m.name, role: m.role }
     }));
