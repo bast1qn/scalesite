@@ -30,6 +30,10 @@ export default defineConfig(({ mode }) => {
         chunkSizeWarningLimit: 1000,
         // Enable better compression for modern browsers
         reportCompressedSize: false,
+        // Performance: Optimize module resolution
+        modulePreload: {
+          include: ['index.tsx']
+        },
         // Performance: Optimize chunk sizes
         rollupOptions: {
           output: {
@@ -37,6 +41,9 @@ export default defineConfig(({ mode }) => {
             chunkFileNames: 'assets/[name]-[hash].js',
             entryFileNames: 'assets/[name]-[hash].js',
             assetFileNames: 'assets/[name]-[hash].[ext]',
+            // Performance: Improve tree-shaking
+            // Ensure only used exports are included
+            exports: 'auto',
             manualChunks(id) {
               // Vendor libraries
               if (id.includes('node_modules')) {
@@ -101,6 +108,21 @@ export default defineConfig(({ mode }) => {
               }
               if (id.includes('/components/skeleton/')) {
                 return 'skeleton';
+              }
+              if (id.includes('/components/seo/')) {
+                return 'seo';
+              }
+              if (id.includes('/components/chat/')) {
+                return 'chat';
+              }
+              if (id.includes('/components/launch/')) {
+                return 'launch';
+              }
+              if (id.includes('/components/performance/')) {
+                return 'performance';
+              }
+              if (id.includes('/components/notifications/')) {
+                return 'notifications';
               }
               if (id.includes('/pages/')) {
                 return 'pages';

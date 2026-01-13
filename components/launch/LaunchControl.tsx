@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Rocket, Users, BarChart3, MessageSquare, Settings, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import Rocket from 'lucide-react/dist/esm/icons/rocket';
+import Users from 'lucide-react/dist/esm/icons/users';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3';
+import MessageSquare from 'lucide-react/dist/esm/icons/message-square';
+import Settings from 'lucide-react/dist/esm/icons/settings';
+import CheckCircle2 from 'lucide-react/dist/esm/icons/check-circle-2';
+import XCircle from 'lucide-react/dist/esm/icons/x-circle';
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
 
 interface LaunchStats {
   activeUsers: number;

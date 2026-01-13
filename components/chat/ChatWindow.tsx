@@ -1,7 +1,11 @@
 // Chat Window Component
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, CheckCheck, MoreVertical, Trash2, Edit2 } from 'lucide-react';
+import Check from 'lucide-react/dist/esm/icons/check';
+import CheckCheck from 'lucide-react/dist/esm/icons/check-check';
+import MoreVertical from 'lucide-react/dist/esm/icons/more-vertical';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Edit2 from 'lucide-react/dist/esm/icons/edit-2';
 import type { ChatMessageWithSender, ChatConversationWithDetails } from '../../lib/chat';
 
 interface ChatWindowProps {

@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, AlertCircle, Image, Link, Eye, Copy, Download } from 'lucide-react';
+import CheckCircle2 from 'lucide-react/dist/esm/icons/check-circle-2';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import Image from 'lucide-react/dist/esm/icons/image';
+import Link from 'lucide-react/dist/esm/icons/link';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import Copy from 'lucide-react/dist/esm/icons/copy';
+import Download from 'lucide-react/dist/esm/icons/download';
 import { getSafeURL } from '../../lib/validation';
 
 interface OpenGraphData {
