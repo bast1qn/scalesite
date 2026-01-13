@@ -311,3 +311,667 @@ export const validateName = (name: string): ValidationResult => {
         sanitized: name.trim()
     };
 };
+
+// ============================================
+// PHONE VALIDATION
+// ============================================
+
+/**
+ * Validates phone number (international format)
+ * Supports E.164 format and local formats
+ */
+export const validatePhone = (phone: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!phone || phone.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    // Remove common separators and spaces
+    const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+
+    // Check minimum length (E.164: max 15 digits after country code)
+    if (cleaned.length < 7 || cleaned.length > 16) {
+        errors.push('invalid_length');
+        return { isValid: false, errors };
+    }
+
+    // Check if it starts with + (international format) or is a valid local number
+    const phoneRegex = /^(\+|00)[1-9]\d{6,14}$/;
+
+    if (!phoneRegex.test(cleaned)) {
+        errors.push('invalid_format');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: cleaned
+    };
+};
+
+// ============================================
+// PROJECT VALIDATION
+// ============================================
+
+/**
+ * Validates project name
+ */
+export const validateProjectName = (name: string): ValidationResult => {
+    return validateString(name, {
+        minLength: 3,
+        maxLength: 100,
+        allowEmpty: false
+    });
+};
+
+/**
+ * Validates project description
+ */
+export const validateProjectDescription = (description: string): ValidationResult => {
+    return validateString(description, {
+        minLength: 10,
+        maxLength: 2000,
+        allowEmpty: true
+    });
+};
+
+/**
+ * Validates industry selection
+ */
+export const validateIndustry = (industry: string, allowedIndustries: string[]): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!industry || industry.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    if (!allowedIndustries.includes(industry)) {
+        errors.push('invalid_industry');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: industry.trim()
+    };
+};
+
+// ============================================
+// COLOR VALIDATION
+// ============================================
+
+/**
+ * Validates hexadecimal color code
+ * Supports 3-digit (#RGB) and 6-digit (#RRGGBB) formats
+ */
+export const validateHexColor = (color: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!color || color.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+    if (!hexColorRegex.test(color)) {
+        errors.push('invalid_hex_format');
+        return { isValid: false, errors };
+    }
+
+    // Convert 3-digit to 6-digit for consistency
+    let sanitized = color.toUpperCase();
+    if (sanitized.length === 4) {
+        sanitized = '#' + sanitized[1] + sanitized[1] + sanitized[2] + sanitized[2] + sanitized[3] + sanitized[3];
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized
+    };
+};
+
+/**
+ * Validates color palette (array of hex colors)
+ */
+export const validateColorPalette = (colors: string[]): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!Array.isArray(colors) || colors.length === 0) {
+        errors.push('empty_palette');
+        return { isValid: false, errors };
+    }
+
+    if (colors.length > 10) {
+        errors.push('too_many_colors');
+        return { isValid: false, errors };
+    }
+
+    for (const color of colors) {
+        const result = validateHexColor(color);
+        if (!result.isValid) {
+            errors.push(`invalid_color: ${color}`);
+            return { isValid: false, errors };
+        }
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: colors
+    };
+};
+
+// ============================================
+// DATE & TIME VALIDATION
+// ============================================
+
+/**
+ * Validates date string
+ */
+export const validateDate = (dateString: string, options: {
+    minDate?: Date;
+    maxDate?: Date;
+    allowPast?: boolean;
+    allowFuture?: boolean;
+} = {}): ValidationResult => {
+    const errors: string[] = [];
+    const { minDate, maxDate, allowPast = true, allowFuture = true } = options;
+
+    if (!dateString || dateString.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+        errors.push('invalid_date');
+        return { isValid: false, errors };
+    }
+
+    const now = new Date();
+
+    if (!allowPast && date < now) {
+        errors.push('date_in_past');
+        return { isValid: false, errors };
+    }
+
+    if (!allowFuture && date > now) {
+        errors.push('date_in_future');
+        return { isValid: false, errors };
+    }
+
+    if (minDate && date < minDate) {
+        errors.push('before_minimum');
+        return { isValid: false, errors };
+    }
+
+    if (maxDate && date > maxDate) {
+        errors.push('after_maximum');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: date.toISOString()
+    };
+};
+
+/**
+ * Validates date range (start before end)
+ */
+export const validateDateRange = (startDate: string, endDate: string): ValidationResult => {
+    const errors: string[] = [];
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        errors.push('invalid_date');
+        return { isValid: false, errors };
+    }
+
+    if (start >= end) {
+        errors.push('start_after_end');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: []
+    };
+};
+
+// ============================================
+// BUSINESS VALIDATION
+// ============================================
+
+/**
+ * Validates company name
+ */
+export const validateCompanyName = (name: string): ValidationResult => {
+    return validateString(name, {
+        minLength: 2,
+        maxLength: 200,
+        allowEmpty: false
+    });
+};
+
+/**
+ * Validates VAT number (EU format)
+ */
+export const validateVATNumber = (vat: string, countryCode: string = 'DE'): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!vat || vat.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    // Remove spaces and dots
+    const cleaned = vat.replace(/[\s\.]/g, '').toUpperCase();
+
+    // EU VAT format: Country code + 8-12 characters
+    const vatRegex = /^[A-Z]{2}[0-9A-Z]{8,12}$/;
+
+    if (!vatRegex.test(cleaned)) {
+        errors.push('invalid_vat_format');
+        return { isValid: false, errors };
+    }
+
+    // Check country code matches
+    if (!cleaned.startsWith(countryCode.toUpperCase())) {
+        errors.push('country_mismatch');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: cleaned
+    };
+};
+
+/**
+ * Validates IBAN (International Bank Account Number)
+ */
+export const validateIBAN = (iban: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!iban || iban.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    // Remove spaces and convert to uppercase
+    const cleaned = iban.replace(/\s/g, '').toUpperCase();
+
+    // Basic IBAN format: Country code (2 letters) + 2 check digits + up to 30 alphanumerics
+    const ibanRegex = /^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/;
+
+    if (!ibanRegex.test(cleaned)) {
+        errors.push('invalid_iban_format');
+        return { isValid: false, errors };
+    }
+
+    // Check minimum length
+    if (cleaned.length < 15) {
+        errors.push('too_short');
+        return { isValid: false, errors };
+    }
+
+    // Check maximum length
+    if (cleaned.length > 34) {
+        errors.push('too_long');
+        return { isValid: false, errors };
+    }
+
+    // TODO: Add full IBAN checksum validation if needed
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: cleaned
+    };
+};
+
+/**
+ * Validates BIC (Bank Identifier Code)
+ */
+export const validateBIC = (bic: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!bic || bic.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    // Remove spaces and convert to uppercase
+    const cleaned = bic.replace(/\s/g, '').toUpperCase();
+
+    // BIC format: 8 or 11 characters (Bank code + Country code + Location + Branch)
+    const bicRegex = /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/;
+
+    if (!bicRegex.test(cleaned)) {
+        errors.push('invalid_bic_format');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: cleaned
+    };
+};
+
+// ============================================
+// ADDRESS VALIDATION
+// ============================================
+
+/**
+ * Validates street address
+ */
+export const validateStreetAddress = (address: string): ValidationResult => {
+    return validateString(address, {
+        minLength: 5,
+        maxLength: 255,
+        allowEmpty: false
+    });
+};
+
+/**
+ * Validates postal code (format depends on country)
+ */
+export const validatePostalCode = (postalCode: string, countryCode: string = 'DE'): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!postalCode || postalCode.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    const cleaned = postalCode.trim().toUpperCase();
+
+    // Country-specific formats
+    const patterns: Record<string, RegExp> = {
+        'DE': /^\d{5}$/,                    // Germany: 5 digits
+        'AT': /^\d{4}$/,                    // Austria: 4 digits
+        'CH': /^\d{4}$/,                    // Switzerland: 4 digits
+        'FR': /^\d{5}$/,                    // France: 5 digits
+        'IT': /^\d{5}$/,                    // Italy: 5 digits
+        'ES': /^\d{5}$/,                    // Spain: 5 digits
+        'NL': /^\d{4}\s?[A-Z]{2}$/,        // Netherlands: 4 digits + 2 letters
+        'GB': /^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/, // UK: complex format
+        'PL': /^\d{2}-\d{3}$/,             // Poland: 00-000
+        'US': /^\d{5}(-\d{4})?$/           // US: 5 digits or 5+4
+    };
+
+    const pattern = patterns[countryCode.toUpperCase()] || patterns['DE'];
+
+    if (!pattern.test(cleaned)) {
+        errors.push('invalid_postal_format');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: cleaned
+    };
+};
+
+/**
+ * Validates city name
+ */
+export const validateCity = (city: string): ValidationResult => {
+    return validateString(city, {
+        minLength: 2,
+        maxLength: 100,
+        allowEmpty: false
+    });
+};
+
+// ============================================
+// CONTENT VALIDATION
+// ============================================
+
+/**
+ * Validates website content (HTML, text, etc.)
+ */
+export const validateContent = (content: string, options: {
+    maxLength?: number;
+    allowHTML?: boolean;
+    sanitizeHTML?: boolean;
+} = {}): ValidationResult => {
+    const errors: string[] = [];
+    const { maxLength = 50000, allowHTML = false, sanitizeHTML = true } = options;
+
+    if (!content || content.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    if (content.length > maxLength) {
+        errors.push('too_long');
+        return { isValid: false, errors };
+    }
+
+    // If HTML is not allowed, check for HTML tags
+    if (!allowHTML && /<[^>]*>/.test(content)) {
+        errors.push('html_not_allowed');
+        return { isValid: false, errors };
+    }
+
+    // If HTML is allowed, sanitize it
+    let sanitized = content;
+    if (allowHTML && sanitizeHTML) {
+        // Remove dangerous tags and attributes
+        sanitized = sanitized
+            .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+            .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+            .replace(/on\w+="[^"]*"/gi, '') // Remove event handlers
+            .replace(/javascript:/gi, ''); // Remove javascript: protocol
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized
+    };
+};
+
+/**
+ * Validates blog post content
+ */
+export const validateBlogPost = (title: string, content: string): ValidationResult => {
+    const errors: string[] = [];
+
+    const titleValidation = validateString(title, {
+        minLength: 10,
+        maxLength: 200,
+        allowEmpty: false
+    });
+
+    if (!titleValidation.isValid) {
+        errors.push(...titleValidation.errors.map(e => `title_${e}`));
+    }
+
+    const contentValidation = validateContent(content, {
+        maxLength: 10000,
+        allowHTML: true
+    });
+
+    if (!contentValidation.isValid) {
+        errors.push(...contentValidation.errors.map(e => `content_${e}`));
+    }
+
+    return {
+        isValid: errors.length === 0,
+        errors
+    };
+};
+
+// ============================================
+// PRICING & DISCOUNT VALIDATION
+// ============================================
+
+/**
+ * Validates discount code format
+ */
+export const validateDiscountCode = (code: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!code || code.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    const cleaned = code.trim().toUpperCase();
+
+    // Discount code format: 4-20 alphanumeric characters
+    const codeRegex = /^[A-Z0-9]{4,20}$/;
+
+    if (!codeRegex.test(cleaned)) {
+        errors.push('invalid_format');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: cleaned
+    };
+};
+
+/**
+ * Validates service ID
+ */
+export const validateServiceId = (serviceId: number, validIds: number[]): ValidationResult => {
+    const errors: string[] = [];
+
+    const numValidation = validateNumber(serviceId, {
+        min: 1,
+        integer: true,
+        allowZero: false
+    });
+
+    if (!numValidation.isValid) {
+        errors.push(...numValidation.errors);
+        return { isValid: false, errors };
+    }
+
+    if (!validIds.includes(serviceId)) {
+        errors.push('invalid_service');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: []
+    };
+};
+
+/**
+ * Validates quantity for pricing
+ */
+export const validateQuantity = (quantity: number): ValidationResult => {
+    return validateNumber(quantity, {
+        min: 1,
+        max: 1000,
+        integer: true,
+        allowZero: false
+    });
+};
+
+// ============================================
+// FILE VALIDATION HELPERS
+// ============================================
+
+/**
+ * Validates file size
+ */
+export const validateFileSize = (
+    fileSize: number,
+    maxSize: number
+): ValidationResult => {
+    const errors: string[] = [];
+
+    if (fileSize === 0) {
+        errors.push('empty_file');
+        return { isValid: false, errors };
+    }
+
+    if (fileSize > maxSize) {
+        errors.push(`file_too_large`);
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: []
+    };
+};
+
+/**
+ * Validates file type
+ */
+export const validateFileType = (
+    fileType: string,
+    allowedTypes: string[]
+): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!allowedTypes.includes(fileType)) {
+        errors.push('invalid_file_type');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: []
+    };
+};
+
+/**
+ * Validates file name
+ */
+export const validateFileName = (fileName: string): ValidationResult => {
+    const errors: string[] = [];
+
+    if (!fileName || fileName.trim().length === 0) {
+        errors.push('empty');
+        return { isValid: false, errors };
+    }
+
+    if (fileName.length > 255) {
+        errors.push('too_long');
+        return { isValid: false, errors };
+    }
+
+    // Check for dangerous characters
+    const dangerousChars = /[<>:"|?*]/;
+    if (dangerousChars.test(fileName)) {
+        errors.push('invalid_characters');
+        return { isValid: false, errors };
+    }
+
+    // Check for path traversal attempts
+    if (fileName.includes('..') || fileName.includes('/') || fileName.includes('\\')) {
+        errors.push('path_traversal_attempt');
+        return { isValid: false, errors };
+    }
+
+    return {
+        isValid: true,
+        errors: [],
+        sanitized: fileName.trim()
+    };
+};

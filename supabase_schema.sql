@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
 );
 
 -- ============================================
--- ANALYTICS EVENTS
+-- ANALYTICS EVENTS (enhanced for new features)
 -- ============================================
 CREATE TABLE IF NOT EXISTS analytics_events (
     id TEXT PRIMARY KEY,
@@ -142,7 +142,12 @@ CREATE TABLE IF NOT EXISTS analytics_events (
     type TEXT,
     path TEXT,
     element TEXT,
-    timestamp BIGINT
+    timestamp BIGINT,
+    -- New fields for enhanced analytics
+    project_id TEXT,
+    user_id UUID REFERENCES profiles(id),
+    event_data JSONB DEFAULT '{}',
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ============================================
@@ -207,6 +212,140 @@ CREATE TABLE IF NOT EXISTS team_tasks (
 );
 
 -- ============================================
+-- PROJECTS (for Live Preview & Status Tracking)
+-- ============================================
+CREATE TABLE IF NOT EXISTS projects (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    service_id INTEGER REFERENCES services(id),
+    name TEXT NOT NULL,
+    description TEXT,
+    industry TEXT,
+    config JSONB DEFAULT '{}',
+    content JSONB DEFAULT '{}',
+    status TEXT DEFAULT 'konzeption',
+    progress INTEGER DEFAULT 0,
+    estimated_launch_date TIMESTAMPTZ,
+    actual_launch_date TIMESTAMPTZ,
+    preview_url TEXT,
+    is_live BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- PROJECT MILESTONES
+-- ============================================
+CREATE TABLE IF NOT EXISTS project_milestones (
+    id TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    description TEXT,
+    status TEXT DEFAULT 'pending',
+    due_date TIMESTAMPTZ,
+    completed_at TIMESTAMPTZ,
+    order_index INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- CONTENT GENERATIONS (AI)
+-- ============================================
+CREATE TABLE IF NOT EXISTS content_generations (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    project_id TEXT REFERENCES projects(id) ON DELETE SET NULL,
+    type TEXT NOT NULL,
+    industry TEXT,
+    keywords TEXT[],
+    tone TEXT DEFAULT 'professional',
+    prompt TEXT,
+    generated_content TEXT,
+    selected_content TEXT,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- TEAM MEMBERS
+-- ============================================
+CREATE TABLE IF NOT EXISTS team_members (
+    id TEXT PRIMARY KEY,
+    team_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    member_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    role TEXT DEFAULT 'member',
+    permissions JSONB DEFAULT '{}',
+    status TEXT DEFAULT 'pending',
+    invited_by UUID REFERENCES profiles(id),
+    invited_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(team_id, member_id)
+);
+
+-- ============================================
+-- INVOICES
+-- ============================================
+CREATE TABLE IF NOT EXISTS invoices (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    project_id TEXT REFERENCES projects(id),
+    invoice_number TEXT UNIQUE NOT NULL,
+    amount REAL NOT NULL,
+    currency TEXT DEFAULT 'EUR',
+    status TEXT DEFAULT 'draft',
+    issue_date TIMESTAMPTZ NOT NULL,
+    due_date TIMESTAMPTZ NOT NULL,
+    paid_at TIMESTAMPTZ,
+    payment_method TEXT,
+    payment_id TEXT,
+    download_url TEXT,
+    line_items JSONB DEFAULT '[]',
+    discount_code TEXT,
+    discount_amount REAL DEFAULT 0,
+    tax_amount REAL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- NOTIFICATIONS
+-- ============================================
+CREATE TABLE IF NOT EXISTS notifications (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    message TEXT,
+    link TEXT,
+    read BOOLEAN DEFAULT FALSE,
+    read_at TIMESTAMPTZ,
+    related_entity_type TEXT,
+    related_entity_id TEXT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMPTZ
+);
+
+-- ============================================
+-- NEWSLETTER CAMPAIGNS
+-- ============================================
+CREATE TABLE IF NOT EXISTS newsletter_campaigns (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    preview_text TEXT,
+    content TEXT NOT NULL,
+    target_segment TEXT DEFAULT 'all',
+    status TEXT DEFAULT 'draft',
+    scheduled_for TIMESTAMPTZ,
+    sent_count INTEGER DEFAULT 0,
+    open_count INTEGER DEFAULT 0,
+    click_count INTEGER DEFAULT 0,
+    unsubscribe_count INTEGER DEFAULT 0,
+    created_by UUID REFERENCES profiles(id),
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    sent_at TIMESTAMPTZ
+);
+
+-- ============================================
 -- INDEXES for performance
 -- ============================================
 CREATE INDEX IF NOT EXISTS idx_tickets_user_id ON tickets(user_id);
@@ -216,6 +355,20 @@ CREATE INDEX IF NOT EXISTS idx_ticket_messages_ticket_id ON ticket_messages(tick
 CREATE INDEX IF NOT EXISTS idx_service_updates_user_service_id ON service_updates(user_service_id);
 CREATE INDEX IF NOT EXISTS idx_ticket_members_ticket_id ON ticket_members(ticket_id);
 CREATE INDEX IF NOT EXISTS idx_ticket_members_user_id ON ticket_members(user_id);
+
+-- New indexes for enhanced features
+CREATE INDEX IF NOT EXISTS idx_projects_user_id ON projects(user_id);
+CREATE INDEX IF NOT EXISTS idx_projects_status ON projects(status);
+CREATE INDEX IF NOT EXISTS idx_project_milestones_project_id ON project_milestones(project_id);
+CREATE INDEX IF NOT EXISTS idx_content_generations_user_id ON content_generations(user_id);
+CREATE INDEX IF NOT EXISTS idx_team_members_team_id ON team_members(team_id);
+CREATE INDEX IF NOT EXISTS idx_team_members_member_id ON team_members(member_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_user_id ON invoices(user_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_read ON notifications(read);
+CREATE INDEX IF NOT EXISTS idx_analytics_project_id ON analytics_events(project_id);
+CREATE INDEX IF NOT EXISTS idx_analytics_timestamp ON analytics_events(timestamp);
 
 -- ============================================
 -- ENABLE ROW LEVEL SECURITY
@@ -234,6 +387,15 @@ ALTER TABLE team_chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE team_tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discounts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+
+-- Enable RLS for new tables
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE project_milestones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE content_generations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE team_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_campaigns ENABLE ROW LEVEL SECURITY;
 
 -- ============================================
 -- RLS POLICIES
@@ -479,6 +641,227 @@ CREATE POLICY "Team can delete discounts" ON discounts
     FOR DELETE USING (
         EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
     );
+
+-- ============================================
+-- RLS POLICIES FOR NEW TABLES
+-- ============================================
+
+-- Projects
+DROP POLICY IF EXISTS "Users can view own projects" ON projects;
+CREATE POLICY "Users can view own projects" ON projects
+    FOR SELECT USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can insert own projects" ON projects;
+CREATE POLICY "Users can insert own projects" ON projects
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can update own projects" ON projects;
+CREATE POLICY "Users can update own projects" ON projects
+    FOR UPDATE USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Team can view all projects" ON projects;
+CREATE POLICY "Team can view all projects" ON projects
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can update all projects" ON projects;
+CREATE POLICY "Team can update all projects" ON projects
+    FOR UPDATE USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Project Milestones
+DROP POLICY IF EXISTS "Users can view own project milestones" ON project_milestones;
+CREATE POLICY "Users can view own project milestones" ON project_milestones
+    FOR SELECT USING (
+        EXISTS (
+            SELECT 1 FROM projects p
+            WHERE p.id = project_milestones.project_id
+            AND p.user_id = auth.uid()
+        )
+    );
+
+DROP POLICY IF EXISTS "Users can insert own project milestones" ON project_milestones;
+CREATE POLICY "Users can insert own project milestones" ON project_milestones
+    FOR INSERT WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM projects p
+            WHERE p.id = project_milestones.project_id
+            AND p.user_id = auth.uid()
+        )
+    );
+
+DROP POLICY IF EXISTS "Users can update own project milestones" ON project_milestones;
+CREATE POLICY "Users can update own project milestones" ON project_milestones
+    FOR UPDATE USING (
+        EXISTS (
+            SELECT 1 FROM projects p
+            WHERE p.id = project_milestones.project_id
+            AND p.user_id = auth.uid()
+        )
+    );
+
+DROP POLICY IF EXISTS "Team can view all milestones" ON project_milestones;
+CREATE POLICY "Team can view all milestones" ON project_milestones
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can manage all milestones" ON project_milestones;
+CREATE POLICY "Team can manage all milestones" ON project_milestones
+    FOR ALL USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Content Generations
+DROP POLICY IF EXISTS "Users can view own content generations" ON content_generations;
+CREATE POLICY "Users can view own content generations" ON content_generations
+    FOR SELECT USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can insert own content generations" ON content_generations;
+CREATE POLICY "Users can insert own content generations" ON content_generations
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can update own content generations" ON content_generations;
+CREATE POLICY "Users can update own content generations" ON content_generations
+    FOR UPDATE USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Team can view all content generations" ON content_generations;
+CREATE POLICY "Team can view all content generations" ON content_generations
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Team Members
+DROP POLICY IF EXISTS "Users can view own team" ON team_members;
+CREATE POLICY "Users can view own team" ON team_members
+    FOR SELECT USING (auth.uid() = team_id OR auth.uid() = member_id);
+
+DROP POLICY IF EXISTS "Users can insert team members" ON team_members;
+CREATE POLICY "Users can insert team members" ON team_members
+    FOR INSERT WITH CHECK (auth.uid() = team_id);
+
+DROP POLICY IF EXISTS "Users can update own team members" ON team_members;
+CREATE POLICY "Users can update own team members" ON team_members
+    FOR UPDATE USING (auth.uid() = team_id);
+
+DROP POLICY IF EXISTS "Users can delete own team members" ON team_members;
+CREATE POLICY "Users can delete own team members" ON team_members
+    FOR DELETE USING (auth.uid() = team_id);
+
+DROP POLICY IF EXISTS "Team can view all team members" ON team_members;
+CREATE POLICY "Team can view all team members" ON team_members
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Invoices
+DROP POLICY IF EXISTS "Users can view own invoices" ON invoices;
+CREATE POLICY "Users can view own invoices" ON invoices
+    FOR SELECT USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can insert own invoices" ON invoices;
+CREATE POLICY "Users can insert own invoices" ON invoices
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can update own invoices" ON invoices;
+CREATE POLICY "Users can update own invoices" ON invoices
+    FOR UPDATE USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Team can view all invoices" ON invoices;
+CREATE POLICY "Team can view all invoices" ON invoices
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can manage all invoices" ON invoices;
+CREATE POLICY "Team can manage all invoices" ON invoices
+    FOR ALL USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Notifications
+DROP POLICY IF EXISTS "Users can view own notifications" ON notifications;
+CREATE POLICY "Users can view own notifications" ON notifications
+    FOR SELECT USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can insert own notifications" ON notifications;
+CREATE POLICY "Users can insert own notifications" ON notifications
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can update own notifications" ON notifications;
+CREATE POLICY "Users can update own notifications" ON notifications
+    FOR UPDATE USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Team can view all notifications" ON notifications;
+CREATE POLICY "Team can view all notifications" ON notifications
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert any notifications" ON notifications;
+CREATE POLICY "Team can insert any notifications" ON notifications
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- Newsletter Campaigns
+DROP POLICY IF EXISTS "Team can view campaigns" ON newsletter_campaigns;
+CREATE POLICY "Team can view campaigns" ON newsletter_campaigns
+    FOR SELECT USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can insert campaigns" ON newsletter_campaigns;
+CREATE POLICY "Team can insert campaigns" ON newsletter_campaigns
+    FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can update campaigns" ON newsletter_campaigns;
+CREATE POLICY "Team can update campaigns" ON newsletter_campaigns
+    FOR UPDATE USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+DROP POLICY IF EXISTS "Team can delete campaigns" ON newsletter_campaigns;
+CREATE POLICY "Team can delete campaigns" ON newsletter_campaigns
+    FOR DELETE USING (
+        EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('team', 'owner'))
+    );
+
+-- ============================================
+-- ALTER EXISTING TABLES FOR NEW FEATURES
+-- ============================================
+
+-- Extend profiles table
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS timezone TEXT DEFAULT 'Europe/Berlin';
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS preferences JSONB DEFAULT '{}';
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS onboarding_completed BOOLEAN DEFAULT FALSE;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+
+-- Extend tickets table
+ALTER TABLE tickets ADD COLUMN IF NOT EXISTS project_id TEXT REFERENCES projects(id);
+ALTER TABLE tickets ADD COLUMN IF NOT EXISTS priority_order INTEGER DEFAULT 0;
+
+-- Extend user_services table
+ALTER TABLE user_services ADD COLUMN IF NOT EXISTS project_id TEXT REFERENCES projects(id);
+ALTER TABLE user_services ADD COLUMN IF NOT EXISTS started_at TIMESTAMPTZ;
+ALTER TABLE user_services ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ;
+ALTER TABLE user_services ADD COLUMN IF NOT EXISTS estimated_completion_date TIMESTAMPTZ;
+
+-- Extend transactions table
+ALTER TABLE transactions ADD COLUMN IF NOT EXISTS invoice_id TEXT REFERENCES invoices(id);
+ALTER TABLE transactions ADD COLUMN IF NOT EXISTS payment_provider TEXT;
+ALTER TABLE transactions ADD COLUMN IF NOT EXISTS provider_transaction_id TEXT;
+
+-- Extend files table
+ALTER TABLE files ADD COLUMN IF NOT EXISTS related_entity_type TEXT;
+ALTER TABLE files ADD COLUMN IF NOT EXISTS related_entity_id TEXT;
+ALTER TABLE files ADD COLUMN IF NOT EXISTS uploaded_by UUID REFERENCES profiles(id);
+ALTER TABLE files ADD COLUMN IF NOT EXISTS storage_path TEXT;
 
 -- ============================================
 -- FUNCTIONS & TRIGGERS

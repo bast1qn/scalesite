@@ -920,5 +920,778 @@ export const api = {
         });
 
         return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // PROJECTS (Feature 1 & 4)
+    // ============================================
+
+    getProjects: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('projects')
+            .select(`
+                *,
+                services (
+                    id,
+                    name,
+                    description
+                )
+            `)
+            .order('created_at', { ascending: false });
+
+        if (!teamMember) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { data, error } = await query;
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    getProject: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('projects')
+            .select('*')
+            .eq('id', projectId);
+
+        if (!teamMember) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { data, error } = await query.single();
+        return { data, error: handleSupabaseError(error) };
+    },
+
+    createProject: async (data: {
+        name: string;
+        description?: string;
+        industry?: string;
+        service_id?: number;
+        config?: Record<string, any>;
+        content?: Record<string, any>;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const id = generateId();
+        const now = new Date().toISOString();
+
+        const { error } = await supabase.from('projects').insert({
+            id,
+            user_id: user.id,
+            name: data.name,
+            description: data.description,
+            industry: data.industry,
+            service_id: data.service_id,
+            config: data.config || {},
+            content: data.content || {},
+            status: 'konzeption',
+            progress: 0,
+            created_at: now,
+            updated_at: now
+        });
+
+        if (error) return { data: null, error: handleSupabaseError(error) };
+
+        // Create default milestones
+        const defaultMilestones = [
+            { title: 'Konzeption', description: 'Erste Konzeption und Planung', order_index: 1 },
+            { title: 'Design', description: 'Design-Entwicklung', order_index: 2 },
+            { title: 'Entwicklung', description: 'Implementierung', order_index: 3 },
+            { title: 'Review', description: 'Überprüfung und Anpassungen', order_index: 4 },
+            { title: 'Launch', description: 'Website geht live', order_index: 5 }
+        ];
+
+        for (const milestone of defaultMilestones) {
+            await supabase.from('project_milestones').insert({
+                id: generateId(),
+                project_id: id,
+                title: milestone.title,
+                description: milestone.description,
+                status: 'pending',
+                order_index: milestone.order_index,
+                created_at: now
+            });
+        }
+
+        return { data: { success: true, id }, error: null };
+    },
+
+    updateProject: async (projectId: string, updates: {
+        name?: string;
+        description?: string;
+        industry?: string;
+        status?: string;
+        progress?: number;
+        estimated_launch_date?: string;
+        actual_launch_date?: string;
+        is_live?: boolean;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('projects')
+            .update({ ...updates, updated_at: new Date().toISOString() })
+            .eq('id', projectId);
+
+        if (!teamMember) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { error } = await query;
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    updateProjectConfig: async (projectId: string, config: Record<string, any>) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('projects')
+            .update({ config, updated_at: new Date().toISOString() })
+            .eq('id', projectId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    updateProjectContent: async (projectId: string, content: Record<string, any>) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('projects')
+            .update({ content, updated_at: new Date().toISOString() })
+            .eq('id', projectId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    deleteProject: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('projects')
+            .delete()
+            .eq('id', projectId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // PROJECT MILESTONES
+    // ============================================
+
+    getProjectMilestones: async (projectId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('project_milestones')
+            .select('*')
+            .eq('project_id', projectId)
+            .order('order_index', { ascending: true });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    createMilestone: async (projectId: string, data: {
+        title: string;
+        description?: string;
+        due_date?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Check if user owns the project
+        const { data: project } = await supabase
+            .from('projects')
+            .select('user_id')
+            .eq('id', projectId)
+            .single();
+
+        if (project?.user_id !== user.id) {
+            const teamMember = await isTeamMember(user.id);
+            if (!teamMember) return { data: null, error: 'Access denied' };
+        }
+
+        const { error } = await supabase.from('project_milestones').insert({
+            id: generateId(),
+            project_id: projectId,
+            title: data.title,
+            description: data.description,
+            due_date: data.due_date,
+            status: 'pending',
+            created_at: new Date().toISOString()
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    updateMilestone: async (milestoneId: string, updates: {
+        title?: string;
+        description?: string;
+        status?: string;
+        due_date?: string;
+        completed_at?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('project_milestones')
+            .update(updates)
+            .eq('id', milestoneId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    deleteMilestone: async (milestoneId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('project_milestones')
+            .delete()
+            .eq('id', milestoneId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // CONTENT GENERATIONS (AI - Feature 5)
+    // ============================================
+
+    getContentGenerations: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('content_generations')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    createContentGeneration: async (data: {
+        project_id?: string;
+        type: string;
+        industry?: string;
+        keywords?: string[];
+        tone?: string;
+        prompt: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase.from('content_generations').insert({
+            id: generateId(),
+            user_id: user.id,
+            project_id: data.project_id,
+            type: data.type,
+            industry: data.industry,
+            keywords: data.keywords || [],
+            tone: data.tone || 'professional',
+            prompt: data.prompt,
+            status: 'pending',
+            created_at: new Date().toISOString()
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    updateContentGeneration: async (generationId: string, updates: {
+        generated_content?: string;
+        selected_content?: string;
+        status?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('content_generations')
+            .update(updates)
+            .eq('id', generationId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // TEAM MEMBERS (Feature 9)
+    // ============================================
+
+    getTeamMembers: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('team_members')
+            .select('*')
+            .or(`team_id.eq.${user.id},member_id.eq.${user.id}`)
+            .order('invited_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    inviteTeamMember: async (email: string, role: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Check if email is registered
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('email', email)
+            .single();
+
+        if (!profile) {
+            return { data: null, error: 'User not found. Ask them to register first.' };
+        }
+
+        // Check if already invited
+        const { data: existing } = await supabase
+            .from('team_members')
+            .select('id')
+            .eq('team_id', user.id)
+            .eq('member_id', profile.id)
+            .single();
+
+        if (existing) {
+            return { data: null, error: 'User already invited' };
+        }
+
+        const { error } = await supabase.from('team_members').insert({
+            id: generateId(),
+            team_id: user.id,
+            member_id: profile.id,
+            role,
+            status: 'pending',
+            invited_by: user.id,
+            invited_at: new Date().toISOString()
+        });
+
+        if (!error) {
+            // Create notification
+            await supabase.from('notifications').insert({
+                id: generateId(),
+                user_id: profile.id,
+                type: 'team_invitation',
+                title: 'Team Invitation',
+                message: `You have been invited to join a team as ${role}`,
+                link: '/dashboard/team',
+                created_at: new Date().toISOString()
+            });
+        }
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    updateMemberRole: async (memberId: string, role: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_members')
+            .update({ role })
+            .eq('id', memberId)
+            .eq('team_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    removeTeamMember: async (memberId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_members')
+            .delete()
+            .eq('id', memberId)
+            .eq('team_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    acceptTeamInvitation: async (teamId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_members')
+            .update({ status: 'active' })
+            .eq('team_id', teamId)
+            .eq('member_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // INVOICES (Feature 8)
+    // ============================================
+
+    getInvoices: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('invoices')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (!teamMember) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { data, error } = await query;
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    getInvoice: async (invoiceId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('invoices')
+            .select('*')
+            .eq('id', invoiceId);
+
+        if (!teamMember) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { data, error } = await query.single();
+        return { data, error: handleSupabaseError(error) };
+    },
+
+    createInvoice: async (data: {
+        project_id?: string;
+        amount: number;
+        line_items: Array<{
+            description: string;
+            quantity: number;
+            unit_price: number;
+            total: number;
+        }>;
+        discount_code?: string;
+        discount_amount?: number;
+        tax_amount?: number;
+        due_date?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        // Generate invoice number
+        const { data: lastInvoice } = await supabase
+            .from('invoices')
+            .select('invoice_number')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+
+        const lastNumber = lastInvoice?.invoice_number ? parseInt(lastInvoice.invoice_number.replace('INV-', '')) : 0;
+        const invoiceNumber = `INV-${String(lastNumber + 1).padStart(6, '0')}`;
+
+        const now = new Date().toISOString();
+        const dueDate = data.due_date || new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
+
+        const { error } = await supabase.from('invoices').insert({
+            id: generateId(),
+            user_id: user.id,
+            project_id: data.project_id,
+            invoice_number,
+            amount: data.amount,
+            currency: 'EUR',
+            status: 'draft',
+            issue_date: now,
+            due_date: dueDate,
+            line_items: data.line_items,
+            discount_code: data.discount_code,
+            discount_amount: data.discount_amount || 0,
+            tax_amount: data.tax_amount || 0,
+            created_at: now,
+            updated_at: now
+        });
+
+        return { data: { success: !error, invoice_number }, error: handleSupabaseError(error) };
+    },
+
+    updateInvoiceStatus: async (invoiceId: string, status: string, paymentData?: {
+        payment_method?: string;
+        payment_id?: string;
+        paid_at?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+
+        let query = supabase
+            .from('invoices')
+            .update({ status, ...paymentData, updated_at: new Date().toISOString() })
+            .eq('id', invoiceId);
+
+        if (!teamMember) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { error } = await query;
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // NOTIFICATIONS (Feature 12)
+    // ============================================
+
+    getNotifications: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('notifications')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    getUnreadCount: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: { count: 0 }, error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('notifications')
+            .select('id', { count: 'exact', head: true })
+            .eq('user_id', user.id)
+            .eq('read', false);
+
+        const count = data?.length || 0;
+        return { data: { count }, error: handleSupabaseError(error) };
+    },
+
+    markNotificationRead: async (notificationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('notifications')
+            .update({ read: true, read_at: new Date().toISOString() })
+            .eq('id', notificationId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    markAllNotificationsRead: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('notifications')
+            .update({ read: true, read_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .eq('read', false);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    deleteNotification: async (notificationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('notifications')
+            .delete()
+            .eq('id', notificationId)
+            .eq('user_id', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // NEWSLETTER CAMPAIGNS (Feature 11)
+    // ============================================
+
+    getCampaigns: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: [], error: 'Access denied' };
+
+        const { data, error } = await supabase
+            .from('newsletter_campaigns')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    createCampaign: async (data: {
+        name: string;
+        subject: string;
+        preview_text?: string;
+        content: string;
+        target_segment?: string;
+        scheduled_for?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase.from('newsletter_campaigns').insert({
+            id: generateId(),
+            name: data.name,
+            subject: data.subject,
+            preview_text: data.preview_text,
+            content: data.content,
+            target_segment: data.target_segment || 'all',
+            status: 'draft',
+            scheduled_for: data.scheduled_for,
+            created_by: user.id,
+            created_at: new Date().toISOString()
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    updateCampaign: async (campaignId: string, updates: {
+        name?: string;
+        subject?: string;
+        preview_text?: string;
+        content?: string;
+        target_segment?: string;
+        status?: string;
+        scheduled_for?: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase
+            .from('newsletter_campaigns')
+            .update(updates)
+            .eq('id', campaignId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    sendCampaign: async (campaignId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const teamMember = await isTeamMember(user.id);
+        if (!teamMember) return { data: null, error: 'Access denied' };
+
+        const { error } = await supabase
+            .from('newsletter_campaigns')
+            .update({ status: 'sending', sent_at: new Date().toISOString() })
+            .eq('id', campaignId);
+
+        // TODO: Implement actual email sending via SendGrid/Resend
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    // ============================================
+    // ANALYTICS (Feature 6)
+    // ============================================
+
+    getAnalytics: async (projectId: string, dateRange: {
+        start: string;
+        end: string;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('analytics_events')
+            .select('*')
+            .eq('project_id', projectId)
+            .gte('timestamp', new Date(dateRange.start).getTime())
+            .lte('timestamp', new Date(dateRange.end).getTime())
+            .order('timestamp', { ascending: true });
+
+        return { data, error: handleSupabaseError(error) };
+    },
+
+    trackAnalyticsEvent: async (data: {
+        project_id?: string;
+        event_type: string;
+        event_data?: Record<string, any>;
+    }) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase.from('analytics_events').insert({
+            id: generateId(),
+            project_id: data.project_id,
+            user_id: user.id,
+            event_type: data.event_type,
+            event_data: data.event_data || {},
+            timestamp: Date.now(),
+            created_at: new Date().toISOString()
+        });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    getAnalyticsSummary: async (projectId?: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        let query = supabase
+            .from('analytics_events')
+            .select('event_type, timestamp');
+
+        if (projectId) {
+            query = query.eq('project_id', projectId);
+        }
+
+        const { data, error } = await query;
+
+        if (error) return { data: null, error: handleSupabaseError(error) };
+
+        // Calculate summary statistics
+        const totalEvents = data?.length || 0;
+        const uniqueTypes = new Set(data?.map(e => e.event_type)).size;
+
+        return {
+            data: {
+                total_events: totalEvents,
+                unique_event_types: uniqueTypes,
+                latest_event: data?.[0]?.timestamp || null
+            },
+            error: null
+        };
     }
 };
