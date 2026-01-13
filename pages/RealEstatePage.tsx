@@ -222,9 +222,9 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
       {/* Back Button */}
       <button
         onClick={() => setCurrentPage('home')}
-        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-250"
       >
-        <ChevronLeftIcon className="w-5 h-5" />
+        <ChevronLeftIcon className="w-4 h-4" />
         <span className="text-sm font-medium">Back</span>
       </button>
 
@@ -249,17 +249,17 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
             {/* Search Filters */}
             <AnimatedSection>
-              <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-2xl">
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-xl">
                 <div className="grid md:grid-cols-4 gap-4">
                   {/* Type Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Property Type
                     </label>
                     <select
                       value={filters.type}
                       onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                       <option value="all">All Types</option>
                       <option value="house">Houses</option>
@@ -269,13 +269,13 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
                   {/* Price Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Price Range
                     </label>
                     <select
                       value={filters.priceRange}
                       onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                       <option value="all">All Prices</option>
                       <option value="0-400000">Under $400k</option>
@@ -287,13 +287,13 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
                   {/* Rooms Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Rooms
                     </label>
                     <select
                       value={filters.rooms}
                       onChange={(e) => setFilters({ ...filters, rooms: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                     >
                       <option value="all">All Rooms</option>
                       <option value="1">1 Room</option>
@@ -305,8 +305,8 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
                   {/* Results Count */}
                   <div className="flex items-end">
-                    <div className="w-full px-4 py-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    <div className="w-full px-4 py-2.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-center">
+                      <p className="text-2xl font-semibold text-blue-600 dark:text-blue-400">
                         {filteredProperties.length}
                       </p>
                       <p className="text-xs text-slate-600 dark:text-slate-400">Properties</p>
@@ -338,46 +338,46 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
             </div>
 
             {/* Properties Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredProperties.map((property) => (
                 <button
                   key={property.id}
                   onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); setShowContactForm(false); }}
-                  className="group text-left bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  className="group text-left bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-250"
                 >
                   {/* Image */}
                   <div className={`aspect-video bg-gradient-to-br ${property.images[0]} relative overflow-hidden`}>
                     {property.highlighted && (
-                      <span className="absolute top-3 left-3 px-2.5 py-1 bg-amber-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-lg">
+                      <span className="absolute top-3 left-3 px-2 py-1 bg-amber-500/90 backdrop-blur-sm text-white text-[11px] font-medium rounded-md">
                         Featured
                       </span>
                     )}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-250"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-                      <p className="text-white font-semibold text-lg group-hover:text-xl transition-all duration-300">
+                      <p className="text-white font-semibold text-base group-hover:text-lg transition-all duration-250">
                         {formatPrice(property.price)}
                       </p>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-5">
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      <MapPinIconLocal className="w-4 h-4" />
+                  <div className="p-4">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                      <MapPinIconLocal className="w-3.5 h-3.5" />
                       {property.location}
                     </p>
-                    <h3 className="font-semibold text-slate-900 dark:text-white mb-3 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-3 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 text-sm">
                       {property.title}
                     </h3>
 
                     {/* Specs */}
-                    <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                    <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
                       <span className="flex items-center gap-1">
-                        <BedIconLocal className="w-4 h-4" />
+                        <BedIconLocal className="w-3.5 h-3.5" />
                         {property.rooms} bed
                       </span>
                       <span className="flex items-center gap-1">
-                        <BuildingIconLocal className="w-4 h-4" />
+                        <BuildingIconLocal className="w-3.5 h-3.5" />
                         {property.area} m²
                       </span>
                     </div>
@@ -400,15 +400,15 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
       {/* Property Detail Modal */}
       {selectedProperty && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto" onClick={() => setSelectedProperty(null)}>
-          <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl overflow-hidden my-8" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-xl overflow-hidden my-8 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800">
-              <h2 className="font-serif text-lg font-semibold text-slate-900 dark:text-white">
+              <h2 className="font-serif text-base font-semibold text-slate-900 dark:text-white">
                 {selectedProperty.title}
               </h2>
               <button
                 onClick={() => setSelectedProperty(null)}
-                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors duration-150"
               >
                 <XMarkIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
               </button>
@@ -418,13 +418,13 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
             <div className={`aspect-video bg-gradient-to-br ${selectedProperty.images[currentImageIndex] ?? ''} relative`}>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : (selectedProperty.images?.length ?? 1) - 1))}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-110 transition-all duration-300"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200"
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev < (selectedProperty.images?.length ?? 1) - 1 ? prev + 1 : 0))}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-110 transition-all duration-300"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200"
               >
                 <ChevronRightIcon className="w-5 h-5" />
               </button>
@@ -433,8 +433,8 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   <button
                     key={`property-image-${selectedProperty.id}-${idx}`}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/70'
+                    className={`h-2 rounded-full transition-all duration-200 ${
+                      idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/50 w-2 hover:bg-white/70'
                     }`}
                   />
                 ))}
@@ -445,7 +445,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               {/* Price and Location */}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
                 <div>
-                  <p className="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">
+                  <p className="text-3xl sm:text-4xl font-semibold text-blue-600 dark:text-blue-400">
                     {formatPrice(selectedProperty.price)}
                   </p>
                   <p className="text-slate-600 dark:text-slate-400 flex items-center gap-1 mt-1 text-sm">
@@ -455,7 +455,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                 </div>
                 <button
                   onClick={() => setShowContactForm(!showContactForm)}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-250 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                 >
                   <EnvelopeIcon className="w-5 h-5" />
                   Request Viewing
@@ -464,24 +464,24 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
               {/* Specs */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
                   <BedIconLocal className="w-5 h-5 text-slate-400 mx-auto mb-2" />
                   <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.rooms ?? 0}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Rooms</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
                   <BuildingIconLocal className="w-5 h-5 text-slate-400 mx-auto mb-2" />
                   <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.area ?? 0} m²</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Living Space</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
                   <svg className="w-5 h-5 text-slate-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                   </svg>
                   <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.bathrooms ?? 0}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Bathrooms</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
                   <CalendarIcon className="w-5 h-5 text-slate-400 mx-auto mb-2" />
                   <p className="text-base font-semibold text-slate-900 dark:text-white">{selectedProperty.year ?? 0}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Year Built</p>
@@ -503,7 +503,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   {selectedProperty.features?.map((feature, idx) => (
                     <span
                       key={`feature-${selectedProperty.id}-${feature}`}
-                      className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                      className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-md text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-150"
                     >
                       {feature}
                     </span>
@@ -513,7 +513,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
               {/* Contact Form */}
               {showContactForm && (
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6">
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-6">
                   {formSubmitted ? (
                     <div className="text-center py-8">
                       <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -543,7 +543,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                             required
                             value={viewingForm.name}
                             onChange={(e) => setViewingForm({ ...viewingForm, name: e.target.value })}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                             placeholder="Your name"
                           />
                         </div>
@@ -556,7 +556,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                             required
                             value={viewingForm.phone}
                             onChange={(e) => setViewingForm({ ...viewingForm, phone: e.target.value })}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                             placeholder="Your phone number"
                           />
                         </div>
@@ -570,7 +570,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                           required
                           value={viewingForm.email}
                           onChange={(e) => setViewingForm({ ...viewingForm, email: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
+                          className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                           placeholder="your@email.com"
                         />
                       </div>
@@ -582,16 +582,16 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                           rows={3}
                           value={viewingForm.message}
                           onChange={(e) => setViewingForm({ ...viewingForm, message: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 resize-none"
+                          className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 resize-none"
                           placeholder="Questions or requests for the viewing..."
                         />
                       </div>
                       <button
                         type="submit"
-                        className="group w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                        className="group w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-250 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                       >
                         <span>Send Request</span>
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-250" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                       </button>
@@ -608,18 +608,18 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
       <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white mb-4">
               Haven't Found What You're Looking For?
             </h2>
-            <p className="text-base text-slate-600 dark:text-slate-400 mb-8">
+            <p className="text-base text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
               We'll keep you updated about new listings matching your criteria.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:+493012345678" className="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0">
+              <a href="tel:+493012345678" className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-250 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0">
                 <PhoneIcon className="w-5 h-5" />
                 +49 30 123 456 78
               </a>
-              <a href="mailto:info@realestate.de" className="px-8 py-3.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0">
+              <a href="mailto:info@realestate.de" className="px-8 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold rounded-lg transition-all duration-250 flex items-center justify-center gap-2 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0">
                 <EnvelopeIcon className="w-5 h-5" />
                 Send Email
               </a>

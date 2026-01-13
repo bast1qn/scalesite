@@ -165,9 +165,9 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
       {/* Back Button */}
       <button
         onClick={() => setCurrentPage('home')}
-        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-full shadow-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-250"
       >
-        <ChevronLeftIcon className="w-5 h-5" />
+        <ChevronLeftIcon className="w-4 h-4" />
         <span className="text-sm font-medium">Back</span>
       </button>
 
@@ -257,18 +257,18 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-6">
               {services.map((service) => (
-                <div key={service.id} className="bg-white dark:bg-slate-800 rounded-2xl p-8">
-                  <h3 className="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                <div key={service.id} className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-250">
+                  <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">
                     {service.title}
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-400 mb-6">
+                  <p className="text-slate-600 dark:text-slate-400 mb-5 text-sm leading-relaxed">
                     {service.description}
                   </p>
                   <ul className="space-y-2">
                     {service.items.map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                      <li key={idx} className="flex items-center gap-2 text-slate-700 dark:text-slate-300 text-sm">
                         <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
                         {item}
                       </li>
@@ -294,15 +294,15 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
               </div>
 
               {/* Category Filter */}
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 {projectCategories.map((cat) => (
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`px-5 py-2 rounded-full font-medium transition-all ${
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                       activeCategory === cat.id
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:shadow-sm'
                     }`}
                   >
                     {cat.name}
@@ -312,22 +312,22 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
             </div>
 
             {/* Projects Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredProjects.map((project, idx) => (
                 <button
                   key={project.id}
                   onClick={() => { setSelectedProject(project); setCurrentImageIndex(0); }}
                   className="group text-left"
                 >
-                  <div className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${project.gradient} mb-4 overflow-hidden relative`}>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-slate-900 px-6 py-3 rounded-full font-medium">
+                  <div className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${project.gradient} mb-3 overflow-hidden relative shadow-sm group-hover:shadow-md transition-shadow duration-250`}>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-250 flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-250 bg-white text-slate-900 px-5 py-2.5 rounded-full text-sm font-medium shadow-lg">
                         View Project
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">{project.location}</p>
-                  <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{project.location}</p>
+                  <h3 className="font-serif text-lg font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                     {project.title}
                   </h3>
                 </button>
@@ -339,26 +339,26 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
 
       {/* Project Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setSelectedProject(null)}>
           <button
             onClick={() => setSelectedProject(null)}
-            className="absolute top-4 right-4 text-white hover:text-slate-300 z-10"
+            className="absolute top-4 right-4 text-white hover:text-slate-300 z-10 p-2 hover:bg-white/10 rounded-full transition-colors duration-150"
           >
-            <XMarkIcon className="w-8 h-8" />
+            <XMarkIcon className="w-6 h-6" />
           </button>
 
-          <div className="max-w-5xl w-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden">
+          <div className="max-w-5xl w-full bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
             {/* Image Gallery */}
             <div className={`aspect-video bg-gradient-to-br ${selectedProject.images[currentImageIndex] ?? ''} relative`}>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : (selectedProject.images?.length ?? 1) - 1))}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800 rounded-full flex items-center justify-center"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200"
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev < (selectedProject.images?.length ?? 1) - 1 ? prev + 1 : 0))}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 dark:bg-slate-800 rounded-full flex items-center justify-center"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200"
               >
                 <ArrowRightIcon className="w-5 h-5" />
               </button>
@@ -367,8 +367,8 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                   <button
                     key={`project-image-${selectedProject.id}-${idx}`}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      idx === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                    className={`h-2 rounded-full transition-all duration-200 ${
+                      idx === currentImageIndex ? 'bg-white w-6' : 'bg-white/50 w-2 hover:bg-white/70'
                     }`}
                   />
                 ))}
@@ -416,18 +416,18 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
               {team.map((member) => (
                 <div
                   key={member.id}
-                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 text-center"
+                  className="bg-white dark:bg-slate-800 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow duration-250"
                 >
-                  <div className="w-24 h-24 bg-gradient-to-br from-slate-300 to-slate-500 rounded-full mx-auto mb-4"></div>
-                  <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white">
+                  <div className="w-20 h-20 bg-gradient-to-br from-slate-300 to-slate-500 rounded-full mx-auto mb-3"></div>
+                  <h3 className="font-serif text-base font-semibold text-slate-900 dark:text-white">
                     {member.name}
                   </h3>
-                  <p className="text-blue-600 dark:text-blue-400 text-sm mb-3">{member.role}</p>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm">
+                  <p className="text-blue-500 dark:text-blue-400 text-xs mb-2">{member.role}</p>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                     {member.description}
                   </p>
                 </div>
@@ -485,15 +485,15 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
               </div>
 
               {/* Contact Form */}
-              <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-8">
+              <div className="bg-slate-50 dark:bg-slate-900 rounded-xl p-6 shadow-sm">
                 {formSubmitted ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
                       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
                       Message Sent!
                     </h3>
                     <p className="text-slate-600 dark:text-slate-400">
@@ -503,7 +503,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                 ) : (
                   <form onSubmit={handleContactSubmit} className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                         Name *
                       </label>
                       <input
@@ -511,13 +511,13 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                         required
                         value={contactForm.name}
                         onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                        className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                         placeholder="Your name"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                         Email *
                       </label>
                       <input
@@ -525,13 +525,13 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                         required
                         value={contactForm.email}
                         onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                        className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600"
                         placeholder="your@email.com"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                         Message *
                       </label>
                       <textarea
@@ -539,14 +539,14 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                         rows={4}
                         value={contactForm.message}
                         onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                        className="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                        className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 resize-none"
                         placeholder="Tell us about your project..."
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                      className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 transition-opacity"
                     >
                       Send Message
                     </button>

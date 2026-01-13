@@ -110,14 +110,14 @@ export const DeviceMockupCarousel = () => {
             {/* Navigation */}
             <button
               onClick={prevSlide}
-              className="absolute left-0 sm:left-4 z-40 p-2.5 bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
+              className="absolute left-0 sm:left-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Previous"
             >
               <ChevronLeftIcon />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-0 sm:right-4 z-40 p-2.5 bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
+              className="absolute right-0 sm:right-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Next"
             >
               <ChevronRightIcon />
@@ -125,7 +125,7 @@ export const DeviceMockupCarousel = () => {
           </div>
 
           {/* Dots */}
-          <div className="flex justify-center gap-2 mt-12" role="tablist">
+          <div className="flex justify-center gap-2.5 mt-12" role="tablist">
               {mockups.map((mockup) => (
                   <button
                       key={mockup.id}
@@ -133,7 +133,7 @@ export const DeviceMockupCarousel = () => {
                       aria-selected={currentIndex === mockups.indexOf(mockup)}
                       aria-controls={`slide-${mockup.id}`}
                       onClick={() => setCurrentIndex(mockups.indexOf(mockup))}
-                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentIndex === mockups.indexOf(mockup) ? 'bg-blue-600 scale-125 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
+                      className={`h-2.5 rounded-full transition-all duration-250 ease-out ${currentIndex === mockups.indexOf(mockup) ? 'bg-blue-500 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500 w-2.5'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
                   />
               ))}
           </div>
