@@ -84,3 +84,6 @@ export * from './tickets';
 
 // SEO Tools (Woche 21)
 export * from './seo';
+
+// Newsletter (Woche 23-24)
+export * from './newsletter';
