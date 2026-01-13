@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { ArrowTopRightOnSquareIcon, EyeIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 import { translations } from '../lib/translations';
@@ -80,12 +80,19 @@ export const ShowcaseSection = ({
     return cats;
   }, [allItems, t]);
 
+  const filteredItems = useMemo(() => {
+    return allItems.filter(item =>
+      activeFilter === t('showcase.filter_all') || item.category === activeFilter
+    );
+  }, [allItems, activeFilter, t]);
+
   const displayTitle = title || t('showcase.title');
   const displaySubtitle = subtitle || t('showcase.subtitle');
 
-  const filteredItems = allItems.filter(item =>
-    activeFilter === t('showcase.filter_all') || item.category === activeFilter
-  );
+  // Memoize filter handler to prevent inline function creation in loop
+  const handleFilterChange = useCallback((category: string) => {
+    setActiveFilter(category);
+  }, []);
 
   return (
     <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
@@ -124,7 +131,7 @@ export const ShowcaseSection = ({
                     {categories.map(category => (
                         <button
                             key={category}
-                            onClick={() => setActiveFilter(category)}
+                            onClick={() => handleFilterChange(category)}
                             className={`filter-btn px-6 py-3 font-semibold rounded-2xl border-2 transition-all duration-300 ${
                                 activeFilter === category
                                 ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white border-transparent shadow-xl shadow-blue-500/25 scale-105'

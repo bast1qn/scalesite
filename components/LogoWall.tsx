@@ -1,4 +1,5 @@
 
+import { useMemo } from 'react';
 import { useLanguage } from '../contexts';
 
 const logos = [
@@ -16,6 +17,9 @@ const logos = [
 
 export const LogoWall = () => {
   const { t } = useLanguage();
+
+  // Memoize the duplicated marquee array to avoid recreation on every render
+  const marqueeItems = useMemo(() => [...logos, ...logos, ...logos], []);
 
   return (
     <div className="w-full py-16 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 dark:to-dark-bg border-b border-slate-200/60 dark:border-slate-800/50 overflow-hidden relative">
@@ -38,7 +42,7 @@ export const LogoWall = () => {
 
       <div className="relative flex overflow-x-hidden">
         <div className="animate-marquee whitespace-nowrap flex gap-12 items-center px-8">
-          {[...logos, ...logos, ...logos].map((logo, idx) => (
+          {marqueeItems.map((logo, idx) => (
             <div
               key={idx}
               className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-105"

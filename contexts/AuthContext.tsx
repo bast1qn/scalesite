@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [sessionChecked, setSessionChecked] = useState(false);
 
   const loadingRef = useRef(true);
+  const profileLoadPromiseRef = useRef<Map<string, Promise<UserProfile | null>>>(new Map());
 
   useEffect(() => {
     loadingRef.current = loading;
@@ -145,7 +146,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      // Request deduplication: Check if there's already a pending request for this user
+      const existingPromise = profileLoadPromiseRef.current.get(userId);
+      if (existingPromise) {
+        const data = await existingPromise;
+        if (data && isMounted) {
+          setUser(mapProfileToAppUser(data));
+          setLoading(false);
+        }
+        return;
+      }
+
+      // Create new request and store it
+      const profilePromise = getUserProfile(userId).then(({ data }) => data);
+      profileLoadPromiseRef.current.set(userId, profilePromise);
+
       const { data, error } = await getUserProfile(userId);
+
+      // Clean up the promise cache
+      profileLoadPromiseRef.current.delete(userId);
 
       if (error) {
         console.error('[AUTH] Error loading profile from DB:', error.message);

@@ -1,5 +1,5 @@
 
-import { useState, type FC } from 'react';
+import { useState, type FC, memo } from 'react';
 import { AnimatedSection, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './index';
 import { useLanguage } from '../contexts';
 
@@ -40,7 +40,7 @@ const features = [
 ];
 
 // Transcendent feature card with 3D effects
-const FeatureCard: FC<{
+const FeatureCardComponent: FC<{
     feature: typeof features[0];
     index: number;
     t: (key: string) => string;
@@ -134,6 +134,9 @@ const FeatureCard: FC<{
         </div>
     );
 };
+
+// Memoize FeatureCard to prevent unnecessary re-renders
+const FeatureCard = memo(FeatureCardComponent);
 
 export const TestimonialsSection: FC = () => {
     const { t } = useLanguage();

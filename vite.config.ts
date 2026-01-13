@@ -20,6 +20,12 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
+        // Enable CSS code splitting
+        cssCodeSplit: true,
+        // Target modern browsers for smaller bundle
+        target: 'esnext',
+        // Minify with esbuild (built-in, faster than terser)
+        minify: 'esbuild',
         rollupOptions: {
           output: {
             manualChunks(id) {
