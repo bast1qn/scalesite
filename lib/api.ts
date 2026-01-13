@@ -82,7 +82,12 @@ interface SupabaseError {
 
 const handleSupabaseError = (error: SupabaseError | null): string | null => {
     if (error) {
-        return error.message || 'An error occurred';
+        // SECURITY: Don't expose internal error messages to users (OWASP A05:2021)
+        // Internal errors may leak database structure, table names, or implementation details
+        console.error('[API] Internal error:', error.message, error.code);
+
+        // Return generic message to user - prevents information disclosure
+        return 'An error occurred. Please try again.';
     }
     return null;
 };

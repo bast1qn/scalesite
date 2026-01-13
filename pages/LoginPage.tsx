@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, type FormEvent } from 'react';
 import { AuthContext, useLanguage } from '../contexts';
 import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components';
-import { supabase, validateEmail, validateString } from '../lib';
+import { supabase, validateEmail, validateString, validateSessionToken } from '../lib';
 
 interface LoginPageProps {
     setCurrentPage: (page: string) => void;
@@ -48,16 +48,34 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
   const { t, language } = useLanguage();
 
   // Check for Token in URL (Return from Social Login)
+  // SECURITY: Validate ALL URL parameters before processing
   // Note: This effect intentionally runs once on mount to check URL params.
   // The callbacks are stable from context, so excluding them is safe.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
+    const rawToken = params.get('token');
     const urlError = params.get('error');
 
-    if (token) {
+    if (rawToken) {
+        // SECURITY: Validate token format before processing (OWASP A03:2021)
+        const tokenValidation = validateSessionToken(rawToken);
+
+        if (!tokenValidation.isValid) {
+            console.error('[AUTH SECURITY] Invalid token format from URL:', tokenValidation.errors);
+            setError(t('general.error'));
+            return;
+        }
+
+        // SECURITY: Limit token length to prevent DoS
+        const sanitizedToken = tokenValidation.sanitized || rawToken;
+        if (sanitizedToken.length > 500) {
+            console.error('[AUTH SECURITY] Token too long, possible DoS attempt');
+            setError(t('general.error'));
+            return;
+        }
+
         setLoading(true);
-        loginWithToken(token).then(success => {
+        loginWithToken(sanitizedToken).then(success => {
             if (success) {
                 window.history.replaceState({}, document.title, window.location.pathname);
                 setCurrentPage('dashboard');
@@ -70,6 +88,18 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
             setLoading(false);
         });
     } else if (urlError) {
+        // SECURITY: Sanitize error message to prevent XSS (OWASP A03:2021)
+        const errorValidation = validateString(urlError, {
+            maxLength: 200,
+            allowEmpty: true
+        });
+
+        if (errorValidation.isValid && urlError.trim()) {
+            // Log internally but don't show raw error to user
+            console.error('[AUTH] URL error parameter (sanitized):', errorValidation.sanitized);
+        }
+
+        // Show generic error message (no information leakage)
         setError(t('general.error'));
     }
   // Disable exhaustive-deps: This should only run once on mount for URL param checking

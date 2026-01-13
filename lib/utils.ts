@@ -9,26 +9,68 @@ export { useScroll } from './hooks';
 // ===== STORAGE HELPERS =====
 
 /**
+ * ⚠️ SECURITY: Never store sensitive data in localStorage!
+ *
+ * ALLOWED: Theme, language, UI preferences (non-sensitive)
+ * FORBIDDEN: Auth tokens, user data, session info, passwords, emails
+ *
+ * localStorage is accessible to any XSS attack - use Supabase's secure storage for auth
+ */
+const FORBIDDEN_KEYS = ['token', 'auth', 'session', 'password', 'user', 'email', 'secret', 'api_key', 'credential'];
+
+/**
+ * Check if a key contains sensitive data
+ */
+function isSensitiveKey(key: string): boolean {
+  const keyLower = key.toLowerCase();
+  return FORBIDDEN_KEYS.some(forbidden => keyLower.includes(forbidden));
+}
+
+/**
  * Safely get item from localStorage with SSR safety
  */
 export function getLocalStorageItem(key: string): string | null {
   if (typeof window === 'undefined') return null;
+
+  // SECURITY: Log sensitive key access attempts
+  if (isSensitiveKey(key)) {
+    console.warn('[SECURITY] Attempted to read sensitive key from localStorage:', key);
+  }
+
   try {
     return localStorage.getItem(key);
-  } catch {
+  } catch (error) {
+    console.error('[SECURITY] localStorage read failed:', error);
     return null;
   }
 }
 
 /**
  * Safely set item in localStorage with SSR safety
+ * SECURITY: Blocks storage of sensitive data
  */
 export function setLocalStorageItem(key: string, value: string): boolean {
   if (typeof window === 'undefined') return false;
+
+  // SECURITY: Block sensitive data storage
+  if (isSensitiveKey(key)) {
+    console.error('[SECURITY] Attempted to store sensitive data in localStorage:', key);
+    console.error('[SECURITY] This is a security violation. Use Supabase auth for session data.');
+    return false;
+  }
+
+  // SECURITY: Limit value size to prevent localStorage quota exhaustion (DoS)
+  const MAX_VALUE_SIZE = 10000; // 10KB per item
+  if (value.length > MAX_VALUE_SIZE) {
+    console.error('[SECURITY] Value too large for localStorage, possible DoS attempt:', key);
+    return false;
+  }
+
   try {
     localStorage.setItem(key, value);
     return true;
-  } catch {
+  } catch (error) {
+    console.error('[SECURITY] localStorage write failed:', error);
     return false;
   }
 }

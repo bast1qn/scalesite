@@ -29,3 +29,6 @@ export * from './confetti';
 
 // Dashboard specific
 export * from './dashboardAlerts';
+
+// Security components
+export { ProtectedRoute, withAuth } from './ProtectedRoute';
