@@ -32,6 +32,10 @@ export const LazyImage = ({
       img.onerror = () => {
         setIsError(true);
       };
+      return () => {
+        img.onload = null;
+        img.onerror = null;
+      };
     }
   }, [src, isInView]);
 
@@ -77,6 +81,9 @@ export const OptimizedBackgroundImage = ({
       const img = new Image();
       img.src = src;
       img.onload = () => setIsLoaded(true);
+      return () => {
+        img.onload = null;
+      };
     }
   }, [isInView, src, isLoaded]);
 

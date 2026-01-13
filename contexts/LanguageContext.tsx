@@ -16,15 +16,23 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem(LANGUAGE_KEY) as Language | null;
-    if (savedLang === 'de' || savedLang === 'en') {
-      setLanguageState(savedLang);
+    try {
+      const savedLang = localStorage.getItem(LANGUAGE_KEY) as Language | null;
+      if (savedLang === 'de' || savedLang === 'en') {
+        setLanguageState(savedLang);
+      }
+    } catch (error) {
+      console.warn('Failed to read language from localStorage:', error);
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem(LANGUAGE_KEY, lang);
+    try {
+      localStorage.setItem(LANGUAGE_KEY, lang);
+    } catch (error) {
+      console.warn('Failed to save language to localStorage:', error);
+    }
     document.documentElement.lang = lang;
   };
 

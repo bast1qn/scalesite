@@ -127,7 +127,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           if (data && isMounted) {
             setUser(mapProfileToAppUser(data));
           }
-        }).catch(() => {
+        }).catch((err) => {
+          console.error('[AUTH] Error loading user profile from auth state change:', err instanceof Error ? err.message : err);
         });
       } else {
         setUser(null);

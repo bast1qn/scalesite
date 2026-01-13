@@ -78,7 +78,7 @@ export const ProcessSteps: FC = () => {
         <AnimatedSection stagger>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, index) => (
-              <div key={index} className="group relative">
+              <div key={step.nameKey} className="group relative">
                 {/* Connector line (desktop) */}
                 {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400"></div>
@@ -114,7 +114,7 @@ export const ProcessSteps: FC = () => {
           <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500 via-violet-500 to-emerald-500"></div>
           <div className="space-y-8">
             {steps.map((step, index) => (
-              <div key={index} className="flex items-start gap-4">
+              <div key={step.nameKey} className="flex items-start gap-4">
                 <div className={`relative z-10 w-12 h-12 rounded-full ${step.bg} ${step.textColor} flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-900 shadow-sm`}>
                   {step.icon}
                 </div>

@@ -38,7 +38,11 @@ export const ThemeToggle = () => {
         setIsAnimating(true);
         const newTheme: Theme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
-        localStorage.setItem(THEME_KEY, newTheme);
+        try {
+            localStorage.setItem(THEME_KEY, newTheme);
+        } catch (error) {
+            console.warn('Failed to save theme to localStorage:', error);
+        }
 
         document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
         applyTheme(newTheme);

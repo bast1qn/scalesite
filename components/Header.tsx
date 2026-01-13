@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, type ReactNode } from 'react';
+import { useState, useContext, useRef, useMemo, type ReactNode } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
@@ -140,13 +140,13 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
         setLanguage(language === 'de' ? 'en' : 'de');
     };
 
-    const navItems = [
+    const navItems = useMemo(() => [
         { page: 'home', label: t('nav.home')},
         { page: 'leistungen', label: t('nav.services')},
         { page: 'automationen', label: t('nav.automation')},
         { page: 'preise', label: t('nav.pricing')},
         { page: 'contact', label: t('nav.contact')},
-    ];
+    ], [t]);
 
     const headerClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-350 ease-smooth ${
         isScrolled || isMenuOpen

@@ -92,8 +92,8 @@ export const UspSection: FC = () => {
 
         <AnimatedSection stagger>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {usps.map((usp, index) => (
-              <HoverCard key={index}>
+            {usps.map((usp) => (
+              <HoverCard key={usp.nameKey}>
                 <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                   {/* Top accent line */}
                   <div className={`absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, lazy, Suspense } from 'react';
+import { useState, useEffect, useContext, lazy, Suspense, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider } from './contexts';
 import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary } from './components';
@@ -36,6 +36,11 @@ const AppContent = () => {
     const { user, loading } = useContext(AuthContext);
     const { t } = useLanguage();
     const [showReset, setShowReset] = useState(false);
+
+    // Stable callback for page navigation
+    const handleNavigateToLogin = useCallback(() => {
+        setCurrentPage('login');
+    }, []);
 
     useEffect(() => {
         const pageTitles: {[key: string]: string} = {
@@ -107,10 +112,9 @@ const AppContent = () => {
 
     useEffect(() => {
         if (currentPage === 'dashboard' && !user && !loading) {
-            setCurrentPage('login');
+            handleNavigateToLogin();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, user, loading]);
+    }, [currentPage, user, loading, handleNavigateToLogin]);
 
     if (loading) {
         return (

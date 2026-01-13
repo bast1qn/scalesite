@@ -73,15 +73,24 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
     const [currency, setCurrencyState] = useState<CurrencyCode>('EUR');
 
     useEffect(() => {
-        const savedCurrency = localStorage.getItem('app_currency') as CurrencyCode | null;
-        if (savedCurrency && currencies[savedCurrency]) {
-            setCurrencyState(savedCurrency);
+        try {
+            const savedCurrency = localStorage.getItem('app_currency') as CurrencyCode | null;
+            if (savedCurrency && currencies[savedCurrency]) {
+                setCurrencyState(savedCurrency);
+            }
+        } catch (error) {
+            // localStorage not available (private browsing, quota exceeded, etc.)
+            console.warn('Failed to read currency from localStorage:', error);
         }
     }, []);
 
     const setCurrency = (newCurrency: CurrencyCode) => {
         setCurrencyState(newCurrency);
-        localStorage.setItem('app_currency', newCurrency);
+        try {
+            localStorage.setItem('app_currency', newCurrency);
+        } catch (error) {
+            console.warn('Failed to save currency to localStorage:', error);
+        }
     };
 
     const getCurrencyInfo = (): Currency => {

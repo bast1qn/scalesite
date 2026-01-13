@@ -83,7 +83,7 @@ export const ReasonsSection: React.FC = () => {
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {reasons.map((reason, index) => (
             <motion.div
-              key={index}
+              key={reason.title}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}

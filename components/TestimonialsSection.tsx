@@ -210,7 +210,7 @@ export const TestimonialsSection: FC = () => {
                     <div className="grid md:grid-cols-3 gap-10 stagger-container">
                         {features.map((feature, index) => (
                             <FeatureCard
-                                key={index}
+                                key={feature.titleKey}
                                 feature={feature}
                                 index={index}
                                 t={t}

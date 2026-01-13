@@ -47,17 +47,22 @@ const RegisterPage = ({ setCurrentPage }: RegisterPageProps) => {
       return;
     }
     setLoading(true);
-    const result = await register(name, company, email, password);
-    if (result.error) {
-      setError(result.error);
-    } else if (result.success) {
-      if (result.requiresConfirmation) {
-        setSuccess(t('auth.success_reg_desc'));
-      } else {
-        setCurrentPage('dashboard');
+    try {
+      const result = await register(name, company, email, password);
+      if (result.error) {
+        setError(result.error);
+      } else if (result.success) {
+        if (result.requiresConfirmation) {
+          setSuccess(t('auth.success_reg_desc'));
+        } else {
+          setCurrentPage('dashboard');
+        }
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('general.error'));
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const getStrengthColor = (strength: string) => {
