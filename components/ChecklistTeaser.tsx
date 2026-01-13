@@ -1,10 +1,8 @@
-
-import React from 'react';
 import { ClipboardDocumentCheckIcon, DocumentArrowDownIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export const ChecklistTeaser: React.FC = () => {
+export const ChecklistTeaser = () => {
     const { t } = useLanguage();
 
     const checklistItems = [

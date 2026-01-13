@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, RefObject, useCallback } from 'react';
+import { useState, useEffect, useRef, RefObject, useCallback, MouseEvent, MouseEventHandler } from 'react';
 
 /**
  * Custom hook to detect clicks outside of a component
@@ -26,6 +26,24 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>(
   }, [enabled]);
 
   return [ref, isOutside];
+}
+
+/**
+ * Custom hook for hover state management
+ * Returns handlers for mouse enter/leave events and the current hover state
+ */
+export function useHover<T extends HTMLElement = HTMLElement>(): {
+  isHovered: boolean;
+  onMouseEnter: MouseEventHandler<T>;
+  onMouseLeave: MouseEventHandler<T>;
+} {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return {
+    isHovered,
+    onMouseEnter: () => setIsHovered(true),
+    onMouseLeave: () => setIsHovered(false),
+  };
 }
 
 /**

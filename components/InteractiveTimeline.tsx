@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { CodeBracketIcon, LightBulbIcon, ArrowTrendingUpIcon, RocketLaunchIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -18,7 +17,7 @@ const gradients = [
     'from-violet-500 to-purple-400',
 ];
 
-export const InteractiveTimeline: React.FC = () => {
+export const InteractiveTimeline = () => {
     const { t } = useLanguage();
     const [activeId, setActiveId] = useState(1);
     const refs = useRef<(HTMLDivElement | null)[]>([]);

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import type { ReactNode } from 'react';
 import { PaintBrushIcon, CodeBracketIcon, ServerIcon, ShieldCheckIcon, SparklesIcon, ArrowRightIcon, ChatBubbleBottomCenterTextIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const iconMap: { [key: string]: React.ReactNode } = {
+const iconMap: { [key: string]: ReactNode } = {
   'PaintBrushIcon': <PaintBrushIcon />,
   'CodeBracketIcon': <CodeBracketIcon />,
   'ServerIcon': <ServerIcon />,
@@ -11,25 +11,15 @@ const iconMap: { [key: string]: React.ReactNode } = {
   'SparklesIcon': <SparklesIcon className="w-6 h-6" />,
 };
 
-// Clean card with subtle hover effect
-const HoverCard: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-}> = ({ children, className = '' }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
+const HoverCard = ({ children, className = '' }: { children: ReactNode; className?: string }) => {
   return (
-    <div
-      className={`relative transition-all duration-300 ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className={`relative group transition-all duration-300 ${className}`}>
       {children}
     </div>
   );
 };
 
-export const ServicesGrid: React.FC = () => {
+export const ServicesGrid = () => {
   const { t } = useLanguage();
 
   const services = [

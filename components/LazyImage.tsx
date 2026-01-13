@@ -1,5 +1,4 @@
-
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface LazyImageProps {
   src: string;
@@ -9,18 +8,13 @@ interface LazyImageProps {
   threshold?: number;
 }
 
-/**
- * LazyImage Component
- * Loads images only when they enter the viewport for better performance
- * Uses Intersection Observer API for efficient detection
- */
-export const LazyImage: React.FC<LazyImageProps> = ({
+export const LazyImage = ({
   src,
   alt,
   className = '',
   placeholder = 'https://via.placeholder.com/400x300?text=Loading...',
   threshold = 0.1
-}) => {
+}: LazyImageProps) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -31,7 +25,6 @@ export const LazyImage: React.FC<LazyImageProps> = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Start loading the image when it enters the viewport
             const img = new Image();
             img.src = src;
             img.onload = () => {
@@ -82,21 +75,17 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   );
 };
 
-/**
- * OptimizedBackgroundImage Component
- * For background images with lazy loading and blur effect
- */
 interface OptimizedBackgroundImageProps {
   src: string;
   className?: string;
   children?: React.ReactNode;
 }
 
-export const OptimizedBackgroundImage: React.FC<OptimizedBackgroundImageProps> = ({
+export const OptimizedBackgroundImage = ({
   src,
   className = '',
   children
-}) => {
+}: OptimizedBackgroundImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

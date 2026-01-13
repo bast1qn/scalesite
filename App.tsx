@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useContext, lazy, Suspense } from 'react';
+import { useState, useEffect, useContext, lazy, Suspense } from 'react';
 import { AuthContext, AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
@@ -26,7 +26,7 @@ const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
 const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
 
-const PageLoader: React.FC = () => {
+const PageLoader = () => {
     const { t } = useLanguage();
     return (
         <div className="min-h-screen flex items-center justify-center">
@@ -38,7 +38,7 @@ const PageLoader: React.FC = () => {
     );
 };
 
-const AppContent: React.FC = () => {
+const AppContent = () => {
     const [currentPage, setCurrentPage] = useState('home');
     const { user, loading } = useContext(AuthContext);
     const { t } = useLanguage();
@@ -92,10 +92,7 @@ const AppContent: React.FC = () => {
             case 'login': return <LoginPage setCurrentPage={setCurrentPage} />;
             case 'register': return <RegisterPage setCurrentPage={setCurrentPage} />;
             case 'dashboard':
-                if (!user) {
-                    // Use useEffect instead of setTimeout during render - redirect handled by useEffect
-                    return null;
-                }
+                if (!user) return null;
                 return <DashboardPage setCurrentPage={setCurrentPage} />;
             case 'impressum': return <ImpressumPage />;
             case 'datenschutz': return <DatenschutzPage />;
@@ -107,7 +104,6 @@ const AppContent: React.FC = () => {
         }
     };
 
-    // Redirect to login if accessing dashboard without auth
     useEffect(() => {
         if (currentPage === 'dashboard' && !user && !loading) {
             setCurrentPage('login');
@@ -147,7 +143,7 @@ const AppContent: React.FC = () => {
     );
 };
 
-const App: React.FC = () => {
+const App = () => {
     return (
         <ErrorBoundary>
             <AuthProvider>

@@ -1,30 +1,25 @@
-import React, { useState } from 'react';
+import type { ReactNode } from 'react';
 import { ReactIcon, ScaleSiteLogo, GitHubIcon, InstagramIcon, DiscordIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useHover } from '../lib/hooks';
 
 interface FooterProps {
   setCurrentPage: (page: string) => void;
 }
 
-// Refined footer link with subtle hover
-const FooterLink: React.FC<{
-  page: string;
-  setCurrentPage: (page: string) => void;
-  children: React.ReactNode;
-}> = ({ page, setCurrentPage, children }) => {
-    const [isHovered, setIsHovered] = useState(false);
+const FooterLink = ({ page, setCurrentPage, children }: { page: string; setCurrentPage: (page: string) => void; children: ReactNode }) => {
+    const hover = useHover();
 
     return (
         <li>
             <button
                 onClick={() => setCurrentPage(page)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                {...hover}
                 className="relative text-sm text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-350 ease-smooth text-left py-2 group"
             >
                 <span className="flex items-center gap-2">
                     {children}
-                    <svg className={`w-3.5 h-3.5 transition-all duration-350 ease-smooth ${isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-0 -translate-x-1'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className={`w-3.5 h-3.5 transition-all duration-350 ease-smooth ${hover.isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-0 -translate-x-1'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                 </span>
@@ -33,21 +28,15 @@ const FooterLink: React.FC<{
     );
 };
 
-// Refined social icon button
-const SocialIconButton: React.FC<{
-    href: string;
-    children: React.ReactNode;
-    ariaLabel?: string;
-}> = ({ href, children, ariaLabel }) => {
-    const [isHovered, setIsHovered] = useState(false);
+const SocialIconButton = ({ href, children, ariaLabel }: { href: string; children: ReactNode; ariaLabel?: string }) => {
+    const hover = useHover();
 
     return (
         <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            {...hover}
             className="group relative w-10 h-10 flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-all duration-350 ease-smooth hover:border-primary-400 dark:hover:border-violet-500 hover:text-primary-500 dark:hover:text-violet-400 hover:-translate-y-0.5 hover:shadow-soft"
             aria-label={ariaLabel}
         >
@@ -58,7 +47,7 @@ const SocialIconButton: React.FC<{
     );
 };
 
-export const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
+export const Footer = ({ setCurrentPage }: FooterProps) => {
   const { t } = useLanguage();
 
   return (

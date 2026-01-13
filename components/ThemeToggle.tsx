@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SunIcon, MoonIcon } from './Icons';
+import { useHover } from '../lib/hooks';
 
 type Theme = 'light' | 'dark';
 
@@ -24,10 +25,10 @@ const applyTheme = (theme: Theme) => {
     }
 };
 
-export const ThemeToggle: React.FC = () => {
+export const ThemeToggle = () => {
     const [theme, setTheme] = useState<Theme>(getInitialTheme);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
+    const hover = useHover();
 
     useEffect(() => {
         applyTheme(theme);
@@ -51,27 +52,23 @@ export const ThemeToggle: React.FC = () => {
     return (
         <button
             onClick={toggleTheme}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            {...hover}
             className="relative w-16 h-8 rounded-full transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 group"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >
-            {/* Animated track background */}
             <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
                 theme === 'dark'
                     ? 'bg-gradient-to-r from-blue-600 to-violet-600 shadow-lg shadow-blue-500/25'
                     : 'bg-gradient-to-r from-slate-200 to-slate-300'
-            } ${isHovered ? 'scale-105' : ''}`}></div>
+            } ${hover.isHovered ? 'scale-105' : ''}`}></div>
 
-            {/* Inner glow effect */}
             {theme === 'dark' && (
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-violet-500/20 blur-lg animate-pulse"></div>
             )}
 
-            {/* Toggle knob */}
             <div className={`absolute top-1 bottom-1 w-6 rounded-full bg-white shadow-xl transform transition-all duration-500 ease-out flex items-center justify-center ${
                 theme === 'dark' ? 'left-[calc(100%-1.875rem)]' : 'left-1'
-            } ${isAnimating ? 'scale-90' : 'scale-100'} ${isHovered ? 'scale-105' : ''}`}>
+            } ${isAnimating ? 'scale-90' : 'scale-100'} ${hover.isHovered ? 'scale-105' : ''}`}>
                 {theme === 'dark' ? (
                     <MoonIcon className="w-3.5 h-3.5 text-violet-600 transition-transform duration-500" />
                 ) : (
@@ -79,7 +76,6 @@ export const ThemeToggle: React.FC = () => {
                 )}
             </div>
 
-            {/* Orbiting particle effect */}
             <div className={`absolute inset-0 rounded-full overflow-hidden pointer-events-none ${
                 theme === 'dark' ? 'opacity-100' : 'opacity-0'
             } transition-opacity duration-500`}>

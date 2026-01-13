@@ -1,16 +1,15 @@
-
-import React from 'react';
+import type { ReactNode } from 'react';
 import { DocumentArrowDownIcon, ClipboardDocumentCheckIcon, PaintBrushIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const iconMap: { [key: string]: React.ReactNode } = {
+const iconMap: { [key: string]: ReactNode } = {
   'ClipboardDocumentCheckIcon': <ClipboardDocumentCheckIcon />,
   'PaintBrushIcon': <PaintBrushIcon />,
   'DocumentArrowDownIcon': <DocumentArrowDownIcon />,
 };
 
-export const ResourcesSection: React.FC = () => {
+export const ResourcesSection = () => {
   const { t } = useLanguage();
 
   const resources = [

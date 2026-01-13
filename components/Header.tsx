@@ -1,31 +1,24 @@
-import React, { useState, useContext, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useCurrency } from '../contexts/CurrencyContext';
-import { useScroll, useBodyScrollLock, useClickOutsideCallback } from '../lib/hooks';
+import { useScroll, useBodyScrollLock, useClickOutsideCallback, useHover } from '../lib/hooks';
 
 interface HeaderProps {
     setCurrentPage: (page: string) => void;
     currentPage: string;
 }
 
-// Refined nav button with subtle hover
-const NavButton: React.FC<{
-    page: string;
-    currentPage: string;
-    onClick: (page: string) => void;
-    children: React.ReactNode;
-}> = ({ page, currentPage, onClick, children }) => {
-    const [isHovered, setIsHovered] = useState(false);
+const NavButton = ({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: React.ReactNode }) => {
+    const hover = useHover();
     const isActive = currentPage === page;
 
     return (
         <button
             onClick={() => onClick(page)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            {...hover}
             className={`relative px-5 py-2 text-sm font-medium transition-all duration-350 ease-smooth rounded-2xl ${
                 isActive
                     ? 'text-white bg-gradient-to-r from-primary-600 to-violet-600 shadow-premium'
@@ -33,7 +26,7 @@ const NavButton: React.FC<{
             }`}
             aria-current={isActive ? 'page' : undefined}
         >
-            {!isActive && isHovered && (
+            {!isActive && hover.isHovered && (
                 <span className="absolute inset-0 rounded-2xl bg-slate-100 dark:bg-slate-800/80"></span>
             )}
             <span className="relative z-10">{children}</span>
@@ -41,7 +34,7 @@ const NavButton: React.FC<{
     );
 };
 
-const CurrencySelector: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
+const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
     const { currency, setCurrency, currenciesList } = useCurrency();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
@@ -125,7 +118,7 @@ const CurrencySelector: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }
     );
 };
 
-export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) => {
+export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
     const { user, logout } = useContext(AuthContext);
@@ -165,12 +158,10 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
 
     return (
         <header ref={headerRef} className={headerClasses}>
-            {/* Refined bottom accent */}
-            <div className={`absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-500/60 to-transparent transition-opacity duration-350 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}></div>
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-500/60 to-transparent transition-opacity duration-350"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 lg:h-18">
-                    {/* Logo */}
                     <button
                         onClick={() => setCurrentPage('home')}
                         className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-350"
@@ -178,7 +169,6 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         <ScaleSiteLogo className="h-7 lg:h-8" />
                     </button>
 
-                    {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center">
                         <div className="flex items-center gap-1 bg-slate-100/60 dark:bg-slate-800/60 px-2 py-1.5 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
                             {navItems.map(item => (
@@ -189,11 +179,9 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         </div>
                     </nav>
 
-                    {/* Desktop Right Side */}
                     <div className="hidden lg:flex items-center gap-4">
                         <CurrencySelector />
 
-                        {/* Language toggle */}
                         <button
                             onClick={toggleLanguage}
                             className="relative text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors duration-350 w-10 h-10 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center uppercase tracking-wider"
@@ -234,7 +222,6 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                         </div>
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <div className="lg:hidden flex items-center gap-2">
                         <CurrencySelector />
                         <button
@@ -258,17 +245,13 @@ export const Header: React.FC<HeaderProps> = ({ setCurrentPage, currentPage }) =
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             <div
                 className={`fixed inset-0 lg:hidden transition-all duration-350 ${
                     isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                 }`}
                 style={{ zIndex: 40 }}
             >
-                {/* Refined background */}
                 <div className="absolute inset-0 bg-white/98 dark:bg-slate-900/98 backdrop-blur-xl"></div>
-
-                {/* Refined gradient accent */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-violet-500/5 pointer-events-none"></div>
 
                 <nav className="flex flex-col items-center justify-center min-h-screen gap-4 p-8 relative z-10">

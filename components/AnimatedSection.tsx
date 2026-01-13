@@ -11,7 +11,8 @@ interface AnimatedSectionProps {
   once?: boolean;
   stagger?: boolean;
 }
-export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
+
+export const AnimatedSection = ({
   children,
   className = '',
   id,
@@ -19,7 +20,7 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   direction = 'up',
   once = true,
   stagger = false
-}) => {
+}: AnimatedSectionProps) => {
   const controls = useAnimation();
   const sectionRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
@@ -67,16 +68,8 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       };
     }
 
-    const springConfig = {
-      type: 'spring',
-      damping: 25,
-      stiffness: 300,
-    };
-
     const baseVariants = {
-      hidden: {
-        opacity: 0,
-      },
+      hidden: { opacity: 0 },
       visible: {
         opacity: 1,
         transition: {
@@ -93,30 +86,15 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
 
     switch (direction) {
       case 'up':
-        return {
-          hidden: { ...baseVariants.hidden, y: 50, scale: 0.98 },
-          visible: { ...baseVariants.visible, y: 0, scale: 1 },
-        };
+        return { hidden: { ...baseVariants.hidden, y: 50, scale: 0.98 }, visible: { ...baseVariants.visible, y: 0, scale: 1 } };
       case 'down':
-        return {
-          hidden: { ...baseVariants.hidden, y: -50, scale: 0.98 },
-          visible: { ...baseVariants.visible, y: 0, scale: 1 },
-        };
+        return { hidden: { ...baseVariants.hidden, y: -50, scale: 0.98 }, visible: { ...baseVariants.visible, y: 0, scale: 1 } };
       case 'left':
-        return {
-          hidden: { ...baseVariants.hidden, x: 50, scale: 0.98 },
-          visible: { ...baseVariants.visible, x: 0, scale: 1 },
-        };
+        return { hidden: { ...baseVariants.hidden, x: 50, scale: 0.98 }, visible: { ...baseVariants.visible, x: 0, scale: 1 } };
       case 'right':
-        return {
-          hidden: { ...baseVariants.hidden, x: -50, scale: 0.98 },
-          visible: { ...baseVariants.visible, x: 0, scale: 1 },
-        };
+        return { hidden: { ...baseVariants.hidden, x: -50, scale: 0.98 }, visible: { ...baseVariants.visible, x: 0, scale: 1 } };
       case 'scale':
-        return {
-          hidden: { ...baseVariants.hidden, scale: 0.9 },
-          visible: { ...baseVariants.visible, scale: 1 },
-        };
+        return { hidden: { ...baseVariants.hidden, scale: 0.9 }, visible: { ...baseVariants.visible, scale: 1 } };
       case 'none':
       default:
         return baseVariants;
@@ -131,9 +109,7 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       animate={controls}
       variants={getVariants()}
       className={className}
-      style={{
-        willChange: 'opacity, transform',
-      }}
+      style={{ willChange: 'opacity, transform' }}
       onAnimationComplete={() => {
         if (sectionRef.current) {
           sectionRef.current.style.willChange = 'auto';
@@ -145,12 +121,12 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   );
 };
 
-export const StaggerContainer: React.FC<{
+export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }: {
   children: React.ReactNode;
   className?: string;
   staggerDelay?: number;
   threshold?: number;
-}> = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }) => {
+}) => {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -193,26 +169,18 @@ export const StaggerContainer: React.FC<{
   };
 
   return (
-    <motion.div
-      ref={containerRef}
-      initial="hidden"
-      animate={controls}
-      variants={containerVariants}
-      className={className}
-    >
+    <motion.div ref={containerRef} initial="hidden" animate={controls} variants={containerVariants} className={className}>
       {children}
     </motion.div>
   );
 };
 
-export const StaggerItem: React.FC<{
+export const StaggerItem = ({ children, className = '', delay = 0 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-}> = ({ children, className = '', delay = 0 }) => {
-  const prefersReduced = prefersReducedMotion();
-
-  if (prefersReduced) {
+}) => {
+  if (prefersReducedMotion()) {
     return <div className={className}>{children}</div>;
   }
 
@@ -220,16 +188,7 @@ export const StaggerItem: React.FC<{
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 30, scale: 0.98 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          transition: {
-            duration: 0.5,
-            delay,
-            ease: [0.25, 0.4, 0.25, 1],
-          },
-        },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, delay, ease: [0.25, 0.4, 0.25, 1] } },
       }}
       className={className}
     >

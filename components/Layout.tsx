@@ -1,17 +1,15 @@
-
-import React from 'react';
+import type { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { BackToTopButton } from './BackToTopButton';
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   setCurrentPage: (page: string) => void;
   currentPage: string;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, setCurrentPage, currentPage }) => {
-  // Don't show header/footer for dashboard
+export const Layout = ({ children, setCurrentPage, currentPage }: LayoutProps) => {
   const isDashboard = currentPage === 'dashboard';
 
   return (

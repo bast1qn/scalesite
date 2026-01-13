@@ -1,16 +1,15 @@
-
-import React from 'react';
+import type { ReactNode } from 'react';
 import { SnailIcon, NoMobileIcon, LightBulbIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const iconMap: { [key: string]: React.ReactNode } = {
+const iconMap: { [key: string]: ReactNode } = {
   'SnailIcon': <SnailIcon />,
   'NoMobileIcon': <NoMobileIcon />,
   'LightBulbIcon': <LightBulbIcon />,
 };
 
-export const CommonErrors: React.FC = () => {
+export const CommonErrors = () => {
   const { t } = useLanguage();
 
   const commonErrors = [

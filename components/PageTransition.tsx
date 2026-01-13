@@ -1,7 +1,5 @@
-
-import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { pageVariants, getTransition, hardwareAccelerationProps } from '../lib/animations';
+import { prefersReducedMotion, hardwareAccelerationProps } from '../lib/animations';
 
 interface PageTransitionProps {
   children: React.ReactNode;
@@ -10,18 +8,12 @@ interface PageTransitionProps {
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
 }
 
-/**
- * Enhanced Page Transition Component
- * Uses efficient animations with hardware acceleration for smooth page transitions
- * Supports multiple transition directions and modes
- */
-export const PageTransition: React.FC<PageTransitionProps> = ({
+export const PageTransition = ({
   children,
   className = "",
   mode = 'wait',
   direction = 'up'
-}) => {
-  // Use reduced motion if user prefers it
+}: PageTransitionProps) => {
   const useReducedMotion = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -85,7 +77,6 @@ export const PageTransition: React.FC<PageTransitionProps> = ({
         className={`w-full ${className}`}
         {...hardwareAccelerationProps}
         onAnimationComplete={(definition) => {
-          // Cleanup will-change after animation completes
           if (definition === 'enter') {
             (document.querySelector('[data-motion-container]') as HTMLElement)?.style.setProperty('will-change', 'auto');
           }

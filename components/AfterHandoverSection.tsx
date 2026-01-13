@@ -1,17 +1,16 @@
-
-import React from 'react';
+import type { ReactNode } from 'react';
 import { ShieldCheckIcon, LifebuoyIcon, PlusCircleIcon, ClockIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const iconMap: { [key: string]: React.ReactNode } = {
+const iconMap: { [key: string]: ReactNode } = {
     'ShieldCheckIcon': <ShieldCheckIcon />,
     'LifebuoyIcon': <LifebuoyIcon />,
     'PlusCircleIcon': <PlusCircleIcon />,
     'ClockIcon': <ClockIcon />,
 };
 
-export const AfterHandoverSection: React.FC = () => {
+export const AfterHandoverSection = () => {
     const { t } = useLanguage();
 
     const supportItems = [
