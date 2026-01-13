@@ -1,6 +1,13 @@
 #!/usr/bin/env fish
 
 # ==========================================
+# LOAD FISH CONFIG (for zclaude function)
+# ==========================================
+if test -f ~/.config/fish/config.fish
+    source ~/.config/fish/config.fish
+end
+
+# ==========================================
 # KONFIGURATION
 # ==========================================
 set MAX_LOOPS 20              # Anzahl der Runden (20 × 5 Phasen = 100 total)
@@ -768,12 +775,12 @@ function pre_flight_check
     end
     log_success "npm available ✓"
 
-    # Check zclaude
-    if not command -q zclaude
-        log_error "zclaude command not found!"
+    # Check zclaude function
+    if not type -q zclaude
+        log_error "zclaude function not found! Make sure Fish config is loaded."
         return 1
     end
-    log_success "zclaude available ✓"
+    log_success "zclaude function available (Z.ai API) ✓"
 
     # Check package.json
     if not test -f package.json
