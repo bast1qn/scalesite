@@ -1,9 +1,7 @@
 import { useState, useContext, useRef, type ReactNode } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
-import { AuthContext } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { useScroll, useBodyScrollLock, useClickOutsideCallback, useHover } from '../lib/hooks';
 
 interface HeaderProps {

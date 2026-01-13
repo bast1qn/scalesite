@@ -1,12 +1,7 @@
 import { useState, useContext, useMemo, useEffect, type FormEvent } from 'react';
-import { CountdownTimer } from './CountdownTimer';
-import { OfferCalculator } from './OfferCalculator';
-import { TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { AuthContext } from '../contexts/AuthContext';
-import { api } from '../lib/api';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { CountdownTimer, OfferCalculator, TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon, AnimatedSection } from './index';
+import { AuthContext, useLanguage, useCurrency } from '../contexts';
+import { api } from '../lib';
 
 interface PricingSectionProps {
   setCurrentPage: (page: string) => void;

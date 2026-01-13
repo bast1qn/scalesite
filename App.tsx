@@ -1,14 +1,7 @@
-
 import { useState, useEffect, useContext, lazy, Suspense } from 'react';
-import { AuthContext, AuthProvider } from './contexts/AuthContext';
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
-import { CurrencyProvider } from './contexts/CurrencyContext';
-import { Layout } from './components/Layout';
-import { PageTransition } from './components/PageTransition';
 import { AnimatePresence } from 'framer-motion';
-import { ChatWidget } from './components/ChatWidget';
-import { CookieConsent } from './components/CookieConsent';
-import { ErrorBoundary } from './components/ErrorBoundary';
+import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider } from './contexts';
+import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary } from './components';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));

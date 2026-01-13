@@ -1,5 +1,5 @@
 
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 
 const logos = [
   { name: "TechFlow", color: "#3B82F6" },

@@ -1,11 +1,7 @@
 import { useState, useEffect, useContext, useMemo, type ChangeEvent } from 'react';
-import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon } from './Icons';
-import { CustomSelect } from './CustomSelect';
-import { AuthContext } from '../contexts/AuthContext';
-import { api } from '../lib/api';
-import { triggerConfetti } from '../lib/confetti';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon, CustomSelect } from './index';
+import { AuthContext, useLanguage, useCurrency } from '../contexts';
+import { api, triggerConfetti } from '../lib';
 
 interface OfferCalculatorProps {
     setCurrentPage?: (page: string) => void;

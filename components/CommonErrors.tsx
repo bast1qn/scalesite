@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
-import { SnailIcon, NoMobileIcon, LightBulbIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { SnailIcon, NoMobileIcon, LightBulbIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 const iconMap: { [key: string]: ReactNode } = {
   'SnailIcon': <SnailIcon />,

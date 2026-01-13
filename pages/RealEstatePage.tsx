@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import {
-  ChevronLeftIcon,
-  XMarkIcon,
-  PhoneIcon,
-  EnvelopeIcon,
-  ChevronRightIcon,
-  ChevronDownIcon
-} from '../components/Icons';
+import { AnimatedSection, ChevronLeftIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, ChevronRightIcon, ChevronDownIcon } from '../components';
 
 // Custom Icons
 const MapPinIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (

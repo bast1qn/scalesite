@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { CheckBadgeIcon, XCircleIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { CheckBadgeIcon, XCircleIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 export const ServiceFeatures: React.FC = () => {
   const { t } = useLanguage();

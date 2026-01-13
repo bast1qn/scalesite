@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import {
-  ChevronLeftIcon,
-  ArrowRightIcon,
-  XMarkIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  ChevronDownIcon
-} from '../components/Icons';
+import { AnimatedSection, ChevronLeftIcon, ArrowRightIcon, XMarkIcon, EnvelopeIcon, PhoneIcon, ChevronDownIcon } from '../components';
 
 // MapPinIcon - simple SVG component
 const MapPinIcon: React.FC<{ className?: string }> = ({ className = '' }) => (

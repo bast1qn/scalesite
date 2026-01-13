@@ -1,8 +1,7 @@
 
 import { useState, useMemo } from 'react';
-import { ArrowTopRightOnSquareIcon, EyeIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ArrowTopRightOnSquareIcon, EyeIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 import { translations } from '../lib/translations';
 
 interface ShowcaseSectionProps {

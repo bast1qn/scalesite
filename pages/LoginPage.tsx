@@ -1,8 +1,7 @@
 import { useState, useContext, useEffect, type FormEvent } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
-import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components/Icons';
-import { useLanguage } from '../contexts/LanguageContext';
-import { supabase } from '../lib/supabase';
+import { AuthContext, useLanguage } from '../contexts';
+import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components';
+import { supabase } from '../lib';
 
 interface LoginPageProps {
     setCurrentPage: (page: string) => void;

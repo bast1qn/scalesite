@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { prefersReducedMotion, easings, intersectionOptions } from '../lib/animations';
+import { prefersReducedMotion, intersectionOptions } from '../lib/animations';
+import { useIntersectionObserver } from '../lib/hooks';
 
 interface AnimatedSectionProps {
   children: ReactNode;
@@ -22,8 +23,11 @@ export const AnimatedSection = ({
   stagger = false
 }: AnimatedSectionProps) => {
   const controls = useAnimation();
-  const sectionRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
+  const [ref, isIntersecting] = useIntersectionObserver({
+    threshold: intersectionOptions.threshold,
+    rootMargin: intersectionOptions.rootMargin,
+  });
 
   useEffect(() => {
     if (prefersReducedMotion()) {
@@ -31,36 +35,14 @@ export const AnimatedSection = ({
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && (!once || !hasAnimatedRef.current)) {
-          controls.start('visible');
-          hasAnimatedRef.current = true;
-        } else if (!once && !entry.isIntersecting) {
-          controls.start('hidden');
-          hasAnimatedRef.current = false;
-        }
-      },
-      {
-        root: null,
-        rootMargin: intersectionOptions.rootMargin,
-        threshold: intersectionOptions.threshold,
-      }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
+    if (isIntersecting && (!once || !hasAnimatedRef.current)) {
+      controls.start('visible');
+      hasAnimatedRef.current = true;
+    } else if (!once && !isIntersecting && hasAnimatedRef.current) {
+      controls.start('hidden');
+      hasAnimatedRef.current = false;
     }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-    // direction, delay, and stagger are only used in getVariants which is called outside useEffect
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [controls, once]);
+  }, [controls, isIntersecting, once]);
 
   const getVariants = () => {
     if (prefersReducedMotion()) {
@@ -105,7 +87,7 @@ export const AnimatedSection = ({
 
   return (
     <motion.div
-      ref={sectionRef}
+      ref={ref}
       id={id}
       initial="hidden"
       animate={controls}
@@ -113,8 +95,8 @@ export const AnimatedSection = ({
       className={className}
       style={{ willChange: 'opacity, transform' }}
       onAnimationComplete={() => {
-        if (sectionRef.current) {
-          sectionRef.current.style.willChange = 'auto';
+        if (ref.current) {
+          ref.current.style.willChange = 'auto';
         }
       }}
     >
@@ -130,7 +112,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
   threshold?: number;
 }) => {
   const controls = useAnimation();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [ref, isIntersecting] = useIntersectionObserver({ threshold });
 
   useEffect(() => {
     if (prefersReducedMotion()) {
@@ -138,26 +120,10 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          controls.start('visible');
-        }
-      },
-      { threshold }
-    );
-
-    const currentRef = containerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
+    if (isIntersecting) {
+      controls.start('visible');
     }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [controls, threshold]);
+  }, [controls, isIntersecting]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -171,7 +137,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
   };
 
   return (
-    <motion.div ref={containerRef} initial="hidden" animate={controls} variants={containerVariants} className={className}>
+    <motion.div ref={ref} initial="hidden" animate={controls} variants={containerVariants} className={className}>
       {children}
     </motion.div>
   );

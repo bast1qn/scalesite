@@ -1,10 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Hero } from '../components/Hero';
-import { FinalCtaSection } from '../components/FinalCtaSection';
-import { ReasonsSection } from '../components/ReasonsSection';
-import { ShowcasePreview } from '../components/ShowcasePreview';
-import { AnimatedSection } from '../components/AnimatedSection';
+import { Hero, FinalCtaSection, ReasonsSection, ShowcasePreview, AnimatedSection } from '../components';
 
 interface HomePageProps {
     setCurrentPage: (page: string) => void;

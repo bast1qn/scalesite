@@ -21,5 +21,8 @@ export * from './supabase';
 // Translations
 export * from './translations';
 
+// Confetti
+export * from './confetti';
+
 // Dashboard specific
 export * from './dashboardAlerts';

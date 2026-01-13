@@ -1,9 +1,8 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { UserGroupIcon } from '../Icons';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { supabase } from '../../lib/supabase';
+import { AuthContext, useLanguage } from '../../contexts';
+import { supabase } from '../../lib';
 import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
 interface ReferralStats {

@@ -1,8 +1,7 @@
 import { useState, useContext, type FormEvent } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
-import { UserCircleIcon, CheckBadgeIcon } from '../components/Icons';
-import { useLanguage } from '../contexts/LanguageContext';
-import { validatePassword, getPasswordStrength } from '../lib/validation';
+import { AuthContext, useLanguage } from '../contexts';
+import { UserCircleIcon, CheckBadgeIcon } from '../components';
+import { validatePassword, getPasswordStrength } from '../lib';
 
 interface RegisterPageProps {
     setCurrentPage: (page: string) => void;

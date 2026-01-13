@@ -1,35 +1,8 @@
 
 import React, { useState, useEffect, useContext, useMemo } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import {
-    BoltIcon,
-    ClockIcon,
-    CpuChipIcon,
-    ChatBubbleBottomCenterTextIcon,
-    RocketLaunchIcon,
-    PhoneIcon,
-    MicrophoneIcon,
-    CalendarDaysIcon,
-    PresentationChartLineIcon,
-    SparklesIcon,
-    CheckBadgeIcon,
-    XMarkIcon,
-    EnvelopeIcon,
-    UserGroupIcon,
-    DocumentMagnifyingGlassIcon,
-    DocumentArrowDownIcon,
-    TagIcon,
-    UserPlusIcon,
-    ArrowRightIcon,
-    PaperAirplaneIcon,
-    ClipboardDocumentCheckIcon,
-    ArrowPathIcon
-} from '../components/Icons';
-import { AuthContext } from '../contexts/AuthContext';
-import { api } from '../lib/api';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useCurrency } from '../contexts/CurrencyContext';
-import { translations } from '../lib/translations';
+import { AnimatedSection, BoltIcon, ClockIcon, CpuChipIcon, ChatBubbleBottomCenterTextIcon, RocketLaunchIcon, PhoneIcon, MicrophoneIcon, CalendarDaysIcon, PresentationChartLineIcon, SparklesIcon, CheckBadgeIcon, XMarkIcon, EnvelopeIcon, UserGroupIcon, DocumentMagnifyingGlassIcon, DocumentArrowDownIcon, TagIcon, UserPlusIcon, ArrowRightIcon, PaperAirplaneIcon, ClipboardDocumentCheckIcon, ArrowPathIcon } from '../components';
+import { AuthContext, useLanguage, useCurrency } from '../contexts';
+import { api } from '../lib';
 
 interface AutomationenPageProps {
     setCurrentPage: (page: string) => void;

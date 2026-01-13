@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
-import { AnimatedSection } from './AnimatedSection';
-import { CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { AnimatedSection, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './index';
+import { useLanguage } from '../contexts';
 
 const features = [
     {

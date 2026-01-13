@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
-import { EnvelopeIcon, PhoneIcon } from '../components/Icons';
+import { AnimatedSection, EnvelopeIcon, PhoneIcon } from '../components';
+import { useLanguage } from '../contexts';
 
 const ImpressumPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
     const { t } = useLanguage();

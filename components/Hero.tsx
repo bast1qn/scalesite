@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, type ReactNode, type MouseEvent } from 'react';
 import { ArrowRightIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 
 interface HeroProps {
   setCurrentPage: (page: string) => void;

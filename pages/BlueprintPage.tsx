@@ -1,9 +1,8 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import { CustomSelect } from '../components/CustomSelect';
+import { AnimatedSection, CustomSelect } from '../components';
 import { icons, placeholderContent } from '../lib/blueprintPlaceholders';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 
 // --- TYPE DEFINITIONS FOR BLUEPRINT ---
 interface BlueprintSectionItem {

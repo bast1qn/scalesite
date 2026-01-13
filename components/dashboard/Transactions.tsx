@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState, useContext } from 'react';
-import { api } from '../../lib/api';
-import { AuthContext } from '../../contexts/AuthContext';
+import { api } from '../../lib';
+import { AuthContext } from '../../contexts';
 
 interface Invoice {
     id: string;

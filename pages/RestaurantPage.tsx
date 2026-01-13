@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import {
-  ClockIcon,
-  PhoneIcon,
-  EnvelopeIcon,
-  ChevronLeftIcon,
-  StarIcon,
-  UserCircleIcon,
-  CalendarDaysIcon,
-  XMarkIcon
-} from '../components/Icons';
+import { AnimatedSection, ClockIcon, PhoneIcon, EnvelopeIcon, ChevronLeftIcon, StarIcon, UserCircleIcon, CalendarDaysIcon, XMarkIcon } from '../components';
 
 // MapPinIcon - simple SVG component
 const MapPinIcon: React.FC<{ className?: string }> = ({ className = '' }) => (

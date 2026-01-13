@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { DeviceMockupCarousel } from '../components/DeviceMockupCarousel';
-import { ShowcaseSection } from '../components/ShowcaseSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { DeviceMockupCarousel, ShowcaseSection } from '../components';
+import { useLanguage } from '../contexts';
 
 interface ProjektePageProps {
     setCurrentPage: (page: string) => void;

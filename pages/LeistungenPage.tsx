@@ -1,12 +1,7 @@
 
 import React from 'react';
-import { ServicesGrid } from '../components/ServicesGrid';
-import { ProcessSteps } from '../components/ProcessSteps';
-import { ServiceFeatures } from '../components/ServiceFeatures';
-import { BeforeAfterSlider } from '../components/BeforeAfterSlider';
-import { AnimatedSection } from '../components/AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
-import { SparklesIcon } from '../components/Icons';
+import { ServicesGrid, ProcessSteps, ServiceFeatures, BeforeAfterSlider, AnimatedSection, SparklesIcon } from '../components';
+import { useLanguage } from '../contexts';
 
 interface LeistungenPageProps {
     setCurrentPage: (page: string) => void;

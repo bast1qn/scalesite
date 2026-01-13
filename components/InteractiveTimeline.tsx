@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useMemo, type ReactNode } from 'react';
-import { CodeBracketIcon, LightBulbIcon, ArrowTrendingUpIcon, RocketLaunchIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { CodeBracketIcon, LightBulbIcon, ArrowTrendingUpIcon, RocketLaunchIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 const iconMap: { [key: string]: ReactNode } = {
     'CodeBracketIcon': <CodeBracketIcon />,

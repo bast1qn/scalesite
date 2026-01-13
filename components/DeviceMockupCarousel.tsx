@@ -1,8 +1,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ChevronLeftIcon, ChevronRightIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 const mockups = [
     {

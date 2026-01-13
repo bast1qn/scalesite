@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
+import { useIntersectionObserverOnce } from '../lib/hooks';
 
 interface LazyImageProps {
   src: string;
@@ -18,39 +19,21 @@ export const LazyImage = ({
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const [imageRef, isInView] = useIntersectionObserverOnce({ threshold });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const img = new Image();
-            img.src = src;
-            img.onload = () => {
-              setImageSrc(src);
-              setIsLoaded(true);
-            };
-            img.onerror = () => {
-              setIsError(true);
-            };
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
+    if (isInView) {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        setImageSrc(src);
+        setIsLoaded(true);
+      };
+      img.onerror = () => {
+        setIsError(true);
+      };
     }
-
-    return () => {
-      if (imgRef.current) {
-        observer.unobserve(imgRef.current);
-      }
-    };
-  }, [src, threshold]);
+  }, [src, isInView]);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -60,7 +43,7 @@ export const LazyImage = ({
         </div>
       )}
       <img
-        ref={imgRef}
+        ref={imageRef}
         src={imageSrc || placeholder}
         alt={alt}
         className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className}`}
@@ -87,26 +70,7 @@ export const OptimizedBackgroundImage = ({
   children
 }: OptimizedBackgroundImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const [containerRef, isInView] = useIntersectionObserverOnce({ threshold: 0.1 });
 
   useEffect(() => {
     if (isInView && !isLoaded) {

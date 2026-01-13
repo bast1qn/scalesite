@@ -1,7 +1,6 @@
 import React from 'react';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
-import { ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './Icons';
+import { AnimatedSection, ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './index';
+import { useLanguage } from '../contexts';
 
 const steps = [
   {

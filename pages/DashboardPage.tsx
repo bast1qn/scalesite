@@ -1,15 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
-import DashboardLayout from '../components/dashboard/DashboardLayout';
-import Overview from '../components/dashboard/Overview';
-import TicketSupport from '../components/dashboard/TicketSupport';
-import Services from '../components/dashboard/Services';
-import Settings from '../components/dashboard/Settings';
-import Referral from '../components/dashboard/Referral';
-import Partner from '../components/dashboard/Partner';
-import Transactions from '../components/dashboard/Transactions';
-import UserManagement from '../components/dashboard/UserManagement';
-import DiscountManager from '../components/dashboard/DiscountManager';
+import {
+  DashboardLayout,
+  Overview,
+  TicketSupport,
+  Services,
+  Settings,
+  Referral,
+  Partner,
+  Transactions,
+  UserManagement,
+  DiscountManager
+} from '../components';
 
 export type DashboardView = 'übersicht' | 'ticket-support' | 'dienstleistungen' | 'transaktionen' | 'einstellungen' | 'freunde-werben' | 'partner-werden' | 'user-management' | 'discount-manager';
 

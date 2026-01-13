@@ -1,7 +1,7 @@
 
 import { Component, ErrorInfo, type ReactNode } from 'react';
-import { XCircleIcon, ArrowLeftIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { XCircleIcon, ArrowLeftIcon } from './index';
+import { useLanguage } from '../contexts';
 
 interface Props {
   children: ReactNode;

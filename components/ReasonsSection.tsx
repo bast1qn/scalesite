@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { ClockIcon, ShieldCheckIcon, SparklesIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ClockIcon, ShieldCheckIcon, SparklesIcon } from './index';
+import { useLanguage } from '../contexts';
 import { motion } from 'framer-motion';
 
 const reasons = [

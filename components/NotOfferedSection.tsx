@@ -1,7 +1,6 @@
 
-import { XCircleIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { XCircleIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 export const NotOfferedSection = () => {
     const { t } = useLanguage();

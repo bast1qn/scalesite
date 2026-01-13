@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
-import { PaintBrushIcon, CodeBracketIcon, ServerIcon, ShieldCheckIcon, SparklesIcon, ArrowRightIcon, ChatBubbleBottomCenterTextIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { PaintBrushIcon, CodeBracketIcon, ServerIcon, ShieldCheckIcon, SparklesIcon, ArrowRightIcon, ChatBubbleBottomCenterTextIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 const iconMap: { [key: string]: ReactNode } = {
   'PaintBrushIcon': <PaintBrushIcon />,

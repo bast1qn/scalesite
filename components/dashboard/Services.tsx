@@ -1,10 +1,9 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { AuthContext, useLanguage } from '../../contexts';
 import { CheckBadgeIcon, PlusCircleIcon, XMarkIcon, TicketIcon, ArrowRightIcon, ClockIcon, BriefcaseIcon, ShieldCheckIcon } from '../Icons';
-import { api } from '../../lib/api';
-import { DashboardView } from '../../pages/DashboardPage';
+import { api } from '../../lib';
+import type { DashboardView } from '../../pages/DashboardPage';
 
 interface Service {
     id: number;

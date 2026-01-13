@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { XMarkIcon, CookieIcon, AdjustmentsHorizontalIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 
 interface CookiePreferences {
     essential: boolean;

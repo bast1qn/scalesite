@@ -1,22 +1,8 @@
 
 import React, { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { ThemeToggle } from '../ThemeToggle';
-import { api } from '../../lib/api';
-import { supabase } from '../../lib/supabase';
-import { validatePassword, getPasswordStrength } from '../../lib/validation';
-import {
-    UserCircleIcon,
-    ShieldCheckIcon,
-    BellIcon,
-    CreditCardIcon,
-    ArrowDownOnSquareIcon,
-    TrashIcon,
-    GlobeAltIcon,
-    CheckBadgeIcon
-} from '../Icons';
-import { alertError } from '../../lib/dashboardAlerts';
+import { AuthContext, useLanguage } from '../../contexts';
+import { ThemeToggle, UserCircleIcon, ShieldCheckIcon, BellIcon, CreditCardIcon, ArrowDownOnSquareIcon, TrashIcon, GlobeAltIcon, CheckBadgeIcon } from '../index';
+import { api, supabase, validatePassword, getPasswordStrength, alertError } from '../../lib';
 
 const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
     <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>

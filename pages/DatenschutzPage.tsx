@@ -1,7 +1,6 @@
 
-import { AnimatedSection } from '../components/AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
-import { ShieldCheckIcon, EyeIcon, LockClosedIcon, AdjustmentsHorizontalIcon } from '../components/Icons';
+import { AnimatedSection, ShieldCheckIcon, EyeIcon, LockClosedIcon, AdjustmentsHorizontalIcon } from '../components';
+import { useLanguage } from '../contexts';
 
 const DatenschutzPage = ({ setCurrentPage }: { setCurrentPage: (page: string) => void; }) => {
     const { t } = useLanguage();

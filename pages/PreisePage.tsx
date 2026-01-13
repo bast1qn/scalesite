@@ -1,5 +1,5 @@
 import React from 'react';
-import { PricingSection } from '../components/PricingSection';
+import { PricingSection } from '../components';
 
 interface PreisePageProps {
     setCurrentPage: (page: string) => void;

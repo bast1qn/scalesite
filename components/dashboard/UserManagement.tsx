@@ -1,11 +1,8 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { CustomSelect } from '../CustomSelect';
-import { AppUser } from '../../contexts/AuthContext';
-import { api } from '../../lib/api';
-import { PlusCircleIcon, XMarkIcon, BriefcaseIcon, CheckBadgeIcon, ArrowPathIcon, SparklesIcon } from '../Icons';
+import { AuthContext, AppUser, useLanguage } from '../../contexts';
+import { CustomSelect, PlusCircleIcon, XMarkIcon, BriefcaseIcon, CheckBadgeIcon, ArrowPathIcon, SparklesIcon } from '../index';
+import { api } from '../../lib';
 import { setDashboardLanguage, alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 
 type UserProfile = AppUser;

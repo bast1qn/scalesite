@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 const usps = [
   {

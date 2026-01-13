@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 
 interface CountdownTimerProps {
   targetDate: Date;

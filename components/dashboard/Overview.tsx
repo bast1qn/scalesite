@@ -1,8 +1,7 @@
 
 import React, { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { api } from '../../lib/api';
+import { AuthContext, useLanguage } from '../../contexts';
+import { api } from '../../lib';
 import {
     PlusCircleIcon,
     TicketIcon,
@@ -16,7 +15,7 @@ import {
     LightBulbIcon,
     BellIcon
 } from '../Icons';
-import { DashboardView } from '../../pages/DashboardPage';
+import type { DashboardView } from '../../pages/DashboardPage';
 
 interface Project {
     id: string;

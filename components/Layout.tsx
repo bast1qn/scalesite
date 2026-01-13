@@ -1,7 +1,5 @@
 import type { ReactNode } from 'react';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import { BackToTopButton } from './BackToTopButton';
+import { Header, Footer, BackToTopButton } from './index';
 
 interface LayoutProps {
   children: ReactNode;

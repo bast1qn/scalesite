@@ -1,8 +1,7 @@
 
 import { useMemo } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import { ChevronDownIcon, QuestionMarkCircleIcon } from '../components/Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { AnimatedSection, ChevronDownIcon, QuestionMarkCircleIcon } from '../components';
+import { useLanguage } from '../contexts';
 
 interface FaqCategory {
     category: string;

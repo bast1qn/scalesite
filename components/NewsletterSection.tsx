@@ -1,9 +1,8 @@
 
 import { useState, type FormEvent } from 'react';
-import { EnvelopeIcon, CheckBadgeIcon, SparklesIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { api } from '../lib/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { EnvelopeIcon, CheckBadgeIcon, SparklesIcon, AnimatedSection } from './index';
+import { api } from '../lib';
+import { useLanguage } from '../contexts';
 
 export const NewsletterSection = () => {
     const { t } = useLanguage();

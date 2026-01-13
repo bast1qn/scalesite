@@ -1,5 +1,5 @@
-import { ArrowRightIcon, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, CreditCardIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ArrowRightIcon, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, CreditCardIcon } from './index';
+import { useLanguage } from '../contexts';
 
 interface FinalCtaSectionProps {
   setCurrentPage: (page: string) => void;

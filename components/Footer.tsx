@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { ReactIcon, ScaleSiteLogo, GitHubIcon, InstagramIcon, DiscordIcon } from './Icons';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 import { useHover } from '../lib/hooks';
 
 interface FooterProps {

@@ -1,7 +1,6 @@
 
-import { ArrowRightIcon, CalendarDaysIcon, ClockIcon } from './Icons';
-import { AnimatedSection } from './AnimatedSection';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ArrowRightIcon, CalendarDaysIcon, ClockIcon, AnimatedSection } from './index';
+import { useLanguage } from '../contexts';
 
 interface BlogPost {
   id: string;

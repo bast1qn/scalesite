@@ -1,10 +1,8 @@
 
 import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
-import { CustomSelect } from '../CustomSelect';
-import { PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../Icons';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { api } from '../../lib/api';
+import { CustomSelect, PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../index';
+import { AuthContext, useLanguage } from '../../contexts';
+import { api } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 import { useChatScroll } from '../../lib/hooks';
 

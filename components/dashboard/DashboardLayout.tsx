@@ -1,9 +1,8 @@
 
 import React, { useContext, useState } from 'react';
-import { AuthContext, AppUser } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { AuthContext, AppUser, useLanguage } from '../../contexts';
 import { HomeIcon, TicketIcon, BriefcaseIcon, CreditCardIcon, Cog6ToothIcon, UserGroupIcon, BuildingStorefrontIcon, ArrowLeftOnRectangleIcon, XMarkIcon, Bars3Icon, ScaleSiteLogo, UsersIcon, TagIcon, ChevronDownIcon, ChevronUpIcon } from '../Icons';
-import { DashboardView } from '../../pages/DashboardPage';
+import type { DashboardView } from '../../pages/DashboardPage';
 
 interface DashboardLayoutProps {
     children: React.ReactNode;

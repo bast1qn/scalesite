@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowTopRightOnSquareIcon, DevicePhoneMobileIcon, ComputerDesktopIcon } from './Icons';
+import { ArrowTopRightOnSquareIcon, DevicePhoneMobileIcon, ComputerDesktopIcon } from './index';
 import { motion } from 'framer-motion';
 
 interface ShowcasePreviewProps {

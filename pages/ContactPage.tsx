@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
-import { AnimatedSection } from '../components/AnimatedSection';
-import { EnvelopeIcon, CheckBadgeIcon, TicketIcon, SparklesIcon, ArrowRightIcon } from '../components/Icons';
-import { api } from '../lib/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { AnimatedSection, EnvelopeIcon, CheckBadgeIcon, TicketIcon, SparklesIcon, ArrowRightIcon } from '../components';
+import { api } from '../lib';
+import { useLanguage } from '../contexts';
 
 const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
     const { t } = useLanguage();
