@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatedSection, ChevronLeftIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, ChevronRightIcon, ChevronDownIcon } from '../components';
-
-// Custom Icons
-const MapPinIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-  </svg>
-);
+import { AnimatedSection, ChevronLeftIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, ChevronRightIcon, ChevronDownIcon, MapPinIcon } from '../components';
 
 const BedIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -31,7 +23,6 @@ interface RealEstatePageProps {
   setCurrentPage: (page: string) => void;
 }
 
-// Properties data
 const properties = [
   {
     id: 1,
@@ -155,7 +146,6 @@ const properties = [
   }
 ];
 
-// Format price
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -177,30 +167,21 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
 
-  // Filter properties
   const filteredProperties = properties.filter(property => {
     if (filters.type !== 'all' && property.type !== filters.type) return false;
     if (filters.priceRange !== 'all') {
-      // Defensive: Validate priceRange format before splitting
-      if (!filters.priceRange.includes('-')) {
-        return false;
-      }
       const [minStr, maxStr] = filters.priceRange.split('-');
       const min = Number(minStr);
       const max = maxStr ? Number(maxStr) : undefined;
 
-      // Validate parsed numbers
-      if (isNaN(min)) return false;
-
-      if (max !== undefined && !isNaN(max)) {
+      if (max !== undefined) {
         if (property.price < min || property.price > max) return false;
       } else if (property.price < min) {
         return false;
       }
     }
     if (filters.rooms !== 'all') {
-      const roomFilter = parseInt(filters.rooms, 10);
-      if (isNaN(roomFilter)) return false;
+      const roomFilter = Number(filters.rooms);
       if (roomFilter === 4 && property.rooms < 4) return false;
       if (roomFilter !== 4 && property.rooms !== roomFilter) return false;
     }
@@ -219,7 +200,6 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      {/* Back Button */}
       <button
         onClick={() => setCurrentPage('home')}
         className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-250"
@@ -228,14 +208,11 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
         <span className="text-sm font-medium">Back</span>
       </button>
 
-      {/* Hero Section with Search */}
       <section className="relative h-[80vh] min-h-[600px] flex items-center">
-        {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-700">
           <div className="absolute inset-0 bg-black/20"></div>
         </div>
 
-        {/* Content */}
         <div className="relative z-10 w-full px-6">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedSection>
@@ -247,11 +224,9 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               </p>
             </AnimatedSection>
 
-            {/* Search Filters */}
             <AnimatedSection>
               <div className="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-xl">
                 <div className="grid md:grid-cols-4 gap-4">
-                  {/* Type Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Property Type
@@ -267,7 +242,6 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                     </select>
                   </div>
 
-                  {/* Price Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Price Range
@@ -285,7 +259,6 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                     </select>
                   </div>
 
-                  {/* Rooms Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                       Rooms
@@ -303,7 +276,6 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                     </select>
                   </div>
 
-                  {/* Results Count */}
                   <div className="flex items-end">
                     <div className="w-full px-4 py-2.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-center">
                       <p className="text-2xl font-semibold text-blue-600 dark:text-blue-400">
@@ -318,13 +290,11 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
           </div>
         </div>
 
-        {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
           <ChevronDownIcon className="w-8 h-8" />
         </div>
       </section>
 
-      {/* Featured Properties */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
@@ -337,7 +307,6 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               </p>
             </div>
 
-            {/* Properties Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredProperties.map((property) => (
                 <button
@@ -345,7 +314,6 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                   onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); setShowContactForm(false); }}
                   className="group text-left bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-250"
                 >
-                  {/* Image */}
                   <div className={`aspect-video bg-gradient-to-br ${property.images[0]} relative overflow-hidden`}>
                     {property.highlighted && (
                       <span className="absolute top-3 left-3 px-2 py-1 bg-amber-500/90 backdrop-blur-sm text-white text-[11px] font-medium rounded-md">
@@ -360,17 +328,15 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="p-4">
                     <p className="text-xs text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-                      <MapPinIconLocal className="w-3.5 h-3.5" />
+                      <MapPinIcon className="w-3.5 h-3.5" />
                       {property.location}
                     </p>
                     <h3 className="font-semibold text-slate-900 dark:text-white mb-3 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 text-sm">
                       {property.title}
                     </h3>
 
-                    {/* Specs */}
                     <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
                       <span className="flex items-center gap-1">
                         <BedIconLocal className="w-3.5 h-3.5" />
@@ -449,7 +415,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                     {formatPrice(selectedProperty.price)}
                   </p>
                   <p className="text-slate-600 dark:text-slate-400 flex items-center gap-1 mt-1 text-sm">
-                    <MapPinIconLocal className="w-4 h-4" />
+                    <MapPinIcon className="w-4 h-4" />
                     {selectedProperty.location}
                   </p>
                 </div>
