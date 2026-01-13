@@ -30,6 +30,9 @@ export { PricingSection } from './PricingSection';
 export { OfferCalculator } from './OfferCalculator';
 export * from './pricing';
 
+// AI Content Generator
+export * from './ai-content';
+
 // Project Tracking
 export * from './projects';
 
