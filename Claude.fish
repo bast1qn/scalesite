@@ -1,11 +1,11 @@
 #!/usr/bin/env fish
 
 # ==========================================
-# Z.AI ENVIRONMENT VARIABLES
+# LOAD FISH CONFIG (for zclaude function)
 # ==========================================
-set -x ANTHROPIC_AUTH_TOKEN "5fcd17049e3b4b98bd3634993e32e923.TUudeRsviXYEU6D5"
-set -x ANTHROPIC_BASE_URL "https://api.z.ai/api/anthropic"
-set -x API_TIMEOUT_MS "3000000"
+if test -f ~/.config/fish/config.fish
+    source ~/.config/fish/config.fish
+end
 
 # ==========================================
 # KONFIGURATION
@@ -677,7 +677,7 @@ CRITICAL RULES:
 
 Execute minimal fix NOW."
 
-        claude -p "$REPAIR_PROMPT" --dangerously-skip-permissions
+        zclaude -p "$REPAIR_PROMPT" --dangerously-skip-permissions
 
         # Verify Fix
         log_msg "🔍 Verifying repair..."
@@ -775,12 +775,12 @@ function pre_flight_check
     end
     log_success "npm available ✓"
 
-    # Check claude
-    if not command -q claude
-        log_error "claude command not found!"
+    # Check zclaude function
+    if not type -q zclaude
+        log_error "zclaude function not found! Make sure Fish config is loaded."
         return 1
     end
-    log_success "claude available (with Z.ai config) ✓"
+    log_success "zclaude function available (Z.ai API) ✓"
 
     # Check package.json
     if not test -f package.json
@@ -1028,7 +1028,7 @@ for i in (seq 1 $MAX_LOOPS)
     log_msg "🐞 Phase 1/5: React QA & Type Safety (Adaptive)"
     set TOTAL_PHASES (math $TOTAL_PHASES + 1)
     set ADAPTIVE_PROMPT_1 (get_adaptive_prompt_1 $i)
-    claude -p "$ADAPTIVE_PROMPT_1" --dangerously-skip-permissions
+    zclaude -p "$ADAPTIVE_PROMPT_1" --dangerously-skip-permissions
 
     if check_and_repair
         update_phase_stats 1
@@ -1046,7 +1046,7 @@ for i in (seq 1 $MAX_LOOPS)
     set TOTAL_PHASES (math $TOTAL_PHASES + 1)
     set RECENT_CHANGES (git diff HEAD~1 HEAD --stat)
     set ADAPTIVE_PROMPT_2 (get_adaptive_prompt_2 $i "$RECENT_CHANGES")
-    claude -p "$ADAPTIVE_PROMPT_2" --dangerously-skip-permissions
+    zclaude -p "$ADAPTIVE_PROMPT_2" --dangerously-skip-permissions
 
     if check_and_repair
         update_phase_stats 2
@@ -1063,7 +1063,7 @@ for i in (seq 1 $MAX_LOOPS)
     log_msg "⚡ Phase 3/5: Performance Optimization (Adaptive)"
     set TOTAL_PHASES (math $TOTAL_PHASES + 1)
     set ADAPTIVE_PROMPT_3 (get_adaptive_prompt_3 $i)
-    claude -p "$ADAPTIVE_PROMPT_3" --dangerously-skip-permissions
+    zclaude -p "$ADAPTIVE_PROMPT_3" --dangerously-skip-permissions
 
     if check_and_repair
         update_phase_stats 3
@@ -1080,7 +1080,7 @@ for i in (seq 1 $MAX_LOOPS)
     log_msg "🔒 Phase 4/5: Security & Validation (Adaptive)"
     set TOTAL_PHASES (math $TOTAL_PHASES + 1)
     set ADAPTIVE_PROMPT_4 (get_adaptive_prompt_4 $i)
-    claude -p "$ADAPTIVE_PROMPT_4" --dangerously-skip-permissions
+    zclaude -p "$ADAPTIVE_PROMPT_4" --dangerously-skip-permissions
 
     if check_and_repair
         update_phase_stats 4
@@ -1097,7 +1097,7 @@ for i in (seq 1 $MAX_LOOPS)
     log_msg "🧹 Phase 5/5: Architecture Cleanup (Adaptive)"
     set TOTAL_PHASES (math $TOTAL_PHASES + 1)
     set ADAPTIVE_PROMPT_5 (get_adaptive_prompt_5 $i)
-    claude -p "$ADAPTIVE_PROMPT_5" --dangerously-skip-permissions
+    zclaude -p "$ADAPTIVE_PROMPT_5" --dangerously-skip-permissions
 
     if check_and_repair
         update_phase_stats 5
