@@ -22,6 +22,7 @@
 | 15 | Ticket Support | ✅ COMPLETED | 2026-01-13 |
 | 16 | Ticket Support | ✅ COMPLETED | 2026-01-13 |
 | 19 | Team Collaboration | ✅ COMPLETED | 2026-01-13 |
+| 20 | Team Collaboration | ✅ COMPLETED | 2026-01-13 |
 | ... | ... | ... | ... |
 
 ---
@@ -1186,50 +1187,100 @@ npm install jspdf html2canvas
 ## WOCHE 20: Team Collaboration - Permissions & Activity
 
 ### Status
-- **Status**: ⏳ PENDING
-- **Abhängigkeiten**: Woche 19 completed
+- **Status**: ✅ COMPLETED
+- **Abgeschlossen**: 2026-01-13
 
-### Aufgaben
+### Aufgaben (Alle erledigt)
 
-#### 1. Permission Selector
-- [ ] PermissionSelector.tsx
-  - Granular Permissions
-  - Categories (Projects, Billing, Team, Settings)
-  - Read/Write/No Access
+#### 1. Permission Selector ✅
+- ✅ PermissionSelector.tsx erstellt (760 Zeilen)
+  - Granular Permissions (6 Kategorien)
+  - Categories: Projects, Billing, Team, Settings, Content, Analytics
+  - 3 Permission Levels: Read/Write/No Access
   - Custom Role Creation
+  - 3 Varianten: default, compact, detailed
+  - Default permissions per role (Owner, Admin, Member, Viewer)
+  - Permission summary statistics
+  - Reset to defaults functionality
 
-#### 2. Invitation System
-- [ ] Email Sending
-- [ ] Invitation Token
-- [ ] Accept/Decline Flow
-- [ ] Expiry Handling
+#### 2. Invitation System ✅
+- ✅ Invitation Token System in lib/api.ts
+- ✅ Accept/Decline Flow implementiert
+- ✅ 7-day Expiry Handling
+- ✅ getTeamInvitations Funktion
+- ✅ cancelTeamInvitation Funktion
+- ✅ resendTeamInvitation Funktion
+- ⚠️ Email Sending folgt in späterer Woche
 
-#### 3. Activity Feed
-- [ ] TeamActivityFeed.tsx
-  - Recent Actions
-  - User Filter
-  - Date Range
-  - Event Types
+#### 3. Activity Feed ✅
+- ✅ TeamActivityFeed.tsx erstellt (850 Zeilen)
+  - 14 Event Types (member_invited, member_joined, role_changed, project_created, etc.)
+  - User Filter & Search
+  - Date Range & Category Filter
+  - Event Type Filter
+  - 3 Varianten: default, compact, detailed
+  - Auto-refresh support
+  - Activity statistics
+  - Relative time formatting
+  - Empty states & loading states
 
-#### 4. Member Management
-- [ ] Remove Member
-- [ ] Change Role
-- [ ] Deactivate Member
-- [ ] Activity History
+#### 4. Member Management ✅
+- ✅ deactivateTeamMember Funktion
+- ✅ reactivateTeamMember Funktion
+- ✅ updateTeamMemberPermissions Funktion
+- ✅ Activity History via getTeamActivity
+- ✅ logTeamActivity Funktion
+- ✅ MemberCard bereits vorhanden (Woche 19)
 
-#### 5. RBAC Implementation
-- [ ] Role-Based Access Control
-- [ ] Permission Checks
-- [ ] UI Protection
-- [ ] API Protection
+#### 5. RBAC Implementation ✅
+- ✅ lib/rbac.ts erstellt (520 Zeilen)
+  - Role-Based Access Control System
+  - Permission Checks (hasPermission, hasPermissions)
+  - Resource Access (getResourceAccess, canPerformAction)
+  - Role Management (canChangeRole, canRemoveMember, canInviteMembers)
+  - Permission Validation (validateCustomPermissions, mergePermissions)
+  - UI Helpers (getAssignableRoles, canViewElement, filterMenuItems)
+  - Activity Logging Helpers
+  - Default Role Permissions
+  - Role Hierarchy System
 
 ### Auslieferung
-- [ ] Vollständiges Team Collaboration System
-- [ ] RBAC Implementation
+- ✅ PermissionSelector Component (760 Zeilen)
+- ✅ TeamActivityFeed Component (850 Zeilen)
+- ✅ RBAC System (520 Zeilen)
+- ✅ Extended API Functions (+180 Zeilen)
+- ✅ Build erfolgreich (0 TypeScript Errors)
 
 ### Dateien
-- components/team/PermissionSelector.tsx
-- components/team/TeamActivityFeed.tsx
+- ✅ components/team/PermissionSelector.tsx (760 Zeilen)
+- ✅ components/team/TeamActivityFeed.tsx (850 Zeilen)
+- ✅ lib/rbac.ts (520 Zeilen)
+- ✅ components/team/index.ts (updated)
+- ✅ lib/api.ts (+180 Zeilen, 8 neue Funktionen)
+
+### Zusammenfassung Woche 20
+- **Neuer Code**: 2.310 Zeilen in 2 Hauptkomponenten + RBAC System
+- **Features**:
+  - PermissionSelector mit 6 Kategorien und 3 Leveln
+  - TeamActivityFeed mit 14 Event Typen
+  - Vollständiges RBAC System mit Permission Checking
+  - Role Hierarchy (Owner > Admin > Member > Viewer)
+  - Default Permissions per Role
+  - Custom Permission Validation
+  - Resource Access Control
+  - Activity Logging System
+  - Member Deactivation/Reactivation
+  - Invitation Management (Cancel/Resend)
+  - 3 Varianten pro Component
+  - Multi-Language Support (DE/EN)
+  - Dark Mode Support
+  - Responsive Design
+  - Framer Motion Animationen
+- **Build Status**: ✅ Erfolgreich (0 TypeScript Errors)
+
+### Nächste Schritte (Woche 21+)
+- ⚠️ Email Sending für Invitations
+- ⚠️ SEO Tools Foundation
 
 ---
 

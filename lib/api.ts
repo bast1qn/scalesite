@@ -2025,5 +2025,170 @@ export const api = {
         ];
 
         return { data: teamMembers, error: null };
+    },
+
+    // ===== TEAM COLLABORATION EXTENSIONS (Woche 20) =====
+
+    /**
+     * Get all team invitations for current user's team
+     */
+    getTeamInvitations: async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('team_invitations')
+            .select('*')
+            .eq('invited_by', user.id)
+            .order('created_at', { ascending: false });
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Update team member permissions (Woche 20)
+     */
+    updateTeamMemberPermissions: async (memberId: string, permissions: Record<string, any>) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_members')
+            .update({ permissions })
+            .eq('id', memberId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Deactivate team member (Woche 20)
+     */
+    deactivateTeamMember: async (memberId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_members')
+            .update({ status: 'inactive' })
+            .eq('id', memberId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Reactivate team member (Woche 20)
+     */
+    reactivateTeamMember: async (memberId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_members')
+            .update({ status: 'active' })
+            .eq('id', memberId);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Get team activity feed (Woche 20)
+     */
+    getTeamActivity: async (limit: number = 50) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: [], error: 'Not authenticated' };
+
+        const { data, error } = await supabase
+            .from('team_activity')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(limit);
+
+        return { data: data || [], error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Log team activity (Woche 20)
+     */
+    logTeamActivity: async (
+        type: string,
+        targetType?: string,
+        targetId?: string,
+        targetName?: string,
+        metadata?: Record<string, any>
+    ) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Get user profile
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('name, email')
+            .eq('id', user.id)
+            .single();
+
+        const { error } = await supabase
+            .from('team_activity')
+            .insert({
+                id: generateId(),
+                type,
+                user_id: user.id,
+                user_name: profile?.name || 'Unknown',
+                user_email: profile?.email || '',
+                target_type: targetType,
+                target_id: targetId,
+                target_name: targetName,
+                metadata,
+                created_at: new Date().toISOString()
+            });
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Cancel team invitation (Woche 20)
+     */
+    cancelTeamInvitation: async (invitationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        const { error } = await supabase
+            .from('team_invitations')
+            .update({ status: 'cancelled' })
+            .eq('id', invitationId)
+            .eq('invited_by', user.id);
+
+        return { data: { success: !error }, error: handleSupabaseError(error) };
+    },
+
+    /**
+     * Resend team invitation (Woche 20)
+     */
+    resendTeamInvitation: async (invitationId: string) => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return { data: null, error: 'Not authenticated' };
+
+        // Get invitation
+        const { data: invitation, error } = await supabase
+            .from('team_invitations')
+            .select('*')
+            .eq('id', invitationId)
+            .single();
+
+        if (error || !invitation) return { data: null, error: handleSupabaseError(error) };
+
+        // Update expires_at
+        const { error: updateError } = await supabase
+            .from('team_invitations')
+            .update({
+                expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+                created_at: new Date().toISOString()
+            })
+            .eq('id', invitationId);
+
+        if (updateError) return { data: null, error: handleSupabaseError(updateError) };
+
+        // TODO: Resend invitation email here
+
+        return { data: { success: true }, error: null };
     }
 };
