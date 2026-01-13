@@ -80,9 +80,10 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
 
             if (error) throw error;
             setPaymentMethods(data || []);
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Laden der Zahlungsmethoden';
             console.error('Error loading payment methods:', err);
-            setError(err.message || 'Fehler beim Laden der Zahlungsmethoden');
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -117,9 +118,10 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
                 setSepaData({ iban: '', accountHolder: '' });
             }, 1500);
 
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Hinzufügen der Zahlungsmethode';
             console.error('Error adding payment method:', err);
-            setAddError(err.message || 'Fehler beim Hinzufügen der Zahlungsmethode');
+            setAddError(errorMessage);
             setAddStep('error');
         } finally {
             setProcessing(false);
@@ -140,9 +142,10 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
                     is_default: method.id === methodId
                 }))
             );
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Festlegen der Standard-Zahlungsmethode';
             console.error('Error setting default payment method:', err);
-            alert(err.message || 'Fehler beim Festlegen der Standard-Zahlungsmethode');
+            alert(errorMessage);
         }
     };
 
@@ -160,9 +163,10 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
             // Update local state
             setPaymentMethods(methods => methods.filter(m => m.id !== methodId));
             onPaymentMethodRemoved?.(methodId);
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Entfernen der Zahlungsmethode';
             console.error('Error removing payment method:', err);
-            alert(err.message || 'Fehler beim Entfernen der Zahlungsmethode');
+            alert(errorMessage);
         }
     };
 

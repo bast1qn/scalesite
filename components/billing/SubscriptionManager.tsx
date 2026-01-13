@@ -70,9 +70,10 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
 
             if (error) throw error;
             setSubscriptions(data || []);
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Laden der Abonnements';
             console.error('Error loading subscriptions:', err);
-            setError(err.message || 'Fehler beim Laden der Abonnements');
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -109,9 +110,10 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
                 onSubscriptionCanceled?.(cancelingSubscription.id);
             }, 2000);
 
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Kündigen des Abonnements';
             console.error('Error canceling subscription:', err);
-            alert(err.message || 'Fehler beim Kündigen des Abonnements');
+            alert(errorMessage);
             setCancelStep('confirm');
         } finally {
             setProcessing(false);

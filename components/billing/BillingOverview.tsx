@@ -117,9 +117,10 @@ const BillingOverview: React.FC<BillingOverviewProps> = ({ className = '' }) => 
                 activeSubscriptions,
                 pendingInvoices
             });
-        } catch (err: any) {
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Fehler beim Laden der Abrechnungsdaten';
             console.error('Error loading billing data:', err);
-            setError(err.message || 'Fehler beim Laden der Abrechnungsdaten');
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

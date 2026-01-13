@@ -54,7 +54,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 : project.content;
 
             setConfig({
-                colors: parsedConfig.colors || config?.colors || getDefaultColors(),
+                colors: parsedConfig.colors || getDefaultColors(),
                 layout: parsedConfig.layout || 'modern',
                 device: 'desktop',
                 content: parsedContent || getDefaultContent(),
@@ -67,7 +67,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
         } finally {
             setLoading(false);
         }
-    }, [config]);
+    }, []); // Removed 'config' from dependencies - it was causing infinite loop
 
     /**
      * Save configuration to database

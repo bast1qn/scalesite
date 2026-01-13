@@ -42,7 +42,7 @@ export const AnimatedSection = ({
       controls.start('hidden');
       hasAnimatedRef.current = false;
     }
-  }, [controls, isIntersecting, once, hasAnimatedRef]);
+  }, [controls, isIntersecting, once]); // Removed hasAnimatedRef - refs should not be in dependencies
 
   const getVariants = () => {
     if (prefersReducedMotion()) {
@@ -123,7 +123,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
     if (isIntersecting) {
       controls.start('visible');
     }
-  }, [controls, isIntersecting, threshold]); // threshold is used in useIntersectionObserver
+  }, [controls, isIntersecting]); // Removed threshold - it's only used in useIntersectionObserver initialization
 
   const containerVariants = {
     hidden: { opacity: 0 },

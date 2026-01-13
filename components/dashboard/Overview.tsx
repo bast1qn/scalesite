@@ -279,7 +279,7 @@ const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
                 {onClick && <ArrowRightIcon className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-blue-500 transition-all duration-300" />}
             </p>
         </div>
-    ), [ArrowRightIcon]);
+    }, []); // Removed ArrowRightIcon from dependencies - it's a stable component import
 
     return (
         <div className="space-y-8 animate-fade-in">

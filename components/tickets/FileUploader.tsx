@@ -23,6 +23,14 @@ export interface UploadedFile {
     error?: string;
 }
 
+export interface FileRejection {
+    file: File;
+    errors: Array<{
+        code: string;
+        message: string;
+    }>;
+}
+
 export interface FileUploaderProps {
     onUpload: (files: UploadedFile[]) => void | Promise<void>;
     maxSize?: number;
@@ -101,7 +109,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         maxSize,
         multiple,
         disabled: disabled || uploading,
-        onDrop: useCallback(async (acceptedFiles: File[], rejectedFiles: any[]) => {
+        onDrop: useCallback(async (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
             if (acceptedFiles.length === 0) return;
 
             setUploading(true);

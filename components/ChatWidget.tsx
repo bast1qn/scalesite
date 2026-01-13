@@ -30,7 +30,7 @@ export const ChatWidget = () => {
         setMessages([
             { role: 'model', text: t('chat_widget.welcome_message') }
         ]);
-    }, [language]); // t function is stable from useLanguage context - only re-run on language change
+    }, [language, t]); // Added t to dependencies - t function comes from useLanguage context
 
     // Initialize suggestions when language changes
     useEffect(() => {
@@ -43,7 +43,7 @@ export const ChatWidget = () => {
             // Fallback to empty array if translations are not available
             setSuggestions([]);
         }
-    }, [language]);
+    }, [language, translations]); // Added translations to dependencies
 
     const processMessage = async (text: string) => {
         if (!text.trim() || isLoading) return;
