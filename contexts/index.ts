@@ -3,6 +3,7 @@ export { AuthContext, AuthProvider, useAuth } from './AuthContext';
 export { LanguageContext, LanguageProvider, useLanguage } from './LanguageContext';
 export { CurrencyContext, CurrencyProvider, useCurrency } from './CurrencyContext';
 export { NotificationContext, NotificationProvider, useNotifications } from './NotificationContext';
+export { ThemeContext, ThemeProvider, useTheme, getCurrentTheme } from './ThemeContext';
 
 // Re-export types
 export type { AppUser } from './AuthContext';

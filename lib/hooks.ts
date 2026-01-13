@@ -256,3 +256,55 @@ export function useIntersectionObserverOnce(
 
   return [ref, hasIntersected];
 }
+
+/**
+ * Hook for smooth theme transitions with animation
+ * Prevents flash of wrong theme and adds smooth transition effect
+ */
+export function useThemeTransition() {
+  useEffect(() => {
+    // Skip initial render
+    let isInitial = true;
+
+    // Add transition class when theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class' && !isInitial) {
+          const target = mutation.target as HTMLElement;
+          const hasDarkClass = target.classList.contains('dark');
+
+          // Add transition animation
+          target.classList.add('theme-transitioning');
+
+          setTimeout(() => {
+            target.classList.remove('theme-transitioning');
+          }, 300);
+        }
+        isInitial = false;
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+}
+
+/**
+ * Hook to prevent flash of wrong theme during SSR
+ * Removes no-transition class after initial load
+ */
+export function useNoFlashTheme() {
+  useEffect(() => {
+    // Remove no-transition class after initial render
+    const timeout = setTimeout(() => {
+      document.body.classList.remove('no-transition');
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, []);
+}
+

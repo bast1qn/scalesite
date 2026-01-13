@@ -51,6 +51,57 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Enhanced Dark Mode Transitions */
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+  }
+
+  /* Exclude certain elements from theme transitions for better performance */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+  }
+
+  /* Fast transitions for interactive elements */
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    transition-duration: 150ms;
+  }
+
+  /* No transition during initial load */
+  .no-transition *,
+  .no-transition *::before,
+  .no-transition *::after {
+    transition: none !important;
+  }
+
+  /* Smooth theme transition animation */
+  @keyframes theme-transition {
+    0% {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Apply smooth transition when theme changes */
+  .theme-transitioning {
+    animation: theme-transition 0.3s ease-out;
+  }
+
   /* Smooth scroll behavior */
   html {
     scroll-behavior: smooth;
