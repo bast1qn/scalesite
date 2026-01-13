@@ -1,9 +1,9 @@
 
-import React from 'react';
+import { type FC } from 'react';
 import { CheckBadgeIcon, XCircleIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
-export const ServiceFeatures: React.FC = () => {
+export const ServiceFeatures: FC = () => {
   const { t } = useLanguage();
 
   // Defensive: Ensure translation returns array, fallback to empty array

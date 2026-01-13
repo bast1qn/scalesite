@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { AnimatedSection, ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './index';
 import { useLanguage } from '../contexts';
 
@@ -41,7 +41,7 @@ const steps = [
   },
 ];
 
-export const ProcessSteps: React.FC = () => {
+export const ProcessSteps: FC = () => {
   const { t } = useLanguage();
 
   return (

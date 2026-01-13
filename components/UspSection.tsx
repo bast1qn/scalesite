@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type FC, type ReactNode } from 'react';
 import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
@@ -42,8 +42,8 @@ const usps = [
 ];
 
 // Clean card with subtle hover
-const HoverCard: React.FC<{
-  children: React.ReactNode;
+const HoverCard: FC<{
+  children: ReactNode;
   className?: string;
 }> = ({ children, className = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -59,7 +59,7 @@ const HoverCard: React.FC<{
   );
 };
 
-export const UspSection: React.FC = () => {
+export const UspSection: FC = () => {
   const { t } = useLanguage();
 
   return (

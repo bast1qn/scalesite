@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { XMarkIcon, CookieIcon, AdjustmentsHorizontalIcon } from './Icons';
 import { useLanguage } from '../contexts';
 
@@ -37,7 +37,7 @@ export const CookieConsent = () => {
                 }
             }
         } catch (error) {
-            console.warn('Failed to load cookie consent:', error);
+            // Failed to load cookie consent - show banner
             setTimeout(() => setIsVisible(true), 1000);
         }
     }, []);
@@ -46,7 +46,7 @@ export const CookieConsent = () => {
         try {
             localStorage.setItem('cookie-consent', JSON.stringify(prefs));
         } catch (error) {
-            console.warn('Failed to save cookie consent:', error);
+            // Failed to save cookie consent - continue anyway
         }
         setPreferences(prefs);
         setIsVisible(false);

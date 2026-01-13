@@ -1,5 +1,5 @@
 
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, type FC, type ReactNode } from 'react';
 import { AuthContext, useLanguage } from '../../contexts';
 import { api } from '../../lib';
 import {
@@ -50,7 +50,7 @@ const getTimeAgo = (date: Date): string => {
     return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
 };
 
-const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
+const Overview: FC<OverviewProps> = ({ setActiveView, setCurrentPage }) => {
     const { user } = useContext(AuthContext);
     const { t } = useLanguage();
     const [stats, setStats] = useState({ ticketCount: 0, serviceCount: 0 });
@@ -249,7 +249,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
         }
     };
 
-    const KPICard = ({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: React.ReactNode; subtext?: React.ReactNode; onClick?: () => void}) => (
+    const KPICard = ({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => (
         <div
             onClick={onClick}
             className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import { ArrowTopRightOnSquareIcon, DevicePhoneMobileIcon, ComputerDesktopIcon } from './index';
 import { motion } from 'framer-motion';
 
@@ -37,7 +37,7 @@ const showcases = [
 ];
 
 // Refined Device Mockup Component
-const DeviceMockup: React.FC<{
+const DeviceMockup: FC<{
   gradient: string;
   icon: string;
   index: number;
@@ -98,7 +98,7 @@ const DeviceMockup: React.FC<{
   );
 };
 
-export const ShowcasePreview: React.FC<ShowcasePreviewProps> = ({ setCurrentPage }) => {
+export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) => {
   return (
     <section className="py-28 md:py-36 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 relative overflow-hidden">
       {/* Refined background decoration */}

@@ -1,5 +1,4 @@
-
-import React from 'react';
+import { type FC, type CSSProperties } from 'react';
 
 interface SkeletonProps {
   className?: string;
@@ -9,7 +8,7 @@ interface SkeletonProps {
   count?: number;
 }
 
-export const Skeleton: React.FC<SkeletonProps> = ({
+export const Skeleton: FC<SkeletonProps> = ({
   className = '',
   variant = 'text',
   width,
@@ -25,7 +24,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
     rounded: 'rounded-xl'
   };
 
-  const style: React.CSSProperties = {};
+  const style: CSSProperties = {};
   if (width) style.width = typeof width === 'number' ? `${width}px` : width;
   if (height) style.height = typeof height === 'number' ? `${height}px` : height;
 
@@ -41,7 +40,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 };
 
 // Card Skeleton
-export const CardSkeleton: React.FC<{ showAvatar?: boolean }> = ({ showAvatar = false }) => (
+export const CardSkeleton: FC<{ showAvatar?: boolean }> = ({ showAvatar = false }) => (
   <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
     {showAvatar && (
       <div className="flex items-center gap-4 mb-4">
@@ -59,7 +58,7 @@ export const CardSkeleton: React.FC<{ showAvatar?: boolean }> = ({ showAvatar = 
 );
 
 // Pricing Card Skeleton
-export const PricingCardSkeleton: React.FC = () => (
+export const PricingCardSkeleton: FC = () => (
   <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700">
     <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-pulse mb-6"></div>
     <div className="h-6 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-3/4 mb-4"></div>
@@ -78,7 +77,7 @@ export const PricingCardSkeleton: React.FC = () => (
 );
 
 // Blog Card Skeleton
-export const BlogCardSkeleton: React.FC = () => (
+export const BlogCardSkeleton: FC = () => (
   <div className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700">
     <div className="aspect-video bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
     <div className="p-6">
@@ -95,7 +94,7 @@ export const BlogCardSkeleton: React.FC = () => (
 );
 
 // Table Skeleton
-export const TableSkeleton: React.FC<{ rows?: number; cols?: number }> = ({ rows = 5, cols = 4 }) => (
+export const TableSkeleton: FC<{ rows?: number; cols?: number }> = ({ rows = 5, cols = 4 }) => (
   <div className="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
     {/* Header */}
     <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
@@ -121,7 +120,7 @@ interface LoadingSpinnerProps {
   className?: string;
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+export const LoadingSpinner: FC<LoadingSpinnerProps> = ({
   size = 'md',
   color = 'white',
   className = ''

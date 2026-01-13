@@ -106,62 +106,13 @@ export function getRelativeTime(date: Date | string, locale: string = 'de'): str
   }
 }
 
-// ===== STRING HELPERS =====
-
-/**
- * Truncate string to max length with ellipsis
- */
-export function truncate(str: string, maxLength: number, suffix: string = '...'): string {
-  if (str.length <= maxLength) return str;
-  return str.slice(0, maxLength - suffix.length) + suffix;
-}
+// ===== ID GENERATION =====
 
 /**
  * Generate a random ID
  */
 export function generateId(): string {
   return crypto.randomUUID();
-}
-
-/**
- * Capitalize first letter of string
- */
-export function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-/**
- * Convert string to slug
- */
-export function slugify(str: string): string {
-  return str
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-// ===== VALIDATION HELPERS =====
-
-/**
- * Validate email address
- */
-export function isValidEmail(email: string): boolean {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-/**
- * Validate URL
- */
-export function isValidUrl(url: string): boolean {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 // ===== NUMBER HELPERS =====
@@ -180,92 +131,6 @@ export function formatCurrency(
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
-}
-
-/**
- * Format number with thousands separator
- */
-export function formatNumber(num: number, locale: string = 'de-DE'): string {
-  return new Intl.NumberFormat(locale).format(num);
-}
-
-/**
- * Clamp number between min and max
- */
-export function clamp(num: number, min: number, max: number): number {
-  return Math.min(Math.max(num, min), max);
-}
-
-// ===== ARRAY HELPERS =====
-
-/**
- * Remove duplicates from array
- */
-export function unique<T>(arr: T[]): T[] {
-  return Array.from(new Set(arr));
-}
-
-/**
- * Group array by key
- */
-export function groupBy<T>(arr: T[], key: keyof T): Record<string, T[]> {
-  return arr.reduce((groups, item) => {
-    const groupKey = String(item[key]);
-    if (!groups[groupKey]) groups[groupKey] = [];
-    groups[groupKey].push(item);
-    return groups;
-  }, {} as Record<string, T[]>);
-}
-
-/**
- * Chunk array into smaller arrays
- */
-export function chunk<T>(arr: T[], size: number): T[][] {
-  const chunks: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    chunks.push(arr.slice(i, i + size));
-  }
-  return chunks;
-}
-
-// ===== ASYNC HELPERS =====
-
-/**
- * Delay execution
- */
-export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/**
- * Debounce function
- */
-export function debounce<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: ReturnType<typeof setTimeout> | null = null;
-  return function (...args: Parameters<T>) {
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => fn(...args), wait);
-  };
-}
-
-/**
- * Throttle function
- */
-export function throttle<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  limit: number
-): (...args: Parameters<T>) => void {
-  let inThrottle: boolean;
-  return function (...args: Parameters<T>) {
-    if (!inThrottle) {
-      fn(...args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
 }
 
 // ===== DOM HELPERS =====
@@ -300,56 +165,8 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 }
 
 /**
- * Scroll to element smoothly
- */
-export function scrollToElement(
-  elementId: string,
-  offset: number = 0
-): void {
-  const element = document.getElementById(elementId);
-  if (element) {
-    const top = element.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
-}
-
-/**
  * Scroll to top of page
  */
 export function scrollToTop(): void {
   window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ===== COLOR HELPERS =====
-
-/**
- * Check if color is light
- */
-export function isLightColor(hexColor: string): boolean {
-  const hex = hexColor.replace('#', '');
-  const r = parseInt(hex.substr(0, 2), 16);
-  const g = parseInt(hex.substr(2, 2), 16);
-  const b = parseInt(hex.substr(4, 2), 16);
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 128;
-}
-
-// ===== TYPE GUARDS =====
-
-/**
- * Check if value is defined (not null or undefined)
- */
-export function isDefined<T>(value: T | null | undefined): value is T {
-  return value !== null && value !== undefined;
-}
-
-/**
- * Check if value is empty (null, undefined, or empty string/array/object)
- */
-export function isEmpty(value: unknown): boolean {
-  if (value === null || value === undefined) return true;
-  if (typeof value === 'string') return value.trim().length === 0;
-  if (Array.isArray(value)) return value.length === 0;
-  if (typeof value === 'object') return Object.keys(value).length === 0;
-  return false;
 }

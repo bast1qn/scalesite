@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import { AnimatedSection, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './index';
 import { useLanguage } from '../contexts';
 
@@ -40,7 +40,7 @@ const features = [
 ];
 
 // Transcendent feature card with 3D effects
-const FeatureCard: React.FC<{
+const FeatureCard: FC<{
     feature: typeof features[0];
     index: number;
     t: (key: string) => string;
@@ -49,7 +49,7 @@ const FeatureCard: React.FC<{
     const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
     const [isHovered, setIsHovered] = useState(false);
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleMouseMove = (e: { currentTarget: HTMLDivElement; clientX: number; clientY: number }) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -135,7 +135,7 @@ const FeatureCard: React.FC<{
     );
 };
 
-export const TestimonialsSection: React.FC = () => {
+export const TestimonialsSection: FC = () => {
     const { t } = useLanguage();
 
     return (

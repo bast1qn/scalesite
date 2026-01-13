@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Hero, FinalCtaSection, ReasonsSection, ShowcasePreview, AnimatedSection } from '../components';
 
 interface HomePageProps {

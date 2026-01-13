@@ -1,34 +1,6 @@
 import { useState, useEffect, useRef, RefObject, useCallback, MouseEvent, MouseEventHandler } from 'react';
 
 /**
- * Custom hook to detect clicks outside of a component
- * Useful for dropdowns, modals, popups, etc.
- */
-export function useClickOutside<T extends HTMLElement = HTMLElement>(
-  enabled: boolean = true
-): [RefObject<T>, boolean] {
-  const [isOutside, setIsOutside] = useState(false);
-  const ref = useRef<T>(null);
-
-  useEffect(() => {
-    if (!enabled) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsOutside(true);
-      } else {
-        setIsOutside(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [enabled]);
-
-  return [ref, isOutside];
-}
-
-/**
  * Custom hook for hover state management
  * Returns handlers for mouse enter/leave events and the current hover state
  */
@@ -47,7 +19,8 @@ export function useHover<T extends HTMLElement = HTMLElement>(): {
 }
 
 /**
- * Alternative version that calls a callback when clicking outside
+ * Custom hook to detect clicks outside of a component and call a callback
+ * Useful for dropdowns, modals, popups, etc.
  */
 export function useClickOutsideCallback(
   callback: () => void,
@@ -157,36 +130,6 @@ export function useChatScroll(
 }
 
 /**
- * Custom hook to get the previous value of a state or prop
- */
-export function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>();
-
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-
-  return ref.current;
-}
-
-/**
- * Custom hook for debounced values
- */
-export function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
-/**
  * Custom hook for localStorage with SSR safety
  * @deprecated Use useStorage instead for better type inference and simplicity
  */
@@ -213,7 +156,7 @@ export function useLocalStorage<T>(
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
-      console.warn(`Failed to save to localStorage (key: ${key}):`, error);
+      // Failed to save to localStorage - continue anyway
     }
   };
 
@@ -253,42 +196,12 @@ export function useStorage<T extends string | number | boolean>(
       try {
         window.localStorage.setItem(key, String(value));
       } catch (error) {
-        console.warn(`Failed to save to localStorage (key: ${key}):`, error);
+        // Failed to save to localStorage - continue anyway
       }
     }
   };
 
   return [storedValue, setValue];
-}
-
-/**
- * Custom hook that runs an effect only once on mount
- */
-export function useMountEffect(effect: () => void): void {
-  useEffect(effect, []);
-}
-
-/**
- * Custom hook for media queries
- */
-export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia(query).matches;
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(query);
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
-
-    // Modern browsers
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, [query]);
-
-  return matches;
 }
 
 /**
@@ -342,18 +255,4 @@ export function useIntersectionObserverOnce(
   }, [hasIntersected, options.threshold, options.rootMargin, options.root]);
 
   return [ref, hasIntersected];
-}
-
-/**
- * Custom hook to set document page title
- * Automatically restores previous title on unmount
- */
-export function usePageTitle(title: string): void {
-  useEffect(() => {
-    document.title = title;
-    return () => {
-      // Restore default title on unmount
-      document.title = 'ScaleSite - Premium Web Development';
-    };
-  }, [title]);
 }

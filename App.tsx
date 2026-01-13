@@ -72,12 +72,12 @@ const AppContent = () => {
         try {
             localStorage.clear();
         } catch (error) {
-            console.warn('Failed to clear localStorage:', error);
+            // localStorage clear failed - continue with reload
         }
         try {
             sessionStorage.clear();
         } catch (error) {
-            console.warn('Failed to clear sessionStorage:', error);
+            // sessionStorage clear failed - continue with reload
         }
         window.location.reload();
     };
