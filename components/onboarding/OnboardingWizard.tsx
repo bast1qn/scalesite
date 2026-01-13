@@ -7,6 +7,9 @@ import { useReducer, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { StepIndicator } from './StepIndicator';
 import { BasicInfoStep } from './BasicInfoStep';
+import { BusinessDataStep } from './BusinessDataStep';
+import { DesignPrefsStep } from './DesignPrefsStep';
+import { ContentReqStep } from './ContentReqStep';
 
 // ============================================
 // TYPES & INTERFACES
@@ -287,9 +290,18 @@ export function OnboardingWizard({
 
             // Additional steps will be validated in Woche 6
             case 'business-data':
+                // Optional validation for business data
+                // Currently all fields are optional
+                break;
+
             case 'design-prefs':
+                // Optional validation for design preferences
+                // Currently all fields are optional
+                break;
+
             case 'content-req':
-                // For now, allow navigation without validation
+                // Optional validation for content requirements
+                // Currently all fields are optional
                 break;
         }
 
@@ -444,29 +456,31 @@ export function OnboardingWizard({
                             />
                         )}
 
-                        {/* Placeholder for other steps - implemented in Woche 6 */}
                         {state.currentStep === 'business-data' && (
-                            <div className="text-center py-12">
-                                <p className="text-gray-600 dark:text-gray-400">
-                                    Business Data Step wird in Woche 6 implementiert...
-                                </p>
-                            </div>
+                            <BusinessDataStep
+                                data={state.data}
+                                errors={state.errors}
+                                touched={state.touched}
+                                onChange={handleFieldChange}
+                            />
                         )}
 
                         {state.currentStep === 'design-prefs' && (
-                            <div className="text-center py-12">
-                                <p className="text-gray-600 dark:text-gray-400">
-                                    Design Preferences Step wird in Woche 6 implementiert...
-                                </p>
-                            </div>
+                            <DesignPrefsStep
+                                data={state.data}
+                                errors={state.errors}
+                                touched={state.touched}
+                                onChange={handleFieldChange}
+                            />
                         )}
 
                         {state.currentStep === 'content-req' && (
-                            <div className="text-center py-12">
-                                <p className="text-gray-600 dark:text-gray-400">
-                                    Content Requirements Step wird in Woche 6 implementiert...
-                                </p>
-                            </div>
+                            <ContentReqStep
+                                data={state.data}
+                                errors={state.errors}
+                                touched={state.touched}
+                                onChange={handleFieldChange}
+                            />
                         )}
                     </AnimatePresence>
                 </motion.div>
