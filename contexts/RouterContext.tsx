@@ -5,7 +5,7 @@
  * Used by ProtectedRoute for redirecting unauthorized users
  */
 
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, type ReactNode } from 'react';
 
 interface RouterContextType {
   currentPage: string;
@@ -51,7 +51,7 @@ export const RouterProvider = ({
   setCurrentPage
 }: RouterProviderProps) => {
   // Sync with URL hash on mount
-  useContext(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.slice(1);
       if (hash && hash !== currentPage) {
@@ -69,7 +69,7 @@ export const RouterProvider = ({
       window.addEventListener('hashchange', handleHashChange);
       return () => window.removeEventListener('hashchange', handleHashChange);
     }
-  });
+  }, [currentPage, setCurrentPage]);
 
   return (
     <RouterContext.Provider value={{ currentPage, setCurrentPage, navigate: (page) => setCurrentPage(page) }}>

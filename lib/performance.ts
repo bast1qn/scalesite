@@ -63,7 +63,7 @@ export class PerformanceMonitor {
  * Request Deduplication - Prevent duplicate API calls
  */
 class RequestDeduplicator {
-  private pendingRequests = new Map<string, Promise<any>>();
+  private pendingRequests = new Map<string, Promise<unknown>>();
 
   /**
    * Execute a request, deduplicating identical in-flight requests
@@ -166,13 +166,13 @@ export function isInViewport(
 /**
  * Throttle function for performance (alternative to hook)
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let context: any;
+  let context: unknown;
   let args: Parameters<T>;
-  let result: any;
+  let result: unknown;
   let timeout: ReturnType<typeof setTimeout> | null = null;
   let previous = 0;
 
@@ -207,7 +207,7 @@ export function throttle<T extends (...args: any[]) => any>(
 /**
  * Debounce function for performance (alternative to hook)
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number,
   immediate: boolean = false
@@ -285,8 +285,8 @@ export function measureCoreWebVitals() {
  */
 export function reportPerformanceMetrics(metrics: Record<string, number>) {
   // Send to analytics service
-  if (import.meta.env.PROD && typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'timing_complete', {
+  if (import.meta.env.PROD && typeof window !== 'undefined' && (window as Record<string, unknown>).gtag) {
+    (window as Record<string, unknown>).gtag('event', 'timing_complete', {
       name: 'page_load',
       value: metrics['page_load'] || 0,
       event_category: 'performance'

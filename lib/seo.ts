@@ -549,7 +549,7 @@ export const generateArticleStructuredData = (data: {
   description?: string;
   articleSection?: string;
 }): string => {
-  const schema: any = {
+  const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: data.headline,
@@ -585,7 +585,7 @@ export const generateLocalBusinessStructuredData = (data: {
   geoLatitude?: number;
   geoLongitude?: number;
 }): string => {
-  const schema: any = {
+  const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: data.name,
@@ -622,7 +622,7 @@ export const generateOrganizationStructuredData = (data: {
   numberOfEmployees?: number;
   address?: string;
 }): string => {
-  const schema: any = {
+  const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: data.name
@@ -786,7 +786,7 @@ export const extractMetaTagsFromHtml = (html: string): {
   ogImage?: string;
   twitterCard?: string;
 } => {
-  const result: any = {};
+  const result: Record<string, string | undefined> = {};
 
   // Extract title
   const titleMatch = html.match(/<title[^>]*>([^<]*)<\/title>/i);

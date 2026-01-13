@@ -404,7 +404,7 @@ export const createActivityEvent = (
     targetType?: string,
     targetId?: string,
     targetName?: string,
-    metadata?: Record<string, any>
+    metadata?: Record<string, unknown>
 ) => {
     return {
         id: `activity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,

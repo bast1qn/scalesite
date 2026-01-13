@@ -49,8 +49,8 @@ export interface ServiceDescriptionOptions {
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 const GEMINI_API_KEY = typeof process !== 'undefined' && process.env?.GEMINI_API_KEY
     ? process.env.GEMINI_API_KEY
-    : (typeof window !== 'undefined' && (window as any).GEMINI_API_KEY)
-    ? (window as any).GEMINI_API_KEY
+    : (typeof window !== 'undefined' && (window as Record<string, unknown>).GEMINI_API_KEY as string)
+    ? (window as Record<string, unknown>).GEMINI_API_KEY as string
     : '';
 
 /**

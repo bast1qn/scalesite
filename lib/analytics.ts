@@ -20,7 +20,7 @@ export interface AnalyticsEvent {
     event_name: string;
     page_path: string;
     page_title?: string;
-    properties?: Record<string, any>;
+    properties?: Record<string, unknown>;
     timestamp?: string;
 }
 
@@ -52,7 +52,7 @@ const resetSession = () => {
 export const trackPageView = async (
     path: string,
     title?: string,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -81,7 +81,7 @@ export const trackPageView = async (
 // Track User Action
 export const trackUserAction = async (
     actionName: string,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -105,7 +105,7 @@ export const trackUserAction = async (
 // Track Custom Event
 export const trackCustomEvent = async (
     eventName: string,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -130,7 +130,7 @@ export const trackCustomEvent = async (
 export const trackConversion = async (
     conversionType: string,
     value?: number,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -157,7 +157,7 @@ export const trackConversion = async (
 // Track Form Submit
 export const trackFormSubmit = async (
     formName: string,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -181,7 +181,7 @@ export const trackFormSubmit = async (
 // Track Button Click
 export const trackButtonClick = async (
     buttonName: string,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -206,7 +206,7 @@ export const trackButtonClick = async (
 export const trackFileDownload = async (
     fileName: string,
     fileUrl: string,
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -234,7 +234,7 @@ export const trackFileDownload = async (
 // Track Scroll Depth
 export const trackScrollDepth = async (
     depth: number, // 0-100
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -363,7 +363,7 @@ export const getAnalyticsMetrics = async (
 };
 
 // Helper Functions
-const calculateBounceRate = (events: any[]): number => {
+const calculateBounceRate = (events: AnalyticsEvent[]): number => {
     const sessions = new Set(events.map(e => e.session_id));
     let bouncedSessions = 0;
 
@@ -377,7 +377,7 @@ const calculateBounceRate = (events: any[]): number => {
     return sessions.size > 0 ? Math.round((bouncedSessions / sessions.size) * 100) : 0;
 };
 
-const calculateAvgSessionDuration = (events: any[]): number => {
+const calculateAvgSessionDuration = (events: AnalyticsEvent[]): number => {
     const sessions = new Set(events.map(e => e.session_id));
     const durations: number[] = [];
 
@@ -395,7 +395,7 @@ const calculateAvgSessionDuration = (events: any[]): number => {
         : 0;
 };
 
-const calculateTopPages = (pageViews: any[]): Array<{ path: string; views: number }> => {
+const calculateTopPages = (pageViews: AnalyticsEvent[]): Array<{ path: string; views: number }> => {
     const pageMap = new Map<string, number>();
 
     pageViews.forEach(view => {
@@ -409,7 +409,7 @@ const calculateTopPages = (pageViews: any[]): Array<{ path: string; views: numbe
         .slice(0, 10);
 };
 
-const calculateTopReferrers = (pageViews: any[]): Array<{ source: string; visits: number }> => {
+const calculateTopReferrers = (pageViews: AnalyticsEvent[]): Array<{ source: string; visits: number }> => {
     const referrerMap = new Map<string, number>();
 
     pageViews.forEach(view => {

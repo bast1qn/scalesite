@@ -257,7 +257,7 @@ import { supabase } from './supabase';
  */
 export const getConversations = async (): Promise<{
     data: ChatConversationWithDetails[] | null;
-    error: any;
+    error: Error | null;
 }> => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -281,7 +281,7 @@ export const getConversations = async (): Promise<{
     if (error) return { data: null, error };
 
     // Get unread counts
-    const conversations = data as any[];
+    const conversations = data as ChatConversationWithDetails[];
     const conversationIds = conversations.map(c => c.id);
 
     const { data: unreadData } = await supabase
@@ -319,7 +319,7 @@ export const getConversations = async (): Promise<{
                 unread_count: unreadCount,
                 last_message: conv.last_message ? {
                     ...conv.last_message,
-                    sender_name: conv.participants?.find((p: any) => p.user_id === conv.last_message.sender_id)?.profile?.name
+                    sender_name: conv.participants?.find((p) => p.user_id === conv.last_message.sender_id)?.profile?.name
                 } : undefined
             };
         })
@@ -401,7 +401,7 @@ export const getMessages = async (
 
     // Add is_sender flag and get read receipts
     const messagesWithSender = await Promise.all(
-        (data || []).map(async (msg: any) => {
+        (data || []).map(async (msg: ChatMessage & { sender?: unknown }) => {
             // Get read receipts for this message
             const { data: readData } = await supabase
                 .from('chat_participants')

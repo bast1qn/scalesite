@@ -61,7 +61,7 @@ export interface UserProfile {
     referral_code: string | null;
     phone?: string;
     timezone?: string;
-    preferences?: Record<string, any>;
+    preferences?: Record<string, unknown>;
     onboarding_completed?: boolean;
     avatar_url?: string;
     created_at: string;
@@ -78,8 +78,8 @@ export interface Project {
     name: string;
     description?: string;
     industry?: string;
-    config: Record<string, any>;
-    content: Record<string, any>;
+    config: Record<string, unknown>;
+    content: Record<string, unknown>;
     status: 'konzeption' | 'design' | 'entwicklung' | 'review' | 'launch' | 'active';
     progress: number;
     estimated_launch_date?: string;

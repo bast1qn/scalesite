@@ -31,7 +31,7 @@ export interface PaymentMethod {
     paypal_email?: string;
     billing_name?: string;
     billing_email?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
     status: 'active' | 'inactive' | 'expired';
     created_at: string;
     updated_at: string;
@@ -51,7 +51,7 @@ export interface Payment {
     description?: string;
     failure_reason?: string;
     receipt_url?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
     created_at: string;
     updated_at: string;
     completed_at?: string;
@@ -80,7 +80,7 @@ export interface Subscription {
     current_period_end: string;
     cancel_at_period_end: boolean;
     canceled_at?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
     created_at: string;
     updated_at: string;
 }
@@ -95,7 +95,7 @@ export interface PaymentIntent {
     provider_payment_intent_id?: string;
     client_secret?: string;
     payment_method_id?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
     created_at: string;
     updated_at: string;
     expires_at?: string;
@@ -107,7 +107,7 @@ export interface CreatePaymentIntentParams {
     invoice_id?: string;
     payment_method_id?: string;
     description?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
 }
 
 export interface CreateSubscriptionParams {
@@ -116,7 +116,7 @@ export interface CreateSubscriptionParams {
     payment_method_id: string;
     project_id?: string;
     trial_days?: number;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
 }
 
 export interface Invoice {
@@ -136,7 +136,12 @@ export interface Invoice {
     stripe_invoice_id?: string;
     stripe_hosted_invoice_url?: string;
     invoice_pdf_url?: string;
-    line_items: any[];
+    line_items: Array<{
+        description: string;
+        quantity: number;
+        unit_price: number;
+        total: number;
+    }>;
     discount_amount: number;
     tax_amount: number;
     created_at: string;
@@ -162,7 +167,7 @@ export class StripeError extends Error {
         message: string,
         public code?: string,
         public statusCode?: number,
-        public stripeError?: any
+        public stripeError?: unknown
     ) {
         super(message);
         this.name = 'StripeError';
@@ -176,7 +181,7 @@ export class StripeError extends Error {
 /**
  * Call the Stripe backend API via Supabase Edge Function
  */
-async function callStripeAPI(endpoint: string, data: any = {}): Promise<any> {
+async function callStripeAPI(endpoint: string, data: Record<string, unknown> = {}): Promise<unknown> {
     try {
         // In a real setup, this would call a Supabase Edge Function
         // For now, we'll simulate the API call
@@ -231,7 +236,7 @@ async function callStripeAPI(endpoint: string, data: any = {}): Promise<any> {
  */
 export const getPaymentMethods = async (): Promise<{
     data: PaymentMethod[] | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -257,7 +262,7 @@ export const getPaymentMethods = async (): Promise<{
  */
 export const getDefaultPaymentMethod = async (): Promise<{
     data: PaymentMethod | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -283,7 +288,7 @@ export const getDefaultPaymentMethod = async (): Promise<{
  */
 export const attachPaymentMethod = async (paymentMethodId: string): Promise<{
     data: PaymentMethod | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const result = await callStripeAPI('attach-payment-method', {
@@ -301,7 +306,7 @@ export const attachPaymentMethod = async (paymentMethodId: string): Promise<{
  */
 export const setDefaultPaymentMethod = async (paymentMethodId: string): Promise<{
     success: boolean;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -326,7 +331,7 @@ export const setDefaultPaymentMethod = async (paymentMethodId: string): Promise<
  */
 export const detachPaymentMethod = async (paymentMethodId: string): Promise<{
     success: boolean;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -363,7 +368,7 @@ export const createPaymentIntent = async (
     params: CreatePaymentIntentParams
 ): Promise<{
     data: PaymentIntent | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -415,7 +420,7 @@ export const confirmPaymentIntent = async (
     paymentMethodId?: string
 ): Promise<{
     data: Payment | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const result = await callStripeAPI('confirm-payment-intent', {
@@ -470,7 +475,7 @@ export const getPaymentIntentStatus = async (
     providerPaymentIntentId: string
 ): Promise<{
     data: PaymentIntent | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data, error } = await supabase
@@ -498,7 +503,7 @@ export const getPayments = async (filters?: {
     offset?: number;
 }): Promise<{
     data: Payment[] | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -537,7 +542,7 @@ export const getPayments = async (filters?: {
  */
 export const getPayment = async (paymentId: string): Promise<{
     data: Payment | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -567,7 +572,7 @@ export const refundPayment = async (
     reason?: string
 ): Promise<{
     data: Payment | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         // Get original payment
@@ -616,7 +621,7 @@ export const createSubscription = async (
     params: CreateSubscriptionParams
 ): Promise<{
     data: Subscription | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -677,7 +682,7 @@ export const getSubscriptions = async (filters?: {
     service_id?: number;
 }): Promise<{
     data: Subscription[] | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -712,7 +717,7 @@ export const getSubscriptions = async (filters?: {
  */
 export const getSubscription = async (subscriptionId: string): Promise<{
     data: Subscription | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -741,7 +746,7 @@ export const cancelSubscription = async (
     cancelAtPeriodEnd: boolean = true
 ): Promise<{
     data: Subscription | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         // Get subscription
@@ -757,7 +762,7 @@ export const cancelSubscription = async (
         });
 
         // Update in database
-        const updates: any = {
+        const updates: Record<string, unknown> = {
             cancel_at_period_end: cancelAtPeriodEnd,
             updated_at: new Date().toISOString()
         };
@@ -788,7 +793,7 @@ export const updateSubscriptionPaymentMethod = async (
     paymentMethodId: string
 ): Promise<{
     success: boolean;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: subscription } = await getSubscription(subscriptionId);
@@ -820,7 +825,7 @@ export const getInvoices = async (filters?: {
     limit?: number;
 }): Promise<{
     data: Invoice[] | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -856,7 +861,7 @@ export const getInvoices = async (filters?: {
  */
 export const getInvoice = async (invoiceId: string): Promise<{
     data: Invoice | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -885,7 +890,7 @@ export const payInvoice = async (
     paymentMethodId: string
 ): Promise<{
     data: Payment | null;
-    error: any;
+    error: Error | null;
 }> => {
     try {
         // Get invoice
