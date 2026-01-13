@@ -1,30 +1,34 @@
-
+// Internal - Supabase client
 import { supabase, UserProfile } from './supabase';
+
+// Internal - Utilities
 import { generateId } from './utils';
+
+// Internal - Types
 import type {
+  AnalyticsSummary,
+  ApiArrayResponse,
+  ApiResponse,
+  BlogPost,
+  ContentGeneration,
+  DashboardStats,
+  Discount,
+  File,
+  Invoice,
+  NewsletterCampaign,
+  NewsletterSubscriber,
+  Notification,
   Project,
   ProjectMilestone,
   Service,
-  UserService,
-  Ticket,
-  TicketMessage,
-  TicketMember,
-  Transaction,
-  Invoice,
-  ContentGeneration,
-  TeamMember,
-  TeamInvitation,
   TeamActivity,
-  Notification,
-  NewsletterSubscriber,
-  NewsletterCampaign,
-  File,
-  BlogPost,
-  Discount,
-  ApiResponse,
-  ApiArrayResponse,
-  DashboardStats,
-  AnalyticsSummary
+  TeamInvitation,
+  TeamMember,
+  Ticket,
+  TicketMember,
+  TicketMessage,
+  Transaction,
+  UserService,
 } from './types';
 
 // Simple in-memory cache for API responses (prevents duplicate requests)
@@ -84,6 +88,10 @@ const handleSupabaseError = (error: SupabaseError | null): string | null => {
 };
 
 export const api = {
+    /**
+     * Get current user profile
+     * @returns User profile data or error
+     */
     getMe: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -97,6 +105,11 @@ export const api = {
         return { data: { user: data }, error: handleSupabaseError(error) };
     },
 
+    /**
+     * Update current user profile
+     * @param updates - Object containing fields to update (name, company, email)
+     * @returns Updated user profile or error
+     */
     updateProfile: async (updates: { name?: string; company?: string; email?: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };
@@ -218,6 +231,12 @@ export const api = {
         return { data: { success: true, id }, error: null };
     },
 
+    /**
+     * Get all tickets for current user
+     * - Team members see all tickets
+     * - Regular users see their own tickets + tickets they're members of
+     * @returns Array of tickets with user profiles or error
+     */
     getTickets: async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: 'Not authenticated' };
@@ -256,6 +275,13 @@ export const api = {
         return { data: formatted, error: null };
     },
 
+    /**
+     * Create a new support ticket
+     * @param subject - Ticket subject/title
+     * @param priority - Priority level (e.g., 'Niedrig', 'Mittel', 'Hoch')
+     * @param message - Initial message/description
+     * @returns Created ticket ID or error
+     */
     createTicket: async (subject: string, priority: string, message: string) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: 'Not authenticated' };

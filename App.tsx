@@ -1,12 +1,16 @@
-// React imports
+// React
 import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
 
 // External libraries
 import { AnimatePresence } from 'framer-motion';
 
-// Internal imports
+// Internal - Components
 import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer } from './components';
+
+// Internal - Contexts
 import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider, ThemeProvider } from './contexts';
+
+// Internal - Constants
 import { TIMING } from './lib/constants';
 
 const HomePage = lazy(() => import('./pages/HomePage'));

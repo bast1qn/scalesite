@@ -102,6 +102,50 @@ export const TIMING = {
   toastDuration: 3000,
   /** Days for offer countdown (7) */
   offerDays: 7,
+  /** Success message auto-hide duration (3000ms) */
+  successMessageDuration: 3000,
+  /** Theme transition duration (300ms) */
+  themeTransitionDuration: 300,
+  /** Initial render flash prevention delay (100ms) */
+  initialRenderDelay: 100,
+  /** Password strength indicator segments (3) */
+  passwordStrengthSegments: 3,
+} as const;
+
+// ===== API & CACHE VALUES =====
+
+/**
+ * API and caching-related constants
+ */
+export const API = {
+  /** Cache TTL for API responses (5000ms) */
+  cacheTTL: 5000,
+  /** Default pagination limit (50) */
+  defaultLimit: 50,
+  /** Invoice number padding (6 digits) */
+  invoiceNumberPadding: 6,
+  /** Invoice due date default (14 days) */
+  invoiceDueDays: 14,
+  /** Default project milestones count (5) */
+  defaultMilestonesCount: 5,
+} as const;
+
+// ===== VALIDATION THRESHOLDS =====
+
+/**
+ * Validation and form-related thresholds
+ */
+export const VALIDATION = {
+  /** Minimum password length (8) */
+  minPasswordLength: 8,
+  /** Maximum password length (128) */
+  maxPasswordLength: 128,
+  /** Minimum name length (2) */
+  minNameLength: 2,
+  /** Maximum name length (100) */
+  maxNameLength: 100,
+  /** Default project duration in weeks (12) */
+  defaultProjectWeeks: 12,
 } as const;
 
 // ===== CLASSNAME PATTERNS =====

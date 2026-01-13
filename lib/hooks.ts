@@ -92,6 +92,16 @@ export function useBodyScrollLock(enabled: boolean): void {
 /**
  * Custom hook for chat auto-scroll behavior
  * Scrolls to bottom when new messages arrive, but only if user is near bottom
+ *
+ * @param containerRef - Ref to the scrollable container element
+ * @param messages - Array of messages (triggers scroll when changed)
+ * @param enabled - Whether auto-scroll is enabled (default: true)
+ * @param autoScrollThreshold - Distance from bottom (px) to consider "near bottom" (default: 100)
+ * @returns Object containing:
+ *   - messagesEndRef: Ref to the bottom sentinel element
+ *   - handleScroll: Function to call on scroll events
+ *   - shouldScroll: Current state of whether auto-scroll is active
+ *   - forceScroll: Function to force scroll to bottom
  */
 export function useChatScroll(
   containerRef: RefObject<HTMLDivElement>,
@@ -134,7 +144,12 @@ export function useChatScroll(
 
 /**
  * Custom hook for localStorage with SSR safety
+ * Handles JSON serialization/deserialization automatically
+ *
  * @deprecated Use useStorage instead for better type inference and simplicity
+ * @param key - localStorage key
+ * @param initialValue - Initial value if key doesn't exist
+ * @returns Tuple of [storedValue, setValue] where setValue can accept a value or updater function
  */
 export function useLocalStorage<T>(
   key: string,
@@ -168,7 +183,12 @@ export function useLocalStorage<T>(
 
 /**
  * Simplified storage hook for primitive values (strings, booleans, numbers)
- * Automatically serializes/deserializes values
+ * Automatically serializes/deserializes values with proper type handling
+ *
+ * @template T - Primitive type: string, number, or boolean
+ * @param key - localStorage key
+ * @param initialValue - Initial value if key doesn't exist
+ * @returns Tuple of [storedValue, setValue] where setValue accepts only T values
  */
 export function useStorage<T extends string | number | boolean>(
   key: string,
