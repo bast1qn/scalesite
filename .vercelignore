@@ -1,0 +1,2 @@
+# Ignore node_modules to force fresh install
+node_modules
