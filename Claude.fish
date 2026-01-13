@@ -10,11 +10,11 @@ end
 # ==========================================
 # KONFIGURATION
 # ==========================================
-set MAX_LOOPS 5              # Anzahl der Runden (20 × 5 Phasen = 100 total)
-set PAUSE_SECONDS 240         # Pause zwischen Runden (240s = 4 Min)
+set MAX_LOOPS 5              # Anzahl der Runden (5 × 5 Phasen = 25 total)
+set PAUSE_SECONDS 120         # Pause zwischen Runden
 set LOG_FILE "agent.log"      # Haupt-Log-Datei
 set ERROR_LOG_FILE "agent_errors.log"  # Separate Error-Log
-set METRICS_FILE "agent_metrics.json"  # Performance Metrics
+set METRICS_FILE "agent_metrics.jsonl"  # Performance Metrics (JSON Lines format)
 set CHECKPOINT_INTERVAL 4     # Alle 4 Runden: Extended Validation
 set MAX_FAILED_REPAIRS 5      # Emergency Stop nach X fehlgeschlagenen Repairs
 set MILESTONE_INTERVAL 5      # Git Tag alle 5 Loops
@@ -601,15 +601,15 @@ function update_phase_stats
     set -l phase_num $argv[1]
     switch $phase_num
         case 1
-            set PHASE_1_SUCCESS (math $PHASE_1_SUCCESS + 1)
+            set -g PHASE_1_SUCCESS (math $PHASE_1_SUCCESS + 1)
         case 2
-            set PHASE_2_SUCCESS (math $PHASE_2_SUCCESS + 1)
+            set -g PHASE_2_SUCCESS (math $PHASE_2_SUCCESS + 1)
         case 3
-            set PHASE_3_SUCCESS (math $PHASE_3_SUCCESS + 1)
+            set -g PHASE_3_SUCCESS (math $PHASE_3_SUCCESS + 1)
         case 4
-            set PHASE_4_SUCCESS (math $PHASE_4_SUCCESS + 1)
+            set -g PHASE_4_SUCCESS (math $PHASE_4_SUCCESS + 1)
         case 5
-            set PHASE_5_SUCCESS (math $PHASE_5_SUCCESS + 1)
+            set -g PHASE_5_SUCCESS (math $PHASE_5_SUCCESS + 1)
     end
 end
 
@@ -810,8 +810,8 @@ function pre_flight_check
         log_success "Changes committed ✓"
     end
 
-    # Initialize metrics file
-    echo "[]" > $METRICS_FILE
+    # Initialize metrics file (JSON Lines format - one JSON object per line)
+    echo -n "" > $METRICS_FILE
 
     log_msg ""
     log_success "PRE-FLIGHT CHECK COMPLETE"
