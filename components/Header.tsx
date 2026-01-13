@@ -19,7 +19,7 @@ const NavButton = ({ page, currentPage, onClick, children }: { page: string; cur
         <button
             onClick={() => onClick(page)}
             {...hover}
-            className={`relative px-5 py-3 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
+            className={`relative px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
                 isActive
                     ? 'text-white bg-gradient-to-r from-primary-600 to-violet-600 shadow-premium'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -196,7 +196,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                                 <NotificationBell />
                                 <button
                                     onClick={() => setCurrentPage('configurator')}
-                                    className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                     title="Website Konfigurator"
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,7 +206,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('dashboard')}
-                                    className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <UserCircleIcon className="w-4 h-4" />
                                     <span>{t('nav.dashboard')}</span>
@@ -216,7 +216,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                             <>
                                 <button
                                     onClick={() => setCurrentPage('login')}
-                                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300 px-5 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300 px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     {t('nav.login')}
                                 </button>

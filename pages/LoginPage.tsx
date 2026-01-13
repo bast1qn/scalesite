@@ -29,7 +29,7 @@ const SocialButton = ({ icon, provider, onClick, disabled, label }: SocialButton
         disabled={disabled}
         className="group relative w-full inline-flex justify-center items-center gap-3 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 transition-all duration-250 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
     >
-        <span className="relative flex items-center gap-3">
+        <span className="relative flex items-center gap-2">
             <span className="transition-transform duration-250 ease-out group-hover:scale-[1.02]">{icon}</span>
             <span>{label}</span>
         </span>
@@ -233,7 +233,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
           </div>
 
           {/* Login Card with glass-morphism */}
-          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-8 sm:p-10 animate-scale-in overflow-hidden hover:shadow-primary-500/10 transition-shadow duration-300">
+          <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/60 dark:border-slate-700/60 p-6 sm:p-8 animate-scale-in overflow-hidden hover:shadow-primary-500/10 transition-shadow duration-300">
               {/* Decorative gradient border */}
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 via-violet-500 to-primary-600 rounded-t-3xl"></div>
 
@@ -286,7 +286,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
                         type="email"
                         autoComplete="email"
                         required
-                        className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all duration-250 placeholder:text-slate-400`}
+                        className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-4 transition-all duration-250 placeholder:text-slate-400`}
                         placeholder={t('placeholders.email_example')}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -302,7 +302,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
                               type="password"
                               autoComplete="current-password"
                               required={!showResetPassword}
-                              className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3.5 focus:outline-none focus:ring-4 transition-all duration-250 placeholder:text-slate-400`}
+                              className={`group/wrap relative w-full bg-slate-50/80 dark:bg-slate-700/50 backdrop-blur border-2 ${hasError ? 'border-red-300 dark:border-red-600 focus:ring-red-500/20' : 'border-slate-200 dark:border-slate-600 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/10'} text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-4 transition-all duration-250 placeholder:text-slate-400`}
                               placeholder={t('auth.password')}
                               value={password}
                               onChange={(e) => setPassword(e.target.value)}
@@ -355,7 +355,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
               <button
                 type="submit"
                 disabled={loading || !!socialLoading}
-                className="group relative w-full flex justify-center items-center py-3.5 px-4 border border-transparent font-semibold rounded-xl text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-slate-800 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 active:scale-[0.98] active:shadow-none transition-all duration-250"
+                className="group relative w-full flex justify-center items-center py-3 px-4 border border-transparent font-semibold rounded-xl text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 hover:shadow-lg hover:shadow-primary-500/20 hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-slate-800 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 active:scale-[0.98] active:shadow-none transition-all duration-250"
               >
                 <span className="relative flex items-center gap-2">
                     {loading ? <LoadingSpinner /> : null}

@@ -200,10 +200,10 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
       ></div>
 
       {/* Main content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
         <SpotlightCard className={`inline-block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
+          <div className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {t('hero.guarantee_badge')}
@@ -254,13 +254,13 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           style={{ transitionDelay: '300ms' }}
         >
           <CleanButton onClick={handleNavigateToPricing} variant="primary" className="min-h-12 sm:min-h-11">
-            <span className="flex items-center gap-3">
+            <span className="flex items-center gap-2">
               <span>Projekt starten</span>
               <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </CleanButton>
           <CleanButton onClick={handleNavigateToProjects} variant="secondary" className="min-h-12 sm:min-h-11">
-            <span className="flex items-center gap-3">
+            <span className="flex items-center gap-2">
               <span>Beispiele ansehen</span>
               <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
             </span>
@@ -274,7 +274,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
         >
           {guarantees.map((g) => (
             <SpotlightCard key={g.id} className="inline-block">
-              <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11">
+              <div className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11">
                 <span className="text-primary-500 dark:text-violet-400">
                   {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
                 </span>
@@ -289,8 +289,8 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`mt-14 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
-          <div className="flex items-center gap-4 px-8 py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-4 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">
+            <div className="flex items-center gap-2">
               <span className="text-slate-400 dark:text-slate-500 line-through text-base">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
               <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
