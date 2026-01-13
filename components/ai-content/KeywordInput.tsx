@@ -162,10 +162,10 @@ export function KeywordInput({
             {/* Keywords Display & Input */}
             <div
                 className={`
-                    min-h-[48px] p-2 rounded-lg border-2 bg-white dark:bg-gray-800
+                    min-h-[48px] p-3 rounded-xl border-2 bg-white dark:bg-gray-800
                     flex flex-wrap gap-2 transition-all duration-200
                     ${disabled
-                        ? 'border-gray-200 dark:border-gray-700 opacity-60 cursor-not-allowed'
+                        ? 'border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed'
                         : error
                             ? 'border-red-500 dark:border-red-400 focus-within:border-red-500'
                             : 'border-gray-300 dark:border-gray-600 focus-within:border-violet-500 dark:focus-within:border-violet-400'
@@ -181,7 +181,7 @@ export function KeywordInput({
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
                             transition={{ duration: 0.2 }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-violet-500 to-blue-500 text-white rounded-lg text-sm font-medium shadow-md"
+                            className="inline-flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-violet-500 to-blue-500 text-white rounded-lg text-sm font-medium shadow-md min-h-11"
                         >
                             <span>{keyword}</span>
 
@@ -189,7 +189,7 @@ export function KeywordInput({
                                 <button
                                     type="button"
                                     onClick={() => removeKeyword(index)}
-                                    className="hover:bg-white/20 rounded-md p-0.5 transition-colors"
+                                    className="hover:bg-white/20 rounded-md p-1 transition-colors min-h-7 min-w-7 flex items-center justify-center"
                                     aria-label={`Remove ${keyword}`}
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,7 +212,7 @@ export function KeywordInput({
                         onFocus={() => setShowSuggestions(true)}
                         disabled={disabled}
                         placeholder={value.length === 0 ? placeholder : ''}
-                        className="flex-1 min-w-[120px] px-2 py-1.5 text-gray-900 dark:text-white placeholder-gray-500 bg-transparent focus:outline-none"
+                        className="flex-1 min-w-[120px] px-2 py-2 min-h-11 text-gray-900 dark:text-white placeholder-gray-500 bg-transparent focus:outline-none"
                     />
                 )}
 
@@ -278,7 +278,7 @@ export function KeywordInput({
                                     key={`${suggestion}-${index}`}
                                     type="button"
                                     onClick={() => handleSuggestionClick(suggestion)}
-                                    className="w-full px-3 py-2 text-left text-gray-900 dark:text-white hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors flex items-center gap-2"
+                                    className="w-full px-3 py-3 min-h-11 text-left text-gray-900 dark:text-white hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors flex items-center gap-2"
                                 >
                                     <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -297,7 +297,7 @@ export function KeywordInput({
             {/* Quick Add Suggestions */}
             {value.length < maxKeywords && inputValue.length === 0 && !disabled && (
                 <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-xs text-gray-500 dark:text-gray-400 py-1">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 py-2">
                         Schnellauswahl:
                     </span>
                     {suggestions.slice(0, 5).map((suggestion) => {
@@ -309,10 +309,10 @@ export function KeywordInput({
                                 onClick={() => !isAdded && addKeyword(suggestion)}
                                 disabled={isAdded}
                                 className={`
-                                    px-2.5 py-1 rounded-md text-xs font-medium transition-all duration-200
+                                    px-3 py-2 min-h-11 rounded-lg text-xs font-medium transition-all duration-200
                                     ${isAdded
-                                        ? 'bg-gray-100 dark:bg-gray-900 text-gray-400 cursor-not-allowed'
-                                        : 'bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400'
+                                        ? 'bg-gray-100 dark:bg-gray-900 text-gray-400 cursor-not-allowed opacity-50'
+                                        : 'bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400 hover:scale-[1.01] active:scale-[0.99]'
                                     }
                                 `}
                             >

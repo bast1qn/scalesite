@@ -52,7 +52,7 @@ export const InteractiveTimeline = () => {
     }, [milestones]); // ✅ FIXED: milestones is now properly tracked
 
     return (
-        <section id="story" className="py-28 sm:py-36 bg-surface dark:bg-dark-surface relative overflow-hidden">
+        <section id="story" className="py-16 sm:py-20 lg:py-24 bg-surface dark:bg-dark-surface relative overflow-hidden">
             {/* Background patterns */}
             <div className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none" style={{
                 backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
@@ -66,14 +66,14 @@ export const InteractiveTimeline = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <AnimatedSection>
-                    <div className="text-center mb-20 sm:mb-24">
+                    <div className="text-center mb-16 sm:mb-20">
                         <span className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-primary-50 to-violet-50 dark:from-primary-900/30 dark:to-violet-900/30 text-sm font-semibold text-primary-700 dark:text-primary-300 border border-primary-100 dark:border-primary-800/30 shadow-sm">
                             Unsere Geschichte
                         </span>
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark-text dark:text-light-text tracking-tight font-serif">
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark-text dark:text-light-text tracking-tight leading-snug font-serif">
                             {t('timeline.title')}
                         </h2>
-                        <p className="mt-6 max-w-2xl mx-auto text-lg text-dark-text/60 dark:text-light-text/60 leading-relaxed">
+                        <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-dark-text/60 dark:text-light-text/60 leading-relaxed">
                             {t('timeline.subtitle')}
                         </p>
                     </div>
@@ -104,20 +104,20 @@ export const InteractiveTimeline = () => {
                                             const el = document.getElementById(`milestone-${milestone.id}`);
                                             el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                         }}
-                                        className={`group flex items-center gap-5 w-full text-left transition-all duration-500 ease-out ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}
+                                        className={`group flex items-center gap-5 w-full text-left transition-all duration-200 ease-out min-h-11 ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}
                                     >
                                         {/* Timeline dot */}
-                                        <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ease-out ${isActive ? `bg-gradient-to-br ${gradient} shadow-lg shadow-primary-500/20` : 'bg-slate-100 dark:bg-slate-800 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'}`}>
-                                            <div className={`w-2.5 h-2.5 rounded-full bg-white transition-all duration-500 ease-out ${isActive ? 'scale-100' : 'scale-50'}`}></div>
+                                        <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 ease-out ${isActive ? `bg-gradient-to-br ${gradient} shadow-lg shadow-primary-500/20` : 'bg-slate-100 dark:bg-slate-800 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'}`}>
+                                            <div className={`w-2.5 h-2.5 rounded-full bg-white transition-all duration-200 ease-out ${isActive ? 'scale-100' : 'scale-50'}`}></div>
                                             {isActive && (
                                                 <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${gradient} animate-ping opacity-20`}></div>
                                             )}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <span className={`text-3xl sm:text-4xl font-bold font-serif transition-colors duration-500 ease-out block ${isActive ? `text-transparent bg-clip-text bg-gradient-to-r ${gradient}` : 'text-slate-300 dark:text-slate-700'}`}>
+                                            <span className={`text-3xl sm:text-4xl font-bold font-serif transition-colors duration-200 ease-out block ${isActive ? `text-transparent bg-clip-text bg-gradient-to-r ${gradient}` : 'text-slate-300 dark:text-slate-700'}`}>
                                                 {milestone.year}
                                             </span>
-                                            <span className={`text-sm font-medium transition-colors duration-500 ease-out truncate block ${isActive ? 'text-dark-text dark:text-light-text' : 'text-slate-500'}`}>
+                                            <span className={`text-sm font-medium transition-colors duration-200 ease-out truncate block ${isActive ? 'text-dark-text dark:text-light-text' : 'text-slate-500'}`}>
                                                 {milestone.title}
                                             </span>
                                         </div>
@@ -128,7 +128,7 @@ export const InteractiveTimeline = () => {
                     </div>
 
                     {/* Scrollable Content (Right) */}
-                    <div className="space-y-20 lg:space-y-40">
+                    <div className="space-y-16 lg:space-y-24">
                         {milestones.map((milestone, index) => {
                             const isActive = activeId === milestone.id;
                             const gradient = gradients[index % gradients.length];
@@ -139,7 +139,7 @@ export const InteractiveTimeline = () => {
                                     key={milestone.id}
                                     id={`milestone-${milestone.id}`}
                                     ref={(el) => { refs.current[index] = el; }}
-                                    className="scroll-mt-28 transition-all duration-500 ease-out"
+                                    className="scroll-mt-24 transition-all duration-200 ease-out"
                                 >
                                     {/* Mobile year display */}
                                     <div className="lg:hidden mb-5 flex items-center gap-3">
@@ -153,7 +153,7 @@ export const InteractiveTimeline = () => {
 
                                     {/* Card */}
                                     <div
-                                        className={`group relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/90 backdrop-blur-sm border transition-all duration-300 ease-out cursor-pointer ${isActive ? `border-primary-200 dark:border-primary-800/50 shadow-premium-lg scale-100` : 'border-slate-200 dark:border-slate-800 scale-[0.98] opacity-60 hover:scale-105 hover:opacity-100 active:scale-95'}`}
+                                        className={`group relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900/90 backdrop-blur-sm border transition-all duration-200 ease-out cursor-pointer ${isActive ? `border-primary-200 dark:border-primary-800/50 shadow-premium-lg scale-100` : 'border-slate-200 dark:border-slate-800 scale-[0.98] opacity-60 hover:scale-[1.01] hover:opacity-100 active:scale-[0.99]'}`}
                                     >
                                         {/* Animated gradient border for active card */}
                                         {isActive && (
@@ -162,7 +162,7 @@ export const InteractiveTimeline = () => {
 
                                         <div className="relative">
                                             {/* Icon container */}
-                                            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-lg mb-6 sm:mb-8 transform transition-all duration-300 ease-out ${isActive ? 'scale-100' : 'scale-95 group-hover:scale-105'}`}>
+                                            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-lg mb-6 sm:mb-8 transform transition-all duration-200 ease-out ${isActive ? 'scale-100' : 'scale-95 group-hover:scale-[1.02]'}`}>
                                                 <span className="w-8 h-8 sm:w-10 sm:h-10">{iconMap[milestone.icon_name] ?? <CodeBracketIcon />}</span>
                                             </div>
 

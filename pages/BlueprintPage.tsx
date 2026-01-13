@@ -436,10 +436,10 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     }> = ({ name, label, value, onChange }) => (
         <div>
-            <label htmlFor={name} className="block text-sm font-semibold text-slate-900 dark:text-white mb-2 tracking-tight">{label}</label>
+            <label htmlFor={name} className="block text-sm font-semibold text-slate-900 dark:text-white mb-2 leading-snug">{label}</label>
             <div className="relative mt-2">
                 <div className="flex items-center h-11 w-full border border-slate-200 dark:border-slate-700 rounded-xl px-3 bg-white dark:bg-slate-800 shadow-sm overflow-hidden transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 group">
-                    <div className="w-5 h-5 rounded-full border border-slate-200 dark:border-slate-600 shadow-inner ring-1 ring-white dark:ring-slate-700 transition-transform duration-200 group-hover:scale-110" style={{ backgroundColor: value }}></div>
+                    <div className="w-5 h-5 rounded-full border border-slate-200 dark:border-slate-600 shadow-inner ring-1 ring-white dark:ring-slate-700 transition-transform duration-200 group-hover:scale-[1.05]" style={{ backgroundColor: value }}></div>
                     <span className="ml-3 font-mono text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wide">{value}</span>
                     <input
                         type="color"
@@ -470,10 +470,10 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 {t('blueprint.title')}
                             </span>
                         </div>
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white tracking-tight font-serif mb-6">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug font-serif mb-6">
                             Website Blueprint
                         </h1>
-                        <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                             {t('blueprint.subtitle')}
                         </p>
                     </div>
@@ -484,12 +484,12 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                 <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 items-start">
                     {/* Form */}
                     <div className="lg:col-span-1 order-2 lg:order-1">
-                        <form onSubmit={handleSubmit} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-premium border border-slate-200/70 dark:border-slate-700/70 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative overflow-hidden hover:shadow-premium-lg transition-all duration-300 ease-out">
+                        <form onSubmit={handleSubmit} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-premium border border-slate-200/70 dark:border-slate-700/70 space-y-6 lg:sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative overflow-hidden hover:shadow-premium-lg transition-all duration-200">
                             {/* Decorative gradient border */}
                             <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 via-violet-500 to-primary-600 rounded-t-3xl"></div>
 
                             <div>
-                                <label htmlFor="companyName" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('blueprint.company_name')}</label>
+                                <label htmlFor="companyName" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2 leading-snug">{t('blueprint.company_name')}</label>
                                 <input
                                     type="text"
                                     name="companyName"
@@ -502,7 +502,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 />
                             </div>
                             <div>
-                                <label htmlFor="industry-search" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">{t('blueprint.industry')}</label>
+                                <label htmlFor="industry-search" className="block text-sm font-semibold text-slate-900 dark:text-white mb-2 leading-snug">{t('blueprint.industry')}</label>
                                 <div className="relative">
                                     <input
                                         type="text"
@@ -535,7 +535,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                     ) : (
                                         <span className="flex items-center justify-center gap-2">
                                             <span>Blueprint generieren</span>
-                                            <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-250 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                            <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-200 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                         </span>
                                     )}
                                 </button>
@@ -586,14 +586,14 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                         <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-violet-500 rounded-xl flex items-center justify-center mx-auto mb-5 shadow-premium-lg">
                                             <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                         </div>
-                                        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Gefällt Ihnen dieser Entwurf?</h3>
+                                        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 leading-snug">Gefällt Ihnen dieser Entwurf?</h3>
                                         <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed mb-6">
                                             Dies ist nur eine erste grobe Skizze. In der realen Umsetzung passe ich jedes Detail pixelgenau an Ihre Marke an, optimiere die Performance und sorge für perfekte mobile Darstellung.
                                         </p>
                                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
                                             <button onClick={() => setCurrentPage('preise')} className="group btn-primary flex items-center justify-center gap-2">
                                                 {t('blueprint.request_project')}
-                                                <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-250 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                                <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-200 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                             </button>
                                             <button onClick={() => document.getElementById('companyName')?.focus()} className="btn-secondary">
                                                 Neuen Blueprint erstellen

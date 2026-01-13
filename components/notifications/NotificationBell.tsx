@@ -36,10 +36,10 @@ const NotificationBell: React.FC = () => {
         <div ref={containerRef} className="relative">
             {/* Bell Button */}
             <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className={`relative p-2 rounded-xl transition-all duration-300 ${
+                className={`relative p-2 rounded-xl transition-all duration-200 min-h-11 min-w-11 ${
                     isOpen
                         ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                         : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'

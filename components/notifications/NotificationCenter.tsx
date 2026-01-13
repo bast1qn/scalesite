@@ -151,14 +151,14 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
     return (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
             {/* Header */}
-            <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+            <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500">
                             <BellIcon className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                            <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                                 Benachrichtigungen
                             </h2>
                             <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -169,7 +169,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                     {onClose && (
                         <button
                             onClick={onClose}
-                            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-h-9 min-w-9 flex items-center justify-center"
                         >
                             <XMarkIcon className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                         </button>
@@ -177,11 +177,11 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                     {unreadCount > 0 && (
                         <button
                             onClick={markAllAsRead}
-                            className="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors flex items-center gap-2"
+                            className="px-4 py-2 min-h-9 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors flex items-center gap-2"
                         >
                             <CheckIcon className="w-4 h-4" />
                             Alle als gelesen
@@ -190,7 +190,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                     {notifications.length > 0 && (
                         <button
                             onClick={clearAll}
-                            className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2"
+                            className="px-4 py-2 min-h-9 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2"
                         >
                             <TrashIcon className="w-4 h-4" />
                             Alle löschen
@@ -207,7 +207,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
+                                className={`px-3 py-2 min-h-8 text-xs font-semibold rounded-md transition-all ${
                                     filter === f
                                         ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm'
                                         : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -221,7 +221,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                     <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
                         <button
                             onClick={() => setTypeFilter('all')}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all flex items-center gap-1.5 ${
+                            className={`px-3 py-2 min-h-8 text-xs font-semibold rounded-md transition-all flex items-center gap-1.5 ${
                                 typeFilter === 'all'
                                     ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm'
                                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -257,7 +257,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 onClick={() => handleNotificationClick(notification)}
-                                className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer relative bg-gradient-to-br ${getGradient(
+                                className={`p-4 min-h-16 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer relative bg-gradient-to-br ${getGradient(
                                     notification.type
                                 )} border-b border-slate-100 dark:border-slate-800/50`}
                             >
@@ -294,14 +294,14 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
                                             {!notification.read && (
                                                 <button
                                                     onClick={(e) => handleMarkAsRead(notification.id, e)}
-                                                    className="text-[10px] font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                                                    className="text-[10px] font-medium text-blue-600 dark:text-blue-400 hover:underline min-h-6"
                                                 >
                                                     Als gelesen markieren
                                                 </button>
                                             )}
                                             <button
                                                 onClick={(e) => handleDelete(notification.id, e)}
-                                                className="text-[10px] font-medium text-red-600 dark:text-red-400 hover:underline"
+                                                className="text-[10px] font-medium text-red-600 dark:text-red-400 hover:underline min-h-6"
                                             >
                                                 Löschen
                                             </button>

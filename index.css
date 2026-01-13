@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Refined Professional color system - Blue to Violet */
+    /* Professional Blue-Violet Theme - Fixed */
     --color-primary-50: #f0f4ff;
     --color-primary-100: #e0eaff;
     --color-primary-200: #c7d7fe;
@@ -27,7 +27,7 @@
     --color-violet-800: #5b21b6;
     --color-violet-900: #4c1d95;
 
-    /* Refined neutral colors */
+    /* Neutral colors */
     --color-slate-50: #fafafa;
     --color-slate-100: #f5f5f7;
     --color-slate-200: #e8e8ed;
@@ -39,10 +39,19 @@
     --color-slate-800: #27272a;
     --color-slate-900: #18181b;
     --color-slate-950: #030305;
+
+    /* Spacing scale - consistent 4, 6, 8, 12, 16, 20, 24 */
+    --spacing-4: 1rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
   }
 
   body {
-    @apply bg-white text-slate-900 dark:bg-[#030305] dark:text-slate-50 transition-colors duration-450 relative;
+    @apply bg-white text-slate-900 dark:bg-[#030305] dark:text-slate-50 transition-colors duration-300 relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -51,31 +60,22 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Enhanced Dark Mode Transitions */
+  /* Transitions - 0.2-0.5s for animations */
   *,
   *::before,
   *::after {
-    transition-property: background-color, border-color, color, fill, stroke;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 250ms;
   }
 
-  /* Exclude certain elements from theme transitions for better performance */
-  *,
-  *::before,
-  *::after {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 250ms;
-  }
-
-  /* Fast transitions for interactive elements */
+  /* Fast transitions for interactive elements - 0.2s */
   button,
   a,
   input,
   textarea,
   select {
-    transition-duration: 150ms;
+    transition-duration: 200ms;
   }
 
   /* No transition during initial load */
@@ -112,19 +112,19 @@
     @apply bg-primary-500/25 text-primary-900 dark:bg-primary-500/30 dark:text-primary-100;
   }
 
-  /* Focus styles for accessibility */
+  /* Focus styles for accessibility - ring-2 ring-primary/50 */
   *:focus-visible {
     @apply outline-none;
-    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 4px theme(colors.primary.500);
+    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 4px theme(colors.primary.500 / 0.5);
   }
 
   .dark *:focus-visible {
-    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 4px theme(colors.primary.500);
+    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 4px theme(colors.primary.500 / 0.5);
   }
 
   /* Link hover states */
   a {
-    @apply transition-colors duration-350;
+    @apply transition-colors duration-200;
   }
 
   /* Scrollbar styling - refined */
@@ -141,22 +141,35 @@
     @apply bg-slate-300 dark:bg-slate-700 rounded-full hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors duration-200;
   }
 
-  /* Typography - refined */
+  /* Typography - Hero → H1 → Body hierarchy */
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight font-semibold;
     letter-spacing: -0.02em;
   }
 
+  /* Hero: text-5xl/6xl, leading-tight */
+  .text-hero {
+    @apply text-5xl sm:text-6xl font-bold leading-tight;
+  }
+
+  /* H1: text-4xl, leading-snug */
   h1 {
-    @apply leading-[1.15];
+    @apply text-4xl sm:text-5xl font-bold leading-snug;
   }
 
+  /* H2: text-3xl, leading-snug */
   h2 {
-    @apply leading-[1.2];
+    @apply text-3xl sm:text-4xl font-semibold leading-snug;
   }
 
+  /* H3: text-2xl, leading-snug */
   h3 {
-    @apply leading-[1.3];
+    @apply text-2xl sm:text-3xl font-semibold leading-snug;
+  }
+
+  /* Body: text-base, leading-relaxed */
+  body, p {
+    @apply text-base leading-relaxed;
   }
 
   /* Prevent flash of unstyled content */
@@ -205,14 +218,22 @@
     @apply badge bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-800/30;
   }
 
-  /* Button Styles - refined */
+  /* Button Styles - consistent interactive states */
   .btn-primary {
-    @apply relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-350 hover:shadow-glow hover:scale-[1.01] active:scale-[0.98] active:shadow-soft;
+    @apply relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] active:shadow-soft;
+  }
+
+  .btn-primary:focus-visible {
+    @apply ring-2 ring-primary-500/50 ring-offset-2;
+  }
+
+  .btn-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
   }
 
   .btn-primary::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-violet-600 to-primary-600 opacity-0 transition-opacity duration-350;
+    @apply absolute inset-0 bg-gradient-to-r from-violet-600 to-primary-600 opacity-0 transition-opacity duration-200;
   }
 
   .btn-primary:hover::before {
@@ -224,19 +245,35 @@
   }
 
   .btn-secondary {
-    @apply px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-350 hover:-translate-y-0.5 hover:shadow-soft;
+    @apply px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99];
+  }
+
+  .btn-secondary:focus-visible {
+    @apply ring-2 ring-primary-500/50 ring-offset-2;
+  }
+
+  .btn-secondary:disabled {
+    @apply opacity-50 cursor-not-allowed;
   }
 
   .btn-ghost {
-    @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-300;
+    @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99];
   }
 
-  /* Card with subtle shadow - refined */
+  .btn-ghost:focus-visible {
+    @apply ring-2 ring-primary-500/50 ring-offset-2;
+  }
+
+  .btn-ghost:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Card with subtle shadow - consistent hover state */
   .card-premium {
-    @apply relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/60 dark:border-slate-700/60 shadow-card overflow-hidden transition-all duration-350 hover:shadow-card-hover hover:-translate-y-1;
+    @apply relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/60 dark:border-slate-700/60 shadow-card overflow-hidden transition-all duration-200 hover:shadow-card-hover hover:scale-[1.01];
   }
 
-  /* Glass morphism effect - refined */
+  /* Glass morphism effect */
   .glass {
     @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50;
   }
@@ -266,19 +303,19 @@
     box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 12px 24px -6px rgba(139, 92, 246, 0.12);
   }
 
-  /* Premium hover lift */
+  /* Premium hover lift - consistent hover: scale-[1.01] */
   .hover-lift {
-    @apply transition-all duration-350 hover:-translate-y-1 hover:shadow-premium-lg;
+    @apply transition-all duration-200 hover:scale-[1.01] hover:shadow-premium-lg;
   }
 
   /* Premium link */
   .link-premium {
-    @apply relative text-slate-600 dark:text-slate-400 transition-colors duration-350;
+    @apply relative text-slate-600 dark:text-slate-400 transition-colors duration-200;
   }
 
   .link-premium::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-violet-500 transition-all duration-350 rounded-full;
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-500 to-violet-500 transition-all duration-200 rounded-full;
   }
 
   .link-premium:hover::after {
@@ -289,14 +326,14 @@
     @apply text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600;
   }
 
-  /* Premium container */
+  /* Premium container - consistent spacing */
   .container-premium {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Section spacing */
+  /* Section spacing - consistent 4, 6, 8, 12, 16, 20, 24 scale */
   .section-premium {
-    @apply py-28 sm:py-36 lg:py-44;
+    @apply py-16 sm:py-20 lg:py-24;
   }
 }
 

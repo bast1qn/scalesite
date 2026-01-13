@@ -197,9 +197,10 @@ export default {
       transitionDuration: {
         '200': '200ms',
         '250': '250ms',
+        '300': '300ms',
         '350': '350ms',
-        '450': '450ms',
-        '600': '600ms',
+        '400': '400ms',
+        '500': '500ms',
       },
       transitionTimingFunction: {
         'ease-out': 'cubic-bezier(0.16, 1, 0.3, 1)',
