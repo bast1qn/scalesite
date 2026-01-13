@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts';
 import { api } from '../lib';
 import { MilestoneTracker } from '../components/projects/MilestoneTracker';
 import { StatusTimeline } from '../components/projects/StatusTimeline';
-import type { Project, ProjectMilestone, TeamMember } from '../lib/supabase.js';
+import type { Project, ProjectMilestone, TeamMember } from '../lib/supabase';
 import {
     ArrowLeftIcon,
     BriefcaseIcon,

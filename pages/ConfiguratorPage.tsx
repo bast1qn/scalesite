@@ -6,7 +6,7 @@ import { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts';
 import { Configurator, ProjectConfig } from '../components/configurator/Configurator';
-import { api } from '../lib/api.js';
+import { api } from '../lib/api';
 
 interface ConfiguratorPageProps {
     setCurrentPage: (page: string) => void;

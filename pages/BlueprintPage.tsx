@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { AnimatedSection, CustomSelect } from '../components';
-import { icons, placeholderContent } from '../lib/blueprintPlaceholders.js';
+import { icons, placeholderContent } from '../lib/blueprintPlaceholders';
 import { useLanguage } from '../contexts';
 
 // --- TYPE DEFINITIONS FOR BLUEPRINT ---
