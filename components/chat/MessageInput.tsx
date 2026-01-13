@@ -156,7 +156,7 @@ export const MessageInput = ({
                 <button
                     type="submit"
                     disabled={disabled || isSending || !message.trim()}
-                    className="p-2.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-xl hover:from-blue-600 hover:to-violet-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-500 disabled:hover:to-violet-500 shadow-sm hover:shadow-md active:scale-95"
+                    className="p-2.5 bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-xl hover:from-blue-600 hover:to-violet-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-blue-500 disabled:hover:to-violet-500 shadow-sm hover:shadow-md active:scale-[0.98]"
                     title={message.trim() ? 'Nachricht senden (Enter)' : 'Nachricht senden'}
                 >
                     {isSending ? (

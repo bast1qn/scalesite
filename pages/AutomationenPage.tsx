@@ -194,7 +194,7 @@ const VoiceAgentDemo: React.FC<{ language: 'de' | 'en' }> = ({ language }) => {
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <div className="w-3 h-3 bg-emerald-500 rounded-full absolute right-0 bottom-0 border-2 border-slate-900 shadow-[0_0_10px_#10b981]"></div>
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg transition-transform duration-300 hover:scale-105">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg transition-transform duration-300 hover:scale-[1.02]">
                             <MicrophoneIcon className="w-6 h-6" />
                         </div>
                     </div>
@@ -346,7 +346,7 @@ ${message || '- Keine Nachricht -'}
                         </div>
 
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <button onClick={() => setCurrentPage('contact')} className="group relative bg-white text-slate-900 hover:bg-blue-50 font-semibold px-8 py-4 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 btn-press overflow-hidden">
+                            <button onClick={() => setCurrentPage('contact')} className="group relative bg-white text-slate-900 hover:bg-blue-50 font-semibold px-8 py-4 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 btn-press overflow-hidden">
                                 <span className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
                                 <RocketLaunchIcon className="w-5 h-5 text-blue-600" />
                                 {t('automation.btn_potential')}
@@ -397,7 +397,7 @@ ${message || '- Keine Nachricht -'}
 
                                     <div className="p-8 border-b border-white/5 relative z-10">
                                         <div className="flex justify-between items-start mb-4">
-                                            <div className={`w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 shadow-lg group-hover:${colors.bg} group-hover:${colors.border}`}>
+                                            <div className={`w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center group-hover:scale-[1.02] group-hover:-rotate-6 transition-all duration-500 shadow-lg group-hover:${colors.bg} group-hover:${colors.border}`}>
                                                 {pkg.icon}
                                             </div>
                                             <div className={`px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider border transition-all duration-300 ${colors.badge}`}>
@@ -478,7 +478,7 @@ ${message || '- Keine Nachricht -'}
                             {microAutomations.map((item, idx) => (
                                 <div key={idx} className="group flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 hover:bg-white/10 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-300 cursor-default hover:-translate-y-0.5">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-slate-800/50 border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-purple-500/20 group-hover:to-pink-500/20 group-hover:border-purple-500/30 transition-all duration-300">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800/50 border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:scale-[1.02] group-hover:bg-gradient-to-br group-hover:from-purple-500/20 group-hover:to-pink-500/20 group-hover:border-purple-500/30 transition-all duration-300">
                                             {item.icon}
                                         </div>
                                         <div>
@@ -557,7 +557,7 @@ ${message || '- Keine Nachricht -'}
 
                         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
                             <div className="bg-gradient-to-b from-slate-800 to-slate-900 p-8 rounded-[2rem] border border-white/5 hover:border-purple-500/30 transition-all duration-300 group shadow-xl hover:shadow-purple-900/20">
-                                <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-8 text-purple-400 group-hover:scale-110 transition-transform duration-300 border border-purple-500/20">
+                                <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-8 text-purple-400 group-hover:scale-[1.02] transition-transform duration-300 border border-purple-500/20">
                                     <EnvelopeIcon className="w-7 h-7" />
                                 </div>
                                 <h3 className="text-2xl font-semibold text-white mb-4">{t('automation.inbox_title')}</h3>
@@ -581,7 +581,7 @@ ${message || '- Keine Nachricht -'}
                             </div>
 
                             <div className="bg-gradient-to-b from-slate-800 to-slate-900 p-8 rounded-[2rem] border border-white/5 hover:border-blue-500/30 transition-all duration-300 group shadow-xl hover:shadow-blue-900/20">
-                                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 text-blue-400 group-hover:scale-110 transition-transform duration-300 border border-blue-500/20">
+                                <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 text-blue-400 group-hover:scale-[1.02] transition-transform duration-300 border border-blue-500/20">
                                     <DocumentMagnifyingGlassIcon className="w-7 h-7" />
                                 </div>
                                 <h3 className="text-2xl font-semibold text-white mb-4">{t('automation.docs_title')}</h3>
@@ -618,10 +618,10 @@ ${message || '- Keine Nachricht -'}
                             {t('automation.cta_subtitle')}
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <button onClick={() => setCurrentPage('contact')} className="bg-white text-black font-semibold px-12 py-5 text-base rounded-full shadow-2xl hover:shadow-white/20 transition-all duration-300 transform hover:scale-105 active:scale-95">
+                            <button onClick={() => setCurrentPage('contact')} className="bg-white text-black font-semibold px-12 py-5 text-base rounded-full shadow-2xl hover:shadow-white/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]">
                                 {t('automation.btn_start')}
                             </button>
-                            <button onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="px-12 py-5 text-base font-semibold text-white border border-white/20 rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-95">
+                            <button onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="px-12 py-5 text-base font-semibold text-white border border-white/20 rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
                                 {t('automation.btn_prices')}
                             </button>
                         </div>

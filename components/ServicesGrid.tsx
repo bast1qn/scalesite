@@ -72,7 +72,7 @@ export const ServicesGrid = () => {
                   style={{ transitionDelay: `${index * 50}ms` }}
                 >
                   <div className="flex flex-col h-full">
-                    <div className={`w-14 h-14 ${service.bg} ${service.color} rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110`}>
+                    <div className={`w-14 h-14 ${service.bg} ${service.color} rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-[1.02]`}>
                       {iconMap[service.icon_name]}
                     </div>
 
@@ -98,7 +98,7 @@ export const ServicesGrid = () => {
             {/* CTA Card */}
             <HoverCard>
               <div className="group relative bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 dark:border-slate-600 rounded-2xl p-8 flex flex-col justify-center items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                <div className="w-14 h-14 bg-slate-800 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110">
+                <div className="w-14 h-14 bg-slate-800 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-[1.02]">
                   <ChatBubbleBottomCenterTextIcon className="w-7 h-7" />
                 </div>
                 <h3 className="font-semibold text-lg mb-3">

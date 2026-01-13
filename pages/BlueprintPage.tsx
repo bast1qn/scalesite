@@ -106,7 +106,7 @@ const generatePreviewHtml = (
                     <section class="text-center px-6 py-24 bg-surface dark:bg-dark-surface">
                         <h2 class="font-serif text-4xl md:text-5xl font-bold text-dark-text dark:text-light-text leading-tight">${(section.title || '').replace('[Firma]', safeCompanyName)}</h2>
                         <p class="max-w-2xl mx-auto mt-6 text-lg text-dark-text/80 dark:text-light-text/80 leading-relaxed">${String(('subtitle' in section ? section.subtitle as string : '') || '').replace('[Firma]', safeCompanyName)}</p>
-                        <button class="nav-link-btn mt-10 btn-primary px-8 py-3 rounded-full font-semibold text-lg shadow-lg transform hover:scale-105 transition-transform" data-page="contact">Mehr erfahren</button>
+                        <button class="nav-link-btn mt-10 btn-primary px-8 py-3 rounded-full font-semibold text-lg shadow-lg transform hover:scale-[1.02] transition-transform" data-page="contact">Mehr erfahren</button>
                     </section>`;
             case 'services':
                  return `
@@ -133,7 +133,7 @@ const generatePreviewHtml = (
                                 <div class="bg-surface dark:bg-dark-surface rounded-xl shadow-sm overflow-hidden group border border-dark-text/5 dark:border-light-text/5">
                                     <div class="aspect-square bg-gray-100 dark:bg-gray-800 overflow-hidden relative">
                                        <div class="absolute inset-0 flex items-center justify-center text-gray-300 dark:text-gray-600">IMG</div>
-                                       <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 hover:opacity-100" />
+                                       <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 opacity-80 hover:opacity-100" />
                                     </div>
                                     <div class="p-5 text-center">
                                         <h4 class="font-bold text-dark-text dark:text-light-text text-sm">${p.name}</h4>

@@ -196,7 +196,7 @@ export const TestimonialsSection: FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <AnimatedSection>
                     <div className="text-center max-w-3xl mx-auto mb-24">
-                        <span className="inline-block px-6 py-2 mb-8 rounded-2xl glass-prismatic text-sm font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider border border-blue-200/60 dark:border-blue-800/40 shadow-glow-cosmic hover:shadow-glow-aurora hover:shadow-blue-500/20 transition-all duration-500 hover:scale-105 relative overflow-hidden group hover-prismatic-shine">
+                        <span className="inline-block px-6 py-2 mb-8 rounded-2xl glass-prismatic text-sm font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider border border-blue-200/60 dark:border-blue-800/40 shadow-glow-cosmic hover:shadow-glow-aurora hover:shadow-blue-500/20 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden group hover-prismatic-shine">
                             <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
                             <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-30 rounded-2xl transition-opacity duration-500"></div>
                             <span className="relative z-10">{t('value_props.subtitle')}</span>

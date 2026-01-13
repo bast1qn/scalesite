@@ -103,18 +103,18 @@ export const ShowcaseSection = ({
     <div className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-blue-400/60 dark:hover:border-violet-500/60 hover:shadow-premium-lg hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2">
       <div className="aspect-video w-full overflow-hidden relative">
         {item.gradient ? (
-          <div className={`w-full h-full bg-gradient-to-br ${item.gradient} group-hover:scale-110 transition-transform duration-700`}></div>
+          <div className={`w-full h-full bg-gradient-to-br ${item.gradient} group-hover:scale-[1.02] transition-transform duration-700`}></div>
         ) : (
           <img
             src={item.image_url}
             alt={item.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
             loading="lazy"
             decoding="async"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-          <button onClick={() => setCurrentPage(item.route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105 btn-micro-press relative overflow-hidden group/btn-2">
+          <button onClick={() => setCurrentPage(item.route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-[1.02] btn-micro-press relative overflow-hidden group/btn-2">
             <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
             <EyeIcon className="w-5 h-5" />
             {t('showcase.view_btn')}
@@ -140,7 +140,7 @@ export const ShowcaseSection = ({
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
               {t('showcase.details_btn')}
             </span>
-            <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
+            <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-[1.02]" />
           </button>
         </div>
       </div>

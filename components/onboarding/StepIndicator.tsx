@@ -60,7 +60,7 @@ export function StepIndicator({
                                                 ? 'bg-green-500 text-white shadow-md hover:shadow-lg'
                                                 : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                                         }
-                                        ${isClickable ? 'cursor-pointer hover:scale-105' : 'cursor-default'}
+                                        ${isClickable ? 'cursor-pointer hover:scale-[1.02]' : 'cursor-default'}
                                     `}
                                 >
                                     {isCompleted ? (

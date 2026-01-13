@@ -137,7 +137,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
           {galleryImages.map((img, idx) => (
             <div
               key={img.id}
-              className={`bg-gradient-to-br ${img.color} transition-transform duration-700 hover:scale-105`}
+              className={`bg-gradient-to-br ${img.color} transition-transform duration-700 hover:scale-[1.02]`}
               style={{
                 animationDelay: `${idx * 100}ms`,
                 gridColumn: (idx % 3) + 1,
@@ -310,7 +310,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   className={`group relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br ${img.color} hover:scale-[1.02] transition-all duration-300 hover:shadow-lg`}
                 >
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white/90 font-medium text-center px-4 group-hover:scale-105 transition-transform duration-300">{img.label}</span>
+                    <span className="text-white/90 font-medium text-center px-4 group-hover:scale-[1.02] transition-transform duration-300">{img.label}</span>
                   </div>
                 </button>
               ))}
@@ -363,7 +363,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 mb-4">"{testimonial.text}"</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-violet-500 rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-violet-500 rounded-full flex items-center justify-center text-white group-hover:scale-[1.02] transition-transform duration-300">
                       <UserCircleIcon className="w-6 h-6" />
                     </div>
                     <span className="font-medium text-slate-900 dark:text-white">{testimonial.author}</span>
@@ -508,7 +508,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
                     type="submit"
                     className="group w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <CalendarDaysIcon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                    <CalendarDaysIcon className="w-5 h-5 group-hover:scale-[1.02] transition-transform duration-300" />
                     Reserve Now
                   </button>
                 </div>

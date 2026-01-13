@@ -241,7 +241,7 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                     </div>
 
                                     <div className="relative z-10">
-                                        <div className="w-14 h-14 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 shadow-xl">
+                                        <div className="w-14 h-14 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center mb-4 group-hover:scale-[1.02] group-hover:-rotate-3 transition-all duration-500 shadow-xl">
                                             <TicketIcon className="w-7 h-7" />
                                         </div>
                                         <h3 className="font-serif text-xl font-bold mb-2">{t('contact_page.box_title')}</h3>

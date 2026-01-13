@@ -40,7 +40,7 @@ const SocialIconButton = ({ href, children, ariaLabel }: { href: string; childre
             className="group relative w-10 h-10 flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-all duration-350 ease-smooth hover:border-primary-400 dark:hover:border-violet-500 hover:text-primary-500 dark:hover:text-violet-400 hover:-translate-y-0.5 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
             aria-label={ariaLabel}
         >
-            <span className="transition-transform duration-350 group-hover:scale-110">
+            <span className="transition-transform duration-350 group-hover:scale-[1.02]">
                 {children}
             </span>
         </a>

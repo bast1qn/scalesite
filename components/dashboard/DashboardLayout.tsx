@@ -43,7 +43,7 @@ const NavLink: React.FC<{item: NavItem, activeView: DashboardView, onClick: (vie
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-blue-500 to-violet-500 rounded-r-full"></div>
             )}
 
-            <span className={`flex-shrink-0 transition-all duration-300 relative z-10 ${isActive ? 'text-blue-600 dark:text-violet-400 scale-110' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500 dark:group-hover:text-violet-400 group-hover:scale-105'}`}>
+            <span className={`flex-shrink-0 transition-all duration-300 relative z-10 ${isActive ? 'text-blue-600 dark:text-violet-400 scale-110' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-500 dark:group-hover:text-violet-400 group-hover:scale-[1.02]'}`}>
                 {item.icon}
             </span>
             <span className={`ml-3 relative z-10 transition-all duration-300 ${isActive ? 'font-semibold' : ''}`}>{item.label}</span>
@@ -130,7 +130,7 @@ const SidebarContent: React.FC<{
 
                 <div className="px-6 py-6 flex items-center justify-between flex-shrink-0 border-b border-slate-200/50 dark:border-slate-800/50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl">
                     <button onClick={() => setCurrentPage('home')} className="text-slate-900 dark:text-white transition-opacity hover:opacity-80 group">
-                        <ScaleSiteLogo className="h-7 transition-transform duration-300 group-hover:scale-105" />
+                        <ScaleSiteLogo className="h-7 transition-transform duration-300 group-hover:scale-[1.02]" />
                     </button>
                     <button
                             onClick={closeSidebar}
@@ -185,7 +185,7 @@ const SidebarContent: React.FC<{
 
             <div className="px-6 py-6 border-b border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center flex-shrink-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl">
                     <button onClick={() => setCurrentPage('home')} className="text-slate-900 dark:text-white flex items-center gap-3 hover:opacity-80 group">
-                    <ScaleSiteLogo className="h-6 transition-transform duration-300 group-hover:scale-105" />
+                    <ScaleSiteLogo className="h-6 transition-transform duration-300 group-hover:scale-[1.02]" />
                     <span className="text-[10px] font-bold bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-2.5 py-1 rounded-full tracking-wide shadow-lg shadow-violet-500/25">TEAM</span>
                 </button>
                 <button

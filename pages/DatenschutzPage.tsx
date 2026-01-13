@@ -83,7 +83,7 @@ const DatenschutzPage = ({ setCurrentPage }: { setCurrentPage: (page: string) =>
                                         <div className="relative">
                                             {/* Icon header */}
                                             <div className="flex items-center gap-4 mb-5">
-                                                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${section.iconGradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                                                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${section.iconGradient} flex items-center justify-center text-white shadow-lg group-hover:scale-[1.02] group-hover:rotate-3 transition-all duration-300`}>
                                                     <IconComponent className="w-6 h-6" />
                                                 </div>
                                                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">

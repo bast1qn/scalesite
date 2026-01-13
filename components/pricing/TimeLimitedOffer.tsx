@@ -341,7 +341,7 @@ export const TimeLimitedOffer: React.FC<TimeLimitedOfferProps> = ({
                                             hover:bg-slate-50 dark:hover:bg-slate-800
                                             transition-all duration-200
                                             shadow-md hover:shadow-lg
-                                            ${claimedOffer ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}
+                                            ${claimedOffer ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02] active:scale-[0.98]'}
                                         `}
                                         disabled={!!claimedOffer}
                                     >

@@ -344,13 +344,13 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
             <div className={`aspect-video bg-gradient-to-br ${selectedProject.images[currentImageIndex] ?? ''} relative`}>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : (selectedProject.images?.length ?? 1) - 1))}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-[1.02] transition-all duration-200"
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev < (selectedProject.images?.length ?? 1) - 1 ? prev + 1 : 0))}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-200"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-[1.02] transition-all duration-200"
               >
                 <ArrowRightIcon className="w-5 h-5" />
               </button>

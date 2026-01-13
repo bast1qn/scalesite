@@ -106,7 +106,7 @@ export const NewsletterSection = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="mt-4 w-full sm:w-auto bg-white text-blue-600 dark:text-violet-700 font-bold px-10 py-4 rounded-xl hover:bg-white/90 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none shadow-xl hover:shadow-2xl btn-press inline-flex items-center justify-center gap-2 min-w-[160px]"
+                                    className="mt-4 w-full sm:w-auto bg-white text-blue-600 dark:text-violet-700 font-bold px-10 py-4 rounded-xl hover:bg-white/90 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none shadow-xl hover:shadow-2xl btn-press inline-flex items-center justify-center gap-2 min-w-[160px]"
                                 >
                                     {loading ? (
                                         <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>

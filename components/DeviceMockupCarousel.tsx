@@ -110,14 +110,14 @@ export const DeviceMockupCarousel = () => {
             {/* Navigation */}
             <button
               onClick={prevSlide}
-              className="absolute left-0 sm:left-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
+              className="absolute left-0 sm:left-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Previous"
             >
               <ChevronLeftIcon />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-0 sm:right-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
+              className="absolute right-0 sm:right-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Next"
             >
               <ChevronRightIcon />

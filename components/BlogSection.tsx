@@ -101,14 +101,14 @@ export const BlogSection = () => {
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                     loading="lazy"
                     decoding="async"
                   />
 
                   {/* Category badge */}
                   <div className="absolute top-4 left-4">
-                    <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-800 dark:text-white shadow-lg group-hover:scale-105 transition-transform duration-300`}>
+                    <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-800 dark:text-white shadow-lg group-hover:scale-[1.02] transition-transform duration-300`}>
                       {post.category}
                     </span>
                   </div>

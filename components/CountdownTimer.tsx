@@ -57,7 +57,7 @@ export const CountdownTimer = ({ targetDate, onComplete }: CountdownTimerProps) 
       {timerComponents.map((c, i) => (
         <div key={c.label} className="flex items-center gap-2">
             <div className="flex flex-col items-center group">
-                <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-br from-primary-600 to-violet-600 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105 block px-3 py-2">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-br from-primary-600 to-violet-600 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-[1.02] block px-3 py-2">
                   {String(c.value).padStart(2, '0')}
                 </span>
                 <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium mt-1 transition-colors duration-300 group-hover:text-primary-600 dark:group-hover:text-violet-400">

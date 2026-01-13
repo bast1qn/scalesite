@@ -85,14 +85,14 @@ export const ProcessSteps: FC = () => {
                 )}
 
                 {/* Card */}
-                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-300 h-full focus:ring-2 focus:ring-primary-500/50">
+                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 h-full focus:ring-2 focus:ring-primary-500/50">
                   {/* Step number badge */}
                   <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold flex items-center justify-center shadow-md border-2 border-white dark:border-slate-800 z-10">
                     {index + 1}
                   </div>
 
                   {/* Icon */}
-                  <div className={`relative w-14 h-14 rounded-xl ${step.bg} ${step.textColor} flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-105`}>
+                  <div className={`relative w-14 h-14 rounded-xl ${step.bg} ${step.textColor} flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-[1.02]`}>
                     <div className="relative z-10">{step.icon}</div>
                   </div>
 

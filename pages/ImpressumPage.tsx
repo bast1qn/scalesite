@@ -47,7 +47,7 @@ const ImpressumPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 {/* Company Info Section */}
                                 <section className="group">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white shadow-lg group-hover:scale-[1.02] transition-transform duration-300">
                                             <span className="font-bold text-lg">S</span>
                                         </div>
                                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -64,7 +64,7 @@ const ImpressumPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 {/* Contact Section with enhanced styling */}
                                 <section className="group">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white shadow-lg group-hover:scale-[1.02] transition-transform duration-300">
                                             <EnvelopeIcon className="w-5 h-5" />
                                         </div>
                                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -89,7 +89,7 @@ const ImpressumPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 {/* VAT Section */}
                                 <section className="group">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-lg group-hover:scale-[1.02] transition-transform duration-300">
                                             <span className="font-bold text-lg">%</span>
                                         </div>
                                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -105,7 +105,7 @@ const ImpressumPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                 {/* Responsible Section */}
                                 <section className="group">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white shadow-lg group-hover:scale-[1.02] transition-transform duration-300">
                                             <span className="font-bold text-lg">R</span>
                                         </div>
                                         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">

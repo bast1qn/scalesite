@@ -94,12 +94,12 @@ export const UspSection: FC = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {usps.map((usp) => (
               <HoverCard key={usp.nameKey}>
-                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 min-h-11 sm:min-h-0">
+                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11 sm:min-h-0">
                   {/* Top accent line */}
                   <div className={`absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
                   {/* Icon container */}
-                  <div className={`w-14 h-14 ${usp.bg} ${usp.color} rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-105`}>
+                  <div className={`w-14 h-14 ${usp.bg} ${usp.color} rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-[1.02]`}>
                     {usp.icon}
                   </div>
 

@@ -125,7 +125,7 @@ export const CookieConsent = () => {
 
                         <div className="p-6 border-b border-slate-200/60 dark:border-slate-700/60 flex justify-between items-center bg-gradient-to-r from-slate-50/80 to-primary-50/30 dark:from-slate-800/50 dark:to-primary-900/10">
                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">{t('cookie_consent.settings_title')}</h3>
-                            <button onClick={() => setShowSettings(false)} className="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105 group">
+                            <button onClick={() => setShowSettings(false)} className="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-[1.02] group">
                                 <XMarkIcon className="w-5 h-5 text-slate-500 group-hover:text-slate-700 dark:group-hover:text-white transition-colors" />
                             </button>
                         </div>

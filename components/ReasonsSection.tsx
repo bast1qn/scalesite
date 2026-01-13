@@ -90,7 +90,7 @@ export const ReasonsSection: React.FC = () => {
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
               <div
-                className={`group relative bg-gradient-to-br ${reason.bgGradient} backdrop-blur-sm p-6 md:p-7 lg:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-700/50 ${reason.borderColor} shadow-premium hover:shadow-premium-lg ${reason.glowColor} hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden focus:ring-2 focus:ring-primary-500/50`}
+                className={`group relative bg-gradient-to-br ${reason.bgGradient} backdrop-blur-sm p-6 md:p-7 lg:p-8 rounded-3xl border border-slate-200/60 dark:border-slate-700/50 ${reason.borderColor} shadow-premium hover:shadow-premium-lg ${reason.glowColor} hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 overflow-hidden focus:ring-2 focus:ring-primary-500/50`}
               >
                 {/* Animated gradient line at top */}
                 <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${reason.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}></div>
@@ -105,7 +105,7 @@ export const ReasonsSection: React.FC = () => {
 
                 {/* Icon */}
                 <div className="relative">
-                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${reason.gradient} flex items-center justify-center text-white shadow-premium transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-300`}>
+                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${reason.gradient} flex items-center justify-center text-white shadow-premium transform group-hover:scale-[1.02] group-hover:rotate-3 transition-all duration-300`}>
                     {reason.icon}
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export const ReasonsSection: React.FC = () => {
           transition={{ duration: 0.3, delay: 0.4 }}
           className="mt-12 md:mt-16 lg:mt-20 text-center"
         >
-          <div className="inline-flex items-center gap-4 md:gap-5 px-5 md:px-7 py-3 md:py-4 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg hover:scale-105 active:scale-95 transition-all duration-300">
+          <div className="inline-flex items-center gap-4 md:gap-5 px-5 md:px-7 py-3 md:py-4 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
             <div className="flex -space-x-2">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-cyan-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold shadow-soft">S</div>
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-400 border-2 border-white dark:border-slate-800 flex items-center justify-center text-white text-xs font-bold shadow-soft">M</div>

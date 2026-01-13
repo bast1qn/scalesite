@@ -17,9 +17,9 @@ const logos = [
 
 // Memoized logo item component to prevent re-renders
 const LogoItem: FC<{ logo: typeof logos[0] }> = memo(({ logo }) => (
-  <div className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-105">
+  <div className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-[1.02]">
     <div
-      className="w-8 h-8 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:scale-110"
+      className="w-8 h-8 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:scale-[1.02]"
       style={{ backgroundColor: logo.color }}
     ></div>
     <span className="text-xl font-bold text-slate-700 dark:text-slate-200 font-serif tracking-tight transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-800 group-hover:to-slate-600 dark:group-hover:from-white dark:group-hover:to-slate-300">

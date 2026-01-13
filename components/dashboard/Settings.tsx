@@ -215,7 +215,7 @@ const Settings: React.FC = () => {
                             {/* Profile Card */}
                             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
                                 <div className="flex items-center gap-4 sm:gap-6 mb-6 sm:mb-8 border-b border-slate-100 dark:border-slate-800 pb-6 sm:pb-8">
-                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-md ring-4 ring-white dark:ring-slate-800 transition-transform hover:scale-105 duration-200">
+                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-md ring-4 ring-white dark:ring-slate-800 transition-transform hover:scale-[1.02] duration-200">
                                         {name?.charAt(0)?.toUpperCase() || '?'}
                                     </div>
                                     <div className="flex-1 min-w-0">

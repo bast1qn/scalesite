@@ -361,7 +361,7 @@ const TicketSupport = () => {
 
                         <form onSubmit={handleAddReply} className={`mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center gap-3 ${selectedTicket.status === 'Geschlossen' && user?.role === 'user' ? 'hidden' : ''}`}>
                             <textarea value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Ihre Antwort..." rows={2} className="flex-1 block w-full px-4 py-3 text-sm rounded-xl shadow-sm bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"></textarea>
-                            <button type="submit" className="group p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-200 disabled:bg-blue-500 disabled:cursor-not-allowed self-end shadow-md hover:shadow-lg hover:shadow-blue-500/20 active:scale-95" disabled={!reply.trim() || actionLoading}>
+                            <button type="submit" className="group p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-200 disabled:bg-blue-500 disabled:cursor-not-allowed self-end shadow-md hover:shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]" disabled={!reply.trim() || actionLoading}>
                                 <PaperAirplaneIcon className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                             </button>
                         </form>
@@ -378,7 +378,7 @@ const TicketSupport = () => {
                                 </h3>
                                 <button
                                     onClick={() => setShowInviteInput(!showInviteInput)}
-                                    className="group text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95"
+                                    className="group text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 p-1.5 rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                                     title="Nutzer hinzufügen"
                                 >
                                     <UserPlusIcon className="w-5 h-5" />
@@ -482,13 +482,13 @@ const TicketSupport = () => {
                                     <button
                                         onClick={handleAssignService}
                                         disabled={assignLoading || !selectedServiceId}
-                                        className="group w-full py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2 hover:shadow-md active:scale-95"
+                                        className="group w-full py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2 hover:shadow-md active:scale-[0.98]"
                                     >
                                         {assignLoading ? (
                                             <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                         ) : (
                                             <>
-                                                <CheckBadgeIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                                <CheckBadgeIcon className="w-4 h-4 group-hover:scale-[1.02] transition-transform" />
                                                 Kostenpflichtig buchen
                                             </>
                                         )}
@@ -586,7 +586,7 @@ const TicketSupport = () => {
                     <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl shadow-blue-500/10 border border-slate-200 dark:border-slate-700 overflow-hidden animate-scale-in">
                         <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
                             <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">{t('dashboard.tickets.create')}</h3>
-                            <button onClick={() => setShowCreateModal(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-110 active:scale-95">
+                            <button onClick={() => setShowCreateModal(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
                                 <XMarkIcon className="w-5 h-5 text-slate-500" />
                             </button>
                         </div>

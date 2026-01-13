@@ -30,7 +30,7 @@ const SocialButton = ({ icon, provider, onClick, disabled, label }: SocialButton
         className="group relative w-full inline-flex justify-center items-center gap-3 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300 transition-all duration-250 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
     >
         <span className="relative flex items-center gap-3">
-            <span className="transition-transform duration-250 ease-out group-hover:scale-105">{icon}</span>
+            <span className="transition-transform duration-250 ease-out group-hover:scale-[1.02]">{icon}</span>
             <span>{label}</span>
         </span>
     </button>
@@ -225,7 +225,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
        <div className="relative z-10 w-full max-w-md">
           {/* Logo */}
           <div className="text-center mb-8 animate-fade-in">
-            <button onClick={() => setCurrentPage('home')} className="inline-flex group transition-transform duration-300 hover:scale-105">
+            <button onClick={() => setCurrentPage('home')} className="inline-flex group transition-transform duration-300 hover:scale-[1.02]">
                 <ScaleSiteLogo className="h-11 text-slate-900 dark:text-white transition-all duration-300 group-hover:drop-shadow-lg group-hover:drop-shadow-blue-500/20" />
             </button>
           </div>

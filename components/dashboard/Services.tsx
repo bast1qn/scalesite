@@ -183,7 +183,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                     <div className="grid gap-4 md:grid-cols-2">
                         {pendingServices.map((item) => (
                             <div key={item.id} className="group bg-yellow-50 dark:bg-yellow-900/10 p-4 rounded-xl border border-yellow-200 dark:border-yellow-800/30 flex items-start gap-3 hover:border-yellow-300 dark:hover:border-yellow-700/50 transition-all duration-300 hover:shadow-md">
-                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/30 rounded-lg text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform duration-300">
+                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/30 rounded-lg text-yellow-600 dark:text-yellow-400 group-hover:scale-[1.02] transition-transform duration-300">
                                     <ClockIcon className="w-5 h-5" />
                                 </div>
                                 <div>
@@ -206,7 +206,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                     <div className="grid gap-4 md:grid-cols-2">
                         {confirmedServices.map((item) => (
                             <div key={item.id} className="group bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-3 hover:border-green-200 dark:hover:border-green-800/50 hover:shadow-md hover:shadow-green-500/5 transition-all duration-300">
-                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">
+                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400 group-hover:scale-[1.02] transition-transform duration-300">
                                     <CheckBadgeIcon className="w-5 h-5" />
                                 </div>
                                 <div>
@@ -275,7 +275,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                                 {bookingModal.step === 'error' && 'Fehler'}
                             </h3>
                             {bookingModal.step !== 'processing' && (
-                                <button onClick={closeBookingModal} className="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-all duration-200 hover:scale-110 active:scale-95">
+                                <button onClick={closeBookingModal} className="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
                                     <XMarkIcon className="w-5 h-5" />
                                 </button>
                             )}
@@ -340,7 +340,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
                                     </p>
 
                                     <button onClick={handleSuccessAction} className="group w-full py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-lg font-bold hover:opacity-90 hover:shadow-md hover:shadow-blue-500/20 flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98]">
-                                        <TicketIcon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                                        <TicketIcon className="w-4 h-4 group-hover:scale-[1.02] transition-transform duration-200" />
                                         Zum Ticket wechseln
                                     </button>
                                     <button onClick={closeBookingModal} className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium transition-colors">
