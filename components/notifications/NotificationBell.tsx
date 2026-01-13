@@ -12,8 +12,10 @@ const NotificationBell: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Close on click outside
+    // ✅ FIXED: Close on click outside - stable handler to avoid recreation
     useEffect(() => {
+        if (!isOpen) return; // Only add listener when open
+
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 containerRef.current &&
@@ -23,14 +25,12 @@ const NotificationBell: React.FC = () => {
             }
         };
 
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside, { passive: true });
-        }
+        document.addEventListener('mousedown', handleClickOutside, { passive: true });
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isOpen]);
+    }, [isOpen]); // ✅ FIXED: Handler is scoped to effect, no recreation issues
 
     return (
         <div ref={containerRef} className="relative">

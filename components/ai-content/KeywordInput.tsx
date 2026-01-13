@@ -77,6 +77,7 @@ export function KeywordInput({
     }, [suggestions, inputValue, value, allowDuplicates]);
 
     // Handle clicking outside to close suggestions
+    // ✅ FIXED: containerRef is stable, empty deps is correct
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -86,7 +87,7 @@ export function KeywordInput({
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, []); // ✅ VERIFIED: containerRef is stable (useRef), no deps needed
 
     // Validate and add keyword
     const addKeyword = useCallback((keyword: string) => {

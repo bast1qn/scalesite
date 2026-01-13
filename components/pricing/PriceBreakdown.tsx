@@ -60,7 +60,7 @@ export const PriceBreakdownDisplay = ({
 
                     return (
                         <div
-                            key={index}
+                            key={`${item.description}-${item.amount}-${index}`}
                             className={`flex justify-between items-start ${
                                 compact ? 'text-xs' : 'text-sm'
                             }`}

@@ -3,7 +3,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useNotifications } from '../../contexts/NotificationContext';
+import { useNotifications, AppNotification } from '../../contexts/NotificationContext';
 import {
     XMarkIcon,
     BellIcon,
@@ -127,7 +127,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
         await deleteNotification(id);
     };
 
-    const handleNotificationClick = async (notification: any) => {
+    const handleNotificationClick = async (notification: AppNotification) => {
         if (!notification.read) {
             await markAsRead(notification.id);
         }

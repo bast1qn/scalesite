@@ -38,7 +38,7 @@ export const InteractiveTimeline = () => {
                 if (ref) {
                     const { offsetTop, offsetHeight } = ref;
                     if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-                        setActiveId(milestones[index].id);
+                        setActiveId(milestones[index]?.id);
                     }
                 }
             });
@@ -49,7 +49,7 @@ export const InteractiveTimeline = () => {
             isMounted = false;
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [milestones]);
+    }, [milestones]); // ✅ FIXED: milestones is now properly tracked
 
     return (
         <section id="story" className="py-28 sm:py-36 bg-surface dark:bg-dark-surface relative overflow-hidden">

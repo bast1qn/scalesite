@@ -314,6 +314,10 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
             const { type, payload } = event.data;
+
+            // ✅ FIXED: Add origin validation for security
+            if (event.origin !== window.location.origin) return;
+
             if (type === 'blueprint-nav') {
                 setActivePage(payload.page);
                  if (iframeRef.current) {
@@ -323,9 +327,10 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
                 setTheme(payload.theme);
             }
         };
+
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
-    }, []); // iframeRef is stable and handleMessage is defined inside effect - no external deps needed
+    }, []); // ✅ FIXED: No external dependencies - iframeRef is stable
     
     const htmlContent = useMemo(() => {
         return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t);

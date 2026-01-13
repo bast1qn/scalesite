@@ -192,18 +192,21 @@ export const NotificationProvider: FC<NotificationProviderProps> = ({ children }
     }, [user]);
 
     // Map DB notification to app notification
-    const mapDbNotificationToApp = (n: Notification): AppNotification => ({
-        id: n.id,
-        type: n.type as NotificationType,
-        title: n.title,
-        message: n.message,
-        link: n.link,
-        read: n.read,
-        created_at: n.created_at,
-        expires_at: n.expires_at,
-        related_entity_type: n.related_entity_type,
-        related_entity_id: n.related_entity_id,
-    });
+    // ✅ FIXED: Made function stable with useCallback to prevent recreation
+    const mapDbNotificationToApp = useCallback((n: Notification): AppNotification => {
+        return {
+            id: n.id,
+            type: n.type as NotificationType,
+            title: n.title,
+            message: n.message,
+            link: n.link,
+            read: n.read,
+            created_at: n.created_at,
+            expires_at: n.expires_at,
+            related_entity_type: n.related_entity_type,
+            related_entity_id: n.related_entity_id,
+        };
+    }, []); // ✅ FIXED: No dependencies - pure mapping function
 
     // Check if quiet hours are active
     const isQuietHours = useCallback((): boolean => {
@@ -444,7 +447,7 @@ export const NotificationProvider: FC<NotificationProviderProps> = ({ children }
             }
             setSubscriptionActive(false);
         };
-    }, [user, subscriptionActive, showNotification]);
+    }, [user, subscriptionActive, showNotification, mapDbNotificationToApp]); // ✅ FIXED: Added mapDbNotificationToApp
 
     // Load initial data
     useEffect(() => {

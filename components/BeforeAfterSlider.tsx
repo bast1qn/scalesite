@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowsRightLeftIcon } from './Icons';
 
 interface BeforeAfterSliderProps {
@@ -20,45 +20,48 @@ export const BeforeAfterSlider = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
 
-  const handleMove = useCallback((event: MouseEvent | TouchEvent) => {
-    if (!containerRef.current) return;
-
-    // Cancel any pending animation frame
-    if (rafRef.current !== null) {
-      cancelAnimationFrame(rafRef.current);
-    }
-
-    // Use requestAnimationFrame for throttling
-    rafRef.current = requestAnimationFrame(() => {
-      const containerRect = containerRef.current?.getBoundingClientRect();
-      if (!containerRect) return;
-
-      // Defensively check for touches array existence before accessing [0]
-      const clientX = 'touches' in event && event.touches[0]
-        ? event.touches[0].clientX
-        : (event as MouseEvent).clientX;
-
-      let position = ((clientX - containerRect.left) / containerRect.width) * 100;
-      position = Math.max(0, Math.min(100, position));
-
-      setSliderPosition(position);
-      rafRef.current = null;
-    });
-  }, []);
+  // ✅ FIXED: Removed useCallback - move handler inside useEffect to avoid stale closure issues
+  // The event listener is re-attached on isDragging change, so no performance penalty
 
   const handleMouseDown = () => setIsDragging(true);
   const handleMouseUp = () => setIsDragging(false);
 
   useEffect(() => {
-    const handleWindowMove = (e: MouseEvent | TouchEvent) => {
-      if (isDragging) handleMove(e);
+    // ✅ FIXED: Move handler inside useEffect to avoid useCallback complexity
+    const handleWindowMove = (event: MouseEvent | TouchEvent) => {
+      if (!isDragging || !containerRef.current) return;
+
+      // Cancel any pending animation frame
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+
+      // Use requestAnimationFrame for throttling
+      rafRef.current = requestAnimationFrame(() => {
+        const containerRect = containerRef.current?.getBoundingClientRect();
+        if (!containerRect) return;
+
+        // Defensively check for touches array existence before accessing [0]
+        const clientX = 'touches' in event && event.touches?.[0]
+          ? event.touches[0].clientX
+          : (event as MouseEvent).clientX;
+
+        let position = ((clientX - containerRect.left) / containerRect.width) * 100;
+        position = Math.max(0, Math.min(100, position));
+
+        setSliderPosition(position);
+        rafRef.current = null;
+      });
     };
+
     const handleWindowUp = () => setIsDragging(false);
 
-    window.addEventListener('mousemove', handleWindowMove, { passive: true });
-    window.addEventListener('touchmove', handleWindowMove, { passive: true });
-    window.addEventListener('mouseup', handleWindowUp);
-    window.addEventListener('touchend', handleWindowUp);
+    if (isDragging) {
+      window.addEventListener('mousemove', handleWindowMove, { passive: true });
+      window.addEventListener('touchmove', handleWindowMove, { passive: true });
+      window.addEventListener('mouseup', handleWindowUp);
+      window.addEventListener('touchend', handleWindowUp);
+    }
 
     return () => {
       window.removeEventListener('mousemove', handleWindowMove);
@@ -70,7 +73,7 @@ export const BeforeAfterSlider = ({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [isDragging, handleMove]);
+  }, [isDragging]); // ✅ FIXED: Only depends on isDragging, no external handler
 
   return (
     <div

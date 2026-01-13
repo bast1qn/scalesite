@@ -4,10 +4,68 @@ import { CheckCircle2, AlertCircle, Code, Eye, Copy, Download, FileJson, Buildin
 
 type SchemaType = 'Article' | 'NewsArticle' | 'BlogPosting' | 'LocalBusiness' | 'Organization' | 'Product' | 'Person' | 'WebSite';
 
+// ✅ FIXED: Proper type definition for form data
+interface SchemaFormData {
+  // Article/NewsArticle/BlogPosting
+  headline?: string;
+  image?: string;
+  author?: string;
+  publisher?: string;
+  datePublished?: string;
+  dateModified?: string;
+  articleSection?: string;
+  description?: string;
+
+  // LocalBusiness
+  name?: string;
+  address?: string;
+  telephone?: string;
+  email?: string;
+  openingHours?: string;
+  priceRange?: string;
+  geoLatitude?: string;
+  geoLongitude?: string;
+
+  // Organization
+  legalName?: string;
+  url?: string;
+  logo?: string;
+  foundingDate?: string;
+  numberOfEmployees?: string;
+  addressOrg?: string;
+
+  // Product
+  productName?: string;
+  productImage?: string;
+  productDescription?: string;
+  brand?: string;
+  offersPrice?: string;
+  offersCurrency?: string;
+  offersAvailability?: string;
+  offersUrl?: string;
+
+  // Person
+  personName?: string;
+  personImage?: string;
+  personJobTitle?: string;
+  personUrl?: string;
+  personWorksFor?: string;
+  personEmail?: string;
+  personTelephone?: string;
+  personAddress?: string;
+
+  // WebSite
+  siteName?: string;
+  siteUrl?: string;
+  siteDescription?: string;
+  searchActionUrl?: string;
+  searchActionTarget?: string;
+}
+
 interface StructuredDataProps {
   language?: 'de' | 'en';
-  initialData?: any;
-  onDataChange?: (data: any) => void;
+  initialData?: SchemaFormData;
+  onDataChange?: (data: SchemaFormData) => void;
   variant?: 'default' | 'compact' | 'detailed';
 }
 
@@ -18,7 +76,7 @@ export const StructuredData: React.FC<StructuredDataProps> = ({
   variant = 'default'
 }) => {
   const [schemaType, setSchemaType] = useState<SchemaType>('Article');
-  const [formData, setFormData] = useState<Record<string, any>>({
+  const [formData, setFormData] = useState<SchemaFormData>({
     // Article/NewsArticle/BlogPosting
     headline: '',
     image: '',
@@ -263,8 +321,9 @@ export const StructuredData: React.FC<StructuredDataProps> = ({
     }
   };
 
-  const generateSchema = (): any => {
-    const schema: any = {
+  // ✅ FIXED: Proper return type for schema generation
+  const generateSchema =(): Record<string, unknown> => {
+    const schema: Record<string, unknown> = {
       '@context': 'https://schema.org',
       '@type': schemaType
     };

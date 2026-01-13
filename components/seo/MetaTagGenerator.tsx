@@ -229,7 +229,7 @@ export const MetaTagGenerator: React.FC<MetaTagGeneratorProps> = ({ language = '
               </label>
               <select
                 value={metadata.twitterCard}
-                onChange={(e) => setMetadata({ ...metadata, twitterCard: e.target.value as any })}
+                onChange={(e) => setMetadata({ ...metadata, twitterCard: e.target.value as 'summary' | 'summary_large_image' | 'app' | 'player' })}
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="summary" className="bg-gray-900">Summary</option>
