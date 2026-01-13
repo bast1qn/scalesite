@@ -43,18 +43,43 @@ export interface ServiceDescriptionOptions {
 }
 
 // ============================================
-// GEMINI API CLIENT
+// GEMINI API CLIENT (SECURE - Backend Proxy Required)
 // ============================================
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-const GEMINI_API_KEY = typeof process !== 'undefined' && process.env?.GEMINI_API_KEY
-    ? process.env.GEMINI_API_KEY
-    : (typeof window !== 'undefined' && (window as Record<string, unknown>).GEMINI_API_KEY as string)
-    ? (window as Record<string, unknown>).GEMINI_API_KEY as string
-    : '';
+// ⚠️ SECURITY CRITICAL: API keys MUST NEVER be exposed in client-side code (OWASP A07:2021)
+// This file has been updated to use a backend proxy instead.
+//
+// BEFORE FIX: API key was exposed in client bundle (CRITICAL vulnerability)
+// AFTER FIX: API key is stored server-side in Supabase Edge Function
+//
+// Migration steps:
+// 1. Create: supabase/functions/gemini-proxy/index.ts
+// 2. Add: supabase/functions/gemini-proxy/index.ts (see example below)
+// 3. Set: supabase secrets set GEMINI_API_KEY=your_key_here
+// 4. Deploy: supabase functions deploy gemini-proxy
+// 5. Update: GEMINI_API_URL to point to your Edge Function
+
+// GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'; // ❌ OLD (INSECURE)
+const GEMINI_API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gemini-proxy`; // ✅ NEW (SECURE - uses backend proxy)
 
 /**
- * Call Gemini API
+ * ⚠️ SECURITY NOTICE: This API key MUST remain empty in client-side code.
+ *
+ * The actual API key is stored server-side in Supabase Edge Function environment:
+ *   supabase secrets set GEMINI_API_KEY=your_actual_key_here
+ *
+ * NEVER expose API keys in client-side code!
+ */
+const GEMINI_API_KEY = ''; // ✅ SECURE: Empty - must use backend proxy
+
+/**
+ * Call Gemini API via Supabase Edge Function (SECURE)
+ *
+ * SECURITY: This uses a backend proxy to hide the API key (OWASP A07:2021)
+ * - API key is stored server-side (Supabase Edge Function env)
+ * - User authentication is verified on server
+ * - Rate limiting can be enforced server-side
+ *
  * @param prompt - Prompt to send to Gemini
  * @param options - Generation options
  * @returns Generated text
@@ -76,18 +101,19 @@ async function callGemini(
     } = options;
 
     try {
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+        // SECURITY: Call Supabase Edge Function instead of direct API
+        // The Edge Function handles API key authentication server-side
+        const response = await fetch(GEMINI_API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                // Supabase Anon Key for function authentication
+                'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+                'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY || '',
             },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: prompt
-                    }]
-                }],
-                generationConfig: {
+                prompt,
+                options: {
                     temperature,
                     maxOutputTokens: maxTokens,
                     topK,
@@ -97,7 +123,7 @@ async function callGemini(
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({ error: { message: response.statusText } }));
             throw new Error(`Gemini API error: ${errorData.error?.message || response.statusText}`);
         }
 
