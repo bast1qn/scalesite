@@ -1,7 +1,7 @@
 import { useState, useContext, useMemo, useEffect, type FormEvent } from 'react';
 import { CountdownTimer, OfferCalculator, TagIcon, ChevronDownIcon, CheckBadgeIcon, ShieldCheckIcon, XMarkIcon, TicketIcon, AnimatedSection } from './index';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
-import { api } from '../lib';
+import { api, validateEmail, validateName, validateString } from '../lib';
 
 interface PricingSectionProps {
   setCurrentPage: (page: string) => void;
@@ -194,9 +194,26 @@ export const PricingSection = ({ setCurrentPage }: PricingSectionProps) => {
       const form = e.target as HTMLFormElement;
       const formData = new FormData(form);
 
-      const name = formData.get('name') as string;
-      const email = formData.get('email') as string;
-      const message = formData.get('message') as string;
+      const rawName = formData.get('name') as string;
+      const rawEmail = formData.get('email') as string;
+      const rawMessage = formData.get('message') as string;
+
+      // Validate inputs if user is not logged in
+      if (!user) {
+          const nameValidation = validateName(rawName);
+          const emailValidation = validateEmail(rawEmail);
+          const messageValidation = validateString(rawMessage, { maxLength: 2000, allowEmpty: true });
+
+          if (!nameValidation.isValid || !emailValidation.isValid || !messageValidation.isValid) {
+              alert(t('general.error') + ': Invalid input. Please check your data.');
+              setIsSubmitting(false);
+              return;
+          }
+      }
+
+      const name = user?.name || rawName;
+      const email = user?.email || rawEmail;
+      const message = rawMessage;
 
       const requestText = `
 ANFRAGE WEBSITE PAKET:
@@ -378,8 +395,16 @@ ${message}
                                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-violet-500 rounded-xl flex items-center justify-center mb-6 shadow-md">
                                     <TicketIcon className="w-6 h-6 text-white" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{t('pricing.modal.title').replace('{package}', selectedPackage.name)}</h3>
-                                <p className="text-sm text-slate-500 mb-6" dangerouslySetInnerHTML={{ __html: t('pricing.modal.subtitle').replace('{package}', selectedPackage.name).replace('{price}', selectedPackage.price).replace('{details}', selectedPackage.price_details) }}></p>
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                                    {t('pricing.modal.title').replace('{package}', selectedPackage.name)}
+                                </h3>
+                                <p className="text-sm text-slate-500 mb-6">
+                                    {t('pricing.modal.subtitle')
+                                        .replace('{package}', selectedPackage.name)
+                                        .replace('{price}', selectedPackage.price)
+                                        .replace('{details}', selectedPackage.price_details)
+                                    }
+                                </p>
 
                                 <form onSubmit={handleFormSubmit} className="space-y-4">
                                     {!user && (

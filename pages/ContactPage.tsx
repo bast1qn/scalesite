@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { AnimatedSection, EnvelopeIcon, CheckBadgeIcon, TicketIcon, SparklesIcon, ArrowRightIcon } from '../components';
-import { api } from '../lib';
+import { api, validateEmail, validateName, validateString } from '../lib';
 import { useLanguage } from '../contexts';
 
 const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
@@ -19,11 +19,47 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
 
+        const rawName = formData.get('name') as string;
+        const rawEmail = formData.get('email') as string;
+        const rawSubject = formData.get('subject') as string;
+        const rawMessage = formData.get('message') as string;
+
+        // Validate all inputs
+        const nameValidation = validateName(rawName);
+        const emailValidation = validateEmail(rawEmail);
+        const subjectValidation = validateString(rawSubject, { maxLength: 200 });
+        const messageValidation = validateString(rawMessage, { minLength: 10, maxLength: 5000 });
+
+        if (!nameValidation.isValid) {
+            setError(t('general.error') + ': ' + (nameValidation.errors[0] || 'Invalid name'));
+            setLoading(false);
+            return;
+        }
+
+        if (!emailValidation.isValid) {
+            setError(t('general.error') + ': ' + (emailValidation.errors[0] || 'Invalid email'));
+            setLoading(false);
+            return;
+        }
+
+        if (!subjectValidation.isValid) {
+            setError(t('general.error') + ': ' + (subjectValidation.errors[0] || 'Invalid subject'));
+            setLoading(false);
+            return;
+        }
+
+        if (!messageValidation.isValid) {
+            setError(t('general.error') + ': ' + (messageValidation.errors[0] || 'Invalid message'));
+            setLoading(false);
+            return;
+        }
+
+        // Use sanitized values
         const data = {
-            name: formData.get('name') as string,
-            email: formData.get('email') as string,
-            subject: formData.get('subject') as string,
-            message: formData.get('message') as string
+            name: nameValidation.sanitized || rawName,
+            email: emailValidation.sanitized || rawEmail,
+            subject: subjectValidation.sanitized || rawSubject,
+            message: messageValidation.sanitized || rawMessage
         };
 
         try {
