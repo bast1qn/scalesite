@@ -308,3 +308,89 @@ export function useNoFlashTheme() {
   }, []);
 }
 
+/**
+ * Hook for handling touch gestures (swipe)
+ * Useful for mobile navigation, carousels, etc.
+ */
+interface SwipeHandlers {
+  onSwipedLeft?: () => void;
+  onSwipedRight?: () => void;
+  onSwipedUp?: () => void;
+  onSwipedDown?: () => void;
+  swipeDuration?: number;
+  swipeThreshold?: number;
+}
+
+interface SwipeableHandlers {
+  onTouchStart: (e: React.TouchEvent) => void;
+  onTouchEnd: (e: React.TouchEvent) => void;
+}
+
+export function useSwipeable({
+  onSwipedLeft,
+  onSwipedRight,
+  onSwipedUp,
+  onSwipedDown,
+  swipeDuration = 300,
+  swipeThreshold = 50,
+}: SwipeHandlers): SwipeableHandlers {
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number; time: number } | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const touch = e.changedTouches[0];
+    setTouchStart({
+      x: touch.clientX,
+      y: touch.clientY,
+      time: Date.now(),
+    });
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart) return;
+
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+    const deltaTime = Date.now() - touchStart.time;
+
+    // Check if swipe was fast enough
+    if (deltaTime > swipeDuration) {
+      setTouchStart(null);
+      return;
+    }
+
+    // Determine dominant axis
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
+
+    if (Math.max(absDeltaX, absDeltaY) < swipeThreshold) {
+      setTouchStart(null);
+      return;
+    }
+
+    // Trigger appropriate callback
+    if (absDeltaX > absDeltaY) {
+      // Horizontal swipe
+      if (deltaX > 0 && onSwipedRight) {
+        onSwipedRight();
+      } else if (deltaX < 0 && onSwipedLeft) {
+        onSwipedLeft();
+      }
+    } else {
+      // Vertical swipe
+      if (deltaY > 0 && onSwipedDown) {
+        onSwipedDown();
+      } else if (deltaY < 0 && onSwipedUp) {
+        onSwipedUp();
+      }
+    }
+
+    setTouchStart(null);
+  };
+
+  return {
+    onTouchStart,
+    onTouchEnd,
+  };
+}
+

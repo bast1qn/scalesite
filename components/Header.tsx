@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } f
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { useScroll, useBodyScrollLock, useClickOutsideCallback, useHover } from '../lib/hooks';
 import NotificationBell from './notifications/NotificationBell';
+import { MobileNavigation } from './MobileNavigation';
 
 interface HeaderProps {
     setCurrentPage: (page: string) => void;
@@ -257,81 +258,13 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                 </div>
             </div>
 
-            <div
-                className={`fixed inset-0 lg:hidden transition-all duration-350 ${
-                    isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-                }`}
-                style={{ zIndex: 40 }}
-            >
-                <div className="absolute inset-0 bg-white/98 dark:bg-slate-900/98 backdrop-blur-xl"></div>
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-violet-500/5 pointer-events-none"></div>
-
-                <nav className="flex flex-col items-center justify-center min-h-screen gap-4 p-8 relative z-10">
-                    {navItems.map((item, index) => (
-                        <button
-                            key={item.page}
-                            onClick={() => handleNavClick(item.page)}
-                            className={`w-full max-w-xs text-lg font-medium transition-all duration-350 ease-smooth px-6 py-3 rounded-xl text-center ${
-                                currentPage === item.page
-                                    ? 'text-white bg-gradient-to-r from-primary-600 to-violet-600 shadow-premium'
-                                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft'
-                            }`}
-                            style={{
-                                transitionDelay: isMenuOpen ? `${index * 50}ms` : '0ms',
-                                opacity: isMenuOpen ? 1 : 0,
-                                transform: isMenuOpen ? 'translateY(0)' : 'translateY(16px)',
-                            }}
-                        >
-                            {item.label}
-                        </button>
-                    ))}
-
-                    <div className="w-24 h-px bg-slate-200 dark:bg-slate-700 my-4"></div>
-
-                    {user ? (
-                        <div className="flex flex-col items-center gap-3 w-full max-w-xs">
-                            <button
-                                onClick={() => handleNavClick('configurator')}
-                                className="w-full flex items-center justify-center gap-3 px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 rounded-xl hover:shadow-premium hover:-translate-y-0.5 transition-all duration-350 ease-smooth"
-                            >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                                </svg>
-                                <span>Konfigurator</span>
-                            </button>
-                            <button
-                                onClick={() => handleNavClick('dashboard')}
-                                className="w-full flex items-center justify-center gap-3 px-6 py-3 text-base font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft transition-all duration-350"
-                            >
-                                <UserCircleIcon className="w-5 h-5" />
-                                <span>{t('nav.dashboard')}</span>
-                            </button>
-                            <button
-                                onClick={handleLogout}
-                                className="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-700 dark:hover:text-slate-200 transition-colors duration-350 py-3"
-                            >
-                                {t('nav.logout')}
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="flex flex-col items-center gap-3 w-full max-w-xs">
-                            <button
-                                onClick={() => handleNavClick('preise')}
-                                className="w-full flex items-center justify-center gap-3 px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 rounded-xl hover:shadow-premium hover:-translate-y-0.5 transition-all duration-350 ease-smooth"
-                            >
-                                <span>{t('nav.projectStart')}</span>
-                                <ArrowRightIcon className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => handleNavClick('login')}
-                                className="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-700 dark:hover:text-slate-200 transition-colors duration-350 py-3"
-                            >
-                                {t('nav.login')}
-                            </button>
-                        </div>
-                    )}
-                </nav>
-            </div>
+            <MobileNavigation
+                isOpen={isMenuOpen}
+                onClose={() => setIsMenuOpen(false)}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                navItems={navItems}
+            />
         </header>
     );
 };

@@ -5,6 +5,7 @@ export { Layout } from './Layout';
 export { Header } from './Header';
 export { Footer } from './Footer';
 export { BackToTopButton } from './BackToTopButton';
+export { MobileNavigation } from './MobileNavigation';
 
 // Animation
 export { AnimatedSection, StaggerContainer, StaggerItem } from './AnimatedSection';
