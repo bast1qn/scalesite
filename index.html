@@ -23,6 +23,16 @@
     </style>
     <link rel="stylesheet" href="/index.css">
     <meta name="description" content="Professionelle Websites für den Mittelstand. 48h Lieferung, ab 29€, DSGVO-konform.">
+
+    <!-- Performance: Preload critical assets -->
+    <link rel="modulepreload" href="/index.tsx">
+
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <!-- Performance hints -->
+    <meta name="format-detection" content="telephone=no">
   </head>
   <body class="antialiased selection:bg-primary/30 selection:text-primary">
     <div id="root"></div>

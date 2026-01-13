@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { TeamRole, RoleBadge } from './RoleBadge';
 
@@ -51,17 +51,16 @@ const MemberCard: React.FC<MemberCardProps> = ({
     const canManage = !isOwner && !isCurrentUser;
 
     // Get initials from name
-    const getInitials = (name: string) => {
+    const getInitials = useCallback((name: string) => {
         return name
             .split(' ')
             .map(n => n[0])
             .join('')
             .toUpperCase()
             .slice(0, 2);
-    };
+    }, []);
 
-    // Format date to relative time
-    const formatRelativeTime = (dateString?: string) => {
+    const formatRelativeTime = useCallback((dateString?: string) => {
         if (!dateString) return '';
         const date = new Date(dateString);
         const now = new Date();
@@ -73,9 +72,9 @@ const MemberCard: React.FC<MemberCardProps> = ({
         if (diffDays < 7) return `${diffDays} days ago`;
         if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
         return `${Math.floor(diffDays / 30)} months ago`;
-    };
+    }, []);
 
-    const handleRoleChange = async (newRole: TeamRole) => {
+    const handleRoleChange = useCallback(async (newRole: TeamRole) => {
         if (!onRoleChange || isOwner) return;
 
         setIsChangingRole(true);
@@ -85,9 +84,9 @@ const MemberCard: React.FC<MemberCardProps> = ({
         } finally {
             setIsChangingRole(false);
         }
-    };
+    }, [onRoleChange, member.id, isOwner]);
 
-    const handleRemove = async () => {
+    const handleRemove = useCallback(async () => {
         if (!onRemove || isOwner) return;
 
         const confirmed = window.confirm(
@@ -102,7 +101,7 @@ const MemberCard: React.FC<MemberCardProps> = ({
         } finally {
             setIsRemoving(false);
         }
-    };
+    }, [onRemove, member.id, member.name, isOwner]);
 
     const roles: TeamRole[] = ['Admin', 'Member', 'Viewer'];
 
@@ -273,4 +272,15 @@ const MemberCard: React.FC<MemberCardProps> = ({
     );
 };
 
-export default MemberCard;
+const MemoizedMemberCard = memo(MemberCard, (prevProps, nextProps) => {
+    return (
+        prevProps.member.id === nextProps.member.id &&
+        prevProps.member.role === nextProps.member.role &&
+        prevProps.member.status === nextProps.member.status &&
+        prevProps.currentUserId === nextProps.currentUserId
+    );
+});
+
+MemoizedMemberCard.displayName = 'MemberCard';
+
+export default MemoizedMemberCard;

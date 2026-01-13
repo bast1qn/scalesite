@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
         chunkSizeWarningLimit: 1000,
         // Enable better compression for modern browsers
         reportCompressedSize: false,
+        // Performance: Optimize chunk sizes
         rollupOptions: {
           output: {
             // Better caching with content-based hashes
