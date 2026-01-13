@@ -1,5 +1,5 @@
 // React imports
-import { type FormEvent, useContext, useEffect, useMemo, useState } from 'react';
+import { type FormEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 // Internal imports
 import { AnimatedSection, ChevronDownIcon, CheckBadgeIcon, CountdownTimer, OfferCalculator, ShieldCheckIcon, TagIcon, TicketIcon, XMarkIcon } from './index';
@@ -40,6 +40,12 @@ const PricingCard = ({
     t: TranslationFunction;
 }) => {
     const [isHovered, setIsHovered] = useState(false);
+
+    // Memoize click handler to prevent unnecessary re-renders
+    const handlePackageClick = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+        onClick(pkg);
+    }, [pkg, onClick]);
 
     return (
         <div
@@ -103,7 +109,7 @@ const PricingCard = ({
                 </ul>
 
                 <button
-                    onClick={(e) => { e.stopPropagation(); onClick(pkg); }}
+                    onClick={handlePackageClick}
                     className={`w-full py-4 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
                         pkg.popular
                         ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'

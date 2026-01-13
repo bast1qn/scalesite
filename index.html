@@ -4,9 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ScaleSite | Exzellente Websites für den Mittelstand</title>
+
+    <!-- Performance: Font loading optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Font display: swap for FOIT prevention -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
       @font-face {
         font-family: 'Inter';
@@ -21,18 +26,19 @@
         font-display: swap;
       }
     </style>
+
     <link rel="stylesheet" href="/index.css">
     <meta name="description" content="Professionelle Websites für den Mittelstand. 48h Lieferung, ab 29€, DSGVO-konform.">
 
     <!-- Performance: Preload critical assets -->
     <link rel="modulepreload" href="/index.tsx">
 
-    <!-- DNS prefetch for external resources -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-
     <!-- Performance hints -->
     <meta name="format-detection" content="telephone=no">
+
+    <!-- Performance: Early hints for font loading -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   </head>
   <body class="antialiased selection:bg-primary/30 selection:text-primary">
     <div id="root"></div>
