@@ -253,7 +253,7 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
     const KPICard = ({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: React.ReactNode; subtext?: React.ReactNode; onClick?: () => void}) => (
         <div
             onClick={onClick}
-            className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden ${onClick ? 'cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-300/50 dark:hover:border-blue-700/50 transition-all duration-300 hover:-translate-y-1' : ''}`}
+            className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
         >
             {/* Hover gradient overlay */}
             {onClick && (
@@ -262,10 +262,10 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
 
             <div className="relative flex justify-between items-start mb-4">
                 <div>
-                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">{title}</p>
-                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{value}</h3>
+                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">{title}</p>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{value}</h3>
                 </div>
-                <div className="p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
+                <div className={`p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700/50 shadow-sm ${onClick ? 'group-hover:scale-110 group-hover:rotate-3 transition-all duration-300' : ''}`}>
                     {icon}
                 </div>
             </div>
@@ -332,73 +332,73 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                 />
             </div>
 
+            {/* Projects Section */}
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 shadow-lg shadow-slate-200/50 dark:shadow-black/30">
+                <div className="flex items-center justify-between mb-5">
+                     <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                        <BriefcaseIcon className="w-5 h-5 text-blue-500" />
+                        {t('dashboard.overview.recent_projects')}
+                     </h2>
+                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold border border-blue-200/60 dark:border-blue-800/40">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        {projects.length} Laufend
+                     </span>
+                </div>
+
+                <div className="space-y-4">
+                    {loading ? (
+                         [1, 2].map(i => (
+                            <div key={i} className="skeleton h-28 rounded-xl"></div>
+                         ))
+                    ) : projects.length > 0 ? projects.map((project) => (
+                         <div key={project.id} className="group p-5 rounded-xl border border-slate-200/70 dark:border-slate-800/70 hover:border-blue-300/60 dark:hover:border-blue-700/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.name}</h3>
+                                        {getStatusBadge(project.status)}
+                                    </div>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                        <ClockIcon className="w-3.5 h-3.5" />
+                                        Letztes Update: {project.latest_update || 'Keine Updates'}
+                                    </p>
+                                </div>
+                                <span className="text-2xl font-black bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">{project.progress}%</span>
+                            </div>
+
+                            <div className="relative w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                {/* Background pattern */}
+                                <div className="absolute inset-0 opacity-10" style={{
+                                    backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 5px, currentColor 5px, currentColor 10px)'
+                                }}></div>
+                                {/* Animated progress bar */}
+                                <div
+                                    className="h-full bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-full transition-all duration-700 ease-out relative overflow-hidden"
+                                    style={{ width: `${project.progress}%` }}
+                                >
+                                    {/* Shimmer effect */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    )) : (
+                        <div className="text-center py-10 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900/50 dark:to-blue-950/20 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
+                            <BriefcaseIcon className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+                            <p className="text-slate-500 dark:text-slate-400 mb-3">{t('dashboard.alerts.no_projects')}</p>
+                            <button onClick={() => setCurrentPage('preise')} className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline group">
+                                {t('dashboard.alerts.start_project')}
+                                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-6">
 
                 {/* Left Column (2/3) */}
                 <div className="lg:col-span-2 space-y-6">
-
-                    {/* Projects Section */}
-                    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/70 dark:border-slate-800/70 shadow-lg shadow-slate-200/50 dark:shadow-black/30">
-                        <div className="flex items-center justify-between mb-5">
-                             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <BriefcaseIcon className="w-5 h-5 text-blue-500" />
-                                {t('dashboard.overview.recent_projects')}
-                             </h2>
-                             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold border border-blue-200/60 dark:border-blue-800/40">
-                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                                {projects.length} Laufend
-                             </span>
-                        </div>
-
-                        <div className="space-y-4">
-                            {loading ? (
-                                 [1, 2].map(i => (
-                                    <div key={i} className="skeleton h-28 rounded-xl"></div>
-                                 ))
-                            ) : projects.length > 0 ? projects.map((project) => (
-                                 <div key={project.id} className="group p-5 rounded-xl border border-slate-200/70 dark:border-slate-800/70 hover:border-blue-300/60 dark:hover:border-blue-700/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.name}</h3>
-                                                {getStatusBadge(project.status)}
-                                            </div>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                                                <ClockIcon className="w-3.5 h-3.5" />
-                                                Letztes Update: {project.latest_update || 'Keine Updates'}
-                                            </p>
-                                        </div>
-                                        <span className="text-2xl font-black bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">{project.progress}%</span>
-                                    </div>
-
-                                    <div className="relative w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                        {/* Background pattern */}
-                                        <div className="absolute inset-0 opacity-10" style={{
-                                            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 5px, currentColor 5px, currentColor 10px)'
-                                        }}></div>
-                                        {/* Animated progress bar */}
-                                        <div
-                                            className="h-full bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-full transition-all duration-700 ease-out relative overflow-hidden"
-                                            style={{ width: `${project.progress}%` }}
-                                        >
-                                            {/* Shimmer effect */}
-                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )) : (
-                                <div className="text-center py-10 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900/50 dark:to-blue-950/20 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
-                                    <BriefcaseIcon className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-                                    <p className="text-slate-500 dark:text-slate-400 mb-3">{t('dashboard.alerts.no_projects')}</p>
-                                    <button onClick={() => setCurrentPage('preise')} className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline group">
-                                        {t('dashboard.alerts.start_project')}
-                                        <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
 
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* Server Resources */}
@@ -406,9 +406,9 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
                                     <ServerIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">Server Ressourcen</h3>
+                                    <h3 className="font-bold text-slate-900 dark:text-white">Server Ressourcen</h3>
                                 </div>
-                                <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-medium">Demo</span>
+                                <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-semibold">Demo</span>
                             </div>
                             <div className="space-y-4">
                                 {[
@@ -418,8 +418,8 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                                 ].map((item) => (
                                     <div key={item.label}>
                                         <div className="flex justify-between text-xs mb-1.5 text-slate-600 dark:text-slate-400">
-                                            <span>{item.label}</span>
-                                            <span className="font-medium">{Math.round(item.value)}%</span>
+                                            <span className="font-medium">{item.label}</span>
+                                            <span className="font-bold">{Math.round(item.value)}%</span>
                                         </div>
                                         <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
                                             <div className={`${item.color} h-full rounded-full transition-all duration-500`} style={{ width: `${item.value}%` }}></div>
@@ -428,8 +428,8 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                                 ))}
                             </div>
                             <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-sm">
-                                <span className="text-slate-500 dark:text-slate-400">Uptime</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">{serverStats.uptime}</span>
+                                <span className="text-slate-500 dark:text-slate-400 font-medium">Uptime</span>
+                                <span className="font-black text-slate-900 dark:text-white">{serverStats.uptime}</span>
                             </div>
                         </div>
 
@@ -438,17 +438,17 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
                                     <CreditCardIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">Finanzen</h3>
+                                    <h3 className="font-bold text-slate-900 dark:text-white">Finanzen</h3>
                                 </div>
-                                <button onClick={() => setActiveView('transaktionen')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline">Details</button>
+                                <button onClick={() => setActiveView('transaktionen')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">Details</button>
                             </div>
                             <div className="space-y-4">
                                 <div>
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                                        <span className="text-2xl font-black text-slate-900 dark:text-white">
                                             {new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(financeData.spent)}
                                         </span>
-                                        <span className="text-xs text-slate-500">investiert</span>
+                                        <span className="text-xs text-slate-500 font-medium">investiert</span>
                                     </div>
                                 </div>
                                 <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
@@ -456,12 +456,12 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                                     <div className="text-center">
-                                        <span className="block text-[10px] uppercase text-slate-500">Offen</span>
-                                        <span className="text-sm font-bold text-red-600">{financeData.open} €</span>
+                                        <span className="block text-[10px] uppercase tracking-wide text-slate-500 font-semibold">Offen</span>
+                                        <span className="text-sm font-black text-red-600">{financeData.open} €</span>
                                     </div>
                                     <div className="text-center">
-                                        <span className="block text-[10px] uppercase text-slate-500">Nächste Rg.</span>
-                                        <span className="text-sm font-semibold text-slate-900 dark:text-white">{financeData.nextInvoice}</span>
+                                        <span className="block text-[10px] uppercase tracking-wide text-slate-500 font-semibold">Nächste Rg.</span>
+                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{financeData.nextInvoice}</span>
                                     </div>
                                 </div>
                             </div>
@@ -474,17 +474,17 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
 
                     {/* Next Milestone */}
                     {nextMilestone ? (
-                        <div className="bg-gradient-to-br from-blue-600 to-violet-600 rounded-xl p-5 text-white">
+                        <div className="bg-gradient-to-br from-blue-600 to-violet-600 rounded-xl p-5 text-white shadow-lg shadow-blue-500/20">
                             <div className="flex items-center gap-2 mb-3 text-white/80 text-sm">
                                 <CalendarDaysIcon className="w-4 h-4" />
-                                <span className="text-xs font-medium uppercase tracking-wider">Nächster Meilenstein</span>
+                                <span className="text-xs font-bold uppercase tracking-wider">Nächster Meilenstein</span>
                             </div>
-                            <h3 className="font-semibold mb-1">{nextMilestone.title}</h3>
+                            <h3 className="font-bold mb-1">{nextMilestone.title}</h3>
                             <p className="text-sm text-white/80 mb-3">{nextMilestone.description}</p>
-                            <div className="flex items-center justify-between bg-white/10 rounded-lg p-3">
+                            <div className="flex items-center justify-between bg-white/10 rounded-lg p-3 backdrop-blur-sm">
                                 <div className="text-center">
-                                    <span className="block text-lg font-bold">{nextMilestone.date.split('.')[0]}</span>
-                                    <span className="text-[10px] uppercase text-white/60">Datum</span>
+                                    <span className="block text-lg font-black">{nextMilestone.date.split('.')[0]}</span>
+                                    <span className="text-[10px] uppercase text-white/60 font-semibold">Datum</span>
                                 </div>
                                 <div className="h-6 w-px bg-white/20"></div>
                                 <div className="text-sm">
@@ -501,17 +501,17 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
 
                     {/* Activity Feed */}
                     <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
-                        <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                             <BellIcon className="w-4 h-4 text-slate-400" />
                             Aktivitäten
                         </h3>
                         <div className="relative pl-4 border-l border-slate-200 dark:border-slate-800 space-y-4">
                             {activities.length > 0 ? activities.map((act) => (
-                                <div key={act.id} className="relative">
-                                    <div className={`absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-slate-900 ${
-                                        act.type === 'success' ? 'bg-green-500' :
-                                        act.type === 'warning' ? 'bg-red-500' :
-                                        act.type === 'system' ? 'bg-slate-400' : 'bg-blue-500'
+                                <div key={act.id} className="relative group">
+                                    <div className={`absolute -left-[21px] top-0.5 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-slate-900 transition-all duration-300 ${
+                                        act.type === 'success' ? 'bg-green-500 group-hover:scale-125' :
+                                        act.type === 'warning' ? 'bg-red-500 group-hover:scale-125' :
+                                        act.type === 'system' ? 'bg-slate-400 group-hover:scale-125' : 'bg-blue-500 group-hover:scale-125'
                                     }`}></div>
                                     <p className="text-sm text-slate-700 dark:text-slate-300">{act.text}</p>
                                     <p className="text-xs text-slate-400 mt-0.5">{act.time}</p>
@@ -530,8 +530,8 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 text-sm mb-1">Tipp des Tages</h4>
-                            <p className="text-xs text-yellow-700 dark:text-yellow-300">
+                            <h4 className="font-bold text-yellow-800 dark:text-yellow-200 text-sm mb-1">Tipp des Tages</h4>
+                            <p className="text-xs text-yellow-700 dark:text-yellow-300 leading-relaxed">
                                 {tipOfTheDay}
                             </p>
                         </div>
@@ -539,14 +539,14 @@ const Overview: React.FC<OverviewProps> = ({ setActiveView, setCurrentPage }) =>
 
                     {/* Quick Actions */}
                     <div className="space-y-2">
-                         <h4 className="text-xs font-medium text-slate-400 uppercase tracking-wider">Schnellzugriff</h4>
-                         <button onClick={() => setActiveView('freunde-werben')} className="w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-800/50 transition-colors flex items-center justify-between">
-                            <span className="text-sm text-slate-700 dark:text-slate-300">Freunde werben</span>
-                            <ArrowRightIcon className="w-4 h-4 text-slate-400" />
+                         <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Schnellzugriff</h4>
+                         <button onClick={() => setActiveView('freunde-werben')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between">
+                            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Freunde werben</span>
+                            <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-500 transition-all" />
                          </button>
-                         <button onClick={() => setCurrentPage('contact')} className="w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-800/50 transition-colors flex items-center justify-between">
-                            <span className="text-sm text-slate-700 dark:text-slate-300">Rückruf anfordern</span>
-                            <ArrowRightIcon className="w-4 h-4 text-slate-400" />
+                         <button onClick={() => setCurrentPage('contact')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between">
+                            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Rückruf anfordern</span>
+                            <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-500 transition-all" />
                          </button>
                     </div>
 
