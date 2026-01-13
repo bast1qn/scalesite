@@ -79,12 +79,12 @@ export const UspSection: FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('usps.title')}
               </span>
             </h2>
-            <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-400 leading-relaxed">
               {t('usps.subtitle')}
             </p>
           </div>
@@ -94,7 +94,7 @@ export const UspSection: FC = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {usps.map((usp) => (
               <HoverCard key={usp.nameKey}>
-                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50">
+                <div className="group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-md hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 min-h-11 sm:min-h-0">
                   {/* Top accent line */}
                   <div className={`absolute top-0 left-4 right-4 h-0.5 bg-gradient-to-r ${usp.gradient} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
