@@ -119,7 +119,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 }
 
                 // TODO: Redirect to new project or return ID
-                console.log('New project created:', newProject.id);
             }
 
             setConfig(newConfig);

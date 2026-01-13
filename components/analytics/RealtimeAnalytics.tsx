@@ -81,7 +81,7 @@ const RealtimeAnalytics: FC<RealtimeAnalyticsProps> = ({ className = '', onUpdat
             )
             .subscribe((status) => {
                 if (status === 'SUBSCRIBED') {
-                    console.log('Connected to analytics realtime channel');
+                    // Analytics realtime channel connected
                 }
             });
 

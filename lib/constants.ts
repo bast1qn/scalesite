@@ -195,3 +195,129 @@ export const TRANSITION_STYLES = {
   /** Default interactive transition */
   interactive: 'transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50',
 } as const;
+
+// ===== TIMEOUT VALUES =====
+
+/**
+ * Request timeout values in milliseconds
+ */
+export const TIMEOUTS = {
+  /** Cache TTL for API responses (5000ms = 5 seconds) */
+  cacheTTL: 5000,
+  /** HTTP request timeout (60000ms = 60 seconds) */
+  request: 60000,
+  /** Typing indicator debounce (1000ms = 1 second) */
+  typingDebounce: 1000,
+  /** Presence timeout for chat (30000ms = 30 seconds) */
+  presence: 30000,
+  /** Subscription timeout (10000ms = 10 seconds) */
+  subscription: 10000,
+} as const;
+
+// ===== CHAT CONSTANTS =====
+
+/**
+ * Chat-related limits and thresholds
+ */
+export const CHAT = {
+  /** Maximum message length in characters */
+  maxMessageLength: 5000,
+  /** Maximum conversation name length */
+  maxConversationNameLength: 100,
+  /** Maximum file size for attachments (10MB in bytes) */
+  maxFileSize: 10 * 1024 * 1024,
+  /** Default message pagination limit */
+  defaultMessageLimit: 50,
+  /** Typing indicator duration (3000ms = 3 seconds) */
+  typingIndicatorDuration: 3000,
+} as const;
+
+// ===== ANALYTICS CONSTANTS =====
+
+/**
+ * Analytics tracking thresholds
+ */
+export const ANALYTICS = {
+  /** Scroll depth tracking percentages */
+  scrollDepths: [25, 50, 75, 100],
+  /** Session timeout in milliseconds (30 minutes) */
+  sessionTimeout: 30 * 60 * 1000,
+  /** Page view debounce (500ms) */
+  pageViewDebounce: 500,
+} as const;
+
+// ===== VALIDATION LIMITS =====
+
+/**
+ * Validation-related numeric limits
+ */
+export const LIMITS = {
+  /** Maximum email length (RFC 5321) */
+  maxEmailLength: 254,
+  /** Minimum username length */
+  minUsernameLength: 3,
+  /** Maximum username length */
+  maxUsernameLength: 30,
+  /** Maximum URL length */
+  maxUrlLength: 2048,
+  /** Maximum description length */
+  maxDescriptionLength: 500,
+  /** Minimum project duration in weeks */
+  minProjectWeeks: 1,
+  /** Maximum project duration in weeks */
+  maxProjectWeeks: 52,
+} as const;
+
+// ===== FILE UPLOAD CONSTANTS =====
+
+/**
+ * File upload-related limits
+ */
+export const FILE_UPLOAD = {
+  /** Maximum image file size (5MB) */
+  maxImageSize: 5 * 1024 * 1024,
+  /** Maximum document file size (10MB) */
+  maxDocumentSize: 10 * 1024 * 1024,
+  /** Allowed image formats */
+  allowedImageFormats: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+  /** Allowed document formats */
+  allowedDocumentFormats: ['application/pdf'],
+} as const;
+
+// ===== DATE/TIME CONSTANTS =====
+
+/**
+ * Date and time-related constants
+ */
+export const DATETIME = {
+  /** milliseconds in one minute */
+  minute: 60 * 1000,
+  /** milliseconds in one hour */
+  hour: 60 * 60 * 1000,
+  /** milliseconds in one day */
+  day: 24 * 60 * 60 * 1000,
+  /** milliseconds in one week */
+  week: 7 * 24 * 60 * 60 * 1000,
+  /** Default subscription duration (24 hours in milliseconds) */
+  subscriptionDuration: 24 * 60 * 60 * 1000,
+  /** Offer expiration in days */
+  offerExpirationDays: 7,
+} as const;
+
+// ===== ANIMATION VALUES =====
+
+/**
+ * Animation distance values in pixels
+ */
+export const ANIMATION_VALUES = {
+  /** Medium bounce animation distance */
+  bounceMedium: -100,
+  /** Fast bounce animation distance */
+  bounceFast: -200,
+  /** Slide in distance */
+  slideDistance: 20,
+  /** Fade in opacity start */
+  fadeStart: 0,
+  /** Fade in opacity end */
+  fadeEnd: 1,
+} as const;
