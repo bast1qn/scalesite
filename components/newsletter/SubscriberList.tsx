@@ -99,12 +99,13 @@ const SubscriberList: React.FC<SubscriberListProps> = ({
                 return true;
             })
             .sort((a, b) => {
-                let aVal: any, bVal: any;
+                let aVal: Date | string;
+                let bVal: Date | string;
 
                 switch (sortField) {
                     case 'subscribed_at':
-                        aVal = new Date(a.subscribed_at).getTime();
-                        bVal = new Date(b.subscribed_at).getTime();
+                        aVal = new Date(a.subscribed_at);
+                        bVal = new Date(b.subscribed_at);
                         break;
                     case 'name':
                         aVal = a.name || '';
@@ -114,6 +115,9 @@ const SubscriberList: React.FC<SubscriberListProps> = ({
                         aVal = a.email;
                         bVal = b.email;
                         break;
+                    default:
+                        aVal = '';
+                        bVal = '';
                 }
 
                 if (sortOrder === 'asc') {

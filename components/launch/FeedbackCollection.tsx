@@ -32,8 +32,11 @@ const FeedbackCollection: React.FC = () => {
     try {
       const savedFeedbacks = localStorage.getItem('userFeedbacks');
       if (savedFeedbacks) {
-        const parsed = JSON.parse(savedFeedbacks);
-        setFeedbacks(parsed.map((f: any) => ({ ...f, createdAt: new Date(f.createdAt) })));
+        const parsed = JSON.parse(savedFeedbacks) as Omit<Feedback, 'createdAt'>[];
+        setFeedbacks(parsed.map((f) => ({
+          ...f,
+          createdAt: new Date(f.createdAt as string)
+        })));
       }
     } catch (error) {
       console.error('Error loading feedbacks:', error);
@@ -150,7 +153,7 @@ const FeedbackCollection: React.FC = () => {
             <Filter className="w-5 h-5 text-gray-400" />
             <select
               value={filter}
-              onChange={(e) => setFilter(e.target.value as any)}
+              onChange={(e) => setFilter(e.target.value as 'all' | 'new' | 'reviewed' | 'in-progress' | 'completed')}
               className="px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
             >
               <option value="all">All Status</option>
@@ -164,7 +167,7 @@ const FeedbackCollection: React.FC = () => {
           {/* Type Filter */}
           <select
             value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value as any)}
+            onChange={(e) => setTypeFilter(e.target.value as 'all' | Feedback['type'])}
             className="px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
           >
             <option value="all">All Types</option>

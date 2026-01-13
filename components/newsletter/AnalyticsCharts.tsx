@@ -168,12 +168,24 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
         ];
     }, [filteredCampaigns]);
 
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    interface TooltipPayload {
+        name: string;
+        value: number;
+        color: string;
+    }
+
+    interface CustomTooltipProps {
+        active?: boolean;
+        payload?: TooltipPayload[];
+        label?: string;
+    }
+
+    const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         if (active && payload && payload.length) {
             return (
                 <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 p-4">
                     <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">{label}</p>
-                    {payload.map((entry: any, index: number) => (
+                    {payload.map((entry, index) => (
                         <p key={index} className="text-sm" style={{ color: entry.color }}>
                             {entry.name}: {entry.value}
                         </p>

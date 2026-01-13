@@ -80,6 +80,7 @@ const AppContent = () => {
             chat: 'Chat | ScaleSite'
         };
         document.title = pageTitles[currentPage] || 'ScaleSite';
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
     useEffect(() => {

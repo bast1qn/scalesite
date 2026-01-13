@@ -91,10 +91,13 @@ const PostLaunchMonitoring: React.FC = () => {
       }
 
       if (savedAlerts) {
-        const parsedAlerts = JSON.parse(savedAlerts);
-        setAlerts(parsedAlerts.map((alert: any) => ({
-          ...alert,
-          timestamp: new Date(alert.timestamp)
+        const parsedAlerts = JSON.parse(savedAlerts) as Omit<PerformanceAlert, 'timestamp'>[];
+        setAlerts(parsedAlerts.map((alert) => ({
+          id: alert.id,
+          type: alert.type,
+          title: alert.title,
+          message: alert.message,
+          timestamp: new Date(alert.timestamp as string)
         })));
       }
     } catch (error) {
@@ -145,7 +148,7 @@ const PostLaunchMonitoring: React.FC = () => {
         ].map((range) => (
           <button
             key={range.value}
-            onClick={() => setSelectedTimeRange(range.value as any)}
+            onClick={() => setSelectedTimeRange(range.value as '24h' | '7d' | '30d')}
             className={`px-4 py-2 rounded-lg font-medium transition-all ${
               selectedTimeRange === range.value
                 ? 'bg-blue-500 text-white'

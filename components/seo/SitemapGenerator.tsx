@@ -85,7 +85,7 @@ export const SitemapGenerator: React.FC<SitemapGeneratorProps> = ({ language = '
     ]);
   };
 
-  const updateEntry = (index: number, field: keyof SitemapEntry, value: any) => {
+  const updateEntry = (index: number, field: keyof SitemapEntry, value: string | number) => {
     const newEntries = [...entries];
     newEntries[index] = { ...newEntries[index], [field]: value };
     setEntries(newEntries);

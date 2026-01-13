@@ -83,7 +83,7 @@ export const RobotsEditor: React.FC<RobotsEditorProps> = ({ language = 'de' }) =
     setRules(rules.filter((_, i) => i !== index));
   };
 
-  const updateRule = (index: number, field: keyof RobotsRule, value: any) => {
+  const updateRule = (index: number, field: keyof RobotsRule, value: string | number | string[] | undefined) => {
     const newRules = [...rules];
     newRules[index] = { ...newRules[index], [field]: value };
     setRules(newRules);

@@ -178,7 +178,7 @@ export const OpenGraphTags: React.FC<OpenGraphTagsProps> = ({
     }
   };
 
-  const handleChange = (field: keyof OpenGraphData, value: any) => {
+  const handleChange = (field: keyof OpenGraphData, value: string | string[]) => {
     const updated = { ...ogData, [field]: value };
     setOgData(updated);
 
