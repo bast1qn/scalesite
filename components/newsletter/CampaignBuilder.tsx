@@ -15,6 +15,7 @@ import {
 import EmailPreview from './EmailPreview';
 import type { EmailPreviewProps } from './EmailPreview';
 import { Campaign, CampaignStats } from './CampaignList';
+import { validateString, validateProjectName } from '../../lib/validation';
 
 /**
  * CampaignBuilder Component
@@ -109,14 +110,41 @@ const CampaignBuilder: React.FC<CampaignBuilderProps> = ({
     }, [formData, campaign]);
 
     const handleSave = async () => {
-        if (!formData.name.trim() || !formData.subject.trim() || !formData.content.trim()) {
-            alert('Bitte fülle alle Pflichtfelder aus.');
+        // Validate inputs
+        const nameValidation = validateProjectName(formData.name);
+        const subjectValidation = validateString(formData.subject, { minLength: 3, maxLength: 100 });
+        const previewValidation = validateString(formData.preview_text, { maxLength: 150, allowEmpty: true });
+
+        if (!nameValidation.isValid) {
+            alert('Bitte gib einen gültigen Kampagnennamen ein (3-100 Zeichen).');
+            return;
+        }
+
+        if (!subjectValidation.isValid) {
+            alert('Bitte gib einen gültigen Betreff ein (3-100 Zeichen).');
+            return;
+        }
+
+        if (!previewValidation.isValid) {
+            alert('Der Preview-Text darf maximal 150 Zeichen haben.');
+            return;
+        }
+
+        if (!formData.content.trim()) {
+            alert('Bitte füge HTML-Inhalt hinzu.');
             return;
         }
 
         setSaving(true);
         try {
-            await onSave(formData);
+            // Use sanitized values
+            const sanitizedData = {
+                ...formData,
+                name: nameValidation.sanitized || formData.name,
+                subject: subjectValidation.sanitized || formData.subject,
+                preview_text: previewValidation.sanitized || formData.preview_text
+            };
+            await onSave(sanitizedData);
             localStorage.removeItem('newsletter_draft');
         } finally {
             setSaving(false);

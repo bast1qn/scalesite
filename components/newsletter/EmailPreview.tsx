@@ -7,6 +7,7 @@ import {
     Maximize2Icon,
     Minimize2Icon
 } from 'lucide-react';
+import { validateContent } from '../../lib/validation';
 
 /**
  * EmailPreview Component
@@ -151,7 +152,17 @@ const EmailPreview: React.FC<EmailPreviewProps> = ({
                                 </div>
                             ) : (
                                 <div
-                                    dangerouslySetInnerHTML={{ __html: content }}
+                                    dangerouslySetInnerHTML={{
+                                        __html: (() => {
+                                            // Sanitize HTML content to prevent XSS
+                                            const validation = validateContent(content, {
+                                                allowHTML: true,
+                                                sanitizeHTML: true,
+                                                maxLength: 50000
+                                            });
+                                            return validation.sanitized || content;
+                                        })()
+                                    }}
                                     className="prose prose-slate max-w-none"
                                     style={{
                                         // Reset email client styles

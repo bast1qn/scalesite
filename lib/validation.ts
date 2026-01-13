@@ -777,8 +777,29 @@ export const validateContent = (content: string, options: {
         sanitized = sanitized
             .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
             .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-            .replace(/on\w+="[^"]*"/gi, '') // Remove event handlers
-            .replace(/javascript:/gi, ''); // Remove javascript: protocol
+            .replace(/<embed\b[^<]*>/gi, '')
+            .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
+            .replace(/<link\b[^<]*>/gi, '')
+            .replace(/<meta\b[^<]*>/gi, '')
+            .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+            .replace(/on\w+\s*=/gi, '') // Remove ALL event handlers (onclick, onload, onerror, etc.)
+            .replace(/javascript:/gi, '') // Remove javascript: protocol
+            .replace(/vbscript:/gi, '') // Remove vbscript: protocol
+            .replace(/data:/gi, '') // Remove data: protocol (except data:image)
+            .replace(/src\s*=\s*["']([^"']+)["']/gi, (match, url) => {
+                // Allow only safe protocols in src attributes
+                if (/^(https?:\/\/|\/|data:image\/)/i.test(url)) {
+                    return match;
+                }
+                return match.replace(url, '#'); // Block unsafe URLs
+            })
+            .replace(/href\s*=\s*["']([^"']+)["']/gi, (match, url) => {
+                // Allow only safe protocols in href attributes
+                if (/^(https?:\/\/|mailto:|tel:|#)/i.test(url)) {
+                    return match;
+                }
+                return match.replace(url, '#'); // Block unsafe URLs
+            });
     }
 
     return {
