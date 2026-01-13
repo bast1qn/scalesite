@@ -1,8 +1,9 @@
-import { useState, useEffect, type FC } from 'react';
+import { useState, useEffect, useCallback, useMemo, type FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ProjectCard } from './ProjectCard';
+import { ProjectCardMemo } from './ProjectCard';
 import { StatusTimeline } from './StatusTimeline';
 import { api } from '../../lib/api';
+import { useDebounce } from '../../lib/hooks/useDebounce';
 import {
     DocumentMagnifyingGlassIcon,
     AdjustmentsHorizontalIcon,
@@ -65,6 +66,9 @@ export const ProjectList: FC<ProjectListProps> = ({
     const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
     const [showFilters, setShowFilters] = useState(false);
 
+    // Debounce search query to improve performance
+    const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
     useEffect(() => {
         const fetchProjects = async () => {
             try {
@@ -88,47 +92,50 @@ export const ProjectList: FC<ProjectListProps> = ({
         fetchProjects();
     }, []);
 
-    // Filter and sort projects
-    const filteredProjects = projects
-        .filter(project => {
-            // Search filter
-            if (searchQuery) {
-                const query = searchQuery.toLowerCase();
-                if (
-                    !project.name.toLowerCase().includes(query) &&
-                    !project.description?.toLowerCase().includes(query)
-                ) {
+    // Memoize filtered and sorted projects
+    const filteredProjects = useMemo(() => {
+        return projects
+            .filter(project => {
+                // Search filter (using debounced value)
+                if (debouncedSearchQuery) {
+                    const query = debouncedSearchQuery.toLowerCase();
+                    if (
+                        !project.name.toLowerCase().includes(query) &&
+                        !project.description?.toLowerCase().includes(query)
+                    ) {
+                        return false;
+                    }
+                }
+
+                // Status filter
+                if (filterStatus !== 'all' && project.status !== filterStatus) {
                     return false;
                 }
-            }
 
-            // Status filter
-            if (filterStatus !== 'all' && project.status !== filterStatus) {
-                return false;
-            }
+                return true;
+            })
+            .sort((a, b) => {
+                switch (sortBy) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'status':
+                        const statusOrder = ['konzeption', 'design', 'entwicklung', 'review', 'launch', 'active'];
+                        return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+                    case 'progress':
+                        return b.progress - a.progress;
+                    case 'date':
+                        const dateA = a.updated_at ? new Date(a.updated_at).getTime() : 0;
+                        const dateB = b.updated_at ? new Date(b.updated_at).getTime() : 0;
+                        return dateB - dateA;
+                    default:
+                        return 0;
+                }
+            })
+            .slice(0, limit || undefined);
+    }, [projects, debouncedSearchQuery, filterStatus, sortBy, limit]);
 
-            return true;
-        })
-        .sort((a, b) => {
-            switch (sortBy) {
-                case 'name':
-                    return a.name.localeCompare(b.name);
-                case 'status':
-                    const statusOrder = ['konzeption', 'design', 'entwicklung', 'review', 'launch', 'active'];
-                    return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
-                case 'progress':
-                    return b.progress - a.progress;
-                case 'date':
-                    const dateA = a.updated_at ? new Date(a.updated_at).getTime() : 0;
-                    const dateB = b.updated_at ? new Date(b.updated_at).getTime() : 0;
-                    return dateB - dateA;
-                default:
-                    return 0;
-            }
-        })
-        .slice(0, limit || undefined);
-
-    const containerVariants = {
+    // Memoize container and item variants
+    const containerVariants = useMemo(() => ({
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
@@ -136,12 +143,45 @@ export const ProjectList: FC<ProjectListProps> = ({
                 staggerChildren: 0.1
             }
         }
-    };
+    }), []);
 
-    const itemVariants = {
+    const itemVariants = useMemo(() => ({
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
-    };
+    }), []);
+
+    // Stable callbacks for event handlers
+    const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    }, []);
+
+    const handleSortChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortBy(e.target.value as SortOption);
+    }, []);
+
+    const handleFilterChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilterStatus(e.target.value as FilterStatus);
+    }, []);
+
+    const handleFilterToggle = useCallback(() => {
+        setShowFilters(prev => !prev);
+    }, []);
+
+    const handleViewModeChange = useCallback((mode: ViewMode) => {
+        return () => setViewMode(mode);
+    }, []);
+
+    // Stable callback for project click
+    const handleProjectClick = useCallback((projectId: string) => {
+        return () => {
+            if (onProjectClick) {
+                onProjectClick(projectId);
+            } else if (setCurrentPage) {
+                sessionStorage.setItem('selectedProjectId', projectId);
+                setCurrentPage('project-detail');
+            }
+        };
+    }, [onProjectClick, setCurrentPage]);
 
     return (
         <div className={`w-full ${className}`}>
@@ -177,7 +217,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                             type="text"
                             placeholder="Projekte durchsuchen..."
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={handleSearchChange}
                             className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         />
                     </div>
@@ -187,7 +227,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setShowFilters(!showFilters)}
+                            onClick={handleFilterToggle}
                             className={`
                                 px-4 py-2.5 rounded-lg font-medium transition-all flex items-center gap-2
                                 ${showFilters
@@ -205,7 +245,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                         <div className="flex bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600 p-1">
                             <motion.button
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => setViewMode('grid')}
+                                onClick={handleViewModeChange('grid')}
                                 className={`
                                     px-3 py-2 rounded-md transition-all
                                     ${viewMode === 'grid'
@@ -220,7 +260,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                             </motion.button>
                             <motion.button
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => setViewMode('list')}
+                                onClick={handleViewModeChange('list')}
                                 className={`
                                     px-3 py-2 rounded-md transition-all
                                     ${viewMode === 'list'
@@ -256,7 +296,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                                         </label>
                                         <select
                                             value={sortBy}
-                                            onChange={(e) => setSortBy(e.target.value as SortOption)}
+                                            onChange={handleSortChange}
                                             className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                                         >
                                             {Object.entries(sortOptions).map(([key, label]) => (
@@ -274,7 +314,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                                         </label>
                                         <select
                                             value={filterStatus}
-                                            onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
+                                            onChange={handleFilterChange}
                                             className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                                         >
                                             {Object.entries(statusLabels).map(([key, label]) => (
@@ -307,10 +347,10 @@ export const ProjectList: FC<ProjectListProps> = ({
                         <BriefcaseIcon className="w-8 h-8 text-gray-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        {searchQuery || filterStatus !== 'all' ? 'Keine Ergebnisse' : 'Keine Projekte'}
+                        {debouncedSearchQuery || filterStatus !== 'all' ? 'Keine Ergebnisse' : 'Keine Projekte'}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 max-w-md">
-                        {searchQuery || filterStatus !== 'all'
+                        {debouncedSearchQuery || filterStatus !== 'all'
                             ? 'Es wurden keine Projekte gefunden, die Ihrer Suche entsprechen.'
                             : 'Sie haben noch keine Projekte erstellt.'}
                     </p>
@@ -334,20 +374,10 @@ export const ProjectList: FC<ProjectListProps> = ({
                             key={project.id}
                             variants={itemVariants}
                         >
-                            <ProjectCard
+                            <ProjectCardMemo
                                 {...project}
                                 variant={viewMode === 'list' ? 'compact' : 'default'}
-                                onClick={() => {
-                                    if (onProjectClick) {
-                                        onProjectClick(project.id);
-                                    } else if (setCurrentPage) {
-                                        // Navigate to project detail page
-                                        // In a real app, this would use React Router with params
-                                        // For now, we'll use sessionStorage to pass the project ID
-                                        sessionStorage.setItem('selectedProjectId', project.id);
-                                        setCurrentPage('project-detail');
-                                    }
-                                }}
+                                onClick={handleProjectClick(project.id)}
                             />
                         </motion.div>
                     ))}

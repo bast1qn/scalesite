@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TeamMember, MemberCard } from './MemberCard';
 import { TeamInvite } from './TeamInvite';
@@ -94,7 +94,7 @@ const TeamList: React.FC<TeamListProps> = ({
         };
     }, [members]);
 
-    const handleInvite = async (email: string, role: TeamRole, message?: string) => {
+    const handleInvite = useCallback(async (email: string, role: TeamRole, message?: string) => {
         setIsInviting(true);
         try {
             await onInvite(email, role, message);
@@ -102,7 +102,31 @@ const TeamList: React.FC<TeamListProps> = ({
         } finally {
             setIsInviting(false);
         }
-    };
+    }, [onInvite]);
+
+    const handleToggleInviteForm = useCallback(() => {
+        setShowInviteForm(prev => !prev);
+    }, []);
+
+    const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    }, []);
+
+    const handleRoleFilterChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilterRole(e.target.value as FilterRole);
+    }, []);
+
+    const handleStatusFilterChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilterStatus(e.target.value as FilterStatus);
+    }, []);
+
+    const handleViewModeChange = useCallback((mode: ViewMode) => {
+        return () => setViewMode(mode);
+    }, []);
+
+    const handleShowInviteForm = useCallback(() => {
+        setShowInviteForm(true);
+    }, []);
 
     return (
         <div className={`space-y-6 ${className}`}>
@@ -117,7 +141,7 @@ const TeamList: React.FC<TeamListProps> = ({
                     </p>
                 </div>
                 <button
-                    onClick={() => setShowInviteForm(!showInviteForm)}
+                    onClick={handleToggleInviteForm}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,7 +247,7 @@ const TeamList: React.FC<TeamListProps> = ({
                             <input
                                 type="text"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={handleSearchChange}
                                 placeholder="Search by name or email..."
                                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
@@ -234,7 +258,7 @@ const TeamList: React.FC<TeamListProps> = ({
                     <div>
                         <select
                             value={filterRole}
-                            onChange={(e) => setFilterRole(e.target.value as FilterRole)}
+                            onChange={handleRoleFilterChange}
                             className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="all">All Roles</option>
@@ -249,7 +273,7 @@ const TeamList: React.FC<TeamListProps> = ({
                     <div>
                         <select
                             value={filterStatus}
-                            onChange={(e) => setFilterStatus(e.target.value as FilterStatus)}
+                            onChange={handleStatusFilterChange}
                             className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="all">All Status</option>
@@ -261,7 +285,7 @@ const TeamList: React.FC<TeamListProps> = ({
                     {/* View Toggle */}
                     <div className="flex items-center gap-1 border border-gray-300 dark:border-gray-600 rounded-lg p-1">
                         <button
-                            onClick={() => setViewMode('grid')}
+                            onClick={handleViewModeChange('grid')}
                             className={`p-2 rounded transition-colors duration-200 ${
                                 viewMode === 'grid'
                                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
@@ -274,7 +298,7 @@ const TeamList: React.FC<TeamListProps> = ({
                             </svg>
                         </button>
                         <button
-                            onClick={() => setViewMode('list')}
+                            onClick={handleViewModeChange('list')}
                             className={`p-2 rounded transition-colors duration-200 ${
                                 viewMode === 'list'
                                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
@@ -316,7 +340,7 @@ const TeamList: React.FC<TeamListProps> = ({
                     </p>
                     {!showInviteForm && (
                         <button
-                            onClick={() => setShowInviteForm(true)}
+                            onClick={handleShowInviteForm}
                             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
