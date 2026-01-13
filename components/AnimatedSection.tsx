@@ -58,7 +58,9 @@ export const AnimatedSection = ({
         observer.unobserve(currentRef);
       }
     };
-  }, [controls, once, direction, delay, stagger]);
+    // direction, delay, and stagger are only used in getVariants which is called outside useEffect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [controls, once]);
 
   const getVariants = () => {
     if (prefersReducedMotion()) {

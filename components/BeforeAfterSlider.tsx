@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowsRightLeftIcon } from './Icons';
 
 interface BeforeAfterSliderProps {
@@ -18,21 +18,33 @@ export const BeforeAfterSlider = ({
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
-  const handleMove = (event: MouseEvent | TouchEvent) => {
+  const handleMove = useCallback((event: MouseEvent | TouchEvent) => {
     if (!containerRef.current) return;
 
-    const containerRect = containerRef.current.getBoundingClientRect();
-    // Defensively check for touches array existence before accessing [0]
-    const clientX = 'touches' in event && event.touches[0]
-      ? event.touches[0].clientX
-      : (event as MouseEvent).clientX;
+    // Cancel any pending animation frame
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+    }
 
-    let position = ((clientX - containerRect.left) / containerRect.width) * 100;
-    position = Math.max(0, Math.min(100, position));
+    // Use requestAnimationFrame for throttling
+    rafRef.current = requestAnimationFrame(() => {
+      const containerRect = containerRef.current?.getBoundingClientRect();
+      if (!containerRect) return;
 
-    setSliderPosition(position);
-  };
+      // Defensively check for touches array existence before accessing [0]
+      const clientX = 'touches' in event && event.touches[0]
+        ? event.touches[0].clientX
+        : (event as MouseEvent).clientX;
+
+      let position = ((clientX - containerRect.left) / containerRect.width) * 100;
+      position = Math.max(0, Math.min(100, position));
+
+      setSliderPosition(position);
+      rafRef.current = null;
+    });
+  }, []);
 
   const handleMouseDown = () => setIsDragging(true);
   const handleMouseUp = () => setIsDragging(false);
@@ -43,8 +55,8 @@ export const BeforeAfterSlider = ({
     };
     const handleWindowUp = () => setIsDragging(false);
 
-    window.addEventListener('mousemove', handleWindowMove);
-    window.addEventListener('touchmove', handleWindowMove);
+    window.addEventListener('mousemove', handleWindowMove, { passive: true });
+    window.addEventListener('touchmove', handleWindowMove, { passive: true });
     window.addEventListener('mouseup', handleWindowUp);
     window.addEventListener('touchend', handleWindowUp);
 
@@ -53,8 +65,12 @@ export const BeforeAfterSlider = ({
       window.removeEventListener('touchmove', handleWindowMove);
       window.removeEventListener('mouseup', handleWindowUp);
       window.removeEventListener('touchend', handleWindowUp);
+      // Clean up any pending animation frame
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, [isDragging]);
+  }, [isDragging, handleMove]);
 
   return (
     <div

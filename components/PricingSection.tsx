@@ -223,15 +223,18 @@ ${message}
               );
           } else {
               await api.sendContact(
-                  name,
-                  email,
+                  name ?? '',
+                  email ?? '',
                   `Anfrage: ${selectedPackage.name} Paket`,
                   requestText
               );
           }
           setSubmitSuccess(true);
       } catch (error) {
-          console.error(error);
+          // Defensive error logging - only in development
+          if (import.meta.env.DEV) {
+              console.error('Pricing form submission error:', error);
+          }
           alert(t('general.error'));
       } finally {
           setIsSubmitting(false);

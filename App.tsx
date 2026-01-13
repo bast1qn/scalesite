@@ -108,7 +108,8 @@ const AppContent = () => {
         if (currentPage === 'dashboard' && !user && !loading) {
             setCurrentPage('login');
         }
-    }, [currentPage, user, loading, setCurrentPage]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage, user, loading]);
 
     if (loading) {
         return (

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
 
 export type CurrencyCode = 'EUR' | 'USD' | 'GBP' | 'CHF' | 'JPY' | 'CAD' | 'AUD' | 'SEK' | 'NOK' | 'DKK' | 'PLN' | 'CZK' | 'HUF' | 'RON' | 'BGN' | 'HRK' | 'RUB' | 'TRY' | 'CNY' | 'INR' | 'BRL' | 'MXN' | 'ZAR' | 'SGD' | 'HKD' | 'KRW' | 'IDR' | 'MYR' | 'PHP' | 'THB' | 'NZD' | 'ILS' | 'AED';
 
@@ -137,14 +137,14 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
         }
     };
 
-    const value: CurrencyContextType = {
+    const value: CurrencyContextType = useMemo(() => ({
         currency,
         setCurrency,
         getCurrencyInfo,
         formatPrice,
         convertFromEur,
         currenciesList: Object.values(currencies),
-    };
+    }), [currency]); // Functions are stable within the provider scope
 
     return (
         <CurrencyContext.Provider value={value}>

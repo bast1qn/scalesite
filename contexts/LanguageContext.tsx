@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo, ReactNode } from 'react';
 import { translations, Language } from '../lib/translations';
 
 interface LanguageContextType {
@@ -36,14 +36,24 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       if (current && typeof current === 'object' && key in current) {
         current = (current as Record<string, unknown>)[key];
       } else {
+        // Return the path as fallback if translation key not found
+        if (import.meta.env.DEV) {
+          console.warn(`Translation key not found: ${path}`);
+        }
         return path;
       }
     }
     return typeof current === 'string' ? current : path;
   };
 
+  const contextValue = useMemo(() => ({
+    language,
+    setLanguage,
+    t,
+  }), [language]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );

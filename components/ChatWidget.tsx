@@ -34,9 +34,15 @@ export const ChatWidget = () => {
 
     // Initialize suggestions when language changes
     useEffect(() => {
-        const allQuestions = translations[language].chat_widget.predefined_questions;
-        const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
-        setSuggestions(shuffled.slice(0, 4));
+        // Defensive check for nested translation properties
+        const predefinedQuestions = translations[language]?.chat_widget?.predefined_questions;
+        if (Array.isArray(predefinedQuestions)) {
+            const shuffled = [...predefinedQuestions].sort(() => 0.5 - Math.random());
+            setSuggestions(shuffled.slice(0, 4));
+        } else {
+            // Fallback to empty array if translations are not available
+            setSuggestions([]);
+        }
     }, [language]);
 
     const processMessage = async (text: string) => {
