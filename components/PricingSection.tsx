@@ -104,7 +104,7 @@ const PricingCard = ({
 
                 <button
                     onClick={(e) => { e.stopPropagation(); onClick(pkg); }}
-                    className={`w-full py-3.5 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                    className={`w-full py-4 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
                         pkg.popular
                         ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                         : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:from-primary-500 hover:to-violet-500 shadow-md hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -428,7 +428,7 @@ ${message}
                                         <textarea name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
                                     </div>
 
-                                    <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
+                                    <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 text-white font-semibold py-4 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                                         {isSubmitting ? (
                                             <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                         ) : t('pricing.modal.btn_submit')}

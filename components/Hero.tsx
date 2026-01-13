@@ -121,8 +121,8 @@ const CleanButton = ({
   className?: string;
 }) => {
   const baseStyle = variant === 'primary'
-    ? 'relative inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11'
-    : 'px-8 py-3.5 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11';
+    ? 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11'
+    : 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11';
 
   return (
     <button
@@ -289,7 +289,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`mt-14 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
-          <div className="flex items-center gap-4 px-8 py-3.5 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">
+          <div className="flex items-center gap-4 px-8 py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">
             <div className="flex items-center gap-3">
               <span className="text-slate-400 dark:text-slate-500 line-through text-base">99€ - 299€</span>
               <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />

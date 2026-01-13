@@ -15,7 +15,7 @@ const FooterLink = ({ page, setCurrentPage, children }: { page: string; setCurre
             <button
                 onClick={() => setCurrentPage(page)}
                 {...hover}
-                className="relative text-sm text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-350 ease-smooth text-left py-2 group"
+                className="relative text-sm text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-350 ease-smooth text-left py-3 group"
             >
                 <span className="flex items-center gap-2">
                     {children}
