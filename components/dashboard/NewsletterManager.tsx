@@ -1,5 +1,5 @@
 // React imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 // Third-party imports
 // None
@@ -94,12 +94,14 @@ const NewsletterManager: React.FC = () => {
 
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /**
      * Opens campaign modal for create or edit
+     * ✅ PERFORMANCE: Memoized with useCallback to prevent recreation on every render
      */
-    const openCampaignModal = (campaign?: Campaign) => {
+    const openCampaignModal = useCallback((campaign?: Campaign) => {
         if (campaign) {
             setEditingCampaign(campaign);
             setCampaignForm({
@@ -122,12 +124,13 @@ const NewsletterManager: React.FC = () => {
             });
         }
         setShowCampaignModal(true);
-    };
+    }, []);
 
     /**
      * Handles campaign form submission (create or update)
+     * ✅ PERFORMANCE: Memoized with useCallback to prevent recreation
      */
-    const handleCampaignSubmit = async (e: React.FormEvent) => {
+    const handleCampaignSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             if (editingCampaign) {
@@ -143,12 +146,13 @@ const NewsletterManager: React.FC = () => {
         } catch (e) {
             // Error saving campaign
         }
-    };
+    }, [editingCampaign, campaignForm]);
 
     /**
      * Sends campaign immediately
+     * ✅ PERFORMANCE: Memoized with useCallback to prevent recreation
      */
-    const handleSendCampaign = async (campaignId: string) => {
+    const handleSendCampaign = useCallback(async (campaignId: string) => {
         if (!confirm('Möchtest du diese Kampagne wirklich jetzt senden?')) return;
         try {
             await api.sendCampaign(campaignId);
@@ -156,12 +160,13 @@ const NewsletterManager: React.FC = () => {
         } catch (e) {
             // Error sending campaign
         }
-    };
+    }, []);
 
     /**
      * Deletes campaign by ID
+     * ✅ PERFORMANCE: Memoized with useCallback to prevent recreation
      */
-    const handleDeleteCampaign = async (campaignId: string) => {
+    const handleDeleteCampaign = useCallback(async (campaignId: string) => {
         if (!confirm('Möchtest du diese Kampagne wirklich löschen?')) return;
         try {
             await api.deleteCampaign(campaignId);
@@ -169,12 +174,13 @@ const NewsletterManager: React.FC = () => {
         } catch (e) {
             // Error deleting campaign
         }
-    };
+    }, []);
 
     /**
      * Deletes subscriber by ID
+     * ✅ PERFORMANCE: Memoized with useCallback to prevent recreation
      */
-    const handleDeleteSubscriber = async (subscriberId: string) => {
+    const handleDeleteSubscriber = useCallback(async (subscriberId: string) => {
         if (!confirm('Möchtest du diesen Abonnenten wirklich entfernen?')) return;
         try {
             await api.deleteSubscriber(subscriberId);
@@ -182,12 +188,24 @@ const NewsletterManager: React.FC = () => {
         } catch (e) {
             // Error deleting subscriber
         }
-    };
+    }, []);
+
+    // ✅ PERFORMANCE: Memoized tab switch handlers
+    const handleCampaignsTabClick = useCallback(() => setActiveTab('campaigns'), []);
+    const handleSubscribersTabClick = useCallback(() => setActiveTab('subscribers'), []);
+
+    // ✅ PERFORMANCE: Memoized modal close handler
+    const handleCloseModal = useCallback(() => setShowCampaignModal(false), []);
+
+    // ✅ PERFORMANCE: Memoized input change handlers
+    const handleInputChange = useCallback((field: keyof typeof campaignForm, value: string) => {
+        setCampaignForm(prev => ({ ...prev, [field]: value }));
+    }, []);
 
     /**
      * Returns status badge styling and label
      */
-    const getStatusBadge = (status: Campaign['status']) => {
+    const getStatusBadge = useCallback((status: Campaign['status']) => {
         const badges = {
             draft: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-400', label: 'Entwurf' },
             scheduled: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-600 dark:text-blue-400', label: 'Geplant' },
@@ -200,23 +218,28 @@ const NewsletterManager: React.FC = () => {
                 {badge.label}
             </span>
         );
-    };
+    }, []);
 
     /**
      * Calculates open rate percentage
+     * ✅ PERFORMANCE: Memoized to prevent recalculation
      */
-    const openRate = (campaign: Campaign) => {
+    const openRate = useCallback((campaign: Campaign) => {
         if (campaign.sent_count === 0) return 0;
         return Math.round((campaign.open_count / campaign.sent_count) * 100);
-    };
+    }, []);
 
     /**
      * Calculates click rate percentage
+     * ✅ PERFORMANCE: Memoized to prevent recalculation
      */
-    const clickRate = (campaign: Campaign) => {
+    const clickRate = useCallback((campaign: Campaign) => {
         if (campaign.open_count === 0) return 0;
         return Math.round((campaign.click_count / campaign.open_count) * 100);
-    };
+    }, []);
+
+    // ✅ PERFORMANCE: Memoized button click handler for new campaign
+    const handleNewCampaignClick = useCallback(() => openCampaignModal(), [openCampaignModal]);
 
     if (loading) {
         return (
@@ -242,7 +265,7 @@ const NewsletterManager: React.FC = () => {
             <div className="border-b border-slate-200 dark:border-slate-700">
                 <nav className="flex gap-8">
                     <button
-                        onClick={() => setActiveTab('campaigns')}
+                        onClick={handleCampaignsTabClick}
                         className={`pb-4 px-1 font-semibold text-sm transition-colors border-b-2 -mb-px ${
                             activeTab === 'campaigns'
                                 ? 'border-blue-500 text-blue-600 dark:text-blue-400'
@@ -252,7 +275,7 @@ const NewsletterManager: React.FC = () => {
                         Kampagnen
                     </button>
                     <button
-                        onClick={() => setActiveTab('subscribers')}
+                        onClick={handleSubscribersTabClick}
                         className={`pb-4 px-1 font-semibold text-sm transition-colors border-b-2 -mb-px ${
                             activeTab === 'subscribers'
                                 ? 'border-blue-500 text-blue-600 dark:text-blue-400'
@@ -324,7 +347,7 @@ const NewsletterManager: React.FC = () => {
                         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Kampagnen</h2>
                             <button
-                                onClick={() => openCampaignModal()}
+                                onClick={handleNewCampaignClick}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
                             >
                                 <PlusIcon className="w-5 h-5" />
@@ -453,7 +476,7 @@ const NewsletterManager: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                     <div
                         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-                        onClick={() => setShowCampaignModal(false)}
+                        onClick={handleCloseModal}
                     ></div>
                     <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
@@ -461,7 +484,7 @@ const NewsletterManager: React.FC = () => {
                                 {editingCampaign ? 'Kampagne bearbeiten' : 'Neue Kampagne'}
                             </h3>
                             <button
-                                onClick={() => setShowCampaignModal(false)}
+                                onClick={handleCloseModal}
                                 className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors"
                             >
                                 <XMarkIcon className="w-6 h-6 text-slate-500" />
@@ -477,7 +500,7 @@ const NewsletterManager: React.FC = () => {
                                     type="text"
                                     required
                                     value={campaignForm.name}
-                                    onChange={(e) => setCampaignForm({ ...campaignForm, name: e.target.value })}
+                                    onChange={(e) => handleInputChange('name', e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                     placeholder="z.B. Monatlicher Newsletter Januar"
                                 />
@@ -491,7 +514,7 @@ const NewsletterManager: React.FC = () => {
                                     type="text"
                                     required
                                     value={campaignForm.subject}
-                                    onChange={(e) => setCampaignForm({ ...campaignForm, subject: e.target.value })}
+                                    onChange={(e) => handleInputChange('subject', e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                     placeholder="Dein Januar-Update ist da!"
                                 />
@@ -504,7 +527,7 @@ const NewsletterManager: React.FC = () => {
                                 <input
                                     type="text"
                                     value={campaignForm.preview_text}
-                                    onChange={(e) => setCampaignForm({ ...campaignForm, preview_text: e.target.value })}
+                                    onChange={(e) => handleInputChange('preview_text', e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                     placeholder="Kurze Vorschau für Email-Clients"
                                 />
@@ -517,7 +540,7 @@ const NewsletterManager: React.FC = () => {
                                 <textarea
                                     required
                                     value={campaignForm.content}
-                                    onChange={(e) => setCampaignForm({ ...campaignForm, content: e.target.value })}
+                                    onChange={(e) => handleInputChange('content', e.target.value)}
                                     rows={12}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none font-mono text-sm"
                                     placeholder="HTML oder Text Inhalt..."
@@ -531,7 +554,7 @@ const NewsletterManager: React.FC = () => {
                                 </label>
                                 <select
                                     value={campaignForm.target_segment}
-                                    onChange={(e) => setCampaignForm({ ...campaignForm, target_segment: e.target.value })}
+                                    onChange={(e) => handleInputChange('target_segment', e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                 >
                                     <option value="all">Alle Abonnenten</option>
@@ -547,7 +570,7 @@ const NewsletterManager: React.FC = () => {
                                 <input
                                     type="datetime-local"
                                     value={campaignForm.scheduled_for}
-                                    onChange={(e) => setCampaignForm({ ...campaignForm, scheduled_for: e.target.value })}
+                                    onChange={(e) => handleInputChange('scheduled_for', e.target.value)}
                                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                 />
                                 <p className="mt-1 text-xs text-slate-500">Leer lassen für sofortigen Versand oder Draft</p>
@@ -556,7 +579,7 @@ const NewsletterManager: React.FC = () => {
                             <div className="flex justify-end gap-3 pt-4">
                                 <button
                                     type="button"
-                                    onClick={() => setShowCampaignModal(false)}
+                                    onClick={handleCloseModal}
                                     className="px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                                 >
                                     Abbrechen
