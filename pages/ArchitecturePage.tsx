@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AnimatedSection, ChevronLeftIcon, ArrowRightIcon, XMarkIcon, EnvelopeIcon, PhoneIcon, ChevronDownIcon, MapPinIcon } from '../components';
 
 interface ArchitecturePageProps {
@@ -139,16 +139,38 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  // ✅ FIX: Use ref to store timeout for proper cleanup on unmount
+  const formTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const filteredProjects = activeCategory === 'all'
     ? projects
     : projects.filter(p => p.category === activeCategory);
 
+  // ✅ FIX: Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (formTimeoutRef.current) {
+        clearTimeout(formTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  /**
+   * ✅ FIX: Store timeout reference to prevent memory leak on component unmount
+   */
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Clear existing timeout if any
+    if (formTimeoutRef.current) {
+      clearTimeout(formTimeoutRef.current);
+    }
+
     setFormSubmitted(true);
-    setTimeout(() => {
+    formTimeoutRef.current = setTimeout(() => {
       setFormSubmitted(false);
       setContactForm({ name: '', email: '', message: '' });
+      formTimeoutRef.current = null;
     }, 3000);
   };
 

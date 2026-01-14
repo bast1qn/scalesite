@@ -74,11 +74,15 @@ const Settings: React.FC = () => {
 
     /**
      * Shows success message with auto-dismiss
+     * ✅ FIX: Store timeout reference to prevent memory leaks on unmount
      */
-    const showSuccess = (msg: string) => {
+    const showSuccess = useCallback((msg: string) => {
         setSuccessMsg(msg);
-        setTimeout(() => setSuccessMsg(''), SUCCESS_MESSAGE_TIMEOUT);
-    };
+        // Store timeout ID for cleanup
+        const timeoutId = setTimeout(() => setSuccessMsg(''), SUCCESS_MESSAGE_TIMEOUT);
+        // Return cleanup function
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     /**
      * Saves general profile settings

@@ -233,9 +233,22 @@ export function scrollToTop(): void {
  * cn('base-class', isActive && 'active-class', 'another-class')
  * // Returns: 'base-class active-class another-class' (if isActive is true)
  */
-export function cn(...classes: (string | boolean | undefined | null)[]): string {
+/**
+ * Combine multiple class names, filtering out falsy values
+ * A simplified version of clsx/classnames for conditional className merging
+ *
+ * @example
+ * cn('base-class', isActive && 'active-class', 'another-class')
+ * // Returns: 'base-class active-class another-class' (if isActive is true)
+ */
+export function cn(...classes: ClassNameValue[]): string {
   return classes.filter(Boolean).join(' ');
 }
+
+/**
+ * Type for valid class name values in cn() utility
+ */
+type ClassNameValue = string | boolean | undefined | null | number | ClassNameValue[];
 
 /**
  * Create a common text color pattern with dark mode support

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AnimatedSection, ChevronLeftIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, ChevronRightIcon, ChevronDownIcon, MapPinIcon } from '../components';
 
 const BedIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -167,6 +167,9 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
 
+  // ✅ FIX: Use ref to store timeout for proper cleanup on unmount
+  const formTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const filteredProperties = properties.filter(property => {
     if (filters.type !== 'all' && property.type !== filters.type) return false;
     if (filters.priceRange !== 'all') {
@@ -188,13 +191,32 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
     return true;
   });
 
+  // ✅ FIX: Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (formTimeoutRef.current) {
+        clearTimeout(formTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  /**
+   * ✅ FIX: Store timeout reference to prevent memory leak on component unmount
+   */
   const handleViewingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Clear existing timeout if any
+    if (formTimeoutRef.current) {
+      clearTimeout(formTimeoutRef.current);
+    }
+
     setFormSubmitted(true);
-    setTimeout(() => {
+    formTimeoutRef.current = setTimeout(() => {
       setFormSubmitted(false);
       setViewingForm({ name: '', email: '', phone: '', message: '' });
       setShowContactForm(false);
+      formTimeoutRef.current = null;
     }, 3000);
   };
 
