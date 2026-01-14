@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       })],
       cacheDir: false,
       optimizeDeps: {
-        include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
+        include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react', 'recharts'],
         force: true
       },
       define: {
