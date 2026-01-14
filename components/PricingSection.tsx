@@ -342,7 +342,7 @@ ${message}
           <div className="mt-12 md:mt-16 grid gap-4 md:gap-6 lg:grid-cols-3 items-stretch">
             {displayedPackages.map((pkg, index) => (
                 <PricingCard
-                    key={pkg.name}
+                    key={pkg.id}
                     pkg={pkg}
                     index={index}
                     onClick={handlePackageClick}
@@ -370,7 +370,7 @@ ${message}
                </div>
                <div className="space-y-4">
                   {faqItems.map((item) => (
-                    <details key={item.question} className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden">
+                    <details key={item.id} className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden">
                         <summary className="flex justify-between items-center p-4 md:p-6 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all duration-200 min-h-11 hover:scale-[1.01] focus:ring-2 focus:ring-primary-500/50 focus-visible:ring-inset">
                             <span className="flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary-500 to-violet-500 opacity-0 group-open:opacity-100 transition-all duration-300"></span>
