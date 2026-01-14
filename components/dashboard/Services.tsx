@@ -1,10 +1,11 @@
-
+// React imports
 import React, { useState, useEffect, useContext } from 'react';
+
+// Internal imports
 import { AuthContext, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
 import { api } from '../../lib';
 import {
-    ArrowRightIcon,
     BriefcaseIcon,
     CheckBadgeIcon,
     ClockIcon,

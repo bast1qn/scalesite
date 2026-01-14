@@ -1,3 +1,7 @@
+// React imports
+import React from 'react';
+
+// Internal imports
 import { BuildingStorefrontIcon } from '../index';
 
 const Partner: React.FC = () => {

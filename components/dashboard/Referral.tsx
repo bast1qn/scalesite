@@ -13,6 +13,15 @@ import { alertLinkCopied } from '../../lib/dashboardAlerts';
 // Constants
 const REFERRAL_REWARD_PER_PROJECT = 100; // € reward per completed project
 
+/**
+ * Display constants for UI consistency
+ */
+const DISPLAY_STATS = {
+    TOTAL_REFERRALS: 'Registrierte Freunde',
+    COMPLETED_PROJECTS: 'Abgeschlossene Projekte',
+    EARNED_REWARDS: 'Verdiente Prämie'
+} as const;
+
 // Types
 interface ReferralStats {
     totalCount: number;
@@ -139,15 +148,15 @@ const Referral: React.FC = () => {
                 <div className="grid gap-6 sm:grid-cols-3">
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
                         <p className="text-4xl font-bold text-blue-600">{stats.totalCount}</p>
-                        <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Registrierte Freunde</p>
+                        <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">{DISPLAY_STATS.TOTAL_REFERRALS}</p>
                     </div>
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
                         <p className="text-4xl font-bold text-blue-600">{stats.completedProjects}</p>
-                        <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Abgeschlossene Projekte</p>
+                        <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">{DISPLAY_STATS.COMPLETED_PROJECTS}</p>
                     </div>
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 text-center">
                         <p className="text-4xl font-bold text-green-600">{stats.earnedRewards} €</p>
-                        <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">Verdiente Prämie</p>
+                        <p className="mt-1 text-sm font-medium text-slate-900/70 dark:text-white/70">{DISPLAY_STATS.EARNED_REWARDS}</p>
                     </div>
                 </div>
             </div>

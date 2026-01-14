@@ -35,6 +35,7 @@ interface Discount {
     code: string;
     type: string;
     value: number;
+    used_count: number;
     created_at: string;
 }
 

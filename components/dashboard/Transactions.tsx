@@ -1,7 +1,8 @@
+// React imports
 import React, { useContext, useEffect, useState } from 'react';
 
+// Internal imports
 import { AuthContext } from '../../contexts';
-
 import { api, formatCurrency, formatDate } from '../../lib';
 
 // Types

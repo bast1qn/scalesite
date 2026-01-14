@@ -1,5 +1,7 @@
-
+// React imports
 import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
+
+// Internal imports
 import { CustomSelect, PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../index';
 import { AuthContext, useLanguage } from '../../contexts';
 import { api, getSafeURL } from '../../lib';
