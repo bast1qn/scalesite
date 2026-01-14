@@ -1,6 +1,8 @@
 import { createContext, useContext, useMemo, useCallback, type ReactNode } from 'react';
 import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
 import type { User } from '@clerk/clerk-react';
+import { isClerkAvailable } from '../lib/clerk';
+import { clerkPubKey } from '../lib/clerk';
 
 export interface AppUser {
   id: string;
@@ -50,8 +52,13 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { isLoaded, isSignedIn, user: clerkUser } = useClerkAuth();
-  const { user } = useUser();
+  // Only use Clerk hooks if Clerk is available
+  const clerkAuth = useClerkAuth();
+  const clerkUserHook = useUser();
+
+  const isLoaded = isClerkAvailable ? clerkAuth.isLoaded : true;
+  const isSignedIn = isClerkAvailable ? clerkAuth.isSignedIn : false;
+  const clerkUser = isClerkAvailable ? clerkAuth.user : null;
 
   const appUser = useMemo<AppUser | null>(() => {
     if (!clerkUser || !isSignedIn) return null;

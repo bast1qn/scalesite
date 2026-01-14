@@ -247,7 +247,19 @@ const AppContent = () => {
 
 const App = () => {
     // Clerk publishable key from environment
-    const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || '';
+    const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+    // Warn if Clerk key is missing
+    if (!clerkPubKey && import.meta.env.DEV) {
+        console.warn(
+            '[Clerk] VITE_CLERK_PUBLISHABLE_KEY is missing!\n' +
+            '1. Go to https://dashboard.clerk.com\n' +
+            '2. Create a project\n' +
+            '3. Copy the Publishable Key\n' +
+            '4. Add it as VITE_CLERK_PUBLISHABLE_KEY in Vercel\n' +
+            '\nFor now, the app will run without authentication.'
+        );
+    }
 
     // PERFORMANCE: Initialize Core Web Vitals monitoring
     useEffect(() => {
@@ -265,21 +277,27 @@ const App = () => {
     }, []);
 
     return (
-        <ClerkProvider publishableKey={clerkPubKey}>
-            <ErrorBoundary>
-                <ThemeProvider defaultTheme="system">
-                    <AuthProvider>
-                        <LanguageProvider>
-                            <CurrencyProvider>
-                                <NotificationProvider>
+        <ErrorBoundary>
+            <ThemeProvider defaultTheme="system">
+                <LanguageProvider>
+                    <CurrencyProvider>
+                        <NotificationProvider>
+                            {clerkPubKey ? (
+                                <ClerkProvider publishableKey={clerkPubKey}>
+                                    <AuthProvider>
+                                        <AppContent />
+                                    </AuthProvider>
+                                </ClerkProvider>
+                            ) : (
+                                <AuthProvider>
                                     <AppContent />
-                                </NotificationProvider>
-                            </CurrencyProvider>
-                        </LanguageProvider>
-                    </AuthProvider>
-                </ThemeProvider>
-            </ErrorBoundary>
-        </ClerkProvider>
+                                </AuthProvider>
+                            )}
+                        </NotificationProvider>
+                    </CurrencyProvider>
+                </LanguageProvider>
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 };
 
