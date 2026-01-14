@@ -220,7 +220,9 @@ export const Configurator = ({
             // Reset success message after delay
             setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
         } catch (error) {
-            console.error('Auto-save failed:', error);
+            if (import.meta.env.DEV) {
+                console.error('Auto-save failed:', error);
+            }
             setHasUnsavedChanges(true); // Keep unsaved changes indicator on error
         } finally {
             setIsAutoSaving(false);
@@ -276,7 +278,9 @@ export const Configurator = ({
             // Reset success message after delay
             setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
         } catch (error) {
-            console.error('Failed to save configuration:', error);
+            if (import.meta.env.DEV) {
+                console.error('Failed to save configuration:', error);
+            }
             setHasUnsavedChanges(true);
         } finally {
             setIsSaving(false);

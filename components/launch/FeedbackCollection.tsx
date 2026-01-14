@@ -46,7 +46,9 @@ const FeedbackCollection: React.FC = () => {
         })));
       }
     } catch (error) {
-      console.error('Error loading feedbacks:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading feedbacks:', error);
+      }
     } finally {
       setIsLoading(false);
     }

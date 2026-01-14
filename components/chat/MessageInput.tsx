@@ -75,7 +75,9 @@ export const MessageInput = ({
             await onSendMessage(trimmed);
             setMessage('');
         } catch (error) {
-            console.error('Failed to send message:', error);
+            if (import.meta.env.DEV) {
+                console.error('Failed to send message:', error);
+            }
         } finally {
             setIsSending(false);
             textareaRef.current?.focus();

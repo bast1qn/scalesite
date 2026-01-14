@@ -254,7 +254,9 @@ export function OnboardingWizard({
                 dispatch({ type: 'LOAD_DATA', data: parsed });
             }
         } catch (error) {
-            console.warn('Failed to load onboarding draft:', error);
+            if (import.meta.env.DEV) {
+                console.warn('Failed to load onboarding draft:', error);
+            }
         }
     }, [initialData]);
 
@@ -266,7 +268,9 @@ export function OnboardingWizard({
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
                 } catch (error) {
-                    console.warn('Failed to save onboarding draft:', error);
+                    if (import.meta.env.DEV) {
+                        console.warn('Failed to save onboarding draft:', error);
+                    }
                 }
             }
         }, DRAFT_AUTOSAVE_DELAY_MS);
@@ -404,7 +408,9 @@ export function OnboardingWizard({
                 localStorage.removeItem(STORAGE_KEY);
             }
         } catch (error) {
-            console.error('Onboarding completion failed:', error);
+            if (import.meta.env.DEV) {
+                console.error('Onboarding completion failed:', error);
+            }
             dispatch({
                 type: 'SET_ERRORS',
                 errors: {
@@ -429,7 +435,9 @@ export function OnboardingWizard({
                 dispatch({ type: 'SET_SAVED', isSaved: false });
             }, SUCCESS_MESSAGE_TIMEOUT_MS);
         } catch (error) {
-            console.error('Failed to save draft:', error);
+            if (import.meta.env.DEV) {
+                console.error('Failed to save draft:', error);
+            }
         } finally {
             dispatch({ type: 'SET_SUBMITTING', isSubmitting: false });
         }

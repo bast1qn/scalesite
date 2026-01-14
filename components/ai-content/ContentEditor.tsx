@@ -134,7 +134,9 @@ export function ContentEditor({
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Speichern fehlgeschlagen';
             setSaveError(errorMessage);
-            console.error('Save failed:', err);
+            if (import.meta.env.DEV) {
+                console.error('Save failed:', err);
+            }
         } finally {
             setIsSaving(false);
         }

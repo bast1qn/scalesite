@@ -82,7 +82,9 @@ export const ProjectList: FC<ProjectListProps> = ({
                     setProjects([]);
                 }
             } catch (error) {
-                console.error('Error fetching projects:', error);
+                if (import.meta.env.DEV) {
+                    console.error('Error fetching projects:', error);
+                }
                 setProjects([]);
             } finally {
                 setLoading(false);

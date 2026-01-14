@@ -155,7 +155,9 @@ function LogoUpload({ logoUrl, onChange }: LogoUploadProps) {
             };
             reader.readAsDataURL(file);
         } catch (error) {
-            console.error('Logo upload failed:', error);
+            if (import.meta.env.DEV) {
+                console.error('Logo upload failed:', error);
+            }
             setIsUploading(false);
             alert('Fehler beim Hochladen des Logos');
         }

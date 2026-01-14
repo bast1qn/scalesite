@@ -67,7 +67,9 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Fehler beim Laden der Konfiguration';
             setError(message);
-            console.error('Failed to load config:', err);
+            if (import.meta.env.DEV) {
+                console.error('Failed to load config:', err);
+            }
         } finally {
             setLoading(false);
         }
@@ -135,7 +137,9 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Fehler beim Speichern der Konfiguration';
             setError(message);
-            console.error('Failed to save config:', err);
+            if (import.meta.env.DEV) {
+                console.error('Failed to save config:', err);
+            }
             throw err; // Re-throw to let caller handle
         } finally {
             setLoading(false);
@@ -236,13 +240,17 @@ export const importConfig = (json: string): ProjectConfig | null => {
         const validation = validateConfig(parsed);
 
         if (!validation.valid) {
-            console.error('Invalid config:', validation.errors);
+            if (import.meta.env.DEV) {
+                console.error('Invalid config:', validation.errors);
+            }
             return null;
         }
 
         return parsed;
     } catch (error) {
-        console.error('Failed to import config:', error);
+        if (import.meta.env.DEV) {
+            console.error('Failed to import config:', error);
+        }
         return null;
     }
 };

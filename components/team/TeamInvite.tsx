@@ -66,7 +66,9 @@ const TeamInvite: React.FC<TeamInviteProps> = ({
             // Hide success message after 3 seconds
             setTimeout(() => setShowSuccess(false), 3000);
         } catch (error) {
-            console.error('Failed to send invite:', error);
+            if (import.meta.env.DEV) {
+                console.error('Failed to send invite:', error);
+            }
         }
     };
 

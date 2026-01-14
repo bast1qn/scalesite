@@ -66,7 +66,9 @@ const LaunchControl: React.FC = () => {
               setPhases(parsedPhases);
             }
           } catch (parseError) {
-            console.error('Error parsing phases:', parseError);
+            if (import.meta.env.DEV) {
+              console.error('Error parsing phases:', parseError);
+            }
           }
         }
 
@@ -77,11 +79,15 @@ const LaunchControl: React.FC = () => {
               setStats(parsedStats);
             }
           } catch (parseError) {
-            console.error('Error parsing stats:', parseError);
+            if (import.meta.env.DEV) {
+              console.error('Error parsing stats:', parseError);
+            }
           }
         }
       } catch (error) {
-        console.error('Error loading launch data:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error loading launch data:', error);
+        }
       } finally {
         setIsLoading(false);
       }

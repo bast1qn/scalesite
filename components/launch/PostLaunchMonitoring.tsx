@@ -100,7 +100,9 @@ const PostLaunchMonitoring: React.FC = () => {
             setMetrics(parsedMetrics);
           }
         } catch (parseError) {
-          console.error('Error parsing metrics:', parseError);
+          if (import.meta.env.DEV) {
+            console.error('Error parsing metrics:', parseError);
+          }
         }
       }
 
@@ -118,13 +120,17 @@ const PostLaunchMonitoring: React.FC = () => {
             })));
           }
         } catch (parseError) {
-          console.error('Error parsing alerts:', parseError);
+          if (import.meta.env.DEV) {
+            console.error('Error parsing alerts:', parseError);
+          }
           setAlerts([]);
         }
       }
     } catch (error) {
       // Error loading monitoring data - show empty state
-      console.error('Error loading monitoring data:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading monitoring data:', error);
+      }
       setAlerts([]);
     } finally {
       setIsLoading(false);

@@ -90,7 +90,9 @@ export const AIContentGenerator = ({
                 alert('Inhalt konnte nicht generiert werden: ' + (result.error || 'Unbekannter Fehler'));
             }
         } catch (error) {
-            console.error('Error generating content:', error);
+            if (import.meta.env.DEV) {
+                console.error('Error generating content:', error);
+            }
             alert('Fehler bei der Generierung');
         } finally {
             setIsGenerating(false);

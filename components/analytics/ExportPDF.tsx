@@ -24,7 +24,9 @@ const ExportPDF: FC<ExportPDFProps> = ({ dateRange, className = '', onExport }) 
 
             onExport?.();
         } catch (error) {
-            console.error('Print failed:', error);
+            if (import.meta.env.DEV) {
+                console.error('Print failed:', error);
+            }
         } finally {
             setIsExporting(false);
             setTimeout(() => {

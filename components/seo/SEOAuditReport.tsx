@@ -130,7 +130,9 @@ export const SEOAuditReport: React.FC<SEOAuditReportProps> = ({
         onAuditComplete(result);
       }
     } catch (error) {
-      console.error('Audit error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Audit error:', error);
+      }
       alert(labels.errorAuditing);
     } finally {
       setIsAuditing(false);
