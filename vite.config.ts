@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
           plugins: []
         }
       })],
-      cacheDir: false, // COMPLETELY DISABLE VITE CACHE
+      cacheDir: false,
       optimizeDeps: {
         include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
         force: true
@@ -32,16 +32,11 @@ export default defineConfig(({ mode }) => {
       },
       build: {
         target: 'es2020',
-        minify: 'terser',
+        minify: false,
         sourcemap: false,
-        chunkSizeWarningLimit: 1000,
-        terserOptions: {
-          compress: {
-            passes: 1,
-            drop_console: false
-          },
-          format: {
-            comments: false
+        rollupOptions: {
+          output: {
+            manualChunks: undefined
           }
         }
       }
