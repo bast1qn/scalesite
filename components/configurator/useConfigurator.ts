@@ -39,7 +39,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             const { data: project, error: projectError } = await api.getProject(id);
 
             if (projectError) {
-                throw new Error(projectError);
+                // ✅ FIXED: Handle ApiError type properly
+                throw new Error(typeof projectError === 'string' ? projectError : projectError.message || 'Unknown error');
             }
 
             if (!project) {
@@ -91,14 +92,16 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 });
 
                 if (updateError) {
-                    throw new Error(updateError);
+                    // ✅ FIXED: Handle ApiError type properly
+                    throw new Error(typeof updateError === 'string' ? updateError : updateError.message || 'Unknown error');
                 }
 
                 // Also update content
-                const { error: contentError } = await api.updateProjectContent(projectId, newConfig.content);
+                const { error: contentError } = await api.updateProjectContent(projectId, newConfig.content as Record<string, unknown>);
 
                 if (contentError) {
-                    throw new Error(contentError);
+                    // ✅ FIXED: Handle ApiError type properly
+                    throw new Error(typeof contentError === 'string' ? contentError : contentError.message || 'Unknown error');
                 }
             } else {
                 // Create new project
@@ -116,7 +119,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 });
 
                 if (createError) {
-                    throw new Error(createError);
+                    // ✅ FIXED: Handle ApiError type properly
+                    throw new Error(typeof createError === 'string' ? createError : createError.message || 'Unknown error');
                 }
 
                 if (!newProject) {
@@ -139,6 +143,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
 
     /**
      * Reset to default configuration
+     * ✅ FIXED: getDefaultColors/getDefaultContent are module imports, not dependencies
      */
     const reset = useCallback(() => {
         setConfig({
@@ -149,7 +154,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             features: []
         });
         setError(null);
-    }, [getDefaultColors, getDefaultContent]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Auto-load config if projectId provided
     useEffect(() => {

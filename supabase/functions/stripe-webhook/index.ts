@@ -17,7 +17,14 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import Stripe from 'https://esm.sh/stripe@14.21.0';
+import Stripe, { type Stripe as StripeType } from 'https://esm.sh/stripe@14.21.0';
+
+// ✅ FIXED: Proper TypeScript types for Stripe objects
+type StripePaymentIntent = StripeType.PaymentIntent;
+type StripeInvoice = StripeType.Invoice;
+type StripeSubscription = StripeType.Subscription;
+type StripePaymentMethod = StripeType.PaymentMethod;
+type WebhookPayload = Record<string, unknown>;
 
 // Configuration
 const STRIPE_SECRET_KEY = Deno.env.get('STRIPE_SECRET_KEY') || '';
@@ -56,7 +63,7 @@ async function verifyWebhookSignature(
 async function logWebhookEvent(
     eventType: string,
     eventId: string,
-    payload: any
+    payload: WebhookPayload
 ): Promise<void> {
     try {
         await supabase.from('webhook_events').insert({
@@ -84,7 +91,7 @@ async function markWebhookEventProcessed(eventId: string): Promise<void> {
 }
 
 // Handler: Payment Intent Succeeded
-async function handlePaymentIntentSucceeded(paymentIntent: any): Promise<void> {
+async function handlePaymentIntentSucceeded(paymentIntent: StripePaymentIntent): Promise<void> {
     const { data: paymentIntentData } = await supabase
         .from('payment_intents')
         .select('id, user_id, invoice_id')
@@ -139,7 +146,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: any): Promise<void> {
 }
 
 // Handler: Payment Intent Failed
-async function handlePaymentIntentFailed(paymentIntent: any): Promise<void> {
+async function handlePaymentIntentFailed(paymentIntent: StripePaymentIntent): Promise<void> {
     const { data: paymentIntentData } = await supabase
         .from('payment_intents')
         .select('id, user_id, invoice_id')
@@ -185,7 +192,7 @@ async function handlePaymentIntentFailed(paymentIntent: any): Promise<void> {
 }
 
 // Handler: Invoice Paid
-async function handleInvoicePaid(invoice: any): Promise<void> {
+async function handleInvoicePaid(invoice: StripeInvoice): Promise<void> {
     // Find subscription by Stripe subscription ID
     const { data: subscription } = await supabase
         .from('subscriptions')
@@ -229,7 +236,7 @@ async function handleInvoicePaid(invoice: any): Promise<void> {
 }
 
 // Handler: Invoice Payment Failed
-async function handleInvoicePaymentFailed(invoice: any): Promise<void> {
+async function handleInvoicePaymentFailed(invoice: StripeInvoice): Promise<void> {
     // Find subscription
     const { data: subscription } = await supabase
         .from('subscriptions')
@@ -256,7 +263,7 @@ async function handleInvoicePaymentFailed(invoice: any): Promise<void> {
 }
 
 // Handler: Subscription Created
-async function handleSubscriptionCreated(subscription: any): Promise<void> {
+async function handleSubscriptionCreated(subscription: StripeSubscription): Promise<void> {
     // Get customer metadata to find user
     const customer = await stripe.customers.retrieve(subscription.customer as string);
 
@@ -309,7 +316,7 @@ async function handleSubscriptionCreated(subscription: any): Promise<void> {
 }
 
 // Handler: Subscription Updated
-async function handleSubscriptionUpdated(subscription: any): Promise<void> {
+async function handleSubscriptionUpdated(subscription: StripeSubscription): Promise<void> {
     const { data: existing } = await supabase
         .from('subscriptions')
         .select('id')
@@ -336,7 +343,7 @@ async function handleSubscriptionUpdated(subscription: any): Promise<void> {
 }
 
 // Handler: Subscription Deleted
-async function handleSubscriptionDeleted(subscription: any): Promise<void> {
+async function handleSubscriptionDeleted(subscription: StripeSubscription): Promise<void> {
     await supabase
         .from('subscriptions')
         .update({
@@ -348,7 +355,7 @@ async function handleSubscriptionDeleted(subscription: any): Promise<void> {
 }
 
 // Handler: Invoice Created
-async function handleInvoiceCreated(invoice: any): Promise<void> {
+async function handleInvoiceCreated(invoice: StripeInvoice): Promise<void> {
     // Only process invoices for subscriptions
     if (!invoice.subscription) return;
 
@@ -393,7 +400,7 @@ async function handleInvoiceCreated(invoice: any): Promise<void> {
         stripe_invoice_id: invoice.id,
         stripe_hosted_invoice_url: invoice.hosted_invoice_url,
         invoice_pdf_url: invoice.invoice_pdf,
-        line_items: invoice.lines.data.map((line: any) => ({
+        line_items: invoice.lines.data.map((line: StripeType.InvoiceLineItem) => ({
             id: line.id,
             description: line.description,
             quantity: line.quantity || 1,
@@ -406,7 +413,7 @@ async function handleInvoiceCreated(invoice: any): Promise<void> {
 }
 
 // Handler: Payment Method Attached
-async function handlePaymentMethodAttached(paymentMethod: any): Promise<void> {
+async function handlePaymentMethodAttached(paymentMethod: StripePaymentMethod): Promise<void> {
     // Get customer to find user
     const customer = await stripe.customers.retrieve(paymentMethod.customer as string);
 

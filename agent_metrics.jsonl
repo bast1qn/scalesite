@@ -1,2 +1,3 @@
 {"timestamp": 1768345133, "metric": "repair_success", "value": "1"}
 {"timestamp": 1768349488, "metric": "checkpoint_4", "value": "passed"}
+{"timestamp": 1768350849, "metric": "milestone", "value": "5"}

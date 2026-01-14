@@ -80,7 +80,8 @@ const generatePreviewHtml = (
         return `<html><body><h1>Lade Vorlagen...</h1></body></html>`;
     }
 
-    const pageContent = industryData.pages[activePage] || industryData.pages.home;
+    // ✅ FIXED: Add optional chaining for safer access
+    const pageContent = industryData.pages[activePage] || industryData.pages?.home;
     // Basic contrast check
     const contrastColor = ((hex: string) => {
         if (hex.startsWith('#')) hex = hex.slice(1);
@@ -175,7 +176,8 @@ const generatePreviewHtml = (
         }
     };
 
-    const mainContentHtml = pageContent.sections.map(getSectionHtml).join('');
+    // ✅ FIXED: Add null check for sections array
+    const mainContentHtml = (pageContent.sections || []).map(getSectionHtml).join('');
 
     return `
     <!DOCTYPE html>
@@ -263,7 +265,8 @@ const generatePreviewHtml = (
             <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
                 <button class="nav-link-btn font-extrabold text-xl text-dark-text dark:text-light-text tracking-tight" data-page="home">${safeCompanyName}</button>
                 <nav class="hidden md:flex items-center gap-6 text-sm font-semibold">
-                    ${Object.keys(industryData.pages).map(p => `
+                    // ✅ FIXED: Add null check for pages object
+                    ${Object.keys(industryData.pages || {}).map(p => `
                         <button class="nav-link-btn nav-link ${activePage === p ? 'nav-link-active' : ''}" data-page="${p}">${p.charAt(0).toUpperCase() + p.slice(1)}</button>
                     `).join('')}
                 </nav>

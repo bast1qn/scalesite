@@ -425,7 +425,8 @@ const calculateTopReferrers = (pageViews: AnalyticsEvent[]): Array<{ source: str
 };
 
 // Auto-tracking setup
-export const setupAutoTracking = (): void => {
+// ✅ FIXED: Return cleanup function to prevent memory leaks
+export const setupAutoTracking = (): (() => void) => {
     // Track initial page view
     trackPageView(window.location.pathname, document.title);
 
@@ -444,7 +445,8 @@ export const setupAutoTracking = (): void => {
     let maxDepth = 0;
     const depths = [25, 50, 75, 100];
 
-    window.addEventListener('scroll', () => {
+    // ✅ FIXED: Store handler reference for proper cleanup
+    const handleScroll = () => {
         const scrollPercent = Math.round(
             (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
         );
@@ -455,7 +457,15 @@ export const setupAutoTracking = (): void => {
                 trackScrollDepth(depth);
             }
         });
-    });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // ✅ FIXED: Return cleanup function
+    return () => {
+        observer.disconnect();
+        window.removeEventListener('scroll', handleScroll);
+    };
 };
 
 export { getSessionId, resetSession };
