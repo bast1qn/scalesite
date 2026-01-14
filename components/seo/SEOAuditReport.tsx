@@ -495,7 +495,7 @@ export const SEOAuditReport: React.FC<SEOAuditReportProps> = ({
                 <div className="space-y-3">
                   {auditResult.issues.map((issue, index) => (
                     <motion.div
-                      key={index}
+                      key={`${issue.category}-${issue.message}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
@@ -527,7 +527,7 @@ export const SEOAuditReport: React.FC<SEOAuditReportProps> = ({
                 <div className="space-y-3">
                   {auditResult.warnings.map((warning, index) => (
                     <motion.div
-                      key={index}
+                      key={`${warning.category}-${warning.message}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
@@ -559,7 +559,7 @@ export const SEOAuditReport: React.FC<SEOAuditReportProps> = ({
                 <div className="space-y-3">
                   {auditResult.passes.map((pass, index) => (
                     <motion.div
-                      key={index}
+                      key={`${pass.category}-${pass.message}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}

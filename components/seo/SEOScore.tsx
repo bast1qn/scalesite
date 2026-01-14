@@ -276,7 +276,7 @@ export const SEOScore: React.FC<SEOScoreProps> = ({ language = 'de' }) => {
                 <div className="space-y-3">
                   {result.issues.map((issue, index) => (
                     <motion.div
-                      key={index}
+                      key={`${issue.category}-${issue.message}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="bg-red-500/5 rounded-lg p-4 border border-red-500/10"
@@ -311,7 +311,7 @@ export const SEOScore: React.FC<SEOScoreProps> = ({ language = 'de' }) => {
                 <div className="space-y-3">
                   {result.warnings.map((warning, index) => (
                     <motion.div
-                      key={index}
+                      key={`${warning.category}-${warning.message}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="bg-yellow-500/5 rounded-lg p-4 border border-yellow-500/10"
@@ -346,7 +346,7 @@ export const SEOScore: React.FC<SEOScoreProps> = ({ language = 'de' }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {result.passes.map((pass, index) => (
                     <motion.div
-                      key={index}
+                      key={`${pass.category}-${pass.message}-${index}`}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       className="bg-green-500/5 rounded-lg p-3 border border-green-500/10"
