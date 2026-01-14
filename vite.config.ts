@@ -10,18 +10,21 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
       },
       plugins: [react({
+        jsxImportSource: 'react',
         babel: {
           plugins: []
         }
       })],
       optimizeDeps: {
-        include: ['react', 'react-dom', 'lucide-react']
+        include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
+        force: true
       },
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
       },
       resolve: {
+        dedupe: ['react', 'react-dom'],
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
