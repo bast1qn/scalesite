@@ -30,7 +30,7 @@ export const OGGeneratedPreview: React.FC<OGGeneratedPreviewProps> = ({
       const timer = setTimeout(() => setCopied(false), 2000);
       return () => clearTimeout(timer);
     }
-  }, [copied]);
+  }, [copied, setCopied]);
 
   const handleCopy = () => {
     const tags = generateTags();

@@ -198,7 +198,7 @@ export const NotificationToastContainer: React.FC = () => {
         // Mark notifications as shown in toasts
         const newToastIds = new Set(recentUnread.map(n => n.id));
         setActiveToasts(newToastIds);
-    }, [notifications]);
+    }, [notifications, recentUnread, setActiveToasts]);
 
     if (recentUnread.length === 0) return null;
 

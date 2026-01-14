@@ -54,7 +54,7 @@ const RealtimeAnalytics: FC<RealtimeAnalyticsProps> = ({ className = '', onUpdat
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [onUpdate]);
+    }, [onUpdate, setCurrentVisitors, setRecentActivity]);
 
     // In Produktion: Supabase Realtime Subscription
     useEffect(() => {

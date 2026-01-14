@@ -333,7 +333,7 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
     useEffect(() => {
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
-    }, [handleMessage]);
+    }, [handleMessage, setActivePage, setTheme]);
 
     const htmlContent = useMemo(() => {
         return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t);
