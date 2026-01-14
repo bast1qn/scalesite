@@ -246,9 +246,9 @@ export function ResponsiveImage({
 
   return (
     <picture className={className}>
-      {sources.map((source, index) => (
+      {sources.map((source) => (
         <source
-          key={index}
+          key={source.type}
           type={source.type}
           srcSet={source.srcSet}
           sizes="(max-width: 640px) 640px, (max-width: 960px) 960px, (max-width: 1280px) 1280px, 1920px"

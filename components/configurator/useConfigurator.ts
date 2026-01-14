@@ -139,7 +139,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
         } finally {
             setLoading(false);
         }
-    }, [projectId]);
+    }, [projectId, api]);
 
     /**
      * Reset to default configuration
