@@ -43,16 +43,31 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
-            manualChunks: {
+            manualChunks: (id) => {
               // React Core (stable, rarely changes)
-              'react-vendor': ['react', 'react-dom', 'react/jsx-runtime'],
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime')) {
+                return 'react-vendor';
+              }
               // Supabase (large, separate chunk)
-              'supabase': ['@supabase/supabase-js'],
+              if (id.includes('@supabase/supabase-js')) {
+                return 'supabase';
+              }
               // Heavy UI libraries
-              'motion': ['framer-motion'],
-              'charts': ['recharts'],
+              if (id.includes('framer-motion')) {
+                return 'motion';
+              }
+              // Charts - LAZY LOADED (only when AnalyticsPage loads)
+              if (id.includes('recharts')) {
+                return 'charts';
+              }
               // Document generation (rarely used)
-              'docs': ['jspdf', 'html2canvas'],
+              if (id.includes('jspdf') || id.includes('html2canvas')) {
+                return 'docs';
+              }
+              // Google AI (rarely used)
+              if (id.includes('@google/genai')) {
+                return 'ai-vendor';
+              }
             }
           }
         }

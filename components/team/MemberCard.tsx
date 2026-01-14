@@ -272,13 +272,13 @@ const MemberCard: React.FC<MemberCardProps> = ({
     );
 };
 
-const MemoizedMemberCard = MemberCard, (prevProps, nextProps) => {
+const MemoizedMemberCard = React.memo(MemberCard, (prevProps, nextProps) => {
     return (
         prevProps.member.id === nextProps.member.id &&
         prevProps.member.role === nextProps.member.role &&
         prevProps.member.status === nextProps.member.status &&
         prevProps.currentUserId === nextProps.currentUserId
     );
-};
+});
 
 export default MemoizedMemberCard;

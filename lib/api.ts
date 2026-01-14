@@ -1114,6 +1114,11 @@ export const api = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
+        // Check cache first to prevent duplicate requests
+        const cacheKey = `projects_${user.id}`;
+        const cached = getCached<Project[]>(cacheKey);
+        if (cached) return { data: cached, error: null };
+
         const teamMember = await isTeamMember(user.id);
 
         let query = supabase
@@ -1133,6 +1138,11 @@ export const api = {
         }
 
         const { data, error } = await query;
+
+        if (!error && data) {
+            setCached(cacheKey, data);
+        }
+
         return { data: data || [], error: handleSupabaseError(error) };
     },
 

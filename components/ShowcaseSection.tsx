@@ -1,5 +1,5 @@
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import { ArrowTopRightOnSquareIcon, EyeIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 import { translations } from '../lib/translations';
@@ -95,7 +95,7 @@ export const ShowcaseSection = ({
   }, []);
 
   // Memoize ShowcaseItem card component to prevent unnecessary re-renders
-  const ShowcaseItemCard = ({ item, setCurrentPage, t }: {
+  const ShowcaseItemCard = memo(({ item, setCurrentPage, t }: {
     item: typeof allItems[0];
     setCurrentPage: (page: string) => void;
     t: (key: string) => string;
@@ -145,7 +145,9 @@ export const ShowcaseSection = ({
         </div>
       </div>
     </div>
-  );
+  ));
+  ShowcaseItemCard.displayName = 'ShowcaseItemCard';
+
   return (
     <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>

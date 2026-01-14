@@ -1,5 +1,5 @@
 // Chat List Component
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
 import Users from 'lucide-react/dist/esm/icons/users';
@@ -164,7 +164,7 @@ interface ChatListItemProps {
     currentUserId: string;
 }
 
-const ChatListItem = ({ conversation, isActive, onClick, currentUserId }: ChatListItemProps) => {
+const ChatListItem = memo(({ conversation, isActive, onClick, currentUserId }: ChatListItemProps) => {
     const displayName = getDisplayName(conversation, currentUserId);
     const avatarUrl = getAvatarUrl(conversation, currentUserId);
     const lastMessage = conversation.last_message;
@@ -234,7 +234,8 @@ const ChatListItem = ({ conversation, isActive, onClick, currentUserId }: ChatLi
             )}
         </button>
     );
-};
+});
+ChatListItem.displayName = 'ChatListItem';
 
 // Helper Functions
 function getDisplayName(conversation: ChatConversationWithDetails, currentUserId: string): string {
