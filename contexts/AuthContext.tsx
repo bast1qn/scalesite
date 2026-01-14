@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false);
         setSessionChecked(true);
       }
-    }, 30000);
+    }, 5000); // Reduced from 30s to 5s for faster fallback
 
     const stopLoading = () => {
       if (isMounted) {
