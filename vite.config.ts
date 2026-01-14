@@ -45,18 +45,13 @@ export default defineConfig(({ mode }) => {
             chunkFileNames: 'assets/[name]-[hash].js',
             entryFileNames: 'assets/[name]-[hash].js',
             assetFileNames: 'assets/[name]-[hash].[ext]',
-            // Fix React module export issues
-            exports: 'named',
-            interop: 'default',
+            // Keep default for React CommonJS compatibility
             manualChunks(id) {
               // Vendor libraries
               if (id.includes('node_modules')) {
-                // Keep react and react-dom separate to avoid export issues
-                if (id.includes('react-dom')) {
-                  return 'react-dom';
-                }
-                if (id.includes('react') && !id.includes('react-dom')) {
-                  return 'react';
+                // Keep react and react-dom in same chunk for stability
+                if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+                  return 'react-core';
                 }
                 if (id.includes('framer-motion')) {
                   return 'ui-framework';
