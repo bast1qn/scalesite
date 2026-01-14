@@ -52,6 +52,9 @@ export const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
 
     // Load saved code from localStorage
     useEffect(() => {
+        // SSR-Safety: Check if window is defined (not server-side)
+        if (typeof window === 'undefined') return;
+
         const savedCode = localStorage.getItem('appliedDiscountCode');
         if (savedCode) {
             const validated = validateDiscountCode(savedCode);
@@ -106,8 +109,10 @@ export const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
         setDiscount(validated);
         setAppliedCode(inputCode);
 
-        // Save to localStorage
-        localStorage.setItem('appliedDiscountCode', inputCode);
+        // Save to localStorage (SSR-safe)
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('appliedDiscountCode', inputCode);
+        }
 
         // Callback
         if (onCodeApplied) {
@@ -127,7 +132,11 @@ export const DiscountCodeInput: React.FC<DiscountCodeInputProps> = ({
         setDiscount(null);
         setStatus('idle');
         setErrorMessage('');
-        localStorage.removeItem('appliedDiscountCode');
+
+        // Remove from localStorage (SSR-safe)
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('appliedDiscountCode');
+        }
 
         if (onCodeRemoved) {
             onCodeRemoved();

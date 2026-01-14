@@ -19,6 +19,9 @@ export const CookieConsent = () => {
     });
 
     useEffect(() => {
+        // SSR-Safety: Check if window is defined (not server-side)
+        if (typeof window === 'undefined') return;
+
         try {
             const savedConsent = localStorage.getItem('cookie-consent');
             if (!savedConsent) {
@@ -43,6 +46,9 @@ export const CookieConsent = () => {
     }, []);
 
     const saveConsent = (prefs: CookiePreferences) => {
+        // SSR-Safety: Check if window is defined (not server-side)
+        if (typeof window === 'undefined') return;
+
         try {
             localStorage.setItem('cookie-consent', JSON.stringify(prefs));
         } catch (error) {
