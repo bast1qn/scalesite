@@ -1,5 +1,5 @@
 
-import { useMemo, React } from 'react';
+import React, { useMemo } from 'react';
 import { ArrowRightIcon, CalendarDaysIcon, ClockIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
