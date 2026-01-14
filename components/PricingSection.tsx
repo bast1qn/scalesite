@@ -1,5 +1,5 @@
 // React imports
-import { type FormEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { type FormEvent, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 // Internal imports
 import { AnimatedSection, ChevronDownIcon, CheckBadgeIcon, CountdownTimer, OfferCalculator, ShieldCheckIcon, TagIcon, TicketIcon, XMarkIcon } from './index';
@@ -28,7 +28,7 @@ interface TranslationFunction {
 }
 
 // Clean pricing card with subtle hover
-const PricingCard = ({
+const PricingCard = React.memo(({
     pkg,
     index,
     onClick,
@@ -92,8 +92,8 @@ const PricingCard = ({
                 <div className={`h-px w-full mb-6 ${pkg.popular ? 'bg-slate-700/50' : 'bg-slate-200 dark:bg-slate-700/50'}`}></div>
 
                 <ul className="space-y-3 flex-grow mb-6">
-                    {pkg.features.map((feature: string) => (
-                        <li key={feature} className="flex items-start gap-3">
+                    {pkg.features.map((feature: string, featureIndex: number) => (
+                        <li key={`${pkg.id}-feature-${featureIndex}`} className="flex items-start gap-3">
                             <div className={`flex-shrink-0 w-4 h-4 rounded-md flex items-center justify-center ${
                                 pkg.popular
                                 ? 'bg-primary/20 text-primary-300'
@@ -127,7 +127,9 @@ const PricingCard = ({
             </div>
         </div>
     );
-};
+});
+
+PricingCard.displayName = 'PricingCard';
 export const PricingSection = ({ setCurrentPage }: PricingSectionProps) => {
   const { user } = useContext(AuthContext);
   const { t, language } = useLanguage();
