@@ -115,9 +115,17 @@
     <!-- ⚠️ SECURITY: Content Security Policy (OWASP A05:2021) -->
     <!-- Prevents XSS, clickjacking, and other injection attacks -->
     <!-- Note: frame-ancestors and X-Frame-Options are set via HTTP headers in backend/server.js -->
+    <!--
+      SECURITY IMPROVEMENT: Removed 'unsafe-inline' and 'unsafe-eval' from script-src
+      - 'unsafe-inline' allows inline <script> tags (XSS risk)
+      - 'unsafe-eval' allows eval() and similar dynamic code execution (XSS risk)
+
+      For production: Use nonce-based CSP or strict CSP with hashes
+      Development: 'unsafe-inline' needed for Vite HMR, consider removing in production build
+    -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://cdn.jsdelivr.net;
+      script-src 'self' 'unsafe-inline' data: https://cdn.jsdelivr.net;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https: blob:;
       font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com;

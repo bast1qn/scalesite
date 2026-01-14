@@ -21,8 +21,14 @@ export interface PasswordValidationResult {
 export const validatePassword = (password: string): PasswordValidationResult => {
     const errors: string[] = [];
 
-    if (password.length < 8) {
+    // SECURITY: Prevent DoS via extremely long passwords (OWASP A01:2021)
+    // PBKDF2 with 100,000 iterations on 10,000 char password = memory exhaustion
+    if (password.length < 12) {
         errors.push('min_length');
+    }
+
+    if (password.length > 128) {
+        errors.push('max_length');
     }
 
     if (!/[a-z]/.test(password)) {

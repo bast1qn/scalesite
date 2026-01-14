@@ -2,6 +2,7 @@
 // Woche 25: Real-time Features - Notifications
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNotifications, type AppNotification } from '../../contexts/NotificationContext';
 import {
@@ -22,32 +23,50 @@ const DEFAULT_TOAST_DURATION = 5000; // 5 seconds
 const TOAST_CLOSE_DELAY = 300; // 300ms for fade-out animation
 
 /**
+ * SECURITY: Whitelist of allowed redirect paths
+ * Prevents open redirect vulnerabilities (OWASP A01:2021)
+ * Only redirects to known application routes are allowed
+ */
+const ALLOWED_REDIRECT_PATHS = [
+    '/dashboard',
+    '/tickets/',
+    '/projects/',
+    '/billing/',
+    '/settings',
+    '/admin',
+] as const;
+
+/**
  * Validates if a URL is safe to redirect to
- * Prevents open redirect vulnerabilities by checking against allowed domains
- * and ensuring URLs are either relative or from trusted domains
+ * Prevents open redirect vulnerabilities by:
+ * 1. Only allowing relative URLs (no absolute URLs with protocol)
+ * 2. Checking against path whitelist
+ * 3. Blocking JavaScript: data: and other dangerous protocols
  */
 const isValidRedirectUrl = (url: string): boolean => {
     if (!url) return false;
 
-    try {
-        // Allow relative URLs
-        if (url.startsWith('/') || url.startsWith('./')) {
-            return true;
-        }
-
-        // Parse absolute URL
-        const parsedUrl = new URL(url);
-        const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
-
-        // Allow same-origin redirects
-        if (parsedUrl.origin === currentOrigin) {
-            return true;
-        }
-
-        // Block external redirects
+    // SECURITY: Block dangerous protocols
+    const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
+    const lowerUrl = url.toLowerCase().trim();
+    if (dangerousProtocols.some(proto => lowerUrl.startsWith(proto))) {
         return false;
+    }
+
+    try {
+        // SECURITY: Only allow relative URLs starting with /
+        if (!url.startsWith('/')) {
+            return false;
+        }
+
+        // SECURITY: Check against whitelist
+        const isAllowed = ALLOWED_REDIRECT_PATHS.some(path => url.startsWith(path));
+        if (!isAllowed) {
+            return false;
+        }
+
+        return true;
     } catch {
-        // Invalid URL
         return false;
     }
 };
@@ -63,6 +82,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
     onClose,
     duration = DEFAULT_TOAST_DURATION,
 }) => {
+    const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -140,7 +160,8 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
         if (notification.link) {
             // SECURITY: Validate URL to prevent open redirect vulnerabilities
             if (isValidRedirectUrl(notification.link)) {
-                window.location.href = notification.link;
+                // SECURITY: Use React Router instead of window.location.href for safer navigation
+                navigate(notification.link);
             } else {
                 console.warn('[Security] Blocked potentially unsafe redirect:', notification.link);
             }
