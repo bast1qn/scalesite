@@ -19,10 +19,15 @@ export function useOptimistic<T>(
   const pendingValueRef = useRef<T | null>(null);
 
   const update = useCallback(async (newValue: T) => {
-    // Sofortiges UI-Update
-    const previousValue = state;
+    // 🐛 BUG FIX: Use functional state update to avoid stale closure
+    let previousValue: T;
+
+    setState(prevState => {
+      previousValue = prevState;
+      return newValue;
+    });
+
     pendingValueRef.current = newValue;
-    setState(newValue);
     setIsPending(true);
     setError(null);
 
@@ -36,12 +41,12 @@ export function useOptimistic<T>(
     } catch (err) {
       // Rollback bei Fehler
       pendingValueRef.current = null;
-      setState(previousValue);
+      setState(previousValue!);
       setIsPending(false);
       setError(err as Error);
       throw err;
     }
-  }, [state, mutationFn]);
+  }, [mutationFn]);
 
   const reset = useCallback(() => {
     setState(initialValue);

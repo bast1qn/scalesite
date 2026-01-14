@@ -107,6 +107,11 @@ export const trackPageView = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -138,6 +143,11 @@ export const trackUserAction = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -164,6 +174,11 @@ export const trackCustomEvent = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -191,6 +206,11 @@ export const trackConversion = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -220,6 +240,11 @@ export const trackFormSubmit = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -246,6 +271,11 @@ export const trackButtonClick = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -273,6 +303,11 @@ export const trackFileDownload = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -303,6 +338,11 @@ export const trackScrollDepth = async (
     properties?: Record<string, unknown>
 ): Promise<void> => {
     try {
+        // 🐛 BUG FIX: Added SSR safety check for window/document access
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         const event: AnalyticsEvent = {
@@ -583,6 +623,11 @@ const calculateTopReferrers = (pageViews: AnalyticsEvent[]): Array<{ source: str
  * ```
  */
 export const setupAutoTracking = (): (() => void) => {
+    // 🐛 BUG FIX: Added SSR safety check for window/document access
+    if (typeof window === 'undefined') {
+        return () => {}; // No-op on server
+    }
+
     trackPageView(window.location.pathname, document.title);
 
     let lastPath = window.location.pathname;

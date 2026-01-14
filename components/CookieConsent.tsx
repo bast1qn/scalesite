@@ -22,10 +22,14 @@ export const CookieConsent = () => {
         // SSR-Safety: Check if window is defined (not server-side)
         if (typeof window === 'undefined') return;
 
+        // 🐛 BUG FIX: Store timer reference and clean up on unmount
+        const timers: NodeJS.Timeout[] = [];
+
         try {
             const savedConsent = localStorage.getItem('cookie-consent');
             if (!savedConsent) {
-                setTimeout(() => setIsVisible(true), 1000);
+                const timer = setTimeout(() => setIsVisible(true), 1000);
+                timers.push(timer);
             } else {
                 const parsed = JSON.parse(savedConsent);
                 // Type guard for CookiePreferences
@@ -36,13 +40,20 @@ export const CookieConsent = () => {
                         marketing: Boolean(parsed.marketing)
                     });
                 } else {
-                    setTimeout(() => setIsVisible(true), 1000);
+                    const timer = setTimeout(() => setIsVisible(true), 1000);
+                    timers.push(timer);
                 }
             }
         } catch (error) {
             // Failed to load cookie consent - show banner
-            setTimeout(() => setIsVisible(true), 1000);
+            const timer = setTimeout(() => setIsVisible(true), 1000);
+            timers.push(timer);
         }
+
+        // Cleanup function to clear all timers
+        return () => {
+            timers.forEach(timer => clearTimeout(timer));
+        };
     }, []);
 
     const saveConsent = (prefs: CookiePreferences) => {
