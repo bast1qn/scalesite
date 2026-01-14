@@ -41,12 +41,26 @@ export const useConversations = () => {
     const [conversations, setConversations] = useState<ChatConversationWithDetails[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const fetchConversations = useCallback(async () => {
+        // Cancel previous request if still pending
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+
+        // Create new abort controller for this request
+        abortControllerRef.current = new AbortController();
+
         setIsLoading(true);
         setError(null);
 
         const { data, error: err } = await getConversations();
+
+        // Don't update state if request was aborted
+        if (abortControllerRef.current.signal.aborted) {
+            return;
+        }
 
         if (err) {
             setError(err as Error);
@@ -56,6 +70,17 @@ export const useConversations = () => {
 
         setIsLoading(false);
     }, []);
+
+    useEffect(() => {
+        fetchConversations();
+
+        return () => {
+            // Cleanup: Abort any pending request on unmount
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
+    }, [fetchConversations]);
 
     useEffect(() => {
         fetchConversations();
@@ -98,12 +123,24 @@ export const useChat = (options: UseChatOptions = {}) => {
     const [conversation, setConversation] = useState<ChatConversationWithDetails | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const fetchConversation = useCallback(async (id: string) => {
+        // Cancel previous request
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+        abortControllerRef.current = new AbortController();
+
         setIsLoading(true);
         setError(null);
 
         const { data, error: err } = await getConversation(id);
+
+        // Don't update state if aborted
+        if (abortControllerRef.current.signal.aborted) {
+            return;
+        }
 
         if (err) {
             setError(err as Error);
@@ -120,6 +157,13 @@ export const useChat = (options: UseChatOptions = {}) => {
         } else {
             setConversation(null);
         }
+
+        return () => {
+            // Cleanup: Abort pending request
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
     }, [conversationId, fetchConversation]);
 
     return {
@@ -145,14 +189,27 @@ export const useChatMessages = (options: UseChatMessagesOptions) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [hasMore, setHasMore] = useState(false);
+    const isLoadingMoreRef = useRef(false); // Prevent race conditions
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const fetchMessages = useCallback(async () => {
         if (!conversationId) return;
+
+        // Cancel previous request
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+        abortControllerRef.current = new AbortController();
 
         setIsLoading(true);
         setError(null);
 
         const { data, error: err } = await getMessages(conversationId, limit);
+
+        // Don't update state if aborted
+        if (abortControllerRef.current.signal.aborted) {
+            return;
+        }
 
         if (err) {
             setError(err as Error);
@@ -165,27 +222,45 @@ export const useChatMessages = (options: UseChatMessagesOptions) => {
     }, [conversationId, limit]);
 
     const loadMore = useCallback(async () => {
-        if (!hasMore || !conversationId || messages.length === 0) return;
+        if (!hasMore || !conversationId || messages.length === 0 || isLoadingMoreRef.current) {
+            return; // Prevent concurrent loadMore calls
+        }
+
+        isLoadingMoreRef.current = true;
 
         const oldestMessage = messages[0];
-        // ✅ BUG FIX: Added null check for oldestMessage.created_at
         if (!oldestMessage?.created_at) {
             if (import.meta.env.DEV) {
                 console.error('[useChatMessages] Oldest message missing created_at');
             }
+            isLoadingMoreRef.current = false;
             return;
         }
 
         const { data, error: err } = await getMessages(conversationId, limit, oldestMessage.created_at);
 
+        isLoadingMoreRef.current = false;
+
         if (!err && data) {
-            setMessages(prev => [...data, ...prev]);
+            setMessages(prev => {
+                // Prevent duplicates by filtering out existing message IDs
+                const existingIds = new Set(prev.map(m => m.id));
+                const newMessages = data.filter(m => !existingIds.has(m.id));
+                return [...newMessages, ...prev];
+            });
             setHasMore(data.length >= limit);
         }
     }, [conversationId, limit, hasMore, messages]);
 
     useEffect(() => {
         fetchMessages();
+
+        return () => {
+            // Cleanup: Abort pending requests
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
     }, [fetchMessages]);
 
     // Subscribe to new messages
