@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Internal imports
 import { GRADIENTS } from '../../lib/utils';
+import { validateEmail, validatePassword, validateName } from '../../lib/validation';
 
 // Component imports
 import { StepIndicator } from './StepIndicator';
@@ -278,22 +279,49 @@ export function OnboardingWizard({
 
         switch (state.currentStep) {
             case 'basic-info':
-                if (!state.data.firstName?.trim()) {
+                // First name validation
+                const firstNameValidation = validateName(state.data.firstName || '');
+                if (!firstNameValidation.isValid) {
                     errors.firstName = 'Vorname ist erforderlich';
                 }
-                if (!state.data.lastName?.trim()) {
+
+                // Last name validation
+                const lastNameValidation = validateName(state.data.lastName || '');
+                if (!lastNameValidation.isValid) {
                     errors.lastName = 'Nachname ist erforderlich';
                 }
+
+                // Email validation - using centralized validation for security
                 if (!state.data.email?.trim()) {
                     errors.email = 'E-Mail ist erforderlich';
-                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.data.email)) {
-                    errors.email = 'Ungültige E-Mail-Adresse';
+                } else {
+                    const emailValidation = validateEmail(state.data.email);
+                    if (!emailValidation.isValid) {
+                        errors.email = 'Ungültige E-Mail-Adresse';
+                    }
                 }
+
+                // Password validation - using centralized validation for security
                 if (!state.data.password) {
                     errors.password = 'Passwort ist erforderlich';
-                } else if (state.data.password.length < 8) {
-                    errors.password = 'Passwort muss mindestens 8 Zeichen lang sein';
+                } else {
+                    const passwordValidation = validatePassword(state.data.password);
+                    if (!passwordValidation.isValid) {
+                        if (passwordValidation.errors.includes('min_length')) {
+                            errors.password = 'Passwort muss mindestens 8 Zeichen lang sein';
+                        } else if (passwordValidation.errors.includes('lowercase')) {
+                            errors.password = 'Passwort muss Kleinbuchstaben enthalten';
+                        } else if (passwordValidation.errors.includes('uppercase')) {
+                            errors.password = 'Passwort muss Großbuchstaben enthalten';
+                        } else if (passwordValidation.errors.includes('number')) {
+                            errors.password = 'Passwort muss Zahlen enthalten';
+                        } else {
+                            errors.password = 'Passwort ist nicht sicher genug';
+                        }
+                    }
                 }
+
+                // Password confirmation
                 if (state.data.password !== state.data.confirmPassword) {
                     errors.confirmPassword = 'Passwörter stimmen nicht überein';
                 }
