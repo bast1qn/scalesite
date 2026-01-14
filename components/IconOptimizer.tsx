@@ -45,7 +45,9 @@ export const OptimizedIcon = memo<OptimizedIconProps>(({ name, size = 24, classN
   const Icon = icons[name] as LucideIcon;
 
   if (!Icon) {
-    console.warn(`Icon "${name}" not found in lucide-react`);
+    if (import.meta.env.DEV) {
+      console.warn(`Icon "${name}" not found in lucide-react`);
+    }
     return null;
   }
 
