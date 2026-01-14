@@ -1,11 +1,18 @@
-// React imports
+// ============================================
+// IMPORTS
+// ============================================
+
+// React
 import React, { useContext, useEffect, useState } from 'react';
 
-// Internal imports
+// Internal
 import { AuthContext } from '../../contexts';
 import { api, formatCurrency, formatDate } from '../../lib';
 
-// Types
+// ============================================
+// TYPES
+// ============================================
+
 interface Invoice {
     id: string;
     date: string;
@@ -15,7 +22,14 @@ interface Invoice {
     description: string;
 }
 
-// Constants
+// ============================================
+// CONSTANTS
+// ============================================
+
+/**
+ * Status color mappings for invoice badges
+ * Maps German status values to Tailwind color classes
+ */
 const STATUS_COLORS: Record<Invoice['status'], string> = {
     'Bezahlt': 'bg-green-500/20 text-green-700 dark:text-green-300',
     'Offen': 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-300',

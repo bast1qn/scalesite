@@ -1,7 +1,11 @@
-// React imports
+// ============================================
+// IMPORTS
+// ============================================
+
+// React
 import React, { useState, useEffect, useContext } from 'react';
 
-// Internal imports
+// Internal
 import { AuthContext, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
 import { api } from '../../lib';
@@ -12,8 +16,12 @@ import {
     PlusCircleIcon,
     ShieldCheckIcon,
     TicketIcon,
-    XMarkIcon
+    XMarkIcon,
 } from '../Icons';
+
+// ============================================
+// TYPES
+// ============================================
 
 interface Service {
     id: number;
@@ -34,7 +42,9 @@ interface ServicesProps {
     setActiveView?: (view: DashboardView) => void;
 }
 
-// Modal State Interface
+/**
+ * Modal state for service booking flow
+ */
 interface BookingModalState {
     isOpen: boolean;
     serviceId: number | null;

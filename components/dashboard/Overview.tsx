@@ -1,15 +1,17 @@
 
-// React imports
-import React, { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+// ============================================
+// IMPORTS
+// ============================================
 
-// Third-party imports
+// React & Third-party
+import React, { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
-// Internal imports
+// Internal
 import { AuthContext, useLanguage } from '../../contexts';
+import type { DashboardView } from '../../pages/DashboardPage';
 import { api } from '../../lib';
 import { getTimeAgo } from '../../lib/utils/dateFormat';
-import type { DashboardView } from '../../pages/DashboardPage';
 
 // Components
 import {
@@ -23,7 +25,7 @@ import {
     PlusCircleIcon,
     ServerIcon,
     ShieldCheckIcon,
-    TicketIcon
+    TicketIcon,
 } from '../Icons';
 
 interface Project {
@@ -44,6 +46,9 @@ interface OverviewProps {
 // CONSTANTS
 // ============================================
 
+/**
+ * Time-related constants for dashboard operations
+ */
 const TIME_CONSTANTS = {
     MS_PER_MINUTE: 60000,
     MS_PER_HOUR: 3600000,

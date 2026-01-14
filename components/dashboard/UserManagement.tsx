@@ -1,17 +1,21 @@
-// React imports
+// ============================================
+// IMPORTS
+// ============================================
+
+// React
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 
-// Third-party imports
-// None
-
-// Internal imports
+// Internal
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
 import { ArrowPathIcon, BriefcaseIcon, CheckBadgeIcon, PlusCircleIcon, XMarkIcon } from '../index';
 import { api } from '../../lib';
 import { alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 import { useDebounce } from '../../lib/hooks/useDebounce';
 
-// Types
+// ============================================
+// TYPES
+// ============================================
+
 type UserProfile = AppUser;
 
 interface Service {
@@ -30,8 +34,14 @@ interface UserService {
     updates: { message: string, created_at: string, author_name: string }[];
 }
 
-// Constants
-// Default Automation Services meant to be available for quick selection
+// ============================================
+// CONSTANTS
+// ============================================
+
+/**
+ * Default Automation Services for quick selection
+ * String IDs differentiate from database services (int IDs)
+ */
 const DEFAULT_SERVICES: Service[] = [
     { id: 'auto-1', name: "KI-Telefonassistent (Voice AI)", description: "Einrichtung eines KI-Agenten für Terminbuchungen.", price: 149, price_details: "einmalig" },
     { id: 'auto-2', name: "E-Mail Automation (Inbox Zero)", description: "Automatische Kategorisierung und Antworten.", price: 99, price_details: "einmalig" },

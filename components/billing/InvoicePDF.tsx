@@ -311,6 +311,7 @@ const InvoicePDF = forwardRef<HTMLDivElement, InvoicePDFProps>(({
                         <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#475569' }}>Zahlungsinformationen</p>
                         <p style={{ margin: '2px 0' }}>Bank: Musterbank</p>
                         <p style={{ margin: '2px 0' }}>IBAN: DE89 3704 0044 0532 0130 00</p>
+                        {/* Demo BIC - replace with real bank data in production */}
                         <p style={{ margin: '2px 0' }}>BIC: COBADEFFXXX</p>
                         <p style={{ margin: '10px 0 0 0', fontSize: '8pt' }}>
                             Diese Rechnung wurde automatisch erstellt. Bei Fragen kontaktieren Sie uns unter {companyInfo.email}.

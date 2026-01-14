@@ -162,8 +162,11 @@ export const NotificationProvider: FC<NotificationProviderProps> = ({ children }
         return canShowNotifications();
     }, []);
 
+    /**
+     * Refreshes notifications from database
+     * @remarks Backend integration with Neon pending
+     */
     const refreshNotifications = useCallback(async () => {
-        // TODO: Implement with Neon
         setNotifications([]);
     }, []);
 

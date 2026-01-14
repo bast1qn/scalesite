@@ -3,18 +3,17 @@
 // Interactive Website Configuration with Live Preview
 // ============================================
 
-// React imports
+// React & Third-party
 import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
-
-// Third-party imports
 import { AnimatePresence, motion } from 'framer-motion';
 
-// Component imports
+// Components
 import { ColorPalettePicker } from './ColorPalettePicker';
 import { ContentEditor } from './ContentEditor';
 import { DeviceToggle } from './DeviceToggle';
 import { LayoutSelector } from './LayoutSelector';
 import { PreviewFrame } from './PreviewFrame';
+import { AUTO_SAVE_DELAY, SUCCESS_MESSAGE_DELAY } from './constants';
 
 // ============================================
 // TYPES & INTERFACES
@@ -53,11 +52,13 @@ interface ConfiguratorProps {
 }
 
 // ============================================
-// INITIAL STATE
+// CONSTANTS
 // ============================================
 
-import { AUTO_SAVE_DELAY, SUCCESS_MESSAGE_DELAY } from './constants';
-
+/**
+ * Predefined color palettes for quick selection
+ * Each palette follows modern design principles with good contrast
+ */
 const DEFAULT_COLOR_PALETTES: ColorPalette[] = [
     {
         primary: '#6366f1',
@@ -103,6 +104,9 @@ const DEFAULT_COLOR_PALETTES: ColorPalette[] = [
     }
 ];
 
+/**
+ * Default content configuration for new projects
+ */
 export const INITIAL_CONTENT: ContentConfig = {
     headline: 'Ihr Erfolg beginnt hier',
     subheadline: 'Professionelle Websites für Ihr Business',
@@ -111,9 +115,9 @@ export const INITIAL_CONTENT: ContentConfig = {
 };
 
 /**
- * Get default color palette
+ * Returns default color palette (indigo/violet theme)
  */
-export const getDefaultColors = () => ({
+export const getDefaultColors = (): ColorPalette => ({
     primary: '#6366f1',
     secondary: '#8b5cf6',
     accent: '#ec4899',
@@ -122,10 +126,13 @@ export const getDefaultColors = () => ({
 });
 
 /**
- * Get default content
+ * Returns default content configuration
  */
-export const getDefaultContent = () => INITIAL_CONTENT;
+export const getDefaultContent = (): ContentConfig => INITIAL_CONTENT;
 
+/**
+ * Creates initial state from optional partial config
+ */
 const getInitialState = (initialConfig?: Partial<ProjectConfig>): ProjectConfig => ({
     colors: initialConfig?.colors || DEFAULT_COLOR_PALETTES[0],
     layout: initialConfig?.layout || 'modern',

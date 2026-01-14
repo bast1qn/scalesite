@@ -1,8 +1,15 @@
+// ============================================
+// IMPORTS
+// ============================================
+
+// React
 import React, { useContext, useState, useCallback } from 'react';
 
-// Internal imports
+// Internal
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
+
+// Icons
 import {
     ArrowLeftOnRectangleIcon,
     Bars3Icon,
@@ -20,7 +27,7 @@ import {
     TicketIcon,
     UserGroupIcon,
     UsersIcon,
-    XMarkIcon
+    XMarkIcon,
 } from '../Icons';
 
 interface DashboardLayoutProps {
