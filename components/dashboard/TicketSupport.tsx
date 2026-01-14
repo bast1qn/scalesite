@@ -55,7 +55,12 @@ interface TicketMember {
 }
 
 // --- HELPER FUNCTIONS ---
-const priorityOptions = [ { value: 'Niedrig', label: 'Niedrig' }, { value: 'Mittel', label: 'Mittel' }, { value: 'Hoch', label: 'Hoch' }];
+// ✅ PERFORMANCE: Move static data outside component to prevent recreation on every render
+const priorityOptions = [
+  { value: 'Niedrig', label: 'Niedrig' },
+  { value: 'Mittel', label: 'Mittel' },
+  { value: 'Hoch', label: 'Hoch' }
+] as const;
 
 /**
  * Returns Tailwind CSS classes for ticket status badges

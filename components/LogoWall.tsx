@@ -1,7 +1,8 @@
 
-import { useMemo, type FC } from 'react';
+import { useMemo, memo, type FC } from 'react';
 import { useLanguage } from '../contexts';
 
+// ✅ PERFORMANCE: Move static data outside component to prevent recreation on every render
 const logos = [
   { name: "TechFlow", color: "#3B82F6" },
   { name: "NexaCorp", color: "#10B981" },
@@ -13,10 +14,10 @@ const logos = [
   { name: "Cipher", color: "#F43F5E" },
   { name: "Quantum", color: "#8B5CF6" },
   { name: "Nova", color: "#06B6D4" },
-];
+] as const;
 
-// Memoized logo item component to prevent re-renders
-const LogoItem: FC<{ logo: typeof logos[0] }> = ({ logo }) => (
+// ✅ PERFORMANCE: Memoized logo item component to prevent unnecessary re-renders
+const LogoItem: FC<{ logo: typeof logos[0] }> = memo(({ logo }) => (
   <div className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-[1.02]">
     <div
       className="w-8 h-8 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:scale-[1.02]"
@@ -26,7 +27,8 @@ const LogoItem: FC<{ logo: typeof logos[0] }> = ({ logo }) => (
       {logo.name}
     </span>
   </div>
-  );
+));
+LogoItem.displayName = 'LogoItem';
 
 export const LogoWall = () => {
   const { t } = useLanguage();
