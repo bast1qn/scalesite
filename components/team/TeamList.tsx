@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TeamMember, MemberCard } from './MemberCard';
+import { TeamMember, MemoizedMemberCard } from './MemberCard';
 import { TeamInvite } from './TeamInvite';
 import { TeamRole } from './RoleBadge';
 import { TeamCardSkeleton } from '../skeleton';
@@ -361,7 +361,7 @@ const TeamList: React.FC<TeamListProps> = ({
                 >
                     <AnimatePresence>
                         {filteredMembers.map((member) => (
-                            <MemberCard
+                            <MemoizedMemberCard
                                 key={member.id}
                                 member={member}
                                 currentUserId={currentUserId}

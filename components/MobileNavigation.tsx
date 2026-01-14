@@ -1,4 +1,4 @@
-import { useContext, type ReactNode } from 'react';
+import { useContext, type ReactNode, memo } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { AuthContext, useLanguage } from '../contexts';
 import { UserCircleIcon, ArrowRightIcon } from './Icons';
@@ -71,7 +71,7 @@ interface NavItemProps {
     index: number;
 }
 
-const NavItem = ({ page, label, currentPage, onClick, index }: NavItemProps) => {
+const NavItem = memo(({ page, label, currentPage, onClick, index }: NavItemProps) => {
     const isActive = currentPage === page;
 
     return (
@@ -89,7 +89,16 @@ const NavItem = ({ page, label, currentPage, onClick, index }: NavItemProps) => 
             {label}
         </motion.button>
     );
-};
+}, (prevProps, nextProps) => {
+    return (
+        prevProps.page === nextProps.page &&
+        prevProps.label === nextProps.label &&
+        prevProps.currentPage === nextProps.currentPage &&
+        prevProps.onClick === nextProps.onClick
+    );
+});
+
+NavItem.displayName = 'NavItem';
 
 interface ActionButtonProps {
     children: ReactNode;

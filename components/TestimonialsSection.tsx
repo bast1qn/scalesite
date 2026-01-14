@@ -1,5 +1,5 @@
 
-import { useState, type FC, memo } from 'react';
+import { useState, type FC, memo, useCallback, useMemo } from 'react';
 import { AnimatedSection, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './index';
 import { useLanguage } from '../contexts';
 
@@ -49,7 +49,7 @@ const FeatureCardComponent: FC<{
     const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
     const [isHovered, setIsHovered] = useState(false);
 
-    const handleMouseMove = (e: { currentTarget: HTMLDivElement; clientX: number; clientY: number }) => {
+    const handleMouseMove = useCallback((e: { currentTarget: HTMLDivElement; clientX: number; clientY: number }) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -61,14 +61,14 @@ const FeatureCardComponent: FC<{
 
         setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`);
         setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
-    };
+    }, []);
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = useCallback(() => {
         setTransform('perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)');
         setIsHovered(false);
-    };
+    }, []);
 
-    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseEnter = useCallback(() => setIsHovered(true), []);
 
     return (
         <div
@@ -136,7 +136,15 @@ const FeatureCardComponent: FC<{
 };
 
 // Memoize FeatureCard to prevent unnecessary re-renders
-const FeatureCard = memo(FeatureCardComponent);
+const FeatureCard = memo(FeatureCardComponent, (prevProps, nextProps) => {
+    return (
+        prevProps.feature === nextProps.feature &&
+        prevProps.index === nextProps.index &&
+        prevProps.t === nextProps.t
+    );
+});
+
+FeatureCard.displayName = 'FeatureCard';
 
 export const TestimonialsSection: FC = () => {
     const { t } = useLanguage();
@@ -166,22 +174,26 @@ export const TestimonialsSection: FC = () => {
             <div className="absolute top-1/2 left-[50%] w-60 h-60 bg-gradient-to-br from-emerald-400/20 to-teal-400/15 rounded-full blur-3xl animate-antigravity shadow-glow-aurora" style={{ animationDelay: '1s' }}></div>
 
             {/* COSMIC PARTICLES */}
-            {Array.from({ length: 25 }).map((_, i) => (
-                <div
-                    key={`particle-${i}`}
-                    className="absolute w-1 h-1 rounded-full animate-antigravity shadow-glow-cosmic-sm"
-                    style={{
-                        left: `${5 + Math.random() * 90}%`,
-                        bottom: `${Math.random() * 50}%`,
-                        animationDelay: `${Math.random() * 4}s`,
-                        animationDuration: `${5 + Math.random() * 5}s`,
-                        background: Math.random() > 0.5
-                          ? 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)'
-                          : 'radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%)',
-                        boxShadow: `0 0 ${6 + Math.random() * 8}px ${Math.random() > 0.5 ? 'rgba(59, 130, 246, 0.6)' : 'rgba(139, 92, 246, 0.6)'}`,
-                    }}
-                ></div>
-            ))}
+            {useMemo(() => Array.from({ length: 25 }, (_, i) => {
+                const isBlue = Math.random() > 0.5;
+                const size = 6 + Math.random() * 8;
+                return (
+                    <div
+                        key={`particle-${i}`}
+                        className="absolute w-1 h-1 rounded-full animate-antigravity shadow-glow-cosmic-sm"
+                        style={{
+                            left: `${5 + Math.random() * 90}%`,
+                            bottom: `${Math.random() * 50}%`,
+                            animationDelay: `${Math.random() * 4}s`,
+                            animationDuration: `${5 + Math.random() * 5}s`,
+                            background: isBlue
+                              ? 'radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%)'
+                              : 'radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%)',
+                            boxShadow: `0 0 ${size}px ${isBlue ? 'rgba(59, 130, 246, 0.6)' : 'rgba(139, 92, 246, 0.6)'}`,
+                        }}
+                    ></div>
+                );
+            }), [])}
 
             {/* COSMIC dot pattern */}
             <div className="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none animate-starfield" style={{
