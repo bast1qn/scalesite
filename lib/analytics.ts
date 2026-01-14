@@ -324,7 +324,9 @@ export const trackButtonClick = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ TYPE FIX: Properly typed user access
+        const result = await supabase.auth.getUser();
+        const user = result.data?.user;
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -356,7 +358,9 @@ export const trackFileDownload = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ TYPE FIX: Properly typed user access
+        const result = await supabase.auth.getUser();
+        const user = result.data?.user;
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -391,7 +395,9 @@ export const trackScrollDepth = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ TYPE FIX: Properly typed user access
+        const result = await supabase.auth.getUser();
+        const user = result.data?.user;
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -679,19 +685,31 @@ export const setupAutoTracking = (): (() => void) => {
     trackPageView(window.location.pathname, document.title);
 
     let lastPath = window.location.pathname;
+    // ✅ MEMORY LEAK FIX: Proper cleanup on error
+    let isObserving = true;
     const observer = new MutationObserver(() => {
+        if (!isObserving) return; // Guard against callback after disconnect
         if (window.location.pathname !== lastPath) {
             lastPath = window.location.pathname;
             trackPageView(lastPath, document.title);
         }
     });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    try {
+        observer.observe(document.body, { childList: true, subtree: true });
+    } catch (error) {
+        // Document body might not be ready yet
+        if (import.meta.env.DEV) {
+            console.error('[Analytics] Failed to observe document body:', error);
+        }
+        isObserving = false;
+    }
 
     let maxDepth = 0;
     const depths = [25, 50, 75, 100];
 
     const handleScroll = () => {
+        if (!isObserving) return; // Guard against callback after cleanup
         const scrollPercent = Math.round(
             (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
         );
@@ -707,6 +725,7 @@ export const setupAutoTracking = (): (() => void) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
+        isObserving = false;
         observer.disconnect();
         window.removeEventListener('scroll', handleScroll);
     };

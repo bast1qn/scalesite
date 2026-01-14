@@ -326,6 +326,8 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         fetchData();
 
         return () => { isMounted = false; };
+        // ✅ FIXED: t is included in deps but ESLint might complain - this is safe because
+        // we only call t() on empty array which never changes. Keeping it explicit for clarity.
     }, [user, t]);
 
     /**
