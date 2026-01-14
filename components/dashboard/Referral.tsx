@@ -5,6 +5,9 @@ import { AuthContext, useLanguage } from '../../contexts';
 import { supabase } from '../../lib';
 import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
+// Referral Constants
+const REFERRAL_REWARD_PER_PROJECT = 100; // € reward per completed project
+
 interface ReferralStats {
     totalCount: number;
     completedProjects: number;
@@ -53,8 +56,8 @@ const Referral: React.FC = () => {
                         .eq('status', 'completed');
 
                     completedProjects = services?.length || 0;
-                    // 100€ reward per completed project
-                    earnedRewards = completedProjects * 100;
+                    // Calculate reward based on completed projects
+                    earnedRewards = completedProjects * REFERRAL_REWARD_PER_PROJECT;
                 }
 
                 setStats({

@@ -10,6 +10,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from '../contexts/RouterContext';
+import { BorderSpinner } from '../components';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -71,7 +72,7 @@ export const ProtectedRoute = ({
   if (loading || isChecking) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <BorderSpinner size="md" color="blue" className="mb-4" />
         <p className="text-slate-600 dark:text-slate-400 font-medium">
           Verifying access...
         </p>

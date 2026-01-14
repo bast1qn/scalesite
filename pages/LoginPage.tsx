@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, type FormEvent } from 'react';
 import { AuthContext, useLanguage } from '../contexts';
-import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo } from '../components';
+import { ArrowRightOnRectangleIcon, GoogleIcon, GitHubIcon, ScaleSiteLogo, BorderSpinner } from '../components';
 import { supabase, validateEmail, validateString, validateSessionToken, handleLoginError } from '../lib';
 
 interface LoginPageProps {
@@ -192,7 +192,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
   if (loading && !email && !password) { // Show loading screen if verifying token from URL
       return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950">
-             <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+             <BorderSpinner size="md" color="blue" className="mb-4" />
              <p className="text-slate-500">{t('auth.logging_in')}</p>
         </div>
       );

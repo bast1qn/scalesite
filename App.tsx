@@ -5,7 +5,7 @@ import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 're
 import { AnimatePresence } from 'framer-motion';
 
 // Internal - Components
-import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer } from './components';
+import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer, BorderSpinner } from './components';
 
 // Internal - Contexts
 import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider, ThemeProvider } from './contexts';
@@ -39,7 +39,7 @@ const PageLoader = () => {
     return (
         <div className="min-h-screen flex items-center justify-center">
             <div className="flex flex-col items-center gap-4">
-                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <BorderSpinner size="md" color="primary" />
                 <p className="text-slate-500 dark:text-slate-400 text-sm">{t('general.loading')}</p>
             </div>
         </div>

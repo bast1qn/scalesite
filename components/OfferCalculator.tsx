@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useMemo, type ChangeEvent } from 'react';
-import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon, CustomSelect } from './index';
+import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon, CustomSelect, BorderSpinner } from './index';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { api, triggerConfetti } from '../lib';
 
@@ -392,7 +392,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
 
                             {requestStep === 'sending' && (
                                 <div className="flex flex-col items-center justify-center py-8">
-                                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                                    <BorderSpinner size="md" color="primary" className="mb-4" />
                                     <p className="text-slate-600 dark:text-slate-400 font-medium">{t('pricing.modal.btn_sending')}</p>
                                 </div>
                             )}
