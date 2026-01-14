@@ -127,7 +127,8 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                     throw new Error('Fehler beim Erstellen des Projekts');
                 }
 
-                // TODO: Redirect to new project or return ID
+                // Return the new project ID so caller can redirect or use it
+                return newProject.id;
             }
 
             setConfig(newConfig);

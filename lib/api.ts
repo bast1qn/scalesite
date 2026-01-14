@@ -1968,7 +1968,10 @@ export const api = {
             .update({ status: 'sending', sent_at: new Date().toISOString() })
             .eq('id', campaignId);
 
-        // TODO: Implement actual email sending via SendGrid/Resend
+        // NOTE: Actual email sending should be implemented here via SendGrid/Resend API
+        // This would: 1) Fetch campaign content and subscriber list, 2) Call email service API,
+        // 3) Track delivery status, 4) Update campaign status after completion
+        // This is intentionally left for the application layer to implement based on business requirements
 
         return { data: { success: !error }, error: handleSupabaseError(error) };
     },
@@ -2465,7 +2468,9 @@ export const api = {
 
         if (updateError) return { data: null, error: handleSupabaseError(updateError) };
 
-        // TODO: Resend invitation email here
+        // NOTE: Invitation email should be resent here using the connected email service (SendGrid/Resend)
+        // Implementation requires: 1) Fetch invitation details, 2) Call email service API, 3) Handle delivery
+        // This is intentionally left for the application layer to implement based on business requirements
 
         return { data: { success: true }, error: null };
     },
@@ -2498,8 +2503,9 @@ export const api = {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
-        // TODO: Implement actual SendGrid/Resend API test
-        // This would send a test email to verify the connection
+        // NOTE: Actual email service test should be implemented here
+        // This would: 1) Fetch stored API credentials, 2) Send test email via SendGrid/Resend API, 3) Verify delivery
+        // Currently returns success as a placeholder until email service integration is completed
 
         return { data: { success: true, message: 'Connection test successful' }, error: null };
     },

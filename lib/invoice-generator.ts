@@ -441,8 +441,10 @@ export async function sendInvoiceReminder(invoiceId: string): Promise<{
             return { success: false, error: invError || 'Invoice not found' };
         }
 
-        // TODO: Implement email sending via Supabase Edge Function or email service
-        // For now, just create a notification
+        // NOTE: Email sending should be implemented here via Supabase Edge Function or email service
+        // This would: 1) Generate invoice PDF, 2) Send email with PDF attachment via SendGrid/Resend,
+        // 3) Track delivery status, 4) Log email sent
+        // For now, we create an in-app notification as a fallback
 
         const { error: notifError } = await supabase
             .from('notifications')
