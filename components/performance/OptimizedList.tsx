@@ -44,7 +44,7 @@ const OptimizedListItem = <T,>({
       {renderItem(item, index)}
     </div>
   );
-} as <T>(props: OptimizedListItemProps<T>) => JSX.Element;
+};
 
 /**
  * Optimized List Component
