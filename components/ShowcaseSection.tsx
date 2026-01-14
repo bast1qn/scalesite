@@ -20,6 +20,67 @@ interface ShowcaseItem {
   gradient?: string;
 }
 
+// PERFORMANCE: Extract ShowcaseItemCard outside parent component
+// Previously defined inline, causing recreation on every render
+// Now properly memoized and defined at module level
+interface ShowcaseItemCardProps {
+  item: ShowcaseItem;
+  setCurrentPage: (page: string) => void;
+  t: (key: string) => string;
+}
+
+const ShowcaseItemCard = memo(({ item, setCurrentPage, t }: ShowcaseItemCardProps) => (
+  <div className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400/60 dark:hover:border-violet-500/60 hover:shadow-premium-lg hover:shadow-primary-500/10 hover:scale-[1.01] active:scale-[0.99] transition-all duration-500 hover:-translate-y-2 focus-within:ring-2 focus-within:ring-primary-500/50">
+    <div className="aspect-video w-full overflow-hidden relative">
+      {item.gradient ? (
+        <div className={`w-full h-full bg-gradient-to-br ${item.gradient} group-hover:scale-[1.02] transition-transform duration-700`}></div>
+      ) : (
+        <img
+          src={item.image_url}
+          alt={item.title}
+          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+        <button
+          onClick={() => setCurrentPage(item.route || 'preise')}
+          className="bg-white text-slate-900 font-bold py-4 px-8 min-h-12 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none relative overflow-hidden group/btn-2"
+        >
+          <span className="absolute inset-0 bg-gradient-to-r from-primary-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
+          <EyeIcon className="w-5 h-5" />
+          {t('showcase.view_btn')}
+        </button>
+      </div>
+      <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-700"></div>
+    </div>
+    <div className="p-7 flex flex-col flex-grow relative">
+      <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
+      <div className="flex-grow relative z-10">
+        <span className="text-xs font-bold bg-gradient-to-r from-primary-500/15 to-violet-500/15 text-primary-600 dark:text-primary-400 px-3 py-2 min-h-8 rounded-full uppercase tracking-wider-plus border border-primary-200/50 dark:border-primary-800/30 shadow-sm group-hover:scale-105 active:scale-95 transition-transform duration-300">
+          {item.category}
+        </span>
+        <h3 className="mt-5 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-serif leading-snug group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-all duration-300">{item.title}</h3>
+        <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed-plus text-sm">{item.excerpt}</p>
+      </div>
+      <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
+        <button
+          onClick={() => setCurrentPage(item.route || 'preise')}
+          className="inline-flex items-center gap-2 text-primary-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-primary-700 dark:hover:text-violet-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none rounded-lg px-2 py-1 -mx-2 -my-1"
+        >
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
+            {t('showcase.details_btn')}
+          </span>
+          <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-[1.02]" />
+        </button>
+      </div>
+    </div>
+  </div>
+));
+ShowcaseItemCard.displayName = 'ShowcaseItemCard';
+
 // Static showcase items
 const staticShowcaseItems: ShowcaseItem[] = [
   {
@@ -93,60 +154,6 @@ export const ShowcaseSection = ({
   const handleFilterChange = useCallback((category: string) => {
     setActiveFilter(category);
   }, []);
-
-  // Memoize ShowcaseItem card component to prevent unnecessary re-renders
-  const ShowcaseItemCard = memo(({ item, setCurrentPage, t }: {
-    item: typeof allItems[0];
-    setCurrentPage: (page: string) => void;
-    t: (key: string) => string;
-  }) => (
-    <div className="fancy-card group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-premium overflow-hidden flex flex-col border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400/60 dark:hover:border-violet-500/60 hover:shadow-premium-lg hover:shadow-primary-500/10 hover:scale-[1.01] active:scale-[0.99] transition-all duration-500 hover:-translate-y-2 focus-within:ring-2 focus-within:ring-primary-500/50">
-      <div className="aspect-video w-full overflow-hidden relative">
-        {item.gradient ? (
-          <div className={`w-full h-full bg-gradient-to-br ${item.gradient} group-hover:scale-[1.02] transition-transform duration-700`}></div>
-        ) : (
-          <img
-            src={item.image_url}
-            alt={item.title}
-            className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
-            loading="lazy"
-            decoding="async"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-          <button onClick={() => setCurrentPage(item.route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 min-h-12 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none relative overflow-hidden group/btn-2">
-            <span className="absolute inset-0 bg-gradient-to-r from-primary-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
-            <EyeIcon className="w-5 h-5" />
-            {t('showcase.view_btn')}
-          </button>
-        </div>
-        <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-700"></div>
-      </div>
-      <div className="p-7 flex flex-col flex-grow relative">
-        <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
-        <div className="flex-grow relative z-10">
-          <span className="text-xs font-bold bg-gradient-to-r from-primary-500/15 to-violet-500/15 text-primary-600 dark:text-primary-400 px-3 py-2 min-h-8 rounded-full uppercase tracking-wider-plus border border-primary-200/50 dark:border-primary-800/30 shadow-sm group-hover:scale-105 active:scale-95 transition-transform duration-300">
-            {item.category}
-          </span>
-          <h3 className="mt-5 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-serif leading-snug group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-all duration-300">{item.title}</h3>
-          <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed-plus text-sm">{item.excerpt}</p>
-        </div>
-        <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
-          <button
-            onClick={() => setCurrentPage(item.route || 'preise')}
-            className="inline-flex items-center gap-2 text-primary-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-primary-700 dark:hover:text-violet-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none rounded-lg px-2 py-1 -mx-2 -my-1"
-          >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
-              {t('showcase.details_btn')}
-            </span>
-            <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-[1.02]" />
-          </button>
-        </div>
-      </div>
-    </div>
-  ));
-  ShowcaseItemCard.displayName = 'ShowcaseItemCard';
 
   return (
     <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">

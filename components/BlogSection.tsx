@@ -1,5 +1,5 @@
 
-import { useMemo } from 'react';
+import { useMemo, React } from 'react';
 import { ArrowRightIcon, CalendarDaysIcon, ClockIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
@@ -172,5 +172,6 @@ export const BlogSection = () => {
   );
 };
 
-// Memoize BlogSection to prevent unnecessary re-renders
-export const BlogSectionMemo = BlogSection;
+// PERFORMANCE: Properly memoize BlogSection to prevent unnecessary re-renders
+// Without React.memo, entire blog section re-renders on every parent update
+export const BlogSectionMemo = React.memo(BlogSection);

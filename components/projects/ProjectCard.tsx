@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, React } from 'react';
 import { motion } from 'framer-motion';
 import {
     CalendarDaysIcon,
@@ -235,4 +235,6 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     );
 };
 
-export const ProjectCardMemo = ProjectCard;
+// PERFORMANCE: Properly memoize ProjectCard to prevent unnecessary re-renders
+// Without React.memo, all cards re-render when any single card changes
+export const ProjectCardMemo = React.memo(ProjectCard);
