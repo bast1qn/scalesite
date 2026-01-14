@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, type FC } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts';
-import { api } from '../lib';
+import { api, getSafeURL } from '../lib';
 import { MilestoneTracker } from '../components/projects/MilestoneTracker';
 import { StatusTimeline } from '../components/projects/StatusTimeline';
 import type { Project, ProjectMilestone, TeamMember } from '../lib/supabase';
@@ -429,7 +429,7 @@ const ProjectDetailPage: FC<PageProps> = ({ setCurrentPage }) => {
                                     <div>
                                         <h4 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Vorschau-URL</h4>
                                         <a
-                                            href={project.preview_url}
+                                            href={getSafeURL(project.preview_url)}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-600 dark:text-blue-400 hover:underline"

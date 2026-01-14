@@ -1,5 +1,6 @@
 import React from 'react';
 import { BorderSpinner } from '../ui';
+import { getSafeURL } from '../../lib/validation';
 
 /**
  * TicketHistory Component
@@ -259,7 +260,7 @@ const TicketHistory: React.FC<TicketHistoryProps> = ({
                                                 {event.data.attachments.map((attachment, idx) => (
                                                     <a
                                                         key={idx}
-                                                        href={attachment.url}
+                                                        href={getSafeURL(attachment.url)}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
