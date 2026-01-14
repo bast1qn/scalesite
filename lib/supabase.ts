@@ -24,8 +24,17 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 60000);
 
+            // Ensure proper headers for Supabase REST API
+            const headers = {
+                ...options.headers,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'apikey': supabaseAnonKey,
+            };
+
             return fetch(url, {
                 ...options,
+                headers,
                 signal: controller.signal,
             })
             .then(response => {
@@ -41,15 +50,29 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             });
         },
     },
+    db: {
+        schema: 'public',
+    },
 });
 
 export const getUserProfile = async (userId: string) => {
-    const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-    return { data, error };
+    try {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle(); // Use maybeSingle to avoid 406 error if profile doesn't exist
+
+        // Suppress 406 and other API errors in console - they're expected for new users
+        if (error && error.code !== '406') {
+            console.warn('Error fetching user profile:', error.message);
+        }
+
+        return { data, error };
+    } catch (err) {
+        // Catch any network errors silently
+        return { data: null, error: err as Error };
+    }
 };
 
 export interface UserProfile {
@@ -471,9 +494,16 @@ export const executeQuery = async <T>(
 ): Promise<{ data: T | null; error: SupabaseError }> => {
     try {
         const { data, error } = await queryBuilder;
+
+        // Suppress expected errors (406, PGRST116 etc.) from console
+        if (error && !['406', 'PGRST116'].includes(error.code || '')) {
+            console.warn('Database query error:', error.message);
+        }
+
         return { data, error };
     } catch (error) {
-        return { data: null, error };
+        // Catch network errors silently
+        return { data: null, error: error as SupabaseError };
     }
 };
 

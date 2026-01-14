@@ -61,7 +61,7 @@ const isTeamMember = async (userId: string): Promise<boolean> => {
         .from('profiles')
         .select('role')
         .eq('id', userId)
-        .single();
+        .maybeSingle(); // Use maybeSingle to avoid 406 error if profile doesn't exist
 
     const result = data?.role === 'team' || data?.role === 'owner';
     setCached(`team_member_${userId}`, result);
@@ -169,7 +169,7 @@ export const api = {
             .from('profiles')
             .select('*')
             .eq('id', user.id)
-            .single();
+            .maybeSingle(); // Use maybeSingle to avoid 406 if profile doesn't exist
 
         return { data: { user: data }, error: handleSupabaseError(error) };
     },
@@ -507,7 +507,7 @@ export const api = {
             .from('profiles')
             .select('id')
             .eq('email', email)
-            .single();
+            .maybeSingle(); // Use maybeSingle to avoid 406 if user doesn't exist
 
         if (!userToAdd) {
             return { data: null, error: 'Nutzer nicht gefunden' };
@@ -528,7 +528,7 @@ export const api = {
             .from('profiles')
             .select('name')
             .eq('id', user.id)
-            .single();
+            .maybeSingle(); // Use maybeSingle to avoid 406 if profile doesn't exist
 
         const { error } = await supabase.from('ticket_members').insert({
             ticket_id: ticketId,
@@ -1575,7 +1575,7 @@ export const api = {
             .from('profiles')
             .select('id')
             .eq('email', email)
-            .single();
+            .maybeSingle(); // Use maybeSingle to avoid 406 if profile doesn't exist
 
         if (!profile) {
             return { data: null, error: 'User not found. Ask them to register first.' };
@@ -2366,7 +2366,7 @@ export const api = {
             .from('profiles')
             .select('name, email')
             .eq('id', user.id)
-            .single();
+            .maybeSingle(); // Use maybeSingle to avoid 406 if profile doesn't exist
 
         const { error } = await supabase
             .from('team_activity')
