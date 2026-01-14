@@ -1,4 +1,4 @@
-import { type ReactNode, memo } from 'react';
+import { type ReactNode } from 'react';
 import { Header, Footer, BackToTopButton } from './index';
 
 interface LayoutProps {

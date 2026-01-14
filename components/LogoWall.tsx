@@ -1,5 +1,5 @@
 
-import { useMemo, memo, type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { useLanguage } from '../contexts';
 
 const logos = [

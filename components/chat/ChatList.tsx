@@ -1,5 +1,5 @@
 // Chat List Component
-import { useState, useCallback, useMemo, memo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
 import Users from 'lucide-react/dist/esm/icons/users';

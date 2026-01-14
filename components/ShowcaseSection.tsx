@@ -1,5 +1,5 @@
 
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { ArrowTopRightOnSquareIcon, EyeIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 import { translations } from '../lib/translations';

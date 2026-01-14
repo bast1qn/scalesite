@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState, useRef, memo, useCallback, type ReactNode, type MouseEvent } from 'react';
+import { useEffect, useState, useRef, useCallback, type ReactNode, type MouseEvent } from 'react';
 
 // Internal - Components
 import { ArrowRightIcon } from './Icons';

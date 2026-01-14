@@ -1,5 +1,5 @@
 
-import { useState, type FC, memo, useCallback, useMemo } from 'react';
+import { useState, type FC, useCallback, useMemo } from 'react';
 import { AnimatedSection, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './index';
 import { useLanguage } from '../contexts';
 

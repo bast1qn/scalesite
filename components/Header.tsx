@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useMemo, memo, useCallback, type ReactNode } from 'react';
+import { useState, useContext, useRef, useMemo, useCallback, type ReactNode } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';

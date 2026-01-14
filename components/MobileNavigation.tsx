@@ -1,4 +1,4 @@
-import { useContext, type ReactNode, memo } from 'react';
+import { useContext, type ReactNode } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { AuthContext, useLanguage } from '../contexts';
 import { UserCircleIcon, ArrowRightIcon } from './Icons';

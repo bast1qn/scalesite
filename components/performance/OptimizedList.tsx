@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, memo, type CSSProperties } from 'react';
+import { ReactNode, useCallback, type CSSProperties } from 'react';
 
 /**
  * OptimizedList Component
