@@ -419,18 +419,18 @@ ${message}
                                     {!user && (
                                         <>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.name')}</label>
-                                                <input name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="Max Mustermann" />
+                                                <label htmlFor="pricing-name" className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.name')}</label>
+                                                <input id="pricing-name" name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="Max Mustermann" />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.email')}</label>
-                                                <input name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="ihre@email.de" />
+                                                <label htmlFor="pricing-email" className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.email')}</label>
+                                                <input id="pricing-email" name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="ihre@email.de" />
                                             </div>
                                         </>
                                     )}
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.message')}</label>
-                                        <textarea name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
+                                        <label htmlFor="pricing-message" className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.message')}</label>
+                                        <textarea id="pricing-message" name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
                                     </div>
 
                                     <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 text-white font-semibold py-3 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
