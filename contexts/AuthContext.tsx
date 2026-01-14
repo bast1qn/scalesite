@@ -297,12 +297,37 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
 
       if (data.user) {
-        // Update profile with company (trigger creates profile, but we need to update company)
+        // Create or update profile (handle case where trigger doesn't exist)
         if (data.user.id) {
-          await supabase
-            .from('profiles')
-            .update({ company })
-            .eq('id', data.user.id);
+          try {
+            // First try to update (in case trigger created profile)
+            const { error: updateError } = await supabase
+              .from('profiles')
+              .update({ company })
+              .eq('id', data.user.id);
+
+            // If update failed, try insert (trigger didn't work)
+            if (updateError) {
+              const { error: insertError } = await supabase
+                .from('profiles')
+                .insert({
+                  id: data.user.id,
+                  name,
+                  email: data.user.email || email,
+                  company,
+                  role: 'user',
+                  created_at: new Date().toISOString()
+                });
+
+              // Log error but don't fail registration
+              if (insertError) {
+                console.warn('Profile creation failed:', insertError.message);
+              }
+            }
+          } catch (profileError) {
+            // Ignore profile errors - user was created successfully
+            console.warn('Profile creation warning:', profileError);
+          }
         }
 
         await loadUserProfile(data.user.id);
