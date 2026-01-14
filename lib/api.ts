@@ -38,11 +38,15 @@ interface CacheEntry<T> {
 }
 
 const apiCache = new Map<string, CacheEntry<unknown>>();
-const CACHE_TTL = 60000; // ✅ PERFORMANCE: Increased from 5s to 60s - reduces duplicate API requests for rarely-changing data like services
+const CACHE_TTL = 60000; // ✅ PERFORMANCE: 60s cache for rarely-changing data like services
+const SHORT_CACHE_TTL = 5000; // ✅ PERFORMANCE: 5s cache for frequently-changing data
 
-const getCached = <T>(key: string): T | null => {
+// ✅ PERFORMANCE: Request deduplication - prevents duplicate simultaneous requests
+const pendingRequests = new Map<string, Promise<unknown>>();
+
+const getCached = <T>(key: string, ttl: number = CACHE_TTL): T | null => {
     const cached = apiCache.get(key) as CacheEntry<T> | undefined;
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    if (cached && Date.now() - cached.timestamp < ttl) {
         return cached.data;
     }
     return null;
@@ -50,6 +54,31 @@ const getCached = <T>(key: string): T | null => {
 
 const setCached = <T>(key: string, data: T): void => {
     apiCache.set(key, { data, timestamp: Date.now() });
+};
+
+/**
+ * ✅ PERFORMANCE: Deduplicate simultaneous requests
+ * If multiple components request the same data simultaneously,
+ * only one API call is made and all components share the result
+ */
+const dedupeRequest = <T,>(
+    key: string,
+    requestFn: () => Promise<T>
+): Promise<T> => {
+    // If request is already pending, return the existing promise
+    const existing = pendingRequests.get(key) as Promise<T> | undefined;
+    if (existing) {
+        return existing;
+    }
+
+    // Create new request and store promise
+    const promise = requestFn().finally(() => {
+        // Remove from pending map when complete
+        pendingRequests.delete(key);
+    });
+
+    pendingRequests.set(key, promise);
+    return promise;
 };
 
 const isTeamMember = async (userId: string): Promise<boolean> => {
@@ -197,6 +226,7 @@ export const api = {
 
     /**
      * Get all available services
+     * ✅ PERFORMANCE: Cached + request deduplication for parallel calls
      * @returns Array of all services or error
      */
     getServices: async () => {
@@ -204,16 +234,19 @@ export const api = {
         const cached = getCached<Service[]>('services_all');
         if (cached) return { data: cached, error: null };
 
-        const { data, error } = await supabase
-            .from('services')
-            .select('*')
-            .order('id');
+        // ✅ PERFORMANCE: Dedupe simultaneous requests
+        return dedupeRequest('services_all', async () => {
+            const { data, error } = await supabase
+                .from('services')
+                .select('*')
+                .order('id');
 
-        if (!error && data) {
-            setCached('services_all', data);
-        }
+            if (!error && data) {
+                setCached('services_all', data);
+            }
 
-        return { data, error: handleSupabaseError(error) };
+            return { data, error: handleSupabaseError(error) };
+        });
     },
 
     /**
@@ -1157,31 +1190,34 @@ export const api = {
         const cached = getCached<Project[]>(cacheKey);
         if (cached) return { data: cached, error: null };
 
-        const teamMember = await isTeamMember(user.id);
+        // ✅ PERFORMANCE: Dedupe simultaneous requests
+        return dedupeRequest(cacheKey, async () => {
+            const teamMember = await isTeamMember(user.id);
 
-        let query = supabase
-            .from('projects')
-            .select(`
-                *,
-                services (
-                    id,
-                    name,
-                    description
-                )
-            `)
-            .order('created_at', { ascending: false });
+            let query = supabase
+                .from('projects')
+                .select(`
+                    *,
+                    services (
+                        id,
+                        name,
+                        description
+                    )
+                `)
+                .order('created_at', { ascending: false });
 
-        if (!teamMember) {
-            query = query.eq('user_id', user.id);
-        }
+            if (!teamMember) {
+                query = query.eq('user_id', user.id);
+            }
 
-        const { data, error } = await query;
+            const { data, error } = await query;
 
-        if (!error && data) {
-            setCached(cacheKey, data);
-        }
+            if (!error && data) {
+                setCached(cacheKey, data);
+            }
 
-        return { data: data || [], error: handleSupabaseError(error) };
+            return { data: data || [], error: handleSupabaseError(error) };
+        });
     },
 
     getProject: async (projectId: string) => {

@@ -1,17 +1,14 @@
-import { FC, useMemo } from 'react';
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-    Cell,
-    Legend
-} from 'recharts';
+import { FC, useMemo, lazy, Suspense } from 'react';
 import { EyeIcon, ArrowUpIcon } from '../Icons';
 import type { DateRange } from './DateRangePicker';
+
+// ✅ PERFORMANCE: Lazy load Recharts to reduce initial bundle size
+const RechartsComponents = lazy(() => import('./RechartsComponents'));
+
+interface RechartsComponentsProps {
+    chartData: PageViewData[];
+    COLORS: string[];
+}
 
 interface PageViewData {
     page: string;
@@ -84,42 +81,13 @@ const PageViewsChart: FC<PageViewsChartProps> = ({ dateRange, data }) => {
             </div>
 
             <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="horizontal">
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
-                        <XAxis
-                            dataKey="page"
-                            className="text-xs text-slate-500 dark:text-slate-400"
-                            tick={{ fill: 'currentColor' }}
-                            angle={-45}
-                            textAnchor="end"
-                            height={80}
-                        />
-                        <YAxis
-                            className="text-xs text-slate-500 dark:text-slate-400"
-                            tick={{ fill: 'currentColor' }}
-                        />
-                        <Tooltip
-                            contentStyle={{
-                                backgroundColor: 'rgb(15 23 42)',
-                                border: '1px solid rgb(51 65 85)',
-                                borderRadius: '0.75rem',
-                                color: 'white',
-                            }}
-                            labelStyle={{ color: 'rgb(148 163 184)' }}
-                            formatter={(value: number) => [value.toLocaleString('de-DE'), 'Aufrufe']}
-                        />
-                        <Legend
-                            wrapperStyle={{ fontSize: '12px', fontWeight: 'bold' }}
-                            iconType="circle"
-                        />
-                        <Bar dataKey="views" name="Seitenaufrufe" radius={[8, 8, 0, 0]}>
-                            {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
+                <Suspense fallback={
+                    <div className="w-full h-full flex items-center justify-center text-slate-400">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500"></div>
+                    </div>
+                }>
+                    <RechartsComponents chartData={chartData} COLORS={COLORS} />
+                </Suspense>
             </div>
 
             {/* Top Pages List */}

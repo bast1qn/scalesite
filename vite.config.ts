@@ -21,7 +21,9 @@ export default defineConfig(({ mode }) => {
       })],
       cacheDir: false,
       optimizeDeps: {
-        include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react', 'recharts'],
+        // ✅ PERFORMANCE: Only pre-bundle core dependencies, lazy-load heavy libraries
+        include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
+        exclude: ['recharts', 'jspdf', 'html2canvas', '@google/genai'],
         force: true
       },
       define: {
@@ -45,9 +47,13 @@ export default defineConfig(({ mode }) => {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
             manualChunks: (id) => {
-              // React Core (stable, rarely changes) - include React ecosystem
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime') || id.includes('recharts') || id.includes('lucide-react')) {
+              // React Core (stable, rarely changes) - EXCEPT heavy libraries
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime') || id.includes('lucide-react')) {
                 return 'react-vendor';
+              }
+              // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
+              if (id.includes('recharts')) {
+                return 'charts';
               }
               // Supabase (large, separate chunk)
               if (id.includes('@supabase/supabase-js')) {
@@ -68,6 +74,10 @@ export default defineConfig(({ mode }) => {
               // ✅ PERFORMANCE: Separate router chunk
               if (id.includes('react-router-dom')) {
                 return 'router';
+              }
+              // Clerk authentication
+              if (id.includes('@clerk')) {
+                return 'auth';
               }
             }
           }
