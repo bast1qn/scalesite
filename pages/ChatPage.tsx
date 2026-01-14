@@ -39,10 +39,10 @@ export const ChatPage = ({ setCurrentPage }: ChatPageProps) => {
     // Fetch conversations
     const { conversations, isLoading: isLoadingConversations } = useConversations();
 
-    // Fetch active conversation
-    const { conversation: activeConversation } = useChat({
-        conversationId: activeConversationId || undefined
-    });
+    // Get active conversation from conversations list
+    const conversation = activeConversationId
+        ? conversations.find(c => c.id === activeConversationId)
+        : null;
 
     // Fetch messages
     const { messages, isLoading: isLoadingMessages } = useChatMessages({
@@ -134,7 +134,7 @@ export const ChatPage = ({ setCurrentPage }: ChatPageProps) => {
 
             {/* Main Chat Area */}
             <div className={`${!activeConversationId ? 'hidden md:flex' : 'flex'} flex-1 flex-col`}>
-                {activeConversation ? (
+                {conversation ? (
                     <>
                         {/* Chat Header */}
                         <div className="h-16 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-between px-4 shrink-0">
@@ -148,22 +148,22 @@ export const ChatPage = ({ setCurrentPage }: ChatPageProps) => {
 
                                 {/* Chat Avatar */}
                                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white font-semibold">
-                                    {activeConversation.type === 'group'
-                                        ? (activeConversation.name?.charAt(0) || 'G')
-                                        : getOtherParticipantName(activeConversation, user.id)?.charAt(0) || '?'
+                                    {conversation.type === 'group'
+                                        ? (conversation.name?.charAt(0) || 'G')
+                                        : getOtherParticipantName(conversation, user.id)?.charAt(0) || '?'
                                     }
                                 </div>
 
                                 {/* Chat Info */}
                                 <div>
                                     <h3 className="font-semibold text-slate-900 dark:text-white">
-                                        {activeConversation.type === 'group'
-                                            ? activeConversation.name
-                                            : getOtherParticipantName(activeConversation, user.id)
+                                        {conversation.type === 'group'
+                                            ? conversation.name
+                                            : getOtherParticipantName(conversation, user.id)
                                         }
                                     </h3>
                                     <p className="text-xs text-slate-500">
-                                        {activeConversation.participants.length} Teilnehmer
+                                        {conversation.participants.length} Teilnehmer
                                     </p>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@ export const ChatPage = ({ setCurrentPage }: ChatPageProps) => {
 
                         {/* Messages */}
                         <ChatWindow
-                            conversation={activeConversation}
+                            conversation={conversation}
                             messages={messages}
                             currentUserId={user.id}
                             onEditMessage={handleEditMessage}
