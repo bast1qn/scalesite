@@ -100,8 +100,8 @@ export function ContentEditor({
         setSaveError(null);
     }, [initialContent, maxLength]);
 
-    // Handle save
-    const handleSave = async () => {
+    // Handle save - MEMOIZED to fix useEffect dependency bug
+    const handleSave = useCallback(async () => {
         if (disabled || isSaving || !hasUnsavedChanges) {
             return;
         }
@@ -140,7 +140,7 @@ export function ContentEditor({
         } finally {
             setIsSaving(false);
         }
-    };
+    }, [disabled, isSaving, hasUnsavedChanges, content, changeDescription, onSave, readOnly]);
 
     // Handle cancel
     const handleCancel = () => {
@@ -174,7 +174,7 @@ export function ContentEditor({
                 clearTimeout(autoSaveTimerRef.current);
             }
         };
-    }, [content, hasUnsavedChanges, autoSaveInterval, disabled, isSaving]);
+    }, [content, hasUnsavedChanges, autoSaveInterval, disabled, isSaving, handleSave]);
 
     // Keyboard shortcuts
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {

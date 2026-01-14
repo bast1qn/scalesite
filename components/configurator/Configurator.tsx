@@ -200,6 +200,7 @@ export const Configurator = ({
     // Auto-save with debounce (3 seconds)
     const autoSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const lastSavedStateRef = useRef<ProjectConfig | null>(null);
+    const successMessageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Debounced auto-save function
     const debouncedAutoSave = useCallback(async () => {
@@ -217,8 +218,11 @@ export const Configurator = ({
             setHasUnsavedChanges(false);
             setSaveSuccess(true);
 
-            // Reset success message after delay
-            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
+            // Reset success message after delay - MEMORY LEAK FIX
+            if (successMessageTimeoutRef.current) {
+                clearTimeout(successMessageTimeoutRef.current);
+            }
+            successMessageTimeoutRef.current = setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
         } catch (error) {
             if (import.meta.env.DEV) {
                 console.error('Auto-save failed:', error);
@@ -255,6 +259,9 @@ export const Configurator = ({
             if (autoSaveTimeoutRef.current) {
                 clearTimeout(autoSaveTimeoutRef.current);
             }
+            if (successMessageTimeoutRef.current) {
+                clearTimeout(successMessageTimeoutRef.current);
+            }
         };
     }, []);
 
@@ -275,8 +282,11 @@ export const Configurator = ({
             setHasUnsavedChanges(false);
             setSaveSuccess(true);
 
-            // Reset success message after delay
-            setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
+            // Reset success message after delay - MEMORY LEAK FIX
+            if (successMessageTimeoutRef.current) {
+                clearTimeout(successMessageTimeoutRef.current);
+            }
+            successMessageTimeoutRef.current = setTimeout(() => setSaveSuccess(false), SUCCESS_MESSAGE_DELAY);
         } catch (error) {
             if (import.meta.env.DEV) {
                 console.error('Failed to save configuration:', error);

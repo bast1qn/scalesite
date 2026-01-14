@@ -88,11 +88,9 @@ const RealtimeAnalytics: FC<RealtimeAnalyticsProps> = ({ className = '', onUpdat
         setChannel(analyticsChannel);
 
         return () => {
-            if (channel) {
-                supabase.removeChannel(channel);
-            }
+            supabase.removeChannel(analyticsChannel);
         };
-    }, []);
+    }, [onUpdate]);
 
     const getActivityIcon = (type: AnalyticsUpdate['type']): string => {
         switch (type) {

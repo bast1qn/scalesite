@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 /**
  * CannedResponses Component
@@ -185,8 +185,8 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
         });
     }, [allResponses, selectedCategory, searchQuery]);
 
-    // Handle template selection
-    const handleSelectTemplate = (response: CannedResponse) => {
+    // Handle template selection - MEMOIZED with useCallback
+    const handleSelectTemplate = useCallback((response: CannedResponse) => {
         // Replace variables with placeholders
         let content = response.content;
         if (response.variables) {
@@ -196,10 +196,10 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
             });
         }
         onSelect(content);
-    };
+    }, [onSelect]);
 
-    // Handle create template
-    const handleCreateTemplate = () => {
+    // Handle create template - MEMOIZED with useCallback
+    const handleCreateTemplate = useCallback(() => {
         if (newTemplate.title && newTemplate.category && newTemplate.content) {
             onCreateTemplate?.({
                 title: newTemplate.title,
@@ -216,7 +216,30 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
             });
             setShowCreateModal(false);
         }
-    };
+    }, [newTemplate, onCreateTemplate]);
+
+    // MEMOIZED: Show create modal
+    const handleShowCreateModal = useCallback(() => {
+        setShowCreateModal(true);
+    }, []);
+
+    // MEMOIZED: Search query change handler
+    const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    }, []);
+
+    // MEMOIZED: Category selection handler
+    const handleCategorySelect = useCallback((category: string) => {
+        setSelectedCategory(category);
+    }, []);
+
+    // MEMOIZED: Delete template handler
+    const handleDeleteTemplate = useCallback((e: React.MouseEvent, templateId: string) => {
+        e.stopPropagation();
+        if (confirm('Möchten Sie diese Vorlage wirklich löschen?')) {
+            onDeleteTemplate?.(templateId);
+        }
+    }, [onDeleteTemplate]);
 
     if (loading) {
         return (
@@ -239,7 +262,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                     </h3>
                     {onCreateTemplate && (
                         <button
-                            onClick={() => setShowCreateModal(true)}
+                            onClick={handleShowCreateModal}
                             className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg transition-colors"
                         >
                             + Neu
@@ -253,7 +276,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                         type="text"
                         placeholder="Vorlagen durchsuchen..."
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={handleSearchChange}
                         className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <svg
@@ -273,7 +296,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                     {categories.map((category) => (
                         <button
                             key={category}
-                            onClick={() => setSelectedCategory(category)}
+                            onClick={() => handleCategorySelect(category)}
                             className={`
                                 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200
                                 ${selectedCategory === category
@@ -336,10 +359,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                 {/* Delete button for custom templates */}
                                 {response.isCustom && onDeleteTemplate && (
                                     <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onDeleteTemplate(response.id);
-                                        }}
+                                        onClick={(e) => handleDeleteTemplate(e, response.id)}
                                         className="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-all"
                                         title="Vorlage löschen"
                                     >

@@ -41,10 +41,9 @@ export const BeforeAfterSlider = ({
         const containerRect = containerRef.current?.getBoundingClientRect();
         if (!containerRect) return;
 
-        // Defensively check for touches array existence before accessing [0]
-        const clientX = 'touches' in event && event.touches?.[0]
-          ? event.touches[0].clientX
-          : (event as MouseEvent).clientX;
+        // UNSAFE ACCESS FIX: Store touch reference to avoid double array access
+        const touch = 'touches' in event ? event.touches?.[0] : undefined;
+        const clientX = touch ? touch.clientX : (event as MouseEvent).clientX;
 
         let position = ((clientX - containerRect.left) / containerRect.width) * 100;
         position = Math.max(0, Math.min(100, position));
