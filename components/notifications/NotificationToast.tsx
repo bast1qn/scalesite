@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNotifications, type AppNotification } from '../../contexts/NotificationContext';
+import { TIMING } from '../../lib/constants';
 import {
     BellIcon,
     BriefcaseIcon,
@@ -210,7 +211,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setIsVisible(false);
-                                            setTimeout(onClose, 300);
+                                            setTimeout(onClose, TIMING.uiNormal);
                                         }}
                                         className="shrink-0 p-2 min-h-8 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors hover:scale-110 active:scale-95 focus:ring-2 focus:ring-primary-500/50 focus:outline-none"
                                     >

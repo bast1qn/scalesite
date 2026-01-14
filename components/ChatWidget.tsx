@@ -4,6 +4,7 @@ import { ChatBubbleOvalLeftEllipsisIcon, XMarkIcon, PaperAirplaneIcon, SparklesI
 import { useLanguage } from '../contexts';
 import { translations } from '../lib/translations';
 import { useChatScroll } from '../lib/hooks';
+import { TIMING } from '../lib/constants';
 
 interface Message {
     id: string;
@@ -65,7 +66,7 @@ export const ChatWidget = () => {
         setIsLoading(true);
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, TIMING.typingDebounce));
 
             const lowerMessage = userMessage.toLowerCase();
             let responseText = t('chat_widget.error_connection');

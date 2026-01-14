@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GeneratedContent } from '../../lib/ai-content';
+import { TIMING } from '../../lib/constants';
 
 // ============================================
 // TYPES & INTERFACES
@@ -58,7 +59,7 @@ export function GeneratedContentCard({
             setCopySuccess(true);
             onCopy?.(currentContent);
 
-            setTimeout(() => setCopySuccess(false), 2000);
+            setTimeout(() => setCopySuccess(false), TIMING.toastDuration);
         } catch (err) {
             if (import.meta.env.DEV) {
                 console.error('Failed to copy:', err);

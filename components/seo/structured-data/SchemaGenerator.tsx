@@ -1,4 +1,4 @@
-import { SchemaFormData } from '../StructuredData';
+import type { SchemaFormData } from '../StructuredData';
 
 type SchemaType = 'Article' | 'NewsArticle' | 'BlogPosting' | 'LocalBusiness' | 'Organization' | 'Product' | 'Person' | 'WebSite';
 

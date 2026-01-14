@@ -80,6 +80,7 @@ export const Z_INDEX = {
 
 /**
  * Standard timing values in milliseconds
+ * Consolidated with TIMEOUTS to avoid duplication
  */
 export const TIMING = {
   /** Fast UI transition (150ms) */
@@ -96,10 +97,14 @@ export const TIMING = {
   staggerSlow: 150,
   /** Loading timeout before showing reset button (8000ms) */
   loadingTimeout: 8000,
-  /** Default request timeout (30000ms) */
+  /** Default request timeout (30000ms = 30 seconds) */
   requestTimeout: 30000,
+  /** Long request timeout for API calls (60000ms = 60 seconds) */
+  requestTimeoutLong: 60000,
   /** Toast notification duration (3000ms) */
   toastDuration: 3000,
+  /** Typing indicator debounce (1000ms = 1 second) */
+  typingDebounce: 1000,
   /** Days for offer countdown (7) */
   offerDays: 7,
   /** Success message auto-hide duration (3000ms) */
@@ -110,6 +115,12 @@ export const TIMING = {
   initialRenderDelay: 100,
   /** Password strength indicator segments (3) */
   passwordStrengthSegments: 3,
+  /** Cache TTL for API responses (60000ms = 60 seconds) */
+  cacheTTL: 60000,
+  /** Presence timeout for chat (30000ms = 30 seconds) */
+  presenceTimeout: 30000,
+  /** Subscription timeout (10000ms = 10 seconds) */
+  subscriptionTimeout: 10000,
 } as const;
 
 // ===== API & CACHE VALUES =====
@@ -153,7 +164,7 @@ export const VALIDATION = {
 // Re-exporting for backward compatibility
 
 /**
- * @deprecated Import BUTTON_PRIMARY, BUTTON_SECONDARY, etc. from lib/ui-patterns.ts instead
+ * @deprecated Use BUTTON_PRIMARY, BUTTON_SECONDARY, etc. from lib/ui-patterns.ts instead
  * Common button styles for consistency
  */
 export const BUTTON_STYLES = {
@@ -163,19 +174,6 @@ export const BUTTON_STYLES = {
   secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
   /** @deprecated Use BUTTON_ICON from lib/ui-patterns.ts */
   icon: 'w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50',
-} as const;
-
-/**
- * @deprecated Import GRADIENTS from lib/ui-patterns.ts instead
- * Common text styles for consistency
- */
-export const TEXT_STYLES = {
-  /** @deprecated Use GRADIENTS.primary from lib/ui-patterns.ts */
-  gradientPrimary: 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600',
-  /** @deprecated Use GRADIENTS from lib/ui-patterns.ts */
-  gradientBlue: 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600',
-  /** @deprecated Use GRADIENTS from lib/ui-patterns.ts */
-  gradientPremium: 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-violet-600',
 } as const;
 
 /**
@@ -304,17 +302,18 @@ export const BORDER_RADIUS = {
 
 /**
  * Request timeout values in milliseconds
+ * @deprecated Use TIMING constants instead for consistency
  */
 export const TIMEOUTS = {
-  /** ✅ CONSISTENCY: Cache TTL now matches API.cacheTTL (60000ms = 60 seconds) */
+  /** Cache TTL - use TIMING.cacheTTL instead */
   cacheTTL: 60000,
-  /** HTTP request timeout (60000ms = 60 seconds) */
+  /** HTTP request timeout - use TIMING.requestTimeoutLong instead */
   request: 60000,
-  /** Typing indicator debounce (1000ms = 1 second) */
+  /** Typing indicator debounce - use TIMING.typingDebounce instead */
   typingDebounce: 1000,
-  /** Presence timeout for chat (30000ms = 30 seconds) */
+  /** Presence timeout - use TIMING.presenceTimeout instead */
   presence: 30000,
-  /** Subscription timeout (10000ms = 10 seconds) */
+  /** Subscription timeout - use TIMING.subscriptionTimeout instead */
   subscription: 10000,
 } as const;
 

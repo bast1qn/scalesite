@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { XMarkIcon, CookieIcon, AdjustmentsHorizontalIcon } from './Icons';
 import { useLanguage } from '../contexts';
+import { TIMING } from '../lib/constants';
 
 interface CookiePreferences {
     essential: boolean;
@@ -28,7 +29,7 @@ export const CookieConsent = () => {
         try {
             const savedConsent = localStorage.getItem('cookie-consent');
             if (!savedConsent) {
-                const timer = setTimeout(() => setIsVisible(true), 1000);
+                const timer = setTimeout(() => setIsVisible(true), TIMING.typingDebounce);
                 timers.push(timer);
             } else {
                 const parsed = JSON.parse(savedConsent);
@@ -40,13 +41,13 @@ export const CookieConsent = () => {
                         marketing: Boolean(parsed.marketing)
                     });
                 } else {
-                    const timer = setTimeout(() => setIsVisible(true), 1000);
+                    const timer = setTimeout(() => setIsVisible(true), TIMING.typingDebounce);
                     timers.push(timer);
                 }
             }
         } catch (error) {
             // Failed to load cookie consent - show banner
-            const timer = setTimeout(() => setIsVisible(true), 1000);
+            const timer = setTimeout(() => setIsVisible(true), TIMING.typingDebounce);
             timers.push(timer);
         }
 

@@ -5,7 +5,8 @@
 
 import { useMemo } from 'react';
 import { useCurrency, useLanguage } from '../../contexts';
-import { type PriceBreakdown, calculateSavings, getDiscountPercentage } from '../../lib/pricing';
+import type { PriceBreakdown } from '../../lib/pricing';
+import { getDiscountPercentage } from '../../lib/pricing';
 
 interface PriceBreakdownDisplayProps {
     breakdown: PriceBreakdown;

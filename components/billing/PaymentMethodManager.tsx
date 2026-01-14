@@ -10,6 +10,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TIMING } from '../../lib/constants';
 import {
     CreditCardIcon,
     PlusIcon,
@@ -104,7 +105,7 @@ const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
             // 4. Attach the payment method to the customer
 
             // For now, simulate the process
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, TIMING.toastDuration));
 
             // Simulate success
             setAddStep('success');

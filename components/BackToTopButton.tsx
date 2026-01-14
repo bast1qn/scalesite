@@ -1,5 +1,6 @@
 import { ArrowUpIcon } from './Icons';
-import { scrollToTop, useScroll } from '../lib/utils';
+import { scrollToTop } from '../lib/utils';
+import { useScroll } from '../lib/hooks';
 
 export const BackToTopButton = () => {
   const isScrolled = useScroll(300);

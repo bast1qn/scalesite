@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import { DocumentArrowDownIcon, ArrowDownOnSquareIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
+import { TIMING } from '../../lib/constants';
 
 interface ExportCSVProps {
     dateRange: DateRange;
@@ -91,7 +92,7 @@ const ExportCSV: FC<ExportCSVProps> = ({ dateRange, className = '', onExport }) 
 
         try {
             // Simuliere Export-Delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, TIMING.typingDebounce));
 
             const data = generateMockExportData(dateRange);
             const filename = `analytics-${dateRange.from.toISOString().split('T')[0]}-${dateRange.to.toISOString().split('T')[0]}`;

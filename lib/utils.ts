@@ -3,9 +3,6 @@
  * Common helpers used across the application
  */
 
-// Re-export commonly used hooks for convenience
-export { useScroll } from './hooks';
-
 // ===== STORAGE HELPERS =====
 
 /**
