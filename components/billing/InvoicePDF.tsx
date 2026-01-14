@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useRef, useState } from 'react';
+import { useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Invoice, LineItem } from './InvoiceList';
@@ -43,12 +43,12 @@ const defaultCompanyInfo: CompanyInfo = {
     website: 'https://scalesite.de'
 };
 
-const InvoicePDF: FC<InvoicePDFProps> = ({
+const InvoicePDF = forwardRef<HTMLDivElement, InvoicePDFProps>(({
     invoice,
     companyInfo = defaultCompanyInfo,
     onGenerated,
     className = ''
-}) => {
+}, ref) => {
     const pdfRef = useRef<HTMLDivElement>(null);
     const [generating, setGenerating] = useState(false);
 
@@ -104,8 +104,8 @@ const InvoicePDF: FC<InvoicePDFProps> = ({
         }
     };
 
-    // Expose generate function
-    React.useImperativeHandle(pdfRef, () => ({
+    // Expose generate function via ref
+    useImperativeHandle(ref, () => ({
         generatePDF
     }));
 
@@ -157,10 +157,10 @@ const InvoicePDF: FC<InvoicePDFProps> = ({
                                     <strong>Rechnungsnummer:</strong> {invoice.invoiceNumber}
                                 </p>
                                 <p style={{ margin: '5px 0' }}>
-                                    <strong>Datum:</strong> {formatDate(invoice.date)}
+                                    <strong>Datum:</strong> {formatDateShort(invoice.date)}
                                 </p>
                                 <p style={{ margin: '5px 0' }}>
-                                    <strong>Fällig am:</strong> {formatDate(invoice.dueDate)}
+                                    <strong>Fällig am:</strong> {formatDateShort(invoice.dueDate)}
                                 </p>
                                 <p style={{ margin: '5px 0' }}>
                                     <strong>Status:</strong> {getStatusLabel(invoice.status)}
@@ -330,7 +330,9 @@ const InvoicePDF: FC<InvoicePDFProps> = ({
             </button>
         </>
     );
-};
+});
+
+InvoicePDF.displayName = 'InvoicePDF';
 
 export default InvoicePDF;
 
