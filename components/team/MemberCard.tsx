@@ -89,6 +89,9 @@ const MemberCard: React.FC<MemberCardProps> = ({
     const handleRemove = useCallback(async () => {
         if (!onRemove || isOwner) return;
 
+        // ✅ BUG FIX: SSR-safe window.confirm
+        if (typeof window === 'undefined') return;
+
         const confirmed = window.confirm(
             `Are you sure you want to remove ${member.name} from the team?`
         );

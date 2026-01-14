@@ -77,7 +77,10 @@ export const PageTransition = ({
         className={`w-full ${className}`}
         onAnimationComplete={(definition) => {
           if (definition === 'enter') {
-            (document.querySelector('[data-motion-container]') as HTMLElement)?.style.setProperty('will-change', 'auto');
+            // ✅ BUG FIX: SSR-safe document access
+            if (typeof document !== 'undefined') {
+              (document.querySelector('[data-motion-container]') as HTMLElement)?.style.setProperty('will-change', 'auto');
+            }
           }
         }}
         data-motion-container
