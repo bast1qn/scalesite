@@ -1,6 +1,11 @@
 
 import React from 'react';
-import { ServicesGrid, ProcessSteps, ServiceFeatures, BeforeAfterSlider, AnimatedSection, SparklesIcon } from '../components';
+import { ServicesGrid } from '../components/ServicesGrid';
+import { ProcessSteps } from '../components/ProcessSteps';
+import { ServiceFeatures } from '../components/ServiceFeatures';
+import { BeforeAfterSlider } from '../components/BeforeAfterSlider';
+import { AnimatedSection } from '../components/AnimatedSection';
+import { SparklesIcon } from '../components/Icons';
 import { useLanguage } from '../contexts';
 
 interface LeistungenPageProps {
