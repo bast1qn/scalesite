@@ -194,6 +194,24 @@ export const TRANSITION_STYLES = {
   fadeSlide: 'transition-all duration-300',
   /** Default interactive transition */
   interactive: 'transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50',
+  /** Basic smooth transition */
+  smooth: 'transition-all duration-300',
+  /** Fast transition */
+  fast: 'transition-all duration-250',
+  /** Slow transition */
+  slow: 'transition-all duration-500',
+} as const;
+
+/**
+ * Common interactive state patterns (hover, active, focus)
+ */
+export const INTERACTIVE_STATES = {
+  /** Subtle scale on hover/active */
+  hoverScale: 'hover:scale-[1.02] active:scale-[0.98]',
+  /** Medium scale on hover/active */
+  hoverScaleMedium: 'hover:scale-105 active:scale-95',
+  /** Strong scale on hover/active */
+  hoverScaleLarge: 'hover:scale-110 active:scale-90',
 } as const;
 
 // ===== TIMEOUT VALUES =====

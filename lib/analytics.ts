@@ -24,17 +24,33 @@ export interface AnalyticsEvent {
     timestamp?: string;
 }
 
-// Session Management
+/**
+ * Session Management for Analytics
+ * Maintains session state across page views using sessionStorage
+ */
+
 let currentSessionId: string | null = null;
 
+/**
+ * Retrieves or creates the current analytics session ID
+ *
+ * Uses sessionStorage to persist the session across page reloads.
+ * A session represents a single user visit and is used to group related events.
+ *
+ * @returns {string} The current session ID (UUID v4 format)
+ *
+ * @example
+ * ```ts
+ * const sessionId = getSessionId();
+ * console.log('Current session:', sessionId);
+ * ```
+ */
 const getSessionId = (): string => {
     if (currentSessionId) return currentSessionId;
 
-    // Try to get from sessionStorage
     let sessionId = sessionStorage.getItem('analytics_session_id');
 
     if (!sessionId) {
-        // Create new session
         sessionId = crypto.randomUUID();
         sessionStorage.setItem('analytics_session_id', sessionId);
     }
@@ -43,12 +59,39 @@ const getSessionId = (): string => {
     return sessionId;
 };
 
+/**
+ * Resets the current analytics session
+ *
+ * Clears the in-memory session ID and removes it from sessionStorage.
+ * Use this when a user logs out or when you want to start a new session.
+ *
+ * @example
+ * ```ts
+ * resetSession(); // Start fresh session after logout
+ * ```
+ */
 const resetSession = () => {
     currentSessionId = null;
     sessionStorage.removeItem('analytics_session_id');
 };
 
-// Track Page View
+/**
+ * Tracks a page view event
+ *
+ * Records when a user views a page, including referrer, user agent, and screen resolution.
+ * Automatically attaches the current user (if authenticated) and session ID.
+ *
+ * @param {string} path - The URL path of the page (e.g., '/pricing')
+ * @param {string} [title] - Optional page title (defaults to document.title)
+ * @param {Record<string, unknown>} [properties] - Additional custom properties to track
+ *
+ * @returns {Promise<void>}
+ *
+ * @example
+ * ```ts
+ * await trackPageView('/pricing', 'Pricing Page', { category: 'conversion' });
+ * ```
+ */
 export const trackPageView = async (
     path: string,
     title?: string,
@@ -362,7 +405,25 @@ export const getAnalyticsMetrics = async (
     }
 };
 
-// Helper Functions
+/**
+ * Helper Functions for Analytics Metrics Calculation
+ */
+
+/**
+ * Calculates the bounce rate from analytics events
+ *
+ * Bounce rate is the percentage of sessions with only one event (typically a single page view).
+ * A high bounce rate may indicate that users aren't finding what they're looking for.
+ *
+ * @param {AnalyticsEvent[]} events - Array of analytics events to analyze
+ * @returns {number} Bounce rate percentage (0-100)
+ *
+ * @example
+ * ```ts
+ * const bounceRate = calculateBounceRate(events);
+ * console.log(`Bounce rate: ${bounceRate}%`); // "Bounce rate: 45%"
+ * ```
+ */
 const calculateBounceRate = (events: AnalyticsEvent[]): number => {
     const sessions = new Set(events.map(e => e.session_id));
     let bouncedSessions = 0;
@@ -377,6 +438,21 @@ const calculateBounceRate = (events: AnalyticsEvent[]): number => {
     return sessions.size > 0 ? Math.round((bouncedSessions / sessions.size) * 100) : 0;
 };
 
+/**
+ * Calculates the average session duration in minutes
+ *
+ * Session duration is the time between the first and last event in a session.
+ * Only sessions with more than one event are included in the calculation.
+ *
+ * @param {AnalyticsEvent[]} events - Array of analytics events to analyze
+ * @returns {number} Average session duration in minutes (rounded to 1 decimal place)
+ *
+ * @example
+ * ```ts
+ * const avgDuration = calculateAvgSessionDuration(events);
+ * console.log(`Avg session: ${avgDuration} min`); // "Avg session: 4.5 min"
+ * ```
+ */
 const calculateAvgSessionDuration = (events: AnalyticsEvent[]): number => {
     const sessions = new Set(events.map(e => e.session_id));
     const durations: number[] = [];
@@ -395,6 +471,20 @@ const calculateAvgSessionDuration = (events: AnalyticsEvent[]): number => {
         : 0;
 };
 
+/**
+ * Calculates the top 10 most viewed pages
+ *
+ * Aggregates page views by path and returns them sorted by view count.
+ *
+ * @param {AnalyticsEvent[]} pageViews - Array of page_view events
+ * @returns {Array<{ path: string; views: number }>} Top 10 pages with view counts
+ *
+ * @example
+ * ```ts
+ * const topPages = calculateTopPages(pageViews);
+ * // Returns: [{ path: '/home', views: 150 }, { path: '/pricing', views: 89 }, ...]
+ * ```
+ */
 const calculateTopPages = (pageViews: AnalyticsEvent[]): Array<{ path: string; views: number }> => {
     const pageMap = new Map<string, number>();
 
@@ -409,6 +499,21 @@ const calculateTopPages = (pageViews: AnalyticsEvent[]): Array<{ path: string; v
         .slice(0, 10);
 };
 
+/**
+ * Calculates the top 10 traffic sources (referrers)
+ *
+ * Aggregates visits by referrer and returns them sorted by visit count.
+ * Direct traffic (no referrer) is labeled as "Direct".
+ *
+ * @param {AnalyticsEvent[]} pageViews - Array of page_view events
+ * @returns {Array<{ source: string; visits: number }>} Top 10 referrers with visit counts
+ *
+ * @example
+ * ```ts
+ * const topReferrers = calculateTopReferrers(pageViews);
+ * // Returns: [{ source: 'google.com', visits: 120 }, { source: 'Direct', visits: 85 }, ...]
+ * ```
+ */
 const calculateTopReferrers = (pageViews: AnalyticsEvent[]): Array<{ source: string; visits: number }> => {
     const referrerMap = new Map<string, number>();
 
@@ -424,13 +529,31 @@ const calculateTopReferrers = (pageViews: AnalyticsEvent[]): Array<{ source: str
         .slice(0, 10);
 };
 
-// Auto-tracking setup
-// ✅ FIXED: Return cleanup function to prevent memory leaks
+/**
+ * Sets up automatic analytics tracking for page views and scroll depth
+ *
+ * Initializes automatic tracking without manual event calls:
+ * - Tracks initial page view on setup
+ * - Monitors DOM changes to detect SPA navigation (route changes)
+ * - Tracks scroll depth at 25%, 50%, 75%, and 100% milestones
+ *
+ * **IMPORTANT**: Call the returned cleanup function when unmounting components
+ * to prevent memory leaks and duplicate event listeners.
+ *
+ * @returns {() => void} Cleanup function that removes event listeners and observers
+ *
+ * @example
+ * ```ts
+ * // In a React component
+ * useEffect(() => {
+ *   const cleanup = setupAutoTracking();
+ *   return () => cleanup(); // Clean up on unmount
+ * }, []);
+ * ```
+ */
 export const setupAutoTracking = (): (() => void) => {
-    // Track initial page view
     trackPageView(window.location.pathname, document.title);
 
-    // Track page changes (for SPA)
     let lastPath = window.location.pathname;
     const observer = new MutationObserver(() => {
         if (window.location.pathname !== lastPath) {
@@ -441,11 +564,9 @@ export const setupAutoTracking = (): (() => void) => {
 
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Track scroll depth at 25%, 50%, 75%, 100%
     let maxDepth = 0;
     const depths = [25, 50, 75, 100];
 
-    // ✅ FIXED: Store handler reference for proper cleanup
     const handleScroll = () => {
         const scrollPercent = Math.round(
             (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
@@ -461,7 +582,6 @@ export const setupAutoTracking = (): (() => void) => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // ✅ FIXED: Return cleanup function
     return () => {
         observer.disconnect();
         window.removeEventListener('scroll', handleScroll);
