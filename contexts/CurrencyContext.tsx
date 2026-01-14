@@ -74,9 +74,9 @@ export const CurrencyProvider: React.FC<CurrencyProviderProps> = ({ children }) 
 
     useEffect(() => {
         try {
-            const savedCurrency = localStorage.getItem('app_currency') as CurrencyCode | null;
-            if (savedCurrency && currencies[savedCurrency]) {
-                setCurrencyState(savedCurrency);
+            const savedCurrency = localStorage.getItem('app_currency');
+            if (savedCurrency && savedCurrency in currencies) {
+                setCurrencyState(savedCurrency as CurrencyCode);
             }
         } catch (error) {
             // localStorage not available (private browsing, quota exceeded, etc.)

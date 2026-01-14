@@ -203,15 +203,15 @@ export const PricingSection = ({ setCurrentPage }: PricingSectionProps) => {
       const form = e.target as HTMLFormElement;
       const formData = new FormData(form);
 
-      const rawName = formData.get('name') as string;
-      const rawEmail = formData.get('email') as string;
-      const rawMessage = formData.get('message') as string;
+      const rawName = formData.get('name') as string | null;
+      const rawEmail = formData.get('email') as string | null;
+      const rawMessage = formData.get('message') as string | null;
 
       // Validate inputs if user is not logged in
       if (!user) {
-          const nameValidation = validateName(rawName);
-          const emailValidation = validateEmail(rawEmail);
-          const messageValidation = validateString(rawMessage, { maxLength: 2000, allowEmpty: true });
+          const nameValidation = validateName(rawName || '');
+          const emailValidation = validateEmail(rawEmail || '');
+          const messageValidation = validateString(rawMessage || '', { maxLength: 2000, allowEmpty: true });
 
           if (!nameValidation.isValid || !emailValidation.isValid || !messageValidation.isValid) {
               alert(t('general.error') + ': Invalid input. Please check your data.');
