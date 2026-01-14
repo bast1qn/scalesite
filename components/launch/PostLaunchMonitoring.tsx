@@ -101,7 +101,8 @@ const PostLaunchMonitoring: React.FC = () => {
         })));
       }
     } catch (error) {
-      console.error('Error loading monitoring data:', error);
+      // Error loading monitoring data - show empty state
+      setAlerts([]);
     } finally {
       setIsLoading(false);
     }
