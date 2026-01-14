@@ -83,13 +83,10 @@ const Settings: React.FC = () => {
 
     /**
      * Shows success message with auto-dismiss
-     * ✅ FIX: Store timeout reference to prevent memory leaks on unmount
      */
     const showSuccess = useCallback((msg: string) => {
         setSuccessMsg(msg);
-        // Store timeout ID for cleanup
         const timeoutId = setTimeout(() => setSuccessMsg(''), SUCCESS_MESSAGE_TIMEOUT);
-        // Return cleanup function
         return () => clearTimeout(timeoutId);
     }, []);
 

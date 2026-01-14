@@ -39,7 +39,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             const { data: project, error: projectError } = await api.getProject(id);
 
             if (projectError) {
-                // ✅ FIXED: Handle ApiError type properly
                 throw new Error(typeof projectError === 'string' ? projectError : projectError.message || 'Unknown error');
             }
 
@@ -94,7 +93,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 });
 
                 if (updateError) {
-                    // ✅ FIXED: Handle ApiError type properly
                     throw new Error(typeof updateError === 'string' ? updateError : updateError.message || 'Unknown error');
                 }
 
@@ -102,7 +100,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 const { error: contentError } = await api.updateProjectContent(projectId, newConfig.content as Record<string, unknown>);
 
                 if (contentError) {
-                    // ✅ FIXED: Handle ApiError type properly
                     throw new Error(typeof contentError === 'string' ? contentError : contentError.message || 'Unknown error');
                 }
             } else {
@@ -121,7 +118,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
                 });
 
                 if (createError) {
-                    // ✅ FIXED: Handle ApiError type properly
                     throw new Error(typeof createError === 'string' ? createError : createError.message || 'Unknown error');
                 }
 
@@ -140,7 +136,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             if (import.meta.env.DEV) {
                 console.error('Failed to save config:', err);
             }
-            throw err; // Re-throw to let caller handle
+            throw err;
         } finally {
             setLoading(false);
         }
@@ -169,7 +165,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             // Initialize with default config
             reset();
         }
-    }, [projectId]); // ✅ FIXED: Only depend on projectId, loadConfig and reset are stable
+    }, [projectId]);
 
     return {
         config,

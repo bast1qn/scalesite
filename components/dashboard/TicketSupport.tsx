@@ -1,8 +1,23 @@
 // React imports
 import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
 
-// Internal imports
-import { CustomSelect, PlusCircleIcon, ArrowLeftIcon, PaperAirplaneIcon, TicketIcon, UserCircleIcon, XMarkIcon, CheckBadgeIcon, EnvelopeIcon, BuildingStorefrontIcon, BriefcaseIcon, UserPlusIcon } from '../index';
+// Internal imports - Icons
+import {
+    ArrowLeftIcon,
+    PaperAirplaneIcon,
+    TicketIcon,
+    UserCircleIcon,
+    XMarkIcon,
+    CheckBadgeIcon,
+    EnvelopeIcon,
+    BuildingStorefrontIcon,
+    BriefcaseIcon,
+    UserPlusIcon,
+    PlusCircleIcon,
+} from '../index';
+import { CustomSelect } from '../index';
+
+// Internal imports - Contexts & Libs
 import { AuthContext, useLanguage } from '../../contexts';
 import { api, getSafeURL } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';

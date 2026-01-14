@@ -7,13 +7,15 @@
 import React, { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
-// Internal
+// Internal - Contexts & Types
 import { AuthContext, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
+
+// Internal - API & Utils
 import { api } from '../../lib';
 import { getTimeAgo } from '../../lib/utils/dateFormat';
 
-// Components
+// Internal - Icons
 import {
     ArrowRightIcon,
     BellIcon,
@@ -27,6 +29,10 @@ import {
     ShieldCheckIcon,
     TicketIcon,
 } from '../Icons';
+
+// ============================================
+// TYPES
+// ============================================
 
 interface Project {
     id: string;
@@ -119,7 +125,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
      * Memoized function to render status badge for projects
      * Prevents recreation on every render for performance
      */
-    const getStatusBadge = useCallback((status: Project['status']) => {
+    const getStatusBadge = useCallback((status: Project['status']): React.ReactElement | null => {
         switch (status) {
             case 'pending': return (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40 shadow-sm">
@@ -320,14 +326,20 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         fetchData();
 
         return () => { isMounted = false; };
-    }, [user, t]); // ✅ FIXED: Added 't' to dependencies
+    }, [user, t]);
 
     /**
      * Reusable KPI card component for dashboard metrics
      * Supports optional click handling for navigation
      * ✅ PERFORMANCE: React.memo prevents unnecessary re-renders
      */
-    const KPICard = React.memo(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => {
+    const KPICard = React.memo(({ title, value, icon, subtext, onClick }: {
+        title?: string;
+        value: string | number;
+        icon: ReactNode;
+        subtext?: ReactNode;
+        onClick?: () => void;
+    }) => {
         return (
         <div
             onClick={onClick}
@@ -353,13 +365,17 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
             </p>
         </div>
         );
-    }); // Removed ArrowRightIcon from dependencies - it's a stable component import
+    });
 
     /**
      * Resource bar component for server stats
      * ✅ PERFORMANCE: React.memo prevents unnecessary re-renders
      */
-    const ResourceBar = React.memo(({ label, value, color }: {label: string; value: number; color: string}) => (
+    const ResourceBar = React.memo(({ label, value, color }: {
+        label: string;
+        value: number;
+        color: string;
+    }) => (
         <div>
             <div className="flex justify-between text-xs mb-1.5 text-slate-600 dark:text-slate-400">
                 <span className="font-medium">{label}</span>
@@ -506,7 +522,6 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                                 <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-semibold">Demo</span>
                             </div>
                             <div className="space-y-4">
-                                {/* ✅ PERFORMANCE: Extract to memoized component to prevent recreation */}
                                 <ResourceBar label="SSD Speicher" value={serverStats.diskUsage} color="bg-cyan-500" />
                                 <ResourceBar label="RAM Nutzung" value={serverStats.ramUsage} color="bg-violet-500" />
                                 <ResourceBar label="Bandbreite" value={serverStats.bandwidth} color="bg-indigo-500" />

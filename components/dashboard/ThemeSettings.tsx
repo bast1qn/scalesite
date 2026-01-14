@@ -1,5 +1,10 @@
+// React imports
+import React from 'react';
+
+// Third-party imports
 import { motion } from 'framer-motion';
-import { useCallback } from 'react';
+
+// Internal imports
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '../Icons';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -97,10 +102,9 @@ export const ThemeSettings = () => {
         },
     ];
 
-    // PERFORMANCE: Memoize theme change handlers
-    const handleThemeChange = useCallback((themeValue: Theme) => {
+    const handleThemeChange = (themeValue: Theme) => {
         setTheme(themeValue);
-    }, [setTheme]);
+    };
 
     return (
         <div className="space-y-4">

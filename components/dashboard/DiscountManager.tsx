@@ -1,9 +1,6 @@
 // React imports
 import React, { useState, useEffect } from 'react';
 
-// Third-party imports
-// None
-
 // Internal imports
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
@@ -77,7 +74,7 @@ const DiscountManager: React.FC = () => {
             setServices(servicesRes.data || []);
             setDiscounts(discountsRes.data || []);
         } catch (e) {
-            // Error fetching data - services/discounts will remain empty
+            // Silently handle error - data remains empty
         } finally {
             setLoading(false);
         }
@@ -152,7 +149,7 @@ const DiscountManager: React.FC = () => {
         } catch (e) {
             alertError(e instanceof Error ? e.message : 'Unknown error');
         }
-    }
+    };
 
     return (
         <div>
