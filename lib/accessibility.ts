@@ -207,11 +207,14 @@ export const showOnlyToScreenReaders = (element: HTMLElement): void => {
 
 /**
  * Skip to main content link handler
+ * FIXED: Return cleanup function to prevent memory leaks
  */
-export const setupSkipLinks = (): void => {
+export const setupSkipLinks = (): (() => void) => {
   const skipLinks = document.querySelectorAll('[href^="#"][data-skip]');
+  const handlers: Array<() => void> = [];
+
   skipLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    const handleClick = (e: Event) => {
       e.preventDefault();
       const targetId = link.getAttribute('href')?.substring(1);
       if (targetId) {
@@ -220,8 +223,16 @@ export const setupSkipLinks = (): void => {
           scrollIntoViewWithFocus(target);
         }
       }
-    });
+    };
+
+    link.addEventListener('click', handleClick);
+    handlers.push(() => link.removeEventListener('click', handleClick));
   });
+
+  // Return cleanup function
+  return () => {
+    handlers.forEach(cleanup => cleanup());
+  };
 };
 
 /**
