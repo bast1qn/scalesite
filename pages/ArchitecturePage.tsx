@@ -197,7 +197,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
           <AnimatedSection>
             <div className="max-w-4xl">
               <p className="text-white/80 text-base sm:text-lg mb-4 tracking-widest uppercase leading-relaxed">Architecture Studio</p>
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight mb-8">
                 Richter<br/>Architects
               </h1>
               <p className="text-white/90 text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed">

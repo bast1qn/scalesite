@@ -336,7 +336,7 @@ ${message || '- Keine Nachricht -'}
                             {t('automation.hero_badge')}
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-white drop-shadow-2xl">
+                        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-8 leading-tight text-white drop-shadow-2xl">
                             {t('automation.hero_title')} <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-[length:200%_auto] animate-gradient">{t('automation.hero_title_highlight')}</span>
                         </h1>

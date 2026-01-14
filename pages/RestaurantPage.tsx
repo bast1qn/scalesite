@@ -153,7 +153,7 @@ export const RestaurantPage: React.FC<RestaurantPageProps> = ({ setCurrentPage }
         {/* Content */}
         <div className="relative z-10 text-center text-white px-4">
           <AnimatedSection>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6">
+            <h1 className="font-serif text-5xl md:text-6xl font-bold mb-6">
               Café & Bistro
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
