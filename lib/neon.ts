@@ -1,13 +1,14 @@
 // Neon Database Client for ScaleSite
 import { neon } from '@neondatabase/serverless';
 
-const databaseUrl = import.meta.env.VITE_NEON_DATABASE_URL || '';
+// Try VITE_DATABASE_URL first (Vercel), fall back to VITE_NEON_DATABASE_URL (manual setup)
+const databaseUrl = import.meta.env.VITE_DATABASE_URL || import.meta.env.VITE_NEON_DATABASE_URL || '';
 
 // Export flag to check if Neon is configured
 export const isNeonConfigured = !!databaseUrl;
 
 if (!databaseUrl && import.meta.env.DEV) {
-    console.warn('[Neon] Database URL not configured. Set VITE_NEON_DATABASE_URL environment variable.');
+    console.warn('[Neon] Database URL not configured. Set VITE_DATABASE_URL environment variable.');
 }
 
 // Create Neon SQL client
