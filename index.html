@@ -23,22 +23,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-      /* Critical font loading with font-display: swap */
+      /* PERFORMANCE: Critical font loading with font-display: optional */
+      /* Prevents layout shift by using system fonts if web fonts not cached */
       @font-face {
         font-family: 'Inter';
-        font-display: swap;
+        font-display: optional; /* Changed from swap to optional for better CLS */
         font-stretch: normal;
         font-style: normal;
       }
       @font-face {
         font-family: 'Plus Jakarta Sans';
-        font-display: swap;
+        font-display: optional;
         font-stretch: normal;
         font-style: normal;
       }
       @font-face {
         font-family: 'Outfit';
-        font-display: swap;
+        font-display: optional;
         font-stretch: normal;
         font-style: normal;
       }

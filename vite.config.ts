@@ -32,6 +32,13 @@ export default defineConfig(({ mode }) => {
         reportCompressedSize: false,
         // PERFORMANCE: Advanced build optimizations
         // Enable modern JS features for better performance
+        // PERFORMANCE: Enable rollup module preloading and prefetching
+        modulePreload: {
+          include: [
+            /\.[jt]sx?$/,
+            /\.css$/
+          ]
+        },
         rollupOptions: {
           output: {
             // Better caching with content-based hashes

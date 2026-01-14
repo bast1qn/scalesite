@@ -11,17 +11,22 @@ interface LazyImageProps {
   threshold?: number;
   blurDataURL?: string;
   blurAmount?: number;
+  width?: number;
+  height?: number;
+  aspectRatio?: string; // e.g., "16/9", "4/3", "1/1"
 }
 
 /**
  * LazyImage - Progressive Image Loading mit Blur-Up
  *
+ * PERFORMANCE: Aspect ratio preservation prevents CLS
  * Features:
  * - Lazy Loading mit Intersection Observer
  * - Blur-Up Effekt für sanfte Übergänge
  * - Fallback für Fehler
  * - Konfigurierbarer Blur-Effekt
  * - Dark Mode Support
+ * - Aspect Ratio Preservation for CLS optimization
  */
 export const LazyImage = ({
   src,
@@ -30,7 +35,10 @@ export const LazyImage = ({
   placeholder = 'https://via.placeholder.com/400x300?text=Loading...',
   threshold = INTERSECTION_THRESHOLD.default,
   blurDataURL,
-  blurAmount = IMAGE_LOADING.defaultBlurAmount
+  blurAmount = IMAGE_LOADING.defaultBlurAmount,
+  width,
+  height,
+  aspectRatio
 }: LazyImageProps) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>(blurDataURL);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -65,8 +73,15 @@ export const LazyImage = ({
     }
   }, [src, isInView]);
 
+  // PERFORMANCE: Calculate aspect ratio style to prevent CLS
+  const aspectRatioStyle = aspectRatio ? {
+    aspectRatio: aspectRatio.replace('/', '/'),
+  } : (width && height ? {
+    aspectRatio: `${width} / ${height}`,
+  } : {});
+
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${className}`} style={aspectRatioStyle}>
       {/* Blur Placeholder mit Blur-Up Effekt */}
       {!isLoaded && !isError && (
         <div
@@ -89,12 +104,16 @@ export const LazyImage = ({
         className={`
           transition-all duration-500 ease-out
           ${isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-105'}
-          ${className}
         `}
         loading="lazy"
         style={{
-          filter: isLoaded ? 'none' : `blur(${blurAmount}px)`
+          filter: isLoaded ? 'none' : `blur(${blurAmount}px)`,
+          width: width || '100%',
+          height: height || 'auto',
+          objectFit: 'cover',
         }}
+        width={width}
+        height={height}
       />
 
       {/* Loading Spinner (optional) */}

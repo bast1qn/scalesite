@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { memo } from 'react';
 import { Header, Footer, BackToTopButton } from './index';
 
 interface LayoutProps {
@@ -7,7 +8,9 @@ interface LayoutProps {
   currentPage: string;
 }
 
-export const Layout = ({ children, setCurrentPage, currentPage }: LayoutProps) => {
+// PERFORMANCE: Memoize Layout to prevent unnecessary re-renders
+// Only re-renders when currentPage changes
+export const Layout = memo(({ children, setCurrentPage, currentPage }: LayoutProps) => {
   const isDashboard = currentPage === 'dashboard';
 
   return (
@@ -22,4 +25,6 @@ export const Layout = ({ children, setCurrentPage, currentPage }: LayoutProps) =
       {!isDashboard && <BackToTopButton />}
     </div>
   );
-};
+});
+
+Layout.displayName = 'Layout';
