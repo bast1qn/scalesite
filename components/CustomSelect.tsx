@@ -16,6 +16,7 @@ interface CustomSelectProps {
 export const CustomSelect = ({ options, value, onChange, id }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
+  // ✅ BUG FIX: Added null check for selectedOption to prevent undefined access
   const selectedOption = options.find(opt => opt.value === value);
 
   const handleSelect = (optionValue: string) => {
@@ -33,7 +34,8 @@ export const CustomSelect = ({ options, value, onChange, id }: CustomSelectProps
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        <span className="block truncate">{selectedOption?.label}</span>
+        {/* ✅ BUG FIX: Added fallback label when no option is selected */}
+        <span className="block truncate">{selectedOption?.label || 'Select...'}</span>
         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <svg className="h-5 w-5 text-dark-text/70 dark:text-light-text/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 8l4 4 4-4"/>

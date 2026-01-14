@@ -82,26 +82,49 @@ const PostLaunchMonitoring: React.FC = () => {
   const loadMonitoringData = async () => {
     setIsLoading(true);
     try {
+      // ✅ BUG FIX: Added try-catch for localStorage access (SSR safety)
+      if (typeof window === 'undefined') {
+        setIsLoading(false);
+        return;
+      }
+
       // Load metrics from localStorage or API
       const savedMetrics = localStorage.getItem('monitoringMetrics');
       const savedAlerts = localStorage.getItem('monitoringAlerts');
 
       if (savedMetrics) {
-        setMetrics(JSON.parse(savedMetrics));
+        try {
+          const parsedMetrics = JSON.parse(savedMetrics);
+          // Validate metrics structure
+          if (parsedMetrics && typeof parsedMetrics === 'object') {
+            setMetrics(parsedMetrics);
+          }
+        } catch (parseError) {
+          console.error('Error parsing metrics:', parseError);
+        }
       }
 
       if (savedAlerts) {
-        const parsedAlerts = JSON.parse(savedAlerts) as Omit<PerformanceAlert, 'timestamp'>[];
-        setAlerts(parsedAlerts.map((alert) => ({
-          id: alert.id,
-          type: alert.type,
-          title: alert.title,
-          message: alert.message,
-          timestamp: new Date(alert.timestamp as string)
-        })));
+        try {
+          const parsedAlerts = JSON.parse(savedAlerts);
+          // ✅ BUG FIX: Validate alerts array before mapping
+          if (Array.isArray(parsedAlerts)) {
+            setAlerts(parsedAlerts.map((alert): PerformanceAlert => ({
+              id: alert.id || '',
+              type: alert.type || 'info',
+              title: alert.title || '',
+              message: alert.message || '',
+              timestamp: alert.timestamp ? new Date(alert.timestamp) : new Date()
+            })));
+          }
+        } catch (parseError) {
+          console.error('Error parsing alerts:', parseError);
+          setAlerts([]);
+        }
       }
     } catch (error) {
       // Error loading monitoring data - show empty state
+      console.error('Error loading monitoring data:', error);
       setAlerts([]);
     } finally {
       setIsLoading(false);

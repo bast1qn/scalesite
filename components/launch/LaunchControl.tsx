@@ -43,14 +43,43 @@ const LaunchControl: React.FC = () => {
     const loadLaunchData = async () => {
       setIsLoading(true);
       try {
+        // ✅ BUG FIX: Added SSR check for localStorage access
+        if (typeof window === 'undefined') {
+          setIsLoading(false);
+          return;
+        }
+
         // Load launch configuration from localStorage
         const savedPhase = localStorage.getItem('launchPhase');
         const savedPhases = localStorage.getItem('launchPhases');
         const savedStats = localStorage.getItem('launchStats');
 
-        if (savedPhase) setLaunchPhase(savedPhase as 'soft' | 'full');
-        if (savedPhases) setPhases(JSON.parse(savedPhases));
-        if (savedStats) setStats(JSON.parse(savedStats));
+        // ✅ BUG FIX: Validate savedPhase value before casting
+        if (savedPhase === 'soft' || savedPhase === 'full') {
+          setLaunchPhase(savedPhase);
+        }
+
+        if (savedPhases) {
+          try {
+            const parsedPhases = JSON.parse(savedPhases);
+            if (Array.isArray(parsedPhases)) {
+              setPhases(parsedPhases);
+            }
+          } catch (parseError) {
+            console.error('Error parsing phases:', parseError);
+          }
+        }
+
+        if (savedStats) {
+          try {
+            const parsedStats = JSON.parse(savedStats);
+            if (parsedStats && typeof parsedStats === 'object') {
+              setStats(parsedStats);
+            }
+          } catch (parseError) {
+            console.error('Error parsing stats:', parseError);
+          }
+        }
       } catch (error) {
         console.error('Error loading launch data:', error);
       } finally {
