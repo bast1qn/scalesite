@@ -8,10 +8,7 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
-        hmr: {
-          overlay: true,
-          clientPort: 3000
-        },
+        hmr: false, // Disable HMR to prevent WebSocket errors
         watch: {
           usePolling: false
         }
