@@ -241,7 +241,7 @@ export const Header = memo(({ setCurrentPage, currentPage }: HeaderProps) => {
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage('preise')}
-                                    className="flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 rounded-xl hover:shadow-premium hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:ring-2 focus:ring-primary-500/50 min-h-11"
+                                    className="flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 rounded-xl hover:shadow-premium hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <span>{t('nav.projectStart')}</span>
                                     <ArrowRightIcon className="w-4 h-4" />

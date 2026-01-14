@@ -66,7 +66,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
             <button
               onClick={() => setCurrentPage('preise')}
-              className="group px-11 py-4.5 bg-white dark:bg-white text-slate-900 font-semibold rounded-full overflow-hidden transition-all duration-350 ease-smooth hover:scale-[1.02] hover:shadow-premium-xl hover:-translate-y-1 active:scale-[0.98]"
+              className="group px-11 py-4 min-h-11 bg-white dark:bg-white text-slate-900 font-semibold rounded-full overflow-hidden transition-all duration-350 ease-smooth hover:scale-[1.02] hover:shadow-premium-xl hover:-translate-y-1 active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
             >
               <span className="flex items-center gap-3 text-lg">
                 <span>{t('hero_final_cta.cta_primary')}</span>
@@ -75,7 +75,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
             </button>
             <button
               onClick={() => setCurrentPage('contact')}
-              className="px-11 py-4.5 bg-transparent border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/15 hover:border-white/50 transition-all duration-350 ease-smooth hover:-translate-y-1 hover:shadow-soft text-lg"
+              className="px-11 py-4 min-h-11 bg-transparent border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/15 hover:border-white/50 transition-all duration-350 ease-smooth hover:-translate-y-1 hover:shadow-soft text-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
             >
               {t('hero_final_cta.cta_secondary')}
             </button>

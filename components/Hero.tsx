@@ -258,13 +258,13 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '300ms' }}
         >
-          <CleanButton onClick={handleNavigateToPricing} variant="primary" className="min-h-12 sm:min-h-11">
+          <CleanButton onClick={handleNavigateToPricing} variant="primary">
             <span className="flex items-center gap-2">
               <span>Projekt starten</span>
               <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </CleanButton>
-          <CleanButton onClick={handleNavigateToProjects} variant="secondary" className="min-h-12 sm:min-h-11">
+          <CleanButton onClick={handleNavigateToProjects} variant="secondary">
             <span className="flex items-center gap-2">
               <span>Beispiele ansehen</span>
               <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -291,7 +291,7 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
 
         {/* Price hint */}
         <SpotlightCard
-          className={`mt-14 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`mt-16 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
           <div className="flex items-center gap-2 sm:gap-4 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">

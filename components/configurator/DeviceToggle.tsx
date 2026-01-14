@@ -71,11 +71,11 @@ export const DeviceToggle = ({
                             disabled={readOnly}
                             whileHover={{ scale: readOnly ? 1 : 1.05 }}
                             whileTap={{ scale: readOnly ? 1 : 0.95 }}
-                            className={`flex-1 flex flex-col items-center gap-2 py-3 px-4 rounded-md transition-all ${
+                            className={`flex-1 flex flex-col items-center gap-2 py-3 px-4 rounded-md transition-all min-h-11 ${
                                 isSelected
                                     ? 'bg-primary text-white shadow-lg'
                                     : 'text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text hover:bg-dark-text/5 dark:hover:bg-light-text/5'
-                            } ${readOnly ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                            } ${readOnly ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} focus:ring-2 focus:ring-primary-500/50`}
                         >
                             {device.icon}
                             <span className="text-xs font-medium">
