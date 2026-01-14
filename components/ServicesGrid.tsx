@@ -11,13 +11,13 @@ const iconMap: { [key: string]: ReactNode } = {
   'SparklesIcon': <SparklesIcon className="w-6 h-6" />,
 };
 
-const HoverCard = ({ children, className = '' }: { children: ReactNode; className?: string }) => {
+const HoverCard = memo(({ children, className = '' }: { children: ReactNode; className?: string }) => {
   return (
     <div className={`relative group transition-all duration-300 ${className}`}>
       {children}
     </div>
   );
-};
+});
 
 export const ServicesGrid = () => {
   const { t } = useLanguage();
