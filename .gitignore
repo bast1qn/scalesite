@@ -45,3 +45,12 @@ Claude_configured.fish
 # OS
 .DS_Store
 Thumbs.db
+
+# ============================================
+# SECURITY: Environment Variables (NEVER COMMIT!)
+# ============================================
+.env
+.env.local
+.env.production
+.env.*.local
+*.env

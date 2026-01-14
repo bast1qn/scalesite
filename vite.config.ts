@@ -25,8 +25,10 @@ export default defineConfig(({ mode }) => {
         force: true
       },
       define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+        // ✅ SECURITY: NEVER expose API keys to client-side code!
+        // Use backend proxy or server-side rendering instead (OWASP A01:2021)
+        // 'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY), // ❌ REMOVED: Security risk
+        // 'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY), // ❌ REMOVED: Security risk
       },
       resolve: {
         dedupe: ['react', 'react-dom'],

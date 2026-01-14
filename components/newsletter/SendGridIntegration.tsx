@@ -400,7 +400,7 @@ const SendGridIntegration: React.FC<SendGridIntegrationProps> = ({
                                                                     <p className="mt-2 text-sm text-slate-500">
                                                                         Erhalte deinen API Key vom{' '}
                                                                         <a
-                                                                            href={`https://${selectedProvider}.com`}
+                                                                            href={selectedProvider === 'sendgrid' ? 'https://sendgrid.com' : 'https://resend.com'}
                                                                             target="_blank"
                                                                             rel="noopener noreferrer"
                                                                             className="text-blue-600 hover:underline"
