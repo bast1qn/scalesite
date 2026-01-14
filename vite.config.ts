@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
           plugins: []
         }
       })],
+      cacheDir: false, // COMPLETELY DISABLE VITE CACHE
       optimizeDeps: {
         include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
         force: true

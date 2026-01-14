@@ -13,3 +13,4 @@ root.render(
     <App />
   </StrictMode>
 );
+// Cache bust: Mi 14. Jan 07:43:56 CET 2026

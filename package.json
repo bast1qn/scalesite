@@ -1,8 +1,8 @@
 {
   "name": "scalesite",
   "private": true,
-  "version": "1.0.2",
-  "forceCacheBust": "2024-01-11-v2",
+  "version": "1.0.3",
+  "forceCacheBust": "2025-01-14-fix-memo-error",
   "type": "module",
   "scripts": {
     "dev": "vite",
