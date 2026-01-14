@@ -88,11 +88,14 @@ const CampaignBuilder: React.FC<CampaignBuilderProps> = ({
     // Auto-save draft to localStorage every 30 seconds
     useEffect(() => {
         const timer = setInterval(() => {
-            localStorage.setItem('newsletter_draft', JSON.stringify(formData));
+            // SSR-Safety: Check if window is defined (not server-side)
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('newsletter_draft', JSON.stringify(formData));
+            }
         }, 30000);
 
         // Load draft on mount if no campaign
-        if (!campaign) {
+        if (typeof window !== 'undefined' && !campaign) {
             const draft = localStorage.getItem('newsletter_draft');
             if (draft) {
                 try {
@@ -145,7 +148,11 @@ const CampaignBuilder: React.FC<CampaignBuilderProps> = ({
                 preview_text: previewValidation.sanitized || formData.preview_text
             };
             await onSave(sanitizedData);
-            localStorage.removeItem('newsletter_draft');
+
+            // Clear draft (SSR-safe)
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('newsletter_draft');
+            }
         } finally {
             setSaving(false);
         }

@@ -34,6 +34,9 @@ const FeedbackCollection: React.FC = () => {
   const loadFeedbacks = async () => {
     setIsLoading(true);
     try {
+      // SSR-Safety: Check if window is defined (not server-side)
+      if (typeof window === 'undefined') return;
+
       const savedFeedbacks = localStorage.getItem('userFeedbacks');
       if (savedFeedbacks) {
         const parsed = JSON.parse(savedFeedbacks) as Omit<Feedback, 'createdAt'>[];

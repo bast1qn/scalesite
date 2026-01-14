@@ -244,6 +244,9 @@ export function OnboardingWizard({
 
     // Load draft from localStorage on mount
     useEffect(() => {
+        // SSR-Safety: Check if window is defined (not server-side)
+        if (typeof window === 'undefined') return;
+
         try {
             const savedDraft = localStorage.getItem(STORAGE_KEY);
             if (savedDraft && !initialData) {
@@ -258,10 +261,13 @@ export function OnboardingWizard({
     // Auto-save draft to localStorage
     useEffect(() => {
         const timer = setTimeout(() => {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
-            } catch (error) {
-                console.warn('Failed to save onboarding draft:', error);
+            // SSR-Safety: Check if window is defined (not server-side)
+            if (typeof window !== 'undefined') {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+                } catch (error) {
+                    console.warn('Failed to save onboarding draft:', error);
+                }
             }
         }, DRAFT_AUTOSAVE_DELAY_MS);
 
@@ -393,8 +399,10 @@ export function OnboardingWizard({
         try {
             await onComplete?.(state.data);
 
-            // Clear draft on successful completion
-            localStorage.removeItem(STORAGE_KEY);
+            // Clear draft on successful completion (SSR-safe)
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem(STORAGE_KEY);
+            }
         } catch (error) {
             console.error('Onboarding completion failed:', error);
             dispatch({
