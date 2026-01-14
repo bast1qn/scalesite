@@ -107,7 +107,9 @@ export const validateEmail = (email: string): ValidationResult => {
     // Check BOTH original and decoded email
     for (const pattern of dangerousPatterns) {
         if (pattern.test(email) || pattern.test(decodedEmail)) {
-            console.error('[XSS] Dangerous pattern in email:', { email, decodedEmail, pattern });
+            if (import.meta.env.DEV) {
+                console.error('[XSS] Dangerous pattern in email:', { email, decodedEmail, pattern });
+            }
             errors.push('dangerous_content');
             return { isValid: false, errors };
         }
@@ -115,7 +117,9 @@ export const validateEmail = (email: string): ValidationResult => {
 
     // Additional check: Reject if email contains URL-encoded chars (smuggling attempt)
     if (email !== decodedEmail && /%[0-9A-F]{2}/i.test(email)) {
-        console.error('[XSS] URL-encoded characters detected in email - possible smuggling attempt');
+        if (import.meta.env.DEV) {
+            console.error('[XSS] URL-encoded characters detected in email - possible smuggling attempt');
+        }
         errors.push('dangerous_content');
         return { isValid: false, errors };
     }
@@ -300,7 +304,9 @@ export const validateURL = (url: string): ValidationResult => {
 
     for (const pattern of dangerousPatterns) {
         if (pattern.test(url) || pattern.test(decodedUrl)) {
-            console.error('[XSS] Dangerous pattern in URL:', { url, decodedUrl, pattern });
+            if (import.meta.env.DEV) {
+                console.error('[XSS] Dangerous pattern in URL:', { url, decodedUrl, pattern });
+            }
             errors.push('dangerous_content');
             return { isValid: false, errors };
         }
@@ -326,14 +332,18 @@ export const validateURL = (url: string): ValidationResult => {
         // Only allow safe protocols
         const allowedProtocols = ['http:', 'https:', 'mailto:', 'tel:'];
         if (!allowedProtocols.includes(parsed.protocol)) {
-            console.error('[XSS] Unsafe protocol in URL:', parsed.protocol);
+            if (import.meta.env.DEV) {
+                console.error('[XSS] Unsafe protocol in URL:', parsed.protocol);
+            }
             errors.push('unsafe_protocol');
             return { isValid: false, errors };
         }
 
         // Additional security: Reject URLs with embedded credentials
         if (parsed.username || parsed.password) {
-            console.error('[XSS] URL with credentials detected');
+            if (import.meta.env.DEV) {
+                console.error('[XSS] URL with credentials detected');
+            }
             errors.push('unsafe_url');
             return { isValid: false, errors };
         }
@@ -344,7 +354,9 @@ export const validateURL = (url: string): ValidationResult => {
             sanitized: parsed.href
         };
     } catch (err) {
-        console.error('[XSS] Invalid URL format:', url);
+        if (import.meta.env.DEV) {
+            console.error('[XSS] Invalid URL format:', url);
+        }
         errors.push('invalid_url');
         return { isValid: false, errors };
     }
