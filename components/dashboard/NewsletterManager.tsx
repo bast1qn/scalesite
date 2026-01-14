@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
 import {
-    EnvelopeIcon,
-    PlusIcon,
-    PencilIcon,
-    TrashIcon,
-    XMarkIcon,
-    PaperAirplaneIcon,
-    UsersIcon,
-    ChartBarIcon,
-    ClockIcon,
     CheckCircleIcon,
+    ClockIcon,
+    CursorClickIcon,
+    EnvelopeIcon,
     EyeIcon,
-    CursorClickIcon
+    PaperAirplaneIcon,
+    PencilIcon,
+    PlusIcon,
+    TrashIcon,
+    UsersIcon,
+    XMarkIcon,
 } from '../index';
 
 interface Subscriber {

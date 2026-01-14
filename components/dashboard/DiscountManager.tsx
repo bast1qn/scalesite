@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
-import { TagIcon, PlusCircleIcon, XMarkIcon, PencilIcon } from '../index';
 import { alertSaveFailed, alertError } from '../../lib/dashboardAlerts';
+import { TagIcon, XMarkIcon, PencilIcon } from '../index';
 
 interface Service {
     id: number;

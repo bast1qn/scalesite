@@ -5,17 +5,21 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNotifications, type AppNotification } from '../../contexts/NotificationContext';
 import {
-    XMarkIcon,
     BellIcon,
+    BriefcaseIcon,
+    ChatBubbleLeftRightIcon,
     CheckCircleIcon,
+    CreditCardIcon,
     ExclamationTriangleIcon,
     InformationCircleIcon,
     TicketIcon,
-    BriefcaseIcon,
-    CreditCardIcon,
     UsersIcon,
-    ChatBubbleLeftRightIcon,
+    XMarkIcon,
 } from '../Icons';
+
+// Constants
+const DEFAULT_TOAST_DURATION = 5000; // 5 seconds
+const TOAST_CLOSE_DELAY = 300; // 300ms for fade-out animation
 
 interface NotificationToastProps {
     notification: AppNotification;
@@ -26,7 +30,7 @@ interface NotificationToastProps {
 const NotificationToast: React.FC<NotificationToastProps> = ({
     notification,
     onClose,
-    duration = 5000,
+    duration = DEFAULT_TOAST_DURATION,
 }) => {
     const [isVisible, setIsVisible] = useState(true);
 
@@ -34,7 +38,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
         if (duration > 0) {
             const timer = setTimeout(() => {
                 setIsVisible(false);
-                setTimeout(onClose, 300);
+                setTimeout(onClose, TOAST_CLOSE_DELAY);
             }, duration);
 
             return () => clearTimeout(timer);

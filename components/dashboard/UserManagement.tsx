@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
-import { CustomSelect, PlusCircleIcon, XMarkIcon, BriefcaseIcon, CheckBadgeIcon, ArrowPathIcon, SparklesIcon } from '../index';
+import { ArrowPathIcon, BriefcaseIcon, CheckBadgeIcon, CustomSelect, PlusCircleIcon, XMarkIcon } from '../index';
 import { api } from '../../lib';
 import { setDashboardLanguage, alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 import { useDebounce } from '../../lib/hooks/useDebounce';

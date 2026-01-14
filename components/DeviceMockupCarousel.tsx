@@ -3,6 +3,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
+// Constants
+const SLIDE_INTERVAL_MS = 5000; // 5 seconds per slide
+
 const mockups = [
     {
         id: 1,
@@ -42,7 +45,7 @@ export const DeviceMockupCarousel = () => {
   }, []);
 
   useEffect(() => {
-    const slideInterval = setInterval(nextSlide, 5000);
+    const slideInterval = setInterval(nextSlide, SLIDE_INTERVAL_MS);
     return () => clearInterval(slideInterval);
   }, [nextSlide, mockups.length]); // mockups.length is stable but ensures proper cleanup on data changes
 

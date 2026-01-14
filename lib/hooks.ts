@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, RefObject, useCallback, MouseEvent, MouseEventHandler } from 'react';
+import { useCallback, RefObject, useEffect, useRef, useState } from 'react';
 
 // Re-export debounce hooks for convenience
 export { useDebounce, useDebouncedCallback, useThrottle } from './hooks/useDebounce';

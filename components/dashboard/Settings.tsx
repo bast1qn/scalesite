@@ -1,9 +1,14 @@
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext, useLanguage } from '../../contexts';
 import { ThemeToggle, UserCircleIcon, ShieldCheckIcon, BellIcon, CreditCardIcon, ArrowDownOnSquareIcon, TrashIcon, GlobeAltIcon, CheckBadgeIcon } from '../index';
 import { api, supabase, validatePassword, getPasswordStrength, alertError } from '../../lib';
 import NotificationPreferences from '../notifications/NotificationPreferences';
+
+// Constants
+const SUCCESS_MESSAGE_TIMEOUT = 3000; // 3 seconds
+const SAVE_SIMULATION_DELAY = 800; // 800ms simulated API delay
+const BILLING_SAVE_DELAY = 500; // 500ms for billing save
 
 const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
     <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
@@ -58,7 +63,7 @@ const Settings: React.FC = () => {
 
     const showSuccess = (msg: string) => {
         setSuccessMsg(msg);
-        setTimeout(() => setSuccessMsg(''), 3000);
+        setTimeout(() => setSuccessMsg(''), SUCCESS_MESSAGE_TIMEOUT);
     };
 
     const handleSaveGeneral = async (e: React.FormEvent) => {
@@ -67,7 +72,7 @@ const Settings: React.FC = () => {
         try {
             await api.updateProfile({ name, company });
             // Simulate saving extra fields
-            await new Promise(r => setTimeout(r, 800));
+            await new Promise(r => setTimeout(r, SAVE_SIMULATION_DELAY));
             showSuccess('Profil erfolgreich aktualisiert');
         } catch (error) {
             alertError(error instanceof Error ? error.message : 'Unknown error');
@@ -133,7 +138,7 @@ const Settings: React.FC = () => {
         setTimeout(() => {
             setLoading(false);
             showSuccess('Rechnungsdaten lokal gespeichert (nicht in Datenbank)');
-        }, 500);
+        }, BILLING_SAVE_DELAY);
     };
 
     const handleExportData = async () => {
