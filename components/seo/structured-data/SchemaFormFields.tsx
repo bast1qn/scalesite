@@ -19,9 +19,9 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
   onChange
 }) => {
   const getInputClassName = (hasError = false) => {
-    return `w-full px-4 py-3 bg-white/5 border ${
+    return `w-full px-4 py-3 bg-white/5 border transition-all duration-200 ${
       hasError ? 'border-red-500' : 'border-white/10'
-    } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500`;
+    } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 hover:border-white/20 disabled:opacity-50 disabled:cursor-not-allowed`;
   };
 
   switch (schemaType) {
@@ -31,7 +31,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
       return (
         <>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-3">
               {labels.fields.headline}
               <span className="text-red-500 ml-1">*</span>
             </label>
@@ -45,7 +45,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.image}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.image}</label>
             <input
               type="url"
               value={formData.image}
@@ -55,9 +55,9 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.author}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.author}</label>
               <input
                 type="text"
                 value={formData.author}
@@ -68,7 +68,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.publisher}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.publisher}</label>
               <input
                 type="text"
                 value={formData.publisher}
@@ -79,9 +79,9 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.datePublished}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.datePublished}</label>
               <input
                 type="date"
                 value={formData.datePublished}
@@ -91,7 +91,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.dateModified}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.dateModified}</label>
               <input
                 type="date"
                 value={formData.dateModified}
@@ -102,7 +102,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.articleSection}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.articleSection}</label>
             <input
               type="text"
               value={formData.articleSection}
@@ -113,7 +113,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.description}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.description}</label>
             <textarea
               value={formData.description}
               onChange={(e) => onChange('description', e.target.value)}
@@ -129,7 +129,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
       return (
         <>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-3">
               {labels.fields.name}
               <span className="text-red-500 ml-1">*</span>
             </label>
@@ -143,7 +143,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.address}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.address}</label>
             <input
               type="text"
               value={formData.address}
@@ -153,9 +153,9 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.telephone}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.telephone}</label>
               <input
                 type="tel"
                 value={formData.telephone}
@@ -166,7 +166,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.email}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.email}</label>
               <input
                 type="email"
                 value={formData.email}
@@ -178,7 +178,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.openingHours}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.openingHours}</label>
             <input
               type="text"
               value={formData.openingHours}
@@ -189,7 +189,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.priceRange}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.priceRange}</label>
             <input
               type="text"
               value={formData.priceRange}
@@ -199,9 +199,9 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.geoLatitude}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.geoLatitude}</label>
               <input
                 type="number"
                 step="any"
@@ -213,7 +213,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.geoLongitude}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.geoLongitude}</label>
               <input
                 type="number"
                 step="any"
@@ -231,7 +231,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
       return (
         <>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-3">
               {labels.fields.productName}
               <span className="text-red-500 ml-1">*</span>
             </label>
@@ -245,7 +245,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.productImage}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.productImage}</label>
             <input
               type="url"
               value={formData.productImage}
@@ -256,7 +256,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.productDescription}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.productDescription}</label>
             <textarea
               value={formData.productDescription}
               onChange={(e) => onChange('productDescription', e.target.value)}
@@ -267,7 +267,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.brand}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.brand}</label>
             <input
               type="text"
               value={formData.brand}
@@ -277,9 +277,9 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.offersPrice}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.offersPrice}</label>
               <input
                 type="number"
                 step="0.01"
@@ -291,7 +291,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.offersCurrency}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.offersCurrency}</label>
               <select
                 value={formData.offersCurrency}
                 onChange={(e) => onChange('offersCurrency', e.target.value)}
@@ -305,7 +305,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.offersAvailability}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.offersAvailability}</label>
               <select
                 value={formData.offersAvailability}
                 onChange={(e) => onChange('offersAvailability', e.target.value)}
@@ -319,7 +319,7 @@ export const SchemaFormFields: React.FC<SchemaFormFieldsProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">{labels.fields.offersUrl}</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3">{labels.fields.offersUrl}</label>
             <input
               type="url"
               value={formData.offersUrl}

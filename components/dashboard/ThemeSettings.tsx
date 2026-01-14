@@ -22,16 +22,16 @@ const ThemeOption = ({
 }) => (
     <motion.button
         onClick={onClick}
-        className={`relative w-full text-left p-4 rounded-2xl border-2 transition-all duration-300 ${
+        className={`relative w-full text-left p-6 rounded-2xl border-2 transition-all duration-300 ${
             isSelected
                 ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30 shadow-premium'
                 : 'border-slate-200 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-600 hover:shadow-soft'
-        }`}
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.99 }}
+        } focus:outline-none focus:ring-2 focus:ring-primary-500/50`}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
     >
-        <div className="flex items-start gap-3">
-            <div className={`flex-shrink-0 p-2 rounded-xl ${
+        <div className="flex items-start gap-4">
+            <div className={`flex-shrink-0 p-3 rounded-xl ${
                 isSelected
                     ? 'bg-primary-500 text-white'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
@@ -106,14 +106,14 @@ export const ThemeSettings = () => {
         <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
                 <div>
-                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Design</h2>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    <h2 className="text-2xl font-semibold leading-tight text-slate-900 dark:text-white">Design</h2>
+                    <p className="text-base text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
                         Wähle dein bevorzugtes Erscheinungsbild
                     </p>
                 </div>
             </div>
 
-            <div className="grid gap-3">
+            <div className="grid gap-4">
                 {themes.map((themeOption) => (
                     <ThemeOption
                         key={themeOption.value}
@@ -128,9 +128,9 @@ export const ThemeSettings = () => {
             </div>
 
             {/* Preview Section */}
-            <div className="mt-6 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-                <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-3">Vorschau</p>
-                <div className="flex gap-3">
+            <div className="mt-8 p-6 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                <p className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-4">Vorschau</p>
+                <div className="flex gap-4">
                     <div className="flex-1 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                         <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-700 mb-2"></div>
                         <div className="w-3/4 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div>

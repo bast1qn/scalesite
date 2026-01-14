@@ -41,33 +41,38 @@ export const SchemaPreview: React.FC<SchemaPreviewProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
+      transition={{ duration: 0.3 }}
+      className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10"
     >
-      <div className="flex items-center justify-between mb-4">
-        <h4 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Code className="w-5 h-5 text-green-500" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <h4 className="text-xl font-semibold leading-tight text-white flex items-center gap-3">
+          <Code className="w-6 h-6 text-green-500" />
           {labels.generated}
         </h4>
-        <div className="flex gap-2">
-          <button
+        <div className="flex gap-3">
+          <motion.button
             onClick={onCopy}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium flex items-center gap-2"
+            className="px-5 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-all duration-200 text-sm font-medium flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <Copy className="w-4 h-4" />
             {copied ? '✓' : labels.copy}
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={onDownload}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium flex items-center gap-2"
+            className="px-5 py-3 bg-secondary-500 text-white rounded-lg hover:bg-secondary-600 transition-all duration-200 text-sm font-medium flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <Download className="w-4 h-4" />
             {labels.download}
-          </button>
+          </motion.button>
         </div>
       </div>
 
-      <div className="bg-gray-900/50 rounded-lg p-4 overflow-x-auto max-h-96 overflow-y-auto">
-        <pre className="text-sm text-gray-300 whitespace-pre-wrap font-mono">
+      <div className="bg-gray-900/50 rounded-xl p-6 overflow-x-auto max-h-96 overflow-y-auto border border-white/5">
+        <pre className="text-sm text-gray-300 whitespace-pre-wrap font-mono leading-relaxed">
           <script type="application/ld+json">
             {JSON.stringify(schema, null, 2)}
           </script>
@@ -75,8 +80,8 @@ export const SchemaPreview: React.FC<SchemaPreviewProps> = ({
       </div>
 
       {validateSchema() && (
-        <div className="mt-4 p-3 bg-green-500/20 border border-green-500/50 rounded-lg flex items-center gap-2 text-green-400 text-sm">
-          <CheckCircle2 className="w-4 h-4" />
+        <div className="mt-4 p-4 bg-green-500/20 border border-green-500/50 rounded-lg flex items-center gap-3 text-green-400 text-sm">
+          <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
           {labels.validationSuccess}
         </div>
       )}
