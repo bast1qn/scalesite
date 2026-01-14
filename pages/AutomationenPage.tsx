@@ -154,15 +154,16 @@ const WorkflowVisualizer: React.FC<{ language: 'de' | 'en' }> = ({ language }) =
             ></div>
 
             {[
-                { icon: <PhoneIcon className="w-6 h-6" />, label: t.input, color: "blue" as keyof typeof colorMap },
-                { icon: <CpuChipIcon className="w-6 h-6" />, label: t.brain, color: "purple" as keyof typeof colorMap },
-                { icon: <BoltIcon className="w-6 h-6" />, label: t.action, color: "green" as keyof typeof colorMap },
-                { icon: <CheckBadgeIcon className="w-6 h-6" />, label: t.done, color: "pink" as keyof typeof colorMap }
+                { id: 'input', icon: <PhoneIcon className="w-6 h-6" />, label: t.input, color: "blue" as keyof typeof colorMap },
+                { id: 'brain', icon: <CpuChipIcon className="w-6 h-6" />, label: t.brain, color: "purple" as keyof typeof colorMap },
+                { id: 'action', icon: <BoltIcon className="w-6 h-6" />, label: t.action, color: "green" as keyof typeof colorMap },
+                { id: 'done', icon: <CheckBadgeIcon className="w-6 h-6" />, label: t.done, color: "pink" as keyof typeof colorMap }
             ].map((node, idx) => {
                 const colors = colorMap[node.color];
                 const isActive = step >= idx;
                 return (
-                    <div key={idx} className={`relative z-10 flex flex-col items-center transition-all duration-500 ${isActive ? 'opacity-100 scale-110' : 'opacity-40 scale-100'}`}>
+                    // ✅ FIX: Use node.id instead of idx for stable key
+                    <div key={node.id} className={`relative z-10 flex flex-col items-center transition-all duration-500 ${isActive ? 'opacity-100 scale-110' : 'opacity-40 scale-100'}`}>
                         <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-3xl flex items-center justify-center border transition-all duration-500 ${
                             isActive
                                 ? `${colors.bg} ${colors.border} ${colors.text} shadow-[0_0_30px_rgba(0,0,0,0.3)]`
@@ -208,9 +209,11 @@ const VoiceAgentDemo: React.FC<{ language: 'de' | 'en' }> = ({ language }) => {
                     </div>
                 </div>
                 <div className="h-6 flex items-center gap-0.5">
-                    {[1,2,3,4,5,6,7].map(i => (
-                        <div key={i} className="w-1 bg-purple-400 rounded-full animate-music" style={{ animationDelay: `${i * 0.1}s` }}></div>
-                    ))}
+                    {[1,2,3,4,5,6,7].map((i) => {
+                        // ✅ FIX: Use stable ID based on index instead of bare index
+                        const barId = `music-bar-${i}`;
+                        return <div key={barId} className="w-1 bg-purple-400 rounded-full animate-music" style={{ animationDelay: `${i * 0.1}s` }}></div>;
+                    })}
                 </div>
             </div>
 

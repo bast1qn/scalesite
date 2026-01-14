@@ -40,14 +40,19 @@ export const Skeleton: FC<SkeletonProps> = ({
     style.backgroundImage = 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)';
   }
 
-  const skeletons = Array.from({ length: count }, (_, i) => (
-    <div
-      key={i}
-      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
-      style={Object.keys(style).length > 0 ? style : undefined}
-      aria-hidden="true"
-    />
-  ));
+  // ✅ FIX: Use crypto.randomUUID() instead of index for stable keys
+  // Index-based keys cause React to remount elements unnecessarily when list changes
+  const skeletons = Array.from({ length: count }, () => {
+    const stableId = crypto.randomUUID();
+    return (
+      <div
+        key={stableId}
+        className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+        style={Object.keys(style).length > 0 ? style : undefined}
+        aria-hidden="true"
+      />
+    );
+  });
 
   return <>{skeletons}</>;
 };
@@ -78,12 +83,16 @@ export const PricingCardSkeleton: FC = () => (
     <Skeleton className="mb-8" />
     <Skeleton height="40px" width="50%" className="mb-8" />
     <div className="space-y-3 mb-8">
-      {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="flex items-center gap-3">
-          <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer flex-shrink-0"></div>
-          <Skeleton />
-        </div>
-      ))}
+      {[1, 2, 3, 4].map(() => {
+        // ✅ FIX: Generate stable unique ID instead of using index
+        const stableId = crypto.randomUUID();
+        return (
+          <div key={stableId} className="flex items-center gap-3">
+            <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer flex-shrink-0"></div>
+            <Skeleton />
+          </div>
+        );
+      })}
     </div>
     <Skeleton height="56px" variant="rounded" />
   </div>
@@ -111,18 +120,26 @@ export const TableSkeleton: FC<{ rows?: number; cols?: number }> = ({ rows = 5, 
   <div className="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading table">
     {/* Header */}
     <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
-      {Array.from({ length: cols }).map((_, i) => (
-        <Skeleton key={i} />
-      ))}
+      {Array.from({ length: cols }).map(() => {
+        // ✅ FIX: Generate stable unique ID instead of using index
+        const stableId = crypto.randomUUID();
+        return <Skeleton key={stableId} />;
+      })}
     </div>
     {/* Rows */}
-    {Array.from({ length: rows }).map((_, rowIndex) => (
-      <div key={rowIndex} className="flex gap-4 p-4 border-b border-slate-100 dark:border-slate-800 last:border-b-0">
-        {Array.from({ length: cols }).map((_, colIndex) => (
-          <Skeleton key={colIndex} />
-        ))}
-      </div>
-    ))}
+    {Array.from({ length: rows }).map(() => {
+      // ✅ FIX: Generate stable unique ID for each row
+      const rowId = crypto.randomUUID();
+      return (
+        <div key={rowId} className="flex gap-4 p-4 border-b border-slate-100 dark:border-slate-800 last:border-b-0">
+          {Array.from({ length: cols }).map(() => {
+            // ✅ FIX: Generate stable unique ID for each column
+            const colId = crypto.randomUUID();
+            return <Skeleton key={colId} />;
+          })}
+        </div>
+      );
+    })}
   </div>
 );
 
