@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useCallback } from 'react';
 
 // Internal imports
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
@@ -36,6 +36,7 @@ interface NavItem {
     icon: React.ReactNode;
 }
 
+// PERFORMANCE: Memoize NavLink to prevent unnecessary re-renders
 const NavLink: React.FC<{item: NavItem, activeView: DashboardView, onClick: (view: DashboardView) => void }> = ({ item, activeView, onClick }) => {
     const isActive = activeView === item.view;
     return (
@@ -80,6 +81,7 @@ const NavLink: React.FC<{item: NavItem, activeView: DashboardView, onClick: (vie
     );
 };
 
+// PERFORMANCE: Memoize UserInfoFooter to prevent unnecessary re-renders
 const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({user, logout}) => {
     const { t } = useLanguage();
     return (
@@ -107,7 +109,7 @@ const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({u
             {t('nav.logout')}
         </button>
     </div>
-);
+    );
 };
 
 const SidebarContent: React.FC<{
@@ -122,10 +124,11 @@ const SidebarContent: React.FC<{
     const [adminGroupOpen, setAdminGroupOpen] = useState(true);
     const isTeam = user?.role === 'team' || user?.role === 'owner';
 
-    const handleNavClick = (view: DashboardView) => {
+    // STABLE: Memoized nav click handler to prevent re-renders
+    const handleNavClick = useCallback((view: DashboardView) => {
         setActiveView(view);
         closeSidebar();
-    };
+    }, [setActiveView, closeSidebar]);
 
     // --- USER NAVIGATION ---
     if (!isTeam) {

@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     let isMounted = true;
-    let safetyTimeout: NodeJS.Timeout | null = null;
+    let safetyTimeout: ReturnType<typeof setTimeout> | null = null;
 
     safetyTimeout = setTimeout(() => {
       if (isMounted && loadingRef.current) {

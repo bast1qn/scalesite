@@ -68,12 +68,12 @@ export function useNetworkStatus() {
   useEffect(() => {
     if (navigator.connection) {
       const handleConnectionChange = () => {
-        setEffectiveType(navigator.connection!.effectiveType || '4g');
+        setEffectiveType(navigator.connection?.effectiveType || '4g');
       };
 
       navigator.connection.addEventListener('change', handleConnectionChange);
       return () => {
-        navigator.connection.removeEventListener('change', handleConnectionChange);
+        navigator.connection?.removeEventListener('change', handleConnectionChange);
       };
     }
   }, []);
