@@ -283,7 +283,33 @@ export function OnboardingWizard({
     const isLastStep = currentStepIndex === STEPS.length - 1;
     const isFirstStep = currentStepIndex === 0;
 
-    // Validation for current step
+    /**
+     * Validates the current wizard step before allowing navigation to next step
+     *
+     * This function implements comprehensive validation for each onboarding step:
+     *
+     * **basic-info step:**
+     * - First name: Required, minimum 2 characters
+     * - Last name: Required, minimum 2 characters
+     * - Email: Required, must be valid email format (using centralized validator)
+     * - Password: Required, min 8 chars, must contain lowercase, uppercase, and numbers
+     * - Confirm Password: Must match password
+     *
+     * **business-data, design-prefs, content-req steps:**
+     * - Currently all fields are optional (no validation enforced)
+     *
+     * Error Handling:
+     * - Collects all validation errors before returning
+     * - Dispatches SET_ERRORS action with error messages
+     * - Returns false if any errors exist, true otherwise
+     *
+     * Security:
+     * - Uses centralized validation functions (validateEmail, validatePassword)
+     * - Prevents bypassing validation by checking all required fields
+     * - Sanitizes email input with trim() before validation
+     *
+     * @returns true if validation passes, false otherwise
+     */
     const validateStep = useCallback((): boolean => {
         const errors: Record<string, string> = {};
 

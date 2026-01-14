@@ -335,9 +335,37 @@ export const getTaxRate = (countryCode: string = 'DE'): number => {
 
 /**
  * Calculate total price with all discounts and tax
- * @param config - Pricing configuration
- * @param countryCode - Country for tax calculation
- * @returns Complete price breakdown
+ *
+ * This function implements a comprehensive pricing algorithm that:
+ * 1. Calculates base price from service selection and quantity
+ * 2. Adds optional feature prices
+ * 3. Applies volume discount based on quantity tiers (10-40% off)
+ * 4. Applies feature bundle discount (10% off for 3+ features)
+ * 5. Validates and applies discount codes (percentage/fixed)
+ * 6. Checks and applies time-limited promotional offers
+ * 7. Calculates tax based on country-specific rates
+ * 8. Returns complete breakdown with line items
+ *
+ * Discount Application Order:
+ * - Volume discount (first, on subtotal)
+ * - Feature discount (second, after volume discount)
+ * - Promo codes/offers (third, after feature discount)
+ * - Tax (last, on final discounted amount)
+ *
+ * @param config - Pricing configuration including service ID, quantity, features, and discount codes
+ * @param countryCode - ISO country code for tax calculation (default: 'DE' = 19%)
+ * @returns Complete price breakdown with all line items, discounts, and tax details
+ *
+ * @example
+ * ```ts
+ * const breakdown = calculatePrice({
+ *   serviceId: 1,
+ *   quantity: 5,
+ *   features: ['contact_form', 'analytics'],
+ *   discountCode: 'WELCOME10'
+ * }, 'DE');
+ * // Returns: { basePrice: 29, quantity: 5, subtotal: 175, ... }
+ * ```
  */
 export const calculatePrice = (
     config: PricingConfig,

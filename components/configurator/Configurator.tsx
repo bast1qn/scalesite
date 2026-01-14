@@ -209,7 +209,21 @@ export const Configurator = ({
     const lastSavedStateRef = useRef<ProjectConfig | null>(null);
     const successMessageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Debounced auto-save function
+    /**
+     * Debounced auto-save function with memory leak protection
+     *
+     * This function implements a safe auto-save mechanism that:
+     * 1. Checks if save is needed (compares current state with last saved state)
+     * 2. Shows auto-save indicator during save operation
+     * 3. Clears previous success message timeouts to prevent memory leaks
+     * 4. Handles errors gracefully while preserving unsaved changes indicator
+     * 5. Cleans up refs properly to avoid memory leaks
+     *
+     * Memory leak prevention:
+     * - Clears existing timeout before setting new one
+     * - Stores timeout ref for cleanup on unmount
+     * - Uses try-finally to ensure state consistency
+     */
     const debouncedAutoSave = useCallback(async () => {
         if (!onSave || readOnly || !projectId) return;
 
