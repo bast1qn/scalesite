@@ -1,5 +1,48 @@
 import { supabase } from './supabase';
 
+// ✅ PERFORMANCE: Auth Cache to prevent duplicate getUser() calls
+// Cache expires after 5 minutes to ensure fresh auth state
+let authCache: {
+    user: { id: string } | null;
+    timestamp: number;
+} | null = null;
+
+const AUTH_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Gets cached user data or fetches fresh data if cache expired
+ * Prevents duplicate supabase.auth.getUser() calls in rapid succession
+ */
+const getCachedUser = async (): Promise<{ id: string } | null> => {
+    const now = Date.now();
+
+    // Return cached user if still valid
+    if (authCache && (now - authCache.timestamp) < AUTH_CACHE_TTL) {
+        return authCache.user;
+    }
+
+    // Fetch fresh user data
+    try {
+        const { data } = await supabase.auth.getUser();
+        authCache = {
+            user: data.user ? { id: data.user.id } : null,
+            timestamp: now
+        };
+        return authCache.user;
+    } catch (error) {
+        // On error, clear cache to allow retry
+        authCache = null;
+        return null;
+    }
+};
+
+/**
+ * Clears auth cache (call on logout/login)
+ */
+export const clearAuthCache = () => {
+    authCache = null;
+};
+
 // Analytics Event Types
 export type AnalyticsEventType =
     | 'page_view'
@@ -112,7 +155,8 @@ export const trackPageView = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+        const user = await getCachedUser();
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -148,7 +192,8 @@ export const trackUserAction = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+        const user = await getCachedUser();
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -179,7 +224,8 @@ export const trackCustomEvent = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+        const user = await getCachedUser();
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -211,7 +257,8 @@ export const trackConversion = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+        const user = await getCachedUser();
 
         const event: AnalyticsEvent = {
             user_id: user?.id,
@@ -245,7 +292,8 @@ export const trackFormSubmit = async (
             return;
         }
 
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+        const user = await getCachedUser();
 
         const event: AnalyticsEvent = {
             user_id: user?.id,

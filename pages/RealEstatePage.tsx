@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { AnimatedSection, ChevronLeftIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, ChevronRightIcon, ChevronDownIcon, MapPinIcon } from '../components';
 
 const BedIconLocal: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -170,26 +170,30 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
   // ✅ FIX: Use ref to store timeout for proper cleanup on unmount
   const formTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const filteredProperties = properties.filter(property => {
-    if (filters.type !== 'all' && property.type !== filters.type) return false;
-    if (filters.priceRange !== 'all') {
-      const [minStr, maxStr] = filters.priceRange.split('-');
-      const min = Number(minStr);
-      const max = maxStr ? Number(maxStr) : undefined;
+  // ✅ PERFORMANCE: useMemo for expensive filter operation
+  // Prevents recalculation on every render when filters haven't changed
+  const filteredProperties = useMemo(() => {
+    return properties.filter(property => {
+      if (filters.type !== 'all' && property.type !== filters.type) return false;
+      if (filters.priceRange !== 'all') {
+        const [minStr, maxStr] = filters.priceRange.split('-');
+        const min = Number(minStr);
+        const max = maxStr ? Number(maxStr) : undefined;
 
-      if (max !== undefined) {
-        if (property.price < min || property.price > max) return false;
-      } else if (property.price < min) {
-        return false;
+        if (max !== undefined) {
+          if (property.price < min || property.price > max) return false;
+        } else if (property.price < min) {
+          return false;
+        }
       }
-    }
-    if (filters.rooms !== 'all') {
-      const roomFilter = Number(filters.rooms);
-      if (roomFilter === 4 && property.rooms < 4) return false;
-      if (roomFilter !== 4 && property.rooms !== roomFilter) return false;
-    }
-    return true;
-  });
+      if (filters.rooms !== 'all') {
+        const roomFilter = Number(filters.rooms);
+        if (roomFilter === 4 && property.rooms < 4) return false;
+        if (roomFilter !== 4 && property.rooms !== roomFilter) return false;
+      }
+      return true;
+    });
+  }, [filters.type, filters.priceRange, filters.rooms]);
 
   // ✅ FIX: Cleanup timeout on unmount
   useEffect(() => {
@@ -198,6 +202,14 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
         clearTimeout(formTimeoutRef.current);
       }
     };
+  }, []);
+
+  // ✅ PERFORMANCE: useCallback for stable handler reference
+  // Prevents child components from re-rendering unnecessarily
+  const handlePropertyClick = useCallback((property: typeof properties[0]) => {
+    setSelectedProperty(property);
+    setCurrentImageIndex(0);
+    setShowContactForm(false);
   }, []);
 
   /**
@@ -333,7 +345,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               {filteredProperties.map((property) => (
                 <button
                   key={property.id}
-                  onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); setShowContactForm(false); }}
+                  onClick={() => handlePropertyClick(property)}
                   className="group text-left bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 >
                   <div className={`aspect-video bg-gradient-to-br ${property.images?.[0] ?? 'from-gray-200 to-gray-400'} relative overflow-hidden`}>

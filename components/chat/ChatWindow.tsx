@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Check from 'lucide-react/dist/esm/icons/check';
@@ -111,8 +111,26 @@ interface MessageBubbleProps {
     onReply?: (messageId: string) => void;
 }
 
-const MessageBubble = ({ message, isSender, onEdit, onDelete, onReply }: MessageBubbleProps) => {
+// ✅ PERFORMANCE: Memoize MessageBubble to prevent unnecessary re-renders
+// Only re-renders when message content or handlers change
+const MessageBubble = memo(({ message, isSender, onEdit, onDelete, onReply }: MessageBubbleProps) => {
     const [showActions, setShowActions] = useState(false);
+
+    // ✅ PERFORMANCE: useCallback for stable handler references
+    const handleReply = useCallback(() => {
+        onReply?.(message.id);
+    }, [message.id, onReply]);
+
+    const handleEdit = useCallback(() => {
+        onEdit?.(message.id, message.content);
+    }, [message.id, message.content, onEdit]);
+
+    const handleDelete = useCallback(() => {
+        onDelete?.(message.id);
+    }, [message.id, onDelete]);
+
+    const handleMouseEnter = useCallback(() => setShowActions(true), []);
+    const handleMouseLeave = useCallback(() => setShowActions(false), []);
 
     return (
         <motion.div
@@ -121,8 +139,8 @@ const MessageBubble = ({ message, isSender, onEdit, onDelete, onReply }: Message
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.2 }}
             className={`flex ${isSender ? 'justify-end' : 'justify-start'} group`}
-            onMouseEnter={() => setShowActions(true)}
-            onMouseLeave={() => setShowActions(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
             <div className={`max-w-[75%] ${isSender ? 'items-end' : 'items-start'} flex flex-col`}>
                 {/* Sender Name (for group chats) */}
@@ -139,7 +157,7 @@ const MessageBubble = ({ message, isSender, onEdit, onDelete, onReply }: Message
                         <div className={`absolute top-0 ${isSender ? 'left-0 -translate-x-full' : 'right-0 translate-x-full'} flex gap-1 px-2`}>
                             {onReply && !isSender && (
                                 <button
-                                    onClick={() => onReply(message.id)}
+                                    onClick={handleReply}
                                     className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-primary-500/50 focus:outline-none"
                                     title="Antworten"
                                 >
@@ -150,7 +168,7 @@ const MessageBubble = ({ message, isSender, onEdit, onDelete, onReply }: Message
                             )}
                             {isSender && onEdit && !message.is_edited && (
                                 <button
-                                    onClick={() => onEdit(message.id, message.content)}
+                                    onClick={handleEdit}
                                     className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-primary-500/50 focus:outline-none"
                                     title="Bearbeiten"
                                 >
@@ -159,7 +177,7 @@ const MessageBubble = ({ message, isSender, onEdit, onDelete, onReply }: Message
                             )}
                             {isSender && onDelete && (
                                 <button
-                                    onClick={() => onDelete(message.id)}
+                                    onClick={handleDelete}
                                     className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors focus:ring-2 focus:ring-red-500/50 focus:outline-none"
                                     title="Löschen"
                                 >
@@ -200,14 +218,16 @@ const MessageBubble = ({ message, isSender, onEdit, onDelete, onReply }: Message
             </div>
         </motion.div>
     );
-};
+});
+MessageBubble.displayName = 'MessageBubble';
 
 // Read Receipt Component
 interface ReadReceiptProps {
     readBy: Array<{ user_id: string; read_at: string }>;
 }
 
-const ReadReceipt = ({ readBy }: ReadReceiptProps) => {
+// ✅ PERFORMANCE: Memoize ReadReceipt to prevent unnecessary re-renders
+const ReadReceipt = memo(({ readBy }: ReadReceiptProps) => {
     if (readBy.length === 0) {
         return <Check className="w-3.5 h-3.5 text-slate-400" />;
     }
@@ -215,7 +235,8 @@ const ReadReceipt = ({ readBy }: ReadReceiptProps) => {
         return <Check className="w-3.5 h-3.5 text-blue-500" />;
     }
     return <CheckCheck className="w-3.5 h-3.5 text-blue-500" />;
-};
+});
+ReadReceipt.displayName = 'ReadReceipt';
 
 // Helper Functions
 

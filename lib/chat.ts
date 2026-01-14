@@ -254,6 +254,49 @@ export const CHAT_CHANNELS = {
 
 import { supabase } from './supabase';
 
+// ✅ PERFORMANCE: Auth Cache to prevent duplicate getUser() calls
+// Cache expires after 5 minutes to ensure fresh auth state
+let chatAuthCache: {
+    user: { id: string } | null;
+    timestamp: number;
+} | null = null;
+
+const CHAT_AUTH_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Gets cached user data or fetches fresh data if cache expired
+ * Prevents duplicate supabase.auth.getUser() calls in rapid succession
+ */
+const getChatCachedUser = async (): Promise<{ id: string } | null> => {
+    const now = Date.now();
+
+    // Return cached user if still valid
+    if (chatAuthCache && (now - chatAuthCache.timestamp) < CHAT_AUTH_CACHE_TTL) {
+        return chatAuthCache.user;
+    }
+
+    // Fetch fresh user data
+    try {
+        const { data } = await supabase.auth.getUser();
+        chatAuthCache = {
+            user: data.user ? { id: data.user.id } : null,
+            timestamp: now
+        };
+        return chatAuthCache.user;
+    } catch (error) {
+        // On error, clear cache to allow retry
+        chatAuthCache = null;
+        return null;
+    }
+};
+
+/**
+ * Clears chat auth cache (call on logout/login)
+ */
+export const clearChatAuthCache = () => {
+    chatAuthCache = null;
+};
+
 /**
  * Get all conversations for current user
  */
@@ -261,7 +304,8 @@ export const getConversations = async (): Promise<{
     data: ChatConversationWithDetails[] | null;
     error: Error | null;
 }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
     }
@@ -377,7 +421,8 @@ export const getMessages = async (
     limit: number = 50,
     before?: string
 ): Promise<{ data: ChatMessageWithSender[] | null; error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
     }
@@ -432,7 +477,8 @@ export const getMessages = async (
 export const createDirectChat = async (
     participantId: string
 ): Promise<{ data: ChatConversationWithDetails | null; error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
     }
@@ -489,7 +535,8 @@ export const createDirectChat = async (
 export const createGroupChat = async (
     dto: CreateGroupChatDto
 ): Promise<{ data: ChatConversationWithDetails | null; error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
     }
@@ -533,7 +580,8 @@ export const createGroupChat = async (
 export const sendMessage = async (
     dto: SendMessageDto
 ): Promise<{ data: ChatMessageWithSender | null; error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
     }
@@ -582,7 +630,8 @@ export const sendMessage = async (
 export const updateMessage = async (
     dto: UpdateMessageDto
 ): Promise<{ data: ChatMessageWithSender | null; error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { data: null, error: new Error('Not authenticated') };
     }
@@ -629,7 +678,8 @@ export const updateMessage = async (
 export const deleteMessage = async (
     messageId: string
 ): Promise<{ error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
     }
@@ -660,7 +710,8 @@ export const markAsRead = async (
     conversationId: string,
     messageId: string
 ): Promise<{ error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
     }
@@ -702,7 +753,8 @@ export const setTypingIndicator = async (
     conversationId: string,
     isTyping: boolean
 ): Promise<{ error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
     }
@@ -774,7 +826,8 @@ export const removeParticipant = async (
 export const leaveConversation = async (
     conversationId: string
 ): Promise<{ error: ChatError }> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ PERFORMANCE: Use cached user instead of duplicate getUser() calls
+    const user = await getChatCachedUser();
     if (!user) {
         return { error: new Error('Not authenticated') };
     }
