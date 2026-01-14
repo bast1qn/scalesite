@@ -1,6 +1,7 @@
 
 import { useState, useMemo, useCallback, memo } from 'react';
-import { ArrowTopRightOnSquareIcon, EyeIcon, AnimatedSection } from './index';
+import { ArrowTopRightOnSquareIcon, EyeIcon } from './Icons';
+import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts';
 import { translations } from '../lib/translations';
 
