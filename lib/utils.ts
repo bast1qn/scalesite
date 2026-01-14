@@ -34,13 +34,17 @@ export function getLocalStorageItem(key: string): string | null {
 
   // SECURITY: Log sensitive key access attempts
   if (isSensitiveKey(key)) {
-    console.warn('[SECURITY] Attempted to read sensitive key from localStorage:', key);
+    if (import.meta.env.DEV) {
+      console.warn('[SECURITY] Attempted to read sensitive key from localStorage:', key);
+    }
   }
 
   try {
     return localStorage.getItem(key);
   } catch (error) {
-    console.error('[SECURITY] localStorage read failed:', error);
+    if (import.meta.env.DEV) {
+      console.error('[SECURITY] localStorage read failed:', error);
+    }
     return null;
   }
 }
@@ -54,15 +58,19 @@ export function setLocalStorageItem(key: string, value: string): boolean {
 
   // SECURITY: Block sensitive data storage
   if (isSensitiveKey(key)) {
-    console.error('[SECURITY] Attempted to store sensitive data in localStorage:', key);
-    console.error('[SECURITY] This is a security violation. Use Supabase auth for session data.');
+    if (import.meta.env.DEV) {
+      console.error('[SECURITY] Attempted to store sensitive data in localStorage:', key);
+      console.error('[SECURITY] This is a security violation. Use Supabase auth for session data.');
+    }
     return false;
   }
 
   // SECURITY: Limit value size to prevent localStorage quota exhaustion (DoS)
   const MAX_VALUE_SIZE = 10000; // 10KB per item
   if (value.length > MAX_VALUE_SIZE) {
-    console.error('[SECURITY] Value too large for localStorage, possible DoS attempt:', key);
+    if (import.meta.env.DEV) {
+      console.error('[SECURITY] Value too large for localStorage, possible DoS attempt:', key);
+    }
     return false;
   }
 
@@ -70,7 +78,9 @@ export function setLocalStorageItem(key: string, value: string): boolean {
     localStorage.setItem(key, value);
     return true;
   } catch (error) {
-    console.error('[SECURITY] localStorage write failed:', error);
+    if (import.meta.env.DEV) {
+      console.error('[SECURITY] localStorage write failed:', error);
+    }
     return false;
   }
 }

@@ -48,6 +48,12 @@ let currentSessionId: string | null = null;
 const getSessionId = (): string => {
     if (currentSessionId) return currentSessionId;
 
+    // ✅ BUG FIX: Added SSR safety check for sessionStorage
+    if (typeof window === 'undefined') {
+      currentSessionId = crypto.randomUUID();
+      return currentSessionId;
+    }
+
     let sessionId = sessionStorage.getItem('analytics_session_id');
 
     if (!sessionId) {
@@ -72,7 +78,10 @@ const getSessionId = (): string => {
  */
 const resetSession = () => {
     currentSessionId = null;
-    sessionStorage.removeItem('analytics_session_id');
+    // ✅ BUG FIX: Added SSR safety check for sessionStorage
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('analytics_session_id');
+    }
 };
 
 /**
@@ -117,7 +126,9 @@ export const trackPageView = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking page view:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking page view:', error);
+        }
     }
 };
 
@@ -141,7 +152,9 @@ export const trackUserAction = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking user action:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking user action:', error);
+        }
     }
 };
 
@@ -165,7 +178,9 @@ export const trackCustomEvent = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking custom event:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking custom event:', error);
+        }
     }
 };
 
@@ -193,7 +208,9 @@ export const trackConversion = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking conversion:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking conversion:', error);
+        }
     }
 };
 
@@ -217,7 +234,9 @@ export const trackFormSubmit = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking form submit:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking form submit:', error);
+        }
     }
 };
 
@@ -241,7 +260,9 @@ export const trackButtonClick = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking button click:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking button click:', error);
+        }
     }
 };
 
@@ -270,7 +291,9 @@ export const trackFileDownload = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking file download:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking file download:', error);
+        }
     }
 };
 
@@ -297,7 +320,9 @@ export const trackScrollDepth = async (
 
         await saveEvent(event);
     } catch (error) {
-        console.error('Error tracking scroll depth:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error tracking scroll depth:', error);
+        }
     }
 };
 
@@ -319,7 +344,9 @@ const saveEvent = async (event: AnalyticsEvent): Promise<void> => {
 
         if (error) throw error;
     } catch (error) {
-        console.error('Error saving analytics event:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error saving analytics event:', error);
+        }
         throw error;
     }
 };
@@ -347,7 +374,9 @@ export const getAnalyticsEvents = async (
         if (error) throw error;
         return data || [];
     } catch (error) {
-        console.error('Error fetching analytics events:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching analytics events:', error);
+        }
         return [];
     }
 };
@@ -393,7 +422,9 @@ export const getAnalyticsMetrics = async (
             topReferrers
         };
     } catch (error) {
-        console.error('Error fetching analytics metrics:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching analytics metrics:', error);
+        }
         return {
             totalViews: 0,
             uniqueVisitors: 0,

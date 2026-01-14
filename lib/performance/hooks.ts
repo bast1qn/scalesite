@@ -218,11 +218,16 @@ export function useLocalStorage<T>(
   initialValue: T
 ): [T, (value: T | ((prev: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
+    // ✅ BUG FIX: Added SSR safety check for localStorage
+    if (typeof window === 'undefined') return initialValue;
+
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
+      if (import.meta.env.DEV) {
+        console.warn(`Error reading localStorage key "${key}":`, error);
+      }
       return initialValue;
     }
   });
@@ -234,9 +239,14 @@ export function useLocalStorage<T>(
         const valueToStore =
           typeof value === 'function' ? (value as (prev: T) => T)(storedValue) : value;
         setStoredValue(valueToStore);
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        // ✅ BUG FIX: Added SSR safety check for localStorage
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        }
       } catch (error) {
-        console.warn(`Error setting localStorage key "${key}":`, error);
+        if (import.meta.env.DEV) {
+          console.warn(`Error setting localStorage key "${key}":`, error);
+        }
       }
     },
     [key, storedValue]

@@ -66,7 +66,9 @@ export const useConversations = () => {
                 fetchConversations();
             },
             onError: (err) => {
-                console.error('Conversation subscription error:', err);
+                if (import.meta.env.DEV) {
+                    console.error('Conversation subscription error:', err);
+                }
             }
         });
 
@@ -168,7 +170,9 @@ export const useChatMessages = (options: UseChatMessagesOptions) => {
         const oldestMessage = messages[0];
         // ✅ BUG FIX: Added null check for oldestMessage.created_at
         if (!oldestMessage?.created_at) {
-            console.error('[useChatMessages] Oldest message missing created_at');
+            if (import.meta.env.DEV) {
+                console.error('[useChatMessages] Oldest message missing created_at');
+            }
             return;
         }
 

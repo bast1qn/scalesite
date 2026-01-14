@@ -113,7 +113,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     safetyTimeout = setTimeout(() => {
       if (isMounted && loadingRef.current) {
-        console.error('[AUTH] Safety timeout triggered - check Supabase configuration');
+        if (import.meta.env.DEV) {
+          console.error('[AUTH] Safety timeout triggered - check Supabase configuration');
+        }
         setLoading(false);
         setSessionChecked(true);
       }
@@ -134,7 +136,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (!isMounted || abortController.signal.aborted) return;
 
         if (error) {
-          console.error('[AUTH] Error getting session:', error.message);
+          if (import.meta.env.DEV) {
+            console.error('[AUTH] Error getting session:', error.message);
+          }
           stopLoading();
           return;
         }
@@ -171,7 +175,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setUser(mapProfileToAppUser(data));
           }
         }).catch((err) => {
-          console.error('[AUTH] Error loading user profile from auth state change:', err instanceof Error ? err.message : err);
+          if (import.meta.env.DEV) {
+            console.error('[AUTH] Error loading user profile from auth state change:', err instanceof Error ? err.message : err);
+          }
         });
       } else {
         setUser(null);
@@ -209,7 +215,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       profileLoadPromiseRef.current.delete(userId);
 
       if (error) {
-        console.error('[AUTH] Error loading profile from DB:', error.message);
+        if (import.meta.env.DEV) {
+          console.error('[AUTH] Error loading profile from DB:', error.message);
+        }
         if (error.message?.includes('PGRST') || error.message?.includes('JWT') || error.code === 'PGRST116') {
           setLoading(false);
           return;
@@ -223,7 +231,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false);
       }
     } catch (e) {
-      console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
+      if (import.meta.env.DEV) {
+        console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
+      }
       setLoading(false);
     }
   }, []);
@@ -302,7 +312,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const register = useCallback(async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
     try {
-      console.log('[AUTH] Attempting registration for:', email);
+      if (import.meta.env.DEV) {
+        console.log('[AUTH] Attempting registration for:', email);
+      }
       const { data, error } = await supabase.auth.signUp({
         email,
         password: pass,
@@ -317,17 +329,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
 
       if (error) {
-        console.error('[AUTH] Supabase registration error:', {
-          message: error.message,
-          status: error.status,
-          name: error.name
-        });
+        if (import.meta.env.DEV) {
+          console.error('[AUTH] Supabase registration error:', {
+            message: error.message,
+            status: error.status,
+            name: error.name
+          });
+        }
         return { success: false, error: error.message, requiresConfirmation: false };
       }
 
-      console.log('[AUTH] Registration successful, user:', data.user?.id);
+      if (import.meta.env.DEV) {
+        console.log('[AUTH] Registration successful, user:', data.user?.id);
+      }
       if (!data.session) {
-        console.log('[AUTH] Email confirmation required');
+        if (import.meta.env.DEV) {
+          console.log('[AUTH] Email confirmation required');
+        }
       }
 
       // Check if email confirmation is required
@@ -364,12 +382,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
               // Log error but don't fail registration
               if (insertError) {
-                console.warn('Profile creation failed:', insertError.message);
+                if (import.meta.env.DEV) {
+                  console.warn('Profile creation failed:', insertError.message);
+                }
               }
             }
           } catch (profileError) {
             // Ignore profile errors - user was created successfully
-            console.warn('Profile creation warning:', profileError);
+            if (import.meta.env.DEV) {
+              console.warn('Profile creation warning:', profileError);
+            }
           }
         }
 

@@ -142,7 +142,9 @@ const handleSupabaseError = (error: SupabaseError | null): ApiError | null => {
     if (error) {
         // SECURITY: Don't expose internal error messages to users (OWASP A05:2021)
         // Internal errors may leak database structure, table names, or implementation details
-        console.error('[API] Internal error:', error.message, error.code);
+        if (import.meta.env.DEV) {
+          console.error('[API] Internal error:', error.message, error.code);
+        }
 
         const errorType = classifyError(error);
         const userMessage = getUserFriendlyMessage(errorType);
@@ -295,7 +297,9 @@ export const api = {
             });
 
             if (ticketError) {
-                console.error('[API] Failed to create ticket:', ticketError);
+                if (import.meta.env.DEV) {
+                  console.error('[API] Failed to create ticket:', ticketError);
+                }
                 return { data: null, error: { type: 'server' as const, message: 'Failed to create ticket' } };
             }
 
@@ -308,7 +312,9 @@ export const api = {
             });
 
             if (messageError) {
-                console.error('[API] Failed to create ticket message:', messageError);
+                if (import.meta.env.DEV) {
+                  console.error('[API] Failed to create ticket message:', messageError);
+                }
             }
 
             const { error: memberError } = await supabase.from('ticket_members').insert({
@@ -318,7 +324,9 @@ export const api = {
             });
 
             if (memberError) {
-                console.error('[API] Failed to add ticket member:', memberError);
+                if (import.meta.env.DEV) {
+                  console.error('[API] Failed to add ticket member:', memberError);
+                }
             }
         }
 
@@ -404,7 +412,9 @@ export const api = {
         });
 
         if (messageError) {
-            console.error('[API] Failed to create ticket message:', messageError);
+            if (import.meta.env.DEV) {
+              console.error('[API] Failed to create ticket message:', messageError);
+            }
         }
 
         const { error: memberError } = await supabase.from('ticket_members').insert({
@@ -414,7 +424,9 @@ export const api = {
         });
 
         if (memberError) {
-            console.error('[API] Failed to add ticket member:', memberError);
+            if (import.meta.env.DEV) {
+              console.error('[API] Failed to add ticket member:', memberError);
+            }
         }
 
         return { data: { success: true, id }, error: null };

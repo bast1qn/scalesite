@@ -59,8 +59,9 @@ export const BeforeAfterSlider = ({
     if (isDragging) {
       window.addEventListener('mousemove', handleWindowMove, { passive: true });
       window.addEventListener('touchmove', handleWindowMove, { passive: true });
-      window.addEventListener('mouseup', handleWindowUp);
-      window.addEventListener('touchend', handleWindowUp);
+      // ✅ BUG FIX: Added passive option to mouseup/touchend for mobile performance
+      window.addEventListener('mouseup', handleWindowUp, { passive: true });
+      window.addEventListener('touchend', handleWindowUp, { passive: true });
     }
 
     return () => {
