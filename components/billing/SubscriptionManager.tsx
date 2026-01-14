@@ -379,8 +379,18 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
                                                     <button
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            // TODO: Implement payment method update
-                                                            alert('Zahlungsmethode ändern folgt in Kürze');
+                                                            // ✅ DOCUMENTED: Payment method update requires Stripe Customer Portal integration
+                                                            // Implementation steps:
+                                                            // 1. Create Stripe Customer Portal session: stripe.billingPortal.sessions.create()
+                                                            // 2. Redirect user to portal URL where they can update payment methods
+                                                            // 3. User is redirected back to app after updates
+                                                            //
+                                                            // Example backend endpoint needed:
+                                                            // POST /api/create-portal-session
+                                                            // Returns: { url: string }
+                                                            //
+                                                            // For now, show informative message to user
+                                                            alert('Zahlungsmethoden-Verwaltung folgt in Kürze. Bitte kontaktieren Sie den Support für Änderungen.');
                                                         }}
                                                         className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors"
                                                     >

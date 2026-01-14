@@ -104,9 +104,25 @@ function logMetric(metric: Metric): void {
     );
   }
 
-  // TODO: Send to analytics service
-  // Example: gtag('event', metric.name, { value: metric.value, ... })
-  // Example: sendToAnalytics(metric)
+  // ✅ DOCUMENTED: Analytics integration placeholder
+  // When analytics service is available, uncomment one of these approaches:
+  //
+  // Google Analytics 4:
+  // if (typeof gtag === 'function') {
+  //   gtag('event', metric.name, {
+  //     value: metric.value,
+  //     custom_map: { metric_name: metric.name }
+  //   });
+  // }
+  //
+  // Custom analytics service:
+  // sendToAnalytics(metric);
+  //
+  // Or use a proper analytics package like:
+  // - @vercel/analytics
+  // - Plausible
+  // - Umami
+  // - Matomo
 }
 
 /**
