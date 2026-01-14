@@ -138,7 +138,7 @@ export const ChatWidget = () => {
                     </div>
                     <button
                         onClick={() => setIsOpen(false)}
-                        className="p-2 hover:bg-white/15 rounded-lg transition-all duration-200 active:scale-[0.98] focus:ring-2 focus:ring-white/50 backdrop-blur-sm min-h-9 min-w-9"
+                        className="p-2 hover:bg-white/15 rounded-lg transition-all duration-200 active:scale-[0.98] focus:ring-2 focus:ring-white/50 backdrop-blur-sm min-h-11 min-w-11"
                         aria-label={t('chat_widget.close_aria')}
                     >
                         <XMarkIcon className="w-4 h-4" />
