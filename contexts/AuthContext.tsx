@@ -3,6 +3,7 @@ import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
 import type { User } from '@clerk/clerk-react';
 import { isClerkAvailable } from '../lib/clerk';
 import { clerkPubKey } from '../lib/clerk';
+import { securityLog } from '../lib/secureLogger';
 
 export interface AppUser {
   id: string;
@@ -89,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       // Token-based login with Clerk
       return true;
     } catch (e) {
-      console.error('Token login failed:', e);
+      securityLog('Token login failed', { error: e instanceof Error ? e.message : 'Unknown error' });
       return false;
     }
   }, []);
@@ -98,11 +99,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       // Clerk sign out is handled by their SignOutButton component
       // For programmatic logout, reload the page
+      securityLog('User logged out', { userId: appUser?.id });
       window.location.href = '/';
     } catch (err) {
-      console.error('Logout failed:', err);
+      securityLog('Logout failed', { error: err instanceof Error ? err.message : 'Unknown error' });
     }
-  }, []);
+  }, [appUser?.id]);
 
   const register = useCallback(async (name: string, company: string, email: string, password: string, referralCode?: string) => {
     try {

@@ -5,6 +5,7 @@
 
 import { useCallback, useEffect } from 'react';
 import { supabase } from './supabase';
+import { securityLog } from './secureLogger';
 
 /**
  * Session Security Configuration
@@ -52,7 +53,7 @@ class InactivityTracker {
       this.checkInactivity();
     }, SESSION_CONFIG.CHECK_INTERVAL_MS);
 
-    console.log('[SESSION SECURITY] Inactivity tracking started');
+    securityLog('Session security inactivity tracking started');
   }
 
   /**
@@ -75,7 +76,7 @@ class InactivityTracker {
       document.removeEventListener(event, this.updateActivity);
     });
 
-    console.log('[SESSION SECURITY] Inactivity tracking stopped');
+    securityLog('Session security inactivity tracking stopped');
   }
 
   /**
@@ -131,14 +132,14 @@ class InactivityTracker {
     });
     window.dispatchEvent(event);
 
-    console.warn(`[SESSION SECURITY] User inactive. Logging out in ${minutesLeft} minutes...`);
+    securityLog('User inactive - logout warning', { minutesLeft });
   }
 
   /**
    * Perform logout
    */
   private async performLogout() {
-    console.error('[SESSION SECURITY] Inactivity timeout - logging out user');
+    securityLog('Inactivity timeout - logging out user', { inactiveDuration: Date.now() - this.lastActivity });
 
     // Stop tracking
     this.stop();
@@ -162,7 +163,7 @@ class InactivityTracker {
     try {
       sessionStorage.setItem(SESSION_CONFIG.STORAGE_KEY, timestamp.toString());
     } catch (error) {
-      console.error('[SESSION SECURITY] Failed to save activity:', error);
+      securityLog('Failed to save activity to session storage', { error: error instanceof Error ? error.message : 'Unknown error' });
     }
   }
 
@@ -181,7 +182,7 @@ class InactivityTracker {
         }
       }
     } catch (error) {
-      console.error('[SESSION SECURITY] Failed to read activity:', error);
+      securityLog('Failed to read activity from session storage', { error: error instanceof Error ? error.message : 'Unknown error' });
     }
     return Date.now();
   }
@@ -192,7 +193,7 @@ class InactivityTracker {
   reset() {
     this.updateActivity();
     this.warningShown = false;
-    console.log('[SESSION SECURITY] Inactivity tracker reset');
+    securityLog('Inactivity tracker reset');
   }
 }
 

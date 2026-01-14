@@ -11,6 +11,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from '../contexts/RouterContext';
 import { BorderSpinner } from '../components';
+import { securityLog } from '../lib/secureLogger';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -34,7 +35,7 @@ export const ProtectedRoute = ({
     // SECURITY: Check authorization once auth loading completes
     if (!loading) {
       if (!user) {
-        console.warn('[SECURITY] Unauthorized access attempt - no user found');
+        securityLog('Unauthorized access attempt - no user found', { path: window.location.pathname });
         setIsAuthorized(false);
         setIsChecking(false);
 
@@ -48,7 +49,11 @@ export const ProtectedRoute = ({
 
       // Role-based access control
       if (requireRole && user.role !== requireRole) {
-        console.warn(`[SECURITY] Access denied - requires ${requireRole} role`);
+        securityLog('Access denied - insufficient role', {
+          requiredRole: requireRole,
+          userRole: user.role,
+          userId: user.id
+        });
         setIsAuthorized(false);
         setIsChecking(false);
         return;
@@ -56,7 +61,10 @@ export const ProtectedRoute = ({
 
       // Team member check
       if (requireTeam && user.role !== 'team' && user.role !== 'owner') {
-        console.warn('[SECURITY] Access denied - team access required');
+        securityLog('Access denied - team access required', {
+          userRole: user.role,
+          userId: user.id
+        });
         setIsAuthorized(false);
         setIsChecking(false);
         return;
