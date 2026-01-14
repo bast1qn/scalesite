@@ -30,9 +30,9 @@ export interface OptimizedListProps<T> {
 }
 
 /**
- * Memoized list item to prevent unnecessary re-renders
+ * List item component
  */
-const OptimizedListItem = memo(<T,>({
+const OptimizedListItem = <T,>({
   item,
   index,
   renderItem,
@@ -44,9 +44,7 @@ const OptimizedListItem = memo(<T,>({
       {renderItem(item, index)}
     </div>
   );
-}) as <T>(props: OptimizedListItemProps<T>) => JSX.Element;
-
-OptimizedListItem.displayName = 'OptimizedListItem';
+} as <T>(props: OptimizedListItemProps<T>) => JSX.Element;
 
 /**
  * Optimized List Component

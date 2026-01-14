@@ -11,7 +11,7 @@ interface HeaderProps {
     currentPage: string;
 }
 
-const NavButton = memo(({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: ReactNode }) => {
+const NavButton = ({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: ReactNode }) => {
     const hover = useHover();
     const isActive = currentPage === page;
 
@@ -35,11 +35,8 @@ const NavButton = memo(({ page, currentPage, onClick, children }: { page: string
             <span className="relative z-10">{children}</span>
         </button>
     );
-});
-
-NavButton.displayName = 'NavButton';
-
-const CurrencySelector = memo(({ isMobile = false }: { isMobile?: boolean }) => {
+};
+const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
     const { currency, setCurrency, currenciesList } = useCurrency();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
@@ -128,11 +125,8 @@ const CurrencySelector = memo(({ isMobile = false }: { isMobile?: boolean }) => 
             )}
         </div>
     );
-});
-
-CurrencySelector.displayName = 'CurrencySelector';
-
-export const Header = memo(({ setCurrentPage, currentPage }: HeaderProps) => {
+};
+export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
     const { user, logout } = useContext(AuthContext);
@@ -286,6 +280,4 @@ export const Header = memo(({ setCurrentPage, currentPage }: HeaderProps) => {
             />
         </header>
     );
-});
-
-Header.displayName = 'Header';
+};

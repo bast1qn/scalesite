@@ -173,4 +173,4 @@ export const BlogSection = () => {
 };
 
 // Memoize BlogSection to prevent unnecessary re-renders
-export const BlogSectionMemo = memo(BlogSection);
+export const BlogSectionMemo = BlogSection;

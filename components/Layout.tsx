@@ -7,9 +7,7 @@ interface LayoutProps {
   currentPage: string;
 }
 
-// PERFORMANCE: Memoize Layout to prevent unnecessary re-renders
-// Only re-renders when currentPage changes
-export const Layout = memo(({ children, setCurrentPage, currentPage }: LayoutProps) => {
+export const Layout = ({ children, setCurrentPage, currentPage }: LayoutProps) => {
   const isDashboard = currentPage === 'dashboard';
 
   return (
@@ -24,6 +22,4 @@ export const Layout = memo(({ children, setCurrentPage, currentPage }: LayoutPro
       {!isDashboard && <BackToTopButton />}
     </div>
   );
-});
-
-Layout.displayName = 'Layout';
+};

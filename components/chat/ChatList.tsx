@@ -164,7 +164,7 @@ interface ChatListItemProps {
     currentUserId: string;
 }
 
-const ChatListItem = memo(({ conversation, isActive, onClick, currentUserId }: ChatListItemProps) => {
+const ChatListItem = ({ conversation, isActive, onClick, currentUserId }: ChatListItemProps) => {
     const displayName = getDisplayName(conversation, currentUserId);
     const avatarUrl = getAvatarUrl(conversation, currentUserId);
     const lastMessage = conversation.last_message;
@@ -234,7 +234,7 @@ const ChatListItem = memo(({ conversation, isActive, onClick, currentUserId }: C
             )}
         </button>
     );
-});
+};
 
 // Helper Functions
 function getDisplayName(conversation: ChatConversationWithDetails, currentUserId: string): string {

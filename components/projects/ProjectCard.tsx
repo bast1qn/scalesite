@@ -114,7 +114,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     const cardVariants = {
         default: 'p-6',
         compact: 'p-4'
-    };
+  };
 
     return (
         <motion.div
@@ -235,15 +235,4 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     );
 };
 
-// Memoize ProjectCard to prevent unnecessary re-renders in lists
-export const ProjectCardMemo = memo(ProjectCard, (prevProps, nextProps) => {
-    return (
-        prevProps.id === nextProps.id &&
-        prevProps.name === nextProps.name &&
-        prevProps.status === nextProps.status &&
-        prevProps.progress === nextProps.progress &&
-        prevProps.variant === nextProps.variant &&
-        prevProps.updated_at === nextProps.updated_at &&
-        prevProps.estimated_launch_date === nextProps.estimated_launch_date
-    );
-});
+export const ProjectCardMemo = ProjectCard;

@@ -71,7 +71,7 @@ interface NavItemProps {
     index: number;
 }
 
-const NavItem = memo(({ page, label, currentPage, onClick, index }: NavItemProps) => {
+const NavItem = ({ page, label, currentPage, onClick, index }: NavItemProps) => {
     const isActive = currentPage === page;
 
     return (
@@ -89,17 +89,7 @@ const NavItem = memo(({ page, label, currentPage, onClick, index }: NavItemProps
             {label}
         </motion.button>
     );
-}, (prevProps, nextProps) => {
-    return (
-        prevProps.page === nextProps.page &&
-        prevProps.label === nextProps.label &&
-        prevProps.currentPage === nextProps.currentPage &&
-        prevProps.onClick === nextProps.onClick
-    );
-});
-
-NavItem.displayName = 'NavItem';
-
+};
 interface ActionButtonProps {
     children: ReactNode;
     onClick?: () => void;

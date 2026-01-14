@@ -28,7 +28,7 @@ interface TranslationFunction {
 }
 
 // Clean pricing card with subtle hover
-const PricingCard = memo(({
+const PricingCard = ({
     pkg,
     index,
     onClick,
@@ -127,10 +127,7 @@ const PricingCard = memo(({
             </div>
         </div>
     );
-});
-
-PricingCard.displayName = 'PricingCard';
-
+};
 export const PricingSection = ({ setCurrentPage }: PricingSectionProps) => {
   const { user } = useContext(AuthContext);
   const { t, language } = useLanguage();

@@ -135,16 +135,7 @@ const FeatureCardComponent: FC<{
     );
 };
 
-// Memoize FeatureCard to prevent unnecessary re-renders
-const FeatureCard = memo(FeatureCardComponent, (prevProps, nextProps) => {
-    return (
-        prevProps.feature === nextProps.feature &&
-        prevProps.index === nextProps.index &&
-        prevProps.t === nextProps.t
-    );
-});
-
-FeatureCard.displayName = 'FeatureCard';
+const FeatureCard = FeatureCardComponent;
 
 export const TestimonialsSection: FC = () => {
     const { t } = useLanguage();

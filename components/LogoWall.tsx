@@ -16,7 +16,7 @@ const logos = [
 ];
 
 // Memoized logo item component to prevent re-renders
-const LogoItem: FC<{ logo: typeof logos[0] }> = memo(({ logo }) => (
+const LogoItem: FC<{ logo: typeof logos[0] }> = ({ logo }) => (
   <div className="group flex items-center gap-3 transition-all duration-500 cursor-default grayscale hover:grayscale-0 hover:scale-[1.02]">
     <div
       className="w-8 h-8 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:scale-[1.02]"
@@ -26,9 +26,7 @@ const LogoItem: FC<{ logo: typeof logos[0] }> = memo(({ logo }) => (
       {logo.name}
     </span>
   </div>
-));
-
-LogoItem.displayName = 'LogoItem';
+  );
 
 export const LogoWall = () => {
   const { t } = useLanguage();
