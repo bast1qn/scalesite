@@ -9,9 +9,13 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
       },
-      plugins: [react()],
+      plugins: [react({
+        babel: {
+          plugins: []
+        }
+      })],
       optimizeDeps: {
-        include: ['lucide-react']
+        include: ['react', 'react-dom', 'lucide-react']
       },
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
@@ -26,31 +30,7 @@ export default defineConfig(({ mode }) => {
         target: 'es2020',
         minify: 'esbuild',
         sourcemap: false,
-        chunkSizeWarningLimit: 1000,
-        rollupOptions: {
-          output: {
-            manualChunks(id) {
-              // Don't split React - keep it in the main bundle
-              if (id.includes('node_modules')) {
-                // Skip React completely
-                if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
-                  return undefined;
-                }
-                // Split other large vendors
-                if (id.includes('framer-motion')) {
-                  return 'vendor-motion';
-                }
-                if (id.includes('recharts')) {
-                  return 'vendor-charts';
-                }
-                if (id.includes('@supabase')) {
-                  return 'vendor-supabase';
-                }
-                return 'vendor';
-              }
-            }
-          }
-        }
+        chunkSizeWarningLimit: 1000
       }
     };
 });
