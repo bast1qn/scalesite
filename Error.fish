@@ -10,7 +10,7 @@ end
 # ==========================================
 # KONFIGURATION
 # ==========================================
-set MAX_LOOPS 30              # Anzahl der Runden
+set MAX_LOOPS 40              # Anzahl der Runden
 set PAUSE_SECONDS 60         # Pause zwischen Runden
 set LOG_FILE "agent.log"      # Haupt-Log-Datei
 set ERROR_LOG_FILE "agent_errors.log"  # Separate Error-Log
