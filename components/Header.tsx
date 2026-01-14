@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useMemo, type ReactNode } from 'react';
+import { useState, useContext, useRef, useMemo, memo, useCallback, type ReactNode } from 'react';
 import { ThemeToggle } from './ThemeToggle';
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
@@ -11,13 +11,16 @@ interface HeaderProps {
     currentPage: string;
 }
 
-const NavButton = ({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: ReactNode }) => {
+const NavButton = memo(({ page, currentPage, onClick, children }: { page: string; currentPage: string; onClick: (page: string) => void; children: ReactNode }) => {
     const hover = useHover();
     const isActive = currentPage === page;
 
+    // Memoized click handler to prevent inline function creation
+    const handleClick = useCallback(() => onClick(page), [onClick, page]);
+
     return (
         <button
-            onClick={() => onClick(page)}
+            onClick={handleClick}
             {...hover}
             className={`relative px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
                 isActive
@@ -32,9 +35,11 @@ const NavButton = ({ page, currentPage, onClick, children }: { page: string; cur
             <span className="relative z-10">{children}</span>
         </button>
     );
-};
+});
 
-const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
+NavButton.displayName = 'NavButton';
+
+const CurrencySelector = memo(({ isMobile = false }: { isMobile?: boolean }) => {
     const { currency, setCurrency, currenciesList } = useCurrency();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useClickOutsideCallback(() => setIsOpen(false), isOpen);
@@ -42,10 +47,17 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
     const commonCurrencies = useMemo(() => ['EUR', 'USD', 'GBP', 'CHF', 'JPY', 'CAD', 'AUD', 'SEK', 'DKK', 'PLN', 'CZK', 'HUF', 'BRL', 'TRY'], []);
     const otherCurrencies = useMemo(() => currenciesList.filter(c => !commonCurrencies.includes(c.code)), [currenciesList, commonCurrencies]);
 
+    // Memoized handlers to prevent inline function creation
+    const handleToggle = useCallback(() => setIsOpen(prev => !prev), []);
+    const handleCurrencySelect = useCallback((code: string) => {
+        setCurrency(code);
+        setIsOpen(false);
+    }, [setCurrency]);
+
     return (
         <div className="relative" ref={dropdownRef}>
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleToggle}
                 className={`relative flex items-center gap-2 transition-all duration-350 ease-smooth min-h-11 ${
                     isMobile
                         ? 'text-base font-medium text-slate-800 dark:text-slate-200 px-4 py-3'
@@ -71,7 +83,7 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
                             return (
                                 <button
                                     key={curr.code}
-                                    onClick={() => { setCurrency(curr.code); setIsOpen(false); }}
+                                    onClick={() => handleCurrencySelect(curr.code)}
                                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 ${
                                         isSelected
                                             ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-medium'
@@ -97,7 +109,7 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
                                     return (
                                         <button
                                             key={curr.code}
-                                            onClick={() => { setCurrency(curr.code); setIsOpen(false); }}
+                                            onClick={() => handleCurrencySelect(curr.code)}
                                             className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 ${
                                                 isSelected
                                                     ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-medium'
@@ -116,9 +128,11 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
             )}
         </div>
     );
-};
+});
 
-export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
+CurrencySelector.displayName = 'CurrencySelector';
+
+export const Header = memo(({ setCurrentPage, currentPage }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
     const { user, logout } = useContext(AuthContext);
@@ -127,20 +141,25 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
     const isScrolled = useScroll(8);
     useBodyScrollLock(isMenuOpen);
 
-    const handleLogout = () => {
+    // Memoized handlers to prevent inline function creation
+    const handleLogout = useCallback(() => {
         logout();
         setCurrentPage('home');
         setIsMenuOpen(false);
-    }
+    }, [logout, setCurrentPage]);
 
-    const handleNavClick = (page: string) => {
+    const handleNavClick = useCallback((page: string) => {
         setIsMenuOpen(false);
         setCurrentPage(page);
-    };
+    }, [setCurrentPage]);
 
-    const toggleLanguage = () => {
+    const toggleLanguage = useCallback(() => {
         setLanguage(language === 'de' ? 'en' : 'de');
-    };
+    }, [language, setLanguage]);
+
+    const handleMenuToggle = useCallback(() => {
+        setIsMenuOpen(prev => !prev);
+    }, []);
 
     const navItems = useMemo(() => [
         { page: 'home', label: t('nav.home')},
@@ -163,7 +182,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-14 md:h-16 lg:h-18">
                     <button
-                        onClick={() => setCurrentPage('home')}
+                        onClick={() => handleNavClick('home')}
                         className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-300 min-h-11"
                     >
                         <ScaleSiteLogo className="h-7 lg:h-8" />
@@ -195,7 +214,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                             <>
                                 <NotificationBell />
                                 <button
-                                    onClick={() => setCurrentPage('configurator')}
+                                    onClick={() => handleNavClick('configurator')}
                                     className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                     title="Website Konfigurator"
                                 >
@@ -205,7 +224,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                                     <span>Konfigurator</span>
                                 </button>
                                 <button
-                                    onClick={() => setCurrentPage('dashboard')}
+                                    onClick={() => handleNavClick('dashboard')}
                                     className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <UserCircleIcon className="w-4 h-4" />
@@ -244,7 +263,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                             {language}
                         </button>
                         <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            onClick={handleMenuToggle}
                             className="relative p-3 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 min-h-11 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
                             aria-label={isMenuOpen ? t('nav.menuClose') : t('nav.menuOpen')}
                         >
@@ -267,4 +286,6 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
             />
         </header>
     );
-};
+});
+
+Header.displayName = 'Header';
