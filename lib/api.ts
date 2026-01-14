@@ -92,7 +92,6 @@ type ApiErrorType = 'network' | 'auth' | 'validation' | 'not_found' | 'server' |
 interface ApiError {
     type: ApiErrorType;
     message: string;
-    originalCode?: string;
 }
 
 const classifyError = (error: SupabaseError): ApiErrorType => {
@@ -149,10 +148,11 @@ const handleSupabaseError = (error: SupabaseError | null): ApiError | null => {
         const errorType = classifyError(error);
         const userMessage = getUserFriendlyMessage(errorType);
 
+        // SECURITY: Remove originalCode to prevent information leakage
+        // Internal error codes can expose database structure and implementation details
         return {
             type: errorType,
-            message: userMessage,
-            originalCode: error.code
+            message: userMessage
         };
     }
     return null;
