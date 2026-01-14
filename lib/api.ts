@@ -284,7 +284,7 @@ export const api = {
 
         if (service) {
             const ticketId = generateId();
-            await supabase.from('tickets').insert({
+            const { error: ticketError } = await supabase.from('tickets').insert({
                 id: ticketId,
                 user_id: user.id,
                 subject: `Buchungsanfrage: ${service.name}`,
@@ -294,7 +294,12 @@ export const api = {
                 last_update: now
             });
 
-            await supabase.from('ticket_messages').insert({
+            if (ticketError) {
+                console.error('[API] Failed to create ticket:', ticketError);
+                return { data: null, error: { type: 'server' as const, message: 'Failed to create ticket' } };
+            }
+
+            const { error: messageError } = await supabase.from('ticket_messages').insert({
                 id: generateId(),
                 ticket_id: ticketId,
                 user_id: null,
@@ -302,11 +307,19 @@ export const api = {
                 created_at: now
             });
 
-            await supabase.from('ticket_members').insert({
+            if (messageError) {
+                console.error('[API] Failed to create ticket message:', messageError);
+            }
+
+            const { error: memberError } = await supabase.from('ticket_members').insert({
                 ticket_id: ticketId,
                 user_id: user.id,
                 added_at: now
             });
+
+            if (memberError) {
+                console.error('[API] Failed to add ticket member:', memberError);
+            }
         }
 
         return { data: { success: true, id }, error: null };
@@ -382,7 +395,7 @@ export const api = {
 
         if (error) return { data: null, error: handleSupabaseError(error) };
 
-        await supabase.from('ticket_messages').insert({
+        const { error: messageError } = await supabase.from('ticket_messages').insert({
             id: generateId(),
             ticket_id: id,
             user_id: user.id,
@@ -390,11 +403,19 @@ export const api = {
             created_at: now
         });
 
-        await supabase.from('ticket_members').insert({
+        if (messageError) {
+            console.error('[API] Failed to create ticket message:', messageError);
+        }
+
+        const { error: memberError } = await supabase.from('ticket_members').insert({
             ticket_id: id,
             user_id: user.id,
             added_at: now
         });
+
+        if (memberError) {
+            console.error('[API] Failed to add ticket member:', memberError);
+        }
 
         return { data: { success: true, id }, error: null };
     },
