@@ -270,6 +270,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const register = useCallback(async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
     try {
+      console.log('[AUTH] Attempting registration for:', email);
       const { data, error } = await supabase.auth.signUp({
         email,
         password: pass,
@@ -284,7 +285,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
 
       if (error) {
+        console.error('[AUTH] Supabase registration error:', {
+          message: error.message,
+          status: error.status,
+          name: error.name
+        });
         return { success: false, error: error.message, requiresConfirmation: false };
+      }
+
+      console.log('[AUTH] Registration successful, user:', data.user?.id);
+      if (!data.session) {
+        console.log('[AUTH] Email confirmation required');
       }
 
       // Check if email confirmation is required
