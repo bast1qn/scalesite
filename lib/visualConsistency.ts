@@ -10,15 +10,20 @@ export type CardVariant = 'default' | 'elevated' | 'flat';
 export type ShadowVariant = 'soft' | 'medium' | 'strong' | 'glow';
 
 /**
+ * @deprecated Import BUTTON_PRIMARY, BUTTON_SECONDARY from lib/ui-patterns.ts instead
  * Button Style Variants (consistent across app)
  */
 export const buttonVariants: Record<ButtonVariant, string> = {
+  /** @deprecated Use BUTTON_PRIMARY from lib/ui-patterns.ts */
   primary:
     'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11',
+  /** @deprecated Use BUTTON_SECONDARY from lib/ui-patterns.ts */
   secondary:
     'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11',
+  /** @deprecated Consider adding BUTTON_GHOST to lib/ui-patterns.ts */
   ghost:
     'px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
+  /** @deprecated Consider adding BUTTON_DANGER to lib/ui-patterns.ts */
   danger:
     'px-8 py-4 text-white font-semibold rounded-2xl bg-rose-500 hover:bg-rose-600 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-rose-500/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-11',
 };

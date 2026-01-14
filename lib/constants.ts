@@ -149,28 +149,32 @@ export const VALIDATION = {
 } as const;
 
 // ===== CLASSNAME PATTERNS =====
+// NOTE: Button and text styles consolidated in lib/ui-patterns.ts
+// Re-exporting for backward compatibility
 
 /**
+ * @deprecated Import BUTTON_PRIMARY, BUTTON_SECONDARY, etc. from lib/ui-patterns.ts instead
  * Common button styles for consistency
  */
 export const BUTTON_STYLES = {
-  /** Primary gradient button with hover effects */
+  /** @deprecated Use BUTTON_PRIMARY from lib/ui-patterns.ts */
   primary: 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
-  /** Secondary outline button */
+  /** @deprecated Use BUTTON_SECONDARY from lib/ui-patterns.ts */
   secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
-  /** Small icon button */
+  /** @deprecated Use BUTTON_ICON from lib/ui-patterns.ts */
   icon: 'w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50',
 } as const;
 
 /**
+ * @deprecated Import GRADIENTS from lib/ui-patterns.ts instead
  * Common text styles for consistency
  */
 export const TEXT_STYLES = {
-  /** Primary gradient text */
+  /** @deprecated Use GRADIENTS.primary from lib/ui-patterns.ts */
   gradientPrimary: 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600',
-  /** Blue gradient text */
+  /** @deprecated Use GRADIENTS from lib/ui-patterns.ts */
   gradientBlue: 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600',
-  /** Premium gradient text */
+  /** @deprecated Use GRADIENTS from lib/ui-patterns.ts */
   gradientPremium: 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-violet-600',
 } as const;
 

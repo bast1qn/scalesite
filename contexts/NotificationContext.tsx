@@ -1,5 +1,4 @@
 // NotificationContext - Simplified version for Neon + Clerk migration
-// TODO: Re-implement database subscriptions with Neon
 
 import { createContext, useState, useCallback, useContext, useMemo, type ReactNode, type FC } from 'react';
 import {

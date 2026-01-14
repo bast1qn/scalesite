@@ -337,15 +337,20 @@ export function useNoFlashTheme() {
 }
 
 /**
- * Hook for handling touch gestures (swipe)
- * Useful for mobile navigation, carousels, etc.
+ * Configuration for swipe gesture handlers
  */
 interface SwipeHandlers {
+  /** Callback when user swipes left */
   onSwipedLeft?: () => void;
+  /** Callback when user swipes right */
   onSwipedRight?: () => void;
+  /** Callback when user swipes up */
   onSwipedUp?: () => void;
+  /** Callback when user swipes down */
   onSwipedDown?: () => void;
+  /** Maximum duration of swipe in ms (default: 300ms) */
   swipeDuration?: number;
+  /** Minimum distance in pixels to trigger swipe (default: 50px) */
   swipeThreshold?: number;
 }
 
@@ -354,6 +359,22 @@ interface SwipeableHandlers {
   onTouchEnd: (e: React.TouchEvent) => void;
 }
 
+/**
+ * Hook for handling touch gestures (swipe)
+ * Useful for mobile navigation, carousels, etc.
+ *
+ * @param handlers - Swipe configuration with callbacks for each direction
+ * @returns Touch event handlers to attach to your element
+ *
+ * @example
+ * const swipeHandlers = useSwipeable({
+ *   onSwipedLeft: () => console.log('swiped left'),
+ *   onSwipedRight: () => console.log('swiped right'),
+ *   swipeThreshold: 50,
+ * });
+ *
+ * return <div {...swipeHandlers}>Swipe me!</div>
+ */
 export function useSwipeable({
   onSwipedLeft,
   onSwipedRight,
