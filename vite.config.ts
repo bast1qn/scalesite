@@ -44,8 +44,8 @@ export default defineConfig(({ mode }) => {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
             manualChunks: (id) => {
-              // React Core (stable, rarely changes)
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime')) {
+              // React Core (stable, rarely changes) - include React ecosystem
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime') || id.includes('recharts') || id.includes('lucide-react')) {
                 return 'react-vendor';
               }
               // Supabase (large, separate chunk)
@@ -55,10 +55,6 @@ export default defineConfig(({ mode }) => {
               // Heavy UI libraries
               if (id.includes('framer-motion')) {
                 return 'motion';
-              }
-              // Charts - LAZY LOADED (only when AnalyticsPage loads)
-              if (id.includes('recharts')) {
-                return 'charts';
               }
               // Document generation (rarely used)
               if (id.includes('jspdf') || id.includes('html2canvas')) {
