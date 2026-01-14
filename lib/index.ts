@@ -11,6 +11,7 @@ export * from './animations';
 
 // Utilities
 export * from './utils';
+export * from './ui-patterns';
 
 // Validation
 export * from './validation';
