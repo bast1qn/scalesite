@@ -6,16 +6,24 @@ interface SkeletonProps {
   width?: string | number;
   height?: string | number;
   count?: number;
+  shimmer?: boolean; // Enable/disable shimmer effect
 }
 
+/**
+ * Premium Skeleton Component with Shimmer Effect (Linear/Stripe-style)
+ * Uses shimmer animation instead of simple pulse for more polished loading state
+ */
 export const Skeleton: FC<SkeletonProps> = ({
   className = '',
   variant = 'text',
   width,
   height,
-  count = 1
+  count = 1,
+  shimmer = true
 }) => {
-  const baseClasses = 'animate-pulse bg-slate-200 dark:bg-slate-800';
+  const baseClasses = shimmer
+    ? 'bg-slate-200 dark:bg-slate-800 animate-shimmer'
+    : 'animate-pulse bg-slate-200 dark:bg-slate-800';
 
   const variantClasses = {
     text: 'rounded h-4',
@@ -27,86 +35,91 @@ export const Skeleton: FC<SkeletonProps> = ({
   const style: CSSProperties = {};
   if (width) style.width = typeof width === 'number' ? `${width}px` : width;
   if (height) style.height = typeof height === 'number' ? `${height}px` : height;
+  if (shimmer) {
+    style.backgroundSize = '200% 100%';
+    style.backgroundImage = 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)';
+  }
 
   const skeletons = Array.from({ length: count }, (_, i) => (
     <div
       key={i}
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
       style={Object.keys(style).length > 0 ? style : undefined}
+      aria-hidden="true"
     />
   ));
 
   return <>{skeletons}</>;
 };
 
-// Card Skeleton
+// Card Skeleton with Shimmer Effect
 export const CardSkeleton: FC<{ showAvatar?: boolean }> = ({ showAvatar = false }) => (
-  <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+  <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading card">
     {showAvatar && (
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
+        <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer"></div>
         <div className="flex-1">
-          <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-3/4 mb-2"></div>
-          <div className="h-3 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-1/2"></div>
+          <Skeleton width="75%" className="mb-2" />
+          <Skeleton width="50%" height="12px" />
         </div>
       </div>
     )}
-    <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-full mb-3"></div>
-    <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-5/6 mb-3"></div>
-    <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-4/6"></div>
+    <Skeleton className="mb-3" />
+    <Skeleton width="83%" className="mb-3" />
+    <Skeleton width="66%" />
   </div>
 );
 
-// Pricing Card Skeleton
+// Pricing Card Skeleton with Shimmer Effect
 export const PricingCardSkeleton: FC = () => (
-  <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700">
-    <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-pulse mb-6"></div>
-    <div className="h-6 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-3/4 mb-4"></div>
-    <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-full mb-8"></div>
-    <div className="h-10 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-1/2 mb-8"></div>
+  <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading pricing card">
+    <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-shimmer mb-6"></div>
+    <Skeleton height="24px" width="75%" className="mb-4" />
+    <Skeleton className="mb-8" />
+    <Skeleton height="40px" width="50%" className="mb-8" />
     <div className="space-y-3 mb-8">
       {[1, 2, 3, 4].map((i) => (
         <div key={i} className="flex items-center gap-3">
-          <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
-          <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-full"></div>
+          <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer flex-shrink-0"></div>
+          <Skeleton />
         </div>
       ))}
     </div>
-    <div className="h-14 bg-slate-200 dark:bg-slate-700 animate-pulse rounded-xl"></div>
+    <Skeleton height="56px" variant="rounded" />
   </div>
 );
 
-// Blog Card Skeleton
+// Blog Card Skeleton with Shimmer Effect
 export const BlogCardSkeleton: FC = () => (
-  <div className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700">
-    <div className="aspect-video bg-slate-200 dark:bg-slate-700 animate-pulse"></div>
+  <div className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading blog card">
+    <div className="aspect-video bg-slate-200 dark:bg-slate-700 animate-shimmer"></div>
     <div className="p-6">
       <div className="flex items-center gap-4 mb-4">
-        <div className="h-8 bg-slate-200 dark:bg-slate-700 animate-pulse rounded-full w-20"></div>
-        <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-16"></div>
+        <Skeleton height="32px" width="80px" variant="rounded" />
+        <Skeleton width="64px" />
       </div>
-      <div className="h-6 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-full mb-3"></div>
-      <div className="h-6 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-5/6 mb-4"></div>
-      <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-full mb-2"></div>
-      <div className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded w-4/6"></div>
+      <Skeleton height="24px" className="mb-3" />
+      <Skeleton height="24px" width="83%" className="mb-4" />
+      <Skeleton className="mb-2" />
+      <Skeleton width="66%" />
     </div>
   </div>
 );
 
-// Table Skeleton
+// Table Skeleton with Shimmer Effect
 export const TableSkeleton: FC<{ rows?: number; cols?: number }> = ({ rows = 5, cols = 4 }) => (
-  <div className="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+  <div className="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading table">
     {/* Header */}
     <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
       {Array.from({ length: cols }).map((_, i) => (
-        <div key={i} className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded flex-1"></div>
+        <Skeleton key={i} />
       ))}
     </div>
     {/* Rows */}
     {Array.from({ length: rows }).map((_, rowIndex) => (
       <div key={rowIndex} className="flex gap-4 p-4 border-b border-slate-100 dark:border-slate-800 last:border-b-0">
         {Array.from({ length: cols }).map((_, colIndex) => (
-          <div key={colIndex} className="h-4 bg-slate-200 dark:bg-slate-700 animate-pulse rounded flex-1"></div>
+          <Skeleton key={colIndex} />
         ))}
       </div>
     ))}
