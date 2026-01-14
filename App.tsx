@@ -51,10 +51,27 @@ const SEOPage = lazy(() => import('./pages/SEOPage'));
 const PageLoader = () => {
     const { t } = useLanguage();
     return (
-        <div className="min-h-screen flex items-center justify-center">
-            <div className="flex flex-col items-center gap-4">
-                <BorderSpinner size="md" color="primary" />
-                <p className="text-slate-500 dark:text-slate-400 text-sm">{t('general.loading')}</p>
+        <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-900">
+            <div className="flex flex-col items-center gap-6 px-4">
+                {/* Skeleton-style loading indicator */}
+                <div className="relative w-16 h-16">
+                    {/* Outer ring */}
+                    <div className="absolute inset-0 border-4 border-slate-200 dark:border-slate-700 rounded-full"></div>
+                    {/* Animated ring */}
+                    <div className="absolute inset-0 border-4 border-transparent border-t-primary-500 border-r-primary-600 rounded-full animate-spin"></div>
+                    {/* Inner glow */}
+                    <div className="absolute inset-2 bg-gradient-to-br from-primary-500/10 to-violet-500/10 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-center">
+                    <p className="text-slate-700 dark:text-slate-300 font-medium mb-1">{t('general.loading')}</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm">Bitte warten...</p>
+                </div>
+                {/* Progress hint */}
+                <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
+                </div>
             </div>
         </div>
     );
