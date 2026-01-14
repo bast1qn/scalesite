@@ -1,7 +1,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { EnvelopeIcon, CheckBadgeIcon, SparklesIcon, AnimatedSection } from './index';
-import { api } from '../lib';
+import { api, validateEmail, validateName } from '../lib';
 import { useLanguage } from '../contexts';
 
 export const NewsletterSection = () => {
@@ -18,11 +18,33 @@ export const NewsletterSection = () => {
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        const name = formData.get('name') as string;
-        const email = formData.get('email') as string;
+        const rawName = formData.get('name') as string;
+        const rawEmail = formData.get('email') as string;
+
+        // SECURITY: Validate all inputs (OWASP A03:2021 - XSS Prevention)
+        const nameValidation = validateName(rawName);
+        const emailValidation = validateEmail(rawEmail);
+
+        if (!nameValidation.isValid) {
+            setError(t('general.error'));
+            setLoading(false);
+            return;
+        }
+
+        if (!emailValidation.isValid) {
+            setError(t('general.error'));
+            setLoading(false);
+            return;
+        }
+
+        // Use sanitized values
+        const data = {
+            name: nameValidation.sanitized || rawName,
+            email: emailValidation.sanitized || rawEmail
+        };
 
         try {
-            await api.subscribeNewsletter(name, email);
+            await api.subscribeNewsletter(data.name, data.email);
             setIsSubmitted(true);
             form.reset();
         } catch (err) {
