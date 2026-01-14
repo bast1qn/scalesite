@@ -44,7 +44,10 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
   const [socialLoading, setSocialLoading] = useState<'google' | 'github' | null>(null);
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
-  const { login, socialLogin, loginWithToken } = useContext(AuthContext);
+  const [requiresConfirmation, setRequiresConfirmation] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const { login, socialLogin, loginWithToken, resendConfirmationEmail } = useContext(AuthContext);
   const { t, language } = useLanguage();
 
   // Check for Token in URL (Return from Social Login)
@@ -106,6 +109,7 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+    setRequiresConfirmation(false);
 
     // SECURITY: Validate and sanitize email input
     const emailValidation = validateEmail(email);
@@ -133,6 +137,10 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
     const result = await login(sanitizedEmail, password);
 
     if (result.error) {
+        // Check if email confirmation is required
+        if (result.error === 'Please confirm your email') {
+            setRequiresConfirmation(true);
+        }
         // SECURITY: Use secure error handler to prevent information leakage (OWASP A01:2021)
         const secureError = handleLoginError(result.error, language);
         setError(secureError);
@@ -185,6 +193,30 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
       } finally {
           setLoading(false);
       }
+  };
+
+  const handleResendConfirmation = async () => {
+      setError('');
+      setResendSuccess(false);
+      setResendLoading(true);
+
+      const emailValidation = validateEmail(email);
+      if (!emailValidation.isValid) {
+          setError('Bitte gib deine E-Mail-Adresse ein');
+          setResendLoading(false);
+          return;
+      }
+
+      const sanitizedEmail = emailValidation.sanitized || email;
+      const result = await resendConfirmationEmail(sanitizedEmail);
+
+      if (result.error) {
+          setError(result.error);
+      } else {
+          setResendSuccess(true);
+          setTimeout(() => setResendSuccess(false), 5000);
+      }
+      setResendLoading(false);
   };
 
   const hasError = !!error;
@@ -349,6 +381,42 @@ const LoginPage = ({ setCurrentPage }: LoginPageProps) => {
                 <div id="reset-success" role="status" className="p-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border border-emerald-200/60 dark:border-emerald-800/40 rounded-xl text-sm text-emerald-600 dark:text-emerald-400 text-center font-medium animate-slide-down flex items-center justify-center gap-2">
                     <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                     {language === 'de' ? 'Passwort-Reset Link wurde gesendet. Prüfe deine E-Mail.' : 'Password reset link sent. Check your email.'}
+                </div>
+            )}
+
+            {resendSuccess && (
+                <div id="resend-success" role="status" className="p-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border border-emerald-200/60 dark:border-emerald-800/40 rounded-xl text-sm text-emerald-600 dark:text-emerald-400 text-center font-medium animate-slide-down flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                    {language === 'de' ? 'Bestätigungs-E-Mail wurde erneut gesendet!' : 'Confirmation email resent!'}
+                </div>
+            )}
+
+            {requiresConfirmation && (
+                <div className="space-y-3">
+                    <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200/60 dark:border-blue-800/40 rounded-xl text-sm text-blue-700 dark:text-blue-300 text-center">
+                        <svg className="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                        {language === 'de' ? 'Bitte bestätige deine E-Mail-Adresse. Wir haben dir einen Bestätigungs-Link gesendet.' : 'Please confirm your email. We sent you a confirmation link.'}
+                    </div>
+                    <button
+                        type="button"
+                        onClick={handleResendConfirmation}
+                        disabled={resendLoading}
+                        className="w-full py-2.5 px-4 border border-primary-300 dark:border-primary-600 rounded-xl text-sm font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30 focus:outline-none focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                        {resendLoading ? (
+                            <>
+                                <LoadingSpinner />
+                                {language === 'de' ? 'Wird gesendet...' : 'Sending...'}
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                {language === 'de' ? 'Bestätigungs-E-Mail erneut senden' : 'Resend confirmation email'}
+                            </>
+                        )}
+                    </button>
                 </div>
             )}
 

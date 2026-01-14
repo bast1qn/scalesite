@@ -37,6 +37,7 @@ interface AuthContextType {
   loginWithToken: (token: string) => Promise<boolean>;
   logout: () => Promise<void>;
   register: (name: string, company: string, email: string, pass: string, referralCode?: string) => Promise<{ success: boolean; error: string | null, requiresConfirmation: boolean }>;
+  resendConfirmationEmail: (email: string) => Promise<{ success: boolean; error: string | null }>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -47,6 +48,7 @@ export const AuthContext = createContext<AuthContextType>({
   loginWithToken: async () => false,
   logout: async () => {},
   register: async () => ({ success: false, error: 'AuthProvider not initialized', requiresConfirmation: false }),
+  resendConfirmationEmail: async () => ({ success: false, error: 'AuthProvider not initialized' }),
 });
 
 interface AuthProviderProps {
@@ -311,6 +313,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [loadUserProfile]);
 
+  const resendConfirmationEmail = useCallback(async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      return { success: true, error: null };
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : 'Failed to resend confirmation email' };
+    }
+  }, []);
+
   const contextValue = useMemo(() => ({
     user,
     loading,
@@ -319,7 +338,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     loginWithToken,
     logout,
     register,
-  }), [user, loading, login, socialLogin, loginWithToken, logout, register]);
+    resendConfirmationEmail,
+  }), [user, loading, login, socialLogin, loginWithToken, logout, register, resendConfirmationEmail]);
 
   return (
     <AuthContext.Provider value={contextValue}>
