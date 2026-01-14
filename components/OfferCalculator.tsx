@@ -134,7 +134,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
                  <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight-plus">
                     {t('calculator.title')}
                  </h3>
-                 <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed-plus">
+                 <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                     {t('calculator.subtitle')}
                  </p>
             </div>
@@ -310,12 +310,12 @@ Monatlich: ${formatPrice(monthlyPrice)}
                             )}
 
                             <div className="w-full space-y-4 mt-auto">
-                                <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed-plus">
+                                <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
                                     {t('calculator.disclaimer')}
                                 </p>
                                 <button
                                     onClick={handleRequestClick}
-                                    className="w-full bg-gradient-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-slate-900 font-bold py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-slate-900/20 dark:hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1 shadow-lg relative overflow-hidden group/btn"
+                                    className="w-full bg-gradient-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-slate-900 font-bold py-4 px-6 rounded-2xl hover:shadow-xl hover:shadow-slate-900/20 dark:hover:shadow-white/20 hover:-translate-y-1 active:scale-95 focus:ring-2 focus:ring-primary/50 transition-all duration-300 shadow-lg relative overflow-hidden group/btn disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <span className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-violet-500/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></span>
                                     <span className="relative z-10 flex items-center justify-center gap-2">
@@ -340,7 +340,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                 {requestStep === 'success' && t('general.success')}
                             </h3>
                             {requestStep !== 'sending' && (
-                                <button onClick={() => setShowRequestModal(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                <button onClick={() => setShowRequestModal(false)} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 active:bg-slate-300 dark:active:bg-slate-600 focus:ring-2 focus:ring-primary/50 transition-colors">
                                     <XMarkIcon className="w-5 h-5 text-slate-500" />
                                 </button>
                             )}
@@ -363,8 +363,8 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                         </p>
                                         {requestError && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 p-2 rounded">{requestError}</p>}
                                         <div className="flex gap-3 pt-2">
-                                            <button onClick={() => setShowRequestModal(false)} className="flex-1 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800">{t('general.close')}</button>
-                                            <button onClick={confirmRequest} className="flex-1 py-2 rounded-lg bg-primary text-white font-bold hover:bg-primary-hover">{t('pricing.modal.btn_submit')}</button>
+                                            <button onClick={() => setShowRequestModal(false)} className="flex-1 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-700 focus:ring-2 focus:ring-primary/50 transition-all">{t('general.close')}</button>
+                                            <button onClick={confirmRequest} className="flex-1 py-2 rounded-lg bg-primary text-white font-bold hover:bg-primary-hover active:scale-95 focus:ring-2 focus:ring-primary/50 transition-all">{t('pricing.modal.btn_submit')}</button>
                                         </div>
                                     </div>
                                 ) : (
@@ -374,9 +374,9 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                         <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
                                             {t('auth.login_subtitle')}
                                         </p>
-                                        <button 
-                                            onClick={() => setCurrentPage && setCurrentPage('login')} 
-                                            className="w-full py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover shadow-lg"
+                                        <button
+                                            onClick={() => setCurrentPage && setCurrentPage('login')}
+                                            className="w-full py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover active:scale-95 focus:ring-2 focus:ring-primary/50 shadow-lg transition-all"
                                         >
                                             {t('auth.to_login')}
                                         </button>
@@ -400,7 +400,7 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
                                         {t('pricing.modal.success_desc')}
                                     </p>
-                                    <button onClick={() => setCurrentPage && setCurrentPage('dashboard')} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:opacity-90">
+                                    <button onClick={() => setCurrentPage && setCurrentPage('dashboard')} className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:opacity-90 active:scale-95 focus:ring-2 focus:ring-primary/50 transition-all">
                                         {t('pricing.modal.to_dashboard')}
                                     </button>
                                 </div>

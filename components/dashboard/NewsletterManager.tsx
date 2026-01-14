@@ -269,7 +269,7 @@ const NewsletterManager: React.FC = () => {
                         className={`pb-4 px-1 font-semibold text-sm transition-colors border-b-2 -mb-px ${
                             activeTab === 'campaigns'
                                 ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 active:text-slate-900 dark:active:text-white focus:ring-2 focus:ring-blue-500/50 rounded'
                         }`}
                     >
                         Kampagnen
@@ -279,7 +279,7 @@ const NewsletterManager: React.FC = () => {
                         className={`pb-4 px-1 font-semibold text-sm transition-colors border-b-2 -mb-px ${
                             activeTab === 'subscribers'
                                 ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                                : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 active:text-slate-900 dark:active:text-white focus:ring-2 focus:ring-blue-500/50 rounded'
                         }`}
                     >
                         Abonnenten ({subscribers.length})
@@ -348,7 +348,7 @@ const NewsletterManager: React.FC = () => {
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Kampagnen</h2>
                             <button
                                 onClick={handleNewCampaignClick}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-95 focus:ring-2 focus:ring-blue-500/50 transition-all"
                             >
                                 <PlusIcon className="w-5 h-5" />
                                 Neue Kampagne
@@ -363,7 +363,7 @@ const NewsletterManager: React.FC = () => {
                         ) : (
                             <div className="divide-y divide-slate-200 dark:divide-slate-700">
                                 {campaigns.map((campaign) => (
-                                    <div key={campaign.id} className="p-6 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                    <div key={campaign.id} className="p-6 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:bg-slate-100 dark:active:bg-slate-700 transition-colors">
                                         <div className="flex items-start justify-between gap-4">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-3 mb-2">
@@ -398,7 +398,7 @@ const NewsletterManager: React.FC = () => {
                                                 {campaign.status === 'draft' && (
                                                     <button
                                                         onClick={() => handleSendCampaign(campaign.id)}
-                                                        className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-xl transition-colors"
+                                                        className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:bg-green-100 dark:active:bg-green-900/40 focus:ring-2 focus:ring-green-500/50 rounded-xl transition-all"
                                                         title="Senden"
                                                     >
                                                         <PaperAirplaneIcon className="w-5 h-5" />
@@ -406,14 +406,14 @@ const NewsletterManager: React.FC = () => {
                                                 )}
                                                 <button
                                                     onClick={() => openCampaignModal(campaign)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors"
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 active:bg-blue-100 dark:active:bg-blue-900/40 focus:ring-2 focus:ring-blue-500/50 rounded-xl transition-all"
                                                     title="Bearbeiten"
                                                 >
                                                     <PencilIcon className="w-5 h-5" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteCampaign(campaign.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                                                    className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 active:bg-red-100 dark:active:bg-red-900/40 focus:ring-2 focus:ring-red-500/50 rounded-xl transition-all"
                                                     title="Löschen"
                                                 >
                                                     <TrashIcon className="w-5 h-5" />
@@ -445,7 +445,7 @@ const NewsletterManager: React.FC = () => {
                     ) : (
                         <div className="divide-y divide-slate-200 dark:divide-slate-700">
                             {subscribers.map((subscriber) => (
-                                <div key={subscriber.id} className="p-6 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                <div key={subscriber.id} className="p-6 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:bg-slate-100 dark:active:bg-slate-700 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <p className="font-semibold text-slate-900 dark:text-white">
@@ -458,7 +458,7 @@ const NewsletterManager: React.FC = () => {
                                         </div>
                                         <button
                                             onClick={() => handleDeleteSubscriber(subscriber.id)}
-                                            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                                            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 active:bg-red-100 dark:active:bg-red-900/40 focus:ring-2 focus:ring-red-500/50 rounded-xl transition-all"
                                             title="Entfernen"
                                         >
                                             <TrashIcon className="w-5 h-5" />
@@ -485,7 +485,7 @@ const NewsletterManager: React.FC = () => {
                             </h3>
                             <button
                                 onClick={handleCloseModal}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors"
+                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 active:bg-slate-200 dark:active:bg-slate-600 focus:ring-2 focus:ring-primary/50 rounded-xl transition-all"
                             >
                                 <XMarkIcon className="w-6 h-6 text-slate-500" />
                             </button>
@@ -580,13 +580,13 @@ const NewsletterManager: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={handleCloseModal}
-                                    className="px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                                    className="px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 active:bg-slate-100 dark:active:bg-slate-600 focus:ring-2 focus:ring-primary/50 transition-all"
                                 >
                                     Abbrechen
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
+                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-95 focus:ring-2 focus:ring-blue-500/50 transition-all"
                                 >
                                     {editingCampaign ? 'Aktualisieren' : 'Erstellen'}
                                 </button>
