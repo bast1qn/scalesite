@@ -9,7 +9,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-28 md:py-36 px-4 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 lg:py-28 px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-[#030305] dark:via-slate-950 dark:to-[#030305]"></div>
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -32,7 +32,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
             <span>{t('hero_final_cta.guarantee')}</span>
           </div>
 
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-snug">
             {t('hero_final_cta.title')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-violet-400 to-primary-400 bg-[length:200%_auto] animate-gradient-shimmer">
               {t('hero_final_cta.title_highlight')}
@@ -58,7 +58,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
             <button
               onClick={() => setCurrentPage('preise')}
-              className="group px-11 py-4 min-h-11 bg-white dark:bg-white text-slate-900 font-semibold rounded-full overflow-hidden transition-all duration-350 ease-smooth hover:scale-[1.02] hover:shadow-premium-xl hover:-translate-y-1 active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
+              className="group px-8 sm:px-11 py-4 min-h-11 bg-white dark:bg-white text-slate-900 font-semibold rounded-full overflow-hidden transition-all duration-300 ease-smooth hover:scale-[1.02] hover:shadow-premium-xl hover:-translate-y-1 active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
             >
               <span className="flex items-center gap-3 text-lg">
                 <span>{t('hero_final_cta.cta_primary')}</span>
@@ -67,7 +67,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
             </button>
             <button
               onClick={() => setCurrentPage('contact')}
-              className="px-11 py-4 min-h-11 bg-transparent border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/15 hover:border-white/50 transition-all duration-350 ease-smooth hover:-translate-y-1 hover:shadow-soft text-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
+              className="px-8 sm:px-11 py-4 min-h-11 bg-transparent border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/15 hover:border-white/50 transition-all duration-300 ease-smooth hover:-translate-y-1 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
             >
               {t('hero_final_cta.cta_secondary')}
             </button>

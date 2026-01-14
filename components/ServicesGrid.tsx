@@ -31,7 +31,7 @@ export const ServicesGrid = () => {
   ], [t]);
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
       {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
@@ -44,7 +44,7 @@ export const ServicesGrid = () => {
       {/* Subtle gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-transparent pointer-events-none"></div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
           <div className="text-center mb-16">
             {/* Badge */}
@@ -52,8 +52,8 @@ export const ServicesGrid = () => {
               {t('services.badge')}
             </div>
 
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('services.title')}
               </span>
             </h2>
@@ -68,7 +68,7 @@ export const ServicesGrid = () => {
             {services.map((service, index) => (
               <HoverCard key={service.name}>
                 <div
-                  className={`group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 transition-all duration-300 ${service.border} hover:shadow-lg hover:-translate-y-1`}
+                  className={`group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 transition-all duration-300 ${service.border} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer`}
                   style={{ transitionDelay: `${index * 50}ms` }}
                 >
                   <div className="flex flex-col h-full">
@@ -97,7 +97,7 @@ export const ServicesGrid = () => {
 
             {/* CTA Card */}
             <HoverCard>
-              <div className="group relative bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 dark:border-slate-600 rounded-2xl p-8 flex flex-col justify-center items-center text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              <div className="group relative bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 dark:border-slate-600 rounded-2xl p-6 sm:p-8 flex flex-col justify-center items-center text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer">
                 <div className="w-14 h-14 bg-slate-800 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-[1.02]">
                   <ChatBubbleBottomCenterTextIcon className="w-7 h-7" />
                 </div>
@@ -107,7 +107,7 @@ export const ServicesGrid = () => {
                 <p className="text-slate-400 text-sm mb-8 leading-relaxed">
                   {t('services.cta_card.text')}
                 </p>
-                <button className="w-full bg-white text-slate-900 py-3 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-all duration-300 shadow-md">
+                <button className="w-full bg-white text-slate-900 py-3 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                   {t('services.cta_card.btn')}
                 </button>
               </div>

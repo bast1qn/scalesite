@@ -100,7 +100,7 @@ const DeviceMockup: FC<{
 
 export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) => {
   return (
-    <section className="py-28 md:py-36 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 relative overflow-hidden">
       {/* Refined background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-gradient-to-br from-primary-400/4 to-violet-400/4 rounded-full blur-3xl animate-blob"></div>
@@ -126,7 +126,7 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 leading-tight"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 leading-snug"
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-violet-600 to-primary-600 bg-[length:200%_auto] animate-gradient-shimmer">
               Beispiel-Websites
@@ -151,11 +151,11 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex justify-center gap-3 mb-14"
         >
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white dark:bg-slate-800 border-2 border-primary-500 text-primary-600 dark:text-primary-400 font-medium text-sm shadow-premium transition-all duration-350">
+          <button className="flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-11 rounded-full bg-white dark:bg-slate-800 border-2 border-primary-500 text-primary-600 dark:text-primary-400 font-medium text-sm shadow-premium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
             <ComputerDesktopIcon className="w-4 h-4" />
             Desktop
           </button>
-          <button className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium text-sm hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-350">
+          <button className="flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-11 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium text-sm hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
             <DevicePhoneMobileIcon className="w-4 h-4" />
             Mobil
           </button>
@@ -175,7 +175,7 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
                 onClick={() => setCurrentPage(String(showcase.id))}
                 className="group w-full text-left"
               >
-                <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 hover:shadow-premium-xl hover:-translate-y-2 transition-all duration-450 ease-spring">
+                <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 hover:shadow-premium-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-spring cursor-pointer focus-within:ring-2 focus-within:ring-primary-500/50">
                   {/* Animated gradient border */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${showcase.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-450 rounded-3xl blur-xl`}></div>
 
