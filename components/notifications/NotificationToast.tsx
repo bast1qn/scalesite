@@ -134,7 +134,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
                     )}
 
                     <div
-                        className={`p-4 ${notification.link ? 'cursor-pointer hover:opacity-90 transition-opacity' : ''}`}
+                        className={`p-4 ${notification.link ? 'cursor-pointer hover:opacity-90 transition-opacity active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none rounded-xl' : ''}`}
                         onClick={handleClick}
                     >
                         <div className="flex items-start gap-3">
@@ -155,7 +155,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
                                             setIsVisible(false);
                                             setTimeout(onClose, 300);
                                         }}
-                                        className="shrink-0 p-0.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                                        className="shrink-0 p-2 min-h-8 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors hover:scale-110 active:scale-95 focus:ring-2 focus:ring-primary-500/50 focus:outline-none"
                                     >
                                         <XMarkIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                                     </button>

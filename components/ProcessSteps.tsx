@@ -61,7 +61,7 @@ export const ProcessSteps: FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
           <div className="text-center mb-12 md:mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider leading-snug">
               {t('process.badge')}
             </span>
             <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
@@ -85,7 +85,7 @@ export const ProcessSteps: FC = () => {
                 )}
 
                 {/* Card */}
-                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 h-full focus:ring-2 focus:ring-primary-500/50">
+                <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 h-full focus-within:ring-2 focus-within:ring-primary-500/50">
                   {/* Step number badge */}
                   <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold flex items-center justify-center shadow-md border-2 border-white dark:border-slate-800 z-10">
                     {index + 1}
@@ -97,10 +97,11 @@ export const ProcessSteps: FC = () => {
                   </div>
 
                   {/* Content */}
-                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+                  <h3 className="font-semibold text-base sm:text-lg text-slate-900 dark:text-white mb-2 leading-snug transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
                     {t(step.nameKey)}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {t(step.descKey)}
                     {t(step.descKey)}
                   </p>
                 </div>
@@ -119,7 +120,7 @@ export const ProcessSteps: FC = () => {
                   {step.icon}
                 </div>
                 <div className="flex-1 pt-2">
-                  <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-1">
+                  <h3 className="font-semibold text-base sm:text-lg text-slate-900 dark:text-white mb-1 leading-snug">
                     {t(step.nameKey)}
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">

@@ -90,7 +90,7 @@ export const BlogSection = () => {
             {blogPosts.map((post, index) => (
               <article
                 key={post.id}
-                className="group flex flex-col bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 card-hover"
+                className="group flex flex-col bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl overflow-hidden border border-slate-200/60 dark:border-slate-700/60 hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.01] active:scale-[0.99] transition-all duration-500 card-hover focus-within:ring-2 focus-within:ring-primary-500/50"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Image */}
@@ -108,7 +108,7 @@ export const BlogSection = () => {
 
                   {/* Category badge */}
                   <div className="absolute top-4 left-4">
-                    <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-800 dark:text-white shadow-lg group-hover:scale-[1.02] transition-transform duration-300`}>
+                    <span className={`inline-flex items-center px-3 py-2 min-h-8 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-800 dark:text-white shadow-lg group-hover:scale-105 active:scale-95 transition-transform duration-300`}>
                       {post.category}
                     </span>
                   </div>
@@ -132,7 +132,7 @@ export const BlogSection = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-white mb-3 leading-snug group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-violet-600 transition-colors duration-300">
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-3 leading-snug group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-colors duration-300">
                     {post.title}
                   </h3>
 
@@ -142,7 +142,7 @@ export const BlogSection = () => {
                   </p>
 
                   {/* Read more link */}
-                  <div className="flex items-center text-sm font-bold text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  <div className="flex items-center text-sm font-bold text-primary-600 dark:text-primary-400 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 focus-within:opacity-100 focus-within:translate-y-0">
                     <span>Weiterlesen</span>
                     <ArrowRightIcon className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
                   </div>

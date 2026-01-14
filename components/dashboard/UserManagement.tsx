@@ -152,7 +152,7 @@ const UserManagement = () => {
                     placeholder="Suchen..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="px-4 py-2.5 text-sm rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none w-full sm:w-64 transition-shadow"
+                    className="px-4 py-3 text-sm rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none w-full sm:w-64 transition-shadow"
                 />
             </div>
 
@@ -163,10 +163,10 @@ const UserManagement = () => {
                     <table className="min-w-full">
                         <thead>
                             <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
-                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Nutzer</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Kontakt</th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Rolle</th>
-                                <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Aktionen</th>
+                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 leading-tight">Nutzer</th>
+                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 leading-tight">Kontakt</th>
+                                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 leading-tight">Rolle</th>
+                                <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 leading-tight">Aktionen</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -189,12 +189,12 @@ const UserManagement = () => {
                                              <select
                                                 value={u.role}
                                                 onChange={(e) => handleRoleChange(u.id, e.target.value as AppUser['role'])}
-                                                className={`text-xs font-bold px-2 py-1 rounded-md border-none focus:ring-0 cursor-pointer ${getRoleBadgeColor(u.role)}`}
+                                                className={`text-xs font-bold px-3 py-2 rounded-md border-none focus:ring-2 focus:ring-primary-500/20 cursor-pointer ${getRoleBadgeColor(u.role)}`}
                                             >
                                                 {ROLE_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                                             </select>
                                         ) : (
-                                            <span className={`text-xs font-bold px-2 py-1 rounded-md inline-block ${getRoleBadgeColor(u.role)}`}>
+                                            <span className={`text-xs font-bold px-3 py-2 rounded-md inline-block ${getRoleBadgeColor(u.role)}`}>
                                                 {u.role.charAt(0).toUpperCase() + u.role.slice(1)}
                                             </span>
                                         )}
@@ -202,7 +202,7 @@ const UserManagement = () => {
                                     <td className="px-6 py-4 text-right">
                                         <button
                                             onClick={() => openProjectModal(u)}
-                                            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-1.5 rounded-lg transition-all duration-200 hover:shadow-sm"
+                                            className="text-xs font-semibold text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 px-4 py-3 min-h-11 rounded-lg transition-all duration-200 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none"
                                         >
                                             {t('dashboard.alerts.manage_projects')}
                                         </button>
@@ -246,19 +246,19 @@ const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
             <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
-                <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                     <div>
-                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Projekte: {user.name}</h3>
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-tight">Projekte: {user.name}</h3>
                     </div>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"><XMarkIcon className="w-5 h-5 text-slate-500" /></button>
+                    <button onClick={onClose} className="p-3 min-h-11 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none"><XMarkIcon className="w-5 h-5 text-slate-500" /></button>
                 </div>
 
                 <div className="flex border-b border-slate-100 dark:border-slate-800">
-                    <button onClick={() => setActiveTab('manage')} className={`flex-1 py-3.5 text-sm font-semibold border-b-2 transition-all duration-200 ${activeTab === 'manage' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Laufend</button>
-                    <button onClick={() => setActiveTab('assign')} className={`flex-1 py-3.5 text-sm font-semibold border-b-2 transition-all duration-200 ${activeTab === 'assign' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Zuweisen</button>
+                    <button onClick={() => setActiveTab('manage')} className={`flex-1 py-4 min-h-12 text-sm font-semibold border-b-2 transition-all duration-200 ${activeTab === 'manage' ? 'border-primary-500 text-primary-600 dark:text-primary-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Laufend</button>
+                    <button onClick={() => setActiveTab('assign')} className={`flex-1 py-4 min-h-12 text-sm font-semibold border-b-2 transition-all duration-200 ${activeTab === 'assign' ? 'border-primary-500 text-primary-600 dark:text-primary-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}>Zuweisen</button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar bg-slate-50 dark:bg-slate-950/50">
+                <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-slate-50 dark:bg-slate-950/50">
                     {activeTab === 'manage' ? (
                         loadingData ? <div className="text-center py-10 text-slate-400">Lade...</div> :
                         userServices.length === 0 ? <div className="text-center py-10 text-slate-400">{t('dashboard.alerts.no_projects')}</div> :
@@ -331,9 +331,9 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/50">
-                <span className="text-sm font-semibold text-blue-900 dark:text-blue-200">Komplett neuen Service erstellen?</span>
+        <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex items-center justify-between p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl border border-primary-100 dark:border-primary-800/50">
+                <span className="text-sm font-semibold text-primary-900 dark:text-primary-200 leading-snug">Komplett neuen Service erstellen?</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" checked={isCreatingNew} onChange={e => setIsCreatingNew(e.target.checked)} className="sr-only peer" />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -353,22 +353,22 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
                     <p className="text-xs text-slate-400 mt-2">Enthält alle Standard-Pakete sowie Automatisierungs-Lösungen.</p>
                 </div>
             ) : (
-                <div className="space-y-4 animate-fade-in bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div className="space-y-6 animate-fade-in bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
                     <div>
-                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Name der Leistung</label>
+                        <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2 leading-tight">Name der Leistung</label>
                         <input required value={newName} onChange={e => setNewName(e.target.value)} className="input-premium py-2" placeholder="z.B. Individuelle API Integration" />
                     </div>
                     <div>
-                         <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Beschreibung</label>
+                         <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2 leading-tight">Beschreibung</label>
                          <input required value={newDesc} onChange={e => setNewDesc(e.target.value)} className="input-premium py-2" placeholder="Kurzbeschreibung für Rechnung" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Preis (€)</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2 leading-tight">Preis (€)</label>
                             <input required type="number" value={newPrice} onChange={e => setNewPrice(e.target.value)} className="input-premium py-2" placeholder="150" />
                         </div>
                          <div>
-                            <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1.5">Intervall</label>
+                            <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2 leading-tight">Intervall</label>
                             <select value={newPriceDetails} onChange={e => setNewPriceDetails(e.target.value)} className="input-premium py-2">
                                 <option value="einmalig">Einmalig</option>
                                 <option value="/ Monat">Monatlich</option>
@@ -379,7 +379,7 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
                 </div>
             )}
 
-            <button type="submit" disabled={loading} className="w-full bg-blue-600 dark:bg-blue-500 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 dark:hover:bg-blue-600 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-200 disabled:opacity-50 flex justify-center items-center gap-2 hover:-translate-y-0.5 active:translate-y-0">
+            <button type="submit" disabled={loading} className="w-full bg-primary-600 dark:bg-primary-500 text-white font-semibold py-4 min-h-12 rounded-xl hover:bg-primary-700 dark:hover:bg-primary-600 shadow-lg hover:shadow-xl hover:shadow-primary-500/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 hover:-translate-y-0.5 active:translate-y-0 focus:ring-2 focus:ring-primary-500/50 focus:outline-none">
                 {loading ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 ) : (
@@ -415,10 +415,10 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
     }
 
     return (
-        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-5 transition-shadow hover:shadow-md">
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 transition-shadow hover:shadow-md hover:scale-[1.01]">
             <div className="flex justify-between items-start mb-4">
-                <h4 className="font-semibold text-slate-900 dark:text-white">{service.name}</h4>
-                 <select value={status} onChange={e => setStatus(e.target.value)} className="text-xs bg-slate-100 dark:bg-slate-800 border-none rounded-lg px-2.5 py-1.5 font-semibold uppercase cursor-pointer focus:ring-2 focus:ring-blue-500/20">
+                <h4 className="font-semibold text-slate-900 dark:text-white leading-snug">{service.name}</h4>
+                 <select value={status} onChange={e => setStatus(e.target.value)} className="text-xs bg-slate-100 dark:bg-slate-800 border-none rounded-lg px-3 py-2 font-semibold uppercase cursor-pointer focus:ring-2 focus:ring-primary-500/20 focus:outline-none">
                     <option value="pending">Geplant</option>
                     <option value="active">Aktiv</option>
                     <option value="completed">Fertig</option>
@@ -429,7 +429,7 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
                 <div className="flex justify-between text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2"><span>Fortschritt</span><span>{progress}%</span></div>
                 <input type="range" min="0" max="100" value={progress} onChange={e => setProgress(parseInt(e.target.value))} className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
             </div>
-            <div className="mb-4 bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <div className="mb-4 bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="space-y-2 max-h-32 overflow-y-auto custom-scrollbar text-xs text-slate-600 dark:text-slate-400 mb-3">
                     {service.updates && service.updates.length > 0 ? service.updates.map((u, i) => (
                         <div key={i} className="pb-2 border-b border-slate-200 dark:border-slate-800 last:border-0 last:pb-0">
@@ -441,7 +441,7 @@ const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({
                 <input type="text" value={updateText} onChange={e => setUpdateText(e.target.value)} placeholder="Neues Update schreiben..." className="w-full text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-shadow" />
             </div>
             <div className="flex justify-end">
-                 <button onClick={handleSave} disabled={saving} className="text-xs bg-emerald-600 dark:bg-emerald-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-all duration-200 flex items-center gap-2 hover:shadow-md hover:shadow-emerald-500/20 disabled:opacity-50">
+                 <button onClick={handleSave} disabled={saving} className="text-xs bg-emerald-600 dark:bg-emerald-500 text-white font-semibold px-4 py-3 min-h-11 rounded-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-all duration-200 flex items-center gap-2 hover:shadow-md hover:shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-emerald-500/50 focus:outline-none">
                     {saving ? <ArrowPathIcon className="w-3 h-3 animate-spin"/> : <CheckBadgeIcon className="w-3 h-3"/>} Speichern
                 </button>
             </div>

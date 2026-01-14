@@ -50,16 +50,16 @@ export const ServicesGrid = () => {
         <AnimatedSection>
           <div className="text-center mb-16">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-sm font-semibold text-primary-600 dark:text-primary-400 mb-8">
+            <div className="inline-flex items-center gap-2 px-5 py-3 min-h-11 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-sm font-semibold text-primary-600 dark:text-primary-400 mb-8 leading-snug">
               {t('services.badge')}
             </div>
 
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-tight tracking-tight mb-6">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
                 {t('services.title')}
               </span>
             </h2>
-            <p className="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
               {t('services.subtitle')}
             </p>
           </div>
@@ -70,7 +70,7 @@ export const ServicesGrid = () => {
             {services.map((service, index) => (
               <HoverCard key={service.name}>
                 <div
-                  className={`group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 transition-all duration-300 ${service.border} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer`}
+                  className={`group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 transition-all duration-300 ${service.border} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer`}
                   style={{ transitionDelay: `${index * 50}ms` }}
                 >
                   <div className="flex flex-col h-full">
@@ -78,7 +78,7 @@ export const ServicesGrid = () => {
                       {iconMap[service.icon_name]}
                     </div>
 
-                    <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-3 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    <h3 className="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white mb-3 leading-snug transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400">
                       {service.name}
                     </h3>
 
@@ -87,7 +87,7 @@ export const ServicesGrid = () => {
                     </p>
 
                     <div className="mt-6 flex items-center text-sm font-medium opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                      <span className="text-blue-600 dark:text-blue-400">
+                      <span className="text-primary-600 dark:text-primary-400">
                         {t('services.more')}
                       </span>
                       <ArrowRightIcon className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
@@ -99,17 +99,17 @@ export const ServicesGrid = () => {
 
             {/* CTA Card */}
             <HoverCard>
-              <div className="group relative bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 dark:border-slate-600 rounded-2xl p-6 sm:p-8 flex flex-col justify-center items-center text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer">
+              <div className="group relative bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 dark:border-slate-600 rounded-2xl p-6 sm:p-8 flex flex-col justify-center items-center text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer">
                 <div className="w-14 h-14 bg-slate-800 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-[1.02]">
                   <ChatBubbleBottomCenterTextIcon className="w-7 h-7" />
                 </div>
-                <h3 className="font-semibold text-lg mb-3">
+                <h3 className="font-semibold text-lg sm:text-xl mb-3 leading-snug">
                   {t('services.cta_card.title')}
                 </h3>
                 <p className="text-slate-400 text-sm mb-8 leading-relaxed">
                   {t('services.cta_card.text')}
                 </p>
-                <button className="w-full bg-white text-slate-900 py-3 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
+                <button className="w-full bg-white text-slate-900 py-4 min-h-12 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none">
                   {t('services.cta_card.btn')}
                 </button>
               </div>
