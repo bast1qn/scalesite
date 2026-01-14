@@ -19,7 +19,10 @@ export * from './validation';
 // API
 export * from './api';
 
-// Supabase
+// Neon Database
+export * from './neon';
+
+// Supabase (Mock for backward compatibility - will be removed)
 export * from './supabase';
 
 // Translations

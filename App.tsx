@@ -7,6 +7,7 @@ import { lazy, Suspense, useCallback, useContext, useEffect, useMemo, useState }
 
 // External libraries
 import { AnimatePresence } from 'framer-motion';
+import { ClerkProvider } from '@clerk/clerk-react';
 
 // Internal - Components
 import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer } from './components';
@@ -245,6 +246,9 @@ const AppContent = () => {
 };
 
 const App = () => {
+    // Clerk publishable key from environment
+    const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || '';
+
     // PERFORMANCE: Initialize Core Web Vitals monitoring
     useEffect(() => {
         if (import.meta.env.PROD) {
@@ -261,19 +265,21 @@ const App = () => {
     }, []);
 
     return (
-        <ErrorBoundary>
-            <ThemeProvider defaultTheme="system">
-                <AuthProvider>
-                    <LanguageProvider>
-                        <CurrencyProvider>
-                            <NotificationProvider>
-                                <AppContent />
-                            </NotificationProvider>
-                        </CurrencyProvider>
-                    </LanguageProvider>
-                </AuthProvider>
-            </ThemeProvider>
-        </ErrorBoundary>
+        <ClerkProvider publishableKey={clerkPubKey}>
+            <ErrorBoundary>
+                <ThemeProvider defaultTheme="system">
+                    <AuthProvider>
+                        <LanguageProvider>
+                            <CurrencyProvider>
+                                <NotificationProvider>
+                                    <AppContent />
+                                </NotificationProvider>
+                            </CurrencyProvider>
+                        </LanguageProvider>
+                    </AuthProvider>
+                </ThemeProvider>
+            </ErrorBoundary>
+        </ClerkProvider>
     );
 };
 
