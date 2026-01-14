@@ -110,7 +110,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [targetDate, onComplete]);
+    }, [targetDate]); // ✅ BUG FIX: Removed onComplete from dependencies to prevent re-renders
 
     if (timeRemaining.isExpired) {
         return null;
