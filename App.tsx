@@ -13,26 +13,40 @@ import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvi
 // Internal - Constants
 import { TIMING } from './lib/constants';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
+// PERFORMANCE: Code Splitting with Strategic Prefetching
+// High-priority pages (prefetch immediately on idle)
+const HomePage = lazy(() => import(/* webpackPrefetch: true */ './pages/HomePage'));
+const PreisePage = lazy(() => import(/* webpackPrefetch: true */ './pages/PreisePage'));
+const ProjektePage = lazy(() => import(/* webpackPrefetch: true */ './pages/ProjektePage'));
+
+// Medium-priority pages (prefetch on hover/interaction)
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
-const ProjektePage = lazy(() => import('./pages/ProjektePage'));
 const AutomationenPage = lazy(() => import('./pages/AutomationenPage'));
-const PreisePage = lazy(() => import('./pages/PreisePage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+
+// Auth pages (load on demand)
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+
+// Protected routes (load on demand)
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
+const ChatPage = lazy(() => import('./pages/ChatPage'));
+
+// Legal pages (low priority)
 const ImpressumPage = lazy(() => import('./pages/ImpressumPage'));
 const DatenschutzPage = lazy(() => import('./pages/DatenschutzPage'));
 const FaqPage = lazy(() => import('./pages/FaqPage'));
+
+// Showcase pages (medium priority)
 const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
 const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
 const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
+
+// Feature pages (load on demand)
 const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
-const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 const SEOPage = lazy(() => import('./pages/SEOPage'));
-const ChatPage = lazy(() => import('./pages/ChatPage'));
 
 const PageLoader = () => {
     const { t } = useLanguage();

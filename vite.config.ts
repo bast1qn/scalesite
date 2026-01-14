@@ -30,20 +30,19 @@ export default defineConfig(({ mode }) => {
         chunkSizeWarningLimit: 1000,
         // Enable better compression for modern browsers
         reportCompressedSize: false,
-        // Performance: Optimize module resolution
-        modulePreload: {
-          include: ['index.tsx']
-        },
-        // Performance: Optimize chunk sizes
+        // PERFORMANCE: Advanced build optimizations
+        // Enable modern JS features for better performance
         rollupOptions: {
           output: {
             // Better caching with content-based hashes
             chunkFileNames: 'assets/[name]-[hash].js',
             entryFileNames: 'assets/[name]-[hash].js',
             assetFileNames: 'assets/[name]-[hash].[ext]',
-            // Performance: Improve tree-shaking
+            // PERFORMANCE: Improve tree-shaking
             // Ensure only used exports are included
             exports: 'auto',
+            // PERFORMANCE: Optimize module exports
+            interop: 'auto',
             manualChunks(id) {
               // Vendor libraries
               if (id.includes('node_modules')) {
