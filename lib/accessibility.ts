@@ -3,6 +3,22 @@
  * Helper functions for ARIA labels, focus management, and keyboard navigation
  */
 
+import {
+  SCREEN_READER_ANNOUNCEMENT_TIMEOUT,
+  FOCUS_SCROLL_DELAY,
+  ID_PREFIX_LENGTH,
+  ID_SUFFIX_LENGTH,
+  HEX_LUMINANCE_THRESHOLD,
+  RGB_NORMALIZATION,
+  WCAG_CONTRAST_RATIOS,
+  LINEAR_RGB_THRESHOLD,
+  RGB_LINEARIZATION,
+  LUMINANCE_COEFFICIENTS,
+  CONTRAST_ADDEND,
+  RGB_BIT_SHIFTS,
+  ACCESSIBLE_COLORS,
+} from './constants/colors';
+
 /**
  * Generate ARIA labels for icon-only buttons
  * @param action - The action the button performs (e.g., "Close", "Open menu")
@@ -39,7 +55,7 @@ export const announceToScreenReader = (message: string, priority: 'polite' | 'as
   // Remove after announcement
   setTimeout(() => {
     document.body.removeChild(announcement);
-  }, 1000);
+  }, SCREEN_READER_ANNOUNCEMENT_TIMEOUT);
 };
 
 /**
@@ -113,14 +129,14 @@ export const isInViewport = (element: HTMLElement): boolean => {
  */
 export const scrollIntoViewWithFocus = (element: HTMLElement): void => {
   element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  setTimeout(() => element.focus(), 300);
+  setTimeout(() => element.focus(), FOCUS_SCROLL_DELAY);
 };
 
 /**
  * Generate unique IDs for ARIA relationships
  */
 export const generateId = (prefix: string): string => {
-  return `${prefix}-${Math.random().toString(36).substring(2, 11)}`;
+  return `${prefix}-${Math.random().toString(36).substring(ID_PREFIX_LENGTH, ID_SUFFIX_LENGTH)}`;
 };
 
 /**
@@ -132,17 +148,17 @@ export const generateId = (prefix: string): string => {
 export const getContrastRatio = (foreground: string, background: string): number => {
   const getLuminance = (hex: string): number => {
     const rgb = parseInt(hex.replace('#', ''), 16);
-    const r = ((rgb >> 16) & 0xff) / 255;
-    const g = ((rgb >> 8) & 0xff) / 255;
-    const b = (rgb & 0xff) / 255;
+    const r = ((rgb >> RGB_BIT_SHIFTS.RED) & 0xff) / RGB_NORMALIZATION;
+    const g = ((rgb >> RGB_BIT_SHIFTS.GREEN) & 0xff) / RGB_NORMALIZATION;
+    const b = (rgb & 0xff) / RGB_NORMALIZATION;
 
     const [rLinear, gLinear, bLinear] = [r, g, b].map((channel) => {
-      return channel <= 0.03928
-        ? channel / 12.92
-        : Math.pow((channel + 0.055) / 1.055, 2.4);
+      return channel <= LINEAR_RGB_THRESHOLD
+        ? channel / RGB_LINEARIZATION.DIVISOR
+        : Math.pow((channel + RGB_LINEARIZATION.ADDEND) / RGB_LINEARIZATION.DIVISOR_GAMMA, RGB_LINEARIZATION.GAMMA);
     });
 
-    return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
+    return LUMINANCE_COEFFICIENTS.RED * rLinear + LUMINANCE_COEFFICIENTS.GREEN * gLinear + LUMINANCE_COEFFICIENTS.BLUE * bLinear;
   };
 
   const lum1 = getLuminance(foreground);
@@ -150,7 +166,7 @@ export const getContrastRatio = (foreground: string, background: string): number
   const lighter = Math.max(lum1, lum2);
   const darker = Math.min(lum1, lum2);
 
-  return (lighter + 0.05) / (darker + 0.05);
+  return (lighter + CONTRAST_ADDEND) / (darker + CONTRAST_ADDEND);
 };
 
 /**
@@ -158,7 +174,7 @@ export const getContrastRatio = (foreground: string, background: string): number
  */
 export const checkContrastAA = (foreground: string, background: string, largeText: boolean = false): boolean => {
   const ratio = getContrastRatio(foreground, background);
-  const required = largeText ? 3.0 : 4.5;
+  const required = largeText ? WCAG_CONTRAST_RATIOS.LARGE_TEXT : WCAG_CONTRAST_RATIOS.NORMAL_TEXT;
   return ratio >= required;
 };
 
@@ -235,10 +251,10 @@ export const withReducedMotion = (
 export const getAccessibleColor = (backgroundColor: string): { light: string; dark: string } => {
   // Simplified version - returns best contrast colors for light/dark backgrounds
   const luminance = parseInt(backgroundColor.replace('#', ''), 16);
-  const isDark = luminance < 0x7ffff;
+  const isDark = luminance < HEX_LUMINANCE_THRESHOLD;
 
   return {
-    light: isDark ? '#ffffff' : '#000000',
-    dark: isDark ? '#ffffff' : '#000000',
+    light: isDark ? ACCESSIBLE_COLORS.WHITE : ACCESSIBLE_COLORS.BLACK,
+    dark: isDark ? ACCESSIBLE_COLORS.WHITE : ACCESSIBLE_COLORS.BLACK,
   };
 };
