@@ -303,19 +303,20 @@ export function borderColor(light: string, dark: string): string {
 /**
  * Common gradient patterns used across the application
  * Reduces duplication of gradient className strings
+ * Foundation: Uses consistent Primary (#4B5AED) and Secondary (#8B5CF6) colors
  */
 export const GRADIENTS = {
   /** Primary blue-violet gradient for CTAs and highlights */
-  primary: 'bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600',
+  primary: 'bg-gradient-to-r from-primary-600 via-violet-600 to-indigo-600',
 
   /** Hover variant of primary gradient */
-  primaryHover: 'hover:from-blue-700 hover:to-violet-700 hover:to-indigo-700',
+  primaryHover: 'hover:from-primary-700 hover:to-violet-700 hover:to-indigo-700',
 
   /** Subtle violet-blue gradient for backgrounds */
-  subtle: 'bg-gradient-to-br from-violet-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900',
+  subtle: 'bg-gradient-to-br from-violet-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900',
 
   /** Bold gradient for feature cards */
-  card: 'bg-gradient-to-br from-blue-600 to-violet-600',
+  card: 'bg-gradient-to-br from-primary-600 to-violet-600',
 
   /** Success gradient (green-emerald) */
   success: 'bg-gradient-to-r from-emerald-500 to-green-500',
@@ -349,6 +350,7 @@ export function gradientClass(gradient: string, includeHover = false): string {
 /**
  * Returns Tailwind CSS classes for ticket status badges
  * Provides consistent styling across the application
+ * Foundation: Updated to use consistent primary/secondary colors
  *
  * @param status - The ticket status ('Offen' | 'In Bearbeitung' | 'Wartet auf Antwort' | 'Geschlossen')
  * @returns CSS class string for status styling with dark mode support
@@ -362,9 +364,9 @@ export function getTicketStatusColor(
 ): string {
   const colorMap = {
     'Offen': 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400',
-    'In Bearbeitung': 'bg-blue-500/20 text-blue-600 dark:text-blue-400',
-    'Wartet auf Antwort': 'bg-purple-500/20 text-purple-600 dark:text-purple-400',
-    'Geschlossen': 'bg-gray-500/20 text-gray-600 dark:text-gray-400',
+    'In Bearbeitung': 'bg-primary-500/20 text-primary-600 dark:text-primary-400',
+    'Wartet auf Antwort': 'bg-violet-500/20 text-violet-600 dark:text-violet-400',
+    'Geschlossen': 'bg-slate-500/20 text-slate-600 dark:text-slate-400',
   } as const;
 
   return colorMap[status] || colorMap['Offen'];
@@ -372,6 +374,7 @@ export function getTicketStatusColor(
 
 /**
  * Returns Tailwind CSS classes for ticket priority badges
+ * Foundation: Consistent color usage with semantic meaning
  *
  * @param priority - The ticket priority ('Niedrig' | 'Mittel' | 'Hoch')
  * @returns CSS class string for priority styling with dark mode support
@@ -395,6 +398,7 @@ export function getTicketPriorityColor(
 /**
  * Returns Tailwind CSS classes for generic status badges
  * Use this for success, error, warning, and info states
+ * Foundation: Updated to use consistent primary color for info state
  *
  * @param status - The status type
  * @returns CSS class string for status styling
@@ -410,7 +414,7 @@ export function getStatusBadgeColor(
     success: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
     error: 'bg-red-500/20 text-red-600 dark:text-red-400',
     warning: 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
-    info: 'bg-blue-500/20 text-blue-600 dark:text-blue-400',
+    info: 'bg-primary-500/20 text-primary-600 dark:text-primary-400',
   } as const;
 
   return colorMap[status];

@@ -179,7 +179,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
       {/* Back Button */}
       <button
         onClick={() => setCurrentPage('home')}
-        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-250"
+        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
       >
         <ChevronLeftIcon className="w-4 h-4" />
         <span className="text-sm font-medium">Back</span>
@@ -193,14 +193,14 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
         </div>
 
         {/* Minimal Content */}
-        <div className="relative z-10 w-full px-8 md:px-16">
+        <div className="relative z-10 w-full px-6 sm:px-8 md:px-12 lg:px-16">
           <AnimatedSection>
             <div className="max-w-4xl">
-              <p className="text-white/80 text-lg mb-4 tracking-widest uppercase">Architecture Studio</p>
-              <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-none mb-8">
+              <p className="text-white/80 text-base sm:text-lg mb-4 tracking-widest uppercase leading-relaxed">Architecture Studio</p>
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8">
                 Richter<br/>Architects
               </h1>
-              <p className="text-white/90 text-xl md:text-2xl max-w-xl">
+              <p className="text-white/90 text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed">
                 Sustainable building with vision and precision.
               </p>
               <div className="mt-12 flex items-center gap-3 text-white/80">
@@ -218,21 +218,21 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
       </section>
 
       {/* About Section */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
               <div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">About Us</p>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8">
+                <p className="text-primary-600 dark:text-primary-400 font-medium mb-4 tracking-widest uppercase text-sm">About Us</p>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-snug mb-8">
                   We design spaces<br/>for people.
                 </h2>
-                <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
                   Our architecture studio in Berlin-Mitte creates sustainable, aesthetic,
                   and functional buildings. Each project is a unique response to
                   location, context, and our clients' requirements.
                 </p>
-                <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                   With over 50 completed projects and numerous awards,
                   we are among the leading studios for contemporary architecture in Germany.
                 </p>
@@ -273,8 +273,8 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
 
             <div className="grid md:grid-cols-3 gap-6">
               {services.map((service) => (
-                <div key={service.id} className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-250">
-                  <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">
+                <div key={service.id} className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                  <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white leading-snug mb-3">
                     {service.title}
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400 mb-5 text-sm leading-relaxed">
@@ -283,7 +283,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                   <ul className="space-y-2">
                     {service.items.map((item, idx) => (
                       <li key={idx} className="flex items-center gap-2 text-slate-700 dark:text-slate-300 text-sm">
-                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
                         {item}
                       </li>
                     ))}
@@ -301,8 +301,8 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
           <AnimatedSection>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
               <div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Projects</p>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
+                <p className="text-primary-600 dark:text-primary-400 font-medium mb-4 tracking-widest uppercase text-sm">Projects</p>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-snug">
                   Our Work
                 </h2>
               </div>
@@ -313,10 +313,10 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 min-h-11 ${
                       activeCategory === cat.id
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:shadow-sm'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md scale-[1.02]'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:shadow-sm hover:scale-[1.02] active:scale-95'
                     }`}
                   >
                     {cat.name}
@@ -331,17 +331,17 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                 <button
                   key={project.id}
                   onClick={() => { setSelectedProject(project); setCurrentImageIndex(0); }}
-                  className="group text-left"
+                  className="group text-left hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 >
-                  <div className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${project.gradient} mb-3 overflow-hidden relative shadow-sm group-hover:shadow-md transition-shadow duration-250`}>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-250 flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-250 bg-white text-slate-900 px-5 py-2.5 rounded-full text-sm font-medium shadow-lg">
+                  <div className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${project.gradient} mb-3 overflow-hidden relative shadow-sm group-hover:shadow-md transition-shadow duration-200`}>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200 flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white text-slate-900 px-5 py-2.5 rounded-full text-sm font-medium shadow-lg">
                         View Project
                       </span>
                     </div>
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{project.location}</p>
-                  <h3 className="font-serif text-lg font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                  <h3 className="font-serif text-base sm:text-lg font-semibold text-slate-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 leading-snug">
                     {project.title}
                   </h3>
                 </button>
@@ -423,9 +423,9 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
       <section className="py-24 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto px-6">
           <AnimatedSection>
-            <div className="text-center mb-16">
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Team</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
+            <div className="text-center mb-12 sm:mb-16">
+              <p className="text-primary-600 dark:text-primary-400 font-medium mb-4 tracking-widest uppercase text-sm">Team</p>
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-snug">
                 Our Architects
               </h2>
             </div>
@@ -434,13 +434,13 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
               {team.map((member) => (
                 <div
                   key={member.id}
-                  className="bg-white dark:bg-slate-800 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow duration-250"
+                  className="bg-white dark:bg-slate-800 rounded-xl p-5 text-center shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 >
                   <div className="w-20 h-20 bg-gradient-to-br from-slate-300 to-slate-500 rounded-full mx-auto mb-3"></div>
-                  <h3 className="font-serif text-base font-semibold text-slate-900 dark:text-white">
+                  <h3 className="font-serif text-base font-semibold text-slate-900 dark:text-white leading-snug">
                     {member.name}
                   </h3>
-                  <p className="text-blue-500 dark:text-blue-400 text-xs mb-2">{member.role}</p>
+                  <p className="text-primary-500 dark:text-primary-400 text-xs mb-2">{member.role}</p>
                   <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                     {member.description}
                   </p>
@@ -455,17 +455,17 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-6">
           <AnimatedSection>
-            <div className="grid md:grid-cols-2 gap-16">
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
               {/* Contact Info */}
               <div>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-4 tracking-widest uppercase">Contact</p>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8">
+                <p className="text-primary-600 dark:text-primary-400 font-medium mb-4 tracking-widest uppercase text-sm">Contact</p>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-snug mb-8">
                   Start Your Project.
                 </h2>
 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 hover:scale-[1.02] transition-transform duration-200">
                       <MapPinIcon className="w-6 h-6 text-slate-700 dark:text-slate-300" />
                     </div>
                     <div>
@@ -477,7 +477,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 hover:scale-[1.02] transition-transform duration-200">
                       <PhoneIcon className="w-6 h-6 text-slate-700 dark:text-slate-300" />
                     </div>
                     <div>
@@ -487,7 +487,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 hover:scale-[1.02] transition-transform duration-200">
                       <EnvelopeIcon className="w-6 h-6 text-slate-700 dark:text-slate-300" />
                     </div>
                     <div>
@@ -560,7 +560,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
 
                     <button
                       type="submit"
-                      className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                      className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-11"
                     >
                       Send Message
                     </button>
