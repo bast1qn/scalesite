@@ -238,7 +238,11 @@ const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile
                 const { data } = await api.adminGetUserServices(user.id);
                 setUserServices(data || []);
                 if ((data || []).length === 0) setActiveTab('assign');
-            } catch(e) {} finally { setLoadingData(false); }
+            } catch(e) {
+                console.error('Error loading user services:', e instanceof Error ? e.message : e);
+            } finally {
+                setLoadingData(false);
+            }
         };
         load();
     }, [user.id, refreshTrigger]);
