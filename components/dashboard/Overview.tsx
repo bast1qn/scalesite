@@ -111,6 +111,27 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     ];
     const [tipOfTheDay] = useState(tips[Math.floor(Math.random() * tips.length)]);
 
+    // Memoized click handlers for performance optimization
+    const handleTicketSupportClick = useCallback(() => {
+        setActiveView('ticket-support');
+    }, [setActiveView]);
+
+    const handlePricesClick = useCallback(() => {
+        setCurrentPage('preise');
+    }, [setCurrentPage]);
+
+    const handleTransactionsClick = useCallback(() => {
+        setActiveView('transaktionen');
+    }, [setActiveView]);
+
+    const handleReferralClick = useCallback(() => {
+        setActiveView('freunde-werben');
+    }, [setActiveView]);
+
+    const handleContactClick = useCallback(() => {
+        setCurrentPage('contact');
+    }, [setCurrentPage]);
+
     /**
      * Memoized function to render status badge for projects
      * Prevents recreation on every render for performance
@@ -224,7 +245,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                         totalBudget: spent + open,
                         spent,
                         open,
-                        nextInvoice: upcoming ? new Date(upcoming.due_date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' }) : "-"
+                        nextInvoice: upcoming?.due_date ? new Date(upcoming.due_date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' }) : "-"
                     });
                 } else {
                     // Reset if array check fails or empty
@@ -337,11 +358,11 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                         <p className="text-white/80 mt-1 font-medium">{t('dashboard.overview.your_progress')}</p>
                     </div>
                     <div className="flex gap-3">
-                        <button onClick={() => setActiveView('ticket-support')} className="group px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2 border border-white/20 hover:border-white/30 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-white/50 min-h-11">
+                        <button onClick={handleTicketSupportClick} className="group px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur rounded-xl font-medium text-sm transition-all duration-300 flex items-center gap-2 border border-white/20 hover:border-white/30 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-white/50 min-h-11">
                             <TicketIcon className="w-4 h-4 group-hover:scale-[1.02] transition-transform" />
                             {t('dashboard.nav.tickets')}
                         </button>
-                        <button onClick={() => setCurrentPage('preise')} className="group px-5 py-2.5 bg-white text-blue-600 hover:bg-blue-50 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 min-h-11">
+                        <button onClick={handlePricesClick} className="group px-5 py-2.5 bg-white text-blue-600 hover:bg-blue-50 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 min-h-11">
                             <PlusCircleIcon className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
                             {t('dashboard.alerts.new_project')}
                         </button>
@@ -426,7 +447,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                         <div className="text-center py-10 bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-900/50 dark:to-blue-950/20 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
                             <BriefcaseIcon className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
                             <p className="text-slate-500 dark:text-slate-400 mb-3">{t('dashboard.alerts.no_projects')}</p>
-                            <button onClick={() => setCurrentPage('preise')} className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline group">
+                            <button onClick={handlePricesClick} className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:underline group">
                                 {t('dashboard.alerts.start_project')}
                                 <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </button>
@@ -481,7 +502,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                                     <CreditCardIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                                     <h3 className="font-bold text-slate-900 dark:text-white">Finanzen</h3>
                                 </div>
-                                <button onClick={() => setActiveView('transaktionen')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">Details</button>
+                                <button onClick={handleTransactionsClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium transition-colors">Details</button>
                             </div>
                             <div className="space-y-4">
                                 <div>
@@ -524,7 +545,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                             <p className="text-sm text-white/80 mb-3">{nextMilestone.description}</p>
                             <div className="flex items-center justify-between bg-white/10 rounded-lg p-3 backdrop-blur-sm">
                                 <div className="text-center">
-                                    <span className="block text-lg font-black">{nextMilestone.date.split('.')[0]}</span>
+                                    <span className="block text-lg font-black">{nextMilestone?.date ? nextMilestone.date.split('.')[0] : 'N/A'}</span>
                                     <span className="text-[10px] uppercase text-white/60 font-semibold">Datum</span>
                                 </div>
                                 <div className="h-6 w-px bg-white/20"></div>
@@ -581,11 +602,11 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                     {/* Quick Actions */}
                     <div className="space-y-2">
                          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Schnellzugriff</h4>
-                         <button onClick={() => setActiveView('freunde-werben')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 min-h-11">
+                         <button onClick={handleReferralClick} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 min-h-11">
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Freunde werben</span>
                             <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-500 transition-all" />
                          </button>
-                         <button onClick={() => setCurrentPage('contact')} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 min-h-11">
+                         <button onClick={handleContactClick} className="group w-full text-left p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md hover:shadow-blue-500/5 transition-all duration-300 flex items-center justify-between hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 min-h-11">
                             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Rückruf anfordern</span>
                             <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-500 transition-all" />
                          </button>

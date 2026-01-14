@@ -319,7 +319,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     loginWithToken,
     logout,
     register,
-  }), [user, loading]);
+  }), [user, loading, login, socialLogin, loginWithToken, logout, register]);
 
   return (
     <AuthContext.Provider value={contextValue}>

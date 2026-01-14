@@ -419,7 +419,7 @@ export const api = {
                 .eq('id', ticketId)
                 .single();
 
-            if (!memberCheck && ticketCheck?.user_id !== user.id) {
+            if (!memberCheck?.data && ticketCheck?.user_id !== user.id) {
                 return { data: [], error: 'Access denied' };
             }
         }

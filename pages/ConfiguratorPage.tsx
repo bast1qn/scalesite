@@ -20,6 +20,16 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+    // Auto-clear success message after 3 seconds with cleanup
+    useEffect(() => {
+        if (successMessage) {
+            const timeout = setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000);
+            return () => clearTimeout(timeout);
+        }
+    }, [successMessage]);
+
     // Get project ID from URL or create new project
     useEffect(() => {
         const loadProject = async () => {
@@ -96,9 +106,6 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
 
             setSuccessMessage('Konfiguration erfolgreich gespeichert!');
             setErrorMessage(null);
-
-            // Clear success message after 3 seconds
-            setTimeout(() => setSuccessMessage(null), 3000);
         } catch (error) {
             console.error('Error saving configuration:', error);
             setErrorMessage('Fehler beim Speichern der Konfiguration');
