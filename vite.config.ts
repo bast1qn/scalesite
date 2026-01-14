@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
       },
       build: {
         cssCodeSplit: true,
-        target: 'esnext',
+        target: 'es2020',
         minify: 'esbuild',
         sourcemap: false,
         chunkSizeWarningLimit: 1000,
@@ -45,16 +45,18 @@ export default defineConfig(({ mode }) => {
             chunkFileNames: 'assets/[name]-[hash].js',
             entryFileNames: 'assets/[name]-[hash].js',
             assetFileNames: 'assets/[name]-[hash].[ext]',
-            // PERFORMANCE: Improve tree-shaking
-            // Ensure only used exports are included
-            exports: 'auto',
-            // PERFORMANCE: Optimize module exports
-            interop: 'auto',
+            // Fix React module export issues
+            exports: 'named',
+            interop: 'default',
             manualChunks(id) {
               // Vendor libraries
               if (id.includes('node_modules')) {
-                if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-                  return 'react-core';
+                // Keep react and react-dom separate to avoid export issues
+                if (id.includes('react-dom')) {
+                  return 'react-dom';
+                }
+                if (id.includes('react') && !id.includes('react-dom')) {
+                  return 'react';
                 }
                 if (id.includes('framer-motion')) {
                   return 'ui-framework';
