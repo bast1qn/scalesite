@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, type ReactNode } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback, type ReactNode } from 'react';
 import { CodeBracketIcon, LightBulbIcon, ArrowTrendingUpIcon, RocketLaunchIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
@@ -51,6 +51,12 @@ export const InteractiveTimeline = () => {
         };
     }, [milestones]); // ✅ FIXED: milestones is now properly tracked
 
+    // ✅ PERFORMANCE: Memoize milestone click handler to prevent inline function creation
+    const handleMilestoneClick = useCallback((milestoneId: number) => {
+        const el = document.getElementById(`milestone-${milestoneId}`);
+        el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, []);
+
     return (
         <section id="story" className="py-16 sm:py-20 lg:py-24 bg-surface dark:bg-dark-surface relative overflow-hidden">
             {/* Background patterns */}
@@ -100,10 +106,7 @@ export const InteractiveTimeline = () => {
                                 return (
                                     <button
                                         key={milestone.id}
-                                        onClick={() => {
-                                            const el = document.getElementById(`milestone-${milestone.id}`);
-                                            el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                        }}
+                                        onClick={() => handleMilestoneClick(milestone.id)}
                                         className={`group flex items-center gap-5 w-full text-left transition-all duration-200 ease-out min-h-11 ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-60'}`}
                                     >
                                         {/* Timeline dot */}

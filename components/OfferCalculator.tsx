@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo, type ChangeEvent } from 'react';
+import { useState, useEffect, useContext, useMemo, memo, type ChangeEvent } from 'react';
 import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon, CustomSelect, BorderSpinner } from './index';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { api, triggerConfetti } from '../lib';
@@ -20,7 +20,7 @@ interface OfferCalculatorProps {
     setCurrentPage?: (page: string) => void;
 }
 
-export const OfferCalculator = ({ setCurrentPage }: OfferCalculatorProps) => {
+export const OfferCalculator = memo(({ setCurrentPage }: OfferCalculatorProps) => {
     const { user } = useContext(AuthContext);
     const { t, language } = useLanguage();
     const { formatPrice } = useCurrency();
@@ -417,4 +417,4 @@ Monatlich: ${formatPrice(monthlyPrice)}
             )}
         </div>
     );
-};
+});

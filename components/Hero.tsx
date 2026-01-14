@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState, useRef, useCallback, type ReactNode, type MouseEvent } from 'react';
+import { useEffect, useState, useRef, useCallback, memo, type ReactNode, type MouseEvent } from 'react';
 
 // Internal - Components
 import { ArrowRightIcon } from './Icons';
@@ -138,7 +138,7 @@ const CleanButton = ({
   );
 };
 
-export const Hero = ({ setCurrentPage }: HeroProps) => {
+export const Hero = memo(({ setCurrentPage }: HeroProps) => {
   const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -337,4 +337,4 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
       `}</style>
     </section>
   );
-};
+});
