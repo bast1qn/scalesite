@@ -36,13 +36,29 @@ export default defineConfig(({ mode }) => {
       },
       build: {
         target: 'es2020',
-        minify: false,
+        minify: 'terser', // ✅ PERFORMANCE: Enable Terser minification
         sourcemap: false,
         rollupOptions: {
           output: {
-            manualChunks: undefined
+            // ✅ PERFORMANCE: Strategic manual chunks for better caching
+            manualChunks: {
+              // React Core (stable, rarely changes)
+              'react-vendor': ['react', 'react-dom', 'react/jsx-runtime'],
+              // Supabase (large, separate chunk)
+              'supabase': ['@supabase/supabase-js'],
+              // Heavy UI libraries
+              'motion': ['framer-motion'],
+              'charts': ['recharts'],
+              // Document generation (rarely used)
+              'docs': ['jspdf', 'html2canvas'],
+            }
           }
         }
+      },
+      // ✅ PERFORMANCE: Terser options for better compression
+      esbuild: {
+        target: 'es2020',
+        drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
       }
     };
 });

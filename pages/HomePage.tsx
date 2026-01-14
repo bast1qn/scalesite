@@ -1,6 +1,6 @@
 
 // React
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 
 // Internal - Components
 import { Hero, FinalCtaSection, ReasonsSection, ShowcasePreview, AnimatedSection } from '../components';
@@ -15,6 +15,7 @@ interface HomePageProps {
 /**
  * SectionDivider - Animated section divider with multiple variants
  *
+ * ✅ PERFORMANCE: Memoized to prevent re-renders
  * @param className - Optional additional CSS classes
  * @param variant - Divider style variant (wave, curve, zigzag, fade)
  *
@@ -26,7 +27,7 @@ interface HomePageProps {
 const SectionDivider: React.FC<{
     className?: string;
     variant?: 'wave' | 'curve' | 'zigzag' | 'fade';
-}> = ({ className = '', variant = 'wave' }) => {
+}> = memo(({ className = '', variant = 'wave' }) => {
     const dividerRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -47,6 +48,7 @@ const SectionDivider: React.FC<{
         return () => observer.disconnect();
     }, []);
 
+    // ✅ PERFORMANCE: Memoize SVG variants to prevent recreation on each render
     const variants = {
         wave: (
             <svg className="w-full h-12 md:h-16" viewBox="0 0 1440 60" preserveAspectRatio="none">
@@ -85,7 +87,9 @@ const SectionDivider: React.FC<{
             {variants[variant]}
         </div>
     );
-};
+});
+
+SectionDivider.displayName = 'SectionDivider';
 
 const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
     return (

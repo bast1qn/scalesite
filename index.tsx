@@ -8,10 +8,19 @@ if (!rootElement) {
 }
 
 const root = ReactDOM.createRoot(rootElement);
+
+// ✅ PERFORMANCE: Remove FOIT by adding 'loaded' class after mount
 root.render(
   <StrictMode>
     <App />
   </StrictMode>
 );
+
+// Add loaded class to show content after React mounts
+if (rootElement) {
+  requestAnimationFrame(() => {
+    rootElement.classList.add('loaded');
+  });
+}
 // Cache bust: Mi 14. Jan 07:43:56 CET 2026
 // FORCE REBUILD: $(date +%s)
