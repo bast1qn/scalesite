@@ -1,5 +1,5 @@
 // Chat List Component
-import { useState, useEffect, useMemo, memo } from 'react';
+import { useState, useCallback, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
 import Users from 'lucide-react/dist/esm/icons/users';
@@ -29,6 +29,19 @@ export const ChatList = ({
 
     // Debounce search query to improve performance
     const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+    // Stable callbacks for event handlers
+    const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    }, []);
+
+    const handleFilterAll = useCallback(() => setFilterType('all'), []);
+    const handleFilterDirect = useCallback(() => setFilterType('direct'), []);
+    const handleFilterGroup = useCallback(() => setFilterType('group'), []);
+
+    const handleSelectConversation = useCallback((conversationId: string) => {
+        onSelectConversation(conversationId);
+    }, [onSelectConversation]);
 
     // Filter conversations based on search and type (memoized)
     const filteredConversations = useMemo(() => {
@@ -66,7 +79,7 @@ export const ChatList = ({
                     <input
                         type="text"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={handleSearchChange}
                         placeholder="Chats durchsuchen..."
                         className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white placeholder-slate-400"
                     />
@@ -75,7 +88,7 @@ export const ChatList = ({
                 {/* Filter Tabs */}
                 <div className="flex gap-2 mt-3">
                     <button
-                        onClick={() => setFilterType('all')}
+                        onClick={handleFilterAll}
                         className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                             filterType === 'all'
                                 ? 'bg-blue-500 text-white'
@@ -85,7 +98,7 @@ export const ChatList = ({
                         Alle
                     </button>
                     <button
-                        onClick={() => setFilterType('direct')}
+                        onClick={handleFilterDirect}
                         className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5 ${
                             filterType === 'direct'
                                 ? 'bg-blue-500 text-white'
@@ -96,7 +109,7 @@ export const ChatList = ({
                         Direkt
                     </button>
                     <button
-                        onClick={() => setFilterType('group')}
+                        onClick={handleFilterGroup}
                         className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5 ${
                             filterType === 'group'
                                 ? 'bg-blue-500 text-white'
@@ -131,7 +144,7 @@ export const ChatList = ({
                                 <ChatListItem
                                     conversation={conversation}
                                     isActive={conversation.id === activeConversationId}
-                                    onClick={() => onSelectConversation(conversation.id)}
+                                    onClick={() => handleSelectConversation(conversation.id)}
                                     currentUserId={currentUserId}
                                 />
                             </motion.div>
