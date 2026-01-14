@@ -3,7 +3,7 @@
 // ========================================================================
 
 // React
-import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 // External libraries
 import { AnimatePresence } from 'framer-motion';

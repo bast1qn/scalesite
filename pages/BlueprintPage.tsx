@@ -333,7 +333,7 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
     useEffect(() => {
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
-    }, [handleMessage, setActivePage, setTheme]);
+    }, [handleMessage]); // ✅ FIXED: Only handleMessage is dependency, setState functions are stable
 
     const htmlContent = useMemo(() => {
         return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t);

@@ -144,7 +144,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
 
     /**
      * Reset to default configuration
-     * ✅ FIXED: getDefaultColors/getDefaultContent are module imports, not dependencies
+     * Note: getDefaultColors/getDefaultContent are module imports, not dependencies
      */
     const reset = useCallback(() => {
         setConfig({
@@ -155,7 +155,6 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             features: []
         });
         setError(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Auto-load config if projectId provided
@@ -166,7 +165,7 @@ export const useConfigurator = (projectId?: string): UseConfiguratorReturn => {
             // Initialize with default config
             reset();
         }
-    }, [projectId, loadConfig, reset]);
+    }, [projectId]); // ✅ FIXED: Only depend on projectId, loadConfig and reset are stable
 
     return {
         config,

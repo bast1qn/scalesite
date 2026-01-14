@@ -1030,7 +1030,10 @@ app.get('/api/admin/analytics', authenticateToken, requireTeam, (req, res) => {
     });
 });
 
-app.post('/api/analytics/event', (req, res) => {
+// SECURITY: Add rate limiting to analytics event endpoint to prevent abuse
+const analyticsEventLimiter = rateLimit(60 * 1000, 50); // 50 events per minute per IP
+
+app.post('/api/analytics/event', analyticsEventLimiter, (req, res) => {
     const { sessionId, type, path, element, timestamp } = req.body;
     try {
         db.prepare('INSERT INTO analytics_events (id, session_id, type, path, element, timestamp) VALUES (?, ?, ?, ?, ?, ?)').run(
