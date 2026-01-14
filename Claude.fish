@@ -10,7 +10,7 @@ end
 # ==========================================
 # KONFIGURATION
 # ==========================================
-set MAX_LOOPS 20              # Anzahl der Runden (5 × 5 Phasen = 25 total)
+set MAX_LOOPS 30              # Anzahl der Runden (5 × 5 Phasen = 25 total)
 set PAUSE_SECONDS 120         # Pause zwischen Runden
 set LOG_FILE "agent.log"      # Haupt-Log-Datei
 set ERROR_LOG_FILE "agent_errors.log"  # Separate Error-Log
