@@ -149,15 +149,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const loadUserProfile = useCallback(async (userId: string) => {
-    let isMounted = true;
-    const abortController = new AbortController();
-
     try {
       // Request deduplication: Check if there's already a pending request for this user
       const existingPromise = profileLoadPromiseRef.current.get(userId);
       if (existingPromise) {
         const data = await existingPromise;
-        if (data && isMounted && !abortController.signal.aborted) {
+        if (data) {
           setUser(mapProfileToAppUser(data));
           setLoading(false);
         }
@@ -170,9 +167,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const { data, error } = await getUserProfile(userId);
 
-      // Check if component is still mounted before updating state
-      if (!isMounted || abortController.signal.aborted) return;
-
       // Clean up the promise cache
       profileLoadPromiseRef.current.delete(userId);
 
@@ -184,23 +178,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       }
 
-      if (data && !abortController.signal.aborted) {
+      if (data) {
         setUser(mapProfileToAppUser(data));
         setLoading(false);
-      } else if (!abortController.signal.aborted) {
+      } else {
         setLoading(false);
       }
     } catch (e) {
-      if (!abortController.signal.aborted) {
-        console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
-        setLoading(false);
-      }
+      console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
+      setLoading(false);
     }
-
-    return () => {
-      isMounted = false;
-      abortController.abort();
-    };
   }, []);
 
   const login = useCallback(async (email: string, pass: string) => {
