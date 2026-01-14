@@ -102,7 +102,6 @@ export const ProcessSteps: FC = () => {
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                     {t(step.descKey)}
-                    {t(step.descKey)}
                   </p>
                 </div>
               </div>

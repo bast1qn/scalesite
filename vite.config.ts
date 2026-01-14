@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => {
         // ✅ PERFORMANCE: Improve chunk size warnings threshold
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
+          external: ['@neondatabase/serverless'],
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
             manualChunks: (id) => {

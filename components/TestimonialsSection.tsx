@@ -138,7 +138,9 @@ const FeatureCardComponent: FC<{
     );
 };
 
-const FeatureCard = FeatureCardComponent;
+// ✅ PERFORMANCE: Memoize FeatureCard to prevent unnecessary re-renders
+const FeatureCard = memo(FeatureCardComponent);
+FeatureCard.displayName = 'FeatureCard';
 
 export const TestimonialsSection: FC = () => {
     const { t } = useLanguage();
