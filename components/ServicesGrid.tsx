@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { PaintBrushIcon, CodeBracketIcon, ServerIcon, ShieldCheckIcon, SparklesIcon, ArrowRightIcon, ChatBubbleBottomCenterTextIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 
@@ -11,13 +11,15 @@ const iconMap: { [key: string]: ReactNode } = {
   'SparklesIcon': <SparklesIcon className="w-6 h-6" />,
 };
 
-const HoverCard = ({ children, className = '' }: { children: ReactNode; className?: string }) => {
+// PERFORMANCE: Memoize HoverCard to prevent unnecessary re-renders
+const HoverCard = memo(({ children, className = '' }: { children: ReactNode; className?: string }) => {
   return (
     <div className={`relative group transition-all duration-300 ${className}`}>
       {children}
     </div>
   );
-};
+});
+HoverCard.displayName = 'HoverCard';
 
 export const ServicesGrid = () => {
   const { t } = useLanguage();

@@ -59,8 +59,11 @@ const FeatureCardComponent: FC<{
         const rotateX = ((y - centerY) / centerY) * -4;
         const rotateY = ((x - centerX) / centerX) * 4;
 
-        setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`);
-        setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
+        // PERFORMANCE: Use requestAnimationFrame for smoother animations and reduced main thread blocking
+        requestAnimationFrame(() => {
+            setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`);
+            setGlowPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
+        });
     }, []);
 
     const handleMouseLeave = useCallback(() => {
