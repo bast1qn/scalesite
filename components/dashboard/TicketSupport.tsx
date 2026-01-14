@@ -6,6 +6,7 @@ import { api, getSafeURL } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 import { useChatScroll } from '../../lib/hooks';
 import { TicketCardSkeleton } from '../skeleton';
+import { formatTimeAgo } from '../../lib/utils/dateFormat';
 
 // --- TYPE DEFINITIONS ---
 interface Profile {
@@ -66,37 +67,6 @@ const getStatusColor = (status: Ticket['status']) => {
         case 'Geschlossen': return 'bg-gray-500/20 text-gray-600 dark:text-gray-400';
     }
 };
-
-/**
- * Formats a date string as relative time (e.g., "vor 5 Minuten")
- * @param dateString - ISO date string
- * @returns Formatted relative time string in German
- */
-function formatTimeAgo(dateString: string) {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    // Validate date
-    if (isNaN(date.getTime())) return '';
-    const now = new Date();
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-    // Handle future dates
-    if (seconds < 0) return 'in Kürze';
-    if (seconds < 5) return "gerade eben";
-    if (seconds < 60) return `vor ${seconds} Sekunden`;
-
-    let interval = seconds / 31536000;
-    if (interval > 1) return `vor ${Math.floor(interval)} Jahren`;
-    interval = seconds / 2592000;
-    if (interval > 1) return `vor ${Math.floor(interval)} Monaten`;
-    interval = seconds / 86400;
-    if (interval > 1) return `vor ${Math.floor(interval)} Tagen`;
-    interval = seconds / 3600;
-    if (interval > 1) return `vor ${Math.floor(interval)} Stunden`;
-    interval = seconds / 60;
-    if (interval > 1) return `vor ${Math.floor(interval)} Minuten`;
-    return "gerade eben";
-}
 
 // --- MAIN COMPONENT ---
 const TicketSupport = () => {

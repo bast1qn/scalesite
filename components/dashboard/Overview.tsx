@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 // Internal imports
 import { AuthContext, useLanguage } from '../../contexts';
 import { api } from '../../lib';
+import { getTimeAgo } from '../../lib/utils/dateFormat';
 import type { DashboardView } from '../../pages/DashboardPage';
 
 // Components
@@ -49,33 +50,10 @@ const TIME_CONSTANTS = {
     MS_PER_DAY: 86400000,
     DAYS_IN_WEEK: 7,
     DAYS_IN_MONTH: 30,
+    WEEK_IN_MS: 7 * 24 * 60 * 60 * 1000,
     UPDATE_INTERVAL_MS: 3000,
     STORAGE_KEY: 'scalesite_onboarding_draft'
 } as const;
-
-/**
- * Formats a timestamp as a human-readable "time ago" string in German
- * @param date - The date to format
- * @returns Formatted string like "vor 5 Minuten" or "Gerade eben"
- */
-const getTimeAgo = (date: Date): string => {
-    const now = new Date();
-    // Validate date
-    if (isNaN(date.getTime())) return '-';
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / TIME_CONSTANTS.MS_PER_MINUTE);
-    const diffHours = Math.floor(diffMs / TIME_CONSTANTS.MS_PER_HOUR);
-    const diffDays = Math.floor(diffMs / TIME_CONSTANTS.MS_PER_DAY);
-
-    // Handle future dates
-    if (diffMs < 0) return 'in Kürze';
-    if (diffMins < 1) return 'Gerade eben';
-    if (diffMins < 60) return `vor ${diffMins} Minute${diffMins > 1 ? 'n' : ''}`;
-    if (diffHours < 24) return `vor ${diffHours} Stunde${diffHours > 1 ? 'n' : ''}`;
-    if (diffDays < TIME_CONSTANTS.DAYS_IN_WEEK) return `vor ${diffDays} Tag${diffDays > 1 ? 'en' : ''}`;
-    if (diffDays < TIME_CONSTANTS.DAYS_IN_MONTH) return `vor ${Math.floor(diffDays / TIME_CONSTANTS.DAYS_IN_WEEK)} Woche${Math.floor(diffDays / TIME_CONSTANTS.DAYS_IN_WEEK) > 1 ? 'n' : ''}`;
-    return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
-};
 
 const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     const { user } = useContext(AuthContext);
@@ -185,6 +163,14 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     useEffect(() => {
         let isMounted = true;
 
+        /**
+         * Fetches all dashboard data in parallel for optimal performance
+         * Includes stats, projects/services, transactions, and tickets
+         *
+         * @sideeffect Updates multiple state variables (stats, projects, financeData, activities)
+         * @throws Silently catches errors and sets loading to false
+         * @memo Prevents state updates if component is unmounted
+         */
         const fetchData = async () => {
             if (!user) {
                 if (isMounted) setLoading(false);
@@ -220,8 +206,8 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                         setNextMilestone({
                             title: "Live-Gang Review",
                             description: `Abschlussbesprechung für ${activeProject.name}`,
-                            date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
-                            daysLeft: 7
+                            date: new Date(Date.now() + TIME_CONSTANTS.WEEK_IN_MS).toLocaleDateString(),
+                            daysLeft: TIME_CONSTANTS.DAYS_IN_WEEK
                         });
                     }
                 } else {

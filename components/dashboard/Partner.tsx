@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { BuildingStorefrontIcon } from '../index';
 
 const Partner: React.FC = () => {

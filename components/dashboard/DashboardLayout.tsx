@@ -1,5 +1,6 @@
+import { useContext, useState } from 'react';
 
-import React, { useContext, useState } from 'react';
+// Internal imports
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
 import {

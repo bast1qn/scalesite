@@ -65,8 +65,15 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
     }, [user]);
 
     /**
-     * Fetches both available services and user's booked services
-     * Safely casts and validates API responses to prevent runtime errors
+     * Fetches both available services and user's booked services from the API
+     * Validates and filters the data to ensure type safety and prevent runtime errors
+     *
+     * @throws Sets error state if API calls fail
+     * @sideeffect Updates activeServices, availableServices, loading, and error states
+     *
+     * @example
+     * // On component mount or user change
+     * fetchData() // -> Updates state with fetched services
      */
     const fetchData = async () => {
         if (!user) return;
