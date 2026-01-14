@@ -290,6 +290,36 @@ export const Configurator = ({
         }
     }, []);
 
+    // Tab change handlers (memoized to prevent inline functions)
+    const handleDesignTabClick = useCallback(() => setActiveTab('design'), []);
+    const handleContentTabClick = useCallback(() => setActiveTab('content'), []);
+    const handleFeaturesTabClick = useCallback(() => setActiveTab('features'), []);
+
+    // Color palette change handler
+    const handleColorSelect = useCallback((colors: ColorPalette) => {
+        dispatch({ type: 'SET_COLORS', payload: colors });
+    }, []);
+
+    // Layout change handler
+    const handleLayoutSelect = useCallback((layout: 'modern' | 'classic' | 'bold') => {
+        dispatch({ type: 'SET_LAYOUT', payload: layout });
+    }, []);
+
+    // Device change handler
+    const handleDeviceSelect = useCallback((device: DeviceType) => {
+        dispatch({ type: 'SET_DEVICE', payload: device });
+    }, []);
+
+    // Content change handler
+    const handleContentChange = useCallback((content: ContentConfig) => {
+        dispatch({ type: 'SET_CONTENT', payload: content });
+    }, []);
+
+    // Feature toggle handler
+    const handleFeatureToggle = useCallback((feature: string) => {
+        dispatch({ type: 'TOGGLE_FEATURE', payload: feature });
+    }, []);
+
     return (
         <div className="min-h-screen bg-light-bg dark:bg-dark-bg">
             {/* Header */}
@@ -355,7 +385,7 @@ export const Configurator = ({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex gap-8">
                         <button
-                            onClick={() => setActiveTab('design')}
+                            onClick={handleDesignTabClick}
                             className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                                 activeTab === 'design'
                                     ? 'border-primary text-primary'
@@ -365,7 +395,7 @@ export const Configurator = ({
                             Design
                         </button>
                         <button
-                            onClick={() => setActiveTab('content')}
+                            onClick={handleContentTabClick}
                             className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                                 activeTab === 'content'
                                     ? 'border-primary text-primary'
@@ -375,7 +405,7 @@ export const Configurator = ({
                             Inhalt
                         </button>
                         <button
-                            onClick={() => setActiveTab('features')}
+                            onClick={handleFeaturesTabClick}
                             className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                                 activeTab === 'features'
                                     ? 'border-primary text-primary'
@@ -411,7 +441,7 @@ export const Configurator = ({
                                         <ColorPalettePicker
                                             palettes={DEFAULT_COLOR_PALETTES}
                                             selectedPalette={state.colors}
-                                            onSelect={(colors) => dispatch({ type: 'SET_COLORS', payload: colors })}
+                                            onSelect={handleColorSelect}
                                             readOnly={readOnly}
                                         />
                                     </div>
@@ -423,7 +453,7 @@ export const Configurator = ({
                                         </h2>
                                         <LayoutSelector
                                             selectedLayout={state.layout}
-                                            onSelect={(layout) => dispatch({ type: 'SET_LAYOUT', payload: layout })}
+                                            onSelect={handleLayoutSelect}
                                             readOnly={readOnly}
                                         />
                                     </div>
@@ -435,7 +465,7 @@ export const Configurator = ({
                                         </h2>
                                         <DeviceToggle
                                             selectedDevice={state.device}
-                                            onSelect={(device) => dispatch({ type: 'SET_DEVICE', payload: device })}
+                                            onSelect={handleDeviceSelect}
                                         />
                                     </div>
                                 </motion.div>
@@ -455,7 +485,7 @@ export const Configurator = ({
                                     </h2>
                                     <ContentEditor
                                         content={state.content}
-                                        onChange={(content) => dispatch({ type: 'SET_CONTENT', payload: content })}
+                                        onChange={handleContentChange}
                                         readOnly={readOnly}
                                     />
                                 </motion.div>
@@ -475,7 +505,7 @@ export const Configurator = ({
                                     </h2>
                                     <FeatureSelector
                                         selectedFeatures={state.features}
-                                        onToggle={(feature) => dispatch({ type: 'TOGGLE_FEATURE', payload: feature })}
+                                        onToggle={handleFeatureToggle}
                                         readOnly={readOnly}
                                     />
                                 </motion.div>

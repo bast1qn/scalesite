@@ -24,6 +24,14 @@ export interface Metric {
   navigationType?: string;
 }
 
+export interface PerformanceEntry {
+  name?: string;
+  value?: number;
+  startTime?: number;
+  duration?: number;
+  entryType?: string;
+}
+
 export interface CoreWebVitals {
   LCP?: Metric;
   FID?: Metric;
@@ -192,11 +200,11 @@ function trackCLS(): Promise<Metric | null> {
 
     let clsValue = 0;
     let sessionValue = 0;
-    let sessionEntries: any[] = [];
+    let sessionEntries: PerformanceEntry[] = [];
 
     try {
       const observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries() as any[]) {
+        for (const entry of list.getEntries() as PerformanceEntry[]) {
           // Exclude sessions initiated within 1 second of previous
           if (!entry.hadRecentInput) {
             sessionValue += entry.value;
@@ -247,11 +255,11 @@ function trackINP(): Promise<Metric | null> {
     }
 
     let inpValue = 0;
-    let entries: any[] = [];
+    let entries: PerformanceEntry[] = [];
 
     try {
       const observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries() as any[]) {
+        for (const entry of list.getEntries() as PerformanceEntry[]) {
           entries.push(entry);
 
           const value = entry.duration;

@@ -19,7 +19,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
  */
 export function useWebWorker<T, R>(
   workerFn: (data: T) => R,
-  dependencies: any[] = []
+  dependencies: unknown[] = []
 ) {
   const workerRef = useRef<Worker | null>(null);
   const [result, setResult] = useState<R | null>(null);
@@ -175,7 +175,7 @@ export function usePDFWorker() {
     };
   }, []);
 
-  const generatePDF = useCallback((content: any, options = {}) => {
+  const generatePDF = useCallback((content: unknown, options: Record<string, unknown> = {}) => {
     if (!workerRef.current) {
       throw new Error('Worker not initialized');
     }
@@ -355,7 +355,7 @@ export function useChartWorker() {
     };
   }, []);
 
-  const processData = useCallback((rawData: any[], aggregation = 'daily') => {
+  const processData = useCallback((rawData: unknown[], aggregation: 'daily' | 'weekly' | 'monthly' = 'daily') => {
     if (!workerRef.current) {
       throw new Error('Worker not initialized');
     }

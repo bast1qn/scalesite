@@ -202,7 +202,8 @@ const AppContent = () => {
      */
     useEffect(() => {
         const PROTECTED_ROUTES = ['dashboard', 'analytics', 'chat'] as const;
-        if (PROTECTED_ROUTES.includes(currentPage as any) && !user && !loading) {
+        type ProtectedRoute = typeof PROTECTED_ROUTES[number];
+        if (PROTECTED_ROUTES.includes(currentPage as ProtectedRoute) && !user && !loading) {
             handleNavigateToLogin();
         }
     }, [currentPage, user, loading, handleNavigateToLogin]);

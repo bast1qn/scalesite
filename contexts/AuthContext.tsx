@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     let isMounted = true;
     let safetyTimeout: ReturnType<typeof setTimeout> | null = null;
+    let abortController = new AbortController();
 
     safetyTimeout = setTimeout(() => {
       if (isMounted && loadingRef.current) {
@@ -91,7 +92,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
 
-        if (!isMounted) return;
+        if (!isMounted || abortController.signal.aborted) return;
 
         if (error) {
           console.error('[AUTH] Error getting session:', error.message);
@@ -118,7 +119,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (!isMounted) return;
+      if (!isMounted || abortController.signal.aborted) return;
 
       setSessionChecked(true);
 
@@ -127,7 +128,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false);
 
         getUserProfile(session.user.id).then(({ data }) => {
-          if (data && isMounted) {
+          if (data && isMounted && !abortController.signal.aborted) {
             setUser(mapProfileToAppUser(data));
           }
         }).catch((err) => {
@@ -141,6 +142,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     return () => {
       isMounted = false;
+      abortController.abort();
       if (safetyTimeout) clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };

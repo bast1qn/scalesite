@@ -19,6 +19,8 @@ type IdleTask = {
   priority?: 'high' | 'normal' | 'low';
 };
 
+type AnyFunction = (...args: unknown[]) => unknown;
+
 /**
  * Schedule a task to run during browser idle time
  * Falls back to setTimeout if requestIdleCallback is not available
@@ -306,10 +308,10 @@ export function useIdleStateUpdate<T>(
  * Measure task execution time
  */
 export function measureTaskPerformance(taskName: string) {
-  return function measurePerformance<T extends (...args: any[]) => any>(
+  return function measurePerformance<T extends AnyFunction>(
     fn: T
   ): T {
-    return (async (...args: any[]) => {
+    return (async (...args: unknown[]) => {
       const start = performance.now();
       const result = await fn(...args);
       const end = performance.now();
