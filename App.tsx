@@ -13,6 +13,9 @@ import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvi
 // Internal - Constants
 import { TIMING } from './lib/constants';
 
+// PERFORMANCE: Core Web Vitals Monitoring
+import { initPerformanceMonitoring } from './lib/performance/monitoring';
+
 // PERFORMANCE: Code Splitting with Strategic Prefetching
 // High-priority pages (prefetch immediately on idle)
 const HomePage = lazy(() => import(/* webpackPrefetch: true */ './pages/HomePage'));
@@ -212,6 +215,21 @@ const AppContent = () => {
 };
 
 const App = () => {
+    // PERFORMANCE: Initialize Core Web Vitals monitoring
+    useEffect(() => {
+        if (import.meta.env.PROD) {
+            // Only monitor in production to avoid dev mode noise
+            initPerformanceMonitoring().then((vitals) => {
+                // Log vitals in development for debugging
+                if (import.meta.env.DEV) {
+                    console.log('[Performance] Core Web Vitals:', vitals);
+                }
+            }).catch((err) => {
+                console.warn('[Performance] Failed to initialize monitoring:', err);
+            });
+        }
+    }, []);
+
     return (
         <ErrorBoundary>
             <ThemeProvider defaultTheme="system">
