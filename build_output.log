@@ -1,0 +1,43 @@
+
+> scalesite@1.0.3 build
+> vite build
+
+vite v6.4.1 building for production...
+transforming...
+✓ 2850 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               5.62 kB │ gzip:   2.03 kB
+dist/assets/index-CtY8k7-j.css              270.75 kB │ gzip:  34.20 kB
+dist/assets/useDebounce-Dz-BlDhI.js           0.27 kB │ gzip:   0.20 kB
+dist/assets/BorderSpinner-1LdTViNr.js         0.39 kB │ gzip:   0.28 kB
+dist/assets/CustomSelect-Ba4G0GVs.js          2.21 kB │ gzip:   1.01 kB
+dist/assets/validation-BVSPe8aY.js            3.11 kB │ gzip:   1.08 kB
+dist/assets/DatenschutzPage-DiXMugam.js       5.35 kB │ gzip:   1.63 kB
+dist/assets/FaqPage-CfpudHcq.js               6.73 kB │ gzip:   1.95 kB
+dist/assets/ImpressumPage-CUZANIK6.js         8.32 kB │ gzip:   1.60 kB
+dist/assets/RegisterPage-CTZJKcd1.js         10.91 kB │ gzip:   2.94 kB
+dist/assets/ContactPage-CDxnMklC.js          12.81 kB │ gzip:   3.10 kB
+dist/assets/AnalyticsDashboard-BtaCcMD2.js   12.94 kB │ gzip:   3.45 kB
+dist/assets/ProjektePage-D26yjwib.js         15.10 kB │ gzip:   4.23 kB
+dist/assets/LeistungenPage-Cg-mTIss.js       16.26 kB │ gzip:   3.89 kB
+dist/assets/LoginPage-ouizf8id.js            17.41 kB │ gzip:   5.18 kB
+dist/assets/ArchitecturePage-QhPWVrOE.js     19.02 kB │ gzip:   4.47 kB
+dist/assets/RestaurantPage-CoqknWzA.js       19.43 kB │ gzip:   4.36 kB
+dist/assets/AnalyticsPage-DSoZIQK1.js        21.73 kB │ gzip:   5.05 kB
+dist/assets/RealEstatePage-C3yJh8Q1.js       23.62 kB │ gzip:   5.70 kB
+dist/assets/ChatPage-Bz9EQwwo.js             30.62 kB │ gzip:   7.76 kB
+dist/assets/ProjectDetailPage-CiMh573W.js    31.08 kB │ gzip:   7.07 kB
+dist/assets/AutomationenPage-BjAoxJRn.js     33.55 kB │ gzip:   7.87 kB
+dist/assets/HomePage-BQCIhimw.js             37.06 kB │ gzip:   7.99 kB
+dist/assets/PreisePage-BAdFmtm6.js           40.22 kB │ gzip:   9.75 kB
+dist/assets/SEOPage-I77mhZ6d.js              41.02 kB │ gzip:   8.01 kB
+dist/assets/ai-content-Dlry27k9.js           47.94 kB │ gzip:   7.23 kB
+dist/assets/ConfiguratorPage-DpBMinrW.js     49.74 kB │ gzip:  10.73 kB
+dist/assets/motion-Bj4R5g4S.js              116.00 kB │ gzip:  37.59 kB
+dist/assets/DashboardPage-Zf28FprM.js       144.85 kB │ gzip:  28.32 kB
+dist/assets/react-vendor-Db5riT8g.js        150.46 kB │ gzip:  49.66 kB
+dist/assets/supabase-Dpj5Bi00.js            168.83 kB │ gzip:  42.21 kB
+dist/assets/index-DUjxz3i4.js               228.50 kB │ gzip:  69.37 kB
+dist/assets/charts-BJMmjuix.js              353.25 kB │ gzip: 102.86 kB
+✓ built in 5.62s

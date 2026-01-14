@@ -2,7 +2,7 @@
 // TWITTER CARDS - GENERATED PREVIEW
 // ============================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Copy, Download } from 'lucide-react';
 import { copyTagsToClipboard, downloadTagsAsHtml } from '../utils';
@@ -24,11 +24,18 @@ export const GeneratedPreview: React.FC<GeneratedPreviewProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
 
+  // MEMORY LEAK FIX: Proper cleanup for setTimeout
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => setCopied(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
+
   const handleCopy = () => {
     const tags = generateTags();
     copyTagsToClipboard(tags);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownload = () => {

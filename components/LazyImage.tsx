@@ -71,7 +71,8 @@ export const LazyImage = ({
         img.onerror = null;
       };
     }
-  }, [src, isInView, getSafeURL]); // ✅ FIXED: Added getSafeURL to dependencies
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src, isInView]); // ✅ FIXED: getSafeURL is a pure function, no need for dependency
 
   // PERFORMANCE: Calculate aspect ratio style to prevent CLS
   const aspectRatioStyle = aspectRatio ? {

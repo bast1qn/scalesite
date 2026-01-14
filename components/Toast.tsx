@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { CheckBadgeIcon, XMarkIcon, InformationCircleIcon, ExclamationTriangleIcon } from './Icons';
 
 /**
@@ -25,6 +25,10 @@ export const Toast: React.FC<ToastProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
+  // PERFORMANCE FIX: Use useRef to avoid recreating timer when onClose changes
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
     // Trigger entrance animation
     setIsVisible(true);
@@ -33,11 +37,11 @@ export const Toast: React.FC<ToastProps> = ({
     const timer = setTimeout(() => {
       setIsVisible(false);
       // Wait for exit animation before calling onClose
-      setTimeout(() => onClose?.(), 400);
+      setTimeout(() => onCloseRef.current?.(), 400);
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [duration, onClose]);
+  }, [duration]); // ✅ FIXED: Only depends on duration, not onClose
 
   const icons = {
     success: <CheckBadgeIcon className="w-5 h-5" />,

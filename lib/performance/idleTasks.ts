@@ -143,7 +143,7 @@ export function useIdleCallback() {
  */
 export function useIdleEffect(
   effect: () => void | (() => void),
-  deps: any[] = []
+  deps: unknown[] = []
 ) {
   useEffect(() => {
     const cleanup = scheduleIdleTask(() => {
@@ -232,7 +232,7 @@ export function setupDeferredAnalytics(analyticsFn: () => void): void {
 /**
  * Progressive hydration - hydrate components gradually
  */
-export function useProgressiveHydration<T extends Record<string, any>>(
+export function useProgressiveHydration<T extends Record<string, unknown>>(
   components: T,
   hydrationOrder: (keyof T)[]
 ): Partial<T> {

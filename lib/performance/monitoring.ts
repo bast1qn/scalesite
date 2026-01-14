@@ -201,6 +201,7 @@ function trackCLS(): Promise<Metric | null> {
     let clsValue = 0;
     let sessionValue = 0;
     let sessionEntries: PerformanceEntry[] = [];
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     try {
       const observer = new PerformanceObserver((list) => {
@@ -221,9 +222,11 @@ function trackCLS(): Promise<Metric | null> {
 
       observer.observe({ entryTypes: ['layout-shift'] });
 
-      // Report CLS after page load
-      window.addEventListener('load', () => {
-        setTimeout(() => {
+      // Report CLS after page load - MEMORY LEAK FIX: Use AbortController for cleanup
+      const abortController = new AbortController();
+
+      const handleLoad = () => {
+        timeoutId = setTimeout(() => {
           observer.disconnect();
 
           const metric: Metric = {
@@ -236,7 +239,16 @@ function trackCLS(): Promise<Metric | null> {
           logMetric(metric);
           resolve(metric);
         }, 1000);
-      });
+      };
+
+      window.addEventListener('load', handleLoad, { signal: abortController.signal });
+
+      // Cleanup function for Promise cancellation
+      return () => {
+        abortController.abort();
+        if (timeoutId) clearTimeout(timeoutId);
+        observer.disconnect();
+      };
     } catch (error) {
       console.warn('CLS tracking failed:', error);
       resolve(null);

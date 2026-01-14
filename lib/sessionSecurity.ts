@@ -3,6 +3,7 @@
 // OWASP A07:2021 - Identification and Authentication Failures
 // ============================================
 
+import { useCallback, useEffect } from 'react';
 import { supabase } from './supabase';
 
 /**
@@ -231,19 +232,19 @@ export const resetSessionSecurity = () => {
 
 /**
  * Hook for components to listen to session warnings
- * FIXED: Returns proper cleanup function to remove event listener
+ * FIXED: Automatic cleanup with useEffect - prevents memory leaks
  */
 export const useSessionWarning = (callback: (minutesLeft: number) => void) => {
-  const handleWarning = (event: Event) => {
+  const handleWarning = useCallback((event: Event) => {
     const customEvent = event as CustomEvent<{ minutesLeft: number }>;
     callback(customEvent.detail.minutesLeft);
-  };
+  }, [callback]);
 
-  // Add event listener on mount
-  window.addEventListener('sessionWarning', handleWarning);
+  useEffect(() => {
+    window.addEventListener('sessionWarning', handleWarning);
 
-  // Return cleanup function
-  return () => {
-    window.removeEventListener('sessionWarning', handleWarning);
-  };
+    return () => {
+      window.removeEventListener('sessionWarning', handleWarning);
+    };
+  }, [handleWarning]);
 };
