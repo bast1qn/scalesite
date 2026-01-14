@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { AnimatedSection, CustomSelect } from '../components';
 import { icons, placeholderContent } from '../lib/blueprintPlaceholders';
 import { useLanguage } from '../contexts';
@@ -311,27 +311,27 @@ const BlueprintPreview: React.FC<BlueprintPreviewProps> = (props) => {
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            const { type, payload } = event.data;
+    const handleMessage = useCallback((event: MessageEvent) => {
+        const { type, payload } = event.data;
 
-            // ✅ FIXED: Add origin validation for security
-            if (event.origin !== window.location.origin) return;
+        // ✅ FIXED: Add origin validation for security
+        if (event.origin !== window.location.origin) return;
 
-            if (type === 'blueprint-nav') {
-                setActivePage(payload.page);
+        if (type === 'blueprint-nav') {
+            setActivePage(payload.page);
                  if (iframeRef.current) {
                     iframeRef.current.contentWindow?.scrollTo(0, 0);
                 }
-            } else if (type === 'blueprint-theme-toggle') {
-                setTheme(payload.theme);
-            }
-        };
+        } else if (type === 'blueprint-theme-toggle') {
+            setTheme(payload.theme);
+        }
+    }, []); // ✅ FIXED: No external dependencies - iframeRef is stable
 
+    useEffect(() => {
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
-    }, []); // ✅ FIXED: No external dependencies - iframeRef is stable
-    
+    }, [handleMessage]);
+
     const htmlContent = useMemo(() => {
         return generatePreviewHtml(props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t);
     }, [props.companyName, props.industry, props.primaryColor, props.secondaryColor, activePage, theme, props.blueprintTemplates, props.t]);
@@ -380,7 +380,7 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
     const [previewProps, setPreviewProps] = useState<Omit<BlueprintPreviewProps, 'blueprintTemplates'> | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [industrySearch, setIndustrySearch] = useState('');
-    
+
     // --- STATIC DATA ---
     const blueprintTemplates = useMemo(() => {
         return Object.keys(placeholderContent).map(key => {
@@ -397,21 +397,21 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
       return blueprintTemplates.map(t => ({ value: t.industry_key, label: t.industry_label }))
     }, [blueprintTemplates]);
 
-    const filteredIndustryOptions = useMemo(() => 
-        industryOptions.filter(opt => 
+    const filteredIndustryOptions = useMemo(() =>
+        industryOptions.filter(opt =>
             opt.label.toLowerCase().includes(industrySearch.toLowerCase())
         ), [industrySearch, industryOptions]
     );
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }, []);
 
-    const handleIndustryChange = (value: string) => {
-        setFormData({ ...formData, industry: value });
-    };
+    const handleIndustryChange = useCallback((value: string) => {
+        setFormData(prev => ({ ...prev, industry: value }));
+    }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.companyName) return;
         setIsLoading(true);
@@ -422,12 +422,12 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                 document.getElementById('preview-container')?.scrollIntoView({ behavior: 'smooth' });
              }, 100);
         }
-        
+
         setTimeout(() => {
             setIsLoading(false);
             setPreviewProps(formData);
         }, 1500);
-    };
+    }, [formData]);
 
     const ColorPicker: React.FC<{
         name: string;
@@ -595,7 +595,10 @@ const BlueprintPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ 
                                                 {t('blueprint.request_project')}
                                                 <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform duration-200 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                             </button>
-                                            <button onClick={() => document.getElementById('companyName')?.focus()} className="btn-secondary">
+                                            <button onClick={() => {
+                                                const input = document.getElementById('companyName') as HTMLInputElement | null;
+                                                input?.focus();
+                                            }} className="btn-secondary">
                                                 Neuen Blueprint erstellen
                                             </button>
                                         </div>

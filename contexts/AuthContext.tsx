@@ -144,14 +144,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
   }, []);
 
-  const loadUserProfile = async (userId: string) => {
+  const loadUserProfile = useCallback(async (userId: string) => {
     let isMounted = true;
+    const abortController = new AbortController();
+
     try {
       // Request deduplication: Check if there's already a pending request for this user
       const existingPromise = profileLoadPromiseRef.current.get(userId);
       if (existingPromise) {
         const data = await existingPromise;
-        if (data && isMounted) {
+        if (data && isMounted && !abortController.signal.aborted) {
           setUser(mapProfileToAppUser(data));
           setLoading(false);
         }
@@ -164,6 +166,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const { data, error } = await getUserProfile(userId);
 
+      // Check if component is still mounted before updating state
+      if (!isMounted || abortController.signal.aborted) return;
+
       // Clean up the promise cache
       profileLoadPromiseRef.current.delete(userId);
 
@@ -175,19 +180,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       }
 
-      if (data) {
+      if (data && !abortController.signal.aborted) {
         setUser(mapProfileToAppUser(data));
         setLoading(false);
-      } else {
+      } else if (!abortController.signal.aborted) {
         setLoading(false);
       }
     } catch (e) {
-      console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
-      setLoading(false);
+      if (!abortController.signal.aborted) {
+        console.error('[AUTH] Exception loading user profile:', e instanceof Error ? e.message : e);
+        setLoading(false);
+      }
     }
-  };
 
-  const login = async (email: string, pass: string) => {
+    return () => {
+      isMounted = false;
+      abortController.abort();
+    };
+  }, []);
+
+  const login = useCallback(async (email: string, pass: string) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -207,9 +219,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : 'Login failed' };
     }
-  };
+  }, [loadUserProfile]);
 
-  const socialLogin = async (provider: 'google' | 'github') => {
+  const socialLogin = useCallback(async (provider: 'google' | 'github') => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -226,9 +238,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : 'Social login failed' };
     }
-  };
+  }, []);
 
-  const loginWithToken = async (token: string) => {
+  const loginWithToken = useCallback(async (token: string) => {
     try {
       const { data, error } = await supabase.auth.setSession({
         access_token: token,
@@ -245,14 +257,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       console.error('Token login failed:', e);
       return false;
     }
-  };
+  }, [loadUserProfile]);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
-  };
+  }, []);
 
-  const register = async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
+  const register = useCallback(async (name: string, company: string, email: string, pass: string, referralCode?: string) => {
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -297,7 +309,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : 'Unknown error', requiresConfirmation: false };
     }
-  };
+  }, [loadUserProfile]);
 
   const contextValue = useMemo(() => ({
     user,

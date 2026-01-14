@@ -65,23 +65,28 @@ export const ThemeProvider = ({
     defaultTheme = DEFAULT_THEME,
     storageKey = THEME_STORAGE_KEY,
 }: ThemeProviderProps) => {
-    const [theme, setThemeState] = useState<Theme>(() => getStoredTheme() || defaultTheme);
-    const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() =>
-        resolveTheme(getStoredTheme() || defaultTheme)
-    );
+    // SSR-safe initialization
+    const [theme, setThemeState] = useState<Theme>(defaultTheme);
+    const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
+    const [isClient, setIsClient] = useState(false);
 
+    // Initialize theme only on client side to prevent hydration mismatch
     useEffect(() => {
-        const root = document.documentElement;
-        const initialTheme = resolveTheme(theme);
-        applyTheme(initialTheme);
+        setIsClient(true);
+        const storedTheme = getStoredTheme() || defaultTheme;
+        const resolved = resolveTheme(storedTheme);
 
-        // Prevent flash of wrong theme
-        root.style.colorScheme = initialTheme;
-    }, []);
+        setThemeState(storedTheme);
+        setResolvedTheme(resolved);
+
+        const root = document.documentElement;
+        applyTheme(resolved);
+        root.style.colorScheme = resolved;
+    }, [defaultTheme]);
 
     // Listen for system theme changes
     useEffect(() => {
-        if (theme !== 'system') return;
+        if (!isClient || theme !== 'system') return;
 
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -98,7 +103,7 @@ export const ThemeProvider = ({
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, [theme]);
+    }, [theme, isClient]);
 
     const setTheme = useCallback((newTheme: Theme) => {
         setThemeState(newTheme);

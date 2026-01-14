@@ -70,7 +70,7 @@ const isTeamMember = async (userId: string): Promise<boolean> => {
 
 const requireAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { user: null, error: 'Not authenticated' };
+    if (!user) return { user: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
     return { user, error: null };
 };
 
@@ -83,16 +83,75 @@ const requireTeamAccess = async (userId: string): Promise<{ authorized: boolean;
 interface SupabaseError {
     message?: string;
     code?: string;
+    details?: string;
+    hint?: string;
 }
 
-const handleSupabaseError = (error: SupabaseError | null): string | null => {
+type ApiErrorType = 'network' | 'auth' | 'validation' | 'not_found' | 'server' | 'unknown';
+
+interface ApiError {
+    type: ApiErrorType;
+    message: string;
+    originalCode?: string;
+}
+
+const classifyError = (error: SupabaseError): ApiErrorType => {
+    if (!error.code) return 'unknown';
+
+    // Network/timeout errors
+    if (error.message?.includes('timeout') || error.message?.includes('network')) {
+        return 'network';
+    }
+
+    // Authentication errors
+    if (error.code === 'PGRST116' || error.message?.includes('JWT')) {
+        return 'auth';
+    }
+
+    // Validation errors
+    if (error.code === '23505' || error.code === '23503' || error.code === '23502') {
+        return 'validation';
+    }
+
+    // Not found errors
+    if (error.code === 'PGRST116') {
+        return 'not_found';
+    }
+
+    // Server errors (5xx)
+    if (error.code.startsWith('5')) {
+        return 'server';
+    }
+
+    return 'unknown';
+};
+
+const getUserFriendlyMessage = (type: ApiErrorType): string => {
+    const messages: Record<ApiErrorType, string> = {
+        network: 'Network error. Please check your connection.',
+        auth: 'Session expired. Please log in again.',
+        validation: 'Invalid data provided. Please check your input.',
+        not_found: 'Resource not found.',
+        server: 'Server error. Please try again later.',
+        unknown: 'An error occurred. Please try again.'
+    };
+    return messages[type];
+};
+
+const handleSupabaseError = (error: SupabaseError | null): ApiError | null => {
     if (error) {
         // SECURITY: Don't expose internal error messages to users (OWASP A05:2021)
         // Internal errors may leak database structure, table names, or implementation details
         console.error('[API] Internal error:', error.message, error.code);
 
-        // Return generic message to user - prevents information disclosure
-        return 'An error occurred. Please try again.';
+        const errorType = classifyError(error);
+        const userMessage = getUserFriendlyMessage(errorType);
+
+        return {
+            type: errorType,
+            message: userMessage,
+            originalCode: error.code
+        };
     }
     return null;
 };
@@ -104,7 +163,7 @@ export const api = {
      */
     getMe: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth', message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('profiles')
@@ -122,7 +181,7 @@ export const api = {
      */
     updateProfile: async (updates: { name?: string; company?: string; email?: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth', message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('profiles')
@@ -161,7 +220,7 @@ export const api = {
      */
     getUserServices: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('user_services')
@@ -199,7 +258,7 @@ export const api = {
      */
     bookService: async (serviceId: number) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const id = generateId();
         const now = new Date().toISOString();
@@ -261,7 +320,7 @@ export const api = {
      */
     getTickets: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -306,7 +365,7 @@ export const api = {
      */
     createTicket: async (subject: string, priority: string, message: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const id = generateId();
         const now = new Date().toISOString();
@@ -342,7 +401,7 @@ export const api = {
 
     getTicketMessages: async (ticketId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -385,7 +444,7 @@ export const api = {
 
     replyToTicket: async (ticketId: string, text: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const now = new Date().toISOString();
         const teamMember = await isTeamMember(user.id);
@@ -430,7 +489,7 @@ export const api = {
 
     inviteToTicket: async (ticketId: string, email: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -497,7 +556,7 @@ export const api = {
      */
     getTransactions: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('transactions')
@@ -591,7 +650,7 @@ export const api = {
     // ===== ADMIN ENDPOINTS =====
     adminGetUsers: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -606,7 +665,7 @@ export const api = {
 
     adminGetUserServices: async (userId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -626,7 +685,7 @@ export const api = {
 
     adminUpdateUserService: async (serviceId: string, updates: { status?: string; progress?: number }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -641,7 +700,7 @@ export const api = {
 
     adminAddServiceUpdate: async (serviceId: string, message: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -659,7 +718,7 @@ export const api = {
 
     adminAssignService: async (payload: { userId: string; serviceId?: number; customService?: { name: string; description: string; price: number; price_details: string } }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -716,7 +775,7 @@ export const api = {
 
     adminUpdateService: async (serviceId: number, updates: { name?: string; description?: string; description_en?: string; name_en?: string; price?: number; price_details?: string; price_details_en?: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -732,7 +791,7 @@ export const api = {
     // ===== TEAM CHAT =====
     getTeamChat: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -755,7 +814,7 @@ export const api = {
 
     sendTeamChat: async (content: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -781,7 +840,7 @@ export const api = {
 
     createBlogPost: async (post: { title: string; content: string; excerpt?: string; author_name?: string; published?: boolean }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -801,7 +860,7 @@ export const api = {
 
     updateBlogPost: async (postId: string, post: { title?: string; content?: string; excerpt?: string; published?: boolean }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -816,7 +875,7 @@ export const api = {
 
     deleteBlogPost: async (postId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -831,7 +890,7 @@ export const api = {
 
     getFiles: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('files')
@@ -844,7 +903,7 @@ export const api = {
 
     uploadFile: async (name: string, size: number, type: string, data: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase.from('files').insert({
             id: generateId(),
@@ -861,7 +920,7 @@ export const api = {
 
     getFileContent: async (fileId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('files')
@@ -875,7 +934,7 @@ export const api = {
 
     deleteFile: async (fileId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('files')
@@ -889,7 +948,7 @@ export const api = {
     // ===== TEAM TASKS =====
     getTeamTasks: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -904,7 +963,7 @@ export const api = {
 
     createTeamTask: async (title: string, clientName: string, priority: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -923,7 +982,7 @@ export const api = {
 
     updateTeamTask: async (taskId: string, updates: { title?: string; client_name?: string; priority?: string; column_id?: string; status?: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -938,7 +997,7 @@ export const api = {
 
     deleteTeamTask: async (taskId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -953,7 +1012,7 @@ export const api = {
 
     getDiscounts: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -968,7 +1027,7 @@ export const api = {
 
     createDiscount: async (code: string, type: string, value: number) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -986,7 +1045,7 @@ export const api = {
 
     deleteDiscount: async (discountId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1002,7 +1061,7 @@ export const api = {
     // ===== ADMIN: UPDATE USER ROLE =====
     adminUpdateUserRole: async (userId: string, role: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1018,7 +1077,7 @@ export const api = {
     // ===== ADMIN: ASSIGN SERVICE TO TICKET =====
     adminAssignServiceToTicket: async (ticketId: string, serviceId: number) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1053,7 +1112,7 @@ export const api = {
 
     getProjects: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -1079,7 +1138,7 @@ export const api = {
 
     getProject: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -1105,7 +1164,7 @@ export const api = {
         content?: Record<string, unknown>;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const id = generateId();
         const now = new Date().toISOString();
@@ -1162,7 +1221,7 @@ export const api = {
         is_live?: boolean;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -1181,7 +1240,7 @@ export const api = {
 
     updateProjectConfig: async (projectId: string, config: Record<string, unknown>) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('projects')
@@ -1194,7 +1253,7 @@ export const api = {
 
     updateProjectContent: async (projectId: string, content: Record<string, unknown>) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('projects')
@@ -1207,7 +1266,7 @@ export const api = {
 
     deleteProject: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('projects')
@@ -1224,7 +1283,7 @@ export const api = {
 
     getProjectMilestones: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('project_milestones')
@@ -1241,7 +1300,7 @@ export const api = {
         due_date?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Check if user owns the project
         const { data: project } = await supabase
@@ -1276,7 +1335,7 @@ export const api = {
         completed_at?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('project_milestones')
@@ -1288,7 +1347,7 @@ export const api = {
 
     deleteMilestone: async (milestoneId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('project_milestones')
@@ -1304,7 +1363,7 @@ export const api = {
 
     getContentGenerations: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('content_generations')
@@ -1324,7 +1383,7 @@ export const api = {
         prompt: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase.from('content_generations').insert({
             id: generateId(),
@@ -1348,7 +1407,7 @@ export const api = {
         status?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('content_generations')
@@ -1361,7 +1420,7 @@ export const api = {
 
     deleteContentGeneration: async (generationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('content_generations')
@@ -1374,7 +1433,7 @@ export const api = {
 
     getContentGenerationById: async (generationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('content_generations')
@@ -1388,7 +1447,7 @@ export const api = {
 
     getContentGenerationsByProject: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('content_generations')
@@ -1402,7 +1461,7 @@ export const api = {
 
     toggleFavoriteContentGeneration: async (generationId: string, isFavorite: boolean) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('content_generations')
@@ -1415,7 +1474,7 @@ export const api = {
 
     getFavoriteContentGenerations: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('content_generations')
@@ -1429,7 +1488,7 @@ export const api = {
 
     saveContentGenerationToProject: async (generationId: string, projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Verify project ownership
         const { data: project } = await supabase
@@ -1455,7 +1514,7 @@ export const api = {
 
     duplicateContentGeneration: async (generationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Get original content generation
         const { data: original } = await supabase
@@ -1496,7 +1555,7 @@ export const api = {
 
     getTeamMembers: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('team_members')
@@ -1509,7 +1568,7 @@ export const api = {
 
     inviteTeamMember: async (email: string, role: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Check if email is registered
         const { data: profile } = await supabase
@@ -1562,7 +1621,7 @@ export const api = {
 
     updateMemberRole: async (memberId: string, role: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_members')
@@ -1575,7 +1634,7 @@ export const api = {
 
     removeTeamMember: async (memberId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_members')
@@ -1588,7 +1647,7 @@ export const api = {
 
     acceptTeamInvitation: async (teamId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_members')
@@ -1605,7 +1664,7 @@ export const api = {
 
     getInvoices: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -1624,7 +1683,7 @@ export const api = {
 
     getInvoice: async (invoiceId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -1656,7 +1715,7 @@ export const api = {
         due_date?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1702,7 +1761,7 @@ export const api = {
         paid_at?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
 
@@ -1725,7 +1784,7 @@ export const api = {
 
     getNotifications: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('notifications')
@@ -1752,7 +1811,7 @@ export const api = {
 
     markNotificationRead: async (notificationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('notifications')
@@ -1765,7 +1824,7 @@ export const api = {
 
     markAllNotificationsRead: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('notifications')
@@ -1778,7 +1837,7 @@ export const api = {
 
     deleteNotification: async (notificationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('notifications')
@@ -1795,7 +1854,7 @@ export const api = {
 
     getCampaigns: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -1817,7 +1876,7 @@ export const api = {
         scheduled_for?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1848,7 +1907,7 @@ export const api = {
         scheduled_for?: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1863,7 +1922,7 @@ export const api = {
 
     sendCampaign: async (campaignId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1880,7 +1939,7 @@ export const api = {
 
     deleteCampaign: async (campaignId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1899,7 +1958,7 @@ export const api = {
 
     getSubscribers: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -1923,7 +1982,7 @@ export const api = {
 
     deleteSubscriber: async (subscriberId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -1945,7 +2004,7 @@ export const api = {
         end: string;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('analytics_events')
@@ -1964,7 +2023,7 @@ export const api = {
         event_data?: Record<string, string | number | boolean | null>;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase.from('analytics_events').insert({
             id: generateId(),
@@ -1981,7 +2040,7 @@ export const api = {
 
     getAnalyticsSummary: async (projectId?: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         let query = supabase
             .from('analytics_events')
@@ -2015,7 +2074,7 @@ export const api = {
 
     autoCreateMilestones: async (projectId: string, projectType: string = 'website') => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Check if milestones already exist
         const { data: existing } = await supabase
@@ -2089,7 +2148,7 @@ export const api = {
 
     calculateProjectProgress: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Get all milestones for the project
         const { data: milestones, error } = await supabase
@@ -2120,7 +2179,7 @@ export const api = {
 
     updateProjectStatusFromMilestones: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Get milestones with their order
         const { data: milestones, error } = await supabase
@@ -2170,7 +2229,7 @@ export const api = {
 
     getProjectById: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('projects')
@@ -2184,7 +2243,7 @@ export const api = {
 
     getProjectTeam: async (projectId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('projects')
@@ -2217,7 +2276,7 @@ export const api = {
      */
     getTeamInvitations: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('team_invitations')
@@ -2233,7 +2292,7 @@ export const api = {
      */
     updateTeamMemberPermissions: async (memberId: string, permissions: Record<string, boolean | string>) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_members')
@@ -2248,7 +2307,7 @@ export const api = {
      */
     deactivateTeamMember: async (memberId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_members')
@@ -2263,7 +2322,7 @@ export const api = {
      */
     reactivateTeamMember: async (memberId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_members')
@@ -2278,7 +2337,7 @@ export const api = {
      */
     getTeamActivity: async (limit: number = 50) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { data, error } = await supabase
             .from('team_activity')
@@ -2300,7 +2359,7 @@ export const api = {
         metadata?: Record<string, string | number | boolean | null>
     ) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Get user profile
         const { data: profile } = await supabase
@@ -2332,7 +2391,7 @@ export const api = {
      */
     cancelTeamInvitation: async (invitationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('team_invitations')
@@ -2348,7 +2407,7 @@ export const api = {
      */
     resendTeamInvitation: async (invitationId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // Get invitation
         const { data: invitation, error } = await supabase
@@ -2382,7 +2441,7 @@ export const api = {
     // Email Service Integration
     connectEmailService: async (provider: 'sendgrid' | 'resend', apiKey: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2401,7 +2460,7 @@ export const api = {
 
     testEmailServiceConnection: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         // TODO: Implement actual SendGrid/Resend API test
         // This would send a test email to verify the connection
@@ -2411,7 +2470,7 @@ export const api = {
 
     disconnectEmailService: async (provider: 'sendgrid' | 'resend') => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const { error } = await supabase
             .from('user_settings')
@@ -2425,7 +2484,7 @@ export const api = {
     // Advanced Campaign Scheduling
     scheduleCampaign: async (campaignId: string, scheduledFor: string, timezone: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2444,7 +2503,7 @@ export const api = {
 
     cancelScheduledCampaign: async (campaignId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2463,7 +2522,7 @@ export const api = {
     // Campaign Analytics
     getCampaignAnalytics: async (campaignId: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2479,7 +2538,7 @@ export const api = {
 
     getAllCampaignAnalytics: async (dateRange?: { start: string; end: string }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: [], error: 'Not authenticated' };
+        if (!user) return { data: [], error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: [], error: 'Access denied' };
@@ -2507,7 +2566,7 @@ export const api = {
         unsubscribe_count?: number;
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2523,7 +2582,7 @@ export const api = {
     // Subscriber Import/Export
     addSubscriber: async (email: string, name?: string) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2543,7 +2602,7 @@ export const api = {
 
     importSubscribers: async (subscribers: Array<{ email: string; name?: string }>) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2572,7 +2631,7 @@ export const api = {
 
     exportSubscribers: async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };
@@ -2600,7 +2659,7 @@ export const api = {
         status: 'active' | 'paused' | 'draft';
     }) => {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { data: null, error: 'Not authenticated' };
+        if (!user) return { data: null, error: { type: 'auth' as const, message: 'Not authenticated' } };
 
         const teamMember = await isTeamMember(user.id);
         if (!teamMember) return { data: null, error: 'Access denied' };

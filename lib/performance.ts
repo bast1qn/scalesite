@@ -179,11 +179,11 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
   const later = function() {
     previous = Date.now();
     timeout = null;
-    result = func.apply(context, args);
-    if (!timeout) context = args = null;
+    result = func.apply(context as ThisParameterType<T>, args);
+    if (!timeout) context = args = undefined;
   };
 
-  return function(this: any) {
+  return function(this: ThisParameterType<T>) {
     const now = Date.now();
     const remaining = wait - (now - previous);
 
@@ -196,11 +196,11 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
         timeout = null;
       }
       previous = now;
-      result = func.apply(context, args);
+      result = func.apply(context as ThisParameterType<T>, args);
     } else if (!timeout) {
       timeout = setTimeout(later, remaining);
     }
-    return result;
+    return result as unknown;
   };
 }
 
@@ -214,19 +214,19 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
-  return function(this: any) {
+  return function(this: ThisParameterType<T>) {
     const context = this;
     const args = arguments as unknown as Parameters<T>;
 
     const later = function() {
       timeout = null;
-      if (!immediate) func.apply(context, args);
+      if (!immediate) func.apply(context as ThisParameterType<T>, args);
     };
 
     const callNow = immediate && !timeout;
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
+    if (callNow) func.apply(context as ThisParameterType<T>, args);
   };
 }
 
@@ -242,7 +242,7 @@ export function measureCoreWebVitals() {
   try {
     const lcpObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
-      const lastEntry = entries[entries.length - 1] as any;
+      const lastEntry = entries[entries.length - 1] as PerformanceEntry & { renderTime?: number; loadTime?: number };
       console.log(`[Core Web Vitals] LCP: ${lastEntry.renderTime || lastEntry.loadTime}ms`);
     });
     lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
@@ -254,8 +254,9 @@ export function measureCoreWebVitals() {
   try {
     const fidObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
-      entries.forEach((entry: any) => {
-        console.log(`[Core Web Vitals] FID: ${entry.processingStart - entry.startTime}ms`);
+      entries.forEach((entry) => {
+        const fidEntry = entry as PerformanceEntry & { processingStart: number; startTime: number };
+        console.log(`[Core Web Vitals] FID: ${fidEntry.processingStart - fidEntry.startTime}ms`);
       });
     });
     fidObserver.observe({ entryTypes: ['first-input'] });
@@ -267,9 +268,10 @@ export function measureCoreWebVitals() {
   let clsValue = 0;
   try {
     const clsObserver = new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry: any) => {
-        if (!entry.hadRecentInput) {
-          clsValue += entry.value;
+      list.getEntries().forEach((entry) => {
+        const clsEntry = entry as PerformanceEntry & { value: number; hadRecentInput: boolean };
+        if (!clsEntry.hadRecentInput) {
+          clsValue += clsEntry.value;
           console.log(`[Core Web Vitals] CLS: ${clsValue.toFixed(3)}`);
         }
       });
