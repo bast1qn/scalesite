@@ -369,3 +369,128 @@ export const IMAGE_LOADING = {
   /** Transition duration for image loading in milliseconds */
   transitionDuration: 500,
 } as const;
+
+// ===== TICKET STATUS COLORS =====
+
+/**
+ * Color mapping for ticket statuses
+ */
+export const TICKET_STATUS_COLORS = {
+  /** Open ticket - blue */
+  Offen: 'blue',
+  /** In progress - amber */
+  'In Bearbeitung': 'amber',
+  /** Waiting for response - purple */
+  'Wartet auf Antwort': 'purple',
+  /** Closed - gray */
+  Geschlossen: 'gray',
+} as const;
+
+/**
+ * Color mapping for ticket priorities
+ */
+export const TICKET_PRIORITY_COLORS = {
+  /** High priority - red */
+  Hoch: 'red',
+  /** Medium priority - amber */
+  Mittel: 'amber',
+  /** Low priority - emerald */
+  Niedrig: 'emerald',
+} as const;
+
+// ===== SEO CONSTANTS =====
+
+/**
+ * SEO recommendation limits for content length
+ */
+export const SEO_LIMITS = {
+  /** Title tag minimum length */
+  titleMin: 30,
+  /** Title tag maximum length */
+  titleMax: 60,
+  /** Meta description minimum length */
+  descriptionMin: 120,
+  /** Meta description maximum length */
+  descriptionMax: 160,
+  /** URL slug maximum length */
+  slugMax: 75,
+  /** Heading maximum length */
+  headingMax: 70,
+} as const;
+
+// ===== BILLING CONSTANTS =====
+
+/**
+ * Supported currencies for billing
+ */
+export const SUPPORTED_CURRENCIES = ['EUR', 'USD', 'GBP', 'CHF'] as const;
+
+/**
+ * Currency symbols mapping
+ */
+export const CURRENCY_SYMBOLS = {
+  EUR: '€',
+  USD: '$',
+  GBP: '£',
+  CHF: 'CHF',
+} as const;
+
+/**
+ * Tax rates (as decimals, e.g., 0.19 for 19%)
+ */
+export const TAX_RATES = {
+  germany: 0.19,
+  austria: 0.20,
+  switzerland: 0.077,
+} as const;
+
+// ===== DISPLAY VARIANTS =====
+
+/**
+ * Common component display variants
+ */
+export const DISPLAY_VARIANTS = {
+  /** Default display mode */
+  default: 'default',
+  /** Compact display mode */
+  compact: 'compact',
+  /** Detailed display mode */
+  detailed: 'detailed',
+} as const;
+
+// ===== AUTO-SAVE INTERVALS =====
+
+/**
+ * Auto-save and refresh intervals (in milliseconds)
+ */
+export const AUTO_SAVE_INTERVALS = {
+  /** Auto-save interval (4 seconds) */
+  autosave: 4000,
+  /** Data refresh interval (30 seconds) */
+  refresh: 30000,
+  /** Activity feed update interval (10 seconds) */
+  activity: 10000,
+  /** Notification check interval (15 seconds) */
+  notification: 15000,
+} as const;
+
+// ===== PAGINATION OPTIONS =====
+
+/**
+ * Standard pagination page sizes
+ */
+export const PAGE_SIZE_OPTIONS = [5, 10, 25, 50, 100] as const;
+
+/**
+ * Pagination defaults
+ */
+export const PAGINATION = {
+  /** Default items per page */
+  defaultPageSize: 10,
+  /** Small page size */
+  smallPageSize: 5,
+  /** Large page size */
+  largePageSize: 25,
+  /** Maximum page size */
+  maxPageSize: 100,
+} as const;

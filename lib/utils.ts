@@ -320,3 +320,96 @@ export function gradientClass(gradient: string, includeHover = false): string {
     ? `${gradient} ${GRADIENTS.primaryHover}`
     : gradient;
 }
+
+// ===== TICKET & STATUS HELPERS =====
+
+/**
+ * Returns Tailwind CSS classes for ticket status badges
+ * Provides consistent styling across the application
+ *
+ * @param status - The ticket status ('Offen' | 'In Bearbeitung' | 'Wartet auf Antwort' | 'Geschlossen')
+ * @returns CSS class string for status styling with dark mode support
+ *
+ * @example
+ * getTicketStatusColor('Offen')
+ * // Returns: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400'
+ */
+export function getTicketStatusColor(
+  status: 'Offen' | 'In Bearbeitung' | 'Wartet auf Antwort' | 'Geschlossen'
+): string {
+  const colorMap = {
+    'Offen': 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400',
+    'In Bearbeitung': 'bg-blue-500/20 text-blue-600 dark:text-blue-400',
+    'Wartet auf Antwort': 'bg-purple-500/20 text-purple-600 dark:text-purple-400',
+    'Geschlossen': 'bg-gray-500/20 text-gray-600 dark:text-gray-400',
+  } as const;
+
+  return colorMap[status] || colorMap['Offen'];
+}
+
+/**
+ * Returns Tailwind CSS classes for ticket priority badges
+ *
+ * @param priority - The ticket priority ('Niedrig' | 'Mittel' | 'Hoch')
+ * @returns CSS class string for priority styling with dark mode support
+ *
+ * @example
+ * getTicketPriorityColor('Hoch')
+ * // Returns: 'bg-red-500/20 text-red-600 dark:text-red-400'
+ */
+export function getTicketPriorityColor(
+  priority: 'Niedrig' | 'Mittel' | 'Hoch'
+): string {
+  const colorMap = {
+    'Niedrig': 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+    'Mittel': 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
+    'Hoch': 'bg-red-500/20 text-red-600 dark:text-red-400',
+  } as const;
+
+  return colorMap[priority] || colorMap['Mittel'];
+}
+
+/**
+ * Returns Tailwind CSS classes for generic status badges
+ * Use this for success, error, warning, and info states
+ *
+ * @param status - The status type
+ * @returns CSS class string for status styling
+ *
+ * @example
+ * getStatusBadgeColor('success')
+ * // Returns: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+ */
+export function getStatusBadgeColor(
+  status: 'success' | 'error' | 'warning' | 'info'
+): string {
+  const colorMap = {
+    success: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+    error: 'bg-red-500/20 text-red-600 dark:text-red-400',
+    warning: 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
+    info: 'bg-blue-500/20 text-blue-600 dark:text-blue-400',
+  } as const;
+
+  return colorMap[status];
+}
+
+// ===== TICKET OPTIONS =====
+
+/**
+ * Standard ticket priority options for dropdowns/selects
+ */
+export const TICKET_PRIORITY_OPTIONS = [
+  { value: 'Niedrig', label: 'Niedrig' },
+  { value: 'Mittel', label: 'Mittel' },
+  { value: 'Hoch', label: 'Hoch' }
+] as const;
+
+/**
+ * Standard ticket status options for dropdowns/selects
+ */
+export const TICKET_STATUS_OPTIONS = [
+  { value: 'Offen', label: 'Offen' },
+  { value: 'In Bearbeitung', label: 'In Bearbeitung' },
+  { value: 'Wartet auf Antwort', label: 'Wartet auf Antwort' },
+  { value: 'Geschlossen', label: 'Geschlossen' }
+] as const;
