@@ -166,6 +166,12 @@ export const useChatMessages = (options: UseChatMessagesOptions) => {
         if (!hasMore || !conversationId || messages.length === 0) return;
 
         const oldestMessage = messages[0];
+        // ✅ BUG FIX: Added null check for oldestMessage.created_at
+        if (!oldestMessage?.created_at) {
+            console.error('[useChatMessages] Oldest message missing created_at');
+            return;
+        }
+
         const { data, error: err } = await getMessages(conversationId, limit, oldestMessage.created_at);
 
         if (!err && data) {
