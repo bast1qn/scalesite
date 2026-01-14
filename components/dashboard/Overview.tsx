@@ -144,19 +144,44 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         }
     }, []);
 
+    // ✅ PERFORMANCE: Pause polling when tab is inactive to save CPU/battery
     useEffect(() => {
         let isMounted = true;
-        const interval = setInterval(() => {
-            if (!isMounted) return;
-            setServerStats(prev => ({
-                ...prev,
-                ramUsage: Math.min(100, Math.max(10, prev.ramUsage + (Math.random() * 6 - 3))),
-                bandwidth: Math.min(100, Math.max(5, prev.bandwidth + (Math.random() * 4 - 2)))
-            }));
-        }, TIME_CONSTANTS.UPDATE_INTERVAL_MS);
+        let interval: ReturnType<typeof setInterval>;
+
+        const startPolling = () => {
+            interval = setInterval(() => {
+                if (!isMounted) return;
+                setServerStats(prev => ({
+                    ...prev,
+                    ramUsage: Math.min(100, Math.max(10, prev.ramUsage + (Math.random() * 6 - 3))),
+                    bandwidth: Math.min(100, Math.max(5, prev.bandwidth + (Math.random() * 4 - 2)))
+                }));
+            }, TIME_CONSTANTS.UPDATE_INTERVAL_MS);
+        };
+
+        const stopPolling = () => {
+            if (interval) clearInterval(interval);
+        };
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                stopPolling();
+            } else {
+                startPolling();
+            }
+        };
+
+        // Start polling initially
+        startPolling();
+
+        // Listen for visibility changes
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
         return () => {
             isMounted = false;
-            clearInterval(interval);
+            stopPolling();
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
         };
     }, []);
 
@@ -325,6 +350,22 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         );
     }); // Removed ArrowRightIcon from dependencies - it's a stable component import
 
+    /**
+     * Resource bar component for server stats
+     * ✅ PERFORMANCE: React.memo prevents unnecessary re-renders
+     */
+    const ResourceBar = React.memo(({ label, value, color }: {label: string; value: number; color: string}) => (
+        <div>
+            <div className="flex justify-between text-xs mb-1.5 text-slate-600 dark:text-slate-400">
+                <span className="font-medium">{label}</span>
+                <span className="font-bold">{Math.round(value)}%</span>
+            </div>
+            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                <div className={`${color} h-full rounded-full transition-all duration-500`} style={{ width: `${value}%` }}></div>
+            </div>
+        </div>
+    ));
+
     return (
         <div className="space-y-8 animate-fade-in">
             {/* Modern Header with animated gradient */}
@@ -460,21 +501,10 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                                 <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-semibold">Demo</span>
                             </div>
                             <div className="space-y-4">
-                                {[
-                                    { label: 'SSD Speicher', value: serverStats.diskUsage, color: 'bg-cyan-500' },
-                                    { label: 'RAM Nutzung', value: serverStats.ramUsage, color: 'bg-violet-500' },
-                                    { label: 'Bandbreite', value: serverStats.bandwidth, color: 'bg-indigo-500' }
-                                ].map((item) => (
-                                    <div key={item.label}>
-                                        <div className="flex justify-between text-xs mb-1.5 text-slate-600 dark:text-slate-400">
-                                            <span className="font-medium">{item.label}</span>
-                                            <span className="font-bold">{Math.round(item.value)}%</span>
-                                        </div>
-                                        <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                                            <div className={`${item.color} h-full rounded-full transition-all duration-500`} style={{ width: `${item.value}%` }}></div>
-                                        </div>
-                                    </div>
-                                ))}
+                                {/* ✅ PERFORMANCE: Extract to memoized component to prevent recreation */}
+                                <ResourceBar label="SSD Speicher" value={serverStats.diskUsage} color="bg-cyan-500" />
+                                <ResourceBar label="RAM Nutzung" value={serverStats.ramUsage} color="bg-violet-500" />
+                                <ResourceBar label="Bandbreite" value={serverStats.bandwidth} color="bg-indigo-500" />
                             </div>
                             <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-sm">
                                 <span className="text-slate-500 dark:text-slate-400 font-medium">Uptime</span>

@@ -40,6 +40,8 @@ export default defineConfig(({ mode }) => {
         target: 'es2020',
         minify: 'terser', // ✅ PERFORMANCE: Enable Terser minification
         sourcemap: false,
+        // ✅ PERFORMANCE: Improve chunk size warnings threshold
+        chunkSizeWarningLimit: 1000,
         rollupOptions: {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
@@ -63,6 +65,10 @@ export default defineConfig(({ mode }) => {
               // Google AI (rarely used)
               if (id.includes('@google/genai')) {
                 return 'ai-vendor';
+              }
+              // ✅ PERFORMANCE: Separate router chunk
+              if (id.includes('react-router-dom')) {
+                return 'router';
               }
             }
           }
