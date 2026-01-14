@@ -272,7 +272,7 @@ async function handleSubscriptionCreated(subscription: StripeSubscription): Prom
         return;
     }
 
-    const userId = (customer as any).metadata?.user_id;
+    const userId = customer.metadata?.user_id;
     if (!userId) {
         console.error('User ID not found in customer metadata');
         return;
@@ -422,7 +422,7 @@ async function handlePaymentMethodAttached(paymentMethod: StripePaymentMethod): 
         return;
     }
 
-    const userId = (customer as any).metadata?.user_id;
+    const userId = customer.metadata?.user_id;
     if (!userId) {
         console.error('User ID not found in customer metadata');
         return;
@@ -441,7 +441,8 @@ async function handlePaymentMethodAttached(paymentMethod: StripePaymentMethod): 
     }
 
     // Determine payment method type
-    let type = 'other';
+    type PaymentMethodType = 'card' | 'sepa_debit' | 'other';
+    let type: PaymentMethodType = 'other';
     let cardLast4: string | undefined;
     let cardBrand: string | undefined;
     let cardExpMonth: number | undefined;
@@ -465,7 +466,7 @@ async function handlePaymentMethodAttached(paymentMethod: StripePaymentMethod): 
     await supabase.from('payment_methods').insert({
         id: crypto.randomUUID(),
         user_id: userId,
-        type: type as any,
+        type: type,
         provider: 'stripe',
         provider_payment_method_id: paymentMethod.id,
         is_default: false,

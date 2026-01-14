@@ -1039,12 +1039,14 @@ app.get('/api/admin/tables', authenticateToken, requireTeam, (req, res) => {
 app.get('/api/admin/table/:name', authenticateToken, requireTeam, (req, res) => {
     if (req.user.role !== 'owner') return res.sendStatus(403);
     const { name } = req.params;
-    const validTables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map(t => t.name);
-    
-    if (!validTables.includes(name)) {
+
+    // SECURITY: Whitelist of allowed tables to prevent SQL injection
+    const allowedTables = ['users', 'services', 'user_services', 'tickets', 'subscriptions', 'invoices', 'payments', 'discounts', 'transactions'];
+
+    if (!allowedTables.includes(name)) {
          return res.status(400).json({ error: "Invalid table name" });
     }
-    
+
     try {
         const rows = db.prepare(`SELECT * FROM "${name}" LIMIT 50`).all();
         res.json(rows);

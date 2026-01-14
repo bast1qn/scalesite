@@ -11,14 +11,20 @@ export interface AppUser {
   referral_code: string | null;
 }
 
-const mapSessionToAppUser = (session: Session): AppUser => ({
-  id: session.user.id,
-  name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
-  email: session.user.email || '',
-  company: session.user.user_metadata?.company || null,
-  role: session.user.user_metadata?.role || 'user',
-  referral_code: session.user.user_metadata?.referral_code || null
-});
+const mapSessionToAppUser = (session: Session): AppUser => {
+  if (!session.user) {
+    throw new Error('Session user is null');
+  }
+
+  return {
+    id: session.user.id,
+    name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '',
+    email: session.user.email || '',
+    company: session.user.user_metadata?.company || null,
+    role: session.user.user_metadata?.role || 'user',
+    referral_code: session.user.user_metadata?.referral_code || null
+  };
+};
 
 const mapProfileToAppUser = (profile: UserProfile): AppUser => ({
   id: profile.id,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, AlertTriangle, XCircle, FileSearch, Download, TrendingUp, Globe, Shield, Smartphone, Zap, Loader2 } from 'lucide-react';
 
@@ -113,11 +113,36 @@ export const SEOAuditReport: React.FC<SEOAuditReportProps> = ({
 
   const labels = t[language];
 
+  const handleAudit = useCallback(async () => {
+    if (!url.trim() || !isValidUrl(url)) {
+      alert(labels.invalidUrl);
+      return;
+    }
+
+    setIsAuditing(true);
+    setProgress(0);
+    setAuditResult(null);
+
+    try {
+      const result = await simulateAudit(url);
+      setAuditResult(result);
+      if (onAuditComplete) {
+        onAuditComplete(result);
+      }
+    } catch (error) {
+      console.error('Audit error:', error);
+      alert(labels.errorAuditing);
+    } finally {
+      setIsAuditing(false);
+      setProgress(100);
+    }
+  }, [url, labels, onAuditComplete]);
+
   useEffect(() => {
     if (autoRun && url) {
       handleAudit();
     }
-  }, []);
+  }, [autoRun, url, handleAudit]);
 
   const isValidUrl = (urlString: string): boolean => {
     try {
@@ -324,31 +349,6 @@ export const SEOAuditReport: React.FC<SEOAuditReportProps> = ({
       warnings,
       passes
     };
-  };
-
-  const handleAudit = async () => {
-    if (!url.trim() || !isValidUrl(url)) {
-      alert(labels.invalidUrl);
-      return;
-    }
-
-    setIsAuditing(true);
-    setProgress(0);
-    setAuditResult(null);
-
-    try {
-      const result = await simulateAudit(url);
-      setAuditResult(result);
-      if (onAuditComplete) {
-        onAuditComplete(result);
-      }
-    } catch (error) {
-      console.error('Audit error:', error);
-      alert(labels.errorAuditing);
-    } finally {
-      setIsAuditing(false);
-      setProgress(100);
-    }
   };
 
   const handleDownload = () => {
