@@ -3,22 +3,25 @@
  * Common type definitions for UI components
  */
 
-export type Variant = 'default' | 'compact' | 'detailed';
-export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+// ✅ BUG FIX: Removed duplicate types - now re-exporting from common.ts
+export type {
+  DisplayVariant as Variant,
+  SizeVariant as Size,
+  Language,
+  LoadingState
+} from './common';
+
+// Color type is unique to this file
 export type Color = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
-
-export type Language = 'de' | 'en';
-
-export type LoadingState = 'idle' | 'loading' | 'success' | 'error';
 
 export interface IconProps {
   className?: string;
-  size?: Size;
+  size?: SizeVariant;
 }
 
 export interface BaseComponentProps {
   className?: string;
-  variant?: Variant;
+  variant?: DisplayVariant;
   disabled?: boolean;
 }
 
@@ -28,3 +31,6 @@ export interface ActionProps extends BaseComponentProps {
   label?: string;
   ariaLabel?: string;
 }
+
+// Import types from common for re-use
+import type { DisplayVariant, SizeVariant } from './common';
