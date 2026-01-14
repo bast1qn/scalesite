@@ -12,6 +12,8 @@
  * - Enables smooth animations without background task interference
  */
 
+import { useEffect, useState, useCallback, useRef } from 'react';
+
 type IdleCallback = () => void;
 type IdleTask = {
   callback: IdleCallback;
