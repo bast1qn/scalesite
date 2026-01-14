@@ -404,6 +404,31 @@
 
 /* ==================== REFINED ANIMATIONS ==================== */
 
+/* Success feedback animation - subtle green glow */
+@keyframes success-feedback {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(16, 185, 129, 0);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.3);
+  }
+}
+
+/* Error feedback animation - shake effect */
+@keyframes error-feedback {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 60% {
+    transform: translateX(-4px);
+  }
+  40%, 80% {
+    transform: translateX(4px);
+  }
+}
+
 /* Fade in animation */
 @keyframes fade-in {
   from {
@@ -889,4 +914,94 @@
 
 .glow-hover:hover {
   box-shadow: 0 0 32px rgba(75, 90, 237, 0.16);
+}
+
+/* Success feedback animation class */
+.animate-success-feedback {
+  animation: success-feedback 0.6s ease-out;
+}
+
+/* Error feedback animation class */
+.animate-error-feedback {
+  animation: error-feedback 0.4s ease-out;
+}
+
+/* ==================== PRINT STYLES ==================== */
+
+@media print {
+  /* Hide non-essential elements */
+  .no-print,
+  nav,
+  footer,
+  button:not(.print-show),
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Ensure text is readable */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Remove shadows and backgrounds */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* Ensure links are readable */
+  a {
+    color: black !important;
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  /* Show only essential images */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+
+  /* Avoid page breaks */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  p, li {
+    page-break-inside: avoid;
+  }
+
+  /* Print-friendly containers */
+  .print-container {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Show print-only elements */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Ensure tables are readable */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
 }
