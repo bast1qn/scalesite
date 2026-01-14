@@ -263,21 +263,6 @@ export function useLoadingState(options: LoadingStateOptions = {}) {
   };
 }
 
-/**
- * useDebounce - Verzögert Updates
- */
-export function useDebounce<T>(value: T, delay: number = 300): T {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
+// useDebounce is now imported from ./useDebounce.ts to avoid code duplication
+// Re-exporting for backwards compatibility
+export { useDebounce } from './useDebounce';

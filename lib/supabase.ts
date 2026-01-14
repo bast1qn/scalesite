@@ -44,9 +44,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             .catch((err) => {
                 clearTimeout(timeoutId);
                 throw err;
-            })
-            .finally(() => {
-                clearTimeout(timeoutId);
             });
         },
     },

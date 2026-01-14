@@ -49,7 +49,7 @@ export const ThemeToggle = () => {
             <motion.button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 {...hover}
-                className="relative w-16 h-8 min-h-11 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+                className="relative w-16 h-11 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                 aria-label={`Current theme: ${theme}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
