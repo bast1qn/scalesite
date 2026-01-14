@@ -44,7 +44,7 @@ export const ChatWidget = () => {
             // Fallback to empty array if translations are not available
             setSuggestions([]);
         }
-    }, [language, translations]); // Added translations to dependencies
+    }, [language]); // ✅ PERFORMANCE: Removed translations - language change implies translations change
 
     const processMessage = async (text: string) => {
         if (!text.trim() || isLoading) return;

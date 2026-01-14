@@ -200,9 +200,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         return;
       }
 
-      // Create new request and store it
-      const profilePromise = getUserProfile(userId).then(({ data }) => data);
-      profileLoadPromiseRef.current.set(userId, profilePromise);
+      // ✅ CLEANUP: Removed dead code - profilePromise was created but never used
+      // The actual request is made directly below
 
       const { data, error } = await getUserProfile(userId);
 

@@ -95,34 +95,36 @@ const AppContent = () => {
         setCurrentPage('login');
     }, []);
 
+    // ✅ PERFORMANCE: Move pageTitles outside useEffect to prevent recreation on every render
+    const pageTitles: {[key: string]: string} = useMemo(() => ({
+        home: 'ScaleSite | Exzellente Websites',
+        leistungen: 'Leistungen | ScaleSite',
+        projekte: 'Referenzen & Projekte',
+        automationen: 'KI & Automation',
+        preise: 'Preise & Pakete',
+        contact: 'Kontakt aufnehmen',
+        login: 'Login',
+        register: 'Registrieren',
+        dashboard: 'Mein Dashboard',
+        impressum: 'Impressum',
+        datenschutz: 'Datenschutz',
+        faq: 'FAQ',
+        restaurant: 'The Coffee House | Showcase',
+        architecture: 'Richter Architects | Showcase',
+        realestate: 'Premium Properties | Showcase',
+        configurator: 'Website Konfigurator | ScaleSite',
+        analytics: 'Analytics | ScaleSite',
+        seo: 'SEO Tools | ScaleSite',
+        chat: 'Chat | ScaleSite'
+    }), []);
+
     /**
      * Set document title based on current page
      * Uses pageTitles mapping for SEO and browser tab identification
      */
     useEffect(() => {
-        const pageTitles: {[key: string]: string} = {
-            home: 'ScaleSite | Exzellente Websites',
-            leistungen: 'Leistungen | ScaleSite',
-            projekte: 'Referenzen & Projekte',
-            automationen: 'KI & Automation',
-            preise: 'Preise & Pakete',
-            contact: 'Kontakt aufnehmen',
-            login: 'Login',
-            register: 'Registrieren',
-            dashboard: 'Mein Dashboard',
-            impressum: 'Impressum',
-            datenschutz: 'Datenschutz',
-            faq: 'FAQ',
-            restaurant: 'The Coffee House | Showcase',
-            architecture: 'Richter Architects | Showcase',
-            realestate: 'Premium Properties | Showcase',
-            configurator: 'Website Konfigurator | ScaleSite',
-            analytics: 'Analytics | ScaleSite',
-            seo: 'SEO Tools | ScaleSite',
-            chat: 'Chat | ScaleSite'
-        };
         document.title = pageTitles[currentPage] || 'ScaleSite';
-    }, [currentPage]); // ✅ CORRECT: Only currentPage is needed
+    }, [currentPage, pageTitles]); // ✅ FIXED: pageTitles is now stable (useMemo)
 
     /**
      * Show reset button after loading timeout

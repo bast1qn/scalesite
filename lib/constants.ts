@@ -118,8 +118,8 @@ export const TIMING = {
  * API and caching-related constants
  */
 export const API = {
-  /** Cache TTL for API responses (5000ms) */
-  cacheTTL: 5000,
+  /** ✅ FIXED: Cache TTL for API responses (60000ms = 60s) - increased to reduce duplicate requests */
+  cacheTTL: 60000,
   /** Default pagination limit (50) */
   defaultLimit: 50,
   /** Invoice number padding (6 digits) */
@@ -302,8 +302,8 @@ export const BORDER_RADIUS = {
  * Request timeout values in milliseconds
  */
 export const TIMEOUTS = {
-  /** Cache TTL for API responses (5000ms = 5 seconds) */
-  cacheTTL: 5000,
+  /** ✅ CONSISTENCY: Cache TTL now matches API.cacheTTL (60000ms = 60 seconds) */
+  cacheTTL: 60000,
   /** HTTP request timeout (60000ms = 60 seconds) */
   request: 60000,
   /** Typing indicator debounce (1000ms = 1 second) */

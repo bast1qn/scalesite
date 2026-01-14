@@ -124,9 +124,12 @@ export function useChatScroll(
   }, [enabled, shouldScroll]);
 
   // Auto-scroll when messages change
+  // ✅ PERFORMANCE: Use ref to avoid dependency on scrollToBottom which changes with shouldScroll
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
+    if (enabled && shouldScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, enabled, shouldScroll]); // ✅ FIXED: Direct implementation instead of calling scrollToBottom
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return;

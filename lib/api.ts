@@ -37,8 +37,8 @@ interface CacheEntry<T> {
     timestamp: number;
 }
 
-const apiCache = new Map<string, CacheEntry<unknown>>();
-const CACHE_TTL = 5000; // 5 seconds cache
+const apiCache = new Map<string, CacheEntry<unknown>>;
+const CACHE_TTL = 60000; // ✅ PERFORMANCE: Increased from 5s to 60s - reduces duplicate API requests for rarely-changing data like services
 
 const getCached = <T>(key: string): T | null => {
     const cached = apiCache.get(key) as CacheEntry<T> | undefined;

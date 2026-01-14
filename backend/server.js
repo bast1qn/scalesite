@@ -423,6 +423,36 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
     }
 });
 
+// --- SECURITY: Validate redirect URLs to prevent Open Redirect attacks ---
+/**
+ * Validates if a redirect URL is safe
+ * Prevents open redirect vulnerabilities by checking against allowed domains
+ */
+function isValidRedirectUrl(url) {
+    try {
+        if (!url) return false;
+
+        const parsedUrl = new URL(url);
+
+        // Check against allowed domains (including localhost for development)
+        const allowedDomains = [
+            'localhost:5173',
+            'localhost:3000',
+            'localhost',
+            'scalesite.app',
+            'www.scalesite.app'
+        ];
+
+        // Allow if it matches one of the allowed domains
+        return allowedDomains.some(domain =>
+            parsedUrl.hostname === domain ||
+            parsedUrl.hostname.endsWith(`.${domain}`)
+        );
+    } catch (e) {
+        return false;
+    }
+}
+
 // --- REAL OAUTH IMPLEMENTATION ---
 
 const processOAuthUser = (email, name, provider) => {
@@ -511,7 +541,15 @@ app.get('/api/auth/github/callback', async (req, res) => {
         if (!email) throw new Error("No email found from GitHub");
 
         const { token } = processOAuthUser(email, userData.name || userData.login, 'github');
-        res.redirect(`${FRONTEND_URL}/login?token=${token}`);
+
+        // ✅ SECURITY: Validate redirect URL to prevent open redirect
+        const redirectUrl = `${FRONTEND_URL}/login?token=${token}`;
+        if (!isValidRedirectUrl(redirectUrl)) {
+            console.error('[SECURITY] Invalid redirect URL detected:', redirectUrl);
+            return res.status(400).json({ error: 'Invalid redirect' });
+        }
+
+        res.redirect(redirectUrl);
     } catch (err) {
         console.error(err);
         res.redirect(`${FRONTEND_URL}/login?error=GitHubAuthFailed`);
@@ -539,9 +577,17 @@ app.get('/api/auth/google/callback', async (req, res) => {
             headers: { Authorization: `Bearer ${tokenData.access_token}` },
         });
         const userData = await userRes.json();
-        
+
         const { token } = processOAuthUser(userData.email, userData.name, 'google');
-        res.redirect(`${FRONTEND_URL}/login?token=${token}`);
+
+        // ✅ SECURITY: Validate redirect URL to prevent open redirect
+        const redirectUrl = `${FRONTEND_URL}/login?token=${token}`;
+        if (!isValidRedirectUrl(redirectUrl)) {
+            console.error('[SECURITY] Invalid redirect URL detected:', redirectUrl);
+            return res.status(400).json({ error: 'Invalid redirect' });
+        }
+
+        res.redirect(redirectUrl);
     } catch (err) {
         console.error(err);
         res.redirect(`${FRONTEND_URL}/login?error=GoogleAuthFailed`);
