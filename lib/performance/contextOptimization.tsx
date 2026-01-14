@@ -19,7 +19,7 @@
  * // <UserProvider><ThemeProvider><RouterProvider><App /></RouterProvider></ThemeProvider></UserProvider>
  */
 
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, useEffect, type ReactNode } from 'react';
 import { useCallback, useRef, useState } from 'react';
 
 /**
@@ -136,9 +136,12 @@ export function useContextSelector<T, S>(
   // Only trigger re-render if selected value changed
   const [, forceUpdate] = useState({});
 
-  if (hasChanged) {
-    prevSelectedRef.current = selected;
-  }
+  // Use useEffect to prevent unnecessary re-renders and missing dependency warning
+  useEffect(() => {
+    if (hasChanged) {
+      prevSelectedRef.current = selected;
+    }
+  }, [hasChanged, selected]);
 
   return selected;
 }
