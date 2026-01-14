@@ -833,6 +833,11 @@ export const generateSEOAuditReport = async (
 
   try {
     const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const html = await response.text();
     const metaTags = extractMetaTagsFromHtml(html);
 
