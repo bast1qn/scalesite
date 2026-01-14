@@ -1,3 +1,7 @@
+// ========================================================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ========================================================================
+
 // React
 import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
 
@@ -5,7 +9,7 @@ import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 're
 import { AnimatePresence } from 'framer-motion';
 
 // Internal - Components
-import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer, BorderSpinner } from './components';
+import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, NotificationToastContainer } from './components';
 
 // Internal - Contexts
 import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider, ThemeProvider } from './contexts';
@@ -13,7 +17,7 @@ import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvi
 // Internal - Constants
 import { TIMING } from './lib/constants';
 
-// PERFORMANCE: Core Web Vitals Monitoring
+// Internal - Performance
 import { initPerformanceMonitoring } from './lib/performance/monitoring';
 
 // PERFORMANCE: Code Splitting with Strategic Prefetching
@@ -69,11 +73,11 @@ const PageLoader = () => {
                     <p className="text-slate-700 dark:text-slate-300 font-medium mb-1">{t('general.loading')}</p>
                     <p className="text-slate-500 dark:text-slate-400 text-sm">Bitte warten...</p>
                 </div>
-                {/* Progress hint */}
+                {/* Progress hint - Loading dots animation */}
                 <div className="flex gap-1">
                     <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
+                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: `${TIMING.staggerSlow}ms` }}></div>
+                    <div className="w-2 h-2 bg-primary-500/40 rounded-full animate-pulse" style={{ animationDelay: `${TIMING.staggerSlow * 2}ms` }}></div>
                 </div>
             </div>
         </div>
@@ -91,6 +95,10 @@ const AppContent = () => {
         setCurrentPage('login');
     }, []);
 
+    /**
+     * Set document title based on current page
+     * Uses pageTitles mapping for SEO and browser tab identification
+     */
     useEffect(() => {
         const pageTitles: {[key: string]: string} = {
             home: 'ScaleSite | Exzellente Websites',
@@ -116,6 +124,10 @@ const AppContent = () => {
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage]); // ✅ CORRECT: Only currentPage is needed
 
+    /**
+     * Show reset button after loading timeout
+     * Prevents users from getting stuck in infinite loading state
+     */
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
         if (loading) {
@@ -126,6 +138,11 @@ const AppContent = () => {
         return () => clearTimeout(timer);
     }, [loading]);
 
+    /**
+     * Reset application state and reload
+     * Clears localStorage and sessionStorage as best-effort operation
+     * Always reloads the page to ensure clean state
+     */
     const handleReset = () => {
         try {
             localStorage.clear();
@@ -142,6 +159,11 @@ const AppContent = () => {
         window.location.reload();
     };
 
+    /**
+     * Route to appropriate page component based on currentPage state
+     * Handles protected routes by checking user authentication
+     * Returns null for protected routes when user is not authenticated
+     */
     const getPage = () => {
         switch (currentPage) {
             case 'home': return <HomePage setCurrentPage={setCurrentPage} />;
@@ -174,8 +196,13 @@ const AppContent = () => {
         }
     };
 
+    /**
+     * Redirect to login page for protected routes
+     * Triggers when unauthenticated user accesses dashboard, analytics, or chat
+     */
     useEffect(() => {
-        if ((currentPage === 'dashboard' || currentPage === 'analytics' || currentPage === 'chat') && !user && !loading) {
+        const PROTECTED_ROUTES = ['dashboard', 'analytics', 'chat'] as const;
+        if (PROTECTED_ROUTES.includes(currentPage as any) && !user && !loading) {
             handleNavigateToLogin();
         }
     }, [currentPage, user, loading, handleNavigateToLogin]);
