@@ -304,7 +304,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         fetchData();
 
         return () => { isMounted = false; };
-    }, [user]);
+    }, [user, t]); // ✅ FIXED: Added 't' to dependencies
 
     /**
      * Reusable KPI card component for dashboard metrics
@@ -410,7 +410,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                 <div className="space-y-4">
                     {loading ? (
                          [1, 2].map(i => (
-                            <div key={i} className="skeleton h-28 rounded-xl"></div>
+                            <div key={`skeleton-${i}`} className="skeleton h-28 rounded-xl"></div>
                          ))
                     ) : projects.length > 0 ? projects.map((project) => (
                          <div key={project.id} className="group p-5 rounded-xl border border-slate-200/70 dark:border-slate-800/70 hover:border-blue-300/60 dark:hover:border-blue-700/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50 hover:scale-[1.02] active:scale-[0.98] cursor-pointer">

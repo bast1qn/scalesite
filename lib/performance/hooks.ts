@@ -230,8 +230,9 @@ export function useLocalStorage<T>(
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
       try {
+        // TYPE-SAFE: Use typeof check instead of instanceof Function
         const valueToStore =
-          value instanceof Function ? value(storedValue) : value;
+          typeof value === 'function' ? (value as (prev: T) => T)(storedValue) : value;
         setStoredValue(valueToStore);
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
@@ -364,9 +365,14 @@ export function useComponentLifecycle(componentName: string) {
 
 /**
  * Optimized memo hook with deep comparison
+ *
+ * @template T - The type of value to memoize
+ * @param factory - Function that creates the value to memoize
+ * @param deps - Dependencies array for deep comparison
+ * @returns Memoized value
  */
-export function useDeepMemo<T>(factory: () => T, deps: any[]): T {
-  const ref = useRef<{ deps: any[]; value: T }>();
+export function useDeepMemo<T>(factory: () => T, deps: readonly unknown[]): T {
+  const ref = useRef<{ deps: readonly unknown[]; value: T } | null>(null);
 
   if (!ref.current || !isEqual(deps, ref.current.deps)) {
     ref.current = { deps, value: factory() };
@@ -376,24 +382,43 @@ export function useDeepMemo<T>(factory: () => T, deps: any[]): T {
 }
 
 /**
- * Deep equality check
+ * Deep equality check for primitive values, arrays, and plain objects
+ *
+ * @param a - First value to compare
+ * @param b - Second value to compare
+ * @returns True if values are deeply equal, false otherwise
  */
-function isEqual(a: any, b: any): boolean {
+function isEqual(a: unknown, b: unknown): boolean {
+  // Fast path: strict equality
   if (a === b) return true;
 
+  // Handle arrays
   if (Array.isArray(a) && Array.isArray(b)) {
     if (a.length !== b.length) return false;
     return a.every((item, index) => isEqual(item, b[index]));
   }
 
-  if (typeof a === 'object' && typeof b === 'object' && a !== null && b !== null) {
+  // Handle plain objects
+  if (isPlainObject(a) && isPlainObject(b)) {
     const keysA = Object.keys(a);
     const keysB = Object.keys(b);
 
     if (keysA.length !== keysB.length) return false;
 
-    return keysA.every((key) => isEqual(a[key], b[key]));
+    return keysA.every((key) => isEqual(a[key], b[key as keyof typeof b]));
   }
 
   return false;
+}
+
+/**
+ * Type guard to check if value is a plain object (not null, not array, not Date, etc.)
+ */
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.prototype.toString.call(value) === '[object Object]'
+  );
 }

@@ -71,7 +71,7 @@ export const LazyImage = ({
         img.onerror = null;
       };
     }
-  }, [src, isInView]);
+  }, [src, isInView, getSafeURL]); // ✅ FIXED: Added getSafeURL to dependencies
 
   // PERFORMANCE: Calculate aspect ratio style to prevent CLS
   const aspectRatioStyle = aspectRatio ? {
