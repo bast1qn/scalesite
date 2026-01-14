@@ -1,62 +1,81 @@
 // Supabase Client for ScaleSite v3 - ready for deployment
 import { createClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
-}
-
 // Export flag to check if Supabase is configured
 export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey);
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-        flowType: 'pkce',
-        debug: false,
-    },
-    global: {
-        fetch: (url, options = {}) => {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 60000);
+// Create a mock client for when Supabase is not configured
+function createMockClient(): SupabaseClient {
+    console.warn('[Supabase] Mock client in use - Supabase features will be limited');
+    return createClient(
+        'https://mock.supabase.co',
+        'mock-key',
+        {
+            auth: {
+                persistSession: false,
+                autoRefreshToken: false,
+                detectSessionInUrl: false,
+            },
+        }
+    );
+}
 
-            // Ensure proper headers for Supabase REST API
-            const headers = {
-                ...options.headers,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'apikey': supabaseAnonKey,
-            };
-
-            return fetch(url, {
-                ...options,
-                headers,
-                signal: controller.signal,
-            })
-            .then(response => {
-                clearTimeout(timeoutId);
-                return response;
-            })
-            .catch((err) => {
-                clearTimeout(timeoutId);
-                // Better error handling for aborted requests
-                if (err instanceof Error && err.name === 'AbortError') {
-                    throw new Error('Request timed out. Please check your connection and try again.');
-                }
-                throw err;
-            });
+export const supabase = isSupabaseConfigured
+    ? createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            flowType: 'pkce',
+            debug: false,
         },
-    },
-    db: {
-        schema: 'public',
-    },
-});
+        global: {
+            fetch: (url, options = {}) => {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+                // Ensure proper headers for Supabase REST API
+                const headers = {
+                    ...options.headers,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'apikey': supabaseAnonKey,
+                };
+
+                return fetch(url, {
+                    ...options,
+                    headers,
+                    signal: controller.signal,
+                })
+                .then(response => {
+                    clearTimeout(timeoutId);
+                    return response;
+                })
+                .catch((err) => {
+                    clearTimeout(timeoutId);
+                    // Better error handling for aborted requests
+                    if (err instanceof Error && err.name === 'AbortError') {
+                        throw new Error('Request timed out. Please check your connection and try again.');
+                    }
+                    throw err;
+                });
+            },
+        },
+        db: {
+            schema: 'public',
+        },
+    })
+    : createMockClient();
 
 export const getUserProfile = async (userId: string) => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
+
     try {
         const { data, error } = await supabase
             .from('profiles')
@@ -337,6 +356,9 @@ export const untrackPresence = async (
  * @returns User data or null
  */
 export const getCurrentUser = async () => {
+    if (!isSupabaseConfigured) {
+        return { user: null, error: new Error('Supabase not configured') };
+    }
     const { data: { user }, error } = await supabase.auth.getUser();
     return { user, error };
 };
@@ -346,6 +368,9 @@ export const getCurrentUser = async () => {
  * @returns Session data or null
  */
 export const getCurrentSession = async () => {
+    if (!isSupabaseConfigured) {
+        return { session: null, error: new Error('Supabase not configured') };
+    }
     const { data: { session }, error } = await supabase.auth.getSession();
     return { session, error };
 };
@@ -355,6 +380,9 @@ export const getCurrentSession = async () => {
  * @returns Refreshed session
  */
 export const refreshToken = async () => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     const { data, error } = await supabase.auth.refreshSession();
     return { data, error };
 };
@@ -364,6 +392,9 @@ export const refreshToken = async () => {
  * @returns Sign out result
  */
 export const signOut = async () => {
+    if (!isSupabaseConfigured) {
+        return { error: new Error('Supabase not configured') };
+    }
     const { error } = await supabase.auth.signOut();
     return { error };
 };
@@ -374,6 +405,9 @@ export const signOut = async () => {
  * @returns Updated user
  */
 export const updateUserMetadata = async (metadata: Record<string, unknown>) => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     const { data, error } = await supabase.auth.updateUser({
         data: metadata
     });
@@ -391,6 +425,9 @@ export const updateUserMetadata = async (metadata: Record<string, unknown>) => {
  * @returns Public URL
  */
 export const getPublicUrl = (bucket: string, path: string): string => {
+    if (!isSupabaseConfigured) {
+        return '';
+    }
     const { data } = supabase.storage
         .from(bucket)
         .getPublicUrl(path);
@@ -410,6 +447,9 @@ export const getSignedUrl = async (
     path: string,
     expiresIn: number = 60
 ): Promise<{ url: string | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { url: null, error: new Error('Supabase not configured') };
+    }
     const { data, error } = await supabase.storage
         .from(bucket)
         .createSignedUrl(path, expiresIn);
@@ -434,6 +474,9 @@ export const uploadFile = async (
         upsert?: boolean;
     } = {}
 ) => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     const { data, error } = await supabase.storage
         .from(bucket)
         .upload(path, file, options);
@@ -448,6 +491,9 @@ export const uploadFile = async (
  * @returns Delete result
  */
 export const deleteFile = async (bucket: string, paths: string[]) => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     const { data, error } = await supabase.storage
         .from(bucket)
         .remove(paths);
@@ -474,6 +520,9 @@ export const listFiles = async (
         };
     }
 ) => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     const { data, error } = await supabase.storage
         .from(bucket)
         .list(path, options);
@@ -493,6 +542,10 @@ export const listFiles = async (
 export const executeQuery = async <T>(
     queryBuilder: PromiseLike<{ data: T; error: SupabaseError }>
 ): Promise<{ data: T | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
+
     try {
         const { data, error } = await queryBuilder;
 
@@ -520,6 +573,9 @@ export const getById = async <T>(
     id: string,
     columns: string = '*'
 ): Promise<{ data: T | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     return executeQuery<T>(
         supabase
             .from(table)
@@ -543,6 +599,9 @@ export const getByUserId = async <T>(
     columns: string = '*',
     orderBy?: { column: string; ascending?: boolean }
 ): Promise<{ data: T[] | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     let query = supabase
         .from(table)
         .select(columns)
@@ -565,6 +624,9 @@ export const insertRecord = async <T>(
     table: string,
     record: Record<string, unknown>
 ): Promise<{ data: T | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     return executeQuery<T>(
         supabase
             .from(table)
@@ -584,6 +646,9 @@ export const insertRecords = async <T>(
     table: string,
     records: Record<string, unknown>[]
 ): Promise<{ data: T[] | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     return executeQuery<T[]>(
         supabase
             .from(table)
@@ -604,6 +669,9 @@ export const updateRecord = async <T>(
     id: string,
     updates: Record<string, unknown>
 ): Promise<{ data: T | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { data: null, error: new Error('Supabase not configured') };
+    }
     return executeQuery<T>(
         supabase
             .from(table)
@@ -624,6 +692,9 @@ export const deleteRecord = async (
     table: string,
     id: string
 ): Promise<{ error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { error: new Error('Supabase not configured') };
+    }
     const { error } = await supabase
         .from(table)
         .delete()
@@ -642,6 +713,9 @@ export const countRecords = async (
     table: string,
     filters?: Record<string, unknown>
 ): Promise<{ count: number | null; error: SupabaseError }> => {
+    if (!isSupabaseConfigured) {
+        return { count: null, error: new Error('Supabase not configured') };
+    }
     let query = supabase
         .from(table)
         .select('*', { count: 'exact', head: true });
@@ -677,6 +751,12 @@ export const subscribeToTable = (
         onError?: (error: Error) => void;
     }
 ): RealtimeChannel => {
+    if (!isSupabaseConfigured) {
+        callbacks.onError?.(new Error('Supabase not configured'));
+        // Return mock channel
+        return supabase.channel('mock');
+    }
+
     const channelName = `${table}-${Date.now()}`;
 
     const channel = supabase.channel(channelName);
@@ -753,6 +833,10 @@ export const subscribeToBroadcast = (
     event: string,
     callback: (payload: RealtimePayload) => void
 ): RealtimeChannel => {
+    if (!isSupabaseConfigured) {
+        return supabase.channel('mock');
+    }
+
     const ch = supabase.channel(channel);
 
     ch.on('broadcast', { event }, (payload) => {
@@ -775,6 +859,9 @@ export const sendBroadcast = async (
     event: string,
     payload: Record<string, unknown>
 ): Promise<void> => {
+    if (!isSupabaseConfigured) {
+        return;
+    }
     await channel.send({
         type: 'broadcast',
         event,
