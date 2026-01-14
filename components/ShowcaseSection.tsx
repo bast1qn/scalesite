@@ -47,7 +47,7 @@ const staticShowcaseItems: ShowcaseItem[] = [
     excerpt: 'Property listings with search filters, detail views, and viewing requests.',
     image_url: '',
     route: 'realestate',
-    gradient: 'from-blue-400 to-blue-600'
+    gradient: 'from-primary-400 to-primary-600'
   }
 ];
 
@@ -115,7 +115,7 @@ export const ShowcaseSection = ({
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
           <button onClick={() => setCurrentPage(item.route || 'preise')} className="bg-white text-slate-900 font-bold py-4 px-8 rounded-2xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-[1.02] btn-micro-press relative overflow-hidden group/btn-2">
-            <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
+            <span className="absolute inset-0 bg-gradient-to-r from-primary-500 to-violet-500 opacity-0 group-hover/btn-2:opacity-20 transition-opacity duration-500"></span>
             <EyeIcon className="w-5 h-5" />
             {t('showcase.view_btn')}
           </button>
@@ -124,20 +124,20 @@ export const ShowcaseSection = ({
       </div>
       <div className="p-7 flex flex-col flex-grow relative">
         <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
         <div className="flex-grow relative z-10">
-          <span className="text-xs font-bold bg-gradient-to-r from-blue-500/15 to-violet-500/15 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-full uppercase tracking-wider-plus border border-blue-200/50 dark:border-blue-800/30 shadow-sm">
+          <span className="text-xs font-bold bg-gradient-to-r from-primary-500/15 to-violet-500/15 text-primary-600 dark:text-primary-400 px-3 py-1.5 rounded-full uppercase tracking-wider-plus border border-primary-200/50 dark:border-primary-800/30 shadow-sm">
             {item.category}
           </span>
-          <h3 className="mt-5 text-xl font-bold text-slate-900 dark:text-white font-serif group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-violet-600 transition-all duration-300">{item.title}</h3>
+          <h3 className="mt-5 text-xl font-bold text-slate-900 dark:text-white font-serif group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-all duration-300">{item.title}</h3>
           <p className="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed-plus text-sm">{item.excerpt}</p>
         </div>
         <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
           <button
             onClick={() => setCurrentPage(item.route || 'preise')}
-            className="inline-flex items-center gap-2 text-blue-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-blue-700 dark:hover:text-violet-300"
+            className="inline-flex items-center gap-2 text-primary-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-primary-700 dark:hover:text-violet-300"
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
               {t('showcase.details_btn')}
             </span>
             <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-[1.02]" />
@@ -150,7 +150,7 @@ export const ShowcaseSection = ({
     <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none noise-bg"></div>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[20%] left-[-5%] sm:left-[10%] w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-blue-400/8 via-violet-400/6 to-indigo-400/4 rounded-full blur-3xl animate-morph-blob"></div>
+        <div className="absolute top-[20%] left-[-5%] sm:left-[10%] w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-primary-400/8 via-violet-400/6 to-primary-400/4 rounded-full blur-3xl animate-morph-blob"></div>
         <div className="absolute bottom-[20%] right-[-5%] sm:right-[10%] w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gradient-to-br from-violet-400/6 via-purple-400/4 to-pink-400/3 rounded-full blur-3xl animate-morph-blob" style={{ animationDelay: '4s' }}></div>
       </div>
 
@@ -181,8 +181,8 @@ export const ShowcaseSection = ({
                   onClick={() => handleFilterChange(category)}
                   className={`filter-btn px-6 py-3 font-semibold rounded-2xl border-2 transition-all duration-300 ${
                     activeFilter === category
-                      ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white border-transparent shadow-xl shadow-blue-500/25 scale-105'
-                      : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-200/70 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:border-blue-300/50 dark:hover:border-violet-500/50 hover:bg-slate-50/80 dark:hover:bg-slate-700/50'
+                      ? 'bg-gradient-to-r from-primary-600 to-violet-600 text-white border-transparent shadow-xl shadow-primary-500/25 scale-105'
+                      : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-200/70 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:border-primary-300/50 dark:hover:border-violet-500/50 hover:bg-slate-50/80 dark:hover:bg-slate-700/50'
                   }`}
                 >
                   {category}
@@ -210,9 +210,9 @@ export const ShowcaseSection = ({
               <p className="text-2xl font-bold text-slate-900 dark:text-white mb-3 font-serif">{t('showcase.loading')}</p>
               <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed-plus">{t('showcase.loading_sub')}</p>
               <div className="mt-10 flex justify-center gap-3">
-                <span className="w-2.5 h-2.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-blue-500/30"></span>
-                <span className="w-2.5 h-2.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-blue-500/30" style={{ animationDelay: '0.15s' }}></span>
-                <span className="w-2.5 h-2.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-blue-500/30" style={{ animationDelay: '0.3s' }}></span>
+                <span className="w-2.5 h-2.5 bg-gradient-to-r from-primary-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-primary-500/30"></span>
+                <span className="w-2.5 h-2.5 bg-gradient-to-r from-primary-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-primary-500/30" style={{ animationDelay: '0.15s' }}></span>
+                <span className="w-2.5 h-2.5 bg-gradient-to-r from-primary-500 to-violet-500 rounded-full animate-bounce shadow-lg shadow-primary-500/30" style={{ animationDelay: '0.3s' }}></span>
               </div>
             </div>
           </div>

@@ -103,7 +103,7 @@ export const ProtectedRoute = ({
           </p>
           <button
             onClick={() => navigate('login')}
-            className="w-full bg-gradient-to-r from-blue-600 to-violet-600 text-white font-bold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 transition-all"
+            className="w-full bg-gradient-to-r from-primary-600 to-violet-600 text-white font-bold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-primary-500/25 hover:-translate-y-0.5 transition-all"
           >
             Go to Login
           </button>
