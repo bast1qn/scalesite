@@ -46,6 +46,15 @@ Claude_configured.fish
 .DS_Store
 Thumbs.db
 
+# Node.js
+node_modules/
+dist/
+.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # ============================================
 # SECURITY: Environment Variables (NEVER COMMIT!)
 # ============================================
