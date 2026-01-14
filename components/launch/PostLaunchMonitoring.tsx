@@ -75,7 +75,7 @@ const PostLaunchMonitoring: React.FC = () => {
 
   useEffect(() => {
     loadMonitoringData();
-    const interval = setInterval(loadMonitoringData, 30000); // Refresh every 30s
+    const interval = setInterval(() => loadMonitoringData(), 30000); // Refresh every 30s
     return () => clearInterval(interval);
   }, [selectedTimeRange]);
 

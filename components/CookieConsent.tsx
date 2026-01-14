@@ -85,9 +85,9 @@ export const CookieConsent = () => {
                         </div>
                         <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                             {t('cookie_consent.description')}
-                            <button onClick={() => window.open('/datenschutz', '_blank')} className="ml-1 text-primary-600 dark:text-primary-400 font-medium hover:text-primary-700 dark:hover:text-primary-300 underline decoration-primary-500/30 hover:decoration-primary-500 underline-offset-2 transition-all duration-200">
+                            <a href="/datenschutz" target="_blank" rel="noopener noreferrer" className="ml-1 text-primary-600 dark:text-primary-400 font-medium hover:text-primary-700 dark:hover:text-primary-300 underline decoration-primary-500/30 hover:decoration-primary-500 underline-offset-2 transition-all duration-200">
                                 {t('cookie_consent.privacy_link')}
-                            </button>
+                            </a>
                         </p>
                     </div>
                     <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-2.5 shrink-0 relative">

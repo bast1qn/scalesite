@@ -210,12 +210,12 @@ export const NotificationProvider: FC<NotificationProviderProps> = ({ children }
 
     // Check if quiet hours are active
     const isQuietHours = useCallback((): boolean => {
-        if (!preferences.quiet_hours.enabled) return false;
+        if (!preferences.quiet_hours?.enabled) return false;
 
         const now = new Date();
         const currentTime = now.getHours() * 60 + now.getMinutes();
-        const [startHour, startMin] = preferences.quiet_hours.start.split(':').map(Number);
-        const [endHour, endMin] = preferences.quiet_hours.end.split(':').map(Number);
+        const [startHour, startMin] = (preferences.quiet_hours.start || '22:00').split(':').map(Number);
+        const [endHour, endMin] = (preferences.quiet_hours.end || '08:00').split(':').map(Number);
         const startTime = startHour * 60 + startMin;
         const endTime = endHour * 60 + endMin;
 
