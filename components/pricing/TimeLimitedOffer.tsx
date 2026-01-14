@@ -220,6 +220,9 @@ export const TimeLimitedOffer: React.FC<TimeLimitedOfferProps> = ({
 
     // Check for dismissal in localStorage
     useEffect(() => {
+        // SSR-Safety: Check if window is defined (not server-side)
+        if (typeof window === 'undefined') return;
+
         const dismissedOffers = localStorage.getItem('dismissedOffers');
         if (dismissedOffers && offer) {
             const parsed = JSON.parse(dismissedOffers);
@@ -236,11 +239,13 @@ export const TimeLimitedOffer: React.FC<TimeLimitedOfferProps> = ({
         setDismissed(true);
         setIsVisible(false);
 
-        // Save to localStorage
-        const dismissedOffers = localStorage.getItem('dismissedOffers') || '[]';
-        const parsed = JSON.parse(dismissedOffers);
-        parsed.push(offer.id);
-        localStorage.setItem('dismissedOffers', JSON.stringify(parsed));
+        // Save to localStorage (SSR-safe)
+        if (typeof window !== 'undefined') {
+            const dismissedOffers = localStorage.getItem('dismissedOffers') || '[]';
+            const parsed = JSON.parse(dismissedOffers);
+            parsed.push(offer.id);
+            localStorage.setItem('dismissedOffers', JSON.stringify(parsed));
+        }
     };
 
     const handleClaim = () => {

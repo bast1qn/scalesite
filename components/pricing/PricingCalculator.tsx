@@ -91,6 +91,9 @@ export const PricingCalculator = ({
 
     // Load saved state from localStorage
     useEffect(() => {
+        // SSR-Safety: Check if window is defined (not server-side)
+        if (typeof window === 'undefined') return;
+
         const storageKey = `pricing-calculator-${serviceId}`;
         const saved = localStorage.getItem(storageKey);
 
@@ -135,8 +138,12 @@ export const PricingCalculator = ({
         setQuantity(initialQuantity);
         setSelectedFeatures(initialFeatures);
         setDiscountCode('');
-        const storageKey = `pricing-calculator-${serviceId}`;
-        localStorage.removeItem(storageKey);
+
+        // Remove from localStorage (SSR-safe)
+        if (typeof window !== 'undefined') {
+            const storageKey = `pricing-calculator-${serviceId}`;
+            localStorage.removeItem(storageKey);
+        }
     }, [initialQuantity, initialFeatures, serviceId]);
 
     // Calculate savings
