@@ -1,8 +1,14 @@
-
+// React imports
 import React, { useContext, useEffect, useState } from 'react';
+
+// Third-party imports
+// None
+
+// Internal imports
 import { api, formatCurrency, formatDate } from '../../lib';
 import { AuthContext } from '../../contexts';
 
+// Types
 interface Invoice {
     id: string;
     date: string;
@@ -12,12 +18,22 @@ interface Invoice {
     description: string;
 }
 
+// Constants
+const STATUS_COLORS: Record<Invoice['status'], string> = {
+    'Bezahlt': 'bg-green-500/20 text-green-700 dark:text-green-300',
+    'Offen': 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-300',
+    'Überfällig': 'bg-red-500/20 text-red-700 dark:text-red-300'
+};
+
 const Transactions: React.FC = () => {
     const { user } = useContext(AuthContext);
     const [transactions, setTransactions] = useState<Invoice[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        /**
+         * Fetches user transactions from API
+         */
         const fetchTransactions = async () => {
             if (!user) return;
             setLoading(true);
@@ -33,13 +49,11 @@ const Transactions: React.FC = () => {
         fetchTransactions();
     }, [user]);
 
+    /**
+     * Returns CSS classes for invoice status badge
+     */
     const getStatusColor = (status: Invoice['status']) => {
-        switch (status) {
-            case 'Bezahlt': return 'bg-green-500/20 text-green-700 dark:text-green-300';
-            case 'Offen': return 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-300';
-            case 'Überfällig': return 'bg-red-500/20 text-red-700 dark:text-red-300';
-            default: return 'bg-gray-500/20 text-gray-700';
-        }
+        return STATUS_COLORS[status] || 'bg-gray-500/20 text-gray-700';
     };
 
     return (

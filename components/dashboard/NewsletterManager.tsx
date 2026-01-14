@@ -1,4 +1,10 @@
+// React imports
 import React, { useState, useEffect } from 'react';
+
+// Third-party imports
+// None
+
+// Internal imports
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
 import {
@@ -15,6 +21,7 @@ import {
     XMarkIcon,
 } from '../index';
 
+// Types
 interface Subscriber {
     id: string;
     name: string | null;
@@ -41,6 +48,12 @@ interface Campaign {
 
 type TabType = 'campaigns' | 'subscribers';
 
+// Constants
+const NEWSLETTER_TABS: { id: TabType; label: string }[] = [
+    { id: 'campaigns', label: 'Kampagnen' },
+    { id: 'subscribers', label: 'Abonnenten' }
+];
+
 const NewsletterManager: React.FC = () => {
     const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<TabType>('campaigns');
@@ -60,6 +73,9 @@ const NewsletterManager: React.FC = () => {
         scheduled_for: ''
     });
 
+    /**
+     * Fetches campaigns and subscribers data
+     */
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -80,6 +96,9 @@ const NewsletterManager: React.FC = () => {
         fetchData();
     }, []);
 
+    /**
+     * Opens campaign modal for create or edit
+     */
     const openCampaignModal = (campaign?: Campaign) => {
         if (campaign) {
             setEditingCampaign(campaign);
@@ -105,6 +124,9 @@ const NewsletterManager: React.FC = () => {
         setShowCampaignModal(true);
     };
 
+    /**
+     * Handles campaign form submission (create or update)
+     */
     const handleCampaignSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -123,6 +145,9 @@ const NewsletterManager: React.FC = () => {
         }
     };
 
+    /**
+     * Sends campaign immediately
+     */
     const handleSendCampaign = async (campaignId: string) => {
         if (!confirm('Möchtest du diese Kampagne wirklich jetzt senden?')) return;
         try {
@@ -133,6 +158,9 @@ const NewsletterManager: React.FC = () => {
         }
     };
 
+    /**
+     * Deletes campaign by ID
+     */
     const handleDeleteCampaign = async (campaignId: string) => {
         if (!confirm('Möchtest du diese Kampagne wirklich löschen?')) return;
         try {
@@ -143,6 +171,9 @@ const NewsletterManager: React.FC = () => {
         }
     };
 
+    /**
+     * Deletes subscriber by ID
+     */
     const handleDeleteSubscriber = async (subscriberId: string) => {
         if (!confirm('Möchtest du diesen Abonnenten wirklich entfernen?')) return;
         try {
@@ -153,6 +184,9 @@ const NewsletterManager: React.FC = () => {
         }
     };
 
+    /**
+     * Returns status badge styling and label
+     */
     const getStatusBadge = (status: Campaign['status']) => {
         const badges = {
             draft: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-400', label: 'Entwurf' },
@@ -168,11 +202,17 @@ const NewsletterManager: React.FC = () => {
         );
     };
 
+    /**
+     * Calculates open rate percentage
+     */
     const openRate = (campaign: Campaign) => {
         if (campaign.sent_count === 0) return 0;
         return Math.round((campaign.open_count / campaign.sent_count) * 100);
     };
 
+    /**
+     * Calculates click rate percentage
+     */
     const clickRate = (campaign: Campaign) => {
         if (campaign.open_count === 0) return 0;
         return Math.round((campaign.click_count / campaign.open_count) * 100);

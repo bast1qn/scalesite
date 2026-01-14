@@ -1,11 +1,17 @@
-
+// React imports
 import React, { useState, useEffect, useContext, useMemo } from 'react';
+
+// Third-party imports
+// None
+
+// Internal imports
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
-import { ArrowPathIcon, BriefcaseIcon, CheckBadgeIcon, CustomSelect, PlusCircleIcon, XMarkIcon } from '../index';
+import { ArrowPathIcon, BriefcaseIcon, CheckBadgeIcon, PlusCircleIcon, XMarkIcon } from '../index';
 import { api } from '../../lib';
-import { setDashboardLanguage, alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
+import { alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 import { useDebounce } from '../../lib/hooks/useDebounce';
 
+// Types
 type UserProfile = AppUser;
 
 interface Service {
@@ -24,6 +30,7 @@ interface UserService {
     updates: { message: string, created_at: string, author_name: string }[];
 }
 
+// Constants
 // Default Automation Services meant to be available for quick selection
 const DEFAULT_SERVICES: Service[] = [
     { id: 'auto-1', name: "KI-Telefonassistent (Voice AI)", description: "Einrichtung eines KI-Agenten für Terminbuchungen.", price: 149, price_details: "einmalig" },
@@ -31,6 +38,12 @@ const DEFAULT_SERVICES: Service[] = [
     { id: 'auto-3', name: "CRM & Lead Scoring Setup", description: "Verbindung von Formularen mit CRM System.", price: 89, price_details: "einmalig" },
     { id: 'auto-4', name: "Social Media Autopilot", description: "Content-Planung und automatisches Posting.", price: 79, price_details: "einmalig" },
     { id: 'auto-5', name: "Dokumenten-Analyse Bot", description: "KI liest PDFs und extrahiert Daten.", price: 129, price_details: "einmalig" },
+];
+
+const ROLE_OPTIONS: { value: AppUser['role']; label: string }[] = [
+    { value: 'user', label: 'User' },
+    { value: 'team', label: 'Team' },
+    { value: 'owner', label: 'Owner' },
 ];
 
 const UserManagement = () => {
@@ -47,14 +60,11 @@ const UserManagement = () => {
     const [showProjectModal, setShowProjectModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
     const [availableServices, setAvailableServices] = useState<Service[]>([]);
-    
-    const roleOptions: { value: AppUser['role'], label: string }[] = [
-        { value: 'user', label: 'User' },
-        { value: 'team', label: 'Team' },
-        { value: 'owner', label: 'Owner' },
-    ];
 
     useEffect(() => {
+        /**
+         * Fetches users and available services
+         */
         const fetchUsers = async () => {
             if (!user) return;
             try {
@@ -86,6 +96,9 @@ const UserManagement = () => {
         fetchServices();
     }, [user]);
 
+    /**
+     * Updates user role with optimistic update and rollback on error
+     */
     const handleRoleChange = async (userId: string, newRole: AppUser['role']) => {
         const oldUsers = [...users];
         setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
@@ -97,9 +110,23 @@ const UserManagement = () => {
         }
     };
 
+    /**
+     * Opens project management modal for specific user
+     */
     const openProjectModal = (targetUser: UserProfile) => {
         setSelectedUser(targetUser);
         setShowProjectModal(true);
+    };
+
+    /**
+     * Returns CSS classes for role badge styling
+     */
+    const getRoleBadgeColor = (role: string) => {
+        switch(role) {
+            case 'owner': return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300';
+            case 'team': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
+            default: return 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300';
+        }
     };
 
     // Memoized filtered users with debounced search
@@ -110,14 +137,6 @@ const UserManagement = () => {
             (u.company?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()))
         );
     }, [users, debouncedSearchTerm]);
-
-    const getRoleBadgeColor = (role: string) => {
-        switch(role) {
-            case 'owner': return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300';
-            case 'team': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
-            default: return 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300';
-        }
-    };
 
     if (loading) return <div className="p-8 text-center text-slate-500">Lade Daten...</div>;
     
@@ -167,12 +186,12 @@ const UserManagement = () => {
                                     <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{u.email}</td>
                                     <td className="px-6 py-4">
                                         {user?.role === 'owner' ? (
-                                             <select 
-                                                value={u.role} 
+                                             <select
+                                                value={u.role}
                                                 onChange={(e) => handleRoleChange(u.id, e.target.value as AppUser['role'])}
                                                 className={`text-xs font-bold px-2 py-1 rounded-md border-none focus:ring-0 cursor-pointer ${getRoleBadgeColor(u.role)}`}
                                             >
-                                                {roleOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                                                {ROLE_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                                             </select>
                                         ) : (
                                             <span className={`text-xs font-bold px-2 py-1 rounded-md inline-block ${getRoleBadgeColor(u.role)}`}>
@@ -202,6 +221,9 @@ const UserManagement = () => {
     );
 };
 
+/**
+ * Modal for managing user projects and services
+ */
 const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile; services: Service[]; onClose: () => void; }) => {
     const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<'manage' | 'assign'>('manage');
@@ -254,6 +276,9 @@ const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile
     );
 };
 
+/**
+ * Form for assigning new services to a user
+ */
 const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSuccess: () => void; }> = ({ user, services, onSuccess }) => {
     const [selectedServiceId, setSelectedServiceId] = useState<string>(services[0]?.id.toString() || '');
     const [isCreatingNew, setIsCreatingNew] = useState(false);
@@ -368,6 +393,9 @@ const AssignServiceForm: React.FC<{ user: UserProfile; services: Service[]; onSu
     )
 }
 
+/**
+ * Card component for managing a single user service
+ */
 const ProjectCard: React.FC<{ service: UserService; onUpdate: () => void }> = ({ service, onUpdate }) => {
     const [status, setStatus] = useState(service.status);
     const [progress, setProgress] = useState(service.progress || 0);

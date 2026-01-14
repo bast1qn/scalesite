@@ -1,10 +1,23 @@
-
+// React imports
 import React, { useState, useEffect } from 'react';
+
+// Third-party imports
+// None
+
+// Internal imports
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
 import { alertSaveFailed, alertError } from '../../lib/dashboardAlerts';
 import { TagIcon, XMarkIcon, PencilIcon } from '../index';
 
+// Constants
+const DISCOUNT_MODAL_DEFAULTS = {
+    code: '',
+    type: 'percent' as const,
+    value: ''
+};
+
+// Types
 interface Service {
     id: number;
     name: string;
@@ -32,9 +45,9 @@ const DiscountManager: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     // Discount Code Form
-    const [code, setCode] = useState('');
-    const [type, setType] = useState('percent');
-    const [value, setValue] = useState('');
+    const [code, setCode] = useState(DISCOUNT_MODAL_DEFAULTS.code);
+    const [type, setType] = useState(DISCOUNT_MODAL_DEFAULTS.type);
+    const [value, setValue] = useState(DISCOUNT_MODAL_DEFAULTS.value);
     const [showDiscountModal, setShowDiscountModal] = useState(false);
 
     // Service Edit Modal
@@ -50,6 +63,9 @@ const DiscountManager: React.FC = () => {
         price_details: '', price_details_en: ''
     });
 
+    /**
+     * Fetches services and discounts data from API
+     */
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -70,6 +86,9 @@ const DiscountManager: React.FC = () => {
         fetchData();
     }, []);
 
+    /**
+     * Opens service edit modal and pre-fills form with service data
+     */
     const openServiceModal = (service: Service) => {
         setEditingService(service);
         setServiceForm({
@@ -86,6 +105,9 @@ const DiscountManager: React.FC = () => {
         setShowServiceModal(true);
     };
 
+    /**
+     * Saves service updates to API
+     */
     const handleServiceSave = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingService) return;
@@ -102,19 +124,25 @@ const DiscountManager: React.FC = () => {
         }
     };
 
+    /**
+     * Creates new discount code
+     */
     const handleCreateCode = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await api.createDiscount(code, type, parseFloat(value));
             setShowDiscountModal(false);
-            setCode('');
-            setValue('');
+            setCode(DISCOUNT_MODAL_DEFAULTS.code);
+            setValue(DISCOUNT_MODAL_DEFAULTS.value);
             fetchData();
         } catch (e) {
             alertError(e instanceof Error ? e.message : 'Unknown error');
         }
     };
 
+    /**
+     * Deletes discount code by ID
+     */
     const handleDeleteCode = async (id: string) => {
         if(!confirm("Code wirklich löschen?")) return;
         try {

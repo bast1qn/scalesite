@@ -1,5 +1,10 @@
-
+// React imports
 import React, { useContext, useEffect, useState } from 'react';
+
+// Third-party imports
+// None
+
+// Internal imports
 import { AuthContext, useLanguage } from '../../contexts';
 import { ThemeToggle, UserCircleIcon, ShieldCheckIcon, BellIcon, CreditCardIcon, ArrowDownOnSquareIcon, TrashIcon, GlobeAltIcon, CheckBadgeIcon } from '../index';
 import { api, supabase, validatePassword, getPasswordStrength, alertError } from '../../lib';
@@ -10,6 +15,10 @@ const SUCCESS_MESSAGE_TIMEOUT = 3000; // 3 seconds
 const SAVE_SIMULATION_DELAY = 800; // 800ms simulated API delay
 const BILLING_SAVE_DELAY = 500; // 500ms for billing save
 
+// Types
+type SettingsTab = 'general' | 'security' | 'notifications' | 'billing';
+
+// Components
 const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
     <div className={`flex items-center gap-2 text-xs ${met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
         <span className={`w-4 h-4 rounded-full flex items-center justify-center ${met ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
@@ -19,8 +28,7 @@ const PasswordRequirement: React.FC<{ met: boolean; text: string }> = ({ met, te
     </div>
 );
 
-type SettingsTab = 'general' | 'security' | 'notifications' | 'billing';
-
+// Main Component
 const Settings: React.FC = () => {
     const { user } = useContext(AuthContext);
     const { t } = useLanguage();
@@ -51,6 +59,9 @@ const Settings: React.FC = () => {
     const [billingAddress, setBillingAddress] = useState('');
 
     useEffect(() => {
+        /**
+         * Initializes form with user data on mount
+         */
         if (user) {
             setName(user.name || '');
             setCompany(user.company || '');
@@ -61,11 +72,17 @@ const Settings: React.FC = () => {
         }
     }, [user]);
 
+    /**
+     * Shows success message with auto-dismiss
+     */
     const showSuccess = (msg: string) => {
         setSuccessMsg(msg);
         setTimeout(() => setSuccessMsg(''), SUCCESS_MESSAGE_TIMEOUT);
     };
 
+    /**
+     * Saves general profile settings
+     */
     const handleSaveGeneral = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -81,6 +98,9 @@ const Settings: React.FC = () => {
         }
     };
 
+    /**
+     * Saves new password after validation
+     */
     const handleSavePassword = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -114,6 +134,9 @@ const Settings: React.FC = () => {
     const hasUppercase = /[A-Z]/.test(newPassword);
     const hasNumber = /[0-9]/.test(newPassword);
 
+    /**
+     * Returns color class for password strength indicator
+     */
     const getStrengthColor = (strength: string) => {
         switch (strength) {
             case 'weak': return 'bg-red-500';
@@ -123,6 +146,9 @@ const Settings: React.FC = () => {
         }
     };
 
+    /**
+     * Returns text color class for password strength label
+     */
     const getStrengthTextColor = (strength: string) => {
         switch (strength) {
             case 'weak': return 'text-red-600 dark:text-red-400';
@@ -132,6 +158,9 @@ const Settings: React.FC = () => {
         }
     };
 
+    /**
+     * Saves billing information (local only, not persisted to DB)
+     */
     const handleSaveBilling = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -141,6 +170,9 @@ const Settings: React.FC = () => {
         }, BILLING_SAVE_DELAY);
     };
 
+    /**
+     * Exports user data as JSON file
+     */
     const handleExportData = async () => {
         try {
             // Fetch user's tickets, services, and transactions for export

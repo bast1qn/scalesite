@@ -1,13 +1,19 @@
-
+// React imports
 import React, { useContext, useEffect, useState } from 'react';
+
+// Third-party imports
+// None
+
+// Internal imports
 import { UserGroupIcon } from '../Icons';
 import { AuthContext, useLanguage } from '../../contexts';
 import { supabase } from '../../lib';
 import { alertLinkCopied } from '../../lib/dashboardAlerts';
 
-// Referral Constants
+// Constants
 const REFERRAL_REWARD_PER_PROJECT = 100; // € reward per completed project
 
+// Types
 interface ReferralStats {
     totalCount: number;
     completedProjects: number;
@@ -25,6 +31,9 @@ const Referral: React.FC = () => {
     });
 
     useEffect(() => {
+        /**
+         * Fetches referral data including code, referred users, and completed projects
+         */
         const fetchReferralData = async () => {
             if (!user) return;
 
@@ -74,6 +83,9 @@ const Referral: React.FC = () => {
 
     const referralLink = `https://scalesite.de/ref/${referralCode || '...'}`;
 
+    /**
+     * Copies referral link to clipboard
+     */
     const copyToClipboard = () => {
         if (!referralCode) return;
         navigator.clipboard.writeText(referralLink);
