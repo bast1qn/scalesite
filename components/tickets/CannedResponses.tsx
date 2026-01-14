@@ -255,15 +255,15 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
     return (
         <div className={`bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 ${className}`}>
             {/* Header */}
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+            <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
                         Schnellantworten
                     </h3>
                     {onCreateTemplate && (
                         <button
                             onClick={handleShowCreateModal}
-                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg transition-colors"
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-11"
                         >
                             + Neu
                         </button>
@@ -291,17 +291,17 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
             </div>
 
             {/* Category Filter */}
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+            <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex flex-wrap gap-2">
                     {categories.map((category) => (
                         <button
                             key={category}
                             onClick={() => handleCategorySelect(category)}
                             className={`
-                                px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200
+                                px-3 py-2 rounded-lg text-xs font-bold transition-all duration-300 min-h-11
                                 ${selectedCategory === category
                                     ? 'bg-blue-600 text-white shadow-md'
-                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:scale-[1.02] active:scale-[0.98]'
                                 }
                             `}
                         >
@@ -312,12 +312,12 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
             </div>
 
             {/* Templates List */}
-            <div className="max-h-96 overflow-y-auto p-4 space-y-2">
+            <div className="max-h-96 overflow-y-auto p-4 sm:p-6 space-y-2">
                 {filteredResponses.length > 0 ? (
                     filteredResponses.map((response) => (
                         <div
                             key={response.id}
-                            className="group relative p-3 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
+                            className="group relative p-3 sm:p-4 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 rounded-lg border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer min-h-11"
                             onClick={() => handleSelectTemplate(response)}
                         >
                             <div className="flex items-start justify-between gap-2">
@@ -360,7 +360,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                 {response.isCustom && onDeleteTemplate && (
                                     <button
                                         onClick={(e) => handleDeleteTemplate(e, response.id)}
-                                        className="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-all"
+                                        className="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-all duration-300 hover:scale-110 active:scale-95"
                                         title="Vorlage löschen"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -387,14 +387,14 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
             {showCreateModal && onCreateTemplate && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
                     <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg">
-                        <div className="p-6 border-b border-slate-200 dark:border-slate-700">
-                            <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                        <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-700">
+                            <h3 className="text-base sm:text-xl font-black text-slate-900 dark:text-white leading-tight">
                                 Neue Vorlage erstellen
                             </h3>
                         </div>
-                        <div className="p-6 space-y-4">
+                        <div className="p-4 sm:p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2 leading-relaxed">
                                     Titel
                                 </label>
                                 <input
@@ -402,11 +402,11 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                     value={newTemplate.title}
                                     onChange={(e) => setNewTemplate({ ...newTemplate, title: e.target.value })}
                                     placeholder="z.B. Danke für Geduld"
-                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all duration-300 min-h-11"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2 leading-relaxed">
                                     Kategorie
                                 </label>
                                 <input
@@ -415,7 +415,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                     onChange={(e) => setNewTemplate({ ...newTemplate, category: e.target.value })}
                                     placeholder="z.B. Begrüßung, Status-Update, Technisch"
                                     list="categories"
-                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all duration-300 min-h-11"
                                 />
                                 <datalist id="categories">
                                     {categories.filter(c => c !== 'all').map(cat => (
@@ -424,20 +424,20 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                 </datalist>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2 leading-relaxed">
                                     Sprache
                                 </label>
                                 <select
                                     value={newTemplate.language}
                                     onChange={(e) => setNewTemplate({ ...newTemplate, language: e.target.value as 'de' | 'en' })}
-                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all duration-300 min-h-11"
                                 >
                                     <option value="de">Deutsch</option>
                                     <option value="en">English</option>
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2">
+                                <label className="block text-sm font-bold text-slate-900 dark:text-white mb-2 leading-relaxed">
                                     Inhalt
                                 </label>
                                 <textarea
@@ -445,24 +445,24 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                     onChange={(e) => setNewTemplate({ ...newTemplate, content: e.target.value })}
                                     placeholder="Hallo {{name}}, vielen Dank für Ihre Nachricht..."
                                     rows={6}
-                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                                    className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all duration-300 resize-none leading-relaxed"
                                 />
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
                                     Verwende {'{{variable}}'} für Platzhalter (z.B. {'{{name}}'})
                                 </p>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-slate-200 dark:border-slate-700 flex gap-3 justify-end">
+                        <div className="p-4 sm:p-6 border-t border-slate-200 dark:border-slate-700 flex gap-3 justify-end">
                             <button
                                 onClick={() => setShowCreateModal(false)}
-                                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-lg transition-colors"
+                                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-11"
                             >
                                 Abbrechen
                             </button>
                             <button
                                 onClick={handleCreateTemplate}
                                 disabled={!newTemplate.title || !newTemplate.category || !newTemplate.content}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors"
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50 text-white font-bold rounded-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-11"
                             >
                                 Erstellen
                             </button>

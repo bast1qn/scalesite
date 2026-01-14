@@ -77,7 +77,7 @@ export const BeforeAfterSlider = ({
 
   return (
     <div
-      className="relative w-full aspect-[4/3] md:aspect-video rounded-2xl overflow-hidden select-none shadow-lg dark:shadow-black/40 border border-slate-200/60 dark:border-white/8 group cursor-ew-resize transition-all duration-200 hover:shadow-xl hover:shadow-primary/8"
+      className="relative w-full aspect-[4/3] md:aspect-video rounded-2xl overflow-hidden select-none shadow-lg dark:shadow-black/40 border border-slate-200/60 dark:border-white/8 group cursor-ew-resize transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:shadow-xl hover:shadow-primary/8"
       ref={containerRef}
       onMouseDown={handleMouseDown}
       onTouchStart={handleMouseDown}
@@ -126,7 +126,7 @@ export const BeforeAfterSlider = ({
         style={{ left: `${sliderPosition}%` }}
       >
         {/* Slider Handle */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white dark:bg-white rounded-full shadow-xl shadow-black/15 dark:shadow-black/40 flex items-center justify-center text-slate-700 dark:text-slate-900 transition-all duration-200 ease-out hover:scale-[1.05] active:scale-[0.98] border-[3px] border-white dark:border-slate-200">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white dark:bg-white rounded-full shadow-xl shadow-black/15 dark:shadow-black/40 flex items-center justify-center text-slate-700 dark:text-slate-900 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] border-[3px] border-white dark:border-slate-200 cursor-grab active:cursor-grabbing">
           <ArrowsRightLeftIcon className="w-4 h-4 transition-transform duration-300 ease-out" />
         </div>
       </div>

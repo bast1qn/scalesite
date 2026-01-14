@@ -214,13 +214,13 @@ export function ContentEditor({
                                 type="button"
                                 onClick={() => setShowVersionHistory(!showVersionHistory)}
                                 disabled={disabled}
-                                whileHover={{ scale: disabled ? 1 : 1.05 }}
-                                whileTap={{ scale: disabled ? 1 : 0.95 }}
+                                whileHover={{ scale: disabled ? 1 : 1.02 }}
+                                whileTap={{ scale: disabled ? 1 : 0.98 }}
                                 className={`
-                                    px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
+                                    px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 min-h-11
                                     ${disabled
-                                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed opacity-50'
+                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 hover:scale-[1.02] active:scale-[0.98]'
                                     }
                                 `}
                             >
@@ -236,13 +236,13 @@ export function ContentEditor({
                                 type="button"
                                 onClick={handleCancel}
                                 disabled={disabled || isSaving}
-                                whileHover={{ scale: disabled ? 1 : 1.05 }}
-                                whileTap={{ scale: disabled ? 1 : 0.95 }}
+                                whileHover={{ scale: disabled ? 1 : 1.02 }}
+                                whileTap={{ scale: disabled ? 1 : 0.98 }}
                                 className={`
-                                    px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
+                                    px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 min-h-11
                                     ${disabled || isSaving
-                                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed opacity-50'
+                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 hover:scale-[1.02] active:scale-[0.98]'
                                     }
                                 `}
                             >
@@ -255,13 +255,13 @@ export function ContentEditor({
                             type="button"
                             onClick={handleSave}
                             disabled={disabled || isSaving || !hasUnsavedChanges}
-                            whileHover={{ scale: disabled ? 1 : 1.05 }}
-                            whileTap={{ scale: disabled ? 1 : 0.95 }}
+                            whileHover={{ scale: disabled ? 1 : 1.02 }}
+                            whileTap={{ scale: disabled ? 1 : 0.98 }}
                             className={`
-                                px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2
+                                px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 min-h-11
                                 ${disabled || isSaving || !hasUnsavedChanges
-                                    ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                                    : 'bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white shadow-md hover:shadow-lg'
+                                    ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed opacity-50'
+                                    : 'bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-700 hover:to-violet-700 text-white shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]'
                                 }
                             `}
                         >

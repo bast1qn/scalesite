@@ -384,7 +384,7 @@ export const Configurator = ({
                                 <button
                                     onClick={handleSave}
                                     disabled={isSaving || isAutoSaving || !hasUnsavedChanges}
-                                    className="px-6 py-2 bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
+                                    className="px-6 py-2 bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] min-h-11"
                                 >
                                     {isSaving ? 'Speichern...' : 'Speichern'}
                                 </button>
@@ -400,30 +400,30 @@ export const Configurator = ({
                     <div className="flex gap-8">
                         <button
                             onClick={handleDesignTabClick}
-                            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                            className={`py-4 px-1 sm:px-2 border-b-2 font-medium text-sm transition-all duration-300 min-h-11 ${
                                 activeTab === 'design'
                                     ? 'border-primary text-primary'
-                                    : 'border-transparent text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text'
+                                    : 'border-transparent text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text hover:scale-[1.01] active:scale-[0.99]'
                             }`}
                         >
                             Design
                         </button>
                         <button
                             onClick={handleContentTabClick}
-                            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                            className={`py-4 px-1 sm:px-2 border-b-2 font-medium text-sm transition-all duration-300 min-h-11 ${
                                 activeTab === 'content'
                                     ? 'border-primary text-primary'
-                                    : 'border-transparent text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text'
+                                    : 'border-transparent text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text hover:scale-[1.01] active:scale-[0.99]'
                             }`}
                         >
                             Inhalt
                         </button>
                         <button
                             onClick={handleFeaturesTabClick}
-                            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                            className={`py-4 px-1 sm:px-2 border-b-2 font-medium text-sm transition-all duration-300 min-h-11 ${
                                 activeTab === 'features'
                                     ? 'border-primary text-primary'
-                                    : 'border-transparent text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text'
+                                    : 'border-transparent text-dark-text/60 dark:text-light-text/60 hover:text-dark-text dark:hover:text-light-text hover:scale-[1.01] active:scale-[0.99]'
                             }`}
                         >
                             Features
@@ -448,8 +448,8 @@ export const Configurator = ({
                                     className="space-y-6"
                                 >
                                     {/* Color Palette */}
-                                    <div className="bg-surface dark:bg-dark-surface rounded-lg p-6 shadow-sm border border-dark-text/10 dark:border-light-text/10">
-                                        <h2 className="text-lg font-semibold text-dark-text dark:text-light-text mb-4">
+                                    <div className="bg-surface dark:bg-dark-surface rounded-lg p-4 sm:p-6 md:p-8 shadow-sm border border-dark-text/10 dark:border-light-text/10">
+                                        <h2 className="text-base sm:text-lg font-semibold text-dark-text dark:text-light-text mb-4 leading-tight">
                                             Farbschema
                                         </h2>
                                         <ColorPalettePicker
@@ -461,8 +461,8 @@ export const Configurator = ({
                                     </div>
 
                                     {/* Layout Selector */}
-                                    <div className="bg-surface dark:bg-dark-surface rounded-lg p-6 shadow-sm border border-dark-text/10 dark:border-light-text/10">
-                                        <h2 className="text-lg font-semibold text-dark-text dark:text-light-text mb-4">
+                                    <div className="bg-surface dark:bg-dark-surface rounded-lg p-4 sm:p-6 md:p-8 shadow-sm border border-dark-text/10 dark:border-light-text/10">
+                                        <h2 className="text-base sm:text-lg font-semibold text-dark-text dark:text-light-text mb-4 leading-tight">
                                             Layout-Stil
                                         </h2>
                                         <LayoutSelector
@@ -473,8 +473,8 @@ export const Configurator = ({
                                     </div>
 
                                     {/* Device Toggle */}
-                                    <div className="bg-surface dark:bg-dark-surface rounded-lg p-6 shadow-sm border border-dark-text/10 dark:border-light-text/10">
-                                        <h2 className="text-lg font-semibold text-dark-text dark:text-light-text mb-4">
+                                    <div className="bg-surface dark:bg-dark-surface rounded-lg p-4 sm:p-6 md:p-8 shadow-sm border border-dark-text/10 dark:border-light-text/10">
+                                        <h2 className="text-base sm:text-lg font-semibold text-dark-text dark:text-light-text mb-4 leading-tight">
                                             Vorschau Gerät
                                         </h2>
                                         <DeviceToggle
@@ -492,9 +492,9 @@ export const Configurator = ({
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
                                     transition={{ duration: 0.2 }}
-                                    className="bg-surface dark:bg-dark-surface rounded-lg p-6 shadow-sm border border-dark-text/10 dark:border-light-text/10"
+                                    className="bg-surface dark:bg-dark-surface rounded-lg p-4 sm:p-6 md:p-8 shadow-sm border border-dark-text/10 dark:border-light-text/10"
                                 >
-                                    <h2 className="text-lg font-semibold text-dark-text dark:text-light-text mb-4">
+                                    <h2 className="text-base sm:text-lg font-semibold text-dark-text dark:text-light-text mb-4 leading-tight">
                                         Inhalte bearbeiten
                                     </h2>
                                     <ContentEditor
@@ -512,9 +512,9 @@ export const Configurator = ({
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
                                     transition={{ duration: 0.2 }}
-                                    className="bg-surface dark:bg-dark-surface rounded-lg p-6 shadow-sm border border-dark-text/10 dark:border-light-text/10"
+                                    className="bg-surface dark:bg-dark-surface rounded-lg p-4 sm:p-6 md:p-8 shadow-sm border border-dark-text/10 dark:border-light-text/10"
                                 >
-                                    <h2 className="text-lg font-semibold text-dark-text dark:text-light-text mb-4">
+                                    <h2 className="text-base sm:text-lg font-semibold text-dark-text dark:text-light-text mb-4 leading-tight">
                                         Features auswählen
                                     </h2>
                                     <FeatureSelector
@@ -539,8 +539,8 @@ export const Configurator = ({
 
                     {/* Right Panel - Live Preview */}
                     <div className="lg:sticky lg:top-24 lg:self-start">
-                        <div className="bg-surface dark:bg-dark-surface rounded-lg p-6 shadow-sm border border-dark-text/10 dark:border-light-text/10">
-                            <h2 className="text-lg font-semibold text-dark-text dark:text-light-text mb-4">
+                        <div className="bg-surface dark:bg-dark-surface rounded-lg p-4 sm:p-6 md:p-8 shadow-sm border border-dark-text/10 dark:border-light-text/10">
+                            <h2 className="text-base sm:text-lg font-semibold text-dark-text dark:text-light-text mb-4 leading-tight">
                                 Live Vorschau
                             </h2>
                             <PreviewFrame

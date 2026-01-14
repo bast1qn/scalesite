@@ -125,7 +125,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
             className={`
                 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl
                 border border-gray-200 dark:border-gray-700 transition-all duration-300
-                cursor-pointer relative overflow-hidden group
+                cursor-pointer relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98]
                 ${cardVariants[variant]}
             `}
             onClick={onClick}
@@ -136,11 +136,11 @@ export const ProjectCard: FC<ProjectCardProps> = ({
             {/* Header */}
             <div className="flex items-start justify-between mb-4 relative">
                 <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
                         {name}
                     </h3>
                     {description && variant === 'default' && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
                             {description}
                         </p>
                     )}
@@ -168,10 +168,10 @@ export const ProjectCard: FC<ProjectCardProps> = ({
             {/* Progress Section */}
             <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed">
                         Fortschritt
                     </span>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">
+                    <span className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed">
                         {progress}%
                     </span>
                 </div>
@@ -192,7 +192,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
             {/* Footer */}
             {variant === 'default' && (
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                         {updated_at && (
                             <div className="flex items-center gap-1">
                                 <ClockIcon className="w-3.5 h-3.5" />

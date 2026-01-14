@@ -135,28 +135,28 @@ const RealtimeAnalytics: FC<RealtimeAnalyticsProps> = ({ className = '', onUpdat
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 ${className}`}
+            className={`bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700 ${className}`}
         >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                         <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-75" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">
                             Live-Aktivität
                         </h3>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                             Echtzeit-Analytics
                         </p>
                     </div>
                 </div>
                 <div className="text-right">
-                    <p className="text-3xl font-black text-slate-900 dark:text-white">
+                    <p className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white leading-tight">
                         {currentVisitors}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                         Besucher online
                     </p>
                 </div>
@@ -182,15 +182,15 @@ const RealtimeAnalytics: FC<RealtimeAnalyticsProps> = ({ className = '', onUpdat
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 20 }}
                                 transition={{ delay: index * 0.05 }}
-                                className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                                className="flex items-center gap-3 p-3 sm:p-4 rounded-lg bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer min-h-11"
                             >
                                 <span className="text-2xl">{getActivityIcon(activity.type)}</span>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                                    <p className="text-sm font-medium text-slate-900 dark:text-white truncate leading-relaxed">
                                         {getActivityLabel(activity.type)}
                                         {activity.page && <span className="text-slate-500 dark:text-slate-400 ml-2">{activity.page}</span>}
                                     </p>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         {getTimeAgo(activity.timestamp)}
                                     </p>
                                 </div>
