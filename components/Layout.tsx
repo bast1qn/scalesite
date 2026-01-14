@@ -1,4 +1,4 @@
-import React, { type ReactNode, memo } from 'react';
+import { type ReactNode, memo } from 'react';
 import { Header, Footer, BackToTopButton } from './index';
 
 interface LayoutProps {
@@ -9,7 +9,7 @@ interface LayoutProps {
 
 // PERFORMANCE: Memoize Layout to prevent unnecessary re-renders
 // Only re-renders when currentPage changes
-export const Layout = React.memo(({ children, setCurrentPage, currentPage }: LayoutProps) => {
+export const Layout = memo(({ children, setCurrentPage, currentPage }: LayoutProps) => {
   const isDashboard = currentPage === 'dashboard';
 
   return (
