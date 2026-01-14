@@ -32,9 +32,18 @@ export default defineConfig(({ mode }) => {
       },
       build: {
         target: 'es2020',
-        minify: false,
-        sourcemap: true,
-        chunkSizeWarningLimit: 1000
+        minify: 'terser',
+        sourcemap: false,
+        chunkSizeWarningLimit: 1000,
+        terserOptions: {
+          compress: {
+            passes: 1,
+            drop_console: false
+          },
+          format: {
+            comments: false
+          }
+        }
       }
     };
 });
