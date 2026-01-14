@@ -52,7 +52,6 @@ export const LazyImage = ({
       // SECURITY: Validate URL before loading (OWASP A03:2021 - XSS Prevention)
       const safeSrc = getSafeURL(src);
       if (!safeSrc) {
-        console.error('[SECURITY] Invalid image URL blocked:', src);
         setIsError(true);
         return;
       }
@@ -71,8 +70,7 @@ export const LazyImage = ({
         img.onerror = null;
       };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [src, isInView]); // ✅ FIXED: getSafeURL is a pure function, no need for dependency
+  }, [src, isInView]);
 
   // PERFORMANCE: Calculate aspect ratio style to prevent CLS
   const aspectRatioStyle = aspectRatio ? {

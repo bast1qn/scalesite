@@ -363,8 +363,8 @@ export const getSafeURL = (url: string | null | undefined): string => {
     const validation = validateURL(url);
 
     if (!validation.isValid) {
-        console.error('[SECURITY] Unsafe URL blocked:', url, validation.errors);
-        return ''; // Return empty string to prevent rendering
+        // SECURITY: Unsafe URL blocked - silently return empty string to prevent information leakage
+        return '';
     }
 
     return validation.sanitized || '';

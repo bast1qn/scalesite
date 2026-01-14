@@ -230,16 +230,19 @@ const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile
     const [userServices, setUserServices] = useState<UserService[]>([]);
     const [loadingData, setLoadingData] = useState(false);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const load = async () => {
             setLoadingData(true);
+            setError(null);
             try {
                 const { data } = await api.adminGetUserServices(user.id);
                 setUserServices(data || []);
                 if ((data || []).length === 0) setActiveTab('assign');
             } catch(e) {
-                console.error('Error loading user services:', e instanceof Error ? e.message : e);
+                // Error loading user services - show error to user
+                setError(e instanceof Error ? e.message : 'Fehler beim Laden der Services');
             } finally {
                 setLoadingData(false);
             }
@@ -263,6 +266,7 @@ const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-slate-50 dark:bg-slate-950/50">
+                    {error && <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">{error}</div>}
                     {activeTab === 'manage' ? (
                         loadingData ? <div className="text-center py-10 text-slate-400">Lade...</div> :
                         userServices.length === 0 ? <div className="text-center py-10 text-slate-400">{t('dashboard.alerts.no_projects')}</div> :
