@@ -20,6 +20,10 @@ const AUTH_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const AUTH_RATE_LIMIT_MAX = 5;
 const CHAT_RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const CHAT_RATE_LIMIT_MAX = 10;
+const GENERAL_RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const GENERAL_RATE_LIMIT_MAX = 100; // 100 requests per minute
+const FILE_UPLOAD_RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const FILE_UPLOAD_RATE_LIMIT_MAX = 5; // 5 uploads per minute
 const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
 const PASSWORD_HASH_ITERATIONS = 100000; // SECURITY: Increased from 1000 to 100000
 const REFERRAL_CODE_MIN = 1000;
@@ -85,7 +89,7 @@ const OAUTH_CONFIG = {
 
 // --- RATE LIMITER (Simple In-Memory) ---
 /**
- * Creates a rate limiting middleware function
+ * Creates a rate limiting middleware function with enhanced security
  * @param {number} windowMs - Time window in milliseconds
  * @param {number} maxRequests - Maximum number of requests allowed in the window
  * @returns {Function} Express middleware function
@@ -104,7 +108,14 @@ const rateLimit = (windowMs, maxRequests) => {
         const validTimestamps = timestamps.filter(time => now - time < windowMs);
 
         if (validTimestamps.length >= maxRequests) {
-            return res.status(429).json({ error: "Too many requests, please try again later." });
+            // SECURITY: Add Retry-After header to prevent brute force
+            const oldestTimestamp = validTimestamps[0];
+            const retryAfter = Math.ceil((oldestTimestamp + windowMs - now) / 1000);
+            res.setHeader('Retry-After', retryAfter.toString());
+            return res.status(429).json({
+                error: "Too many requests, please try again later.",
+                retryAfter: retryAfter
+            });
         }
 
         validTimestamps.push(now);
@@ -112,6 +123,9 @@ const rateLimit = (windowMs, maxRequests) => {
         next();
     };
 };
+
+// Apply general rate limiting to all routes
+app.use(rateLimit(GENERAL_RATE_LIMIT_WINDOW_MS, GENERAL_RATE_LIMIT_MAX));
 
 // --- HELPERS ---
 /**

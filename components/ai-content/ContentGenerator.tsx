@@ -230,7 +230,9 @@ export function ContentGenerator({
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten';
             setError(errorMessage);
-            console.error('Content generation failed:', err);
+            if (import.meta.env.DEV) {
+                console.error('Content generation failed:', err);
+            }
         } finally {
             setIsGenerating(false);
         }
@@ -245,7 +247,10 @@ export function ContentGenerator({
         try {
             await onSaveContent(generatedContent);
         } catch (err) {
-            console.error('Failed to save content:', err);
+            if (import.meta.env.DEV) {
+                console.error('Failed to save content:', err);
+            }
+            setError('Inhalt konnte nicht gespeichert werden');
         }
     };
 

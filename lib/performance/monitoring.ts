@@ -122,14 +122,14 @@ function trackLCP(): Promise<Metric | null> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1] as any;
+        const lastEntry = entries[entries.length - 1] as PerformancePaintTiming;
 
         const metric: Metric = {
           name: 'LCP',
           value: lastEntry.startTime,
           rating: getRating('LCP', lastEntry.startTime),
           timestamp: Date.now(),
-          navigationType: lastEntry?.navigationType || undefined
+          navigationType: (lastEntry as unknown as { navigationType?: string })?.navigationType || undefined
         };
 
         logMetric(metric);
@@ -164,7 +164,7 @@ function trackFID(): Promise<Metric | null> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const firstEntry = entries[0] as any;
+        const firstEntry = entries[0] as PerformanceEventTiming;
 
         const metric: Metric = {
           name: 'FID',
@@ -324,7 +324,7 @@ function trackFCP(): Promise<Metric | null> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const firstEntry = entries[0] as any;
+        const firstEntry = entries[0] as PerformancePaintTiming;
 
         const metric: Metric = {
           name: 'FCP',

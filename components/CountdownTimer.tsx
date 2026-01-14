@@ -33,7 +33,7 @@ export const CountdownTimer = ({ targetDate, onComplete }: CountdownTimerProps) 
   const { t } = useLanguage();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       const newTimeLeft = calculateTimeLeft(targetDate);
       setTimeLeft(newTimeLeft);
 
@@ -42,7 +42,7 @@ export const CountdownTimer = ({ targetDate, onComplete }: CountdownTimerProps) 
       }
     }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => clearInterval(timer);
   }, [targetDate, onComplete]);
 
   const timerComponents = [

@@ -43,6 +43,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
             })
             .catch((err) => {
                 clearTimeout(timeoutId);
+                // Better error handling for aborted requests
+                if (err instanceof Error && err.name === 'AbortError') {
+                    throw new Error('Request timed out. Please check your connection and try again.');
+                }
                 throw err;
             });
         },

@@ -2,6 +2,39 @@ import { createContext, useState, useEffect, useRef, useContext, useMemo, useCal
 import { Session } from '@supabase/supabase-js';
 import { supabase, getUserProfile, UserProfile } from '../lib/supabase';
 
+// Allowed redirect domains to prevent open redirect vulnerabilities
+const ALLOWED_REDIRECT_DOMAINS = [
+  'localhost:5173',
+  'scalesite.app',
+  'www.scalesite.app'
+];
+
+/**
+ * Validates if a redirect URL is safe
+ * Prevents open redirect vulnerabilities by checking against allowed domains
+ */
+function isValidRedirectUrl(url: string): boolean {
+  try {
+    if (!url) return false;
+
+    const parsedUrl = new URL(url);
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
+    // Allow same-origin redirects
+    if (url.startsWith(origin) || url.startsWith('/')) {
+      return true;
+    }
+
+    // Check against allowed domains
+    return ALLOWED_REDIRECT_DOMAINS.some(domain =>
+      parsedUrl.hostname === domain ||
+      parsedUrl.hostname.endsWith(`.${domain}`)
+    );
+  } catch {
+    return false;
+  }
+}
+
 export interface AppUser {
   id: string;
   name: string;
@@ -220,10 +253,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const socialLogin = useCallback(async (provider: 'google' | 'github') => {
     try {
+      const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/login` : '/login';
+
+      // Validate redirect URL to prevent open redirect vulnerabilities
+      if (!isValidRedirectUrl(redirectUrl)) {
+        return { success: false, error: 'Invalid redirect URL' };
+      }
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/login` : '/login',
+          redirectTo: redirectUrl,
         },
       });
 

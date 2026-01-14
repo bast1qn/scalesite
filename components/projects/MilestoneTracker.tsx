@@ -98,7 +98,9 @@ export const MilestoneTracker: FC<MilestoneTrackerProps> = ({
                     setMilestones([]);
                 }
             } catch (err) {
-                console.error('Error fetching milestones:', err);
+                if (import.meta.env.DEV) {
+                    console.error('Error fetching milestones:', err);
+                }
                 setError('Meilensteine konnten nicht geladen werden');
                 setMilestones([]);
             } finally {
@@ -160,7 +162,9 @@ export const MilestoneTracker: FC<MilestoneTrackerProps> = ({
             setEditingMilestone(initialEditingState);
             setShowAddForm(false);
         } catch (err) {
-            console.error('Error saving milestone:', err);
+            if (import.meta.env.DEV) {
+                console.error('Error saving milestone:', err);
+            }
             setError('Fehler beim Speichern des Meilensteins');
         } finally {
             setIsSubmitting(false);
@@ -186,7 +190,9 @@ export const MilestoneTracker: FC<MilestoneTrackerProps> = ({
                 setMilestones(prev => prev.filter(m => m.id !== milestoneId));
             }
         } catch (err) {
-            console.error('Error deleting milestone:', err);
+            if (import.meta.env.DEV) {
+                console.error('Error deleting milestone:', err);
+            }
             setError('Fehler beim Löschen des Meilensteins');
         }
     };
@@ -209,7 +215,10 @@ export const MilestoneTracker: FC<MilestoneTrackerProps> = ({
                 onMilestoneUpdate?.(result.data as ProjectMilestone);
             }
         } catch (err) {
-            console.error('Error updating milestone status:', err);
+            if (import.meta.env.DEV) {
+                console.error('Error updating milestone status:', err);
+            }
+            setError('Fehler beim Aktualisieren des Status');
         }
     };
 

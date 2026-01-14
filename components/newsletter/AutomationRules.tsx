@@ -29,17 +29,34 @@ import {
  * @param className - Additional CSS classes
  */
 
+export interface TriggerConfig {
+    delay_hours?: number;
+    date?: string;
+    action_type?: string;
+    inactivity_days?: number;
+    [key: string]: string | number | boolean | undefined;
+}
+
+export interface ActionConfig {
+    email_template_id?: string;
+    wait_hours?: number;
+    tag?: string;
+    subject?: string;
+    body?: string;
+    [key: string]: string | number | boolean | undefined;
+}
+
 export interface AutomationRule {
     id: string;
     name: string;
     description: string;
     trigger: {
         type: 'welcome' | 'date' | 'action' | 'inactivity';
-        config: Record<string, any>;
+        config: TriggerConfig;
     };
     actions: {
         type: 'send_email' | 'wait' | 'add_tag' | 'remove_tag';
-        config: Record<string, any>;
+        config: ActionConfig;
     }[];
     status: 'active' | 'paused' | 'draft';
     created_at: string;
@@ -74,12 +91,18 @@ const AutomationRules: React.FC<AutomationRulesProps> = ({
 }) => {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [editingAutomation, setEditingAutomation] = useState<AutomationRule | null>(null);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<{
+        name: string;
+        description: string;
+        triggerType: TriggerType;
+        triggerConfig: TriggerConfig;
+        actions: { type: ActionType; config: ActionConfig }[];
+    }>({
         name: '',
         description: '',
-        triggerType: 'welcome' as TriggerType,
+        triggerType: 'welcome',
         triggerConfig: {},
-        actions: [] as { type: ActionType; config: Record<string, any> }[]
+        actions: []
     });
     const [saving, setSaving] = useState(false);
 
