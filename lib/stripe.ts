@@ -644,6 +644,23 @@ export const createSubscription = async (
 
         // Store in database
         const subscription = result.subscription;
+
+        // ✅ BUG FIX: Validate subscription.items.data has at least one item before accessing [0]
+        if (!subscription.items.data || subscription.items.data.length === 0) {
+            return {
+                data: null,
+                error: new Error('Subscription has no items')
+            };
+        }
+
+        const firstItem = subscription.items.data[0];
+        if (!firstItem?.price?.product || !firstItem?.price?.unit_amount || !firstItem?.price?.recurring) {
+            return {
+                data: null,
+                error: new Error('Invalid subscription item data')
+            };
+        }
+
         const { data, error } = await supabase
             .from('subscriptions')
             .insert({
@@ -654,11 +671,11 @@ export const createSubscription = async (
                 provider: 'stripe',
                 provider_subscription_id: subscription.id,
                 provider_price_id: params.price_id,
-                provider_product_id: subscription.items.data[0].price.product,
-                amount: subscription.items.data[0].price.unit_amount / 100,
+                provider_product_id: firstItem.price.product,
+                amount: firstItem.price.unit_amount / 100,
                 currency: subscription.currency.toUpperCase(),
-                interval: subscription.items.data[0].price.recurring.interval,
-                interval_count: subscription.items.data[0].price.recurring.interval_count,
+                interval: firstItem.price.recurring.interval,
+                interval_count: firstItem.price.recurring.interval_count,
                 trial_start: subscription.trial_start,
                 trial_end: subscription.trial_end,
                 current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
