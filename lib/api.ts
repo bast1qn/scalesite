@@ -561,13 +561,14 @@ export const api = {
             return { data: null, error: handleSupabaseError(error) };
         }
 
+        // Add system message about new member (non-critical, ignore errors)
         await supabase.from('ticket_messages').insert({
             id: generateId(),
             ticket_id: ticketId,
             user_id: null,
             text: `SYSTEM: ${currentUser?.name || 'User'} hat ${email} hinzugefügt.`,
             created_at: new Date().toISOString()
-        });
+        }); // Intentionally not awaited - system message is non-critical
 
         return { data: { success: true }, error: null };
     },
@@ -764,7 +765,7 @@ export const api = {
         const id = generateId();
         const now = new Date().toISOString();
 
-        await supabase.from('user_services').insert({
+        const { error: userServiceError } = await supabase.from('user_services').insert({
             id,
             user_id: userId,
             service_id: finalServiceId,
@@ -772,6 +773,10 @@ export const api = {
             progress: 0,
             created_at: now
         });
+
+        if (userServiceError) {
+            return { data: null, error: handleSupabaseError(userServiceError) };
+        }
 
         const { data: service } = await supabase
             .from('services')
@@ -788,7 +793,7 @@ export const api = {
                 due_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
                 status: 'Offen',
                 description: `Service: ${service.name}`
-            });
+            }); // Transaction is non-critical, ignore errors
         }
 
         return { data: { success: true }, error: null };
@@ -1217,7 +1222,7 @@ export const api = {
 
         if (error) return { data: null, error: handleSupabaseError(error) };
 
-        // Create default milestones
+        // Create default milestones (non-critical, continue on error)
         const defaultMilestones = [
             { title: 'Konzeption', description: 'Erste Konzeption und Planung', order_index: 1 },
             { title: 'Design', description: 'Design-Entwicklung', order_index: 2 },
@@ -1235,7 +1240,7 @@ export const api = {
                 status: 'pending',
                 order_index: milestone.order_index,
                 created_at: now
-            });
+            }); // Non-critical, ignore errors
         }
 
         return { data: { success: true, id }, error: null };
@@ -1635,7 +1640,7 @@ export const api = {
         });
 
         if (!error) {
-            // Create notification
+            // Create notification (non-critical, ignore errors)
             await supabase.from('notifications').insert({
                 id: generateId(),
                 user_id: profile.id,
