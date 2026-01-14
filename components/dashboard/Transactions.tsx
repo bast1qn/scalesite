@@ -1,12 +1,8 @@
-// React imports
 import React, { useContext, useEffect, useState } from 'react';
 
-// Third-party imports
-// None
-
-// Internal imports
-import { api, formatCurrency, formatDate } from '../../lib';
 import { AuthContext } from '../../contexts';
+
+import { api, formatCurrency, formatDate } from '../../lib';
 
 // Types
 interface Invoice {
@@ -33,6 +29,9 @@ const Transactions: React.FC = () => {
     useEffect(() => {
         /**
          * Fetches user transactions from API
+         *
+         * Retrieves the list of invoices for the current user and updates
+         * the component state. Handles loading states and errors gracefully.
          */
         const fetchTransactions = async () => {
             if (!user) return;
@@ -51,6 +50,18 @@ const Transactions: React.FC = () => {
 
     /**
      * Returns CSS classes for invoice status badge
+     *
+     * Maps invoice status to corresponding color classes for visual indication.
+     * Falls back to gray color for unknown statuses.
+     *
+     * @param status - The invoice status ('Bezahlt' | 'Offen' | 'Überfällig')
+     * @returns CSS class string for the status badge color
+     *
+     * @example
+     * ```tsx
+     * const classes = getStatusColor('Bezahlt');
+     * // Returns: 'bg-green-500/20 text-green-700 dark:text-green-300'
+     * ```
      */
     const getStatusColor = (status: Invoice['status']) => {
         return STATUS_COLORS[status] || 'bg-gray-500/20 text-gray-700';

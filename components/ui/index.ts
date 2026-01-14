@@ -3,3 +3,5 @@
 
 export { BorderSpinner } from './BorderSpinner';
 export { IconContainer } from './IconContainer';
+export { InteractiveCard } from './InteractiveCard';
+export { InteractiveButton } from './InteractiveButton';

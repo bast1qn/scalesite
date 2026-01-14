@@ -1,11 +1,12 @@
-// Chat Window Component
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import Check from 'lucide-react/dist/esm/icons/check';
 import CheckCheck from 'lucide-react/dist/esm/icons/check-check';
+import Edit2 from 'lucide-react/dist/esm/icons/edit-2';
 import MoreVertical from 'lucide-react/dist/esm/icons/more-vertical';
 import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
-import Edit2 from 'lucide-react/dist/esm/icons/edit-2';
+
 import type { ChatMessageWithSender, ChatConversationWithDetails } from '../../lib/chat';
 
 interface ChatWindowProps {
@@ -217,6 +218,20 @@ const ReadReceipt = ({ readBy }: ReadReceiptProps) => {
 };
 
 // Helper Functions
+
+/**
+ * Determines whether a date separator should be shown between messages
+ *
+ * @param message - The current message to check
+ * @param previousMessage - The previous message in the conversation
+ * @returns true if the messages are on different days, false otherwise
+ *
+ * @example
+ * ```tsx
+ * const showDate = shouldShowDate(currentMessage, previousMessage);
+ * // Returns true if messages are from different dates
+ * ```
+ */
 function shouldShowDate(message: ChatMessageWithSender, previousMessage?: ChatMessageWithSender): boolean {
     if (!previousMessage) return true;
 
@@ -226,11 +241,37 @@ function shouldShowDate(message: ChatMessageWithSender, previousMessage?: ChatMe
     return currentDate !== previousDate;
 }
 
+/**
+ * Formats a message timestamp to German locale time (HH:MM)
+ *
+ * @param timestamp - ISO 8601 timestamp string
+ * @returns Formatted time string in German locale (e.g., "14:30")
+ *
+ * @example
+ * ```tsx
+ * formatMessageTime('2024-01-15T14:30:00Z');
+ * // Returns: "14:30"
+ * ```
+ */
 function formatMessageTime(timestamp: string): string {
     const date = new Date(timestamp);
     return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 }
 
+/**
+ * Formats a timestamp to a German date string with relative labels
+ *
+ * Returns "Heute" (Today), "Gestern" (Yesterday), or the formatted date
+ *
+ * @param timestamp - ISO 8601 timestamp string
+ * @returns Formatted date string (e.g., "Heute", "Gestern", "15.01.2024")
+ *
+ * @example
+ * ```tsx
+ * formatDate('2024-01-15T14:30:00Z');
+ * // Returns: "Heute" (if today), "Gestern" (if yesterday), or "15.01.2024"
+ * ```
+ */
 function formatDate(timestamp: string): string {
     const date = new Date(timestamp);
     const today = new Date();

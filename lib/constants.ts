@@ -214,6 +214,88 @@ export const INTERACTIVE_STATES = {
   hoverScaleLarge: 'hover:scale-110 active:scale-90',
 } as const;
 
+/**
+ * Common hover card patterns for interactive elements
+ */
+export const HOVER_CARD = {
+  /** Full interactive card with scale effects */
+  interactive: 'group relative transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]',
+  /** Card with subtle border highlight */
+  withBorderHighlight: 'hover:border-blue-400/60 dark:hover:border-violet-500/60',
+  /** Card with shadow enhancement */
+  withShadow: 'hover:shadow-premium-lg hover:shadow-blue-500/10',
+} as const;
+
+/**
+ * Scale animation values for consistent micro-interactions
+ */
+export const SCALE_VALUES = {
+  /** Subtle hover scale (1.02) */
+  hoverSubtle: 1.02,
+  /** Active press scale (0.98) */
+  activePress: 0.98,
+  /** Medium hover scale (1.05) */
+  hoverMedium: 1.05,
+  /** Medium active press (0.95) */
+  activeMedium: 0.95,
+  /** Large hover scale (1.10) */
+  hoverLarge: 1.10,
+  /** Large active press (0.90) */
+  activeLarge: 0.90,
+} as const;
+
+/**
+ * Common color patterns for dark mode support
+ */
+export const COLOR_PATTERNS = {
+  /** Primary color with dark mode variant */
+  primary: 'text-primary-600 dark:text-primary-400',
+  /** Emerald color with dark mode variant */
+  emerald: 'text-emerald-600 dark:text-emerald-400',
+  /** Violet color with dark mode variant */
+  violet: 'text-violet-600 dark:text-violet-400',
+  /** Blue color with dark mode variant */
+  blue: 'text-blue-600 dark:text-blue-400',
+  /** Background with dark mode variant */
+  background: 'bg-white dark:bg-slate-800',
+  /** Background with subtle opacity */
+  backgroundSoft: 'bg-white/90 dark:bg-slate-800/90',
+  /** Border with dark mode variant */
+  border: 'border-slate-200/60 dark:border-slate-700/60',
+} as const;
+
+/**
+ * Common shadow variants
+ */
+export const SHADOW_VARIANTS = {
+  /** Premium shadow with colored glow */
+  premium: 'shadow-premium',
+  /** Enhanced premium shadow */
+  premiumLarge: 'shadow-premium-lg shadow-blue-500/10',
+  /** Subtle shadow */
+  subtle: 'shadow-sm',
+  /** Medium shadow */
+  medium: 'shadow-md',
+  /** Large shadow */
+  large: 'shadow-lg',
+} as const;
+
+/**
+ * Border radius variants
+ */
+export const BORDER_RADIUS = {
+  /** Extra large rounded corners */
+  xl: 'rounded-2xl',
+  /** Extra extra large rounded corners */
+  xxl: 'rounded-3xl',
+  /** Large rounded corners */
+  large: 'rounded-xl',
+  /** Medium rounded corners */
+  medium: 'rounded-lg',
+  /** Small rounded corners */
+  small: 'rounded-md',
+} as const;
+
 // ===== TIMEOUT VALUES =====
 
 /**
