@@ -220,6 +220,10 @@ export const useTypingIndicator = (conversationId: string) => {
     useEffect(() => {
         if (!conversationId) return;
 
+        // ✅ FIX: Clear previous timeouts when conversationId changes to prevent memory leaks
+        typingTimeoutRef.current.forEach(timeout => clearTimeout(timeout));
+        typingTimeoutRef.current.clear();
+
         // Subscribe to typing indicators from database
         const channelName = subscribeToTypingIndicators(conversationId, {
             onTypingStart: async ({ user_id }) => {
