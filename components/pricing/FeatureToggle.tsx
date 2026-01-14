@@ -116,7 +116,7 @@ export const FeatureToggle = ({
                     relative rounded-lg text-left transition-all duration-200
                     ${sizeClasses.button}
                     ${isSelected
-                        ? 'bg-gradient-to-br from-primary-500 to-violet-600 text-white shadow-lg shadow-primary-500/30 scale-105'
+                        ? 'bg-gradient-to-br from-primary-500 to-violet-600 text-white shadow-lg shadow-primary-500/30 scale-[1.02]'
                         : disabled
                             ? 'bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-50'
                             : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-primary-500 hover:shadow-md'

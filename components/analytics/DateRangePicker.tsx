@@ -73,7 +73,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
                         onClick={() => onPresetChange(preset.key)}
                         className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                             selectedPreset === preset.key
-                                ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg shadow-blue-500/25 scale-105'
+                                ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg shadow-blue-500/25 scale-[1.02]'
                                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                         }`}
                     >

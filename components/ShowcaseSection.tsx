@@ -60,7 +60,7 @@ const ShowcaseItemCard = memo(({ item, setCurrentPage, t }: ShowcaseItemCardProp
       <div className="absolute inset-0 card-shimmer rounded-b-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-b-3xl"></div>
       <div className="flex-grow relative z-10">
-        <span className="text-xs font-bold bg-gradient-to-r from-primary-500/15 to-violet-500/15 text-primary-600 dark:text-primary-400 px-3 py-2 min-h-8 rounded-full uppercase tracking-wider-plus border border-primary-200/50 dark:border-primary-800/30 shadow-sm group-hover:scale-105 active:scale-95 transition-transform duration-300">
+        <span className="text-xs font-bold bg-gradient-to-r from-primary-500/15 to-violet-500/15 text-primary-600 dark:text-primary-400 px-3 py-2 min-h-8 rounded-full uppercase tracking-wider-plus border border-primary-200/50 dark:border-primary-800/30 shadow-sm group-hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300">
           {item.category}
         </span>
         <h3 className="mt-5 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-serif leading-snug group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-all duration-300">{item.title}</h3>
@@ -191,7 +191,7 @@ export const ShowcaseSection = ({
                   onClick={() => handleFilterChange(category)}
                   className={`filter-btn px-6 py-3 font-semibold rounded-2xl border-2 transition-all duration-300 ${
                     activeFilter === category
-                      ? 'bg-gradient-to-r from-primary-600 to-violet-600 text-white border-transparent shadow-xl shadow-primary-500/25 scale-105'
+                      ? 'bg-gradient-to-r from-primary-600 to-violet-600 text-white border-transparent shadow-xl shadow-primary-500/25 scale-[1.02]'
                       : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-200/70 dark:border-slate-700/60 text-slate-600 dark:text-slate-400 hover:border-primary-300/50 dark:hover:border-violet-500/50 hover:bg-slate-50/80 dark:hover:bg-slate-700/50'
                   }`}
                 >

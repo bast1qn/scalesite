@@ -100,20 +100,20 @@ const FeatureCardComponent: FC<{
                 {/* Holographic overlay */}
                 <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-30 rounded-3xl transition-opacity duration-500 animate-holographic-shimmer"></div>
 
-                {/* PRISMATIC animated gradient accent */}
-                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left shadow-glow-cosmic-sm animate-prism-refraction`}></div>
+                {/* Animated gradient accent */}
+                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${feature.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}></div>
 
-                {/* PRISMATIC animated background glow on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.3] transition-opacity duration-500 animate-cosmic-shimmer`}></div>
+                {/* Animated background glow on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.15] transition-opacity duration-500`}></div>
 
-                {/* PRISMATIC Corner accents */}
-                <span className={`absolute top-4 right-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-cosmic-sm animate-crystal-sparkle`}></span>
-                <span className={`absolute bottom-4 left-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-glow-cosmic-sm animate-crystal-sparkle`} style={{ transitionDelay: '0.2s' }}></span>
+                {/* Corner accents */}
+                <span className={`absolute top-4 right-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></span>
+                <span className={`absolute bottom-4 left-4 w-2 h-2 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} style={{ transitionDelay: '0.2s' }}></span>
 
-                {/* Icon container with PRISMATIC animated background */}
+                {/* Icon container with animated background */}
                 <div className="relative">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-80 transition-opacity duration-500 animate-glow-breathe shadow-glow-cosmic`}></div>
-                    <div className={`relative w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-xl transform group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 hover:shadow-glow-cosmic-md animate-crystal-sparkle`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500`}></div>
+                    <div className={`relative w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white shadow-xl transform group-hover:scale-[1.02] group-hover:rotate-6 transition-all duration-500 hover:shadow-premium-lg`}>
                         <div className="group-hover:animate-icon-bounce">
                             {feature.icon}
                         </div>
@@ -202,9 +202,8 @@ export const TestimonialsSection: FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <AnimatedSection>
                     <div className="text-center max-w-3xl mx-auto mb-24">
-                        <span className="inline-block px-6 py-2 mb-8 rounded-2xl glass-prismatic text-sm font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider border border-blue-200/60 dark:border-blue-800/40 shadow-glow-cosmic hover:shadow-glow-aurora hover:shadow-blue-500/20 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden group hover-prismatic-shine">
+                        <span className="inline-block px-6 py-2 mb-8 rounded-2xl glass text-sm font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wider border border-primary-200/60 dark:border-primary-800/40 shadow-premium hover:shadow-premium-lg transition-all duration-500 hover:scale-[1.02] relative overflow-hidden group">
                             <div className="absolute inset-0 shimmer-sweep opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-                            <div className="absolute inset-0 holographic-base opacity-0 group-hover:opacity-30 rounded-2xl transition-opacity duration-500"></div>
                             <span className="relative z-10">{t('value_props.subtitle')}</span>
                         </span>
                         <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">

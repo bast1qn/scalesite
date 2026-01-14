@@ -102,7 +102,7 @@ export const LazyImage = ({
         alt={alt}
         className={`
           transition-all duration-500 ease-out
-          ${isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-105'}
+          ${isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.02]'}
         `}
         loading="lazy"
         style={{

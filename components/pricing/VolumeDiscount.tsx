@@ -230,7 +230,7 @@ export const VolumeDiscount = ({
                                     ${isCurrentTier
                                         ? 'bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-300 dark:border-emerald-700'
                                         : isNextTier
-                                            ? 'bg-primary-50 dark:bg-primary-900/20 border-2 border-primary-300 dark:border-primary-700 scale-105'
+                                            ? 'bg-primary-50 dark:bg-primary-900/20 border-2 border-primary-300 dark:border-primary-700 scale-[1.02]'
                                             : isPreviousTier
                                                 ? 'bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 opacity-60'
                                                 : 'bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700'
