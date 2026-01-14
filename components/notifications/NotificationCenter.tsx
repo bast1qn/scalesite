@@ -20,6 +20,37 @@ import {
     FunnelIcon,
 } from '../Icons';
 
+/**
+ * Validates if a URL is safe to redirect to
+ * Prevents open redirect vulnerabilities by checking against allowed domains
+ * and ensuring URLs are either relative or from trusted domains
+ */
+const isValidRedirectUrl = (url: string): boolean => {
+    if (!url) return false;
+
+    try {
+        // Allow relative URLs
+        if (url.startsWith('/') || url.startsWith('./')) {
+            return true;
+        }
+
+        // Parse absolute URL
+        const parsedUrl = new URL(url);
+        const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
+
+        // Allow same-origin redirects
+        if (parsedUrl.origin === currentOrigin) {
+            return true;
+        }
+
+        // Block external redirects
+        return false;
+    } catch {
+        // Invalid URL
+        return false;
+    }
+};
+
 interface NotificationCenterProps {
     onClose?: () => void;
 }
@@ -132,7 +163,12 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose }) => {
             await markAsRead(notification.id);
         }
         if (notification.link) {
-            window.location.href = notification.link;
+            // SECURITY: Validate URL to prevent open redirect vulnerabilities
+            if (isValidRedirectUrl(notification.link)) {
+                window.location.href = notification.link;
+            } else {
+                console.warn('[Security] Blocked potentially unsafe redirect:', notification.link);
+            }
         }
     };
 

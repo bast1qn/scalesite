@@ -21,6 +21,37 @@ import {
 const DEFAULT_TOAST_DURATION = 5000; // 5 seconds
 const TOAST_CLOSE_DELAY = 300; // 300ms for fade-out animation
 
+/**
+ * Validates if a URL is safe to redirect to
+ * Prevents open redirect vulnerabilities by checking against allowed domains
+ * and ensuring URLs are either relative or from trusted domains
+ */
+const isValidRedirectUrl = (url: string): boolean => {
+    if (!url) return false;
+
+    try {
+        // Allow relative URLs
+        if (url.startsWith('/') || url.startsWith('./')) {
+            return true;
+        }
+
+        // Parse absolute URL
+        const parsedUrl = new URL(url);
+        const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
+
+        // Allow same-origin redirects
+        if (parsedUrl.origin === currentOrigin) {
+            return true;
+        }
+
+        // Block external redirects
+        return false;
+    } catch {
+        // Invalid URL
+        return false;
+    }
+};
+
 interface NotificationToastProps {
     notification: AppNotification;
     onClose: () => void;
@@ -107,7 +138,12 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
 
     const handleClick = () => {
         if (notification.link) {
-            window.location.href = notification.link;
+            // SECURITY: Validate URL to prevent open redirect vulnerabilities
+            if (isValidRedirectUrl(notification.link)) {
+                window.location.href = notification.link;
+            } else {
+                console.warn('[Security] Blocked potentially unsafe redirect:', notification.link);
+            }
         }
         onClose();
     };

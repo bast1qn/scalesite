@@ -956,15 +956,23 @@ export const unsubscribeMultiple = (channelNames: string[]): void => {
 
 /**
  * Auto-unsubscribe on component unmount (React hook helper)
- * @returns Cleanup function
+ * @returns Cleanup function that removes the event listener
  */
 export const useCleanupOnUnmount = () => {
     return (channelNames: string[]) => {
         if (typeof window !== 'undefined') {
-            window.addEventListener('beforeunload', () => {
+            const handleBeforeUnload = () => {
                 unsubscribeMultiple(channelNames);
-            });
+            };
+
+            window.addEventListener('beforeunload', handleBeforeUnload);
+
+            // Return cleanup function to remove listener
+            return () => {
+                window.removeEventListener('beforeunload', handleBeforeUnload);
+            };
         }
+        return () => {};
     };
 };
 

@@ -284,7 +284,7 @@ function trackINP(): Promise<Metric | null> {
       observer.observe({ entryTypes: ['event'] });
 
       // Report INP after page load + buffer
-      window.addEventListener('load', () => {
+      const handleLoad = () => {
         setTimeout(() => {
           observer.disconnect();
 
@@ -303,7 +303,9 @@ function trackINP(): Promise<Metric | null> {
           logMetric(metric);
           resolve(metric);
         }, 5000);
-      });
+      };
+
+      window.addEventListener('load', handleLoad, { once: true });
     } catch (error) {
       console.warn('INP tracking failed:', error);
       resolve(null);
