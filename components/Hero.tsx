@@ -101,7 +101,7 @@ const SpotlightCard = ({
     >
       {/* Refined spotlight effect */}
       <div
-        className="absolute inset-0 rounded-inherit opacity-0 transition-opacity duration-350 pointer-events-none"
+        className="absolute inset-0 rounded-inherit opacity-0 transition-opacity duration-300 pointer-events-none"
         style={{
           background: `radial-gradient(350px circle at ${glowPosition.x}% ${glowPosition.y}%, rgba(75, 90, 237, 0.06), transparent 50%)`,
           opacity: isHovered ? 1 : 0,
@@ -319,8 +319,8 @@ export const Hero = ({ setCurrentPage }: HeroProps) => {
           className="group cursor-pointer"
           onClick={handleScrollDown}
         >
-          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2.5 group-hover:border-primary-400 dark:group-hover:border-violet-500 transition-colors duration-350 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm min-h-11 min-w-11">
-            <div className="w-1.5 h-3 rounded-full bg-slate-400 dark:bg-slate-500 group-hover:bg-primary-500 dark:group-hover:bg-violet-400 transition-colors duration-350 animate-bounce" style={{ animationDuration: '2.5s' }}></div>
+          <div className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 flex items-start justify-center p-2.5 group-hover:border-primary-400 dark:group-hover:border-violet-500 transition-colors duration-300 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm min-h-11 min-w-11">
+            <div className="w-1.5 h-3 rounded-full bg-slate-400 dark:bg-slate-500 group-hover:bg-primary-500 dark:group-hover:bg-violet-400 transition-colors duration-300 animate-bounce" style={{ animationDuration: '2.5s' }}></div>
           </div>
         </div>
       </div>

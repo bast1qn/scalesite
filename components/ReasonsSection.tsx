@@ -124,9 +124,9 @@ export const ReasonsSection: React.FC = () => {
 
                 {/* Decorative corner dots */}
                 <div className="absolute bottom-5 left-5 flex gap-1.5">
-                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${reason.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-350 delay-75`}></div>
-                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${reason.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-350 delay-100`}></div>
-                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${reason.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-350 delay-150`}></div>
+                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${reason.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75`}></div>
+                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${reason.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100`}></div>
+                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${reason.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150`}></div>
                 </div>
 
                 {/* Shimmer effect on hover */}

@@ -43,7 +43,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
             {t('hero_final_cta.subtitle')}
           </p>
 
-          <div className="inline-flex items-center gap-6 px-9 py-5 rounded-2xl bg-white/10 border border-white/20 mb-14 backdrop-blur-xl hover:bg-white/15 hover:border-white/30 transition-all duration-350 shadow-premium">
+          <div className="inline-flex items-center gap-6 px-9 py-5 rounded-2xl bg-white/10 border border-white/20 mb-14 backdrop-blur-xl hover:bg-white/15 hover:border-white/30 transition-all duration-300 shadow-premium">
             <span className="text-slate-400 line-through text-lg">99€ - 299€</span>
             <div className="h-8 w-px bg-white/20"></div>
             <div className="flex items-center gap-2">
@@ -62,7 +62,7 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
             >
               <span className="flex items-center gap-3 text-lg">
                 <span>{t('hero_final_cta.cta_primary')}</span>
-                <ArrowRightIcon className="w-5 h-5 transition-transform duration-350 group-hover:translate-x-1" />
+                <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </button>
             <button
@@ -74,15 +74,15 @@ export const FinalCtaSection = ({ setCurrentPage }: FinalCtaSectionProps) => {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border border-emerald-500/40 backdrop-blur-xl hover:bg-white/15 transition-all duration-350">
+            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border border-emerald-500/40 backdrop-blur-xl hover:bg-white/15 transition-all duration-300">
               <ClockIcon className="w-4.5 h-4.5 text-emerald-400" />
               <span className="font-medium text-slate-200">48h Lieferung</span>
             </div>
-            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border border-primary-500/40 backdrop-blur-xl hover:bg-white/15 transition-all duration-350">
+            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border border-primary-500/40 backdrop-blur-xl hover:bg-white/15 transition-all duration-300">
               <ShieldCheckIcon className="w-4.5 h-4.5 text-primary-400" />
               <span className="font-medium text-slate-200">100% Zufriedenheitsgarantie</span>
             </div>
-            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border border-violet-500/40 backdrop-blur-xl hover:bg-white/15 transition-all duration-350">
+            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border border-violet-500/40 backdrop-blur-xl hover:bg-white/15 transition-all duration-300">
               <CreditCardIcon className="w-4.5 h-4.5 text-violet-400" />
               <span className="font-medium text-slate-200">Keine Kreditkarte erforderlich</span>
             </div>

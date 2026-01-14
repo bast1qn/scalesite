@@ -15,11 +15,11 @@ const FooterLink = ({ page, setCurrentPage, children }: { page: string; setCurre
             <button
                 onClick={() => setCurrentPage(page)}
                 {...hover}
-                className="relative text-sm text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-350 ease-smooth text-left py-3 group"
+                className="relative text-sm text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300 ease-smooth text-left py-3 group"
             >
                 <span className="flex items-center gap-2">
                     {children}
-                    <svg className={`w-3.5 h-3.5 transition-all duration-350 ease-smooth ${hover.isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-0 -translate-x-1'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className={`w-3.5 h-3.5 transition-all duration-300 ease-smooth ${hover.isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-0 -translate-x-1'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                 </span>
@@ -37,10 +37,10 @@ const SocialIconButton = ({ href, children, ariaLabel }: { href: string; childre
             target="_blank"
             rel="noopener noreferrer"
             {...hover}
-            className="group relative w-10 h-10 flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-all duration-350 ease-smooth hover:border-primary-400 dark:hover:border-violet-500 hover:text-primary-500 dark:hover:text-violet-400 hover:-translate-y-0.5 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
+            className="group relative w-10 h-10 flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-all duration-300 ease-smooth hover:border-primary-400 dark:hover:border-violet-500 hover:text-primary-500 dark:hover:text-violet-400 hover:-translate-y-0.5 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
             aria-label={ariaLabel}
         >
-            <span className="transition-transform duration-350 group-hover:scale-[1.02]">
+            <span className="transition-transform duration-300 group-hover:scale-[1.02]">
                 {children}
             </span>
         </a>
@@ -65,7 +65,7 @@ export const Footer = ({ setCurrentPage }: FooterProps) => {
             <div className="lg:col-span-4">
                 <button
                     onClick={() => setCurrentPage('home')}
-                    className="text-slate-900 dark:text-white mb-6 block hover:opacity-80 transition-opacity duration-350"
+                    className="text-slate-900 dark:text-white mb-6 block hover:opacity-80 transition-opacity duration-300"
                 >
                     <ScaleSiteLogo className="h-9" />
                 </button>
@@ -148,7 +148,7 @@ export const Footer = ({ setCurrentPage }: FooterProps) => {
             </p>
 
             {/* Tech stack badge */}
-            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm px-6 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-soft transition-all duration-350">
+            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm px-6 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-soft transition-all duration-300">
                 <span>{t('footer.built_with')}</span>
                 <div className="w-px h-5 bg-slate-300 dark:bg-slate-600"></div>
                 <ReactIcon className="w-5 h-5 text-primary-500" />

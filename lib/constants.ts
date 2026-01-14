@@ -169,11 +169,11 @@ export const VALIDATION = {
  */
 export const BUTTON_STYLES = {
   /** @deprecated Use BUTTON_PRIMARY from lib/ui-patterns.ts */
-  primary: 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
+  primary: 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
   /** @deprecated Use BUTTON_SECONDARY from lib/ui-patterns.ts */
-  secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
+  secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
   /** @deprecated Use BUTTON_ICON from lib/ui-patterns.ts */
-  icon: 'w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50',
+  icon: 'w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50',
 } as const;
 
 /**
@@ -191,11 +191,11 @@ export const CARD_STYLES = {
  */
 export const TRANSITION_STYLES = {
   /** Fast scale on hover */
-  hoverScale: 'transition-all duration-300 hover:scale-105 active:scale-95',
+  hoverScale: 'transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]',
   /** Smooth fade and slide */
   fadeSlide: 'transition-all duration-300',
   /** Default interactive transition */
-  interactive: 'transition-all duration-300 hover:scale-105 active:scale-95 focus:ring-2 focus:ring-primary-500/50',
+  interactive: 'transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50',
   /** Basic smooth transition */
   smooth: 'transition-all duration-300',
   /** Fast transition */
@@ -211,9 +211,9 @@ export const INTERACTIVE_STATES = {
   /** Subtle scale on hover/active */
   hoverScale: 'hover:scale-[1.02] active:scale-[0.98]',
   /** Medium scale on hover/active */
-  hoverScaleMedium: 'hover:scale-105 active:scale-95',
+  hoverScaleMedium: 'hover:scale-[1.05] active:scale-[0.95]',
   /** Strong scale on hover/active */
-  hoverScaleLarge: 'hover:scale-110 active:scale-90',
+  hoverScaleLarge: 'hover:scale-[1.10] active:scale-[0.90]',
 } as const;
 
 /**

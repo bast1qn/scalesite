@@ -900,7 +900,7 @@
 
 /* Gradient text on hover */
 .text-gradient-hover {
-  @apply transition-all duration-350;
+  @apply transition-all duration-300;
 }
 
 .text-gradient-hover:hover {

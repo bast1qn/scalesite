@@ -66,9 +66,9 @@ const DeviceMockup: FC<{
           {/* Browser chrome */}
           <div className="flex items-center gap-1.5 px-2 py-1.5 border-b border-slate-200 dark:border-slate-700">
             <div className="flex gap-1">
-              <div className={`w-1.5 h-1.5 rounded-full bg-red-400 transition-transform duration-350 ${isHovered ? 'scale-125' : ''}`}></div>
-              <div className={`w-1.5 h-1.5 rounded-full bg-yellow-400 transition-transform duration-350 ${isHovered ? 'scale-125' : ''}`} style={{ transitionDelay: '50ms' }}></div>
-              <div className={`w-1.5 h-1.5 rounded-full bg-green-400 transition-transform duration-350 ${isHovered ? 'scale-125' : ''}`} style={{ transitionDelay: '100ms' }}></div>
+              <div className={`w-1.5 h-1.5 rounded-full bg-red-400 transition-transform duration-300 ${isHovered ? 'scale-125' : ''}`}></div>
+              <div className={`w-1.5 h-1.5 rounded-full bg-yellow-400 transition-transform duration-300 ${isHovered ? 'scale-125' : ''}`} style={{ transitionDelay: '50ms' }}></div>
+              <div className={`w-1.5 h-1.5 rounded-full bg-green-400 transition-transform duration-300 ${isHovered ? 'scale-125' : ''}`} style={{ transitionDelay: '100ms' }}></div>
             </div>
             <div className="flex-1 mx-2 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
               <div className={`h-full bg-gradient-to-r ${gradient} transition-all duration-500 ${isHovered ? 'w-3/4' : 'w-1/2'}`}></div>
@@ -195,7 +195,7 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
                         {showcase.icon}
                       </span>
                     </div>
-                    <h3 className="font-display text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-colors duration-350">
+                    <h3 className="font-display text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-600 group-hover:to-violet-600 transition-colors duration-300">
                       {showcase.title}
                     </h3>
                     <p className="text-sm text-slate-600 dark:text-slate-400 leading-snug mb-4">
@@ -207,7 +207,7 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
                       {showcase.features.map((feature, i) => (
                         <span
                           key={i}
-                          className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700/30 text-xs text-slate-600 dark:text-slate-400 group-hover:bg-white dark:group-hover:bg-slate-600 transition-colors duration-350"
+                          className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700/30 text-xs text-slate-600 dark:text-slate-400 group-hover:bg-white dark:group-hover:bg-slate-600 transition-colors duration-300"
                         >
                           {feature}
                         </span>
@@ -215,9 +215,9 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
                     </div>
 
                     {/* Arrow indicator */}
-                    <div className="flex items-center text-xs font-bold text-primary-600 dark:text-primary-400 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-350">
+                    <div className="flex items-center text-xs font-bold text-primary-600 dark:text-primary-400 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                       <span>Ansehen</span>
-                      <ArrowTopRightOnSquareIcon className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-350" />
+                      <ArrowTopRightOnSquareIcon className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" />
                     </div>
                   </div>
                 </div>
