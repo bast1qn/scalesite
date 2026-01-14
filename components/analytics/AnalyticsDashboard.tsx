@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useMemo } from 'react';
 import { ChartBarIcon } from '../Icons';
 import DateRangePicker, { DateRangePreset, DateRange } from './DateRangePicker';
 import VisitorChart from './VisitorChart';
@@ -13,7 +13,8 @@ const AnalyticsDashboard: FC<AnalyticsDashboardProps> = ({ className = '' }) => 
     const [selectedPreset, setSelectedPreset] = useState<DateRangePreset>('30d');
     const [customRange, setCustomRange] = useState<DateRange | undefined>();
 
-    const getCurrentDateRange = (): DateRange => {
+    // ✅ PERFORMANCE: Memoize date range calculation to prevent recalculation on every render
+    const currentDateRange = useMemo<DateRange>(() => {
         if (selectedPreset === 'custom' && customRange) {
             return customRange;
         }
@@ -38,9 +39,7 @@ const AnalyticsDashboard: FC<AnalyticsDashboardProps> = ({ className = '' }) => 
         }
 
         return { from, to };
-    };
-
-    const currentDateRange = getCurrentDateRange();
+    }, [selectedPreset, customRange]);
 
     return (
         <div className={`space-y-6 ${className}`}>
@@ -75,11 +74,6 @@ const AnalyticsDashboard: FC<AnalyticsDashboardProps> = ({ className = '' }) => 
             {/* Charts Grid */}
             <div className="grid gap-6 lg:grid-cols-2">
                 <VisitorChart dateRange={currentDateRange} />
-                <PageViewsChart dateRange={currentDateRange} />
-            </div>
-
-            {/* Full Width Chart */}
-            <div className="grid gap-6">
                 <PageViewsChart dateRange={currentDateRange} />
             </div>
         </div>

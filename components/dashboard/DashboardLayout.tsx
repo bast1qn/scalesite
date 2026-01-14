@@ -1,4 +1,4 @@
-import { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 
 // Internal imports
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
@@ -37,7 +37,7 @@ interface NavItem {
 }
 
 // PERFORMANCE: Memoize NavLink to prevent unnecessary re-renders
-const NavLink: React.FC<{item: NavItem, activeView: DashboardView, onClick: (view: DashboardView) => void }> = ({ item, activeView, onClick }) => {
+const NavLink = React.memo<{item: NavItem, activeView: DashboardView, onClick: (view: DashboardView) => void }>(({ item, activeView, onClick }) => {
     const isActive = activeView === item.view;
     return (
         <button
@@ -79,10 +79,10 @@ const NavLink: React.FC<{item: NavItem, activeView: DashboardView, onClick: (vie
             )}
         </button>
     );
-};
+});
 
 // PERFORMANCE: Memoize UserInfoFooter to prevent unnecessary re-renders
-const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({user, logout}) => {
+const UserInfoFooter = React.memo<{user: AppUser | null, logout: () => void}>(({user, logout}) => {
     const { t } = useLanguage();
     return (
     <div className="p-5 border-t border-slate-200/50 dark:border-slate-700/50 bg-gradient-to-br from-slate-50/90 via-white/90 to-blue-50/30 dark:from-slate-900/90 dark:via-slate-900/90 dark:to-violet-950/30 backdrop-blur-xl shrink-0 relative overflow-hidden">
@@ -110,7 +110,7 @@ const UserInfoFooter: React.FC<{user: AppUser | null, logout: () => void}> = ({u
         </button>
     </div>
     );
-};
+});
 
 const SidebarContent: React.FC<{
     user: AppUser | null,

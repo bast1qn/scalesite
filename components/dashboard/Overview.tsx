@@ -1,6 +1,6 @@
 
 // React imports
-import { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import React, { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 
 // Third-party imports
 import { motion } from 'framer-motion';
@@ -295,8 +295,9 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     /**
      * Reusable KPI card component for dashboard metrics
      * Supports optional click handling for navigation
+     * ✅ PERFORMANCE: React.memo prevents unnecessary re-renders
      */
-    const KPICard = useCallback(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => {
+    const KPICard = React.memo(({ title, value, icon, subtext, onClick }: {title?: string; value: string | number; icon: ReactNode; subtext?: ReactNode; onClick?: () => void}) => {
         return (
         <div
             onClick={onClick}
@@ -322,7 +323,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
             </p>
         </div>
         );
-    }, []); // Removed ArrowRightIcon from dependencies - it's a stable component import
+    }); // Removed ArrowRightIcon from dependencies - it's a stable component import
 
     return (
         <div className="space-y-8 animate-fade-in">
