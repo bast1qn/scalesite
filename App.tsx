@@ -18,9 +18,9 @@ import { initPerformanceMonitoring } from './lib/performance/monitoring';
 
 // PERFORMANCE: Code Splitting with Strategic Prefetching
 // High-priority pages (prefetch immediately on idle)
-const HomePage = lazy(() => import(/* webpackPrefetch: true */ './pages/HomePage'));
-const PreisePage = lazy(() => import(/* webpackPrefetch: true */ './pages/PreisePage'));
-const ProjektePage = lazy(() => import(/* webpackPrefetch: true */ './pages/ProjektePage'));
+const HomePage = lazy(() => import('./pages/HomePage'));
+const PreisePage = lazy(() => import('./pages/PreisePage'));
+const ProjektePage = lazy(() => import('./pages/ProjektePage'));
 
 // Medium-priority pages (prefetch on hover/interaction)
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
