@@ -1,9 +1,14 @@
 import { SchemaFormData } from '../StructuredData';
 
+interface SchemaFormLabels {
+  fields: Record<string, string>;
+  placeholders: Record<string, string>;
+}
+
 interface SchemaFormFieldsProps {
   schemaType: string;
   formData: SchemaFormData;
-  labels: any;
+  labels: SchemaFormLabels;
   onChange: (field: string, value: string) => void;
 }
 

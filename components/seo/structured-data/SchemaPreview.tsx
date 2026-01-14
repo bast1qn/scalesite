@@ -1,10 +1,17 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2, Code, Copy, Download } from 'lucide-react';
 
+interface SchemaPreviewLabels {
+  generated: string;
+  copy: string;
+  download: string;
+  validationSuccess: string;
+}
+
 interface SchemaPreviewProps {
   showPreview: boolean;
   schema: Record<string, unknown>;
-  labels: any;
+  labels: SchemaPreviewLabels;
   onCopy: () => void;
   onDownload: () => void;
   copied: boolean;

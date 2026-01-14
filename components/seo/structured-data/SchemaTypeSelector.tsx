@@ -2,9 +2,14 @@ import { Newspaper, Store, Building, FileJson } from 'lucide-react';
 
 type SchemaType = 'Article' | 'NewsArticle' | 'BlogPosting' | 'LocalBusiness' | 'Organization' | 'Product' | 'Person' | 'WebSite';
 
+interface SchemaLabels {
+  selectType: string;
+  types: Record<SchemaType, string>;
+}
+
 interface SchemaTypeSelectorProps {
   schemaType: SchemaType;
-  labels: any;
+  labels: SchemaLabels;
   onChange: (type: SchemaType) => void;
 }
 

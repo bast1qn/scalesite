@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useCallback } from 'react';
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '../Icons';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -96,6 +97,11 @@ export const ThemeSettings = () => {
         },
     ];
 
+    // PERFORMANCE: Memoize theme change handlers
+    const handleThemeChange = useCallback((themeValue: Theme) => {
+        setTheme(themeValue);
+    }, [setTheme]);
+
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
@@ -116,7 +122,7 @@ export const ThemeSettings = () => {
                         description={themeOption.description}
                         icon={themeOption.icon}
                         isSelected={theme === themeOption.value}
-                        onClick={() => setTheme(themeOption.value)}
+                        onClick={() => handleThemeChange(themeOption.value)}
                     />
                 ))}
             </div>

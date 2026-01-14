@@ -61,19 +61,19 @@ export function createOptimizedContext<T>(
  * Split context into multiple focused contexts
  * Useful when you have large state objects but components only need parts
  */
-export function createSplitContext<T extends Record<string, any>>(
+export function createSplitContext<T extends Record<string, unknown>>(
   initialState: T
 ) {
   // Create a context for each key in the state
-  const contexts: Record<keyof T, React.Context<any>> = {} as any;
-  const providers: Record<keyof T, any> = {} as any;
-  const hooks: Record<keyof T, any> = {} as any;
+  const contexts: Record<keyof T, React.Context<unknown>> = {} as Record<keyof T, React.Context<unknown>>;
+  const providers: Record<keyof T, React.ComponentType<{ value: unknown; children: ReactNode }>> = {} as Record<keyof T, React.ComponentType<{ value: unknown; children: ReactNode }>>;
+  const hooks: Record<keyof T, () => unknown> = {} as Record<keyof T, () => unknown>;
 
   (Object.keys(initialState) as Array<keyof T>).forEach((key) => {
     const Context = createContext(initialState[key]);
     contexts[key] = Context;
 
-    const Provider = ({ value, children }: { value: any; children: ReactNode }) => {
+    const Provider = ({ value, children }: { value: unknown; children: ReactNode }) => {
       const memoizedValue = useMemo(() => value, [value]);
       return (
         <Context.Provider value={memoizedValue}>
@@ -147,12 +147,12 @@ export function useContextSelector<T, S>(
  * Optimized state management with selectors
  * Similar to Recoil/Zustand but using React Context
  */
-export function createOptimizedStore<T extends Record<string, any>>(
+export function createOptimizedStore<T extends Record<string, unknown>>(
   initialState: T
 ) {
   const StoreContext = createContext<{
     state: T;
-    update: (key: keyof T, value: any) => void;
+    update: (key: keyof T, value: T[keyof T]) => void;
     subscribe: (key: keyof T, callback: () => void) => () => void;
   } | undefined>(undefined);
 
@@ -162,7 +162,7 @@ export function createOptimizedStore<T extends Record<string, any>>(
       Map<keyof T, Set<() => void>>
     >(new Map());
 
-    const update = useCallback((key: keyof T, value: any) => {
+    const update = useCallback((key: keyof T, value: T[keyof T]) => {
       setState((prev) => {
         if (prev[key] === value) return prev;
 
