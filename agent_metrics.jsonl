@@ -1,3 +1,4 @@
 {"timestamp": 1768412786, "metric": "checkpoint_4", "value": "passed"}
 {"timestamp": 1768414277, "metric": "checkpoint_8", "value": "passed"}
 {"timestamp": 1768416094, "metric": "checkpoint_12", "value": "passed"}
+{"timestamp": 1768416686, "metric": "repair_success", "value": "1"}
