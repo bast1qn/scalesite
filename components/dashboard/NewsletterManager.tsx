@@ -75,8 +75,9 @@ const NewsletterManager: React.FC = () => {
 
     /**
      * Fetches campaigns and subscribers data
+     * ✅ FIXED: Memoized with useCallback to prevent recreation
      */
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
             const [campaignsRes, subscribersRes] = await Promise.all([
@@ -90,12 +91,11 @@ const NewsletterManager: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []); // ✅ FIXED: No external dependencies
 
     useEffect(() => {
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [fetchData]); // ✅ FIXED: fetchData is now stable (useCallback)
 
     /**
      * Opens campaign modal for create or edit

@@ -46,41 +46,35 @@ export const OfferCalculator = memo(({ setCurrentPage }: OfferCalculatorProps) =
         { value: 'business', label: language === 'de' ? 'Business Website (5-8 Seiten)' : 'Business Website (5-8 pages)' },
     ], [language]);
 
+    // ✅ PERFORMANCE: Extract price calculation to useEffect body for cleaner dependency tracking
+    // This is more efficient than useCallback since calculation is fast
     useEffect(() => {
-        /**
-         * Calculates pricing based on selected options
-         * Updates one-time and monthly price ranges
-         */
-        const calculatePrice = () => {
-            let basePrice = PRICE_ONEPAGE;
+        let basePrice = PRICE_ONEPAGE;
 
-            switch(projectType) {
-                case 'onepage': basePrice = PRICE_ONEPAGE; break;
-                case 'small': basePrice = PRICE_SMALL; break;
-                case 'business': basePrice = PRICE_BUSINESS; break;
-            }
+        switch(projectType) {
+            case 'onepage': basePrice = PRICE_ONEPAGE; break;
+            case 'small': basePrice = PRICE_SMALL; break;
+            case 'business': basePrice = PRICE_BUSINESS; break;
+        }
 
-            const pagePrice = Math.max(0, pageCount - 1) * PRICE_PER_PAGE;
-            const addOnsPrice = (contactForm ? PRICE_CONTACT_FORM : 0) + (blog ? PRICE_BLOG : 0);
+        const pagePrice = Math.max(0, pageCount - 1) * PRICE_PER_PAGE;
+        const addOnsPrice = (contactForm ? PRICE_CONTACT_FORM : 0) + (blog ? PRICE_BLOG : 0);
 
-            const totalOneTime = basePrice + pagePrice + addOnsPrice;
-            const cappedTotal = Math.min(totalOneTime, PRICE_MAX);
+        const totalOneTime = basePrice + pagePrice + addOnsPrice;
+        const cappedTotal = Math.min(totalOneTime, PRICE_MAX);
 
-            setOneTimePriceRange({
-                min: Math.max(PRICE_MIN, Math.floor(cappedTotal * 0.9 / 10) * 10),
-                max: Math.min(PRICE_MAX, Math.ceil(cappedTotal * 1.1 / 10) * 10),
-            });
+        setOneTimePriceRange({
+            min: Math.max(PRICE_MIN, Math.floor(cappedTotal * 0.9 / 10) * 10),
+            max: Math.min(PRICE_MAX, Math.ceil(cappedTotal * 1.1 / 10) * 10),
+        });
 
-            let monthly = 0;
-            if (hosting) monthly += PRICE_HOSTING;
-            if (domain) monthly += PRICE_DOMAIN;
-            if (maintenance) monthly += PRICE_MAINTENANCE;
+        let monthly = 0;
+        if (hosting) monthly += PRICE_HOSTING;
+        if (domain) monthly += PRICE_DOMAIN;
+        if (maintenance) monthly += PRICE_MAINTENANCE;
 
-            setMonthlyPrice(monthly);
-        };
-        calculatePrice();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [projectType, pageCount, hosting, domain, maintenance, contactForm, blog]);
+        setMonthlyPrice(monthly);
+    }, [projectType, pageCount, hosting, domain, maintenance, contactForm, blog]); // ✅ All dependencies are primitive values - no eslint-disable needed
 
     const getSelectedLabel = (val: string) => projectTypeOptions.find(o => o.value === val)?.label;
 
