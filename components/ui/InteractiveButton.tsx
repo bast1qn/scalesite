@@ -19,28 +19,28 @@
  * ```
  */
 
-import React from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { BUTTON_STYLES, INTERACTIVE_STATES, TRANSITION_STYLES } from '@/lib/constants';
 
 type ButtonVariant = 'primary' | 'secondary' | 'icon' | 'ghost';
 
-interface InteractiveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface InteractiveButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Button content or children */
-  children?: React.ReactNode;
+  children?: ReactNode;
   /** Button style variant */
   variant?: ButtonVariant;
   /** Additional className for custom styling */
   className?: string;
   /** Icon to display (for icon variant) */
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   /** Loading state */
   loading?: boolean;
   /** Disabled state */
   disabled?: boolean;
 }
 
-export const InteractiveButton: React.FC<InteractiveButtonProps> = ({
+export const InteractiveButton = ({
   children,
   variant = 'primary',
   className,

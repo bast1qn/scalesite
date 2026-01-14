@@ -15,7 +15,7 @@ interface MediaFieldsProps {
   onChange: (field: keyof OpenGraphData, value: string) => void;
 }
 
-export const MediaFields: React.FC<MediaFieldsProps> = ({
+export const MediaFields: FC<MediaFieldsProps> = ({
   ogData,
   errors,
   translations,

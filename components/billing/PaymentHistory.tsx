@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import type { FC } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     ClockIcon,
@@ -10,6 +11,7 @@ import {
     ChevronRightIcon,
     DocumentTextIcon
 } from '../../components/Icons';
+import { formatCurrency, formatDateShort, getRelativeTime } from '../../lib/utils';
 
 /**
  * PaymentHistory Component
@@ -54,7 +56,7 @@ export interface PaymentHistoryProps {
     className?: string;
 }
 
-const PaymentHistory: React.FC<PaymentHistoryProps> = ({
+const PaymentHistory: FC<PaymentHistoryProps> = ({
     payments,
     loading = false,
     error = null,
@@ -119,41 +121,6 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({
             other: 'Sonstige'
         };
         return methodMap[method] || method;
-    };
-
-    // Format currency
-    const formatCurrency = (amount: number, currency: string = 'EUR') => {
-        return new Intl.NumberFormat('de-DE', {
-            style: 'currency',
-            currency: currency
-        }).format(amount);
-    };
-
-    // Format date
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('de-DE', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
-    // Format relative time
-    const formatRelativeTime = (dateString: string) => {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffMs = now.getTime() - date.getTime();
-        const diffMins = Math.floor(diffMs / 60000);
-        const diffHours = Math.floor(diffMs / 3600000);
-        const diffDays = Math.floor(diffMs / 86400000);
-
-        if (diffMins < 1) return 'Gerade eben';
-        if (diffMins < 60) return `Vor ${diffMins} Minuten`;
-        if (diffHours < 24) return `Vor ${diffHours} Stunden`;
-        if (diffDays < 7) return `Vor ${diffDays} Tagen`;
-        return formatDate(dateString);
     };
 
     // Filter payments
@@ -354,7 +321,7 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({
                                                         )}
 
                                                         <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-500">
-                                                            <span>{formatRelativeTime(payment.date)}</span>
+                                                            <span>{getRelativeTime(payment.date)}</span>
                                                             <span>•</span>
                                                             <span>{getPaymentMethodLabel(payment.method)}</span>
                                                         </div>
@@ -414,7 +381,7 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({
                                                                         Datum
                                                                     </p>
                                                                     <p className="text-sm text-slate-900 dark:text-white">
-                                                                        {formatDate(payment.date)}
+                                                                        {formatDateShort(payment.date)}
                                                                     </p>
                                                                 </div>
 

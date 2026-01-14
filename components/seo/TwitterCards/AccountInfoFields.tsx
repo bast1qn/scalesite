@@ -12,7 +12,7 @@ interface AccountInfoFieldsProps {
   onChange: (field: keyof TwitterCardData, value: string) => void;
 }
 
-export const AccountInfoFields: React.FC<AccountInfoFieldsProps> = ({
+export const AccountInfoFields: FC<AccountInfoFieldsProps> = ({
   cardData,
   translations,
   onChange,

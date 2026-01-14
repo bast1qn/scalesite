@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import { BorderSpinner } from '../ui';
 import { getSafeURL } from '../../lib/validation';
 
@@ -43,7 +43,7 @@ export interface TicketHistoryProps {
     className?: string;
 }
 
-const TicketHistory: React.FC<TicketHistoryProps> = ({
+const TicketHistory: FC<TicketHistoryProps> = ({
     events,
     loading = false,
     error = null,

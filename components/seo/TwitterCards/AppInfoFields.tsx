@@ -12,7 +12,7 @@ interface AppInfoFieldsProps {
   onChange: (field: keyof TwitterCardData, value: string) => void;
 }
 
-export const AppInfoFields: React.FC<AppInfoFieldsProps> = ({
+export const AppInfoFields: FC<AppInfoFieldsProps> = ({
   cardData,
   translations,
   onChange,

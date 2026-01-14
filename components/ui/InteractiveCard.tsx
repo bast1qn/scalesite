@@ -19,13 +19,13 @@
  * ```
  */
 
-import React from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { COLOR_PATTERNS, HOVER_CARD, SHADOW_VARIANTS, TRANSITION_STYLES } from '@/lib/constants';
 
 interface InteractiveCardProps {
   /** Card content */
-  children: React.ReactNode;
+  children: ReactNode;
   /** Additional className for custom styling */
   className?: string;
   /** Enable border highlight on hover */
@@ -40,7 +40,7 @@ interface InteractiveCardProps {
   as?: 'div' | 'button' | 'a';
 }
 
-export const InteractiveCard: React.FC<InteractiveCardProps> = ({
+export const InteractiveCard = ({
   children,
   className,
   withBorderHighlight = false,

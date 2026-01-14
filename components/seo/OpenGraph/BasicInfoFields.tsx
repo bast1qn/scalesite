@@ -15,7 +15,7 @@ interface BasicInfoFieldsProps {
   onChange: (field: keyof OpenGraphData, value: string | string[]) => void;
 }
 
-export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
+export const BasicInfoFields: FC<BasicInfoFieldsProps> = ({
   ogData,
   errors,
   translations,

@@ -13,7 +13,7 @@ interface CardTypeSelectorProps {
   translations: TwitterCardTranslations;
 }
 
-export const CardTypeSelector: React.FC<CardTypeSelectorProps> = ({
+export const CardTypeSelector: FC<CardTypeSelectorProps> = ({
   currentType,
   onSelectType,
   translations,

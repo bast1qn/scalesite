@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react';
+import type { FC } from 'react';
+import { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Invoice, LineItem } from './InvoiceList';
+import { formatCurrency, formatDateShort } from '../../lib/utils';
 
 /**
  * InvoicePDF Component
@@ -41,7 +43,7 @@ const defaultCompanyInfo: CompanyInfo = {
     website: 'https://scalesite.de'
 };
 
-const InvoicePDF: React.FC<InvoicePDFProps> = ({
+const InvoicePDF: FC<InvoicePDFProps> = ({
     invoice,
     companyInfo = defaultCompanyInfo,
     onGenerated,
@@ -49,23 +51,6 @@ const InvoicePDF: React.FC<InvoicePDFProps> = ({
 }) => {
     const pdfRef = useRef<HTMLDivElement>(null);
     const [generating, setGenerating] = useState(false);
-
-    // Format currency
-    const formatCurrency = (amount: number, currency: string = 'EUR') => {
-        return new Intl.NumberFormat('de-DE', {
-            style: 'currency',
-            currency: currency
-        }).format(amount);
-    };
-
-    // Format date
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('de-DE', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-    };
 
     // Get status label
     const getStatusLabel = (status: string) => {

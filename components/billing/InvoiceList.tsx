@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import type { FC } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     DocumentTextIcon,
@@ -9,6 +10,7 @@ import {
     ArrowPathIcon
 } from '../../components/Icons';
 import { InvoiceCardSkeleton } from '../skeleton';
+import { formatCurrency, formatDateShort } from '../../lib/utils';
 
 /**
  * InvoiceList Component
@@ -63,7 +65,7 @@ export interface InvoiceListProps {
 type SortField = 'date' | 'dueDate' | 'total' | 'invoiceNumber';
 type SortOrder = 'asc' | 'desc';
 
-const InvoiceList: React.FC<InvoiceListProps> = ({
+const InvoiceList: FC<InvoiceListProps> = ({
     invoices,
     loading = false,
     error = null,
@@ -110,23 +112,6 @@ const InvoiceList: React.FC<InvoiceListProps> = ({
             default:
                 return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 border-gray-300 dark:border-gray-600';
         }
-    };
-
-    // Format currency
-    const formatCurrency = (amount: number, currency: string = 'EUR') => {
-        return new Intl.NumberFormat('de-DE', {
-            style: 'currency',
-            currency: currency
-        }).format(amount);
-    };
-
-    // Format date
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('de-DE', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
     };
 
     // Filter and sort invoices
@@ -388,10 +373,10 @@ const InvoiceList: React.FC<InvoiceListProps> = ({
                                             {formatCurrency(invoice.total, invoice.currency)}
                                         </p>
                                         <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                                            <span>{formatDate(invoice.date)}</span>
+                                            <span>{formatDateShort(invoice.date)}</span>
                                         </div>
                                         <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                                            Fällig: {formatDate(invoice.dueDate)}
+                                            Fällig: {formatDateShort(invoice.dueDate)}
                                         </p>
                                     </div>
                                 </div>

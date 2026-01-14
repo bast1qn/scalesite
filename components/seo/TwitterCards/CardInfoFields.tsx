@@ -17,7 +17,7 @@ interface CardInfoFieldsProps {
   onRemoveImage: () => void;
 }
 
-export const CardInfoFields: React.FC<CardInfoFieldsProps> = ({
+export const CardInfoFields: FC<CardInfoFieldsProps> = ({
   cardData,
   errors,
   uploadedImageUrl,

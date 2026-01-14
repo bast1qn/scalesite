@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 
 /**
  * TicketPriorityBadge Component
@@ -20,7 +20,7 @@ export interface TicketPriorityBadgeProps {
     className?: string;
 }
 
-const TicketPriorityBadge: React.FC<TicketPriorityBadgeProps> = ({
+const TicketPriorityBadge: FC<TicketPriorityBadgeProps> = ({
     priority,
     size = 'md',
     showLabel = true,

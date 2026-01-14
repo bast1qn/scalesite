@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     DocumentTextIcon,
@@ -9,6 +10,7 @@ import {
     ExclamationTriangleIcon
 } from '../../components/Icons';
 import { Invoice, InvoiceStatus, LineItem } from './InvoiceList';
+import { formatCurrency, formatDateShort } from '../../lib/utils';
 
 /**
  * InvoiceDetail Component
@@ -32,7 +34,7 @@ export interface InvoiceDetailProps {
     className?: string;
 }
 
-const InvoiceDetail: React.FC<InvoiceDetailProps> = ({
+const InvoiceDetail: FC<InvoiceDetailProps> = ({
     invoice,
     loading = false,
     onDownload,
@@ -42,23 +44,6 @@ const InvoiceDetail: React.FC<InvoiceDetailProps> = ({
 }) => {
     const [downloading, setDownloading] = useState(false);
     const [paying, setPaying] = useState(false);
-
-    // Format currency
-    const formatCurrency = (amount: number, currency: string = 'EUR') => {
-        return new Intl.NumberFormat('de-DE', {
-            style: 'currency',
-            currency: currency
-        }).format(amount);
-    };
-
-    // Format date
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('de-DE', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-    };
 
     // Get status config
     const getStatusConfig = (status: InvoiceStatus) => {

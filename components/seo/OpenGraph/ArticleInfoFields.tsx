@@ -15,7 +15,7 @@ interface ArticleInfoFieldsProps {
   onTagChange: (index: number, value: string) => void;
 }
 
-export const ArticleInfoFields: React.FC<ArticleInfoFieldsProps> = ({
+export const ArticleInfoFields: FC<ArticleInfoFieldsProps> = ({
   ogData,
   translations,
   onChange,

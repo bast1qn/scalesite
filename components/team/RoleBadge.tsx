@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 
 /**
  * RoleBadge Component
@@ -20,7 +20,7 @@ export interface RoleBadgeProps {
     className?: string;
 }
 
-const RoleBadge: React.FC<RoleBadgeProps> = ({
+const RoleBadge: FC<RoleBadgeProps> = ({
     role,
     size = 'md',
     showLabel = true,
