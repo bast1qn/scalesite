@@ -126,6 +126,10 @@ export default defineConfig(({ mode }) => {
               if (id.includes('@clerk')) {
                 return 'auth';
               }
+              // ✅ PERFORMANCE: Split React Dropzone (heavy, rarely used)
+              if (id.includes('react-dropzone')) {
+                return 'upload';
+              }
             },
             // ✅ PERFORMANCE: Optimize chunk file names for long-term caching
             chunkFileNames: 'assets/[name]-[hash].js',

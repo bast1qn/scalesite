@@ -148,6 +148,10 @@
     <!-- Performance hints -->
     <meta name="format-detection" content="telephone=no">
 
+    <!-- ✅ PERFORMANCE: Preload critical chunks for LCP optimization -->
+    <!-- Preload main entry point -->
+    <link rel="modulepreload" href="/index.tsx" crossorigin>
+
     <!-- Performance: Early hints for font loading -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
