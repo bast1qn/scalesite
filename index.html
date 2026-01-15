@@ -155,15 +155,29 @@
     <!-- ✅ PERFORMANCE: Preconnect to Clerk for faster auth loading -->
     <link rel="preconnect" href="https://*.clerk.accounts.dev" crossorigin>
 
-    <!-- ✅ PERFORMANCE: Preload high-priority routes -->
-    <!-- Prefetch PreisePage (high traffic) -->
-    <link rel="prefetch" href="/assets/PreisePage">
-    <!-- Prefetch ProjektePage (high traffic) -->
-    <link rel="prefetch" href="/assets/ProjektePage">
+    <!-- ✅ PERFORMANCE ADVANCED: Early hints for critical third-party origins -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://*.neon.tech" crossorigin>
 
-    <!-- Performance: Early hints for font loading -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- ✅ PERFORMANCE ADVANCED: Preload high-priority route chunks -->
+    <!-- These will be loaded with high priority by the browser -->
+    <link rel="prefetch" href="/src/pages/HomePage.tsx">
+    <link rel="prefetch" href="/src/pages/PreisePage.tsx">
+    <link rel="prefetch" href="/src/pages/ProjektePage.tsx">
+
+    <!-- ✅ PERFORMANCE ADVANCED: Preload vendor chunks for critical dependencies -->
+    <link rel="prefetch" href="/node_modules/react/index.js">
+    <link rel="prefetch" href="/node_modules/react-dom/index.js">
+    <link rel="prefetch" href="/node_modules/framer-motion/dist/framer-motion.js">
+
+    <!-- ✅ PERFORMANCE ADVANCED: Preload critical CSS -->
+    <link rel="preload" href="/index.css" as="style">
+
+    <!-- ✅ PERFORMANCE ADVANCED: Priority hints for above-the-fold images -->
+    <!-- Add fetchpriority="high" to LCP candidate images in your pages -->
+
+    <!-- ✅ PERFORMANCE ADVANCED: DNS prefetch for non-critical origins -->
+    <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
   </head>
   <body class="antialiased selection:bg-primary/30 selection:text-primary">
     <div id="root"></div>

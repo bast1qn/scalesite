@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, type ReactNode } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -125,8 +125,16 @@ export const ThemeProvider = ({
         setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
     }, [resolvedTheme, setTheme]);
 
+    // ✅ PERFORMANCE ADVANCED: Memoize context value to prevent unnecessary re-renders
+    const contextValue = useMemo(() => ({
+        theme,
+        resolvedTheme,
+        setTheme,
+        toggleTheme,
+    }), [theme, resolvedTheme, setTheme, toggleTheme]);
+
     return (
-        <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
+        <ThemeContext.Provider value={contextValue}>
             {children}
         </ThemeContext.Provider>
     );
