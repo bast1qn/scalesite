@@ -9,7 +9,7 @@ import ExportCSV from '../components/analytics/ExportCSV';
 import ExportPDF from '../components/analytics/ExportPDF';
 import RealtimeAnalytics from '../components/analytics/RealtimeAnalytics';
 import DateRangePicker, { DateRangePreset, DateRange } from '../components/analytics/DateRangePicker';
-import { setupAutoTracking } from '../lib/analytics';
+// import { setupAutoTracking } from '../lib/analytics'; // DISABLED: Prevents infinite loading
 
 interface AnalyticsPageProps {
     setCurrentPage?: (page: string) => void;
@@ -20,8 +20,8 @@ const AnalyticsPage: FC<AnalyticsPageProps> = ({ setCurrentPage }) => {
     const [customRange, setCustomRange] = useState<DateRange | undefined>();
 
     useEffect(() => {
-        // Auto-Tracking initialisieren
-        setupAutoTracking();
+        // Auto-Tracking DISABLED to prevent infinite loading loop
+        // setupAutoTracking();
 
         // Page View tracken
         if (setCurrentPage) {

@@ -261,6 +261,8 @@ const App = () => {
     }
 
     // PERFORMANCE: Initialize Core Web Vitals monitoring
+    // DISABLED: Prevents potential performance issues
+    /*
     useEffect(() => {
         if (import.meta.env.PROD) {
             // Only monitor in production to avoid dev mode noise
@@ -274,6 +276,7 @@ const App = () => {
             });
         }
     }, []);
+    */
 
     return (
         <ErrorBoundary>
