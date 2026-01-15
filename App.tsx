@@ -57,7 +57,6 @@ const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const SEOPage = lazy(() => import('./pages/SEOPage'));
 
 const PageLoader = () => {
-    const { t } = useLanguage();
     return (
         <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-900">
             <div className="flex flex-col items-center gap-6 px-4">
@@ -71,7 +70,7 @@ const PageLoader = () => {
                     <div className="absolute inset-2 bg-gradient-to-br from-primary-500/10 to-violet-500/10 rounded-full animate-pulse"></div>
                 </div>
                 <div className="text-center">
-                    <p className="text-slate-700 dark:text-slate-300 font-medium mb-1">{t('general.loading')}</p>
+                    <p className="text-slate-700 dark:text-slate-300 font-medium mb-1">Loading...</p>
                     <p className="text-slate-500 dark:text-slate-400 text-sm">Bitte warten...</p>
                 </div>
                 {/* Progress hint - Loading dots animation */}

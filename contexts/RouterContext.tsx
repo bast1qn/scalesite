@@ -69,7 +69,8 @@ export const RouterProvider = ({
       window.addEventListener('hashchange', handleHashChange);
       return () => window.removeEventListener('hashchange', handleHashChange);
     }
-  }, [currentPage, setCurrentPage]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run once on mount
 
   return (
     <RouterContext.Provider value={{ currentPage, setCurrentPage, navigate: (page) => setCurrentPage(page) }}>
