@@ -177,7 +177,7 @@ const RealtimeAnalytics: FC<RealtimeAnalyticsProps> = ({ className = '', onUpdat
                     ) : (
                         recentActivity.map((activity, index) => (
                             <motion.div
-                                key={activity.timestamp.getTime()}
+                                key={`activity-${activity.type}-${activity.timestamp.getTime()}-${index}`}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 20 }}

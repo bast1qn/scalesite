@@ -3,7 +3,7 @@
 // ============================================
 
 // React
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 
 // Internal
 import { AuthContext, useLanguage } from '../../contexts';
@@ -71,10 +71,6 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
         step: 'confirm'
     });
 
-    useEffect(() => {
-        fetchData();
-    }, [user]);
-
     /**
      * Fetches both available services and user's booked services from the API
      * Validates and filters the data to ensure type safety and prevent runtime errors
@@ -86,7 +82,7 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
      * // On component mount or user change
      * fetchData() // -> Updates state with fetched services
      */
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         if (!user) return;
         setLoading(true);
         try {
@@ -112,7 +108,11 @@ const Services: React.FC<ServicesProps> = ({ setActiveView }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [user]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const openBookingModal = (service: Service) => {
         setBookingModal({
