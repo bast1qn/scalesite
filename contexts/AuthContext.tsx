@@ -6,7 +6,7 @@ import { clerkPubKey } from '../lib/clerk';
 import { securityLog } from '../lib/secureLogger';
 
 // Maximum time to wait for Clerk before forcing loading to false
-const CLERK_LOADING_TIMEOUT = 5000; // 5 seconds
+const CLERK_LOADING_TIMEOUT = 2000; // 2 seconds - faster timeout
 
 export interface AppUser {
   id: string;
@@ -68,8 +68,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [hasTimedOut, setHasTimedOut] = useState(false);
 
   useEffect(() => {
+    console.log('[AuthContext] isClerkAvailable:', isClerkAvailable, 'isLoaded:', isLoaded, 'hasTimedOut:', hasTimedOut);
     if (isClerkAvailable && !isLoaded) {
       const timer = setTimeout(() => {
+        console.warn('[AuthContext] Clerk loading timeout - forcing loading state to false', {
+          isLoaded: clerkAuth.isLoaded
+        });
         securityLog('Clerk loading timeout - forcing loading state to false', {
           isLoaded: clerkAuth.isLoaded
         });
@@ -80,7 +84,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setHasTimedOut(false);
     }
-  }, [isClerkAvailable, isLoaded, clerkAuth?.isLoaded]);
+  }, [isClerkAvailable, isLoaded, clerkAuth?.isLoaded, hasTimedOut]);
 
   // Force loading to false if timeout occurred or Clerk not loaded
   const effectiveLoading = isClerkAvailable ? (!isLoaded && !hasTimedOut) : false;
