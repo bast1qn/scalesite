@@ -120,6 +120,17 @@ export const hasPermission = (
 /**
  * Check multiple permissions at once
  */
+/**
+ * Check multiple permissions at once
+ * @param user - The user to check permissions for
+ * @param permissions - Object mapping categories to required permission levels
+ * @returns true if user has all required permissions
+ * @example
+ * const canEdit = hasPermissions(user, {
+ *   projects: 'write',
+ *   content: 'write'
+ * });
+ */
 export const hasPermissions = (
     user: RBACUser,
     permissions: Partial<Record<PermissionCategory, PermissionLevel>>
@@ -131,6 +142,17 @@ export const hasPermissions = (
 
 /**
  * Get resource access for a user
+ */
+/**
+ * Get resource access for a user
+ * @param user - The user to check access for
+ * @param resourceType - Type of resource to check access for
+ * @returns Object with boolean flags for different access types
+ * @example
+ * const access = getResourceAccess(user, 'project');
+ * if (access.canEdit) {
+ *   // Show edit button
+ * }
  */
 export const getResourceAccess = (
     user: RBACUser,

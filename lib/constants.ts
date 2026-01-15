@@ -298,25 +298,6 @@ export const BORDER_RADIUS = {
   small: 'rounded-md',
 } as const;
 
-// ===== TIMEOUT VALUES =====
-
-/**
- * Request timeout values in milliseconds
- * @deprecated Use TIMING constants instead for consistency
- */
-export const TIMEOUTS = {
-  /** Cache TTL - use TIMING.cacheTTL instead */
-  cacheTTL: 60000,
-  /** HTTP request timeout - use TIMING.requestTimeoutLong instead */
-  request: 60000,
-  /** Typing indicator debounce - use TIMING.typingDebounce instead */
-  typingDebounce: 1000,
-  /** Presence timeout - use TIMING.presenceTimeout instead */
-  presence: 30000,
-  /** Subscription timeout - use TIMING.subscriptionTimeout instead */
-  subscription: 10000,
-} as const;
-
 // ===== CHAT CONSTANTS =====
 
 /**
@@ -578,4 +559,35 @@ export const PAGINATION = {
   largePageSize: 25,
   /** Maximum page size */
   maxPageSize: 100,
+} as const;
+
+// ===== PRICING CONSTANTS =====
+
+/**
+ * Pricing structure for ScaleSite plans
+ * Replaces hardcoded price values throughout the application
+ */
+export const PRICING = {
+  /** Basic plan monthly price (€29) */
+  basic: 29,
+  /** Starter plan monthly price (€59) */
+  starter: 59,
+  /** Business plan monthly price (€89) */
+  business: 89,
+  /** Annual discount percentage (20%) */
+  annualDiscount: 0.2,
+} as const;
+
+/**
+ * Price formatting options
+ */
+export const PRICE_FORMAT = {
+  /** Default currency */
+  currency: 'EUR' as const,
+  /** Locale for price formatting */
+  locale: 'de-DE' as const,
+  /** Minimum fraction digits */
+  minimumFractionDigits: 0,
+  /** Maximum fraction digits */
+  maximumFractionDigits: 2,
 } as const;
