@@ -28,6 +28,79 @@ export type PositionType = 'top' | 'bottom' | 'left' | 'right';
 export type SizeVariant = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // ============================================================================
+// STATUS ENUMS (Replace boolean flags)
+// ============================================================================
+
+/**
+ * Loading/Async operation states
+ * Use instead of: boolean isLoading
+ */
+export enum LoadingState {
+    IDLE = 'idle',
+    LOADING = 'loading',
+    SUCCESS = 'success',
+    ERROR = 'error',
+}
+
+/**
+ * Validation states
+ * Use instead of: boolean isValid, boolean isInvalid
+ */
+export enum ValidationStatus {
+    IDLE = 'idle',
+    VALIDATING = 'validating',
+    VALID = 'valid',
+    INVALID = 'invalid',
+}
+
+/**
+ * API request states
+ * Use instead of: boolean isPending, boolean isSuccess
+ */
+export enum RequestStatus {
+    IDLE = 'idle',
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    ERROR = 'error',
+}
+
+/**
+ * Visibility states
+ * Use instead of: boolean isVisible
+ */
+export enum Visibility {
+    VISIBLE = 'visible',
+    HIDDEN = 'hidden',
+}
+
+/**
+ * Enabled states
+ * Use instead of: boolean isEnabled
+ */
+export enum EnabledState {
+    ENABLED = 'enabled',
+    DISABLED = 'disabled',
+}
+
+/**
+ * Active states
+ * Use instead of: boolean isActive
+ */
+export enum ActiveState {
+    ACTIVE = 'active',
+    INACTIVE = 'inactive',
+}
+
+/**
+ * Selection states
+ * Use instead of: boolean isSelected
+ */
+export enum SelectionState {
+    SELECTED = 'selected',
+    UNSELECTED = 'unselected',
+}
+
+// ============================================================================
 // LANGUAGE & LOCALE TYPES
 // ============================================================================
 
