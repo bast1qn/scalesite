@@ -60,6 +60,7 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
                         ? 'text-base font-medium text-slate-800 dark:text-slate-200 px-4 py-3'
                         : 'text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                 }`}
+                aria-label={`Währung wählen: ${currency}`}
             >
                 <span className="text-sm">{currenciesList.find(c => c.code === currency)?.flag || '🇪🇺'}</span>
                 <span className="uppercase">{currency}</span>
@@ -178,6 +179,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                     <button
                         onClick={() => handleNavClick('home')}
                         className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-300 min-h-11"
+                        aria-label="ScaleSite Logo - Zur Startseite"
                     >
                         <ScaleSiteLogo className="h-7 lg:h-8" />
                     </button>
@@ -198,6 +200,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                         <button
                             onClick={toggleLanguage}
                             className="relative text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 w-12 h-11 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center uppercase tracking-wider"
+                            aria-label={`Sprache wechseln: ${language === 'de' ? 'Deutsch' : 'English'}`}
                         >
                             {language}
                         </button>
@@ -253,6 +256,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                         <button
                             onClick={toggleLanguage}
                             className="relative text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 uppercase w-11 h-11 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
+                            aria-label={`Sprache wechseln: ${language === 'de' ? 'Deutsch' : 'English'}`}
                         >
                             {language}
                         </button>
