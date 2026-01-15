@@ -65,7 +65,8 @@ export default defineConfig(({ mode }) => {
           'react-router-dom',
         ],
         // ✅ PERFORMANCE: Lazy load heavy libraries
-        exclude: ['recharts', 'framer-motion', 'jspdf', 'html2canvas', '@google/genai', '@supabase/supabase-js', '@clerk/clerk-js'],
+        // NOTE: recharts removed from exclude to fix forwardRef error and MIME type issues
+        exclude: ['framer-motion', 'jspdf', 'html2canvas', '@google/genai', '@supabase/supabase-js', '@clerk/clerk-js'],
         force: true
       },
       define: {

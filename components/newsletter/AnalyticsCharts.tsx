@@ -1,22 +1,22 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
-    LineChart,
+    LazyLineChart,
     Line,
-    BarChart,
+    LazyBarChart,
     Bar,
-    AreaChart,
+    LazyAreaChart,
     Area,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer,
-    PieChart,
+    LazyResponsiveContainer,
+    LazyPieChart,
     Pie,
     Cell
-} from 'recharts';
+} from '../../lib/performance/lazyCharts';
 import {
     TrendingUpIcon,
     TrendingDownIcon,
@@ -324,8 +324,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                                                 Leistung über Zeit
                                             </h3>
-                                            <ResponsiveContainer width="100%" height={300}>
-                                                <AreaChart data={timeSeriesData}>
+                                            <LazyResponsiveContainer width="100%" height={300}>
+                                                <LazyAreaChart data={timeSeriesData}>
                                                     <defs>
                                                         <linearGradient id="colorOpened" x1="0" y1="0" x2="0" y2="1">
                                                             <stop offset="5%" stopColor={COLORS.violet} stopOpacity={0.3}/>
@@ -364,8 +364,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                                         fill="url(#colorClicked)"
                                                         name="Geklickt"
                                                     />
-                                                </AreaChart>
-                                            </ResponsiveContainer>
+                                                </LazyAreaChart>
+                                            </LazyResponsiveContainer>
                                         </div>
 
                                         {/* Campaign Comparison */}
@@ -373,8 +373,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                                                 Kampagnen-Vergleich
                                             </h3>
-                                            <ResponsiveContainer width="100%" height={300}>
-                                                <BarChart data={campaignComparisonData}>
+                                            <LazyResponsiveContainer width="100%" height={300}>
+                                                <LazyBarChart data={campaignComparisonData}>
                                                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" strokeOpacity={0.5} />
                                                     <XAxis
                                                         dataKey="name"
@@ -393,8 +393,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                                     <Bar dataKey="sent" fill={COLORS.slate} name="Gesendet" radius={[4, 4, 0, 0]} />
                                                     <Bar dataKey="opened" fill={COLORS.violet} name="Geöffnet" radius={[4, 4, 0, 0]} />
                                                     <Bar dataKey="clicked" fill={COLORS.blue} name="Geklickt" radius={[4, 4, 0, 0]} />
-                                                </BarChart>
-                                            </ResponsiveContainer>
+                                                </LazyBarChart>
+                                            </LazyResponsiveContainer>
                                         </div>
 
                                         {/* Engagement Trend */}
@@ -402,8 +402,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                                                 Öffnungsrate Trend
                                             </h3>
-                                            <ResponsiveContainer width="100%" height={300}>
-                                                <LineChart data={timeSeriesData}>
+                                            <LazyResponsiveContainer width="100%" height={300}>
+                                                <LazyLineChart data={timeSeriesData}>
                                                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" strokeOpacity={0.5} />
                                                     <XAxis
                                                         dataKey="date"
@@ -425,8 +425,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                                         activeDot={{ r: 6 }}
                                                         name="Geöffnet"
                                                     />
-                                                </LineChart>
-                                            </ResponsiveContainer>
+                                                </LazyLineChart>
+                                            </LazyResponsiveContainer>
                                         </div>
 
                                         {/* Engagement Distribution */}
@@ -434,8 +434,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                             <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
                                                 Engagements-Verteilung
                                             </h3>
-                                            <ResponsiveContainer width="100%" height={300}>
-                                                <PieChart>
+                                            <LazyResponsiveContainer width="100%" height={300}>
+                                                <LazyPieChart>
                                                     <Pie
                                                         data={engagementData}
                                                         cx="50%"
@@ -451,8 +451,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({
                                                         ))}
                                                     </Pie>
                                                     <Tooltip />
-                                                </PieChart>
-                                            </ResponsiveContainer>
+                                                </LazyPieChart>
+                                            </LazyResponsiveContainer>
                                         </div>
                                     </div>
                                 </div>

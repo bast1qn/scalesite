@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import {
-    BarChart,
+    LazyBarChart,
+    LazyResponsiveContainer,
     Bar,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer,
     Cell,
     Legend
-} from 'recharts';
+} from '../../lib/performance/lazyCharts';
 
 interface PageViewData {
     page: string;
@@ -28,8 +28,8 @@ interface RechartsComponentsProps {
  */
 export const RechartsComponents: FC<RechartsComponentsProps> = ({ chartData, COLORS }) => {
     return (
-        <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="horizontal">
+        <LazyResponsiveContainer width="100%" height="100%">
+            <LazyBarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
                 <XAxis
                     dataKey="page"
@@ -62,7 +62,7 @@ export const RechartsComponents: FC<RechartsComponentsProps> = ({ chartData, COL
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Bar>
-            </BarChart>
-        </ResponsiveContainer>
+            </LazyBarChart>
+        </LazyResponsiveContainer>
     );
 };
