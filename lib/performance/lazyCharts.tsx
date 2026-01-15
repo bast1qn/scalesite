@@ -4,9 +4,10 @@
  * Only loads chart library when user views analytics pages
  */
 
-import { lazy, Suspense, type ReactNode } from 'react';
+import { lazy, Suspense } from 'react';
 
-// Lazy load all recharts components
+// Lazy load only the main chart containers
+// Smaller components like Line, Bar, etc. can be imported directly
 const ResponsiveContainer = lazy(() =>
   import('recharts').then(module => ({ default: module.ResponsiveContainer }))
 );
@@ -15,57 +16,32 @@ const LineChart = lazy(() =>
   import('recharts').then(module => ({ default: module.LineChart }))
 );
 
-const Line = lazy(() =>
-  import('recharts').then(module => ({ default: module.Line }))
-);
-
 const BarChart = lazy(() =>
   import('recharts').then(module => ({ default: module.BarChart }))
-);
-
-const Bar = lazy(() =>
-  import('recharts').then(module => ({ default: module.Bar }))
 );
 
 const PieChart = lazy(() =>
   import('recharts').then(module => ({ default: module.PieChart }))
 );
 
-const Pie = lazy(() =>
-  import('recharts').then(module => ({ default: module.Pie }))
-);
-
 const AreaChart = lazy(() =>
   import('recharts').then(module => ({ default: module.AreaChart }))
 );
 
-const Area = lazy(() =>
-  import('recharts').then(module => ({ default: module.Area }))
-);
-
-const XAxis = lazy(() =>
-  import('recharts').then(module => ({ default: module.XAxis }))
-);
-
-const YAxis = lazy(() =>
-  import('recharts').then(module => ({ default: module.YAxis }))
-);
-
-const CartesianGrid = lazy(() =>
-  import('recharts').then(module => ({ default: module.CartesianGrid }))
-);
-
-const Tooltip = lazy(() =>
-  import('recharts').then(module => ({ default: module.Tooltip }))
-);
-
-const Legend = lazy(() =>
-  import('recharts').then(module => ({ default: module.Legend }))
-);
-
-const Cell = lazy(() =>
-  import('recharts').then(module => ({ default: module.Cell }))
-);
+// Import smaller components directly (not lazy)
+// These will be bundled with the chart containers
+export {
+  Line,
+  Bar,
+  Pie,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Cell,
+} from 'recharts';
 
 // Loading skeleton for charts
 const ChartSkeleton = ({ height = 300 }: { height?: number }) => (
@@ -112,20 +88,6 @@ export const LazyResponsiveContainer = ({ children, ...props }: any) => (
     <ResponsiveContainer {...props}>{children}</ResponsiveContainer>
   </Suspense>
 );
-
-// Export all lazy components
-export {
-  Line,
-  Bar,
-  Pie,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Cell,
-};
 
 // Preload charts when user navigates to analytics
 export const preloadCharts = () => {
