@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import {
-    LazyBarChart,
-    LazyResponsiveContainer,
+    BarChart,
     Bar,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
+    ResponsiveContainer,
     Cell,
     Legend
-} from '../../lib/performance/lazyCharts';
+} from 'recharts';
 
 interface PageViewData {
     page: string;
@@ -23,13 +23,12 @@ interface RechartsComponentsProps {
 }
 
 /**
- * ✅ PERFORMANCE: Separate Recharts component for lazy loading
- * This allows the heavy recharts library to be loaded only when analytics pages are viewed
+ * Recharts component for displaying page views chart
  */
 export const RechartsComponents: FC<RechartsComponentsProps> = ({ chartData, COLORS }) => {
     return (
-        <LazyResponsiveContainer width="100%" height="100%">
-            <LazyBarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="horizontal">
+        <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="horizontal">
                 <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
                 <XAxis
                     dataKey="page"
@@ -62,7 +61,7 @@ export const RechartsComponents: FC<RechartsComponentsProps> = ({ chartData, COL
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Bar>
-            </LazyBarChart>
-        </LazyResponsiveContainer>
+            </BarChart>
+        </ResponsiveContainer>
     );
 };

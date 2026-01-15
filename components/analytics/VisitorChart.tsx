@@ -1,13 +1,13 @@
-import { useMemo, type FC } from 'react';
+import { useMemo, type FC, Suspense } from 'react';
 import {
-    LazyLineChart,
+    LineChart,
     Line,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
-    LazyResponsiveContainer
-} from '../../lib/performance/lazyCharts';
+    ResponsiveContainer
+} from 'recharts';
 import { UsersIcon } from '../Icons';
 import type { DateRange } from './DateRangePicker';
 
@@ -81,8 +81,8 @@ const VisitorChart: FC<VisitorChartProps> = ({ dateRange, data }) => {
             </div>
 
             <div className="h-80">
-                <LazyResponsiveContainer width="100%" height="100%">
-                    <LazyLineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <defs>
                             <linearGradient id="visitorsGradient" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="rgb(59 130 246)" stopOpacity={0.3} />
@@ -131,8 +131,8 @@ const VisitorChart: FC<VisitorChartProps> = ({ dateRange, data }) => {
                             activeDot={{ r: 6 }}
                             name="Eindeutige Besucher"
                         />
-                    </LazyLineChart>
-                </LazyResponsiveContainer>
+                    </LineChart>
+                </ResponsiveContainer>
             </div>
         </div>
     );
