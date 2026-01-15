@@ -1,431 +1,289 @@
-/**
- * Utility functions for ScaleSite
- * Common helpers used across the application
- */
+// ============================================
+// MAIN UTILITIES BARREL FILE
+// This file re-exports all utility functions
+// for easy importing
+// ============================================
 
-// ===== STORAGE HELPERS =====
+// Time utilities
+export * from './time-constants';
+export * from './date-utils';
 
-/**
- * ⚠️ SECURITY: Never store sensitive data in localStorage!
- *
- * ALLOWED: Theme, language, UI preferences (non-sensitive)
- * FORBIDDEN: Auth tokens, user data, session info, passwords, emails
- *
- * localStorage is accessible to any XSS attack - use Supabase's secure storage for auth
- */
-const FORBIDDEN_KEYS = ['token', 'auth', 'session', 'password', 'user', 'email', 'secret', 'api_key', 'credential'];
+// Math utilities
+export * from './math-utils';
 
-/**
- * Check if a key contains sensitive data
- */
-function isSensitiveKey(key: string): boolean {
-  const keyLower = key.toLowerCase();
-  return FORBIDDEN_KEYS.some(forbidden => keyLower.includes(forbidden));
-}
+// String utilities
+export * from './string-utils';
 
-/**
- * Safely get item from localStorage with SSR safety
- */
-export function getLocalStorageItem(key: string): string | null {
-  if (typeof window === 'undefined') return null;
+// Array utilities
+export * from './array-utils';
 
-  // SECURITY: Log sensitive key access attempts
-  if (isSensitiveKey(key)) {
-    if (import.meta.env.DEV) {
-      console.warn('[SECURITY] Attempted to read sensitive key from localStorage:', key);
+// Validation utilities
+export * from './validation-utils';
+
+// UI constants
+export * from './ui-constants';
+
+// className utility (clsx-like without external dependencies)
+type ClassValue =
+  | string
+  | number
+  | boolean
+  | undefined
+  | null
+  | ClassValue[]
+  | Record<string, boolean | undefined | null>;
+
+function clsx(...inputs: ClassValue[]): string {
+  const classes: string[] = [];
+
+  for (const input of inputs) {
+    if (!input) continue;
+
+    if (typeof input === 'string' || typeof input === 'number') {
+      classes.push(String(input));
+    } else if (Array.isArray(input)) {
+      const result = clsx(...input);
+      if (result) classes.push(result);
+    } else if (typeof input === 'object') {
+      for (const [key, value] of Object.entries(input)) {
+        if (value) classes.push(key);
+      }
     }
   }
 
-  try {
-    return localStorage.getItem(key);
-  } catch (error) {
-    if (import.meta.env.DEV) {
-      console.error('[SECURITY] localStorage read failed:', error);
-    }
-    return null;
-  }
+  return classes.join(' ');
 }
 
-/**
- * Safely set item in localStorage with SSR safety
- * SECURITY: Blocks storage of sensitive data
- */
-export function setLocalStorageItem(key: string, value: string): boolean {
-  if (typeof window === 'undefined') return false;
-
-  // SECURITY: Block sensitive data storage
-  if (isSensitiveKey(key)) {
-    if (import.meta.env.DEV) {
-      console.error('[SECURITY] Attempted to store sensitive data in localStorage:', key);
-      console.error('[SECURITY] This is a security violation. Use Supabase auth for session data.');
-    }
-    return false;
-  }
-
-  // SECURITY: Limit value size to prevent localStorage quota exhaustion (DoS)
-  const MAX_VALUE_SIZE = 10000; // 10KB per item
-  if (value.length > MAX_VALUE_SIZE) {
-    if (import.meta.env.DEV) {
-      console.error('[SECURITY] Value too large for localStorage, possible DoS attempt:', key);
-    }
-    return false;
-  }
-
-  try {
-    localStorage.setItem(key, value);
-    return true;
-  } catch (error) {
-    if (import.meta.env.DEV) {
-      console.error('[SECURITY] localStorage write failed:', error);
-    }
-    return false;
-  }
+export function cn(...inputs: ClassValue[]): string {
+  return clsx(...inputs);
 }
 
-/**
- * Safely get JSON from localStorage
- */
-export function getLocalStorageJSON<T>(key: string, fallback: T): T {
-  const item = getLocalStorageItem(key);
-  if (!item) return fallback;
-  try {
-    return JSON.parse(item) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-/**
- * Safely set JSON in localStorage
- */
-export function setLocalStorageJSON<T>(key: string, value: T): boolean {
-  return setLocalStorageItem(key, JSON.stringify(value));
-}
-
-// ===== DATE HELPERS =====
-
-/**
- * Format date to locale string
- */
-export function formatDate(date: Date | string, locale: string = 'de-DE'): string {
-  const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+// DOM utilities
+export const scrollToTop = (smooth: boolean = true): void => {
+  window.scrollTo({
+    top: 0,
+    behavior: smooth ? 'smooth' : 'auto',
   });
-}
+};
 
-/**
- * Format date to short string
- */
-export function formatDateShort(date: Date | string, locale: string = 'de-DE'): string {
-  const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString(locale, {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-}
-
-/**
- * Get relative time string (e.g., "2 hours ago")
- */
-export function getRelativeTime(date: Date | string, locale: string = 'de'): string {
-  const d = typeof date === 'string' ? new Date(date) : date;
-  const now = new Date();
-  const diffMs = now.getTime() - d.getTime();
-  const diffSecs = Math.floor(diffMs / 1000);
-  const diffMins = Math.floor(diffSecs / 60);
-  const diffHours = Math.floor(diffMins / 60);
-  const diffDays = Math.floor(diffHours / 24);
-
-  if (locale === 'de') {
-    if (diffSecs < 60) return 'gerade eben';
-    if (diffMins < 60) return `vor ${diffMins} Minute${diffMins > 1 ? 'n' : ''}`;
-    if (diffHours < 24) return `vor ${diffHours} Stunde${diffHours > 1 ? 'n' : ''}`;
-    if (diffDays < 7) return `vor ${diffDays} Tag${diffDays > 1 ? 'en' : ''}`;
-    return formatDate(d, locale);
-  } else {
-    if (diffSecs < 60) return 'just now';
-    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-    return formatDate(d, locale);
+export const scrollToElement = (elementId: string, offset: number = 0): void => {
+  const element = document.getElementById(elementId);
+  if (element) {
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({
+      top: elementPosition - offset,
+      behavior: 'smooth',
+    });
   }
-}
+};
 
-// ===== ID GENERATION =====
-
-/**
- * Generate a random ID
- */
-export function generateId(): string {
-  return crypto.randomUUID();
-}
-
-// ===== NUMBER HELPERS =====
-
-/**
- * Format number as currency
- */
-export function formatCurrency(
-  amount: number,
-  currency: string = 'EUR',
-  locale: string = 'de-DE'
-): string {
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-// ===== DOM HELPERS =====
-
-/**
- * Copy text to clipboard
- */
-export async function copyToClipboard(text: string): Promise<boolean> {
-  if (typeof navigator === 'undefined' || !navigator.clipboard) {
-    // Fallback for older browsers
+// Local storage utilities with error handling
+export const storage = {
+  get: <T>(key: string, defaultValue: T): T => {
     try {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      return true;
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue;
     } catch {
-      return false;
+      return defaultValue;
+    }
+  },
+
+  set: <T>(key: string, value: T): void => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
+    }
+  },
+
+  remove: (key: string): void => {
+    try {
+      window.localStorage.removeItem(key);
+    } catch (error) {
+      console.error('Error removing from localStorage:', error);
+    }
+  },
+
+  clear: (): void => {
+    try {
+      window.localStorage.clear();
+    } catch (error) {
+      console.error('Error clearing localStorage:', error);
+    }
+  },
+};
+
+// Session storage utilities
+export const session = {
+  get: <T>(key: string, defaultValue: T): T => {
+    try {
+      const item = window.sessionStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue;
+    } catch {
+      return defaultValue;
+    }
+  },
+
+  set: <T>(key: string, value: T): void => {
+    try {
+      window.sessionStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error('Error saving to sessionStorage:', error);
+    }
+  },
+
+  remove: (key: string): void => {
+    try {
+      window.sessionStorage.removeItem(key);
+    } catch (error) {
+      console.error('Error removing from sessionStorage:', error);
+    }
+  },
+
+  clear: (): void => {
+    try {
+      window.sessionStorage.clear();
+    } catch (error) {
+      console.error('Error clearing sessionStorage:', error);
+    }
+  },
+};
+
+// Debounce function
+export const debounce = <T extends (...args: unknown[]) => unknown>(
+  func: T,
+  wait: number
+): ((...args: Parameters<T>) => void) => {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+
+  return function executedFunction(...args: Parameters<T>) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+// Throttle function
+export const throttle = <T extends (...args: unknown[]) => unknown>(
+  func: T,
+  limit: number
+): ((...args: Parameters<T>) => void) => {
+  let inThrottle: boolean;
+
+  return function executedFunction(...args: Parameters<T>) {
+    if (!inThrottle) {
+      func(...args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+};
+
+// Async retry wrapper
+export const retry = async <T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  delay: number = 1000
+): Promise<T> => {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
     }
   }
+  throw new Error('Max retries exceeded');
+};
 
+// Sleep/delay utility
+export const sleep = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+// Copy to clipboard
+export const copyToClipboard = async (text: string): Promise<boolean> => {
   try {
     await navigator.clipboard.writeText(text);
     return true;
   } catch {
     return false;
   }
-}
+};
 
-/**
- * Scroll to top of page
- */
-export function scrollToTop(): void {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+// Download file
+export const downloadFile = (data: string, filename: string, type: string = 'text/plain'): void => {
+  const blob = new Blob([data], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
 
-// ===== CLASSNAME UTILITIES =====
+// Format file size
+export const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes';
 
-/**
- * Combine multiple class names, filtering out falsy values
- * A simplified version of clsx/classnames for conditional className merging
- *
- * @example
- * cn('base-class', isActive && 'active-class', 'another-class')
- * // Returns: 'base-class active-class another-class' (if isActive is true)
- */
-export function cn(...classes: ClassNameValue[]): string {
-  return classes.filter(Boolean).join(' ');
-}
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-/**
- * Type for valid class name values in cn() utility
- */
-type ClassNameValue = string | boolean | undefined | null | number | ClassNameValue[];
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+};
 
-/**
- * Create a common text color pattern with dark mode support
- * Reduces duplication of "text-slate-X dark:text-slate-Y" patterns
- *
- * @param light - Tailwind color class for light mode (e.g., 'text-slate-600')
- * @param dark - Tailwind color class for dark mode (e.g., 'dark:text-slate-400')
- * @returns Combined className string
- *
- * @example
- * textColor('text-slate-600', 'dark:text-slate-400')
- * // Returns: 'text-slate-600 dark:text-slate-400'
- */
-export function textColor(light: string, dark: string): string {
-  return `${light} ${dark}`;
-}
+// Get file extension
+export const getFileExtension = (filename: string): string => {
+  const parts = filename.split('.');
+  return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
+};
 
-/**
- * Create a common background color pattern with dark mode support
- * Reduces duplication of "bg-X dark:bg-Y" patterns
- *
- * @param light - Tailwind bg class for light mode
- * @param dark - Tailwind bg class for dark mode
- * @returns Combined className string
- *
- * @example
- * bgColor('bg-white', 'dark:bg-slate-900')
- * // Returns: 'bg-white dark:bg-slate-900'
- */
-export function bgColor(light: string, dark: string): string {
-  return `${light} ${dark}`;
-}
+// Check if device is mobile
+export const isMobile = (): boolean => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+};
 
-/**
- * Create a common border color pattern with dark mode support
- * Reduces duplication of "border-X dark:border-Y" patterns
- *
- * @param light - Tailwind border class for light mode
- * @param dark - Tailwind border class for dark mode
- * @returns Combined className string
- *
- * @example
- * borderColor('border-slate-200', 'dark:border-slate-700')
- * // Returns: 'border-slate-200 dark:border-slate-700'
- */
-export function borderColor(light: string, dark: string): string {
-  return `${light} ${dark}`;
-}
+// Check if device is touch device
+export const isTouchDevice = (): boolean => {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+};
 
-// ===== GRADIENT UTILITIES =====
+// Get query param from URL
+export const getQueryParam = (param: string): string | null => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+};
 
-/**
- * Common gradient patterns used across the application
- * Reduces duplication of gradient className strings
- * Foundation: Uses consistent Primary (#4B5AED) and Secondary (#8B5CF6) colors
- */
-export const GRADIENTS = {
-  /** Primary blue-violet gradient for CTAs and highlights */
-  primary: 'bg-gradient-to-r from-primary-600 via-violet-600 to-indigo-600',
+// Set query param in URL
+export const setQueryParam = (param: string, value: string): void => {
+  const url = new URL(window.location.href);
+  url.searchParams.set(param, value);
+  window.history.pushState({}, '', url.toString());
+};
 
-  /** Hover variant of primary gradient */
-  primaryHover: 'hover:from-primary-700 hover:to-violet-700 hover:to-indigo-700',
+// Remove query param from URL
+export const removeQueryParam = (param: string): void => {
+  const url = new URL(window.location.href);
+  url.searchParams.delete(param);
+  window.history.pushState({}, '', url.toString());
+};
 
-  /** Subtle violet-blue gradient for backgrounds */
-  subtle: 'bg-gradient-to-br from-violet-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900',
-
-  /** Bold gradient for feature cards */
-  card: 'bg-gradient-to-br from-primary-600 to-violet-600',
-
-  /** Success gradient (green-emerald) */
-  success: 'bg-gradient-to-r from-emerald-500 to-green-500',
-
-  /** Warning gradient (amber-orange) */
-  warning: 'bg-gradient-to-r from-amber-500 to-orange-500',
-
-  /** Error gradient (red-rose) */
-  error: 'bg-gradient-to-r from-red-500 to-rose-500',
-} as const;
-
-/**
- * Get a complete gradient className with hover states
- *
- * @param gradient - Base gradient from GRADIENTS
- * @param includeHover - Whether to include hover variant
- * @returns Combined className string
- *
- * @example
- * gradientClass(GRADIENTS.primary, true)
- * // Returns: 'bg-gradient-to-r from-blue-600 via-violet-600 to-indigo-600 hover:from-blue-700 hover:to-violet-700 hover:to-indigo-700'
- */
-export function gradientClass(gradient: string, includeHover = false): string {
-  return includeHover
-    ? `${gradient} ${GRADIENTS.primaryHover}`
-    : gradient;
-}
-
-// ===== TICKET & STATUS HELPERS =====
-
-/**
- * Returns Tailwind CSS classes for ticket status badges
- * Provides consistent styling across the application
- * Foundation: Updated to use consistent primary/secondary colors
- *
- * @param status - The ticket status ('Offen' | 'In Bearbeitung' | 'Wartet auf Antwort' | 'Geschlossen')
- * @returns CSS class string for status styling with dark mode support
- *
- * @example
- * getTicketStatusColor('Offen')
- * // Returns: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400'
- */
-export function getTicketStatusColor(
-  status: 'Offen' | 'In Bearbeitung' | 'Wartet auf Antwort' | 'Geschlossen'
-): string {
-  const colorMap = {
-    'Offen': 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400',
-    'In Bearbeitung': 'bg-primary-500/20 text-primary-600 dark:text-primary-400',
-    'Wartet auf Antwort': 'bg-violet-500/20 text-violet-600 dark:text-violet-400',
-    'Geschlossen': 'bg-slate-500/20 text-slate-600 dark:text-slate-400',
-  } as const;
-
-  return colorMap[status] || colorMap['Offen'];
-}
-
-/**
- * Returns Tailwind CSS classes for ticket priority badges
- * Foundation: Consistent color usage with semantic meaning
- *
- * @param priority - The ticket priority ('Niedrig' | 'Mittel' | 'Hoch')
- * @returns CSS class string for priority styling with dark mode support
- *
- * @example
- * getTicketPriorityColor('Hoch')
- * // Returns: 'bg-red-500/20 text-red-600 dark:text-red-400'
- */
-export function getTicketPriorityColor(
-  priority: 'Niedrig' | 'Mittel' | 'Hoch'
-): string {
-  const colorMap = {
-    'Niedrig': 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
-    'Mittel': 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
-    'Hoch': 'bg-red-500/20 text-red-600 dark:text-red-400',
-  } as const;
-
-  return colorMap[priority] || colorMap['Mittel'];
-}
-
-/**
- * Returns Tailwind CSS classes for generic status badges
- * Use this for success, error, warning, and info states
- * Foundation: Updated to use consistent primary color for info state
- *
- * @param status - The status type
- * @returns CSS class string for status styling
- *
- * @example
- * getStatusBadgeColor('success')
- * // Returns: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
- */
-export function getStatusBadgeColor(
-  status: 'success' | 'error' | 'warning' | 'info'
-): string {
-  const colorMap = {
-    success: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
-    error: 'bg-red-500/20 text-red-600 dark:text-red-400',
-    warning: 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
-    info: 'bg-primary-500/20 text-primary-600 dark:text-primary-400',
-  } as const;
-
-  return colorMap[status];
-}
-
-// ===== TICKET OPTIONS =====
-
-/**
- * Standard ticket priority options for dropdowns/selects
- */
-export const TICKET_PRIORITY_OPTIONS = [
-  { value: 'Niedrig', label: 'Niedrig' },
-  { value: 'Mittel', label: 'Mittel' },
-  { value: 'Hoch', label: 'Hoch' }
-] as const;
-
-/**
- * Standard ticket status options for dropdowns/selects
- */
-export const TICKET_STATUS_OPTIONS = [
-  { value: 'Offen', label: 'Offen' },
-  { value: 'In Bearbeitung', label: 'In Bearbeitung' },
-  { value: 'Wartet auf Antwort', label: 'Wartet auf Antwort' },
-  { value: 'Geschlossen', label: 'Geschlossen' }
-] as const;
+// Parse URL hash
+export const parseHash = (): Record<string, string> => {
+  const hash = window.location.hash.slice(1);
+  const params = new URLSearchParams(hash);
+  const result: Record<string, string> = {};
+  params.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
+};
