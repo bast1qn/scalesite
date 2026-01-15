@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
 import BounceRate from '../components/analytics/BounceRate';
@@ -18,16 +18,6 @@ interface AnalyticsPageProps {
 const AnalyticsPage: FC<AnalyticsPageProps> = ({ setCurrentPage }) => {
     const [selectedPreset, setSelectedPreset] = useState<DateRangePreset>('30d');
     const [customRange, setCustomRange] = useState<DateRange | undefined>();
-
-    useEffect(() => {
-        // Auto-Tracking DISABLED to prevent infinite loading loop
-        // setupAutoTracking();
-
-        // Page View tracken
-        if (setCurrentPage) {
-            setCurrentPage('analytics');
-        }
-    }, [setCurrentPage]);
 
     const getCurrentDateRange = (): DateRange => {
         if (selectedPreset === 'custom' && customRange) {

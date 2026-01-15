@@ -5,7 +5,7 @@
  * Used by ProtectedRoute for redirecting unauthorized users
  */
 
-import { createContext, useContext, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
 
 interface RouterContextType {
   currentPage: string;
@@ -31,10 +31,6 @@ export const useRouter = () => {
 export const useNavigate = () => {
   const { setCurrentPage } = useRouter();
   return (page: string) => {
-    // Update URL hash
-    if (typeof window !== 'undefined') {
-      window.location.hash = page;
-    }
     setCurrentPage(page);
   };
 };
@@ -50,7 +46,7 @@ export const RouterProvider = ({
   currentPage,
   setCurrentPage
 }: RouterProviderProps) => {
-  // Sync with URL hash on mount
+  // Sync with URL hash on mount - DON'T sync on every currentPage change
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.slice(1);
@@ -61,7 +57,7 @@ export const RouterProvider = ({
       // Listen for hash changes
       const handleHashChange = () => {
         const newHash = window.location.hash.slice(1);
-        if (newHash) {
+        if (newHash && newHash !== currentPage) {
           setCurrentPage(newHash);
         }
       };
@@ -70,10 +66,23 @@ export const RouterProvider = ({
       return () => window.removeEventListener('hashchange', handleHashChange);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run once on mount
+  }, []); // Run once on mount only
+
+  // Memoize context value to prevent infinite re-renders
+  const contextValue = useMemo(() => ({
+    currentPage,
+    setCurrentPage,
+    navigate: (page: string) => {
+      setCurrentPage(page);
+      // Update URL hash without triggering hashchange loop
+      if (typeof window !== 'undefined' && window.location.hash !== `#${page}`) {
+        window.location.replace(`#${page}`);
+      }
+    }
+  }), [currentPage, setCurrentPage]);
 
   return (
-    <RouterContext.Provider value={{ currentPage, setCurrentPage, navigate: (page) => setCurrentPage(page) }}>
+    <RouterContext.Provider value={contextValue}>
       {children}
     </RouterContext.Provider>
   );

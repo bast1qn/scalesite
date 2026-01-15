@@ -9,12 +9,12 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from '../contexts/RouterContext';
 import { BorderSpinner } from '../components';
 import { securityLog } from '../lib/secureLogger';
 
 interface ProtectedRouteProps {
   children: ReactNode;
+  setCurrentPage: (page: string) => void;
   fallback?: ReactNode;
   requireTeam?: boolean;
   requireRole?: 'user' | 'team' | 'owner';
@@ -22,12 +22,12 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({
   children,
+  setCurrentPage,
   fallback = null,
   requireTeam = false,
   requireRole
 }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
-  const navigate = useNavigate();
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
@@ -35,13 +35,13 @@ export const ProtectedRoute = ({
     // SECURITY: Check authorization once auth loading completes
     if (!loading) {
       if (!user) {
-        securityLog('Unauthorized access attempt - no user found', { path: window.location.pathname });
+        securityLog('Unauthorized access attempt - no user found', { path: typeof window !== 'undefined' ? window.location.pathname : 'unknown' });
         setIsAuthorized(false);
         setIsChecking(false);
 
         // Redirect to login after short delay
         const redirectTimer = setTimeout(() => {
-          navigate('login');
+          setCurrentPage('login');
         }, 100);
 
         return () => clearTimeout(redirectTimer);
@@ -74,7 +74,7 @@ export const ProtectedRoute = ({
       setIsAuthorized(true);
       setIsChecking(false);
     }
-  }, [user, loading, requireTeam, requireRole, navigate]);
+  }, [user, loading, requireTeam, requireRole, setCurrentPage]);
 
   // Loading state
   if (loading || isChecking) {
@@ -110,7 +110,7 @@ export const ProtectedRoute = ({
             You don't have permission to access this page. Please log in with an authorized account.
           </p>
           <button
-            onClick={() => navigate('login')}
+            onClick={() => setCurrentPage('login')}
             className="w-full bg-gradient-to-r from-primary-600 to-violet-600 text-white font-bold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-primary-500/25 hover:-translate-y-0.5 transition-all"
           >
             Go to Login

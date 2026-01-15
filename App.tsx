@@ -14,6 +14,7 @@ import { Layout, PageTransition, ChatWidget, CookieConsent, ErrorBoundary, Notif
 
 // Internal - Contexts
 import { AuthContext, AuthProvider, LanguageProvider, useLanguage, CurrencyProvider, NotificationProvider, ThemeProvider } from './contexts';
+import { RouterProvider } from './contexts/RouterContext';
 
 // Internal - Constants
 import { TIMING } from './lib/constants';
@@ -227,20 +228,22 @@ const AppContent = () => {
     }
 
     return (
-        <Layout setCurrentPage={setCurrentPage} currentPage={currentPage}>
-            <ErrorBoundary>
-                <Suspense fallback={<PageLoader />}>
-                    <AnimatePresence mode="wait">
-                        <PageTransition key={currentPage}>
-                            {getPage()}
-                        </PageTransition>
-                    </AnimatePresence>
-                </Suspense>
-            </ErrorBoundary>
-            <ChatWidget />
-            <CookieConsent />
-            <NotificationToastContainer />
-        </Layout>
+        <RouterProvider currentPage={currentPage} setCurrentPage={setCurrentPage}>
+            <Layout setCurrentPage={setCurrentPage} currentPage={currentPage}>
+                <ErrorBoundary>
+                    <Suspense fallback={<PageLoader />}>
+                        <AnimatePresence mode="wait">
+                            <PageTransition key={currentPage}>
+                                {getPage()}
+                            </PageTransition>
+                        </AnimatePresence>
+                    </Suspense>
+                </ErrorBoundary>
+                <ChatWidget />
+                <CookieConsent />
+                <NotificationToastContainer />
+            </Layout>
+        </RouterProvider>
     );
 };
 
