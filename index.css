@@ -122,18 +122,34 @@
     box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 4px theme(colors.primary.500 / 0.5);
   }
 
-  /* Enhanced focus for buttons - larger, more visible */
+  /* Enhanced focus for buttons - larger, more visible (WCAG AA: 3:1 contrast) */
   button:focus-visible,
   a:focus-visible,
   [role="button"]:focus-visible {
     @apply outline-none;
-    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 5px theme(colors.primary.500 / 0.6);
+    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 5px theme(colors.primary.500 / 0.7);
+    transform: scale(1.02);
   }
 
   .dark button:focus-visible,
   .dark a:focus-visible,
   .dark [role="button"]:focus-visible {
-    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 5px theme(colors.primary.500 / 0.6);
+    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 5px theme(colors.primary.500 / 0.7);
+    transform: scale(1.02);
+  }
+
+  /* Enhanced focus for inputs - stronger ring */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-primary-500/60 ring-offset-2;
+    transform: translateY(-1px);
+  }
+
+  .dark input:focus-visible,
+  .dark textarea:focus-visible,
+  .dark select:focus-visible {
+    @apply ring-offset-slate-900;
   }
 
   /* Link hover states */
@@ -296,11 +312,11 @@
 
   /* Button Styles - consistent interactive states (hover: scale-[1.02], active: scale-[0.98]) */
   .btn-primary {
-    @apply relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-200 ease-out hover:shadow-glow hover:scale-[1.02] active:scale-[0.98];
+    @apply relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:shadow-glow hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-primary:focus-visible {
-    @apply ring-2 ring-primary-500/50 ring-offset-2;
+    @apply outline-none ring-2 ring-primary-500/70 ring-offset-2;
     transform: scale-[1.02];
   }
 
@@ -322,11 +338,11 @@
   }
 
   .btn-secondary {
-    @apply px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 ease-out hover:scale-[1.02] active:scale-[0.98];
+    @apply px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-secondary:focus-visible {
-    @apply ring-2 ring-primary-500/50 ring-offset-2;
+    @apply outline-none ring-2 ring-primary-500/70 ring-offset-2;
     transform: scale-[1.02];
   }
 
@@ -335,11 +351,11 @@
   }
 
   .btn-ghost {
-    @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-200 ease-out hover:scale-[1.02] active:scale-[0.98];
+    @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-ghost:focus-visible {
-    @apply ring-2 ring-primary-500/50 ring-offset-2;
+    @apply outline-none ring-2 ring-primary-500/70 ring-offset-2;
     transform: scale-[1.02];
   }
 
@@ -438,21 +454,46 @@
     .tablet-card-gap {
       @apply gap-4;
     }
+
+    /* Tablet button sizing - touch-friendly */
+    .tablet-btn {
+      @apply min-h-12 px-6;
+    }
+
+    /* Tablet grid adjustments */
+    .tablet-grid-2 {
+      @apply grid-cols-2 gap-4;
+    }
   }
 
   /* Landscape Mobile Optimizations */
   @media (max-width: 767px) and (orientation: landscape) {
     .landscape-mobile {
-      @apply py-6 px-4;
+      @apply py-4 px-4;
     }
 
     .landscape-mobile-text {
-      @apply text-base;
+      @apply text-sm;
     }
 
     /* Reduce vertical spacing in landscape */
     .landscape-section {
-      @apply py-8;
+      @apply py-6;
+    }
+
+    /* Compact hero for landscape */
+    .landscape-hero {
+      @apply min-h-[60vh] py-8;
+    }
+
+    /* Landscape button sizing */
+    .landscape-btn {
+      @apply min-h-10 px-4 py-2;
+    }
+
+    /* Landscape grid adjustments */
+    .landscape-grid-2 {
+      @apply grid-cols-2 gap-3;
     }
   }
 
@@ -460,6 +501,42 @@
   @media (min-width: 1536px) {
     .ultra-wide-grid {
       @apply grid-cols-4 gap-8;
+    }
+
+    /* Ultra-wide container */
+    .ultra-wide-container {
+      @apply max-w-9xl mx-auto px-16;
+    }
+
+    /* Ultra-wide text sizing */
+    .ultra-wide-text-xl {
+      @apply text-xl;
+    }
+
+    .ultra-wide-text-2xl {
+      @apply text-2xl;
+    }
+
+    /* Ultra-wide card spacing */
+    .ultra-wide-card-gap {
+      @apply gap-8;
+    }
+  }
+
+  /* Extra ultra-wide (2xl+) desktop optimizations */
+  @media (min-width: 1920px) {
+    .container-ultra-wide {
+      @apply max-w-10xl mx-auto px-20;
+    }
+
+    /* 2xl grid adjustments */
+    .grid-2xl-4 {
+      @apply grid-cols-4 gap-10;
+    }
+
+    /* 2xl text scaling */
+    .text-2xl-scale {
+      @apply text-2xl;
     }
   }
 
@@ -748,37 +825,41 @@
   transform: translateY(0);
 }
 
-/* Loading Skeleton */
+/* Loading Skeleton - refined with shimmer effect */
 .skeleton {
   @apply bg-slate-200 dark:bg-slate-800 animate-pulse rounded;
 }
 
-/* Enhanced Skeleton with shimmer */
+/* Enhanced Skeleton with shimmer - Premium loading state */
 .skeleton-shimmer {
   @apply relative overflow-hidden bg-slate-200 dark:bg-slate-800 rounded;
 }
 
 .skeleton-shimmer::after {
   content: '';
-  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent;
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent;
   animation: shimmer-slide 1.5s infinite;
 }
 
-/* Skeleton pulse animation */
+.dark .skeleton-shimmer::after {
+  @apply via-white/10;
+}
+
+/* Skeleton pulse animation - gentler */
 @keyframes skeleton-pulse {
   0%, 100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 }
 
 .skeleton-pulse {
-  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: skeleton-pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Shimmer effect for loading states */
+/* Shimmer effect for loading states - faster, smoother */
 @keyframes shimmer-slide {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
@@ -799,7 +880,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.5) 50%,
     transparent 100%
   );
   animation: shimmer-slide 2s infinite;
@@ -809,9 +890,29 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.1) 50%,
     transparent 100%
   );
+}
+
+/* Enhanced loading state with progress indicator */
+.loading-with-progress {
+  @apply relative overflow-hidden;
+}
+
+.loading-with-progress::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-primary-500/10 via-primary-500/20 to-primary-500/10;
+  animation: loading-progress 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Card hover effect - refined */

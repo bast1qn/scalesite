@@ -269,3 +269,130 @@ export const getAccessibleColor = (backgroundColor: string): { light: string; da
     dark: isDark ? ACCESSIBLE_COLORS.WHITE : ACCESSIBLE_COLORS.BLACK,
   };
 };
+
+/**
+ * ARIA label presets for common ScaleSite UI elements
+ */
+export const ariaPresets = {
+  // Navigation
+  menuOpen: 'Open navigation menu',
+  menuClose: 'Close navigation menu',
+  goToHome: 'Go to home page',
+  goToPricing: 'Go to pricing page',
+  goToContact: 'Go to contact page',
+  goToServices: 'Go to services page',
+  goToProjects: 'Go to projects page',
+
+  // Theme
+  toggleTheme: 'Toggle dark/light mode',
+  themeDark: 'Switch to dark mode',
+  themeLight: 'Switch to light mode',
+
+  // Language
+  toggleLanguage: 'Switch language between German and English',
+  languageDE: 'Switch to German',
+  languageEN: 'Switch to English',
+
+  // Currency
+  selectCurrency: 'Select currency',
+  currencyEUR: 'Select Euro as currency',
+  currencyUSD: 'Select US Dollar as currency',
+
+  // Auth
+  login: 'Log in to your account',
+  logout: 'Log out of your account',
+  signup: 'Create a new account',
+  dashboard: 'Go to dashboard',
+  configurator: 'Open website configurator',
+
+  // Notifications
+  notifications: 'View notifications',
+  markAllRead: 'Mark all notifications as read',
+  notificationBell: 'You have new notifications',
+
+  // Actions
+  close: 'Close dialog',
+  save: 'Save changes',
+  cancel: 'Cancel action',
+  delete: 'Delete item',
+  edit: 'Edit item',
+  submit: 'Submit form',
+  back: 'Go back to previous page',
+  next: 'Go to next step',
+  previous: 'Go to previous step',
+
+  // Media
+  play: 'Play video',
+  pause: 'Pause video',
+  mute: 'Mute audio',
+  unmute: 'Unmute audio',
+  fullscreen: 'Enter fullscreen mode',
+  exitFullscreen: 'Exit fullscreen mode',
+
+  // Content
+  scrollToTop: 'Scroll back to top of page',
+  share: 'Share this page',
+  copy: 'Copy to clipboard',
+  print: 'Print this page',
+  download: 'Download file',
+
+  // Feedback
+  like: 'Like this content',
+  dislike: 'Dislike this content',
+  helpful: 'Mark as helpful',
+  notHelpful: 'Mark as not helpful',
+
+  // Pricing
+  selectPackage: 'Select this package',
+  viewPricing: 'View pricing details',
+
+  // Form
+  requiredField: 'This field is required',
+  invalidEmail: 'Please enter a valid email address',
+  invalidName: 'Please enter your name',
+} as const;
+
+/**
+ * Helper to apply ARIA attributes to icon buttons
+ */
+export const getIconButtonProps = (
+  preset: keyof typeof ariaPresets,
+  additionalProps?: Record<string, any>
+) => {
+  return {
+    'aria-label': ariaPresets[preset],
+    role: 'button',
+    ...additionalProps,
+  };
+};
+
+/**
+ * Generate descriptive text for screen readers about component state
+ */
+export const getStateDescription = (state: {
+  expanded?: boolean;
+  selected?: boolean;
+  checked?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+}): string => {
+  const descriptions: string[] = [];
+
+  if (state.expanded !== undefined) {
+    descriptions.push(state.expanded ? 'expanded' : 'collapsed');
+  }
+  if (state.selected) {
+    descriptions.push('selected');
+  }
+  if (state.checked !== undefined) {
+    descriptions.push(state.checked ? 'checked' : 'unchecked');
+  }
+  if (state.disabled) {
+    descriptions.push('disabled');
+  }
+  if (state.loading) {
+    descriptions.push('loading');
+  }
+
+  return descriptions.join(', ');
+};
