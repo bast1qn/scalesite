@@ -591,3 +591,82 @@ export const PRICE_FORMAT = {
   /** Maximum fraction digits */
   maximumFractionDigits: 2,
 } as const;
+
+// ===== UI SPACING =====
+
+/**
+ * Common spacing/sizing values for UI elements
+ * Eliminates magic numbers in className attributes
+ */
+export const SPACING = {
+  /** Icon sizes */
+  icon: {
+    /** Extra small icon (16px) */
+    xs: 'w-4 h-4',
+    /** Small icon (20px) */
+    sm: 'w-5 h-5',
+    /** Medium icon (24px) */
+    md: 'w-6 h-6',
+    /** Large icon (32px) */
+    lg: 'w-8 h-8',
+    /** Extra large icon (40px) */
+    xl: 'w-10 h-10',
+  },
+  /** Padding values */
+  padding: {
+    /** Extra small padding */
+    xs: 'px-2 py-1',
+    /** Small padding */
+    sm: 'px-3 py-2',
+    /** Medium padding */
+    md: 'px-4 py-3',
+    /** Large padding */
+    lg: 'px-6 py-4',
+    /** Extra large padding */
+    xl: 'px-8 py-6',
+  },
+  /** Gap/spacing values */
+  gap: {
+    /** No gap */
+    none: 'gap-0',
+    /** Extra small gap */
+    xs: 'gap-1',
+    /** Small gap */
+    sm: 'gap-2',
+    /** Medium gap */
+    md: 'gap-3',
+    /** Large gap */
+    lg: 'gap-4',
+    /** Extra large gap */
+    xl: 'gap-6',
+    /** Extra extra large gap */
+    '2xl': 'gap-8',
+  },
+  /** Border width */
+  border: {
+    /** Thin border */
+    thin: 'border',
+    /** Medium border */
+    medium: 'border-2',
+    /** Thick border */
+    thick: 'border-4',
+  },
+} as const;
+
+// ===== STROKE WIDTH =====
+
+/**
+ * SVG stroke width values for consistent icon styling
+ */
+export const STROKE_WIDTH = {
+  /** Extra thin stroke */
+  thin: 0.5,
+  /** Thin stroke */
+  extraThin: 1,
+  /** Normal stroke */
+  normal: 1.5,
+  /** Medium stroke */
+  medium: 2,
+  /** Thick stroke */
+  thick: 2.5,
+} as const;
