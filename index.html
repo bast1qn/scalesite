@@ -106,8 +106,6 @@
       }
     </style>
 
-    <link rel="stylesheet" href="/index.css">
-
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 
@@ -148,27 +146,12 @@
     <!-- Performance hints -->
     <meta name="format-detection" content="telephone=no">
 
-    <!-- ✅ PERFORMANCE: Preload critical chunks for LCP optimization -->
-    <!-- Preload main entry point -->
-    <link rel="modulepreload" href="/index.tsx" crossorigin>
-
     <!-- ✅ PERFORMANCE: Preconnect to Clerk for faster auth loading -->
     <link rel="preconnect" href="https://*.clerk.accounts.dev" crossorigin>
 
     <!-- ✅ PERFORMANCE ADVANCED: Early hints for critical third-party origins -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://*.neon.tech" crossorigin>
-
-    <!-- ✅ PERFORMANCE ADVANCED: Preload high-priority route chunks -->
-    <!-- These will be loaded with high priority by the browser -->
-    <link rel="prefetch" href="/src/pages/HomePage.tsx">
-    <link rel="prefetch" href="/src/pages/PreisePage.tsx">
-    <link rel="prefetch" href="/src/pages/ProjektePage.tsx">
-
-    <!-- ✅ PERFORMANCE ADVANCED: Preload vendor chunks for critical dependencies -->
-    <link rel="prefetch" href="/node_modules/react/index.js">
-    <link rel="prefetch" href="/node_modules/react-dom/index.js">
-    <link rel="prefetch" href="/node_modules/framer-motion/dist/framer-motion.js">
 
     <!-- ✅ PERFORMANCE ADVANCED: Preload critical CSS -->
     <link rel="preload" href="/index.css" as="style">
