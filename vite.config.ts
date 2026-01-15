@@ -93,9 +93,9 @@ export default defineConfig(({ mode }) => {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
             manualChunks: (id) => {
-              // React Core (stable, rarely changes) - split from icons
+              // React Core - MUST be in vendor chunk to avoid loading issues
               if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) {
-                return 'react-core';
+                return 'vendor';
               }
               // UI Icons - separate chunk for better caching
               if (id.includes('lucide-react')) {
@@ -127,10 +127,10 @@ export default defineConfig(({ mode }) => {
               }
               // Clerk authentication - split for better caching
               if (id.includes('@clerk/clerk-react')) {
-                return 'clerk-react';
+                return 'vendor';
               }
               if (id.includes('@clerk/clerk-js')) {
-                return 'clerk-js';
+                return 'vendor';
               }
               // ✅ PERFORMANCE: Split React Dropzone (heavy, rarely used)
               if (id.includes('react-dropzone')) {
