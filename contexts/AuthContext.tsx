@@ -1,9 +1,12 @@
-import { createContext, useContext, useMemo, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
 import type { User } from '@clerk/clerk-react';
 import { isClerkAvailable } from '../lib/clerk';
 import { clerkPubKey } from '../lib/clerk';
 import { securityLog } from '../lib/secureLogger';
+
+// Maximum time to wait for Clerk before forcing loading to false
+const CLERK_LOADING_TIMEOUT = 5000; // 5 seconds
 
 export interface AppUser {
   id: string;
@@ -60,6 +63,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const isLoaded = isClerkAvailable ? clerkAuth.isLoaded : true;
   const isSignedIn = isClerkAvailable ? clerkAuth.isSignedIn : false;
   const clerkUser = isClerkAvailable ? clerkAuth.user : null;
+
+  // Timeout mechanism to prevent infinite loading if Clerk hangs
+  const [hasTimedOut, setHasTimedOut] = useState(false);
+
+  useEffect(() => {
+    if (isClerkAvailable && !isLoaded) {
+      const timer = setTimeout(() => {
+        securityLog('Clerk loading timeout - forcing loading state to false', {
+          isLoaded: clerkAuth.isLoaded
+        });
+        setHasTimedOut(true);
+      }, CLERK_LOADING_TIMEOUT);
+
+      return () => clearTimeout(timer);
+    } else {
+      setHasTimedOut(false);
+    }
+  }, [isClerkAvailable, isLoaded, clerkAuth?.isLoaded]);
+
+  // Force loading to false if timeout occurred or Clerk not loaded
+  const effectiveLoading = isClerkAvailable ? (!isLoaded && !hasTimedOut) : false;
 
   const appUser = useMemo<AppUser | null>(() => {
     if (!clerkUser || !isSignedIn) return null;
@@ -126,14 +150,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const contextValue = useMemo(() => ({
     user: appUser,
-    loading: !isLoaded,
+    loading: effectiveLoading,
     login,
     socialLogin,
     loginWithToken,
     logout,
     register,
     resendConfirmationEmail,
-  }), [appUser, isLoaded, login, socialLogin, loginWithToken, logout, register, resendConfirmationEmail]);
+  }), [appUser, effectiveLoading, login, socialLogin, loginWithToken, logout, register, resendConfirmationEmail]);
 
   return (
     <AuthContext.Provider value={contextValue}>
