@@ -26,7 +26,8 @@ export const CardSkeleton: FC<CardSkeletonProps> = ({
   className = '',
   variant = 'default'
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   const paddingClass = {
     default: 'p-6',
@@ -96,7 +97,8 @@ export const CardSkeleton: FC<CardSkeletonProps> = ({
  * ProjectCardSkeleton - Spezieller Skeleton für Projektkarten
  */
 export const ProjectCardSkeleton: FC<{ className?: string }> = ({ className = '' }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 ${className}`}>
@@ -135,7 +137,8 @@ export const ProjectCardSkeleton: FC<{ className?: string }> = ({ className = ''
  * TicketCardSkeleton - Spezieller Skeleton für Ticketkarten
  */
 export const TicketCardSkeleton: FC<{ className?: string }> = ({ className = '' }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 ${className}`}>
@@ -171,7 +174,8 @@ export const TicketCardSkeleton: FC<{ className?: string }> = ({ className = '' 
  * InvoiceCardSkeleton - Spezieller Skeleton für Rechnungskarten
  */
 export const InvoiceCardSkeleton: FC<{ className?: string }> = ({ className = '' }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 ${className}`}>
@@ -206,7 +210,8 @@ export const InvoiceCardSkeleton: FC<{ className?: string }> = ({ className = ''
  * TeamCardSkeleton - Spezieller Skeleton für Teamkarten
  */
 export const TeamCardSkeleton: FC<{ className?: string }> = ({ className = '' }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 ${className}`}>

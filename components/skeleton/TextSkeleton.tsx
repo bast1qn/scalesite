@@ -23,7 +23,8 @@ export const TextSkeleton: FC<TextSkeletonProps> = ({
   className = '',
   variant = 'default'
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   const heights = {
     default: 'h-4',
@@ -109,7 +110,8 @@ export const HeadingSkeleton: FC<HeadingSkeletonProps> = ({
   paragraphLines = 3,
   className = ''
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`space-y-3 ${className}`}>
@@ -154,7 +156,8 @@ export const ListSkeleton: FC<ListSkeletonProps> = ({
   showIcon = true,
   className = ''
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`space-y-3 ${className}`}>
@@ -188,7 +191,8 @@ export const MetadataSkeleton: FC<MetadataSkeletonProps> = ({
   items = 3,
   className = ''
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`space-y-3 ${className}`}>
@@ -223,7 +227,8 @@ export const CommentSkeleton: FC<CommentSkeletonProps> = ({
   showActions = true,
   className = ''
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`flex gap-3 ${className}`}>

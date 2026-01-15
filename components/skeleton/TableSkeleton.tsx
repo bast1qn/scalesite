@@ -23,7 +23,8 @@ export const TableSkeleton: FC<TableSkeletonProps> = ({
   showHeader = true,
   className = ''
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 ${className}`}>
@@ -105,7 +106,8 @@ export const DataTableSkeleton: FC<Omit<TableSkeletonProps, 'cols'>> = ({
   showHeader = true,
   className = ''
 }) => {
-  const baseClass = 'animate-pulse bg-slate-200 dark:bg-slate-700 rounded';
+  // Enhanced shimmer effect (premium loading state)
+  const baseClass = 'skeleton-shimmer bg-slate-200 dark:bg-slate-800 rounded';
 
   return (
     <div className={`w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 ${className}`}>

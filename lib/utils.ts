@@ -23,6 +23,12 @@ export * from './validation-utils';
 // UI constants
 export * from './ui-constants';
 
+// UX polish constants (Loop 11/Phase 2)
+export * from './ux-constants';
+
+// Accessibility utilities (WCAG AA compliant)
+export * from './accessibility-utils';
+
 // className utility (clsx-like without external dependencies)
 type ClassValue =
   | string

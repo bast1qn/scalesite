@@ -1,49 +1,114 @@
 import { useState, useRef, useEffect } from 'react';
 
+interface UseLazyImageOptions extends IntersectionObserverInit {
+  /** Fallback image source on error */
+  fallbackSrc?: string;
+  /** Callback on load complete */
+  onLoad?: () => void;
+  /** Callback on error */
+  onError?: () => void;
+}
+
 /**
- * ✅ PERFORMANCE: Lazy Loading Hook for Images
+ * ✅ PERFORMANCE + ACCESSIBILITY: Lazy Loading Hook for Images
  * Uses IntersectionObserver to load images only when visible
  * Reduces initial page load and saves bandwidth
  *
+ * Features:
+ * - Lazy loading with IntersectionObserver
+ * - Error handling with fallback support
+ * - Load state tracking for loading states
+ * - Accessibility-compliant attributes
+ *
  * @example
- * const [imgRef, isLoaded, src] = useLazyImage('/path/to/image.jpg');
- * <img ref={imgRef} src={src} alt="..." loading="lazy" />
+ * ```tsx
+ * const [imgRef, isLoaded, src, attrs] = useLazyImage('/path/to/image.jpg', {
+ *   fallbackSrc: '/fallback.jpg',
+ *   onLoad: () => console.log('Image loaded'),
+ *   onError: () => console.log('Image failed'),
+ * });
+ *
+ * <img
+ *   ref={imgRef}
+ *   src={src}
+ *   alt="Descriptive alt text"
+ *   {...attrs}
+ *   className={isLoaded ? 'loaded' : 'loading'}
+ * />
+ * ```
  */
-export function useLazyImage(src: string, options?: IntersectionObserverInit): [React.RefObject<HTMLImageElement>, boolean, string | undefined] {
-    const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const imgRef = useRef<HTMLImageElement>(null);
+export function useLazyImage(
+  src: string,
+  options: UseLazyImageOptions = {}
+): [
+  React.RefObject<HTMLImageElement>,
+  boolean,
+  string | undefined,
+  { loading: 'lazy'; onError: () => void; onLoad: () => void }
+] {
+  const { fallbackSrc, onLoad, onError, ...observerOptions } = options;
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setImageSrc(src);
-                    observer.disconnect();
-                }
-            },
-            {
-                rootMargin: '50px', // Start loading 50px before entering viewport
-                ...options
-            }
-        );
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-        if (imgRef.current) {
-            observer.observe(imgRef.current);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageSrc(src);
+          observer.disconnect();
         }
+      },
+      {
+        rootMargin: '50px', // Start loading 50px before entering viewport
+        ...observerOptions
+      }
+    );
 
-        return () => {
-            observer.disconnect();
-        };
-    }, [src, options]);
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
 
-    useEffect(() => {
-        if (imageSrc && imgRef.current) {
-            imgRef.current.onload = () => setIsLoaded(true);
+    return () => {
+      observer.disconnect();
+    };
+  }, [src, observerOptions]);
+
+  useEffect(() => {
+    if (imageSrc && imgRef.current) {
+      imgRef.current.onload = () => {
+        setIsLoaded(true);
+        onLoad?.();
+      };
+
+      imgRef.current.onerror = () => {
+        setHasError(true);
+        if (fallbackSrc) {
+          setImageSrc(fallbackSrc);
         }
-    }, [imageSrc]);
+        onError?.();
+      };
+    }
+  }, [imageSrc, fallbackSrc, onLoad, onError]);
 
-    return [imgRef, isLoaded, imageSrc];
+  const accessibilityAttrs = {
+    loading: 'lazy' as const,
+    onError: () => {
+      setHasError(true);
+      if (fallbackSrc) {
+        setImageSrc(fallbackSrc);
+      }
+      onError?.();
+    },
+    onLoad: () => {
+      setIsLoaded(true);
+      onLoad?.();
+    },
+  };
+
+  return [imgRef, isLoaded, imageSrc, accessibilityAttrs];
 }
 
 /**
