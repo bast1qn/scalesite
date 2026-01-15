@@ -56,20 +56,16 @@ export default defineConfig(({ mode }) => {
         }),
       ],
       cacheDir: false,
-      // ✅ PERFORMANCE: Pre-bundle ALL dependencies to improve cold start
+      // ✅ PERFORMANCE: Pre-bundle strategy for optimal cold start
       optimizeDeps: {
         include: [
           'react',
           'react-dom',
           'react/jsx-runtime',
-          'lucide-react',
-          'framer-motion',
           'react-router-dom',
-          '@supabase/supabase-js',
-          '@clerk/clerk-react',
-          '@clerk/clerk-js'
         ],
-        exclude: ['recharts', 'jspdf', 'html2canvas', '@google/genai'],
+        // ✅ PERFORMANCE: Lazy load heavy libraries
+        exclude: ['recharts', 'framer-motion', 'jspdf', 'html2canvas', '@google/genai', '@supabase/supabase-js', '@clerk/clerk-js'],
         force: true
       },
       define: {
@@ -96,21 +92,25 @@ export default defineConfig(({ mode }) => {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
             manualChunks: (id) => {
-              // React Core (stable, rarely changes) - EXCEPT heavy libraries
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime') || id.includes('lucide-react')) {
-                return 'react-vendor';
+              // React Core (stable, rarely changes) - split from icons
+              if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) {
+                return 'react-core';
+              }
+              // UI Icons - separate chunk for better caching
+              if (id.includes('lucide-react')) {
+                return 'icons';
               }
               // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
               if (id.includes('recharts')) {
                 return 'charts';
               }
+              // ✅ PERFORMANCE: Framer Motion - lazy loaded
+              if (id.includes('framer-motion')) {
+                return 'motion';
+              }
               // Supabase (large, separate chunk)
               if (id.includes('@supabase/supabase-js')) {
                 return 'supabase';
-              }
-              // Heavy UI libraries
-              if (id.includes('framer-motion')) {
-                return 'motion';
               }
               // Document generation (rarely used)
               if (id.includes('jspdf') || id.includes('html2canvas')) {
@@ -124,13 +124,20 @@ export default defineConfig(({ mode }) => {
               if (id.includes('react-router-dom')) {
                 return 'router';
               }
-              // Clerk authentication
-              if (id.includes('@clerk')) {
-                return 'auth';
+              // Clerk authentication - split for better caching
+              if (id.includes('@clerk/clerk-react')) {
+                return 'clerk-react';
+              }
+              if (id.includes('@clerk/clerk-js')) {
+                return 'clerk-js';
               }
               // ✅ PERFORMANCE: Split React Dropzone (heavy, rarely used)
               if (id.includes('react-dropzone')) {
                 return 'upload';
+              }
+              // Other node_modules
+              if (id.includes('node_modules')) {
+                return 'vendor';
               }
             },
             // ✅ PERFORMANCE: Optimize chunk file names for long-term caching
