@@ -360,7 +360,7 @@ const CannedResponses: React.FC<CannedResponsesProps> = ({
                                 {response.isCustom && onDeleteTemplate && (
                                     <button
                                         onClick={(e) => handleDeleteTemplate(e, response.id)}
-                                        className="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-all duration-300 hover:scale-110 active:scale-95"
+                                        className="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-all duration-300 hover:scale-110 active:scale-[0.98]"
                                         title="Vorlage löschen"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

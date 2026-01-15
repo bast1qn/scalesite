@@ -229,7 +229,7 @@ const Settings: React.FC = () => {
             className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ease-out min-h-11 ${
                 activeTab === id
                 ? 'bg-white dark:bg-slate-800 text-primary-600 dark:text-primary-400 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700 scale-[1.02]'
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'
             }`}
         >
             <span className={`transition-colors duration-200 ${activeTab === id ? 'text-primary-600 dark:text-primary-400' : 'text-slate-400 group-hover:text-slate-500'}`}>{icon}</span>
@@ -326,7 +326,7 @@ const Settings: React.FC = () => {
 
                                     <div className="md:col-span-2 flex items-center justify-end gap-3 mt-4">
                                         {successMsg && <span className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold animate-fade-in flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg"><CheckBadgeIcon className="w-4 h-4" /> {successMsg}</span>}
-                                        <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-slate-900/20 dark:hover:shadow-white/20 hover:scale-[1.02] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:shadow-md">
+                                        <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-slate-900/20 dark:hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:shadow-md">
                                             {loading ? 'Speichere...' : t('dashboard.settings.update_profile')}
                                         </button>
                                     </div>
@@ -373,7 +373,7 @@ const Settings: React.FC = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <button type="submit" disabled={loading || !passwordValidation.isValid} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-6 rounded-xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                                    <button type="submit" disabled={loading || !passwordValidation.isValid} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-6 rounded-xl hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
                                         {loading ? '...' : t('dashboard.settings.change_password')}
                                     </button>
                                 </form>
@@ -390,7 +390,7 @@ const Settings: React.FC = () => {
                                         </div>
                                         <button
                                             onClick={handleExportData}
-                                            className="flex items-center gap-2 text-sm font-semibold border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
+                                            className="flex items-center gap-2 text-sm font-semibold border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11"
                                         >
                                             <ArrowDownOnSquareIcon className="w-4 h-4" /> Exportieren
                                         </button>
@@ -401,7 +401,7 @@ const Settings: React.FC = () => {
                                             <p className="text-sm font-bold text-red-600">Konto löschen</p>
                                             <p className="text-xs text-slate-500">Löscht unwiderruflich Ihr Konto und alle verknüpften Daten.</p>
                                         </div>
-                                        <button className="flex items-center gap-2 text-sm font-semibold bg-red-50 dark:bg-red-900/20 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11">
+                                        <button className="flex items-center gap-2 text-sm font-semibold bg-red-50 dark:bg-red-900/20 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11">
                                             <TrashIcon className="w-4 h-4" /> Löschen
                                         </button>
                                     </div>
@@ -437,7 +437,7 @@ const Settings: React.FC = () => {
                                     </div>
                                     <div className="pt-2 flex items-center justify-end gap-4">
                                         {successMsg && <span className="text-green-500 text-sm font-bold animate-fade-in flex items-center gap-1"><CheckBadgeIcon className="w-4 h-4" /> {successMsg}</span>}
-                                        <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-6 rounded-xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                                        <button type="submit" disabled={loading} className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 px-6 rounded-xl hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
                                             {loading ? 'Speichere...' : 'Daten speichern'}
                                         </button>
                                     </div>
@@ -449,7 +449,7 @@ const Settings: React.FC = () => {
                                     <h3 className="text-lg font-bold mb-1">Rechnungsverlauf</h3>
                                     <p className="text-sm text-slate-300">Laden Sie alle vergangenen Rechnungen als PDF herunter.</p>
                                 </div>
-                                <button onClick={() => { /* Navigate to transactions */ }} className="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3 rounded-lg hover:scale-[1.02] active:scale-95 transition-all duration-200 backdrop-blur-sm min-h-11">
+                                <button onClick={() => { /* Navigate to transactions */ }} className="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3 rounded-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 backdrop-blur-sm min-h-11">
                                     Zum Archiv
                                 </button>
                             </div>

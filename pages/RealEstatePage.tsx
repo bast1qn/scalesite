@@ -236,7 +236,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <button
         onClick={() => setCurrentPage('home')}
-        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
+        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11"
       >
         <ChevronLeftIcon className="w-4 h-4" />
         <span className="text-sm font-medium">Back</span>
@@ -408,7 +408,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               </h2>
               <button
                 onClick={() => setSelectedProperty(null)}
-                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
+                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11"
               >
                 <XMarkIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
               </button>
@@ -418,13 +418,13 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
             <div className={`aspect-video bg-gradient-to-br ${selectedProperty.images[currentImageIndex] ?? ''} relative`}>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : (selectedProperty.images?.length ?? 1) - 1))}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11"
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev < (selectedProperty.images?.length ?? 1) - 1 ? prev + 1 : 0))}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-slate-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11"
               >
                 <ChevronRightIcon className="w-5 h-5" />
               </button>
@@ -455,7 +455,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                 </div>
                 <button
                   onClick={() => setShowContactForm(!showContactForm)}
-                  className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] active:scale-95 min-h-11"
+                  className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] min-h-11"
                 >
                   <EnvelopeIcon className="w-5 h-5" />
                   Request Viewing
@@ -588,7 +588,7 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
                       </div>
                       <button
                         type="submit"
-                        className="group w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] active:scale-95 min-h-11"
+                        className="group w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] min-h-11"
                       >
                         <span>Send Request</span>
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -615,11 +615,11 @@ export const RealEstatePage: React.FC<RealEstatePageProps> = ({ setCurrentPage }
               We'll keep you updated about new listings matching your criteria.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:+493012345678" className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] active:scale-95 min-h-11">
+              <a href="tel:+493012345678" className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] min-h-11">
                 <PhoneIcon className="w-5 h-5" />
                 +49 30 123 456 78
               </a>
-              <a href="mailto:info@realestate.de" className="px-8 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-md hover:scale-[1.02] active:scale-95 min-h-11">
+              <a href="mailto:info@realestate.de" className="px-8 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] min-h-11">
                 <EnvelopeIcon className="w-5 h-5" />
                 Send Email
               </a>

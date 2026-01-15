@@ -179,7 +179,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
       {/* Back Button */}
       <button
         onClick={() => setCurrentPage('home')}
-        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-200 min-h-11"
+        className="fixed top-20 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 min-h-11"
       >
         <ChevronLeftIcon className="w-4 h-4" />
         <span className="text-sm font-medium">Back</span>
@@ -316,7 +316,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 min-h-11 ${
                       activeCategory === cat.id
                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md scale-[1.02]'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:shadow-sm hover:scale-[1.02] active:scale-95'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98]'
                     }`}
                   >
                     {cat.name}
@@ -560,7 +560,7 @@ export const ArchitecturePage: React.FC<ArchitecturePageProps> = ({ setCurrentPa
 
                     <button
                       type="submit"
-                      className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-11"
+                      className="w-full py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-11"
                     >
                       Send Message
                     </button>

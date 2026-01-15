@@ -348,7 +348,7 @@ const NewsletterManager: React.FC = () => {
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Kampagnen</h2>
                             <button
                                 onClick={handleNewCampaignClick}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-95 focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 transition-all"
                             >
                                 <PlusIcon className="w-5 h-5" />
                                 Neue Kampagne
@@ -586,7 +586,7 @@ const NewsletterManager: React.FC = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-95 focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 transition-all"
                                 >
                                     {editingCampaign ? 'Aktualisieren' : 'Erstellen'}
                                 </button>

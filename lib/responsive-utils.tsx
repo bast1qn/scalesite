@@ -168,7 +168,7 @@ export const desktopOptimizations = {
   multiColumn: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
 
   // Hover effects only work on desktop
-  hoverEffects: 'hover:shadow-lg hover:scale-105',
+  hoverEffects: 'hover:shadow-lg hover:scale-[1.02]',
 
   // Show decorative elements
   showDecorative: 'hidden lg:block',
