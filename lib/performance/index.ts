@@ -87,3 +87,71 @@ export {
   useComponentLifecycle,
   useDeepMemo
 } from './hooks';
+
+// Advanced Optimizations (Loop 13)
+export {
+  VirtualList,
+  VirtualGrid,
+  useVirtualList,
+} from './virtualList';
+
+export {
+  shouldPrefetch,
+  prefetchResources,
+  setupLinkPrefetch,
+  setupHoverPrefetch,
+  prefetchForRoute,
+  initPrefetchStrategies,
+  ROUTE_PREFETCH_CONFIG,
+} from './prefetchStrategy';
+
+export {
+  SplitAuthProvider,
+  useUser,
+  useAuthState,
+  useAuthActions,
+  useAuth,
+  ModalProvider,
+  useModal,
+  SidebarProvider,
+  useSidebar,
+  NotificationProvider,
+  useNotifications,
+  PerformanceProvider,
+  useRenderTracking,
+} from './contextSplitting';
+
+export {
+  runWhenIdle,
+  useIdleEffect,
+  rafThrottle,
+  useRafScroll,
+  debounceLeading,
+  throttleTrailing,
+  useAsyncEffect,
+  useAbortController,
+  batchUpdates,
+  useDeferredValue,
+  useTransition,
+  useReservedSpace,
+  useProgressiveImage,
+  preloadImage,
+  perfMark,
+  perfMeasure,
+  usePerfTrack,
+} from './advancedOptimizations';
+
+export {
+  getLCPCandidate,
+  preloadCriticalCSS,
+  setupPreconnectOrigins,
+  prioritizeLCPImage,
+  removeRenderBlocking,
+  optimizeFontLoading,
+  reserveLCPSpace,
+  deferOffscreenImages,
+  initLCPOptimization,
+  measureLCP,
+  useLCPOptimization,
+  LCP_OPTIMIZATION_CHECKLIST,
+} from './lcpOptimizer';
