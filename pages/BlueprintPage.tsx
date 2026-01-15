@@ -134,7 +134,7 @@ const generatePreviewHtml = (
                                 <div class="bg-surface dark:bg-dark-surface rounded-xl shadow-sm overflow-hidden group border border-dark-text/5 dark:border-light-text/5">
                                     <div class="aspect-square bg-gray-100 dark:bg-gray-800 overflow-hidden relative">
                                        <div class="absolute inset-0 flex items-center justify-center text-gray-300 dark:text-gray-600">IMG</div>
-                                       <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 opacity-80 hover:opacity-100" />
+                                       <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300 opacity-80 hover:opacity-100" />
                                     </div>
                                     <div class="p-5 text-center">
                                         <h4 class="font-bold text-dark-text dark:text-light-text text-sm">${p.name}</h4>

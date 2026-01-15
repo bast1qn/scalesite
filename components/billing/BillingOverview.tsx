@@ -265,13 +265,13 @@ const BillingOverview: React.FC<BillingOverviewProps> = ({ className = '' }) => 
                         </div>
 
                         {/* Actions */}
-                        <div className="bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl p-6 text-white">
+                        <div className="bg-gradient-to-br from-violet-500 to-primary-500 rounded-xl p-6 text-white">
                             <h3 className="font-semibold mb-3">Schnellaktionen</h3>
                             <div className="space-y-2">
-                                <button className="w-full text-left px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+                                <button className="w-full text-left px-3 py-3 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors min-h-11">
                                     Rechnung anzeigen
                                 </button>
-                                <button className="w-full text-left px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+                                <button className="w-full text-left px-3 py-3 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors min-h-11">
                                     Zahlungsmethode hinzufügen
                                 </button>
                             </div>

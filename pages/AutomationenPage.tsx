@@ -143,7 +143,7 @@ const WorkflowVisualizer: React.FC<{ language: 'de' | 'en' }> = ({ language }) =
     } as const;
 
     return (
-        <div className="relative w-full max-w-4xl mx-auto h-48 md:h-64 bg-slate-900/60 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden flex items-center justify-between px-8 md:px-16 shadow-2xl hover:shadow-purple-900/20 transition-all duration-500 hover:scale-[1.01]">
+        <div className="relative w-full max-w-4xl mx-auto h-48 md:h-64 bg-slate-900/60 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden flex items-center justify-between px-8 md:px-16 shadow-2xl hover:shadow-purple-900/20 transition-all duration-300 hover:scale-[1.01]">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
 
             <div className="absolute top-1/2 left-16 right-16 h-px bg-slate-700/50 -translate-y-1/2 z-0"></div>
@@ -163,8 +163,8 @@ const WorkflowVisualizer: React.FC<{ language: 'de' | 'en' }> = ({ language }) =
                 const isActive = step >= idx;
                 return (
                     // ✅ FIX: Use node.id instead of idx for stable key
-                    <div key={node.id} className={`relative z-10 flex flex-col items-center transition-all duration-500 ${isActive ? 'opacity-100 scale-110' : 'opacity-40 scale-100'}`}>
-                        <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-3xl flex items-center justify-center border transition-all duration-500 ${
+                    <div key={node.id} className={`relative z-10 flex flex-col items-center transition-all duration-300 ${isActive ? 'opacity-100 scale-110' : 'opacity-40 scale-100'}`}>
+                        <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-3xl flex items-center justify-center border transition-all duration-300 ${
                             isActive
                                 ? `${colors.bg} ${colors.border} ${colors.text} shadow-[0_0_30px_rgba(0,0,0,0.3)]`
                                 : 'bg-slate-800/50 border-slate-700/50 text-slate-500'
@@ -189,7 +189,7 @@ const VoiceAgentDemo: React.FC<{ language: 'de' | 'en' }> = ({ language }) => {
         : ["\"Good day, Dr. Stein's practice. How can I help?\"", "\"Hi, I unfortunately have to cancel my Tuesday appointment.\"", "\"Alright, I've cancelled the appointment. Shall we schedule a new one right away?\""];
 
     return (
-        <div className="w-full max-w-md mx-auto bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 relative overflow-hidden shadow-2xl shadow-purple-900/20 transition-all duration-500 hover:shadow-purple-900/30 hover:scale-[1.01]">
+        <div className="w-full max-w-md mx-auto bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 relative overflow-hidden shadow-2xl shadow-purple-900/20 transition-all duration-300 hover:shadow-purple-900/30 hover:scale-[1.01]">
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 blur-[60px] rounded-full pointer-events-none"></div>
 
             <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
@@ -392,16 +392,16 @@ ${message || '- Keine Nachricht -'}
                                 const colors = colorStyles[pkg.color];
 
                                 return (
-                                <div key={pkg.id} className="group relative bg-slate-900/60 backdrop-blur-xl rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-500 flex flex-col overflow-hidden hover:shadow-2xl hover:shadow-purple-900/20 hover:-translate-y-1">
+                                <div key={pkg.id} className="group relative bg-slate-900/60 backdrop-blur-xl rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-300 flex flex-col overflow-hidden hover:shadow-2xl hover:shadow-purple-900/20 hover:-translate-y-1">
                                     {/* Gradient background on hover */}
-                                    <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}></div>
 
                                     {/* Top gradient line */}
-                                    <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${colors.line} opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full transform scale-x-0 group-hover:scale-x-100`}></div>
+                                    <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${colors.line} opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-full transform scale-x-0 group-hover:scale-x-100`}></div>
 
                                     <div className="p-8 border-b border-white/5 relative z-10">
                                         <div className="flex justify-between items-start mb-4">
-                                            <div className={`w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center group-hover:scale-[1.02] group-hover:-rotate-6 transition-all duration-500 shadow-lg group-hover:${colors.bg} group-hover:${colors.border}`}>
+                                            <div className={`w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center group-hover:scale-[1.02] group-hover:-rotate-6 transition-all duration-300 shadow-lg group-hover:${colors.bg} group-hover:${colors.border}`}>
                                                 {pkg.icon}
                                             </div>
                                             <div className={`px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider border transition-all duration-300 ${colors.badge}`}>
@@ -537,7 +537,7 @@ ${message || '- Keine Nachricht -'}
                                 </div>
                             </div>
                             <div className="relative">
-                                <div className="absolute -inset-4 bg-blue-600/20 rounded-[2.5rem] blur-xl transition-opacity duration-500 hover:opacity-70 opacity-50"></div>
+                                <div className="absolute -inset-4 bg-blue-600/20 rounded-[2.5rem] blur-xl transition-opacity duration-300 hover:opacity-70 opacity-50"></div>
                                 <VoiceAgentDemo language={language as 'de' | 'en'} />
                             </div>
                         </div>

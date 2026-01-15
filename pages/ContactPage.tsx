@@ -232,16 +232,16 @@ const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ se
                                 {/* Pricing CTA Box */}
                                 <div className="group bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-8 rounded-3xl shadow-2xl shadow-slate-900/20 dark:shadow-black/50 relative overflow-hidden border border-slate-800 dark:border-slate-700">
                                     {/* Background decoration */}
-                                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/20 via-violet-500/20 to-indigo-500/20 rounded-full blur-[60px] -mr-10 -mt-10 group-hover:opacity-50 transition-opacity duration-500"></div>
+                                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/20 via-violet-500/20 to-indigo-500/20 rounded-full blur-[60px] -mr-10 -mt-10 group-hover:opacity-50 transition-opacity duration-300"></div>
                                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full blur-[50px] -ml-10 -mb-10"></div>
 
                                     {/* Animated border */}
-                                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500 rounded-3xl blur-xl animate-gradient-xy"></div>
                                     </div>
 
                                     <div className="relative z-10">
-                                        <div className="w-14 h-14 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center mb-4 group-hover:scale-[1.02] group-hover:-rotate-3 transition-all duration-500 shadow-xl">
+                                        <div className="w-14 h-14 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center mb-4 group-hover:scale-[1.02] group-hover:-rotate-3 transition-all duration-300 shadow-xl">
                                             <TicketIcon className="w-7 h-7" />
                                         </div>
                                         <h3 className="font-serif text-xl font-bold mb-2">{t('contact_page.box_title')}</h3>

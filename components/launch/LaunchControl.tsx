@@ -123,7 +123,7 @@ const LaunchControl: React.FC = () => {
   const getStatusColor = (status: LaunchPhase['status']) => {
     switch (status) {
       case 'pending': return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-      case 'active': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      case 'active': return 'bg-primary-500/20 text-primary-400 border-primary-500/30';
       case 'completed': return 'bg-green-500/20 text-green-400 border-green-500/30';
     }
   };
@@ -140,7 +140,7 @@ const LaunchControl: React.FC = () => {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
           <p className="text-gray-400">Loading launch data...</p>
         </div>
       </div>
@@ -158,9 +158,9 @@ const LaunchControl: React.FC = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="p-3 bg-blue-500/20 rounded-xl border border-blue-500/30"
+          className="p-3 bg-primary-500/20 rounded-xl border border-primary-500/30"
         >
-          <Rocket className="w-6 h-6 text-blue-400" />
+          <Rocket className="w-6 h-6 text-primary-400" />
         </motion.div>
       </div>
 
@@ -174,7 +174,7 @@ const LaunchControl: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className={`p-6 rounded-xl border-2 transition-all ${
-                phase.status === 'active' ? 'border-blue-500 bg-blue-500/10' : 'border-gray-700 bg-gray-900/50'
+                phase.status === 'active' ? 'border-primary-500 bg-primary-500/10' : 'border-gray-700 bg-gray-900/50'
               }`}
             >
               <div className="flex items-start justify-between mb-4">
@@ -202,7 +202,7 @@ const LaunchControl: React.FC = () => {
               {phase.id === 'soft' && phase.status === 'pending' && (
                 <button
                   onClick={startSoftLaunch}
-                  className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium"
+                  className="w-full py-2 px-4 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors font-medium"
                 >
                   Start Soft Launch
                 </button>
@@ -218,8 +218,8 @@ const LaunchControl: React.FC = () => {
               )}
 
               {phase.status === 'active' && (
-                <div className="mt-4 p-3 bg-blue-500/20 rounded-lg border border-blue-500/30">
-                  <p className="text-sm text-blue-400 font-medium">
+                <div className="mt-4 p-3 bg-primary-500/20 rounded-lg border border-primary-500/30">
+                  <p className="text-sm text-primary-400 font-medium">
                     {phase.id === 'soft' ? 'Beta access enabled' : 'Live in production'}
                   </p>
                 </div>
@@ -234,14 +234,14 @@ const LaunchControl: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-xl p-6 border border-blue-500/30"
+          className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-xl p-6 border border-primary-500/30"
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-400 text-sm font-medium">Active Users</p>
+              <p className="text-primary-400 text-sm font-medium">Active Users</p>
               <p className="text-3xl font-bold text-white mt-2">{stats.activeUsers}</p>
             </div>
-            <Users className="w-10 h-10 text-blue-400" />
+            <Users className="w-10 h-10 text-primary-400" />
           </div>
         </motion.div>
 
@@ -314,7 +314,7 @@ const LaunchControl: React.FC = () => {
             onClick={() => setSelectedView(tab.id as 'overview' | 'monitoring' | 'feedback' | 'settings')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl transition-all font-medium ${
               selectedView === tab.id
-                ? 'bg-blue-500 text-white'
+                ? 'bg-primary-500 text-white'
                 : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
             }`}
           >
@@ -408,7 +408,7 @@ const LaunchControl: React.FC = () => {
                     }}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                       phases.find(p => p.id === 'soft')?.status === 'active'
-                        ? 'bg-blue-500 text-white'
+                        ? 'bg-primary-500 text-white'
                         : 'bg-gray-700 text-gray-400 cursor-not-allowed'
                     }`}
                     disabled={phases.find(p => p.id === 'soft')?.status !== 'active'}
@@ -422,7 +422,7 @@ const LaunchControl: React.FC = () => {
                     <p className="text-white font-medium">Maintenance Mode</p>
                     <p className="text-sm text-gray-400">Temporarily disable access for maintenance</p>
                   </div>
-                  <button className="px-4 py-2 bg-gray-700 text-gray-400 rounded-lg font-medium cursor-not-allowed">
+                  <button className="px-4 py-3 bg-gray-700 text-gray-400 rounded-lg font-medium cursor-not-allowed min-h-11">
                     Disabled
                   </button>
                 </div>

@@ -208,7 +208,7 @@ const NewsletterManager: React.FC = () => {
     const getStatusBadge = useCallback((status: Campaign['status']) => {
         const badges = {
             draft: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-400', label: 'Entwurf' },
-            scheduled: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-600 dark:text-blue-400', label: 'Geplant' },
+            scheduled: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-primary-600 dark:text-primary-400', label: 'Geplant' },
             sending: { bg: 'bg-yellow-100 dark:bg-yellow-900/30', text: 'text-yellow-600 dark:text-yellow-400', label: 'Wird gesendet...' },
             sent: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-600 dark:text-green-400', label: 'Gesendet' }
         };
@@ -244,7 +244,7 @@ const NewsletterManager: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -268,7 +268,7 @@ const NewsletterManager: React.FC = () => {
                         onClick={handleCampaignsTabClick}
                         className={`pb-4 px-1 font-semibold text-sm transition-colors border-b-2 -mb-px ${
                             activeTab === 'campaigns'
-                                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                                ? 'border-primary-500 text-primary-600 dark:text-primary-400'
                                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 active:text-slate-900 dark:active:text-white focus:ring-2 focus:ring-blue-500/50 rounded'
                         }`}
                     >
@@ -278,7 +278,7 @@ const NewsletterManager: React.FC = () => {
                         onClick={handleSubscribersTabClick}
                         className={`pb-4 px-1 font-semibold text-sm transition-colors border-b-2 -mb-px ${
                             activeTab === 'subscribers'
-                                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                                ? 'border-primary-500 text-primary-600 dark:text-primary-400'
                                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 active:text-slate-900 dark:active:text-white focus:ring-2 focus:ring-blue-500/50 rounded'
                         }`}
                     >
@@ -295,7 +295,7 @@ const NewsletterManager: React.FC = () => {
                         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
-                                    <EnvelopeIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                    <EnvelopeIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                                 </div>
                                 <div>
                                     <p className="text-2xl font-bold text-slate-900 dark:text-white">{campaigns.length}</p>
@@ -348,7 +348,7 @@ const NewsletterManager: React.FC = () => {
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Kampagnen</h2>
                             <button
                                 onClick={handleNewCampaignClick}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 transition-all"
                             >
                                 <PlusIcon className="w-5 h-5" />
                                 Neue Kampagne
@@ -406,7 +406,7 @@ const NewsletterManager: React.FC = () => {
                                                 )}
                                                 <button
                                                     onClick={() => openCampaignModal(campaign)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 active:bg-blue-100 dark:active:bg-blue-900/40 focus:ring-2 focus:ring-blue-500/50 rounded-xl transition-all"
+                                                    className="p-2 text-primary-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 active:bg-blue-100 dark:active:bg-blue-900/40 focus:ring-2 focus:ring-blue-500/50 rounded-xl transition-all"
                                                     title="Bearbeiten"
                                                 >
                                                     <PencilIcon className="w-5 h-5" />
@@ -586,7 +586,7 @@ const NewsletterManager: React.FC = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl hover:brightness-110 active:brightness-90 active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                    className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-blue-500/50 transition-all"
                                 >
                                     {editingCampaign ? 'Aktualisieren' : 'Erstellen'}
                                 </button>

@@ -87,7 +87,7 @@ export const CookieConsent = () => {
 
     return (
         <>
-            <div className={`fixed bottom-0 left-0 right-0 z-[9999] p-4 md:p-6 transition-all duration-500 ease-out transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+            <div className={`fixed bottom-0 left-0 right-0 z-[9999] p-4 md:p-6 transition-all duration-400 ease-out transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
                 <div className="max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-2xl shadow-slate-200/30 dark:shadow-black/30 rounded-3xl p-6 md:flex items-center justify-between gap-6 relative overflow-hidden">
                     {/* Gradient accent border - Vercel inspired subtle top accent */}
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 via-violet-500 to-primary-600 rounded-t-3xl"></div>

@@ -174,7 +174,7 @@ const DiscountManager: React.FC = () => {
                                     </div>
                                     <button 
                                         onClick={() => openServiceModal(service)}
-                                        className="text-xs bg-slate-200 dark:bg-slate-700 hover:bg-blue-600 hover:text-white px-3 py-1 rounded transition-colors flex items-center gap-1"
+                                        className="text-xs bg-slate-200 dark:bg-slate-700 hover:bg-primary-600 hover:text-white px-3 py-1 rounded transition-colors flex items-center gap-1"
                                     >
                                         <PencilIcon className="w-3 h-3" /> Editieren
                                     </button>
@@ -187,7 +187,7 @@ const DiscountManager: React.FC = () => {
                                     </div>
                                     <div className="flex-1">
                                         <span className="text-xs text-slate-500 block">Angebot</span>
-                                        <span className={`font-mono ${service.sale_price ? 'text-blue-600 font-bold' : 'text-slate-400'}`}>
+                                        <span className={`font-mono ${service.sale_price ? 'text-primary-600 font-bold' : 'text-slate-400'}`}>
                                             {service.sale_price ? `${service.sale_price}€` : '-'}
                                         </span>
                                     </div>
@@ -201,7 +201,7 @@ const DiscountManager: React.FC = () => {
                 <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
                      <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white">Gutscheincodes</h2>
-                        <button onClick={() => setShowDiscountModal(true)} className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-full font-bold hover:bg-blue-700 transition-colors">
+                        <button onClick={() => setShowDiscountModal(true)} className="text-xs bg-primary-600 text-white px-3 py-1.5 rounded-full font-bold hover:bg-primary-700 transition-colors">
                             + Erstellen
                         </button>
                     </div>
@@ -211,7 +211,7 @@ const DiscountManager: React.FC = () => {
                             <div key={d.id} className="flex justify-between items-center bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
                                 <div>
                                     <div className="flex items-center gap-2">
-                                        <TagIcon className="w-4 h-4 text-blue-600" />
+                                        <TagIcon className="w-4 h-4 text-primary-600" />
                                         <span className="font-mono font-bold text-slate-900 dark:text-white">{d.code}</span>
                                     </div>
                                     <p className="text-xs text-slate-500 mt-0.5">
@@ -252,8 +252,8 @@ const DiscountManager: React.FC = () => {
                                 </div>
                             </div>
                             <div className="pt-2 flex justify-end gap-2">
-                                <button type="button" onClick={() => setShowDiscountModal(false)} className="px-4 py-2 text-sm font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">{t('dashboard.alerts.cancel')}</button>
-                                <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">{t('dashboard.discounts.save')}</button>
+                                <button type="button" onClick={() => setShowDiscountModal(false)} className="px-4 py-3 text-sm font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg min-h-11">{t('dashboard.alerts.cancel')}</button>
+                                <button type="submit" className="bg-primary-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-primary-700 transition-colors min-h-11">{t('dashboard.discounts.save')}</button>
                             </div>
                         </form>
                     </div>
@@ -277,14 +277,14 @@ const DiscountManager: React.FC = () => {
                                 <button 
                                     type="button"
                                     onClick={() => setEditLang('de')}
-                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'de' ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'de' ? 'border-blue-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
                                 >
                                     Deutsch (Standard)
                                 </button>
                                 <button 
                                     type="button"
                                     onClick={() => setEditLang('en')}
-                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'en' ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                                    className={`flex-1 pb-2 text-sm font-bold border-b-2 transition-colors ${editLang === 'en' ? 'border-blue-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
                                 >
                                     Englisch
                                 </button>
@@ -334,8 +334,8 @@ const DiscountManager: React.FC = () => {
                             </div>
 
                             <div className="pt-4 flex justify-end gap-3">
-                                <button type="button" onClick={() => setShowServiceModal(false)} className="px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold">{t('dashboard.alerts.cancel')}</button>
-                                <button type="submit" className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                                <button type="button" onClick={() => setShowServiceModal(false)} className="px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold min-h-11">{t('dashboard.alerts.cancel')}</button>
+                                <button type="submit" className="bg-primary-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-primary-700 transition-colors shadow-md min-h-11">
                                     {t('dashboard.alerts.save')}
                                 </button>
                             </div>

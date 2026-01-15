@@ -363,8 +363,8 @@ Monatlich: ${formatPrice(monthlyPrice)}
                                         </p>
                                         {requestError && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 p-2 rounded">{requestError}</p>}
                                         <div className="flex gap-3 pt-2">
-                                            <button onClick={() => setShowRequestModal(false)} className="flex-1 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-700 focus:ring-2 focus:ring-primary/50 transition-all">{t('general.close')}</button>
-                                            <button onClick={confirmRequest} className="flex-1 py-2 rounded-lg bg-primary text-white font-bold hover:bg-primary-hover active:scale-[0.98] focus:ring-2 focus:ring-primary/50 transition-all">{t('pricing.modal.btn_submit')}</button>
+                                            <button onClick={() => setShowRequestModal(false)} className="flex-1 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-700 focus:ring-2 focus:ring-primary/50 transition-all min-h-11">{t('general.close')}</button>
+                                            <button onClick={confirmRequest} className="flex-1 py-3 rounded-lg bg-primary text-white font-bold hover:bg-primary-hover active:scale-[0.98] focus:ring-2 focus:ring-primary/50 transition-all min-h-11">{t('pricing.modal.btn_submit')}</button>
                                         </div>
                                     </div>
                                 ) : (
