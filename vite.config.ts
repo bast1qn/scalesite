@@ -1,9 +1,13 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import viteCompression from 'vite-plugin-compression';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
+    const isProduction = mode === 'production';
+
     return {
       server: {
         port: 3000,
@@ -13,12 +17,44 @@ export default defineConfig(({ mode }) => {
           usePolling: false
         }
       },
-      plugins: [react({
-        jsxImportSource: 'react',
-        babel: {
-          plugins: []
-        }
-      })],
+      plugins: [
+        react({
+          jsxImportSource: 'react',
+          babel: {
+            plugins: []
+          }
+        }),
+
+        // ✅ PERFORMANCE: Brotli compression (best compression ratio)
+        viteCompression({
+          algorithm: 'brotliCompress',
+          ext: '.br',
+          compressionOptions: {
+            level: 11, // Maximum compression
+          },
+          threshold: 1024, // Only compress files > 1KB
+          deleteOriginFile: false,
+        }),
+
+        // ✅ PERFORMANCE: Gzip compression (fallback for older browsers)
+        viteCompression({
+          algorithm: 'gzip',
+          ext: '.gz',
+          compressionOptions: {
+            level: 9, // Maximum compression
+          },
+          threshold: 1024,
+          deleteOriginFile: false,
+        }),
+
+        // ✅ PERFORMANCE: Bundle analyzer for optimization insights
+        isProduction && visualizer({
+          open: false,
+          gzipSize: true,
+          brotliSize: true,
+          filename: 'dist/stats.html',
+        }),
+      ],
       cacheDir: false,
       // ✅ PERFORMANCE: Pre-bundle ALL dependencies to improve cold start
       optimizeDeps: {
@@ -52,6 +88,7 @@ export default defineConfig(({ mode }) => {
         sourcemap: false,
         // ✅ PERFORMANCE: Improve chunk size warnings threshold
         chunkSizeWarningLimit: 1000,
+        // ✅ PERFORMANCE: Advanced Rollup optimizations
         rollupOptions: {
           external: ['@neondatabase/serverless'],
           output: {
@@ -89,14 +126,36 @@ export default defineConfig(({ mode }) => {
               if (id.includes('@clerk')) {
                 return 'auth';
               }
-            }
-          }
-        }
+            },
+            // ✅ PERFORMANCE: Optimize chunk file names for long-term caching
+            chunkFileNames: 'assets/[name]-[hash].js',
+            entryFileNames: 'assets/[name]-[hash].js',
+            assetFileNames: 'assets/[name]-[hash].[ext]',
+          },
+          // ✅ PERFORMANCE: Advanced treeshaking
+          treeshake: {
+            moduleSideEffects: false,
+            propertyReadSideEffects: false,
+            unknownGlobalSideEffects: false,
+          },
+        },
+        // ✅ PERFORMANCE: Terser optimization options
+        terserOptions: {
+          compress: {
+            drop_console: isProduction,
+            drop_debugger: isProduction,
+            pure_funcs: isProduction ? ['console.log', 'console.info', 'console.debug'] : [],
+            passes: 2, // Multiple compression passes
+          },
+          format: {
+            comments: false, // Remove comments
+          },
+        },
       },
-      // ✅ PERFORMANCE: Terser options for better compression
+      // ✅ PERFORMANCE: Esbuild options for better minification
       esbuild: {
         target: 'es2020',
-        drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+        drop: isProduction ? ['console', 'debugger'] : [],
       }
     };
 });
