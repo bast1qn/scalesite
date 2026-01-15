@@ -122,6 +122,20 @@
     box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 4px theme(colors.primary.500 / 0.5);
   }
 
+  /* Enhanced focus for buttons - larger, more visible */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    @apply outline-none;
+    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 5px theme(colors.primary.500 / 0.6);
+  }
+
+  .dark button:focus-visible,
+  .dark a:focus-visible,
+  .dark [role="button"]:focus-visible {
+    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 5px theme(colors.primary.500 / 0.6);
+  }
+
   /* Link hover states */
   a {
     @apply transition-colors duration-200;
@@ -396,10 +410,58 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
   }
 
+  /* Ultra-wide container for 2xl screens */
+  .container-ultra-wide {
+    @apply max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16;
+  }
+
   /* Section spacing - consistent 4, 6, 8, 12, 16, 20, 24 scale */
   .section-premium {
     @apply py-12 sm:py-16 md:py-20 lg:py-24;
   }
+
+  /* Tablet-optimized text sizes */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .tablet-text-lg {
+      @apply text-lg;
+    }
+    .tablet-text-xl {
+      @apply text-xl;
+    }
+  }
+
+  /* Ultra-wide desktop optimizations */
+  @media (min-width: 1536px) {
+    .ultra-wide-grid {
+      @apply grid-cols-4 gap-8;
+    }
+  }
+
+  /* ==================== VISUAL CONSISTENCY GUIDE ==================== */
+  /*
+   * BUTTON VARIANTS:
+   * - .btn-primary: Gradient primary with hover glow
+   * - .btn-secondary: Border style with hover scale
+   * - .btn-ghost: Minimal ghost style
+   *
+   * INPUT VARIANTS:
+   * - .input-premium: Premium input with focus scale animation
+   *
+   * CARD VARIANTS:
+   * - .card-premium: Premium card with hover shadow
+   *
+   * SHADOW VARIANTS:
+   * - .shadow-premium: Subtle card shadow
+   * - .shadow-premium-lg: Large card shadow
+   * - .shadow-soft: Soft UI shadow
+   * - .shadow-glow: Colored glow effect
+   *
+   * INTERACTIVE STATES (consistent across all components):
+   * - hover: scale-[1.02] (2% scale up)
+   * - active: scale-[0.98] (2% scale down)
+   * - transition: duration-300 ease-out
+   * - focus-visible: ring-2 ring-primary-500/50
+   */
 }
 
 /* ==================== REFINED ANIMATIONS ==================== */
@@ -416,6 +478,16 @@
   }
 }
 
+/* Success pulse - gentler version for repeated feedback */
+@keyframes success-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 /* Error feedback animation - shake effect */
 @keyframes error-feedback {
   0%, 100% {
@@ -426,6 +498,26 @@
   }
   40%, 80% {
     transform: translateX(4px);
+  }
+}
+
+/* Error fade - subtle red pulse */
+@keyframes error-fade {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Loading shimmer - for skeleton loaders */
+@keyframes loading-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
   }
 }
 
@@ -921,9 +1013,25 @@
   animation: success-feedback 0.6s ease-out;
 }
 
+/* Success pulse - for loading/saving states */
+.animate-success-pulse {
+  animation: success-pulse 2s ease-in-out infinite;
+}
+
 /* Error feedback animation class */
 .animate-error-feedback {
   animation: error-feedback 0.4s ease-out;
+}
+
+/* Error fade - for persistent error states */
+.animate-error-fade {
+  animation: error-fade 1.5s ease-in-out infinite;
+}
+
+/* Loading shimmer class */
+.animate-loading-shimmer {
+  animation: loading-shimmer 2s linear infinite;
+  background-size: 200% auto;
 }
 
 /* ==================== PRINT STYLES ==================== */
