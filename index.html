@@ -152,6 +152,15 @@
     <!-- Preload main entry point -->
     <link rel="modulepreload" href="/index.tsx" crossorigin>
 
+    <!-- ✅ PERFORMANCE: Preconnect to Clerk for faster auth loading -->
+    <link rel="preconnect" href="https://*.clerk.accounts.dev" crossorigin>
+
+    <!-- ✅ PERFORMANCE: Preload high-priority routes -->
+    <!-- Prefetch PreisePage (high traffic) -->
+    <link rel="prefetch" href="/assets/PreisePage">
+    <!-- Prefetch ProjektePage (high traffic) -->
+    <link rel="prefetch" href="/assets/ProjektePage">
+
     <!-- Performance: Early hints for font loading -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">

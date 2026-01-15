@@ -88,6 +88,8 @@ export default defineConfig(({ mode }) => {
         sourcemap: false,
         // ✅ PERFORMANCE: Improve chunk size warnings threshold
         chunkSizeWarningLimit: 1000,
+        // ✅ PERFORMANCE: CSS code splitting
+        cssCodeSplit: true,
         // ✅ PERFORMANCE: Advanced Rollup optimizations
         rollupOptions: {
           external: ['@neondatabase/serverless'],
@@ -135,6 +137,8 @@ export default defineConfig(({ mode }) => {
             chunkFileNames: 'assets/[name]-[hash].js',
             entryFileNames: 'assets/[name]-[hash].js',
             assetFileNames: 'assets/[name]-[hash].[ext]',
+            // ✅ PERFORMANCE: Preserve module signatures for better caching
+            hoistTransitiveImports: false,
           },
           // ✅ PERFORMANCE: Advanced treeshaking
           treeshake: {
