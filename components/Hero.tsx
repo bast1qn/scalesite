@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState, useRef, useCallback, memo, type ReactNode, type MouseEvent } from 'react';
+import { useEffect, useState, useRef, useCallback, memo, useMemo, type ReactNode, type MouseEvent } from 'react';
 
 // Internal - Components
 import { ArrowRightIcon } from './Icons';
@@ -43,7 +43,7 @@ const GuaranteeIcons = {
 } as const;
 
 // Refined floating particle
-const FloatingParticle = ({
+const FloatingParticle = memo(({
   delay,
   duration,
   left,
@@ -68,7 +68,7 @@ const FloatingParticle = ({
       }}
     />
   );
-};
+});
 
 // Refined card with subtle spotlight
 const SpotlightCard = ({
@@ -154,6 +154,20 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
   }, []);
 
+  // Memoize particles array to prevent recreation on every render
+  const particles = useMemo(() => [
+    { delay: 0, duration: 10, left: '3%', size: '5px', opacity: 0.25 },
+    { delay: 1, duration: 12, left: '12%', size: '4px', opacity: 0.2 },
+    { delay: 2, duration: 11, left: '22%', size: '6px', opacity: 0.18 },
+    { delay: 3, duration: 13, left: '32%', size: '4px', opacity: 0.22 },
+    { delay: 4, duration: 10, left: '42%', size: '5px', opacity: 0.2 },
+    { delay: 5, duration: 12, left: '52%', size: '4px', opacity: 0.18 },
+    { delay: 6, duration: 11, left: '62%', size: '6px', opacity: 0.25 },
+    { delay: 7, duration: 13, left: '72%', size: '5px', opacity: 0.2 },
+    { delay: 8, duration: 10, left: '82%', size: '4px', opacity: 0.22 },
+    { delay: 9, duration: 12, left: '92%', size: '5px', opacity: 0.18 },
+  ], []);
+
   return (
     <section ref={heroRef} className="relative min-h-[100vh] flex items-center justify-center pt-24 pb-12 overflow-hidden">
       {/* Refined background layers */}
@@ -182,16 +196,16 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
 
       {/* Refined particle system */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <FloatingParticle delay={0} duration={10} left="3%" size="5px" opacity={0.25} />
-        <FloatingParticle delay={1} duration={12} left="12%" size="4px" opacity={0.2} />
-        <FloatingParticle delay={2} duration={11} left="22%" size="6px" opacity={0.18} />
-        <FloatingParticle delay={3} duration={13} left="32%" size="4px" opacity={0.22} />
-        <FloatingParticle delay={4} duration={10} left="42%" size="5px" opacity={0.2} />
-        <FloatingParticle delay={5} duration={12} left="52%" size="4px" opacity={0.18} />
-        <FloatingParticle delay={6} duration={11} left="62%" size="6px" opacity={0.25} />
-        <FloatingParticle delay={7} duration={13} left="72%" size="5px" opacity={0.2} />
-        <FloatingParticle delay={8} duration={10} left="82%" size="4px" opacity={0.22} />
-        <FloatingParticle delay={9} duration={12} left="92%" size="5px" opacity={0.18} />
+        {particles.map((particle, index) => (
+          <FloatingParticle
+            key={`particle-${index}`}
+            delay={particle.delay}
+            duration={particle.duration}
+            left={particle.left}
+            size={particle.size}
+            opacity={particle.opacity}
+          />
+        ))}
       </div>
 
       {/* Refined dot pattern */}

@@ -1,4 +1,4 @@
-import { type SVGProps } from 'react';
+import { type SVGProps, memo } from 'react';
 
 export {};
 
@@ -16,36 +16,36 @@ const smallIconProps = {
 
 // --- NEW ICONS FOR DATABASE UI ---
 
-export const UserPlusIcon = ({ className }: IconProps = {}) => (
+export const UserPlusIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || iconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM3.75 17.25a4.875 4.875 0 004.875-4.875b4.875 4.875 0 019.543 0c.078.313.128.64.128.975v1.125A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V17.25z" />
     </svg>
-);
+));
 
-export const ChatBubbleOvalLeftEllipsisIcon = ({ className }: IconProps = {}) => (
+export const ChatBubbleOvalLeftEllipsisIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M18 10.5c0 .985-.36 1.896-.963 2.623a4.5 4.5 0 01-.937 4.125c-1.332 1.48-3.09 2.47-5.1 2.75A18.06 18.06 0 013 15.75c0-1.42.325-2.774.9-3.986a4.502 4.502 0 012.898-3.728 5.11 5.11 0 016.953 1.222c.63.81.95 1.848.95 2.944zM12 12h.008v.008H12V12zm3 0h.008v.008H15V12zm-6 0h.008v.008H9V12z" />
     </svg>
-);
+));
 
-export const ChatBubbleLeftRightIcon = ({ className }: IconProps = {}) => (
+export const ChatBubbleLeftRightIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-.75 0H9m3.75 0v4.5m3-9v9m0 0a3 3 0 01-3 3h-3.75a3 3 0 01-3-3v-9a3 3 0 013-3h3.75a3 3 0 013 3zm-3.75 9a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H9.75zm5.25 0a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H15z" />
     </svg>
-);
+));
 
 
-export const QuestionMarkCircleIcon = ({ className }: IconProps = {}) => (
+export const QuestionMarkCircleIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
     </svg>
-);
+));
 
-export const BellIcon = ({ className }: IconProps = {}) => (
+export const BellIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.31 6.032 23.848 23.848 0 005.454 1.31M15 17.5v-.217c0-1.613.049-3.21.146-4.793a8.905 8.905 0 00-8.292 0c.097 1.583.146 3.18.146 4.793v.217M15 17.5a2.625 2.625 0 002.625-2.625M9 17.5a2.625 2.625 0 01-2.625-2.625m0 0A2.625 2.625 0 009 17.5m-4.5 0A2.625 2.625 0 009 17.5" />
     </svg>
-);
+));
 
 export const StarIcon = ({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className || smallIconProps.className}>

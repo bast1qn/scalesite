@@ -20,9 +20,19 @@ export default defineConfig(({ mode }) => {
         }
       })],
       cacheDir: false,
+      // ✅ PERFORMANCE: Pre-bundle ALL dependencies to improve cold start
       optimizeDeps: {
-        // ✅ PERFORMANCE: Only pre-bundle core dependencies, lazy-load heavy libraries
-        include: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
+        include: [
+          'react',
+          'react-dom',
+          'react/jsx-runtime',
+          'lucide-react',
+          'framer-motion',
+          'react-router-dom',
+          '@supabase/supabase-js',
+          '@clerk/clerk-react',
+          '@clerk/clerk-js'
+        ],
         exclude: ['recharts', 'jspdf', 'html2canvas', '@google/genai'],
         force: true
       },
