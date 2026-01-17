@@ -40,3 +40,5 @@ export { ProtectedRoute, withAuth } from './ProtectedRoute';
 // Security utilities
 export * from './sessionSecurity';
 export * from './errorHandler';
+export * from './useToast';
+export * from './secureLogger';
