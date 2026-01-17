@@ -24,7 +24,11 @@ export function runWhenIdle(
   timeout: number = 2000
 ): void {
   if ('requestIdleCallback' in window) {
-    (window as any).requestIdleCallback(
+    // ✅ FIXED: Use proper type casting instead of 'any'
+    const windowWithIdle = window as Window & {
+      requestIdleCallback: (cb: () => void, options: { timeout: number }) => number;
+    };
+    windowWithIdle.requestIdleCallback(
       () => callback(),
       { timeout }
     );
@@ -249,9 +253,13 @@ export function useAbortController(): {
  * can still be useful for complex scenarios
  */
 export function batchUpdates<T>(updates: (() => T)[]): T[] {
+  // ✅ FIXED: Use proper type checking for React API
   if ('unstable_batchedUpdates' in React) {
+    const ReactWithBatching = React as typeof React & {
+      unstable_batchedUpdates: <U>(callback: () => U) => U;
+    };
     // React 17 and earlier
-    return (React as any).unstable_batchedUpdates(() => {
+    return ReactWithBatching.unstable_batchedUpdates(() => {
       return updates.map(fn => fn());
     });
   }
@@ -296,9 +304,14 @@ export function useTransition(): [
   const startTransition = useCallback((callback: () => void) => {
     setIsPending(true);
 
+    // ✅ FIXED: Use proper type checking for React 18+ startTransition
+    const ReactWithTransition = React as typeof React & {
+      startTransition?: (callback: () => void) => void;
+    };
+
     // Use startTransition if available (React 18+)
-    if ('startTransition' in React) {
-      (React as any).startTransition(() => {
+    if (ReactWithTransition.startTransition) {
+      ReactWithTransition.startTransition(() => {
         callback();
         setIsPending(false);
       });

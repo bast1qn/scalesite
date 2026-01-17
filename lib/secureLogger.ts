@@ -112,7 +112,8 @@ class SecureLogger {
     // Public API methods
 
     /** Log general information */
-    log(message: string, context?: string, data?: unknown): void {
+    // ✅ FIXED: Renamed public method to avoid conflict with private log()
+    publicLog(message: string, context?: string, data?: unknown): void {
         this.log('log', message, context, data);
     }
 
@@ -186,7 +187,8 @@ class SecureLogger {
 const logger = new SecureLogger();
 
 // Export convenience methods
-export const secureLog = (message: string, context?: string, data?: unknown) => logger.log(message, context, data);
+// ✅ FIXED: Updated export to use renamed public method
+export const secureLog = (message: string, context?: string, data?: unknown) => logger.publicLog(message, context, data);
 export const secureWarn = (message: string, context?: string, data?: unknown) => logger.warn(message, context, data);
 export const secureError = (message: string, context?: string, data?: unknown) => logger.error(message, context, data);
 export const secureInfo = (message: string, context?: string, data?: unknown) => logger.info(message, context, data);

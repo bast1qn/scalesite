@@ -4,7 +4,14 @@
  * Only loads chart library when user views analytics pages
  */
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type ReactNode, type HTMLAttributes } from 'react';
+import type {
+  LineChartProps,
+  BarChartProps,
+  PieChartProps,
+  AreaChartProps,
+  ResponsiveContainerProps
+} from 'recharts';
 
 // Lazy load only the main chart containers
 // Smaller components like Line, Bar, etc. can be imported directly
@@ -58,33 +65,38 @@ const ChartSkeleton = ({ height = 300 }: { height?: number }) => (
   </div>
 );
 
-// Wrapper component for lazy-loaded charts
-export const LazyLineChart = ({ children, ...props }: any) => (
+// ✅ FIXED: Replaced 'any' with proper types from recharts
+interface ChartWrapperProps {
+  children?: ReactNode;
+  height?: number;
+}
+
+export const LazyLineChart = ({ children, ...props }: LineChartProps & ChartWrapperProps) => (
   <Suspense fallback={<ChartSkeleton height={props.height || 300} />}>
     <LineChart {...props}>{children}</LineChart>
   </Suspense>
 );
 
-export const LazyBarChart = ({ children, ...props }: any) => (
+export const LazyBarChart = ({ children, ...props }: BarChartProps & ChartWrapperProps) => (
   <Suspense fallback={<ChartSkeleton height={props.height || 300} />}>
     <BarChart {...props}>{children}</BarChart>
   </Suspense>
 );
 
-export const LazyPieChart = ({ children, ...props }: any) => (
+export const LazyPieChart = ({ children, ...props }: PieChartProps & ChartWrapperProps) => (
   <Suspense fallback={<ChartSkeleton height={props.height || 300} />}>
     <PieChart {...props}>{children}</PieChart>
   </Suspense>
 );
 
-export const LazyAreaChart = ({ children, ...props }: any) => (
+export const LazyAreaChart = ({ children, ...props }: AreaChartProps & ChartWrapperProps) => (
   <Suspense fallback={<ChartSkeleton height={props.height || 300} />}>
     <AreaChart {...props}>{children}</AreaChart>
   </Suspense>
 );
 
-export const LazyResponsiveContainer = ({ children, ...props }: any) => (
-  <Suspense fallback={<ChartSkeleton height={props.height || 300} />}>
+export const LazyResponsiveContainer = ({ children, ...props }: ResponsiveContainerProps) => (
+  <Suspense fallback={<ChartSkeleton height={(props as any).height || 300} />}>
     <ResponsiveContainer {...props}>{children}</ResponsiveContainer>
   </Suspense>
 );

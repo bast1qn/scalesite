@@ -186,19 +186,21 @@ export const withMemo = <P extends object>(Component: React.ComponentType<P>) =>
 
 /**
  * Hook to memoize expensive calculations
+ * ✅ FIXED: Replaced 'any' with proper generic types
  */
-export const useExpensiveCalculation = <T>(input: any, calculation: (input: any) => T): T => {
-  return useMemo(() => calculation(input), [input]);
+export const useExpensiveCalculation = <T, U>(input: T, calculation: (input: T) => U): U => {
+  return useMemo(() => calculation(input), [input, calculation]);
 };
 
 /**
  * Hook to create stable callbacks
+ * ✅ FIXED: Replaced 'any' with proper tuple type for args
  */
-export const useStableCallback = <T extends (...args: any[]) => any>(
+export const useStableCallback <T extends (...args: unknown[]) => unknown>(
   callback: T,
   deps: React.DependencyList = []
 ): T => {
-  return useCallback(callback, deps);
+  return useCallback(callback, deps) as T;
 };
 
 // Type definitions

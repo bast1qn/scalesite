@@ -35,16 +35,33 @@ export class WorkerManager {
 
   /**
    * Create worker from inline code
+   * ✅ FIXED: Added proper type definitions for worker messages
    */
   private createWorkerURL(): string {
     // Read worker code and create blob URL
     const workerCode = `
-      // Worker message types
+      // Worker message types with proper data structures
       type WorkerMessage =
-        | { type: 'pricing'; data: any }
-        | { type: 'analytics'; data: any }
-        | { type: 'currency'; data: any }
-        | { type: 'chart'; data: any };
+        | { type: 'pricing'; data: {
+            basePrice: number;
+            quantity?: number;
+            options?: string[];
+            taxRate?: number;
+          }}
+        | { type: 'analytics'; data: {
+            data: number[];
+            operation: 'sum' | 'average' | 'median' | 'stddev';
+          }}
+        | { type: 'currency'; data: {
+            amount: number;
+            from: string;
+            to: string;
+            rates: Record<string, number>;
+          }}
+        | { type: 'chart'; data: {
+            data: Array<{x: number; y: number}>;
+            smoothing?: number;
+          }};
 
       self.addEventListener('message', (event) => {
         const { type, data } = event.data;

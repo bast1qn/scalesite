@@ -30,10 +30,16 @@ interface AuthContextType {
 
 const mapClerkUserToAppUser = (clerkUser: User): AppUser => {
   const unsafeMetadata = clerkUser.unsafeMetadata || {};
+  // ✅ FIXED: Added null check for emailAddresses array
+  const emailAddresses = clerkUser.emailAddresses;
+  const primaryEmail = emailAddresses && emailAddresses.length > 0
+    ? emailAddresses[0]?.emailAddress
+    : null;
+
   return {
     id: clerkUser.id,
     name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || unsafeMetadata.name?.toString() || '',
-    email: clerkUser.emailAddresses[0]?.emailAddress || unsafeMetadata.email?.toString() || '',
+    email: primaryEmail || unsafeMetadata.email?.toString() || '',
     company: (unsafeMetadata.company?.toString()) || null,
     role: (unsafeMetadata.role?.toString() as 'team' | 'user' | 'owner') || 'user',
     referral_code: (unsafeMetadata.referral_code?.toString()) || null
@@ -84,7 +90,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setHasTimedOut(false);
     }
-  }, [isClerkAvailable, isLoaded, clerkAuth?.isLoaded, hasTimedOut]);
+    // ✅ FIXED: Removed hasTimedOut from dependencies to prevent infinite loop
+    // hasTimedOut is state that gets set inside this effect, causing re-run
+  }, [isClerkAvailable, isLoaded, clerkAuth?.isLoaded]);
 
   // Force loading to false if timeout occurred or Clerk not loaded
   const effectiveLoading = isClerkAvailable ? (!isLoaded && !hasTimedOut) : false;

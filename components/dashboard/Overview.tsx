@@ -278,12 +278,14 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                 const activities: Array<{id: string; text: string; time: string; type: 'info' | 'success' | 'warning' | 'system'}> = [];
 
                 // Add ticket activities
-                if (ticketsRes.data && Array.isArray(ticketsRes.data)) {
+                // ✅ FIXED: Added proper array length check before operations
+                if (ticketsRes.data && Array.isArray(ticketsRes.data) && ticketsRes.data.length > 0) {
                     ticketsRes.data.slice(0, 3).forEach((t) => {
+                        if (!t) return; // Extra safety: skip null/undefined items
                         const timeAgo = getTimeAgo(new Date(t.created_at));
                         activities.push({
                             id: `ticket-${t.id}`,
-                            text: `Ticket erstellt: ${t.subject}`,
+                            text: `Ticket erstellt: ${t.subject || 'Ohne Betreff'}`,
                             time: timeAgo,
                             type: 'info'
                         });
@@ -291,17 +293,17 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                 }
 
                 // Add service activities
-                if (projectsRes.data && Array.isArray(projectsRes.data)) {
+                // ✅ FIXED: Added proper array length check before operations
+                if (projectsRes.data && Array.isArray(projectsRes.data) && projectsRes.data.length > 0) {
                     projectsRes.data.slice(0, 2).forEach((s) => {
-                        if (s.status === 'active') {
-                            const timeAgo = getTimeAgo(new Date(s.created_at));
-                            activities.push({
-                                id: `service-${s.id}`,
-                                text: `Projekt gestartet: ${s.services?.name || 'Dienstleistung'}`,
-                                time: timeAgo,
-                                type: 'success'
-                            });
-                        }
+                        if (!s || s.status !== 'active') return; // Extra safety checks
+                        const timeAgo = getTimeAgo(new Date(s.created_at));
+                        activities.push({
+                            id: `service-${s.id}`,
+                            text: `Projekt gestartet: ${s.services?.name || 'Dienstleistung'}`,
+                            time: timeAgo,
+                            type: 'success'
+                        });
                     });
                 }
 

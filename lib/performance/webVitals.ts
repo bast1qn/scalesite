@@ -9,6 +9,32 @@
  * - TTFB (Time to First Byte): Server response
  */
 
+// ✅ FIXED: Added proper PerformanceEntry types to eliminate 'any'
+interface LCPEntry extends PerformanceEntry {
+  renderTime?: number;
+  loadTime?: number;
+}
+
+interface FIDEntry extends PerformanceEntry {
+  processingStart: number;
+  startTime: number;
+}
+
+interface CLSEntry extends PerformanceEntry {
+  value: number;
+  hadRecentInput: boolean;
+  startTime: number;
+}
+
+interface FCPEntry extends PerformanceEntry {
+  startTime: number;
+}
+
+interface NavigationTimingEntry extends PerformanceEntry {
+  responseStart: number;
+  requestStart: number;
+}
+
 export interface VitalMetric {
   name: string;
   value: number;
@@ -58,8 +84,9 @@ function measureLCP(): Promise<VitalMetric> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1] as any;
-        const value = lastEntry.renderTime || lastEntry.loadTime;
+        // ✅ FIXED: Use proper LCPEntry type instead of 'any'
+        const lastEntry = entries[entries.length - 1] as LCPEntry;
+        const value = lastEntry.renderTime || lastEntry.loadTime || 0;
 
         observer.disconnect();
 
@@ -97,14 +124,16 @@ function measureFID(): Promise<VitalMetric> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const firstEntry = entries[0] as any;
+        // ✅ FIXED: Use proper FIDEntry type instead of 'any'
+        const firstEntry = entries[0] as FIDEntry;
+        const value = firstEntry.processingStart - firstEntry.startTime;
 
         observer.disconnect();
 
         resolve({
           name: 'FID',
-          value: Math.round(firstEntry.processingStart - firstEntry.startTime),
-          rating: getRating('FID', firstEntry.processingStart - firstEntry.startTime),
+          value: Math.round(value),
+          rating: getRating('FID', value),
           timestamp: Date.now(),
         });
       });
@@ -135,10 +164,11 @@ function measureCLS(): Promise<VitalMetric> {
     try {
       let clsValue = 0;
       let sessionValue = 0;
-      let sessionEntries: any[] = [];
+      // ✅ FIXED: Use proper CLSEntry type instead of 'any'
+      let sessionEntries: CLSEntry[] = [];
 
       const observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries() as any[]) {
+        for (const entry of list.getEntries() as CLSEntry[]) {
           // Only count layout shifts without recent user input
           if (!entry.hadRecentInput) {
             const firstSessionEntry = sessionEntries[0];
@@ -148,7 +178,7 @@ function measureCLS(): Promise<VitalMetric> {
             if (
               sessionValue &&
               entry.startTime - lastSessionEntry.startTime > 1000 &&
-              entry.startTime - firstSessionEntry.startTime > 5000
+              (!firstSessionEntry || entry.startTime - firstSessionEntry.startTime > 5000)
             ) {
               sessionValue = 0;
               sessionEntries = [];
@@ -195,14 +225,16 @@ function measureFCP(): Promise<VitalMetric> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const firstEntry = entries[0] as any;
+        // ✅ FIXED: Use proper FCPEntry type instead of 'any'
+        const firstEntry = entries[0] as FCPEntry;
+        const value = firstEntry?.startTime || 0;
 
         observer.disconnect();
 
         resolve({
           name: 'FCP',
-          value: Math.round(firstEntry.startTime),
-          rating: getRating('FCP', firstEntry.startTime),
+          value: Math.round(value),
+          rating: getRating('FCP', value),
           timestamp: Date.now(),
         });
       });
@@ -228,8 +260,11 @@ function measureTTFB(): VitalMetric {
     return { name: 'TTFB', value: 0, rating: 'poor', timestamp: Date.now() };
   }
 
-  const navigation = performance.getEntriesByType('navigation')[0] as any;
-  const value = navigation ? Math.round(navigation.responseStart - navigation.requestStart) : 0;
+  // ✅ FIXED: Use proper NavigationTimingEntry type instead of 'any'
+  const navigation = performance.getEntriesByType('navigation')[0] as NavigationTimingEntry | undefined;
+  const value = navigation
+    ? Math.round(navigation.responseStart - navigation.requestStart)
+    : 0;
 
   return {
     name: 'TTFB',
