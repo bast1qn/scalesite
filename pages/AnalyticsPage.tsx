@@ -9,7 +9,6 @@ import ExportCSV from '../components/analytics/ExportCSV';
 import ExportPDF from '../components/analytics/ExportPDF';
 import RealtimeAnalytics from '../components/analytics/RealtimeAnalytics';
 import DateRangePicker, { DateRangePreset, DateRange } from '../components/analytics/DateRangePicker';
-// import { setupAutoTracking } from '../lib/analytics'; // DISABLED: Prevents infinite loading
 
 interface AnalyticsPageProps {
     setCurrentPage?: (page: string) => void;

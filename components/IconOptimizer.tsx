@@ -19,13 +19,6 @@ import { icons } from 'lucide-react';
 // Direct icon imports for tree-shaking (ONLY import icons you actually use)
 // This is MUCH more efficient than importing from 'lucide-react' directly
 
-// Example usage: Instead of
-//   import { ArrowRight, Check, X } from 'lucide-react';
-// Use:
-//   import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
-//   import Check from 'lucide-react/dist/esm/icons/check';
-//   import X from 'lucide-react/dist/esm/icons/x';
-
 export interface OptimizedIconProps extends Omit<SVGProps<SVGSVGElement>, 'ref'> {
   name: keyof typeof icons;
   size?: number | string;

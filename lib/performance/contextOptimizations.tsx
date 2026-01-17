@@ -22,17 +22,14 @@ export const OptimizedLanguageProvider = ({ children }: { children: ReactNode })
 
   // Memoize translation function to prevent recreation
   const t = useCallback((key: string) => {
-    // Your translation logic here
     const translations: Record<string, Record<string, string>> = {
       de: {
         'general.loading': 'Wird geladen...',
         'general.save': 'Speichern',
-        // Add more translations
       },
       en: {
         'general.loading': 'Loading...',
         'general.save': 'Save',
-        // Add more translations
       },
     };
     return translations[language]?.[key] || key;

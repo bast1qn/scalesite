@@ -1,10 +1,21 @@
+// ============================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ============================================
+
+// React
 import { useState, useContext, useRef, useMemo, useCallback, type ReactNode } from 'react';
+
+// Internal - Components
 import { ThemeToggle } from './ThemeToggle';
-import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
-import { AuthContext, useLanguage, useCurrency } from '../contexts';
-import { useScroll, useBodyScrollLock, useClickOutsideCallback, useHover } from '../lib/hooks';
 import NotificationBell from './notifications/NotificationBell';
 import { MobileNavigation } from './MobileNavigation';
+import { Bars3Icon, XMarkIcon, ArrowRightIcon, UserCircleIcon, ScaleSiteLogo } from './Icons';
+
+// Internal - Contexts
+import { AuthContext, useLanguage, useCurrency } from '../contexts';
+
+// Internal - Hooks
+import { useScroll, useBodyScrollLock, useClickOutsideCallback, useHover } from '../lib/hooks';
 
 interface HeaderProps {
     setCurrentPage: (page: string) => void;

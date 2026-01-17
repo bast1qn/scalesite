@@ -263,24 +263,6 @@ const App = () => {
         );
     }
 
-    // PERFORMANCE: Initialize Core Web Vitals monitoring
-    // DISABLED: Prevents potential performance issues
-    /*
-    useEffect(() => {
-        if (import.meta.env.PROD) {
-            // Only monitor in production to avoid dev mode noise
-            initPerformanceMonitoring().then((vitals) => {
-                // Log vitals in development for debugging
-                if (import.meta.env.DEV) {
-                    console.log('[Performance] Core Web Vitals:', vitals);
-                }
-            }).catch((err) => {
-                console.warn('[Performance] Failed to initialize monitoring:', err);
-            });
-        }
-    }, []);
-    */
-
     return (
         <ErrorBoundary>
             <ThemeProvider defaultTheme="system">

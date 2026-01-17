@@ -9,7 +9,6 @@
  * - TTFB (Time to First Byte): Server response
  */
 
-// ✅ FIXED: Added proper PerformanceEntry types to eliminate 'any'
 interface LCPEntry extends PerformanceEntry {
   renderTime?: number;
   loadTime?: number;
@@ -84,7 +83,6 @@ function measureLCP(): Promise<VitalMetric> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        // ✅ FIXED: Use proper LCPEntry type instead of 'any'
         const lastEntry = entries[entries.length - 1] as LCPEntry;
         const value = lastEntry.renderTime || lastEntry.loadTime || 0;
 
@@ -124,7 +122,6 @@ function measureFID(): Promise<VitalMetric> {
     try {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        // ✅ FIXED: Use proper FIDEntry type instead of 'any'
         const firstEntry = entries[0] as FIDEntry;
         const value = firstEntry.processingStart - firstEntry.startTime;
 
