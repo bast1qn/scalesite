@@ -1,6 +1,7 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
+import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 
 const usps = [
   {
@@ -80,7 +81,7 @@ export const UspSection: FC = () => {
         <AnimatedSection>
           <div className="text-center mb-12 md:mb-16">
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
+              <span className={TEXT_GRADIENT_PRIMARY}>
                 {t('usps.title')}
               </span>
             </h2>

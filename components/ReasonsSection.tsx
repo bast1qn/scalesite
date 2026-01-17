@@ -1,8 +1,21 @@
+// ========================================================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ========================================================================
 
+// React
 import React from 'react';
-import { ClockIcon, ShieldCheckIcon, SparklesIcon } from './index';
-import { useLanguage } from '../contexts';
+
+// External libraries
 import { motion } from 'framer-motion';
+
+// Internal - Components
+import { ClockIcon, ShieldCheckIcon, SparklesIcon } from './index';
+
+// Internal - Contexts
+import { useLanguage } from '../contexts';
+
+// Internal - Lib
+import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 
 const reasons = [
   {
@@ -70,7 +83,7 @@ export const ReasonsSection: React.FC = () => {
             Warum ScaleSite?
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
+            <span className={TEXT_GRADIENT_PRIMARY}>
               {t('reasons.title')}
             </span>
           </h2>

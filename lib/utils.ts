@@ -64,7 +64,14 @@ export function cn(...inputs: ClassValue[]): string {
   return clsx(...inputs);
 }
 
-// DOM utilities
+// ========================================================================
+// DOM UTILITIES
+// ========================================================================
+
+/**
+ * Scrolls the page to the top
+ * @param smooth - Whether to use smooth scrolling (default: true)
+ */
 export const scrollToTop = (smooth: boolean = true): void => {
   window.scrollTo({
     top: 0,
@@ -72,6 +79,11 @@ export const scrollToTop = (smooth: boolean = true): void => {
   });
 };
 
+/**
+ * Scrolls to a specific element by ID
+ * @param elementId - The ID of the element to scroll to
+ * @param offset - Optional offset in pixels (default: 0)
+ */
 export const scrollToElement = (elementId: string, offset: number = 0): void => {
   const element = document.getElementById(elementId);
   if (element) {
@@ -83,8 +95,21 @@ export const scrollToElement = (elementId: string, offset: number = 0): void => 
   }
 };
 
-// Local storage utilities with error handling
+// ========================================================================
+// STORAGE UTILITIES
+// ========================================================================
+
+/**
+ * Local storage utilities with error handling
+ * All operations are safe and will not throw if storage is disabled/unavailable
+ */
 export const storage = {
+  /**
+   * Get item from localStorage
+   * @param key - Storage key
+   * @param defaultValue - Default value if key doesn't exist or on error
+   * @returns Parsed value or defaultValue
+   */
   get: <T>(key: string, defaultValue: T): T => {
     try {
       const item = window.localStorage.getItem(key);
@@ -94,6 +119,11 @@ export const storage = {
     }
   },
 
+  /**
+   * Set item in localStorage
+   * @param key - Storage key
+   * @param value - Value to store (will be JSON stringified)
+   */
   set: <T>(key: string, value: T): void => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
@@ -102,6 +132,10 @@ export const storage = {
     }
   },
 
+  /**
+   * Remove item from localStorage
+   * @param key - Storage key to remove
+   */
   remove: (key: string): void => {
     try {
       window.localStorage.removeItem(key);
@@ -110,6 +144,9 @@ export const storage = {
     }
   },
 
+  /**
+   * Clear all items from localStorage
+   */
   clear: (): void => {
     try {
       window.localStorage.clear();
@@ -119,8 +156,17 @@ export const storage = {
   },
 };
 
-// Session storage utilities
+/**
+ * Session storage utilities with error handling
+ * All operations are safe and will not throw if storage is disabled/unavailable
+ */
 export const session = {
+  /**
+   * Get item from sessionStorage
+   * @param key - Storage key
+   * @param defaultValue - Default value if key doesn't exist or on error
+   * @returns Parsed value or defaultValue
+   */
   get: <T>(key: string, defaultValue: T): T => {
     try {
       const item = window.sessionStorage.getItem(key);
@@ -130,6 +176,11 @@ export const session = {
     }
   },
 
+  /**
+   * Set item in sessionStorage
+   * @param key - Storage key
+   * @param value - Value to store (will be JSON stringified)
+   */
   set: <T>(key: string, value: T): void => {
     try {
       window.sessionStorage.setItem(key, JSON.stringify(value));
@@ -138,6 +189,10 @@ export const session = {
     }
   },
 
+  /**
+   * Remove item from sessionStorage
+   * @param key - Storage key to remove
+   */
   remove: (key: string): void => {
     try {
       window.sessionStorage.removeItem(key);
@@ -146,6 +201,9 @@ export const session = {
     }
   },
 
+  /**
+   * Clear all items from sessionStorage
+   */
   clear: (): void => {
     try {
       window.sessionStorage.clear();
@@ -155,7 +213,16 @@ export const session = {
   },
 };
 
-// Debounce function
+// ========================================================================
+// FUNCTION UTILITIES
+// ========================================================================
+
+/**
+ * Creates a debounced function that delays invoking func until after wait milliseconds
+ * @param func - Function to debounce
+ * @param wait - Delay in milliseconds
+ * @returns Debounced function
+ */
 export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number

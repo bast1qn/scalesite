@@ -93,6 +93,22 @@ export const HEADER_SCROLLED = 'bg-white/95 dark:bg-slate-900/95 backdrop-blur-x
 export const HEADER_TRANSPARENT = 'bg-transparent border-transparent py-4 md:py-5';
 
 // ============================================
+// TEXT GRADIENT PATTERNS
+// ============================================
+
+/**
+ * Gradient text pattern for headings and highlights
+ * Usage: className={TEXT_GRADIENT_PRIMARY}
+ */
+export const TEXT_GRADIENT_PRIMARY = 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600';
+
+/**
+ * Gradient text pattern with dark mode support
+ * Usage: className={TEXT_GRADIENT_PRIMARY_DARK}
+ */
+export const TEXT_GRADIENT_PRIMARY_DARK = 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600 dark:from-primary-400 dark:to-violet-400';
+
+// ============================================
 // ANIMATION DURATIONS
 // ============================================
 

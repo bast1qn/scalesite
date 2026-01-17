@@ -1,10 +1,22 @@
+// ========================================================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ========================================================================
 
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+// React
+import { useState, useMemo, useEffect, useRef, useCallback, type FC, type ChangeEvent } from 'react';
+
+// Internal - Components
 import { AnimatedSection, CustomSelect } from '../components';
+
+// Internal - Lib
 import { icons, placeholderContent } from '../lib/blueprintPlaceholders';
+
+// Internal - Contexts
 import { useLanguage } from '../contexts';
 
-// --- TYPE DEFINITIONS FOR BLUEPRINT ---
+// ========================================================================
+// TYPE DEFINITIONS FOR BLUEPRINT
+// ========================================================================
 interface BlueprintSectionItem {
     title: string;
     description: string;
@@ -43,7 +55,10 @@ interface BlueprintTemplate {
     content_json: BlueprintContent;
 }
 
-// --- PREVIEW COMPONENT ---
+// ========================================================================
+// PREVIEW COMPONENT
+// ========================================================================
+
 interface BlueprintPreviewProps {
     companyName: string;
     industry: string;
@@ -53,7 +68,12 @@ interface BlueprintPreviewProps {
     t: (key: string) => string;
 }
 
-const escapeHtml = (unsafe: string) => {
+/**
+ * Escapes HTML special characters to prevent XSS attacks
+ * @param unsafe - Raw user input string
+ * @returns HTML-escaped safe string
+ */
+const escapeHtml = (unsafe: string): string => {
     return unsafe
          .replace(/&/g, "&amp;")
          .replace(/</g, "&lt;")
@@ -62,6 +82,18 @@ const escapeHtml = (unsafe: string) => {
          .replace(/'/g, "&#039;");
  }
 
+/**
+ * Generates HTML preview for blueprint based on template and configuration
+ * @param companyName - Name of the company
+ * @param industry - Industry key for template selection
+ * @param primaryColor - Primary brand color (hex)
+ * @param secondaryColor - Secondary brand color (hex)
+ * @param activePage - Current page key to render
+ * @param theme - Light or dark theme
+ * @param blueprintTemplates - Available blueprint templates
+ * @param t - Translation function
+ * @returns Generated HTML string
+ */
 const generatePreviewHtml = (
     companyName: string,
     industry: string,
@@ -72,7 +104,8 @@ const generatePreviewHtml = (
     blueprintTemplates: BlueprintTemplate[],
     t: (key: string) => string,
 ): string => {
-    const defaultTemplate = blueprintTemplates.find(t => t.industry_key === 'dienstleistung');
+    const DEFAULT_INDUSTRY_KEY = 'dienstleistung';
+    const defaultTemplate = blueprintTemplates.find(t => t.industry_key === DEFAULT_INDUSTRY_KEY);
     const selectedTemplate = blueprintTemplates.find(t => t.industry_key === industry);
     const industryData = selectedTemplate?.content_json || defaultTemplate?.content_json;
 
@@ -80,16 +113,25 @@ const generatePreviewHtml = (
         return `<html><body><h1>Lade Vorlagen...</h1></body></html>`;
     }
 
-    // ✅ FIXED: Add optional chaining for safer access
-    const pageContent = industryData.pages[activePage] || industryData.pages?.home;
-    // Basic contrast check
-    const contrastColor = ((hex: string) => {
+    const FALLBACK_PAGE = 'home';
+    const pageContent = industryData.pages[activePage] || industryData.pages?.[FALLBACK_PAGE];
+
+    /**
+     * Calculates contrast color (dark or light) based on hex color
+     * Uses YIQ color space for determining appropriate text color
+     * @param hex - Hex color string (with or without #)
+     * @returns Dark (#1F1F1F) or light (#F8F5F2) contrast color
+     */
+    const contrastColor = ((hex: string): string => {
         if (hex.startsWith('#')) hex = hex.slice(1);
         const r = parseInt(hex.substring(0, 2), 16);
         const g = parseInt(hex.substring(2, 4), 16);
         const b = parseInt(hex.substring(4, 6), 16);
         const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-        return (yiq >= 128) ? '#1F1F1F' : '#F8F5F2';
+        const YIQ_THRESHOLD = 128;
+        const DARK_CONTRAST = '#1F1F1F';
+        const LIGHT_CONTRAST = '#F8F5F2';
+        return (yiq >= YIQ_THRESHOLD) ? DARK_CONTRAST : LIGHT_CONTRAST;
     })(primaryColor);
     
     const safeCompanyName = escapeHtml(companyName);

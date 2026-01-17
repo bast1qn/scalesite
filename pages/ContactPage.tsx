@@ -1,17 +1,32 @@
+// ========================================================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ========================================================================
 
-import React, { useState } from 'react';
+// React
+import { useState, type FC, type FormEvent } from 'react';
+
+// Internal - Components
 import { AnimatedSection, EnvelopeIcon, CheckBadgeIcon, TicketIcon, SparklesIcon, ArrowRightIcon } from '../components';
+
+// Internal - Lib
 import { api, validateEmail, validateName, validateString } from '../lib';
+
+// Internal - Contexts
 import { useLanguage } from '../contexts';
 
-const ContactPage: React.FC<{ setCurrentPage: (page: string) => void; }> = ({ setCurrentPage }) => {
+// Types
+interface ContactPageProps {
+  setCurrentPage: (page: string) => void;
+}
+
+const ContactPage: FC<ContactPageProps> = ({ setCurrentPage }) => {
     const { t } = useLanguage();
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);

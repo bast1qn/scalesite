@@ -1,6 +1,18 @@
+// ========================================================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ========================================================================
+
+// React
 import { type FC } from 'react';
+
+// Internal - Components
 import { AnimatedSection, ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './index';
+
+// Internal - Contexts
 import { useLanguage } from '../contexts';
+
+// Internal - Lib
+import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 
 const steps = [
   {
@@ -65,7 +77,7 @@ export const ProcessSteps: FC = () => {
               {t('process.badge')}
             </span>
             <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
+              <span className={TEXT_GRADIENT_PRIMARY}>
                 {t('process.title')}
               </span>
             </h2>

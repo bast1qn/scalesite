@@ -6,6 +6,7 @@ import { AnimatedSection, ChevronDownIcon, CheckBadgeIcon, CountdownTimer, Offer
 import { AuthContext, useCurrency, useLanguage } from '../contexts';
 import { api, validateEmail, validateName, validateString } from '../lib';
 import { TIMING } from '../lib/constants';
+import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 
 interface PricingSectionProps {
   setCurrentPage: (page: string) => void;
@@ -292,7 +293,7 @@ ${message}
 
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6">
               {t('pricing.title_prefix')}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
+              <span className={TEXT_GRADIENT_PRIMARY}>
                 {t('pricing.title_highlight')}
               </span>
             </h2>

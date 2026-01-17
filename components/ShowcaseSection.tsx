@@ -1,9 +1,20 @@
+// ========================================================================
+// IMPORTS - Organized by: React → External → Internal → Types
+// ========================================================================
 
+// React
 import { useState, useMemo, useCallback, memo } from 'react';
+
+// Internal - Components
 import { ArrowTopRightOnSquareIcon, EyeIcon } from './Icons';
 import { AnimatedSection } from './AnimatedSection';
+
+// Internal - Contexts
 import { useLanguage } from '../contexts';
+
+// Internal - Lib
 import { translations } from '../lib/translations';
+import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 
 interface ShowcaseSectionProps {
   setCurrentPage: (page: string) => void;
@@ -71,7 +82,7 @@ const ShowcaseItemCard = memo(({ item, setCurrentPage, t }: ShowcaseItemCardProp
           onClick={() => setCurrentPage(item.route || 'preise')}
           className="inline-flex items-center gap-2 text-primary-600 dark:text-violet-400 font-bold group-hover:gap-3 transition-all hover:text-primary-700 dark:hover:text-violet-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none rounded-lg px-2 py-1 -mx-2 -my-1"
         >
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600">
+          <span className={TEXT_GRADIENT_PRIMARY}>
             {t('showcase.details_btn')}
           </span>
           <ArrowTopRightOnSquareIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-[1.02]" />
