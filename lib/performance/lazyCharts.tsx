@@ -96,7 +96,7 @@ export const LazyAreaChart = ({ children, ...props }: AreaChartProps & ChartWrap
 );
 
 export const LazyResponsiveContainer = ({ children, ...props }: ResponsiveContainerProps) => (
-  <Suspense fallback={<ChartSkeleton height={(props as any).height || 300} />}>
+  <Suspense fallback={<ChartSkeleton height={('height' in props ? props.height : 300) || 300} />}>
     <ResponsiveContainer {...props}>{children}</ResponsiveContainer>
   </Suspense>
 );

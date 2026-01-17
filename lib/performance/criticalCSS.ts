@@ -182,7 +182,8 @@ export const addResourceHints = () => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.href = font.href;
-    link.as = font.as as any;
+    // ✅ FIXED: Use proper type assertion for link.as
+    (link as { as: string }).as = font.as;
     if (font.type) link.type = font.type;
     head.appendChild(link);
   });

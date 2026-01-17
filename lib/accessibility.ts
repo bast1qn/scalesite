@@ -354,10 +354,11 @@ export const ariaPresets = {
 
 /**
  * Helper to apply ARIA attributes to icon buttons
+ * ✅ FIXED: Replaced 'any' with proper ARIA attribute types
  */
 export const getIconButtonProps = (
   preset: keyof typeof ariaPresets,
-  additionalProps?: Record<string, any>
+  additionalProps?: Record<string, string | boolean | number>
 ) => {
   return {
     'aria-label': ariaPresets[preset],

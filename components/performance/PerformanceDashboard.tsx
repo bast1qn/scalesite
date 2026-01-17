@@ -263,9 +263,18 @@ export function DevPerformanceMonitor() {
     const rafId = requestAnimationFrame(measureFps);
 
     // Memory monitor
+    // ✅ FIXED: Use proper type for performance.memory
     if ('memory' in performance) {
+      interface PerformanceMemory {
+        usedJSHeapSize: number;
+        totalJSHeapSize: number;
+        jsHeapSizeLimit: number;
+      }
+
+      const perfWithMemory = performance as Performance & { memory: PerformanceMemory };
+
       const memInterval = setInterval(() => {
-        const mem = (performance as any).memory;
+        const mem = perfWithMemory.memory;
         setMemory(Math.round(mem.usedJSHeapSize / 1048576)); // Convert to MB
       }, 1000);
 

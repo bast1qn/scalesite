@@ -15,6 +15,7 @@ interface PageViewData {
     page: string;
     views: number;
     path: string;
+    id: string; // ✅ FIX: Add unique ID for stable keys
 }
 
 interface RechartsComponentsProps {
@@ -57,8 +58,8 @@ export const RechartsComponents: FC<RechartsComponentsProps> = ({ chartData, COL
                     iconType="circle"
                 />
                 <Bar dataKey="views" name="Seitenaufrufe" radius={[8, 8, 0, 0]}>
-                    {chartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    {chartData.map((entry) => (
+                        <Cell key={`cell-${entry.id}`} fill={COLORS} />
                     ))}
                 </Bar>
             </BarChart>

@@ -281,7 +281,8 @@ export function measureLCP(): Promise<number> {
 
     const observer = new PerformanceObserver((list) => {
       const entries = list.getEntries();
-      const lastEntry = entries[entries.length - 1] as any;
+      // ✅ FIXED: Use proper PerformanceEntry type instead of 'any'
+      const lastEntry = entries[entries.length - 1] as PerformanceEntry | undefined;
       resolve(lastEntry?.startTime ?? 0);
       observer.disconnect();
     });
