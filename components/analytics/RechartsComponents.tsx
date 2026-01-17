@@ -30,7 +30,7 @@ export const RechartsComponents: FC<RechartsComponentsProps> = ({ chartData, COL
     return (
         <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200/50 dark:stroke-slate-700/50" />
                 <XAxis
                     dataKey="page"
                     className="text-xs text-slate-500 dark:text-slate-400"

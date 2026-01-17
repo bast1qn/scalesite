@@ -95,7 +95,7 @@ export function PerformanceDashboard() {
           </h3>
           <button
             onClick={() => setShowDetails(!showDetails)}
-            className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400"
+            className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 min-h-11 px-4 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50"
           >
             {showDetails ? 'Hide Details' : 'Show Details'}
           </button>
