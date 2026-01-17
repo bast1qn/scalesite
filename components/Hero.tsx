@@ -229,9 +229,9 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
           </div>
         </SpotlightCard>
 
-        {/* Headline */}
+        {/* Headline - Mobile → Desktop: text-4xl → text-6xl (consistent with scale) */}
         <h1
-          className={`font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-8 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`font-display text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-8 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '100ms' }}
         >
           {t('hero.title_prefix')}{' '}

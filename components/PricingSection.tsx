@@ -110,10 +110,10 @@ const PricingCard = React.memo(({
 
                 <button
                     onClick={handlePackageClick}
-                    className={`w-full py-3 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                    className={`w-full px-8 py-4 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
                         pkg.popular
-                        ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
-                        : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:from-primary-500 hover:to-violet-500 shadow-md hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
+                        ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
+                        : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:shadow-glow shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
                     }`}
                 >
                     {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
@@ -301,12 +301,12 @@ ${message}
             </p>
           </div>
 
-          {/* Toggle */}
+          {/* Toggle - Consistent spacing: px-6 py-3 sm:px-8 sm:py-4 (scale 6 → 8, 3 → 4) */}
           <div className="mt-8 md:mt-12 flex justify-center">
               <div className="relative inline-flex bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200/60 dark:border-slate-700/50">
                 <button
                     onClick={() => setWithHosting(false)}
-                    className={`relative px-4 md:px-6 py-2 sm:py-3 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`relative px-6 py-3 sm:px-8 sm:py-4 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
                         !withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -316,7 +316,7 @@ ${message}
                 </button>
                 <button
                     onClick={() => setWithHosting(true)}
-                    className={`relative px-4 md:px-6 py-2 sm:py-3 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`relative px-6 py-3 sm:px-8 sm:py-4 min-h-11 rounded-full text-sm font-medium transition-all duration-300 ${
                         withHosting
                         ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -396,7 +396,7 @@ ${message}
         {showModal && selectedPackage && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                 <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800">
-                    <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 text-slate-500 transition-all focus:ring-2 focus:ring-primary/50">
+                    <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-3 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 text-slate-500 transition-all hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11 min-w-11 flex items-center justify-center">
                         <XMarkIcon className="w-5 h-5" />
                     </button>
 
@@ -422,20 +422,20 @@ ${message}
                                         <>
                                             <div>
                                                 <label htmlFor="pricing-name" className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.name')}</label>
-                                                <input id="pricing-name" name="name" type="text" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="Max Mustermann" />
+                                                <input id="pricing-name" name="name" type="text" required className="w-full px-5 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 rounded-2xl focus:border-primary-400 dark:focus:border-primary-500 shadow-input-focus hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 ease-out min-h-11" placeholder="Max Mustermann" />
                                             </div>
                                             <div>
                                                 <label htmlFor="pricing-email" className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.email')}</label>
-                                                <input id="pricing-email" name="email" type="email" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all min-h-11" placeholder="ihre@email.de" />
+                                                <input id="pricing-email" name="email" type="email" required className="w-full px-5 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 rounded-2xl focus:border-primary-400 dark:focus:border-primary-500 shadow-input-focus hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 ease-out min-h-11" placeholder="ihre@email.de" />
                                             </div>
                                         </>
                                     )}
                                     <div>
                                         <label htmlFor="pricing-message" className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('pricing.modal.message')}</label>
-                                        <textarea id="pricing-message" name="message" rows={3} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
+                                        <textarea id="pricing-message" name="message" rows={3} className="w-full px-5 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 rounded-2xl focus:border-primary-400 dark:focus:border-primary-500 shadow-input-focus hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 ease-out resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
                                     </div>
 
-                                    <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 text-white font-semibold py-3 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
+                                    <button type="submit" disabled={isSubmitting} className="w-full px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-glow text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                                         {isSubmitting ? (
                                             <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                         ) : t('pricing.modal.btn_submit')}
@@ -454,11 +454,11 @@ ${message}
                                 </p>
                                 <div className="flex flex-col gap-3">
                                     {user && (
-                                        <button onClick={() => setCurrentPage('dashboard')} className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold py-3 px-8 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-md min-h-11 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
+                                        <button onClick={() => setCurrentPage('dashboard')} className="w-full px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                                             <TicketIcon className="w-4 h-4" /> {t('pricing.modal.to_dashboard')}
                                         </button>
                                     )}
-                                    <button onClick={() => setShowModal(false)} className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3 px-8 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all min-h-11 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
+                                    <button onClick={() => setShowModal(false)} className="w-full px-8 py-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                                         {t('general.close')}
                                     </button>
                                 </div>
