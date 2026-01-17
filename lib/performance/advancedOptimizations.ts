@@ -9,7 +9,7 @@
  * - Memory leak prevention
  */
 
-import { useEffect, useRef, useCallback, type DependencyList } from 'react';
+import { useEffect, useRef, useCallback, useState, useMemo, type DependencyList } from 'react';
 
 // =====================================================
 // REQUESTIDLECALLBACK UTILITIES

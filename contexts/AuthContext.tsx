@@ -90,9 +90,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setHasTimedOut(false);
     }
-    // ✅ FIXED: Removed hasTimedOut from dependencies to prevent infinite loop
-    // hasTimedOut is state that gets set inside this effect, causing re-run
-  }, [isClerkAvailable, isLoaded, clerkAuth?.isLoaded]);
+    // ✅ FIXED: Use clerkAuth.isLoaded with proper check instead of optional chaining
+    // Optional chaining in deps creates unstable references
+  }, [isClerkAvailable, isLoaded, clerkAuth.isLoaded]);
 
   // Force loading to false if timeout occurred or Clerk not loaded
   const effectiveLoading = isClerkAvailable ? (!isLoaded && !hasTimedOut) : false;

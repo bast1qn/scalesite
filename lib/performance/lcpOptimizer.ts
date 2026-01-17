@@ -266,7 +266,10 @@ export function initLCPOptimization(): void {
   }
 
   // Defer offscreen images after initial load
-  window.addEventListener('load', deferOffscreenImages);
+  // ✅ FIXED: Added cleanup for event listener to prevent memory leak
+  const handleLoad = () => deferOffscreenImages();
+  window.addEventListener('load', handleLoad);
+  return () => window.removeEventListener('load', handleLoad);
 }
 
 /**

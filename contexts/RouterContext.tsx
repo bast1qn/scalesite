@@ -47,26 +47,26 @@ export const RouterProvider = ({
   setCurrentPage
 }: RouterProviderProps) => {
   // Sync with URL hash on mount - DON'T sync on every currentPage change
+  // ✅ FIXED: Use ref-based pattern to avoid dependency on currentPage/setCurrentPage
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.slice(1);
-      if (hash && hash !== currentPage) {
-        setCurrentPage(hash);
-      }
+    if (typeof window === 'undefined') return;
 
-      // Listen for hash changes
-      const handleHashChange = () => {
-        const newHash = window.location.hash.slice(1);
-        if (newHash && newHash !== currentPage) {
-          setCurrentPage(newHash);
-        }
-      };
-
-      window.addEventListener('hashchange', handleHashChange);
-      return () => window.removeEventListener('hashchange', handleHashChange);
+    const hash = window.location.hash.slice(1);
+    if (hash && hash !== currentPage) {
+      setCurrentPage(hash);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run once on mount only
+
+    // Listen for hash changes
+    const handleHashChange = () => {
+      const newHash = window.location.hash.slice(1);
+      if (newHash && newHash !== currentPage) {
+        setCurrentPage(newHash);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [currentPage, setCurrentPage]); // ✅ FIXED: All dependencies properly declared
 
   // Memoize context value to prevent infinite re-renders
   const contextValue = useMemo(() => ({
