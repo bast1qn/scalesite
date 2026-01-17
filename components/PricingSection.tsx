@@ -82,7 +82,7 @@ const PricingCard = React.memo(({
                 </div>
 
                 <div className="flex items-baseline gap-2 mb-4">
-                    <span className={`text-4xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-violet-600'}`}>
+                    <span className={`text-4xl font-bold tracking-tight ${pkg.popular ? 'text-white' : 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-500'}`}>
                         {pkg.price}
                     </span>
                     <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`}>
@@ -114,7 +114,7 @@ const PricingCard = React.memo(({
                     className={`w-full px-8 py-4 min-h-11 rounded-xl text-sm font-semibold transition-all duration-300 ${
                         pkg.popular
                         ? 'bg-white text-slate-900 hover:bg-slate-100 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
-                        : 'bg-gradient-to-r from-primary-600 to-violet-600 text-white hover:shadow-glow shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
+                        : 'bg-gradient-to-r from-primary-600 to-secondary-500 text-white hover:shadow-glow shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed'
                     }`}
                 >
                     {pkg.popular ? 'Jetzt starten' : 'Auswählen'}
@@ -342,7 +342,7 @@ ${message}
 
         {/* Pricing Cards */}
         <AnimatedSection stagger>
-          <div className="mt-12 md:mt-16 grid gap-4 md:gap-6 lg:grid-cols-3 items-stretch">
+          <div className="mt-12 md:mt-16 grid gap-3 sm:gap-4 md:gap-6 lg:grid-cols-3 items-stretch">
             {displayedPackages.map((pkg, index) => (
                 <PricingCard
                     key={pkg.id}
@@ -396,15 +396,15 @@ ${message}
         {/* BOOKING MODAL */}
         {showModal && selectedPackage && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-                <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800">
+                <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 md:p-12">
                     <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-3 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 text-slate-500 transition-all hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11 min-w-11 flex items-center justify-center">
                         <XMarkIcon className="w-5 h-5" />
                     </button>
 
-                    <div className="p-8">
+                    <div className="p-6 sm:p-8 md:p-12">
                         {!submitSuccess ? (
                             <>
-                                <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-violet-500 rounded-xl flex items-center justify-center mb-6 shadow-md">
+                                <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-secondary-500 rounded-xl flex items-center justify-center mb-6 shadow-md">
                                     <TicketIcon className="w-6 h-6 text-white" />
                                 </div>
                                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
@@ -436,7 +436,7 @@ ${message}
                                         <textarea id="pricing-message" name="message" rows={3} className="w-full px-5 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 rounded-2xl focus:border-primary-400 dark:focus:border-primary-500 shadow-input-focus hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 ease-out resize-none min-h-11" placeholder={t('pricing.modal.message_placeholder')}></textarea>
                                     </div>
 
-                                    <button type="submit" disabled={isSubmitting} className="w-full px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-glow text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
+                                    <button type="submit" disabled={isSubmitting} className="w-full px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-500 hover:shadow-glow text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11">
                                         {isSubmitting ? (
                                             <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                         ) : t('pricing.modal.btn_submit')}
@@ -446,7 +446,7 @@ ${message}
                             </>
                         ) : (
                             <div className="text-center py-8">
-                                <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
+                                <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
                                     <CheckBadgeIcon className="w-8 h-8 text-white" />
                                 </div>
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{t('pricing.modal.success_title')}</h3>
