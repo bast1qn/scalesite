@@ -58,7 +58,7 @@
 
 **Finding:**
 ```
-GEMINI_API_KEY=AIzaSyAcjh_GUCQjqUWpYXvr9Zfpv5C4NpGPb4Y
+GEMINI_API_KEY=[LEAKED KEY REMOVED - ROTATE IMMEDIATELY]
 ```
 
 **Risk:** API key exposed in version control
