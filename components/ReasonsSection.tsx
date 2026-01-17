@@ -3,7 +3,7 @@
 // ========================================================================
 
 // React
-import React from 'react';
+import React, { memo } from 'react';
 
 // External libraries
 import { motion } from 'framer-motion';
@@ -181,3 +181,6 @@ export const ReasonsSection: React.FC = () => {
     </section>
   );
 };
+
+// ✅ PERFORMANCE: Memoize ReasonsSection to prevent unnecessary re-renders
+export const ReasonsSectionMemo = memo(ReasonsSection);

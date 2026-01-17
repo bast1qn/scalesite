@@ -3,7 +3,7 @@
 // ========================================================================
 
 // React
-import { type FC } from 'react';
+import { type FC, memo } from 'react';
 
 // Internal - Components
 import { AnimatedSection, ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './index';
@@ -146,3 +146,6 @@ export const ProcessSteps: FC = () => {
     </section>
   );
 };
+
+// ✅ PERFORMANCE: Memoize ProcessSteps to prevent unnecessary re-renders
+export const ProcessStepsMemo = memo(ProcessSteps);

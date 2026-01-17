@@ -1,4 +1,4 @@
-import { useState, type FC, type ReactNode } from 'react';
+import { useState, type FC, type ReactNode, memo, useCallback } from 'react';
 import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
 import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
@@ -42,23 +42,28 @@ const usps = [
   },
 ];
 
-// Clean card with subtle hover
+// ✅ PERFORMANCE: Memoized HoverCard to prevent unnecessary re-renders
 const HoverCard: FC<{
   children: ReactNode;
   className?: string;
-}> = ({ children, className = '' }) => {
+}> = memo(({ children, className = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  // ✅ PERFORMANCE: Use stable callbacks for event handlers
+  const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+  const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
   return (
     <div
       className={`relative transition-all duration-300 ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {children}
     </div>
   );
-};
+});
+HoverCard.displayName = 'HoverCard';
 
 export const UspSection: FC = () => {
   const { t } = useLanguage();
@@ -120,3 +125,6 @@ export const UspSection: FC = () => {
     </section>
   );
 };
+
+// ✅ PERFORMANCE: Memoize UspSection to prevent unnecessary re-renders
+export const UspSectionMemo = memo(UspSection);
