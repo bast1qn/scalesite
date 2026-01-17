@@ -232,7 +232,7 @@ const AppContent = () => {
             <Layout setCurrentPage={setCurrentPage} currentPage={currentPage}>
                 <ErrorBoundary>
                     <Suspense fallback={<PageLoader />}>
-                        <AnimatePresence mode="wait">
+                        <AnimatePresence mode="sync">
                             <PageTransition key={currentPage}>
                                 {getPage()}
                             </PageTransition>
