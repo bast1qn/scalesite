@@ -1,7 +1,6 @@
 
 import { Component, ErrorInfo, type ReactNode } from 'react';
 import { XCircleIcon, ArrowLeftIcon } from './index';
-import { useLanguage } from '../contexts';
 
 interface Props {
   children: ReactNode;
@@ -62,8 +61,6 @@ export class ErrorBoundary extends Component<Props, State> {
  * Displays a user-friendly error message with a reset button
  */
 const ErrorFallback = ({ error, onReset }: { error: Error | null; onReset: () => void }) => {
-  const { t } = useLanguage();
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
       <div className="max-w-md w-full bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 text-center">
@@ -72,11 +69,11 @@ const ErrorFallback = ({ error, onReset }: { error: Error | null; onReset: () =>
         </div>
 
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-          {t('general.error') || 'Something went wrong'}
+          Something went wrong
         </h1>
 
         <p className="text-slate-600 dark:text-slate-400 mb-6">
-          {t('general.error') || 'An unexpected error occurred. Please try again.'}
+          An unexpected error occurred. Please try again.
         </p>
 
         {import.meta.env.DEV && error && (
@@ -97,13 +94,13 @@ const ErrorFallback = ({ error, onReset }: { error: Error | null; onReset: () =>
             className="flex-1 flex items-center justify-center gap-2 bg-primary text-white font-semibold py-3 px-6 rounded-xl hover:bg-primary-hover transition-colors"
           >
             <ArrowLeftIcon className="w-4 h-4" />
-            {t('general.back') || 'Back'}
+            Back
           </button>
           <button
             onClick={() => window.location.href = '/'}
             className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3 px-6 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           >
-            {t('nav.home') || 'Home'}
+            Home
           </button>
         </div>
       </div>
