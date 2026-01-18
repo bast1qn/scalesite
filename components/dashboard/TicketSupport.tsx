@@ -19,7 +19,7 @@ import { CustomSelect } from '../index';
 
 // Internal imports - Contexts & Libs
 import { AuthContext, useLanguage } from '../../contexts';
-import { api, getSafeURL } from '../../lib';
+import { api, getSafeURL, validateString, validateEmail } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 import { useChatScroll } from '../../lib/hooks';
 import { TicketCardSkeleton } from '../skeleton';
@@ -207,9 +207,22 @@ const TicketSupport = () => {
         e.preventDefault();
         if (!reply.trim() || !selectedTicket || !user) return;
 
+        // SECURITY: OWASP-compliant validation to prevent XSS (A03:2021 - Injection)
+        const messageValidation = validateString(reply.trim(), {
+            minLength: 1,
+            maxLength: 5000,
+            allowEmpty: false
+        });
+
+        if (!messageValidation.isValid) {
+            alertError('Invalid message. Please check your input.');
+            return;
+        }
+
         setActionLoading(true);
         try {
-            await api.replyToTicket(selectedTicket.id, reply);
+            // Use sanitized message
+            await api.replyToTicket(selectedTicket.id, messageValidation.sanitized || reply.trim());
             setReply('');
             forceScroll();
             await fetchMessages(selectedTicket.id);
@@ -224,9 +237,18 @@ const TicketSupport = () => {
     const handleInviteMember = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!inviteEmail || !selectedTicketId) return;
+
+        // SECURITY: OWASP-compliant email validation (A03:2021 - Injection)
+        const emailValidation = validateEmail(inviteEmail.trim());
+        if (!emailValidation.isValid) {
+            alertError('Invalid email format');
+            return;
+        }
+
         setInviteLoading(true);
         try {
-            await api.inviteToTicket(selectedTicketId, inviteEmail);
+            // Use sanitized email
+            await api.inviteToTicket(selectedTicketId, emailValidation.sanitized || inviteEmail.trim());
             setInviteEmail('');
             setShowInviteInput(false);
             await fetchMembers(selectedTicketId);

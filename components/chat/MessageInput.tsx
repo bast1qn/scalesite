@@ -5,6 +5,7 @@ import Send from 'lucide-react/dist/esm/icons/send';
 import Paperclip from 'lucide-react/dist/esm/icons/paperclip';
 import Smile from 'lucide-react/dist/esm/icons/smile';
 import X from 'lucide-react/dist/esm/icons/x';
+import { validateString } from '../../lib/validation';
 
 interface MessageInputProps {
     onSendMessage: (content: string) => Promise<void>;
@@ -68,11 +69,26 @@ export const MessageInput = ({
         const trimmed = message.trim();
         if (!trimmed || isSending || disabled) return;
 
+        // SECURITY: OWASP-compliant validation to prevent Stored XSS (A03:2021 - Injection)
+        const messageValidation = validateString(trimmed, {
+            minLength: 1,
+            maxLength: 5000,
+            allowEmpty: false
+        });
+
+        if (!messageValidation.isValid) {
+            if (import.meta.env.DEV) {
+                console.error('[XSS] Invalid message rejected:', messageValidation.errors);
+            }
+            return;
+        }
+
         setIsSending(true);
         onTypingChange?.(false);
 
         try {
-            await onSendMessage(trimmed);
+            // Use sanitized message
+            await onSendMessage(messageValidation.sanitized || trimmed);
             setMessage('');
         } catch (error) {
             if (import.meta.env.DEV) {

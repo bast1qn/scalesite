@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TeamRole } from './RoleBadge';
+import { validateEmail, validateString } from '../../lib/validation';
 
 /**
  * TeamInvite Component
@@ -26,23 +27,31 @@ const TeamInvite: React.FC<TeamInviteProps> = ({
     const [email, setEmail] = useState('');
     const [role, setRole] = useState<TeamRole>('Member');
     const [message, setMessage] = useState('');
-    const [errors, setErrors] = useState<{ email?: string }>({});
+    const [errors, setErrors] = useState<{ email?: string; message?: string }>({});
     const [showSuccess, setShowSuccess] = useState(false);
-
-    const validateEmail = (email: string): boolean => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validate
-        const newErrors: { email?: string } = {};
-        if (!email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!validateEmail(email)) {
+        // SECURITY: OWASP-compliant validation (A03:2021 - Injection)
+        const newErrors: { email?: string; message?: string } = {};
+
+        // Validate email with OWASP-compliant function
+        const emailValidation = validateEmail(email.trim());
+        if (!emailValidation.isValid) {
             newErrors.email = 'Invalid email format';
+        }
+
+        // Validate message if provided
+        if (message.trim()) {
+            const messageValidation = validateString(message.trim(), {
+                minLength: 1,
+                maxLength: 500,
+                allowEmpty: false
+            });
+            if (!messageValidation.isValid) {
+                newErrors.message = 'Message too long (max 500 characters)';
+            }
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -50,9 +59,13 @@ const TeamInvite: React.FC<TeamInviteProps> = ({
             return;
         }
 
-        // Send invite
+        // Send invite with sanitized values
         try {
-            await onInvite(email.trim(), role, message.trim() || undefined);
+            await onInvite(
+                emailValidation.sanitized || email.trim(),
+                role,
+                message.trim() ? message.trim().slice(0, 500) : undefined
+            );
 
             // Show success message
             setShowSuccess(true);
