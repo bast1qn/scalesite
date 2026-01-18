@@ -69,7 +69,7 @@ const CurrencySelector = ({ isMobile = false }: { isMobile?: boolean }) => {
                 className={`relative flex items-center gap-2 transition-all duration-300 ease-smooth min-h-11 ${
                     isMobile
                         ? 'text-base font-medium text-slate-800 dark:text-slate-200 px-4 py-3'
-                        : 'text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
+                        : 'text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-premium hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
                 }`}
                 aria-label={`Währung wählen: ${currency}`}
             >

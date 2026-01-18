@@ -374,7 +374,7 @@ ${message}
                <div className="space-y-4">
                   {faqItems.map((item) => (
                     <details key={item.id} className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden">
-                        <summary className="flex justify-between items-center p-4 md:p-6 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-700/50 active:bg-slate-100 dark:active:bg-slate-700 transition-all duration-200 min-h-11 hover:scale-[1.01] active:scale-[0.99] focus:ring-2 focus:ring-primary-500/50 focus-visible:ring-inset">
+                        <summary className="flex justify-between items-center p-4 md:p-6 font-medium text-slate-900 dark:text-white cursor-pointer select-none hover:bg-slate-50 dark:hover:bg-slate-700/50 active:bg-slate-100 dark:active:bg-slate-700 transition-all duration-200 min-h-11 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus-visible:ring-inset">
                             <span className="flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary-500 to-violet-500 opacity-0 group-open:opacity-100 transition-all duration-300"></span>
                                 <span className="text-sm md:text-base">{item.question}</span>
@@ -397,7 +397,7 @@ ${message}
         {showModal && selectedPackage && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                 <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 md:p-12">
-                    <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-3 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 text-slate-500 transition-all hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11 min-w-11 flex items-center justify-center">
+                    <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 p-3 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 text-slate-500 transition-all hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11 flex items-center justify-center">
                         <XMarkIcon className="w-5 h-5" />
                     </button>
 
