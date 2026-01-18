@@ -211,6 +211,11 @@ const AppContent = () => {
         }
     }, [currentPage, user, loading, handleNavigateToLogin]);
 
+    // DEBUG: Log loading state
+    console.log('[App.tsx DEBUG] loading:', loading);
+    console.log('[App.tsx DEBUG] loading type:', typeof loading);
+    console.log('[App.tsx DEBUG] user:', user);
+
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950">

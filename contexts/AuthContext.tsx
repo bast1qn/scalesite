@@ -109,6 +109,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // EMERGENCY FIX: Always return false to prevent stuck loading
   const effectiveLoading = false;
 
+  // DEBUG: Log loading state
+  console.log('[AuthContext DEBUG] effectiveLoading:', effectiveLoading);
+  console.log('[AuthContext DEBUG] isClerkAvailable:', isClerkAvailable);
+  console.log('[AuthContext DEBUG] clerkAuth.isLoaded:', clerkAuth?.isLoaded);
+
   const appUser = useMemo<AppUser | null>(() => {
     if (!clerkUser || !isSignedIn) return null;
     return mapClerkUserToAppUser(clerkUser);
