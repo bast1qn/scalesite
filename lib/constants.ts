@@ -695,3 +695,64 @@ export const STROKE_WIDTH = {
   /** Thick stroke */
   thick: 2.5,
 } as const;
+
+// ===== LAYOUT PATTERNS =====
+
+/**
+ * Common layout patterns for flexbox alignment
+ * Eliminates repetitive "flex items-center justify-center" patterns
+ */
+export const LAYOUT = {
+  /** Center content both horizontally and vertically */
+  center: 'flex items-center justify-center',
+  /** Center content with minimum screen height */
+  centerMinScreen: 'min-h-screen flex items-center justify-center',
+  /** Center content horizontally only */
+  centerX: 'flex items-center justify-x',
+  /** Center content vertically only */
+  centerY: 'flex items-center justify-center',
+  /** Flex row with centered items */
+  rowCenter: 'flex flex-row items-center',
+  /** Flex column with centered items */
+  columnCenter: 'flex flex-col items-center justify-center',
+} as const;
+
+/**
+ * Common text color patterns with dark mode support
+ * Consolidates "text-slate-XXX dark:text-slate-XXX" patterns
+ */
+export const TEXT_COLORS = {
+  /** Primary text with dark mode */
+  primary: 'text-slate-900 dark:text-white',
+  /** Secondary text with dark mode */
+  secondary: 'text-slate-700 dark:text-slate-300',
+  /** Tertiary text with dark mode */
+  tertiary: 'text-slate-600 dark:text-slate-400',
+  /** Muted text with dark mode */
+  muted: 'text-slate-500 dark:text-slate-400',
+  /** Primary text with medium weight */
+  primaryMedium: 'text-slate-900 dark:text-white font-medium',
+  /** Secondary text with medium weight */
+  secondaryMedium: 'text-slate-700 dark:text-slate-300 font-medium',
+  /** Tertiary text with medium weight */
+  tertiaryMedium: 'text-slate-600 dark:text-slate-400 font-medium',
+  /** Muted text with medium weight */
+  mutedMedium: 'text-slate-500 dark:text-slate-400 font-medium',
+} as const;
+
+/**
+ * Common icon container styles
+ * Frequently used for icon wrappers with gradients
+ */
+export const ICON_CONTAINERS = {
+  /** Small gradient icon container (blue-violet) */
+  smallGradient: 'w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white',
+  /** Medium gradient icon container (blue-violet) */
+  mediumGradient: 'w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center',
+  /** Large gradient icon container (blue-violet) */
+  largeGradient: 'w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center',
+  /** Small gradient circle (primary-violet) */
+  smallCircle: 'w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-violet-500 flex items-center justify-center shadow-sm',
+  /** Small solid icon (emerald) */
+  smallSolid: 'w-5 h-5 rounded-md bg-gradient-to-br from-primary-500 to-violet-500 flex items-center justify-center flex-shrink-0',
+} as const;
