@@ -109,16 +109,24 @@ export function VirtualList<T>({
 /**
  * Hook for automatic virtualization
  * Automatically switches to virtual list when item count exceeds threshold
+ *
+ * @returns Object containing shouldVirtualize flag and VirtualList component or null
+ *
+ * @example
+ * const { VirtualList, shouldVirtualize } = useVirtualList(items);
+ * if (shouldVirtualize) {
+ *   return <VirtualList items={items} ... />
+ * }
  */
 export function useVirtualList<T>(
   items: T[],
   threshold: number = 100
-): { shouldVirtualize: boolean; VirtualList: typeof VirtualList<T> } {
+): { shouldVirtualize: boolean; VirtualList: typeof VirtualList<T> | null } {
   const shouldVirtualize = items.length > threshold;
 
   return {
     shouldVirtualize,
-    VirtualList: shouldVirtualize ? VirtualList : (null as any),
+    VirtualList: shouldVirtualize ? VirtualList : null,
   };
 }
 

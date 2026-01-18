@@ -16,6 +16,8 @@
  * - Reports to analytics/console for debugging
  */
 
+import { useState, useEffect } from 'react';
+
 export interface Metric {
   name: string;
   value: number;
@@ -550,6 +552,12 @@ export function getPerformanceSummary(vitals: CoreWebVitals): {
 
 /**
  * Hook for React components to access performance data
+ *
+ * @example
+ * function MyComponent() {
+ *   const { vitals, summary } = usePerformanceMonitoring();
+ *   return <div>Score: {summary.score}</div>;
+ * }
  */
 export function usePerformanceMonitoring() {
   const [vitals, setVitals] = useState<CoreWebVitals>({});
