@@ -106,7 +106,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   // Force loading to false if timeout occurred or Clerk not loaded or global timeout
-  const effectiveLoading = isClerkAvailable ? (!isLoaded && !hasTimedOut && !forceLoadingFalse) : false;
+  // EMERGENCY FIX: Always return false to prevent stuck loading
+  const effectiveLoading = false;
 
   const appUser = useMemo<AppUser | null>(() => {
     if (!clerkUser || !isSignedIn) return null;
