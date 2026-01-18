@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, useMemo, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo, useCallback, ReactNode } from 'react';
 import { translations, Language } from '../lib/translations';
 
 interface LanguageContextType {
@@ -49,8 +49,8 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, []);
 
-  // PERFORMANCE: Stable memoized function (useMemo pattern instead of useCallback)
-  const setLanguage = useMemo(() => (lang: Language) => {
+  // PERFORMANCE: Stable memoized function using useCallback
+  const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     try {
       localStorage.setItem(LANGUAGE_KEY, lang);
