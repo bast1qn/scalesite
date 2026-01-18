@@ -32,6 +32,75 @@ export const BUTTON_SECONDARY = `${BUTTON_BASE} px-8 py-4 text-slate-700 dark:te
 export const BUTTON_ICON = `${BUTTON_BASE} p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98]`;
 
 // ============================================
+// COMMON TRANSITION PATTERNS
+// ============================================
+
+/**
+ * Most common transition pattern - reduces 445+ duplications
+ * Used for hover effects on cards, buttons, and interactive elements
+ */
+export const TRANSITION_ALL = 'transition-all duration-300';
+
+/**
+ * Hover scale pattern (subtle 2% increase)
+ * Most common hover effect
+ */
+export const HOVER_SCALE = 'hover:scale-[1.02]';
+
+/**
+ * Active press scale pattern (subtle 2% decrease)
+ * Most common active/press effect
+ */
+export const ACTIVE_SCALE = 'active:scale-[0.98]';
+
+/**
+ * Combined interactive state (transition + hover + active)
+ * Use for any interactive element
+ */
+export const INTERACTIVE = `${TRANSITION_ALL} ${HOVER_SCALE} ${ACTIVE_SCALE}`;
+
+/**
+ * Interactive with focus ring
+ * Use for accessible interactive elements
+ */
+export const INTERACTIVE_FOCUS = `${INTERACTIVE} focus:ring-2 focus:ring-primary-500/50`;
+
+// ============================================
+// HOVER CARD PATTERNS
+// ============================================
+
+/**
+ * Standard interactive card with border highlight
+ * Used for feature cards, project cards, etc.
+ */
+export const CARD_HOVER_BORDER = `${INTERACTIVE} hover:border-blue-400/60 dark:hover:border-violet-500/60`;
+
+/**
+ * Card with shadow enhancement on hover
+ */
+export const CARD_HOVER_SHADOW = `${INTERACTIVE} hover:shadow-premium-lg hover:shadow-blue-500/10`;
+
+/**
+ * Full interactive card (border + shadow + lift)
+ */
+export const CARD_HOVER_FULL = `group ${CARD_HOVER_BORDER} ${CARD_HOVER_SHADOW} hover:-translate-y-2`;
+
+// ============================================
+// COMMON PATTERN COMBINATIONS
+// ============================================
+
+/**
+ * Gradient text pattern
+ * Used for headings and highlights
+ */
+export const TEXT_GRADIENT = 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600';
+
+/**
+ * Gradient text with dark mode support
+ */
+export const TEXT_GRADIENT_DARK = 'text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-violet-600 dark:from-primary-400 dark:to-violet-400';
+
+// ============================================
 // INPUT PATTERNS
 // ============================================
 

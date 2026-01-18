@@ -7,6 +7,7 @@ import { securityLog } from '../lib/secureLogger';
 
 // Maximum time to wait for Clerk before forcing loading to false
 const CLERK_LOADING_TIMEOUT = 500; // 0.5 seconds - very fast timeout to prevent stuck loading
+const GLOBAL_LOADING_TIMEOUT = 1000; // 1 second - global fallback timeout
 
 export interface AppUser {
   id: string;
@@ -100,7 +101,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const globalTimer = setTimeout(() => {
       console.warn('[AuthContext] Global timeout - forcing loading to false');
       setForceLoadingFalse(true);
-    }, 1000);
+    }, GLOBAL_LOADING_TIMEOUT);
 
     return () => clearTimeout(globalTimer);
   }, []);

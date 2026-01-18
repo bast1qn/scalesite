@@ -13,7 +13,7 @@ import type { DashboardView } from '../../pages/DashboardPage';
 
 // Internal - API & Utils
 import { api } from '../../lib';
-import { getTimeAgo } from '../../lib/utils/dateFormat';
+import { formatTimeAgo as getTimeAgo } from '../../lib/dateUtils';
 
 // Internal - Icons
 import {

@@ -127,6 +127,18 @@ function logMetric(metric: Metric): void {
 
 /**
  * Track Largest Contentful Paint (LCP)
+ *
+ * Measures the time it takes for the largest content element to become visible.
+ * LCP is a Core Web Vital metric that measures perceived load speed.
+ *
+ * @returns Promise that resolves to the LCP metric or null if tracking fails
+ *
+ * @example
+ * const lcp = await trackLCP();
+ * if (lcp) console.log(`LCP: ${lcp.value}ms - Rating: ${lcp.rating}`);
+ *
+ * @see https://web.dev/lcp/
+ * @see https://developer.chrome.com/docs/lighthouse/performance/largest-contentful-paint/
  */
 function trackLCP(): Promise<Metric | null> {
   return new Promise((resolve) => {
@@ -169,6 +181,21 @@ function trackLCP(): Promise<Metric | null> {
 
 /**
  * Track First Input Delay (FID) - Desktop only
+ *
+ * Measures the time from when a user first interacts with your site to when
+ * the browser can respond to that interaction. FID is a Core Web Vital metric
+ * that measures interactivity and responsiveness.
+ *
+ * Note: FID is not measured on mobile devices (use INP instead).
+ *
+ * @returns Promise that resolves to the FID metric or null if tracking fails
+ *
+ * @example
+ * const fid = await trackFID();
+ * if (fid) console.log(`FID: ${fid.value}ms - Rating: ${fid.rating}`);
+ *
+ * @see https://web.dev/fid/
+ * @see https://web.dev/inp/ (INP replaces FID for mobile)
  */
 function trackFID(): Promise<Metric | null> {
   return new Promise((resolve) => {
@@ -206,6 +233,22 @@ function trackFID(): Promise<Metric | null> {
 
 /**
  * Track Cumulative Layout Shift (CLS)
+ *
+ * Measures the sum of all layout shifts that occur during the entire page lifespan.
+ * CLS is a Core Web Vital metric that measures visual stability.
+ * A layout shift occurs when visible elements change position unexpectedly.
+ *
+ * The function tracks layout shifts in "sessions" - groups of shifts that occur
+ * within 1 second of each other, with no user input in between.
+ *
+ * @returns Promise that resolves to the CLS metric or null if tracking fails
+ *
+ * @example
+ * const cls = await trackCLS();
+ * if (cls) console.log(`CLS: ${cls.value} - Rating: ${cls.rating}`);
+ *
+ * @see https://web.dev/cls/
+ * @see https://web.dev/evolving-cls/ (CLS 2.0 changes)
  */
 function trackCLS(): Promise<Metric | null> {
   return new Promise((resolve) => {
@@ -274,6 +317,22 @@ function trackCLS(): Promise<Metric | null> {
 
 /**
  * Track Interaction to Next Paint (INP)
+ *
+ * Measures the responsiveness of a page to user interactions.
+ * INP is a Core Web Vital metric that assesses interaction latency.
+ * It observes all user interactions (clicks, taps, keyboard input) and reports
+ * the worst interaction duration (the 98th percentile).
+ *
+ * INP replaces FID as the primary interactivity metric for both desktop and mobile.
+ *
+ * @returns Promise that resolves to the INP metric or null if tracking fails
+ *
+ * @example
+ * const inp = await trackINP();
+ * if (inp) console.log(`INP: ${inp.value}ms - Rating: ${inp.rating}`);
+ *
+ * @see https://web.dev/inp/
+ * @see https://web.dev/inp-fid-changes/ (FID to INP migration)
  */
 function trackINP(): Promise<Metric | null> {
   return new Promise((resolve) => {
@@ -331,6 +390,21 @@ function trackINP(): Promise<Metric | null> {
 
 /**
  * Track First Contentful Paint (FCP)
+ *
+ * Measures the time from when the page starts loading to when any part of the
+ * page's content is rendered on the screen. FCP is a key loading performance metric.
+ *
+ * "Contentful" refers to text, images, SVG, or non-white canvas elements.
+ * It excludes the initial white screen and background colors.
+ *
+ * @returns Promise that resolves to the FCP metric or null if tracking fails
+ *
+ * @example
+ * const fcp = await trackFCP();
+ * if (fcp) console.log(`FCP: ${fcp.value}ms - Rating: ${fcp.rating}`);
+ *
+ * @see https://web.dev/fcp/
+ * @see https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/
  */
 function trackFCP(): Promise<Metric | null> {
   return new Promise((resolve) => {

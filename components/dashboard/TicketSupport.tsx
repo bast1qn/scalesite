@@ -23,7 +23,7 @@ import { api, getSafeURL } from '../../lib';
 import { alertCreateFailed, alertError, alertUserNotAdded, alertAssigned, alertAssignFailed } from '../../lib/dashboardAlerts';
 import { useChatScroll } from '../../lib/hooks';
 import { TicketCardSkeleton } from '../skeleton';
-import { formatTimeAgo } from '../../lib/utils/dateFormat';
+import { formatTimeAgo } from '../../lib/dateUtils';
 
 // --- TYPE DEFINITIONS ---
 interface Profile {

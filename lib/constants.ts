@@ -159,22 +159,6 @@ export const VALIDATION = {
   defaultProjectWeeks: 12,
 } as const;
 
-// ===== CLASSNAME PATTERNS =====
-// NOTE: Button and text styles consolidated in lib/ui-patterns.ts
-// Re-exporting for backward compatibility
-
-/**
- * @deprecated Use BUTTON_PRIMARY, BUTTON_SECONDARY, etc. from lib/ui-patterns.ts instead
- * Common button styles for consistency
- */
-export const BUTTON_STYLES = {
-  /** @deprecated Use BUTTON_PRIMARY from lib/ui-patterns.ts */
-  primary: 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
-  /** @deprecated Use BUTTON_SECONDARY from lib/ui-patterns.ts */
-  secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed',
-  /** @deprecated Use BUTTON_ICON from lib/ui-patterns.ts */
-  icon: 'w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50',
-} as const;
 
 /**
  * Common card styles

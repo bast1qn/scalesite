@@ -162,19 +162,6 @@ export const responsiveSpacing = {
 // ==================== VISUAL CONSISTENCY ====================
 
 /**
- * @deprecated Import BUTTON_PRIMARY, BUTTON_SECONDARY from lib/ui-patterns.ts instead
- * Standardized button variants - Ensures consistent button styling across app
- */
-export const buttonVariants = {
-  /** @deprecated Use BUTTON_PRIMARY from lib/ui-patterns.ts */
-  primary: 'relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-violet-600 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:ring-offset-2',
-  /** @deprecated Use BUTTON_SECONDARY from lib/ui-patterns.ts */
-  secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-violet-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:ring-offset-2',
-  /** @deprecated Consider adding BUTTON_GHOST to lib/ui-patterns.ts */
-  ghost: 'px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:ring-offset-2',
-} as const;
-
-/**
  * Standardized input styles
  */
 export const inputStyles = 'block w-full px-5 py-3 text-base rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 transition-all duration-300 ease-out focus:border-primary-400 dark:focus:border-primary-500 focus:shadow-input-focus hover:not-focus:border-slate-300 dark:hover:not-focus:border-slate-600';
