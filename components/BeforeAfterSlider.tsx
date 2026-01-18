@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowsRightLeftIcon } from './Icons';
 
 interface BeforeAfterSliderProps {
