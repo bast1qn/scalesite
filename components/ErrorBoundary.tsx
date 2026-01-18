@@ -29,11 +29,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log errors only in development mode
-    if (import.meta.env.DEV) {
-      console.error('Error Boundary caught an error:', error, errorInfo);
-      console.error('Component stack:', errorInfo.componentStack);
-    }
+    // Always log errors - both in dev and production
+    console.error('Error Boundary caught an error:', error, errorInfo);
+    console.error('Component stack:', errorInfo.componentStack);
     // NOTE: In production, consider sending error to error tracking service (e.g., Sentry)
   }
 
@@ -76,10 +74,10 @@ const ErrorFallback = ({ error, onReset }: { error: Error | null; onReset: () =>
           An unexpected error occurred. Please try again.
         </p>
 
-        {import.meta.env.DEV && error && (
-          <details className="mb-6 text-left">
+        {error && (
+          <details className="mb-6 text-left" open>
             <summary className="cursor-pointer text-sm font-mono text-red-500 mb-2">
-              Technical Details
+              Technical Details (Click to expand/collapse)
             </summary>
             <pre className="text-xs bg-slate-100 dark:bg-slate-800 p-3 rounded overflow-auto max-h-32">
               {error.toString()}
