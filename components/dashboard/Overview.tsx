@@ -13,7 +13,7 @@ import type { DashboardView } from '../../pages/DashboardPage';
 
 // Internal - API & Utils
 import { api } from '../../lib';
-import { formatTimeAgo as getTimeAgo } from '../../lib/dateUtils';
+import { formatTimeAgo } from '../../lib/dateUtils';
 
 // Internal - Icons
 import {
@@ -282,7 +282,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                 if (ticketsRes.data && Array.isArray(ticketsRes.data) && ticketsRes.data.length > 0) {
                     ticketsRes.data.slice(0, 3).forEach((t) => {
                         if (!t) return; // Extra safety: skip null/undefined items
-                        const timeAgo = getTimeAgo(new Date(t.created_at));
+                        const timeAgo = formatTimeAgo(new Date(t.created_at));
                         activities.push({
                             id: `ticket-${t.id}`,
                             text: `Ticket erstellt: ${t.subject || 'Ohne Betreff'}`,
@@ -297,7 +297,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                 if (projectsRes.data && Array.isArray(projectsRes.data) && projectsRes.data.length > 0) {
                     projectsRes.data.slice(0, 2).forEach((s) => {
                         if (!s || s.status !== 'active') return; // Extra safety checks
-                        const timeAgo = getTimeAgo(new Date(s.created_at));
+                        const timeAgo = formatTimeAgo(new Date(s.created_at));
                         activities.push({
                             id: `service-${s.id}`,
                             text: `Projekt gestartet: ${s.services?.name || 'Dienstleistung'}`,

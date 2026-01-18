@@ -1,5 +1,5 @@
 // React imports
-import React, { type FormEvent, useCallback, useContext, useEffect, useMemo, useState, memo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState, memo } from 'react';
 
 // Internal imports
 import { AnimatedSection, ChevronDownIcon, CheckBadgeIcon, CountdownTimer, OfferCalculator, ShieldCheckIcon, TagIcon, TicketIcon, XMarkIcon } from './index';

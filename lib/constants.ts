@@ -417,6 +417,34 @@ export const INTERSECTION_THRESHOLD = {
   low: 0.01,
 } as const;
 
+// ===== UI INTERACTION =====
+
+/**
+ * UI interaction timeouts and delays in milliseconds
+ */
+export const UI_TIMEOUTS = {
+  /** Success message auto-dismiss timeout */
+  successMessage: 3000,
+  /** Simulated API delay for general settings save */
+  saveSimulation: 800,
+  /** Simulated delay for billing information save */
+  billingSave: 500,
+} as const;
+
+// ===== FORM VALIDATION =====
+
+/**
+ * Form input limits and thresholds
+ */
+export const FORM_LIMITS = {
+  /** Minimum quantity value */
+  quantityMin: 1,
+  /** Maximum quantity value */
+  quantityMax: 1000,
+  /** Default quantity fallback */
+  quantityDefault: 1,
+} as const;
+
 // ===== IMAGE LAZY LOADING =====
 
 /**

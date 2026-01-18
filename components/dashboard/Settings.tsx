@@ -8,7 +8,7 @@ import React, { useContext, useEffect, useState, useCallback } from 'react';
 // Internal
 import { AuthContext, useLanguage } from '../../contexts';
 import { ThemeToggle, UserCircleIcon, ShieldCheckIcon, BellIcon, CreditCardIcon, ArrowDownOnSquareIcon, TrashIcon, GlobeAltIcon, CheckBadgeIcon } from '../index';
-import { api, supabase, validatePassword, getPasswordStrength, alertError } from '../../lib';
+import { api, supabase, validatePassword, getPasswordStrength, alertError, UI_TIMEOUTS } from '../../lib';
 import NotificationPreferences from '../notifications/NotificationPreferences';
 
 // ============================================
@@ -16,13 +16,13 @@ import NotificationPreferences from '../notifications/NotificationPreferences';
 // ============================================
 
 /** Success message auto-dismiss timeout in milliseconds */
-const SUCCESS_MESSAGE_TIMEOUT = 3000;
+const SUCCESS_MESSAGE_TIMEOUT = UI_TIMEOUTS.successMessage;
 
 /** Simulated API delay for general settings save */
-const SAVE_SIMULATION_DELAY = 800;
+const SAVE_SIMULATION_DELAY = UI_TIMEOUTS.saveSimulation;
 
 /** Simulated delay for billing information save */
-const BILLING_SAVE_DELAY = 500;
+const BILLING_SAVE_DELAY = UI_TIMEOUTS.billingSave;
 
 // Types
 type SettingsTab = 'general' | 'security' | 'notifications' | 'billing';

@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useCurrency, useLanguage } from '../../contexts';
+import { FORM_LIMITS } from '../../lib/constants';
 import {
     calculatePrice,
     type PricingConfig,
@@ -109,7 +110,10 @@ export const PricingCalculator = ({
         }
     }, [serviceId, initialQuantity, initialFeatures]);
 
-    // Feature toggle handler
+    /**
+     * Toggle feature selection
+     * @param featureKey - Feature identifier to toggle
+     */
     const toggleFeature = useCallback((featureKey: string) => {
         setIsDirty(true);
         setSelectedFeatures(prev =>
@@ -119,20 +123,27 @@ export const PricingCalculator = ({
         );
     }, []);
 
-    // Quantity change handler
+    /**
+     * Handle quantity change with clamping to min/max limits
+     * @param value - New quantity value
+     */
     const handleQuantityChange = useCallback((value: number) => {
         setIsDirty(true);
-        const clamped = Math.max(1, Math.min(1000, value));
+        const clamped = Math.max(FORM_LIMITS.quantityMin, Math.min(FORM_LIMITS.quantityMax, value));
         setQuantity(clamped);
     }, []);
 
-    // Clear discount code
+    /**
+     * Clear discount code input
+     */
     const clearDiscount = useCallback(() => {
         setIsDirty(true);
         setDiscountCode('');
     }, []);
 
-    // Reset calculator
+    /**
+     * Reset calculator to initial values and clear localStorage
+     */
     const resetCalculator = useCallback(() => {
         setIsDirty(true);
         setQuantity(initialQuantity);
@@ -191,22 +202,22 @@ export const PricingCalculator = ({
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => handleQuantityChange(quantity - 1)}
-                        disabled={quantity <= 1}
+                        disabled={quantity <= FORM_LIMITS.quantityMin}
                         className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         −
                     </button>
                     <input
                         type="number"
-                        min="1"
-                        max="1000"
+                        min={FORM_LIMITS.quantityMin}
+                        max={FORM_LIMITS.quantityMax}
                         value={quantity}
-                        onChange={(e) => handleQuantityChange(parseInt(e.target.value) || 1)}
+                        onChange={(e) => handleQuantityChange(parseInt(e.target.value) || FORM_LIMITS.quantityDefault)}
                         className="flex-1 h-10 px-4 text-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500"
                     />
                     <button
                         onClick={() => handleQuantityChange(quantity + 1)}
-                        disabled={quantity >= 1000}
+                        disabled={quantity >= FORM_LIMITS.quantityMax}
                         className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         +
