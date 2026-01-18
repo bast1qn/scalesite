@@ -62,7 +62,7 @@ export const ServicesGrid = () => {
         <AnimatedSection>
           <div className="text-center mb-16">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-3 min-h-11 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-sm font-semibold text-primary-600 dark:text-primary-400 mb-8 leading-snug">
+            <div className="inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-full bg-primary-50 dark:bg-primary-900/20 border border-primary-200/60 dark:border-primary-800/40 text-sm font-semibold text-primary-600 dark:text-primary-400 mb-8 leading-snug">
               {t('services.badge')}
             </div>
 

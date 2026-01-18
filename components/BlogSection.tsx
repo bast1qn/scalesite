@@ -73,7 +73,7 @@ export const BlogSection = () => {
         <AnimatedSection>
           <div className="text-center mb-16">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-violet-50 to-pink-50 dark:from-violet-900/20 dark:to-pink-900/20 border border-violet-200/60 dark:border-violet-800/30 text-xs font-bold text-violet-600 dark:text-violet-400 uppercase tracking-wider mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-50 to-pink-50 dark:from-violet-900/20 dark:to-pink-900/20 border border-violet-200/60 dark:border-violet-800/30 text-xs font-bold text-violet-600 dark:text-violet-400 uppercase tracking-wider mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
               Blog
             </div>
 

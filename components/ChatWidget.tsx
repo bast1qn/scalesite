@@ -125,13 +125,13 @@ export const ChatWidget = () => {
             >
                 {/* Header */}
                 <div className="bg-gradient-to-r from-primary-500 to-violet-500 px-4 py-3 flex items-center justify-between text-white shadow-sm shrink-0">
-                    <div className="flex items-center gap-2.5">
-                        <div className="bg-white/15 p-1.5 rounded-lg backdrop-blur-sm">
+                    <div className="flex items-center gap-2">
+                        <div className="bg-white/15 p-2 rounded-lg backdrop-blur-sm">
                             <SparklesIcon className="w-3.5 h-3.5" />
                         </div>
                         <div>
                             <span className="font-semibold text-sm font-display tracking-tight block leading-none">{t('chat_widget.bot_name')}</span>
-                            <span className="text-[10px] text-white/70 font-medium flex items-center gap-1.5 mt-0.5">
+                            <span className="text-[10px] text-white/70 font-medium flex items-center gap-2 mt-0.5">
                                 <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
                                 {t('chat_widget.status')}
                             </span>
@@ -174,7 +174,7 @@ export const ChatWidget = () => {
                     {/* Suggestions - Show only when it's the initial state */}
                     {messages.length === 1 && !isLoading && (
                         <div className="grid grid-cols-1 gap-2 mt-3 animate-fade-in z-10">
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider ml-1 mb-1.5">{t('chat_widget.frequent_questions')}</p>
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider ml-1 mb-2">{t('chat_widget.frequent_questions')}</p>
                             {suggestions.map((question) => (
                                 <button
                                     key={`suggestion-${question.slice(0, 30).replace(/\s/g, '-')}`}
@@ -189,7 +189,7 @@ export const ChatWidget = () => {
 
                     {isLoading && (
                         <div className="flex justify-start w-full z-10">
-                            <div className="bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 px-3.5 py-2.5 rounded-xl rounded-tl-sm flex items-center gap-1.5">
+                            <div className="bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 px-4 py-3 rounded-xl rounded-tl-sm flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
                                 <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
                                 <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>

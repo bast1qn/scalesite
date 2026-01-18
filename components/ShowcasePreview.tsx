@@ -64,7 +64,7 @@ const DeviceMockup: FC<{
         {/* Laptop screen */}
         <div className="absolute inset-1 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded overflow-hidden">
           {/* Browser chrome */}
-          <div className="flex items-center gap-1.5 px-2 py-1.5 border-b border-slate-200 dark:border-slate-700">
+          <div className="flex items-center gap-2 px-2 py-2 border-b border-slate-200 dark:border-slate-700">
             <div className="flex gap-1">
               <div className={`w-1.5 h-1.5 rounded-full bg-red-400 transition-transform duration-300 ${isHovered ? 'scale-125' : ''}`}></div>
               <div className={`w-1.5 h-1.5 rounded-full bg-yellow-400 transition-transform duration-300 ${isHovered ? 'scale-125' : ''}`} style={{ transitionDelay: '50ms' }}></div>
@@ -76,7 +76,7 @@ const DeviceMockup: FC<{
           </div>
 
           {/* Mock content */}
-          <div className="p-2 space-y-1.5">
+          <div className="p-2 space-y-2">
             <div className={`h-1.5 bg-slate-300 dark:bg-slate-600 rounded transition-all duration-500 ${isHovered ? 'w-3/4' : 'w-1/2'}`}></div>
             <div className="h-1 bg-slate-200 dark:bg-slate-700 rounded w-full"></div>
             <div className={`h-12 bg-gradient-to-br ${gradient} rounded-md mt-2 transition-all duration-500 ${isHovered ? 'opacity-40' : 'opacity-20'}`}></div>
@@ -116,7 +116,7 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-gradient-to-r from-primary-50 to-violet-50 dark:from-primary-900/20 dark:to-violet-900/20 border border-primary-200/60 dark:border-primary-800/30 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-8 shadow-premium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-50 to-violet-50 dark:from-primary-900/20 dark:to-violet-900/20 border border-primary-200/60 dark:border-primary-800/30 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-8 shadow-premium"
           >
             <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
             Showcase
@@ -151,11 +151,11 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex justify-center gap-3 mb-14"
         >
-          <button className="flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-11 rounded-full bg-white dark:bg-slate-800 border-2 border-primary-500 text-primary-600 dark:text-primary-400 font-medium text-sm shadow-premium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
+          <button className="flex items-center gap-2 px-4 sm:px-6 py-3 min-h-11 rounded-full bg-white dark:bg-slate-800 border-2 border-primary-500 text-primary-600 dark:text-primary-400 font-medium text-sm shadow-premium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
             <ComputerDesktopIcon className="w-4 h-4" />
             Desktop
           </button>
-          <button className="flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-11 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium text-sm hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
+          <button className="flex items-center gap-2 px-4 sm:px-6 py-3 min-h-11 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium text-sm hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50">
             <DevicePhoneMobileIcon className="w-4 h-4" />
             Mobil
           </button>
@@ -207,7 +207,7 @@ export const ShowcasePreview: FC<ShowcasePreviewProps> = ({ setCurrentPage }) =>
                       {showcase.features.map((feature, i) => (
                         <span
                           key={i}
-                          className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700/30 text-xs text-slate-600 dark:text-slate-400 group-hover:bg-white dark:group-hover:bg-slate-600 transition-colors duration-300"
+                          className="px-3 py-1 rounded-md bg-slate-100 dark:bg-slate-700/30 text-xs text-slate-600 dark:text-slate-400 group-hover:bg-white dark:group-hover:bg-slate-600 transition-colors duration-300"
                         >
                           {feature}
                         </span>

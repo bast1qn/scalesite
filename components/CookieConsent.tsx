@@ -108,23 +108,23 @@ export const CookieConsent = () => {
                             </a>
                         </p>
                     </div>
-                    <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-2.5 shrink-0 relative">
+                    <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-2 shrink-0 relative">
                         <button
                             onClick={() => setShowSettings(true)}
-                            className="group px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-250 flex items-center justify-center gap-2 hover:shadow-sm"
+                            className="group px-4 py-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-250 flex items-center justify-center gap-2 hover:shadow-sm"
                         >
                             <AdjustmentsHorizontalIcon className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300 ease-out" />
                             {t('cookie_consent.settings')}
                         </button>
                         <button
                             onClick={handleRejectAll}
-                            className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-250"
+                            className="px-4 py-3 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-250"
                         >
                             {t('cookie_consent.reject')}
                         </button>
                         <button
                             onClick={handleAcceptAll}
-                            className="group px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 shadow-md shadow-primary-500/20 transition-all duration-250 hover:shadow-lg hover:shadow-primary-500/30 hover:-translate-y-px active:translate-y-0 overflow-hidden relative"
+                            className="group px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 shadow-md shadow-primary-500/20 transition-all duration-250 hover:shadow-lg hover:shadow-primary-500/30 hover:-translate-y-px active:translate-y-0 overflow-hidden relative"
                         >
                             <span className="relative flex items-center gap-2">
                                 {t('cookie_consent.accept_all')}
@@ -156,7 +156,7 @@ export const CookieConsent = () => {
                                 <div className="flex-1">
                                     <div className="flex items-center justify-between mb-1">
                                         <span className="font-semibold text-slate-900 dark:text-white">{t('cookie_consent.essential.title')}</span>
-                                        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-1 rounded-full">{t('cookie_consent.essential.always_active')}</span>
+                                        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-3 py-1 rounded-full">{t('cookie_consent.essential.always_active')}</span>
                                     </div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">{t('cookie_consent.essential.description')}</p>
                                 </div>
@@ -194,13 +194,13 @@ export const CookieConsent = () => {
                         <div className="p-6 border-t border-slate-200/60 dark:border-slate-700/60 flex justify-end gap-3 bg-gradient-to-r from-slate-50/80 to-primary-50/30 dark:from-slate-800/50 dark:to-primary-900/10">
                             <button
                                 onClick={() => setShowSettings(false)}
-                                className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200"
+                                className="px-4 py-3 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200"
                             >
                                 {t('cookie_consent.cancel')}
                             </button>
                             <button
                                 onClick={handleSaveSettings}
-                                className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 shadow-md shadow-primary-500/20 transition-all duration-250 hover:shadow-lg hover:shadow-primary-500/30 hover:-translate-y-px active:translate-y-0"
+                                className="px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:from-primary-500 hover:to-violet-500 shadow-md shadow-primary-500/20 transition-all duration-250 hover:shadow-lg hover:shadow-primary-500/30 hover:-translate-y-px active:translate-y-0"
                             >
                                 {t('cookie_consent.save_selection')}
                             </button>

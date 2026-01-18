@@ -121,7 +121,7 @@ export const DeviceMockupCarousel = () => {
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-0 sm:right-4 z-40 p-2.5 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
+              className="absolute right-0 sm:right-4 z-40 p-3 bg-white/95 dark:bg-slate-900/95 hover:bg-white dark:hover:bg-slate-800 rounded-full shadow-md hover:shadow-lg transition-all duration-250 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950 backdrop-blur-sm"
               aria-label="Next"
             >
               <ChevronRightIcon />
@@ -129,7 +129,7 @@ export const DeviceMockupCarousel = () => {
           </div>
 
           {/* Dots */}
-          <div className="flex justify-center gap-2.5 mt-12" role="tablist">
+          <div className="flex justify-center gap-3 mt-12" role="tablist">
               {mockups.map((mockup) => (
                   <button
                       key={mockup.id}
@@ -137,7 +137,7 @@ export const DeviceMockupCarousel = () => {
                       aria-selected={currentIndex === mockups.indexOf(mockup)}
                       aria-controls={`slide-${mockup.id}`}
                       onClick={() => setCurrentIndex(mockups.indexOf(mockup))}
-                      className={`h-2.5 rounded-full transition-all duration-250 ease-out ${currentIndex === mockups.indexOf(mockup) ? 'bg-blue-500 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500 w-2.5'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
+                      className={`h-3 rounded-full transition-all duration-250 ease-out ${currentIndex === mockups.indexOf(mockup) ? 'bg-blue-500 w-8' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500 w-3'} focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-slate-950`}
                   />
               ))}
           </div>
