@@ -80,7 +80,3 @@ export const useLanguage = () => {
   }
   return context;
 };
-<<<<<<< HEAD:contexts/LanguageContext.tsx
-=======
-// Cache bust: So 18. Jan 19:40:00 CET 2026 - useMemo pattern instead of useCallback
->>>>>>> fix-language-callback:contexts/LanguageContextV2.tsx
