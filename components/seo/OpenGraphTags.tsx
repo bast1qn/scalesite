@@ -2,29 +2,31 @@
 // OPEN GRAPH TAGS COMPONENT - REFACTORED
 // ============================================
 
-import React, { useState } from 'react';
+// React imports
+import { useState } from 'react';
+
+// External imports
 import { motion } from 'framer-motion';
-import { Link, Image, Eye } from 'lucide-react';
-import {
-  OpenGraphData,
-  OpenGraphType,
-} from './types';
-import {
-  INITIAL_OG_DATA,
-  DEFAULT_OG_TYPE,
-  DEFAULT_OG_LOCALE,
-  OG_DETERMINER_OPTIONS,
-} from './constants';
-import { OG_TRANSLATIONS, OpenGraphTranslations } from './translations';
+import { Eye, Image, Link } from 'lucide-react';
+
+// Internal imports - Types
+import type { OpenGraphData, OpenGraphType } from './types';
+
+// Internal imports - Constants
+import { DEFAULT_OG_LOCALE, DEFAULT_OG_TYPE, INITIAL_OG_DATA, OG_DETERMINER_OPTIONS } from './constants';
+
+// Internal imports - Utilities
 import {
   generateOpenGraphTags,
   isValidUrl,
   validateRequiredField,
   validateUrlField,
 } from './utils';
+
+// Internal imports - Components
+import { ArticleInfoFields } from './OpenGraph/ArticleInfoFields';
 import { BasicInfoFields } from './OpenGraph/BasicInfoFields';
 import { MediaFields } from './OpenGraph/MediaFields';
-import { ArticleInfoFields } from './OpenGraph/ArticleInfoFields';
 import { OGGeneratedPreview } from './OpenGraph/GeneratedPreview';
 
 // ============================================

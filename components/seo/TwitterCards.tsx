@@ -2,28 +2,32 @@
 // TWITTER CARDS COMPONENT - REFACTORED
 // ============================================
 
-import React, { useState } from 'react';
+// React imports
+import { useState } from 'react';
+
+// External imports
 import { motion } from 'framer-motion';
-import { Twitter, Eye } from 'lucide-react';
-import {
-  TwitterCardData,
-  TwitterCardType,
-} from './types';
-import {
-  INITIAL_TWITTER_CARD_DATA,
-  DEFAULT_TWITTER_CARD_TYPE,
-} from './constants';
-import { TWITTER_TRANSLATIONS, TwitterCardTranslations } from './translations';
+import { Eye, Twitter } from 'lucide-react';
+
+// Internal imports - Types
+import type { TwitterCardData, TwitterCardType } from './types';
+
+// Internal imports - Constants
+import { DEFAULT_TWITTER_CARD_TYPE, INITIAL_TWITTER_CARD_DATA } from './constants';
+
+// Internal imports - Utilities
 import {
   generateTwitterCardTags,
-  validateImageFile,
   readImageFile,
+  validateImageFile,
   validateRequiredField,
 } from './utils';
-import { CardTypeSelector } from './TwitterCards/CardTypeSelector';
-import { CardInfoFields } from './TwitterCards/CardInfoFields';
+
+// Internal imports - Components
 import { AccountInfoFields } from './TwitterCards/AccountInfoFields';
 import { AppInfoFields } from './TwitterCards/AppInfoFields';
+import { CardInfoFields } from './TwitterCards/CardInfoFields';
+import { CardTypeSelector } from './TwitterCards/CardTypeSelector';
 import { GeneratedPreview } from './TwitterCards/GeneratedPreview';
 
 // ============================================

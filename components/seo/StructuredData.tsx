@@ -1,10 +1,19 @@
+// React imports
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+// External imports
+import { AnimatePresence, motion } from 'framer-motion';
 import { Eye } from 'lucide-react';
-import { SchemaTypeSelector } from './structured-data/SchemaTypeSelector';
+
+// Internal imports - Components
 import { SchemaFormFields } from './structured-data/SchemaFormFields';
 import { SchemaPreview } from './structured-data/SchemaPreview';
+import { SchemaTypeSelector } from './structured-data/SchemaTypeSelector';
+
+// Internal imports - Utilities
 import { generateSchema } from './structured-data/SchemaGenerator';
+
+// Internal imports - Translations
 import { schemaTranslations } from './structured-data/SchemaTranslations';
 
 type SchemaType = 'Article' | 'NewsArticle' | 'BlogPosting' | 'LocalBusiness' | 'Organization' | 'Product' | 'Person' | 'WebSite';

@@ -1,4 +1,4 @@
-import { type SVGProps, memo } from 'react';
+import { memo } from 'react';
 
 export {};
 

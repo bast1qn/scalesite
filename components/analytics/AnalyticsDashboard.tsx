@@ -1,4 +1,7 @@
+// React imports
 import { FC, useState, useMemo } from 'react';
+
+// Internal imports - Components
 import { ChartBarIcon } from '../Icons';
 import DateRangePicker, { DateRangePreset, DateRange } from './DateRangePicker';
 import VisitorChart from './VisitorChart';

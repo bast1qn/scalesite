@@ -1,5 +1,5 @@
 // React imports
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 // Internal imports
 import { api } from '../../lib';

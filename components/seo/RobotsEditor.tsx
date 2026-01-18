@@ -1,12 +1,20 @@
+import type { FC } from 'react';
 import { useState } from 'react';
+
+// External imports
 import { motion } from 'framer-motion';
-import { generateRobotsTxt, type RobotsRule } from '../../lib/seo';
+
+// Internal imports - Types
+import type { RobotsRule } from '../../lib/seo';
+
+// Internal imports - Utilities
+import { generateRobotsTxt } from '../../lib/seo';
 
 interface RobotsEditorProps {
   language?: 'de' | 'en';
 }
 
-export const RobotsEditor: React.FC<RobotsEditorProps> = ({ language = 'de' }) => {
+export const RobotsEditor: FC<RobotsEditorProps> = ({ language = 'de' }) => {
   const [rules, setRules] = useState<RobotsRule[]>([
     {
       userAgent: '*',

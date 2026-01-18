@@ -3,7 +3,7 @@
 // ============================================
 
 // React
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 
 // Internal
 import { AuthContext, AppUser, useLanguage } from '../../contexts';

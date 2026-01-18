@@ -3,9 +3,26 @@
 // Loop 11/Phase 2: Accessibility Deep-Dive
 // ============================================
 
+// WCAG Constants
+const LUMINANCE_ADDEND = 0.05;
+const CONTRAST_RATIO_LARGE_TEXT = 3.0;
+const CONTRAST_RATIO_NORMAL_TEXT = 4.5;
+const RGB_MAX_VALUE = 255;
+const SRGB_LINEAR_THRESHOLD = 0.03928;
+const SRGB_LINEAR_DIVISOR = 12.92;
+const SRGB_GAMMA_OFFSET = 0.055;
+const SRGB_GAMMA_DIVISOR = 1.055;
+const SRGB_GAMMA_EXPONENT = 2.4;
+const LUMINANCE_RED = 0.2126;
+const LUMINANCE_GREEN = 0.7152;
+const LUMINANCE_BLUE = 0.0722;
+
 /**
- * WCAG AA CONTRAST CHECKER
- * Ensures text meets minimum contrast ratios (4.5:1 for normal text, 3:1 for large text)
+ * Calculates the contrast ratio between two hex colors
+ * @param foreground - Foreground color in hex format (e.g., "#000000")
+ * @param background - Background color in hex format (e.g., "#FFFFFF")
+ * @returns Contrast ratio (1-21), where higher values indicate better contrast
+ * @example getContrastRatio("#000000", "#FFFFFF") // Returns 21
  */
 export function getContrastRatio(foreground: string, background: string): number {
   const fg = hexToRgb(foreground);
@@ -19,19 +36,33 @@ export function getContrastRatio(foreground: string, background: string): number
   const lighter = Math.max(fgLum, bgLum);
   const darker = Math.min(fgLum, bgLum);
 
-  return (lighter + 0.05) / (darker + 0.05);
+  return (lighter + LUMINANCE_ADDEND) / (darker + LUMINANCE_ADDEND);
 }
 
+/**
+ * Checks if two colors meet WCAG AA contrast requirements
+ * @param foreground - Foreground color in hex format
+ * @param background - Background color in hex format
+ * @param isLargeText - Whether the text is large (18pt+ or 14pt+ bold)
+ * @returns true if contrast meets WCAG AA standards
+ * @example isContrastAACompliant("#000000", "#FFFFFF") // Returns true
+ * @example isContrastAACompliant("#555555", "#FFFFFF", false) // Returns true
+ */
 export function isContrastAACompliant(
   foreground: string,
   background: string,
   isLargeText: boolean = false
 ): boolean {
   const ratio = getContrastRatio(foreground, background);
-  const minimum = isLargeText ? 3.0 : 4.5;
+  const minimum = isLargeText ? CONTRAST_RATIO_LARGE_TEXT : CONTRAST_RATIO_NORMAL_TEXT;
   return ratio >= minimum;
 }
 
+/**
+ * Converts hex color to RGB object
+ * @param hex - Hex color string (with or without # prefix)
+ * @returns RGB object or null if invalid
+ */
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
@@ -43,17 +74,28 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
     : null;
 }
 
+/**
+ * Calculates relative luminance of an RGB color per WCAG 2.0 spec
+ * @param rgb - RGB color values
+ * @returns Relative luminance (0-1)
+ */
 function getLuminance({ r, g, b }: { r: number; g: number; b: number }): number {
   const [rs, gs, bs] = [r, g, b].map((val) => {
-    const sRGB = val / 255;
-    return sRGB <= 0.03928 ? sRGB / 12.92 : Math.pow((sRGB + 0.055) / 1.055, 2.4);
+    const sRGB = val / RGB_MAX_VALUE;
+    return sRGB <= SRGB_LINEAR_THRESHOLD
+      ? sRGB / SRGB_LINEAR_DIVISOR
+      : Math.pow((sRGB + SRGB_GAMMA_OFFSET) / SRGB_GAMMA_DIVISOR, SRGB_GAMMA_EXPONENT);
   });
-  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+  return LUMINANCE_RED * rs + LUMINANCE_GREEN * gs + LUMINANCE_BLUE * bs;
 }
 
 /**
- * ARIA LABEL GENERATORS
- * Ensures icon buttons have descriptive labels
+ * Generates ARIA label for icon buttons
+ * @param iconName - Name of the icon (e.g., "Close", "Menu")
+ * @param action - Action the button performs (e.g., "Close modal")
+ * @param context - Optional context for clarity
+ * @returns Formatted ARIA label string
+ * @example generateAriaLabel("Close", "Close modal", "dialog") // Returns "Close Close modal: dialog"
  */
 export function generateAriaLabel(
   iconName: string,
@@ -64,6 +106,14 @@ export function generateAriaLabel(
   return label;
 }
 
+/**
+ * Generates complete ARIA props for buttons
+ * @param label - Button label
+ * @param isPressed - Toggle state (for toggle buttons)
+ * @param isExpanded - Expanded state (for expandable buttons)
+ * @param controls - ID of controlled element
+ * @returns Object with ARIA attributes
+ */
 export function getButtonAriaProps(
   label: string,
   isPressed?: boolean,
@@ -100,8 +150,12 @@ export function getButtonAriaProps(
 }
 
 /**
- * ALT TEXT GENERATORS
- * Ensures all images have meaningful alt text
+ * Generates alt text for images based on filename and context
+ * @param src - Image source path or URL
+ * @param context - Optional context describing the image's purpose
+ * @param isDecorative - Whether the image is decorative (should have empty alt)
+ * @returns Generated alt text string
+ * @example generateImageAltText("/images/team-photo.jpg", "Our team") // Returns "team photo - Our team"
  */
 export function generateImageAltText(
   src: string,
@@ -121,6 +175,13 @@ export function generateImageAltText(
   return context ? `${readable} - ${context}` : readable;
 }
 
+/**
+ * Generates complete ARIA props for images
+ * @param alt - Alt text for the image
+ * @param isDecorative - Whether the image is decorative
+ * @param caption - Optional caption element ID
+ * @returns Object with ARIA attributes
+ */
 export function getImgAriaProps(
   alt: string,
   isDecorative: boolean = false,

@@ -1,5 +1,5 @@
 // React imports
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 // Third-party imports
 // None

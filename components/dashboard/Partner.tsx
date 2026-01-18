@@ -1,10 +1,10 @@
 // React imports
-import React from 'react';
+import type { FC } from 'react';
 
 // Internal imports
 import { BuildingStorefrontIcon } from '../index';
 
-const Partner: React.FC = () => {
+const Partner: FC = () => {
     return (
         <div>
             <div className="flex items-center gap-4">
