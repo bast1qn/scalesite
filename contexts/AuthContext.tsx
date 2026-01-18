@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, useEffect, useState, useCallback, type ReactNode } from 'react';
 import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
 import type { User } from '@clerk/clerk-react';
 import { isClerkAvailable } from '../lib/clerk';
