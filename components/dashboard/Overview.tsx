@@ -4,7 +4,7 @@
 // ============================================
 
 // React & Third-party
-import React, { useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import React, { useContext, useState, useEffect, useCallback, memo, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 // Internal - Contexts & Types

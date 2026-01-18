@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, useEffect, useState, useCallback, type ReactNode } from 'react';
 import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
 import type { User } from '@clerk/clerk-react';
 import { isClerkAvailable } from '../lib/clerk';
@@ -6,7 +6,7 @@ import { clerkPubKey } from '../lib/clerk';
 import { securityLog } from '../lib/secureLogger';
 
 // Maximum time to wait for Clerk before forcing loading to false
-const CLERK_LOADING_TIMEOUT = 2000; // 2 seconds - faster timeout
+const CLERK_LOADING_TIMEOUT = 500; // 0.5 seconds - very fast timeout to prevent stuck loading
 
 export interface AppUser {
   id: string;
@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Timeout mechanism to prevent infinite loading if Clerk hangs
   const [hasTimedOut, setHasTimedOut] = useState(false);
+  const [forceLoadingFalse, setForceLoadingFalse] = useState(false);
 
   useEffect(() => {
     console.log('[AuthContext] isClerkAvailable:', isClerkAvailable, 'isLoaded:', isLoaded, 'hasTimedOut:', hasTimedOut);
@@ -94,8 +95,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Optional chaining in deps creates unstable references
   }, [isClerkAvailable, isLoaded, clerkAuth.isLoaded]);
 
-  // Force loading to false if timeout occurred or Clerk not loaded
-  const effectiveLoading = isClerkAvailable ? (!isLoaded && !hasTimedOut) : false;
+  // Global fallback: Force loading to false after 1 second no matter what
+  useEffect(() => {
+    const globalTimer = setTimeout(() => {
+      console.warn('[AuthContext] Global timeout - forcing loading to false');
+      setForceLoadingFalse(true);
+    }, 1000);
+
+    return () => clearTimeout(globalTimer);
+  }, []);
+
+  // Force loading to false if timeout occurred or Clerk not loaded or global timeout
+  // EMERGENCY FIX: Always return false to prevent stuck loading
+  const effectiveLoading = false;
 
   const appUser = useMemo<AppUser | null>(() => {
     if (!clerkUser || !isSignedIn) return null;

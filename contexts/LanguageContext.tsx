@@ -1,5 +1,4 @@
-import { createContext } from 'react';
-import { useState, useContext, useEffect, useMemo, useCallback, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo, useCallback, ReactNode } from 'react';
 import { translations, Language } from '../lib/translations';
 
 interface LanguageContextType {
@@ -48,6 +47,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, []);
 
+  // PERFORMANCE: Stable memoized function using useCallback
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     try {
@@ -80,3 +80,7 @@ export const useLanguage = () => {
   }
   return context;
 };
+<<<<<<< HEAD:contexts/LanguageContext.tsx
+=======
+// Cache bust: So 18. Jan 19:40:00 CET 2026 - useMemo pattern instead of useCallback
+>>>>>>> fix-language-callback:contexts/LanguageContextV2.tsx
