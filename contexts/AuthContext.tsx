@@ -6,7 +6,7 @@ import { clerkPubKey } from '../lib/clerk';
 import { securityLog } from '../lib/secureLogger';
 
 // Maximum time to wait for Clerk before forcing loading to false
-const CLERK_LOADING_TIMEOUT = 2000; // 2 seconds - faster timeout
+const CLERK_LOADING_TIMEOUT = 1000; // 1 second - faster timeout to prevent stuck loading
 
 export interface AppUser {
   id: string;
