@@ -84,3 +84,4 @@ export const useLanguage = () => {
   }
   return context;
 };
+// Cache bust: So 18. Jan 17:16:29 CET 2026
