@@ -114,7 +114,7 @@ export function PerformanceDashboard() {
             </h4>
             <ul className="space-y-1">
               {summary.issues.slice(0, 3).map((issue, index) => (
-                <li key={index} className="text-xs text-red-700 dark:text-red-300">
+                <li key={`issue-${metric.name}-${index}`} className="text-xs text-red-700 dark:text-red-300">
                   • {issue}
                 </li>
               ))}
@@ -182,7 +182,7 @@ export function PerformanceDashboard() {
               </h4>
               <ul className="space-y-1">
                 {summary.recommendations.slice(0, 5).map((rec, index) => (
-                  <li key={index} className="text-xs text-blue-700 dark:text-blue-300">
+                  <li key={`rec-${metric.name}-${index}`} className="text-xs text-blue-700 dark:text-blue-300">
                     • {rec}
                   </li>
                 ))}

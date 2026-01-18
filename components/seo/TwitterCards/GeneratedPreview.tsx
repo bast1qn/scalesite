@@ -78,7 +78,7 @@ export const GeneratedPreview: React.FC<GeneratedPreviewProps> = ({
           <div className="bg-gray-900/50 rounded-lg p-4 overflow-x-auto max-h-96 overflow-y-auto">
             <pre className="text-sm text-gray-300 whitespace-pre-wrap font-mono">
               {generateTags().map((tag, index) => (
-                <div key={index} className="mb-1">
+                <div key={`twitter-tag-${index}-${tag.slice(0, 20)}`} className="mb-1">
                   {tag}
                 </div>
               ))}

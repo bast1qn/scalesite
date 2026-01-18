@@ -317,7 +317,7 @@ export const MetaTagGenerator: React.FC<MetaTagGeneratorProps> = ({ language = '
           <div className="bg-gray-900/50 rounded-lg p-4 overflow-x-auto">
             <pre className="text-sm text-gray-300 whitespace-pre-wrap">
               {generatedTags.map((tag, index) => (
-                <div key={index} className="mb-1">
+                <div key={`meta-${tag.name}-${tag.content}-${index}`} className="mb-1">
                   {getTagHtml(tag)}
                 </div>
               ))}
