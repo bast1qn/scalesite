@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MetaTagGenerator, SitemapGenerator, RobotsEditor, SEOScore } from '../components/seo';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts';
 
 const SEOPage: React.FC = () => {
   const { language } = useLanguage();
