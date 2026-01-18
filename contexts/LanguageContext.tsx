@@ -9,7 +9,7 @@ interface LanguageContextType {
 
 export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const LANGUAGE_KEY = 'app_language_v2' as const;
+const LANGUAGE_KEY = 'app_language' as const;
 const DEFAULT_LANGUAGE: Language = 'en';
 
 // PERFORMANCE: Memoize translation lookup to prevent unnecessary recalculations
