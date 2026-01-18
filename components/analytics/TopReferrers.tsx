@@ -2,6 +2,7 @@ import { FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { GlobeAltIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
+import { REFERRER_VISITS, ANALYTICS_DELAYS } from '../../lib/analytics-constants';
 
 interface TopReferrersProps {
     dateRange: DateRange;
@@ -24,10 +25,10 @@ const generateMockReferrers = (range: DateRange): ReferrerData[] => {
         { source: 'Twitter', icon: '🐦' }
     ];
 
-    const baseVisits = 200 + Math.random() * 300;
+    const baseVisits = REFERRER_VISITS.BASE_MIN + Math.random() * (REFERRER_VISITS.BASE_MAX - REFERRER_VISITS.BASE_MIN);
     const data = referrers.map(ref => ({
         ...ref,
-        visits: Math.round(baseVisits * (0.3 + Math.random()))
+        visits: Math.round(baseVisits * (REFERRER_VISITS.MULTIPLIER_MIN + Math.random() * (REFERRER_VISITS.MULTIPLIER_MAX - REFERRER_VISITS.MULTIPLIER_MIN)))
     }));
 
     const totalVisits = data.reduce((sum, ref) => sum + ref.visits, 0);
@@ -46,7 +47,7 @@ const TopReferrers: FC<TopReferrersProps> = ({ dateRange, className = '' }) => {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: ANALYTICS_DELAYS.TOP_REFERRERS_DELAY }}
             className={`bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 ${className}`}
         >
             <div className="flex items-center gap-3 mb-6">
@@ -69,7 +70,7 @@ const TopReferrers: FC<TopReferrersProps> = ({ dateRange, className = '' }) => {
                         key={referrer.source}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.4 + index * 0.1 }}
+                        transition={{ delay: ANALYTICS_DELAYS.TOP_REFERRERS_DELAY + 0.1 + index * ANALYTICS_DELAYS.ITEM_DELAY }}
                         className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
                     >
                         <div className="flex items-center gap-3">

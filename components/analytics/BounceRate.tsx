@@ -2,6 +2,7 @@ import { FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpIcon, ArrowRightIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
+import { BOUNCE_RATE } from '../../lib/analytics-constants';
 
 interface BounceRateProps {
     dateRange: DateRange;
@@ -16,8 +17,8 @@ interface BounceRateData {
 
 // Mock-Daten - In Produktion durch echte API-Daten ersetzen
 const generateMockBounceRate = (range: DateRange): BounceRateData => {
-    const baseRate = 42 + Math.random() * 8; // 42-50%
-    const previousRate = baseRate + (Math.random() - 0.5) * 5;
+    const baseRate = BOUNCE_RATE.MIN + Math.random() * (BOUNCE_RATE.MAX - BOUNCE_RATE.MIN);
+    const previousRate = baseRate + (Math.random() - 0.5) * BOUNCE_RATE.VARIANCE;
 
     const trend: BounceRateData['trend'] =
         baseRate < previousRate ? 'down' : baseRate > previousRate ? 'up' : 'neutral';

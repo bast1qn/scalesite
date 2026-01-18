@@ -82,7 +82,6 @@ function InputField({
     required = false
 }: InputFieldProps) {
     const hasError = error && touched;
-    const isFocused = false;
 
     return (
         <motion.div

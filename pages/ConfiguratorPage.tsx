@@ -2,7 +2,7 @@
 // CONFIGURATOR PAGE
 // ============================================
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts';
 import { Configurator, ProjectConfig } from '../components/configurator/Configurator';

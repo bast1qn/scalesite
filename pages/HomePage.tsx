@@ -1,6 +1,6 @@
 
 // React
-import { useEffect, useRef, useState, memo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Internal - Components
 import { Hero, FinalCtaSection, ReasonsSection, ShowcasePreview, AnimatedSection } from '../components';

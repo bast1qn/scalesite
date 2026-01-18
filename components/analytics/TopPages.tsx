@@ -2,6 +2,7 @@ import { FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ChartBarIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
+import { PAGE_VIEWS, ANALYTICS_DELAYS } from '../../lib/analytics-constants';
 
 interface TopPagesProps {
     dateRange: DateRange;
@@ -24,17 +25,17 @@ const generateMockTopPages = (range: DateRange): PageData[] => {
         { path: '/kontakt', title: 'Kontakt' }
     ];
 
-    const baseViews = 500 + Math.random() * 500;
+    const baseViews = PAGE_VIEWS.BASE_MIN + Math.random() * (PAGE_VIEWS.BASE_MAX - PAGE_VIEWS.BASE_MIN);
     const data = pages.map(page => ({
         ...page,
-        views: Math.round(baseViews * (0.5 + Math.random()))
+        views: Math.round(baseViews * (PAGE_VIEWS.MULTIPLIER_MIN + Math.random() * (PAGE_VIEWS.MULTIPLIER_MAX - PAGE_VIEWS.MULTIPLIER_MIN)))
     }));
 
     // Sortiere nach Views und berechne Prozentsatz
     const totalViews = data.reduce((sum, page) => sum + page.views, 0);
     return data
         .sort((a, b) => b.views - a.views)
-        .slice(0, 5)
+        .slice(0, PAGE_VIEWS.TOP_PAGES_COUNT)
         .map(page => ({
             ...page,
             percentage: Math.round((page.views / totalViews) * 100)
@@ -48,7 +49,7 @@ const TopPages: FC<TopPagesProps> = ({ dateRange, className = '' }) => {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: ANALYTICS_DELAYS.TOP_PAGES_DELAY }}
             className={`bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 ${className}`}
         >
             <div className="flex items-center gap-3 mb-6">
@@ -95,7 +96,7 @@ const TopPages: FC<TopPagesProps> = ({ dateRange, className = '' }) => {
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${page.percentage}%` }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: ANALYTICS_DELAYS.BAR_DURATION, delay: index * ANALYTICS_DELAYS.ITEM_DELAY }}
                                 className="h-full bg-gradient-to-r from-blue-500 to-violet-500 rounded-full"
                             />
                         </div>
