@@ -251,6 +251,19 @@ export const COLOR_PATTERNS = {
 } as const;
 
 /**
+ * Common button styles with consistent interactive states
+ * PHASE 2 FOUNDATION: Consistent hover: scale-[1.02], active: scale-[0.98], min-h-11
+ */
+export const BUTTON_STYLES = {
+  /** Primary gradient button with consistent states */
+  primary: 'px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-500 text-white rounded-2xl hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] min-h-11',
+  /** Secondary border button with consistent states */
+  secondary: 'px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] min-h-11',
+  /** Icon button with consistent states */
+  icon: 'p-3 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] min-h-11',
+} as const;
+
+/**
  * Common shadow variants
  */
 export const SHADOW_VARIANTS = {
