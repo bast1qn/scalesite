@@ -186,7 +186,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
             <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-500/60 to-transparent transition-opacity duration-300"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-14 md:h-16 lg:h-18">
+                <div className="flex items-center justify-between min-h-11">
                     <button
                         onClick={() => handleNavClick('home')}
                         className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-300 min-h-11"
