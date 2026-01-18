@@ -125,12 +125,14 @@ export default defineConfig(({ mode }) => {
               if (id.includes('react-router-dom')) {
                 return 'router';
               }
-              // Clerk authentication - split for better caching
+              // ✅ PERFORMANCE: Clerk authentication - split into separate chunks
+              // @clerk/clerk-react is lightweight React wrapper
               if (id.includes('@clerk/clerk-react')) {
-                return 'vendor';
+                return 'clerk-react';
               }
+              // @clerk/clerk-js is heavy JS SDK (~200KB) - separate chunk
               if (id.includes('@clerk/clerk-js')) {
-                return 'vendor';
+                return 'clerk-js';
               }
               // ✅ PERFORMANCE: Split React Dropzone (heavy, rarely used)
               if (id.includes('react-dropzone')) {
