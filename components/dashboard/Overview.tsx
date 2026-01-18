@@ -4,16 +4,16 @@
 // ============================================
 
 // React & Third-party
-import React, { useContext, useState, useEffect, useCallback, memo, type ReactNode } from 'react';
+import React, { useContext, useState, useEffect, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
+
+// Internal - API & Utils
+import { api, formatTimeAgo, renderStatusBadge, KPICard, ResourceBar, ProgressBar } from '../../lib';
+import { TIME_CONSTANTS } from './Overview.constants';
 
 // Internal - Contexts & Types
 import { AuthContext, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
-
-// Internal - API & Utils
-import { api } from '../../lib';
-import { formatTimeAgo } from '../../lib/dateUtils';
 
 // Internal - Icons
 import {
@@ -120,40 +120,6 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     const handleContactClick = useCallback(() => {
         setCurrentPage('contact');
     }, [setCurrentPage]);
-
-    /**
-     * Memoized function to render status badge for projects
-     * Prevents recreation on every render for performance
-     */
-    const getStatusBadge = useCallback((status: Project['status']): React.ReactElement | null => {
-        switch (status) {
-            case 'pending': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    Geplant
-                </span>
-            );
-            case 'active': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/40 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                    Aktiv
-                </span>
-            );
-            case 'completed': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/40 shadow-sm">
-                    <svg className="w-3 h-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                    Fertig
-                </span>
-            );
-            case 'cancelled': return (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/30 text-red-700 dark:text-red-300 border border-red-200/60 dark:border-red-800/40 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                    Storniert
-                </span>
-            );
-            default: return null;
-        }
-    }, []);
 
     // ✅ PERFORMANCE: Pause polling when tab is inactive to save CPU/battery
     useEffect(() => {
@@ -332,65 +298,6 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
         // we only call t() on empty array which never changes. Keeping it explicit for clarity.
     }, [user, t]);
 
-    /**
-     * Reusable KPI card component for dashboard metrics
-     * Supports optional click handling for navigation
-     * ✅ PERFORMANCE: React.memo prevents unnecessary re-renders
-     */
-    const KPICard = React.memo(({ title, value, icon, subtext, onClick }: {
-        title?: string;
-        value: string | number;
-        icon: ReactNode;
-        subtext?: ReactNode;
-        onClick?: () => void;
-    }) => {
-        return (
-        <div
-            onClick={onClick}
-            className={`group relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70 overflow-hidden transition-all duration-300 ${onClick ? 'cursor-pointer hover:scale-[1.02] active:scale-[0.98] hover:shadow-glow' : ''}`}
-        >
-            {/* Hover gradient overlay */}
-            {onClick && (
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-violet-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:via-violet-500/5 group-hover:to-indigo-500/5 transition-all duration-300"></div>
-            )}
-
-            <div className="relative flex justify-between items-start mb-4">
-                <div>
-                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">{title}</p>
-                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">{value}</h3>
-                </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700/50 shadow-sm transition-all duration-300 ${onClick ? 'group-hover:scale-[1.02] group-hover:rotate-3' : ''}`}>
-                    {icon}
-                </div>
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 relative">
-                {subtext}
-                {onClick && <ArrowRightIcon className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-blue-500 transition-all duration-300" />}
-            </p>
-        </div>
-        );
-    });
-
-    /**
-     * Resource bar component for server stats
-     * ✅ PERFORMANCE: React.memo prevents unnecessary re-renders
-     */
-    const ResourceBar = React.memo(({ label, value, color }: {
-        label: string;
-        value: number;
-        color: string;
-    }) => (
-        <div>
-            <div className="flex justify-between text-xs mb-1.5 text-slate-600 dark:text-slate-400">
-                <span className="font-medium">{label}</span>
-                <span className="font-bold">{Math.round(value)}%</span>
-            </div>
-            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                <div className={`${color} h-full rounded-full transition-all duration-500`} style={{ width: `${value}%` }}></div>
-            </div>
-        </div>
-    ));
-
     return (
         <div className="space-y-8 animate-fade-in">
             {/* Modern Header with animated gradient */}
@@ -471,7 +378,7 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
                                         <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{project.name}</h3>
-                                        {getStatusBadge(project.status)}
+                                        {renderStatusBadge(project.status)}
                                     </div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 leading-relaxed">
                                         <ClockIcon className="w-3.5 h-3.5" />

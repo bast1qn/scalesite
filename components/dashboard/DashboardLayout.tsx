@@ -3,13 +3,13 @@
 // ============================================
 
 // React
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback, memo } from 'react';
 
-// Internal
+// Internal - Contexts & Types
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
 import type { DashboardView } from '../../pages/DashboardPage';
 
-// Icons
+// Internal - Icons
 import {
     ArrowLeftOnRectangleIcon,
     Bars3Icon,

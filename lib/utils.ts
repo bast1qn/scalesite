@@ -29,6 +29,12 @@ export * from './ux-constants';
 // Accessibility utilities (WCAG AA compliant)
 export * from './accessibility-utils';
 
+// Reusable className patterns (DRY)
+export * from './className-patterns';
+
+// Reusable component utilities (status badges, progress bars, etc.)
+export * from './component-utils';
+
 // className utility (clsx-like without external dependencies)
 type ClassValue =
   | string
