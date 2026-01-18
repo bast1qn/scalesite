@@ -1,6 +1,7 @@
 import React, { useState, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { TeamRole, RoleBadge } from './RoleBadge';
+import { getSafeURL } from '../../lib/validation';
 
 /**
  * MemberCard Component
@@ -132,7 +133,7 @@ const MemberCard: React.FC<MemberCardProps> = ({
                     <div className="relative">
                         {member.avatar_url ? (
                             <img
-                                src={member.avatar_url}
+                                src={getSafeURL(member.avatar_url) || '/default-avatar.png'}
                                 alt={member.name}
                                 className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
                                 loading="lazy"

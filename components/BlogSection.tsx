@@ -2,6 +2,7 @@
 import React, { useMemo, memo } from 'react';
 import { ArrowRightIcon, CalendarDaysIcon, ClockIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
+import { getSafeURL } from '../lib/validation';
 
 interface BlogPost {
   id: string;
@@ -99,7 +100,7 @@ export const BlogSection = () => {
                     className={`absolute inset-0 bg-gradient-to-br ${post.gradient} opacity-20 group-hover:opacity-30 transition-opacity duration-500`}
                   ></div>
                   <img
-                    src={post.image}
+                    src={getSafeURL(post.image) || '/blog-placeholder.jpg'}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                     loading="lazy"

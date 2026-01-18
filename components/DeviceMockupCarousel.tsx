@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, AnimatedSection } from './index';
 import { useLanguage } from '../contexts';
+import { getSafeURL } from '../lib/validation';
 
 // Constants
 const SLIDE_INTERVAL_MS = 5000; // 5 seconds per slide
@@ -89,21 +90,21 @@ export const DeviceMockupCarousel = () => {
                   {/* Desktop */}
                   <div className="absolute z-10 w-[70%] max-w-4xl h-auto bg-dark-surface dark:bg-dark-bg rounded-t-lg shadow-2xl p-2 sm:p-3 border-b-4 border-dark-text/30 dark:border-light-text/20 transform translate-y-4 sm:translate-y-0">
                     <div className="aspect-video w-full rounded-sm overflow-hidden bg-dark-text/10">
-                        <img src={mockup.desktop_image_url} alt={`${mockup.client_name} Desktop`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                        <img src={getSafeURL(mockup.desktop_image_url) || '/placeholder.jpg'} alt={`${mockup.client_name} Desktop`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     </div>
                   </div>
 
                   {/* Tablet */}
                   <div className="absolute z-20 bottom-0 -right-4 sm:right-0 lg:right-10 w-[30%] sm:w-[25%] max-w-xs bg-light-bg/90 dark:bg-dark-surface rounded-lg shadow-xl p-1.5 sm:p-2 border-2 border-dark-text/20 dark:border-light-text/20 transform translate-x-2 translate-y-2 sm:translate-x-0 sm:translate-y-0">
                     <div className="aspect-[3/4] w-full rounded overflow-hidden bg-dark-text/10">
-                        <img src={mockup.tablet_image_url} alt={`${mockup.client_name} Tablet`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                        <img src={getSafeURL(mockup.tablet_image_url) || '/placeholder.jpg'} alt={`${mockup.client_name} Tablet`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     </div>
                   </div>
 
                   {/* Phone */}
                   <div className="absolute z-30 bottom-0 -left-2 sm:left-0 lg:left-10 w-[16%] sm:w-[12%] max-w-[120px] bg-light-bg/90 dark:bg-dark-surface rounded-lg shadow-xl p-1 sm:p-1.5 border-2 border-dark-text/20 dark:border-light-text/20 transform -translate-x-2 translate-y-2 sm:translate-x-0 sm:translate-y-0">
                     <div className="aspect-[9/16] w-full rounded-sm overflow-hidden bg-dark-text/10">
-                        <img src={mockup.phone_image_url} alt={`${mockup.client_name} Phone`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                        <img src={getSafeURL(mockup.phone_image_url) || '/placeholder.jpg'} alt={`${mockup.client_name} Phone`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     </div>
                   </div>
                 </div>

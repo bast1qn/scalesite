@@ -152,11 +152,12 @@ export interface Invoice {
 // CONFIG
 // ============================================
 
-const STRIPE_SECRET_KEY = import.meta.env.VITE_STRIPE_SECRET_KEY || '';
+// ⚠️ SECURITY: Stripe Secret keys MUST be server-side only (Deno.env in Edge Functions)
+// NEVER expose VITE_STRIPE_SECRET_KEY in frontend bundle!
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
-const STRIPE_WEBHOOK_SECRET = import.meta.env.VITE_STRIPE_WEBHOOK_SECRET || '';
 
-export const isStripeConfigured = !!(STRIPE_SECRET_KEY && STRIPE_PUBLISHABLE_KEY);
+// Check if Stripe is configured (only need publishable key in frontend)
+export const isStripeConfigured = !!STRIPE_PUBLISHABLE_KEY;
 
 // ============================================
 // ERROR HANDLING

@@ -566,9 +566,16 @@ serve(async (req) => {
         });
 
     } catch (error) {
+        // 🔒 SECURITY: Log detailed error server-side, but return generic message to client
         console.error('Webhook handler error:', error);
+
+        // Generic error message to prevent information leakage
+        const errorMessage = error instanceof Error
+            ? 'Internal server error'
+            : 'An error occurred';
+
         return new Response(
-            JSON.stringify({ error: error.message }),
+            JSON.stringify({ error: errorMessage }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
     }
