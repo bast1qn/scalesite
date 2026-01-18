@@ -47,32 +47,32 @@ export const BellIcon = memo(({ className }: IconProps = {}) => (
     </svg>
 ));
 
-export const StarIcon = ({ className }: IconProps = {}) => (
+export const StarIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className || smallIconProps.className}>
         <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
     </svg>
-);
+));
 
-export const ArrowDownOnSquareIcon = ({ className }: IconProps = {}) => (
+export const ArrowDownOnSquareIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
     </svg>
-);
+));
 
-export const BoltIcon = ({ className }: IconProps = {}) => (
+export const BoltIcon = memo(({ className }: IconProps = {}) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
-);
-export const ArrowsRightLeftIcon = ({ className }: IconProps = {}) => (
+));
+export const ArrowsRightLeftIcon = memo(({ className }: IconProps = {}) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h18M16.5 3l4.5 4.5m0 0L16.5 12M21 7.5H3" /></svg>
-);
-export const LockClosedIcon = ({ className }: IconProps = {}) => (
+));
+export const LockClosedIcon = memo(({ className }: IconProps = {}) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || smallIconProps.className}><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
-);
-export const DocumentMagnifyingGlassIcon = ({ className }: IconProps = {}) => (
+));
+export const DocumentMagnifyingGlassIcon = memo(({ className }: IconProps = {}) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className || iconProps.className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
-);
+));
 
 // --- EXISTING ICONS ---
 export const GoogleIcon = () => (
