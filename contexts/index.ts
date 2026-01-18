@@ -1,6 +1,6 @@
 // Central exports for all contexts
 export { AuthContext, AuthProvider, useAuth } from './AuthContext';
-export { LanguageContext, LanguageProvider, useLanguage } from '../context-v2/LanguageContext';
+export { LanguageContext, LanguageProvider, useLanguage } from './LanguageContext';
 export { CurrencyContext, CurrencyProvider, useCurrency } from './CurrencyContext';
 export { NotificationContext, NotificationProvider, useNotifications } from './NotificationContext';
 export { ThemeContext, ThemeProvider, useTheme, getCurrentTheme } from './ThemeContext';
