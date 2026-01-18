@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, useEffect, useMemo, ReactNode, useCallback } from 'react';
+import { createContext } from 'react';
+import { useState, useContext, useEffect, useMemo, useCallback, ReactNode } from 'react';
 import { translations, Language } from '../lib/translations';
 
 interface LanguageContextType {
@@ -12,7 +13,6 @@ export const LanguageContext = createContext<LanguageContextType | undefined>(un
 const LANGUAGE_KEY = 'app_language' as const;
 const DEFAULT_LANGUAGE: Language = 'en';
 
-// PERFORMANCE: Memoize translation lookup to prevent unnecessary recalculations
 function createTranslationFunction(lang: Language) {
   const translationData = translations[lang];
 
@@ -24,7 +24,6 @@ function createTranslationFunction(lang: Language) {
       if (current && typeof current === 'object' && key in current) {
         current = (current as Record<string, unknown>)[key];
       } else {
-        // Return the path as fallback if translation key not found
         if (import.meta.env.DEV) {
           console.warn(`Translation key not found: ${path}`);
         }
@@ -49,7 +48,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, []);
 
-  // PERFORMANCE: Stable callback function
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     try {
@@ -60,10 +58,8 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     document.documentElement.lang = lang;
   }, []);
 
-  // PERFORMANCE: Memoize translation function - only recreates when language changes
   const t = useMemo(() => createTranslationFunction(language), [language]);
 
-  // PERFORMANCE: Memoize entire context value to prevent unnecessary re-renders
   const contextValue = useMemo(() => ({
     language,
     setLanguage,
@@ -84,4 +80,3 @@ export const useLanguage = () => {
   }
   return context;
 };
-// Cache bust: So 18. Jan 17:16:29 CET 2026
