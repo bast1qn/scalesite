@@ -3,7 +3,7 @@
 // ========================================================================
 
 // React
-import { lazy, Suspense, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useContext, useEffect, useMemo, useState, Component, type ReactNode } from 'react';
 
 // External libraries
 import { AnimatePresence } from '@/lib/motion'; // ✅ PERFORMANCE: Use centralized import for tree-shaking
@@ -24,39 +24,69 @@ import { initPerformanceMonitoring } from './lib/performance/monitoring';
 import { prefetchForRoute, initPrefetchStrategies } from './lib/performance/prefetchStrategy';
 
 // ✅ PERFORMANCE: Code Splitting with Strategic Prefetching
+// Using custom lazy wrapper that catches import errors
+const lazyLoad = (importFn: () => Promise<{ default: ComponentType<any> }>) => {
+  return lazy(() => {
+    return importFn().catch((error) => {
+      console.error('[LazyLoad] Failed to load component:', error);
+      // Return a fallback component that shows the error
+      return {
+        default: () => (
+          <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-900 px-4">
+            <div className="max-w-md w-full bg-red-50 dark:bg-red-900/20 rounded-2xl p-8 text-center">
+              <h1 className="text-xl font-bold text-red-600 dark:text-red-400 mb-4">
+                Failed to load page
+              </h1>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                {error?.message || 'An error occurred while loading this page.'}
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-primary text-white px-6 py-2 rounded-xl"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        )
+      };
+    });
+  });
+};
+
 // High-priority pages (prefetch immediately on idle)
-const HomePage = lazy(() => import(/* webpackPrefetch: true */ './pages/HomePage'));
-const PreisePage = lazy(() => import(/* webpackPrefetch: true */ './pages/PreisePage'));
-const ProjektePage = lazy(() => import(/* webpackPrefetch: true */ './pages/ProjektePage'));
+const HomePage = lazyLoad(() => import('./pages/HomePage'));
+const PreisePage = lazyLoad(() => import('./pages/PreisePage'));
+const ProjektePage = lazyLoad(() => import('./pages/ProjektePage'));
 
 // Medium-priority pages (prefetch on hover/interaction)
-const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
-const AutomationenPage = lazy(() => import('./pages/AutomationenPage'));
-const ContactPage = lazy(() => import(/* webpackPrefetch: true */ './pages/ContactPage'));
+const LeistungenPage = lazyLoad(() => import('./pages/LeistungenPage'));
+const AutomationenPage = lazyLoad(() => import('./pages/AutomationenPage'));
+const ContactPage = lazyLoad(() => import('./pages/ContactPage'));
 
 // Auth pages (load on demand)
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const LoginPage = lazyLoad(() => import('./pages/LoginPage'));
+const RegisterPage = lazyLoad(() => import('./pages/RegisterPage'));
 
 // Protected routes (load on demand) - Analytics with chart preload
-const DashboardPage = lazy(() => import('./pages/DashboardPage'));
-const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
-const ChatPage = lazy(() => import('./pages/ChatPage'));
+const DashboardPage = lazyLoad(() => import('./pages/DashboardPage'));
+const AnalyticsPage = lazyLoad(() => import('./pages/AnalyticsPage'));
+const ChatPage = lazyLoad(() => import('./pages/ChatPage'));
 
 // Legal pages (low priority) - dynamically loaded
-const ImpressumPage = lazy(() => import('./pages/ImpressumPage'));
-const DatenschutzPage = lazy(() => import('./pages/DatenschutzPage'));
-const FaqPage = lazy(() => import('./pages/FaqPage'));
+const ImpressumPage = lazyLoad(() => import('./pages/ImpressumPage'));
+const DatenschutzPage = lazyLoad(() => import('./pages/DatenschutzPage'));
+const FaqPage = lazyLoad(() => import('./pages/FaqPage'));
 
 // Showcase pages (medium priority)
-const RestaurantPage = lazy(() => import('./pages/RestaurantPage'));
-const ArchitecturePage = lazy(() => import('./pages/ArchitecturePage'));
-const RealEstatePage = lazy(() => import('./pages/RealEstatePage'));
+const RestaurantPage = lazyLoad(() => import('./pages/RestaurantPage'));
+const ArchitecturePage = lazyLoad(() => import('./pages/ArchitecturePage'));
+const RealEstatePage = lazyLoad(() => import('./pages/RealEstatePage'));
 
 // Feature pages (load on demand)
-const ConfiguratorPage = lazy(() => import('./pages/ConfiguratorPage'));
-const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
-const SEOPage = lazy(() => import('./pages/SEOPage'));
+const ConfiguratorPage = lazyLoad(() => import('./pages/ConfiguratorPage'));
+const ProjectDetailPage = lazyLoad(() => import('./pages/ProjectDetailPage'));
+const SEOPage = lazyLoad(() => import('./pages/SEOPage'));
 
 const PageLoader = () => {
     return (
