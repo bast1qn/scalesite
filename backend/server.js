@@ -6,6 +6,9 @@ const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 const crypto = require('crypto'); // Native Node crypto for hashing
 const { GoogleGenAI } = require("@google/genai"); // Server-side import
+const validator = require('validator'); // OWASP-recommended validation
+const createDOMPurify = require('isomorphic-dompurify'); // XSS prevention
+const helmet = require('helmet'); // Security headers
 
 const app = express();
 
@@ -37,31 +40,35 @@ app.use(cors({
     credentials: true
 }));
 
-// SECURITY: HTTP Headers
+// SECURITY: Enhanced HTTP Headers with Helmet
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "https:"],
+            fontSrc: ["'self'", "data:"],
+            connectSrc: ["'self'"],
+            frameAncestors: ["'none'"],
+            objectSrc: ["'none'"],
+            baseUri: ["'self'"],
+            formAction: ["'self'"],
+        }
+    },
+    hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+    },
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+}));
+
+// Additional security headers
 app.use((req, res, next) => {
-    // Prevent Clickjacking
-    res.setHeader('X-Frame-Options', 'DENY');
-
-    // Prevent MIME sniffing
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-
-    // Enable XSS filter
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-
-    // Restrict referrer information
-    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-    // Content Security Policy (basic)
-    res.setHeader('Content-Security-Policy',
-        "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-        "style-src 'self' 'unsafe-inline'; " +
-        "img-src 'self' data: https:; " +
-        "font-src 'self' data:; " +
-        "connect-src 'self'; " +
-        "frame-ancestors 'none';"
-    );
-
+    res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=()');
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
     next();
 });
 
@@ -128,6 +135,120 @@ const rateLimit = (windowMs, maxRequests) => {
 app.use(rateLimit(GENERAL_RATE_LIMIT_WINDOW_MS, GENERAL_RATE_LIMIT_MAX));
 
 // --- HELPERS ---
+
+/**
+ * SECURITY: Zero-Trust Input Validation & Sanitization
+ * OWASP recommendations implementation
+ */
+
+/**
+ * Validates and sanitizes email address
+ * @param {string} email - Email to validate
+ * @returns {object} { valid: boolean, sanitized: string, error: string }
+ */
+const validateEmail = (email) => {
+    if (!email || typeof email !== 'string') {
+        return { valid: false, error: 'Email is required' };
+    }
+    if (email.length > 254) {
+        return { valid: false, error: 'Email too long' };
+    }
+    const trimmed = email.trim().toLowerCase();
+    if (!validator.isEmail(trimmed)) {
+        return { valid: false, error: 'Invalid email format' };
+    }
+    return { valid: true, sanitized: trimmed };
+};
+
+/**
+ * Validates password strength (OWASP recommendations)
+ * @param {string} password - Password to validate
+ * @returns {object} { valid: boolean, error: string }
+ */
+const validatePassword = (password) => {
+    if (!password || typeof password !== 'string') {
+        return { valid: false, error: 'Password is required' };
+    }
+    if (password.length < 12) {
+        return { valid: false, error: 'Password must be at least 12 characters' };
+    }
+    if (password.length > 128) {
+        return { valid: false, error: 'Password too long' };
+    }
+    // Check for character variety (at least 3 of 4 types)
+    const hasLower = /[a-z]/.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    const varietyCount = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length;
+
+    if (varietyCount < 3) {
+        return { valid: false, error: 'Password must contain at least 3 of: lowercase, uppercase, numbers, special characters' };
+    }
+    return { valid: true };
+};
+
+/**
+ * Sanitizes text input to prevent XSS (stored XSS protection)
+ * @param {string} text - Text to sanitize
+ * @param {number} maxLength - Maximum allowed length
+ * @returns {string} Sanitized text
+ */
+const sanitizeText = (text, maxLength = 10000) => {
+    if (!text || typeof text !== 'string') return '';
+    let sanitized = createDOMPurify.sanitize(text, {
+        ALLOWED_TAGS: [],
+        KEEP_CONTENT: true
+    });
+    // Remove null bytes and control characters
+    sanitized = sanitized.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+    // Trim to max length
+    return sanitized.substring(0, maxLength).trim();
+};
+
+/**
+ * Validates and sanitizes person names (OWASP recommendations)
+ * @param {string} name - Name to validate
+ * @returns {object} { valid: boolean, sanitized: string, error: string }
+ */
+const validateName = (name) => {
+    if (!name || typeof name !== 'string') {
+        return { valid: false, error: 'Name is required' };
+    }
+    if (name.length > 100) {
+        return { valid: false, error: 'Name too long' };
+    }
+    const sanitized = sanitizeText(name.trim(), 100);
+    // Allow letters, spaces, hyphens, apostrophes, and common name characters
+    if (!/^[\p{L}\s\-'.]{1,100}$/u.test(sanitized)) {
+        return { valid: false, error: 'Name contains invalid characters' };
+    }
+    return { valid: true, sanitized };
+};
+
+/**
+ * Validates URL (for blog posts, image URLs, etc.)
+ * @param {string} url - URL to validate
+ * @returns {object} { valid: boolean, sanitized: string, error: string }
+ */
+const validateUrl = (url) => {
+    if (!url || typeof url !== 'string') {
+        return { valid: false, error: 'URL is required' };
+    }
+    if (url.length > 2048) {
+        return { valid: false, error: 'URL too long' };
+    }
+    const trimmed = url.trim();
+    if (!validator.isURL(trimmed, {
+        protocols: ['http', 'https'],
+        require_protocol: true,
+        allow_underscores: false
+    })) {
+        return { valid: false, error: 'Invalid URL format' };
+    }
+    return { valid: true, sanitized: trimmed };
+};
+
 /**
  * Hashes a password using PBKDF2
  * @param {string} password - The password to hash
@@ -141,15 +262,73 @@ const hashPassword = (password, salt) => {
 };
 
 /**
- * Verifies a password against a hash
+ * SECURITY: Timing-safe password verification (prevents timing attacks)
  * @param {string} password - The password to verify
  * @param {string} hash - The stored hash
  * @param {string} salt - The stored salt
  * @returns {boolean} True if password matches
  */
 const verifyPassword = (password, hash, salt) => {
-    const verifyHash = crypto.pbkdf2Sync(password, salt, PASSWORD_HASH_ITERATIONS, 64, 'sha512').toString('hex');
-    return hash === verifyHash;
+    const verifyHash = crypto.pbkdf2Sync(password, salt, PASSWORD_HASH_ITERATIONS, 64, 'sha512');
+    const storedHash = Buffer.from(hash, 'hex');
+
+    // SECURITY: Use timingSafeEqual to prevent timing attacks
+    if (verifyHash.length !== storedHash.length) {
+        return false;
+    }
+
+    try {
+        return crypto.timingSafeEqual(verifyHash, storedHash);
+    } catch (e) {
+        return false;
+    }
+};
+
+/**
+ * SECURITY: Audit logging for security events
+ * @param {string} eventType - Type of security event
+ * @param {string} userId - User ID (if applicable)
+ * @param {object} metadata - Additional event data
+ */
+const auditLog = (eventType, userId = null, metadata = {}) => {
+    const logEntry = {
+        timestamp: new Date().toISOString(),
+        event_type: eventType,
+        user_id: userId,
+        ip: metadata.ip || null,
+        details: metadata
+    };
+
+    console.log('[AUDIT]', JSON.stringify(logEntry));
+
+    // Store in database for compliance
+    try {
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS audit_logs (
+                id TEXT PRIMARY KEY,
+                event_type TEXT,
+                user_id TEXT,
+                ip_address TEXT,
+                details TEXT,
+                created_at TEXT
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id);
+            CREATE INDEX IF NOT EXISTS idx_audit_logs_event_type ON audit_logs(event_type);
+            CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);
+        `);
+
+        db.prepare('INSERT INTO audit_logs (id, event_type, user_id, ip_address, details, created_at) VALUES (?, ?, ?, ?, ?, ?)').run(
+            uuidv4(),
+            eventType,
+            userId,
+            metadata.ip || null,
+            JSON.stringify(metadata),
+            new Date().toISOString()
+        );
+    } catch (e) {
+        console.error('[AUDIT] Failed to write log:', e.message);
+    }
 };
 
 // --- DATENBANK INITIALISIERUNG ---
@@ -353,33 +532,54 @@ const authLimiter = rateLimit(AUTH_RATE_LIMIT_WINDOW_MS, AUTH_RATE_LIMIT_MAX);
 app.post('/api/auth/register', authLimiter, (req, res) => {
     const { name, company, email, password } = req.body;
 
-    // SECURITY: Validate input format
-    if (!email || !password || !name || typeof email !== 'string' || typeof password !== 'string' || typeof name !== 'string') {
-        return res.status(400).json({ error: 'Missing required fields' });
+    // SECURITY: Zero-Trust validation
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.valid) {
+        auditLog('AUTH_REGISTER_FAILED', null, { ip: req.ip, reason: emailValidation.error });
+        return res.status(400).json({ error: emailValidation.error });
+    }
+
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.valid) {
+        auditLog('AUTH_REGISTER_FAILED', null, { ip: req.ip, reason: passwordValidation.error });
+        return res.status(400).json({ error: passwordValidation.error });
+    }
+
+    const nameValidation = validateName(name);
+    if (!nameValidation.valid) {
+        auditLog('AUTH_REGISTER_FAILED', null, { ip: req.ip, reason: nameValidation.error });
+        return res.status(400).json({ error: nameValidation.error });
     }
 
     try {
         const id = uuidv4();
-        const referralCode = name.substring(0, 3).toUpperCase() + Math.floor(REFERRAL_CODE_MIN + Math.random() * REFERRAL_CODE_MAX);
+        const sanitizedName = nameValidation.sanitized;
+        const sanitizedEmail = emailValidation.sanitized;
+        const sanitizedCompany = company ? sanitizeText(company.trim(), 100) : null;
+
+        const referralCode = sanitizedName.substring(0, 3).toUpperCase() + Math.floor(REFERRAL_CODE_MIN + Math.random() * REFERRAL_CODE_MAX);
 
         // Hash Password
         const { hash, salt } = hashPassword(password);
 
         const stmt = db.prepare('INSERT INTO users (id, name, email, password, salt, role, company, referral_code, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        stmt.run(id, name, email, hash, salt, 'user', company, referralCode, new Date().toISOString());
+        stmt.run(id, sanitizedName, sanitizedEmail, hash, salt, 'user', sanitizedCompany, referralCode, new Date().toISOString());
 
         // Create Session
         const token = uuidv4();
         const expiresAt = new Date(Date.now() + SESSION_EXPIRY_MS).toISOString();
         db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, id, new Date().toISOString(), expiresAt);
 
+        auditLog('AUTH_REGISTER_SUCCESS', id, { ip: req.ip });
+
         res.json({
             token: token,
-            user: { id, name, email, role: 'user', company, referral_code: referralCode }
+            user: { id, name: sanitizedName, email: sanitizedEmail, role: 'user', company: sanitizedCompany, referral_code: referralCode }
         });
     } catch (e) {
         // SECURITY: Log detailed error server-side, return generic message
         console.error('[AUTH] Registration error:', e.message);
+        auditLog('AUTH_REGISTER_ERROR', null, { ip: req.ip, error: e.message });
 
         if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
             // SECURITY: Don't reveal which field caused the constraint violation
@@ -392,13 +592,21 @@ app.post('/api/auth/register', authLimiter, (req, res) => {
 app.post('/api/auth/login', authLimiter, (req, res) => {
     const { email, password } = req.body;
 
-    // SECURITY: Validate input format
-    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+    // SECURITY: Zero-Trust validation
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.valid) {
+        auditLog('AUTH_LOGIN_FAILED', null, { ip: req.ip, reason: 'Invalid email format' });
+        return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    if (!password || typeof password !== 'string' || password.length > 128) {
+        auditLog('AUTH_LOGIN_FAILED', null, { ip: req.ip, reason: 'Invalid password format' });
         return res.status(400).json({ error: 'Invalid request format' });
     }
 
     try {
-        const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+        const sanitizedEmail = emailValidation.sanitized;
+        const user = db.prepare('SELECT * FROM users WHERE email = ?').get(sanitizedEmail);
 
         if (user && verifyPassword(password, user.password, user.salt)) {
             // Create Session
@@ -407,6 +615,8 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
             db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id); // Single session for demo simplicity
             db.prepare('INSERT INTO sessions (token, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)').run(token, user.id, new Date().toISOString(), expiresAt);
 
+            auditLog('AUTH_LOGIN_SUCCESS', user.id, { ip: req.ip });
+
             const { password: _, salt: __, ...safeUser } = user;
             res.json({
                 token: token,
@@ -414,11 +624,13 @@ app.post('/api/auth/login', authLimiter, (req, res) => {
             });
         } else {
             // SECURITY: Generic error message (no information disclosure)
+            auditLog('AUTH_LOGIN_FAILED', null, { ip: req.ip, email: sanitizedEmail, reason: 'Invalid credentials' });
             res.status(401).json({ error: 'Invalid credentials' });
         }
     } catch (e) {
         // SECURITY: Log actual error server-side, return generic message to client
         console.error('[AUTH] Login error:', e.message);
+        auditLog('AUTH_LOGIN_ERROR', null, { ip: req.ip, error: e.message });
         res.status(500).json({ error: 'Authentication failed' });
     }
 });
@@ -602,26 +814,63 @@ app.get('/api/auth/me', authenticateToken, (req, res) => {
 app.put('/api/auth/update', authenticateToken, (req, res) => {
     const { name, company, email, password } = req.body;
     try {
+        // SECURITY: Invalidate all sessions when password changes
         if (password) {
+            const passwordValidation = validatePassword(password);
+            if (!passwordValidation.valid) {
+                auditLog('AUTH_PASSWORD_CHANGE_FAILED', req.user.id, { ip: req.ip, reason: passwordValidation.error });
+                return res.status(400).json({ error: passwordValidation.error });
+            }
+
             const { hash, salt } = hashPassword(password);
             db.prepare('UPDATE users SET password = ?, salt = ? WHERE id = ?').run(hash, salt, req.user.id);
+
+            // SECURITY: Invalidate all existing sessions when password changes
+            db.prepare('DELETE FROM sessions WHERE user_id = ?').run(req.user.id);
+
+            auditLog('AUTH_PASSWORD_CHANGED', req.user.id, { ip: req.ip });
         }
+
         if (name || company || email) {
              const updates = [];
              const values = [];
-             if (name) { updates.push('name = ?'); values.push(name); }
-             if (company) { updates.push('company = ?'); values.push(company); }
-             if (email) { updates.push('email = ?'); values.push(email); }
-             
+
+             if (name) {
+                 const nameValidation = validateName(name);
+                 if (!nameValidation.valid) {
+                     return res.status(400).json({ error: nameValidation.error });
+                 }
+                 updates.push('name = ?');
+                 values.push(nameValidation.sanitized);
+             }
+
+             if (company) {
+                 const sanitizedCompany = sanitizeText(company.trim(), 100);
+                 updates.push('company = ?');
+                 values.push(sanitizedCompany);
+             }
+
+             if (email) {
+                 const emailValidation = validateEmail(email);
+                 if (!emailValidation.valid) {
+                     return res.status(400).json({ error: emailValidation.error });
+                 }
+                 updates.push('email = ?');
+                 values.push(emailValidation.sanitized);
+             }
+
              if (updates.length > 0) {
                  values.push(req.user.id);
                  db.prepare(`UPDATE users SET ${updates.join(', ')} WHERE id = ?`).run(...values);
+                 auditLog('AUTH_PROFILE_UPDATED', req.user.id, { ip: req.ip, fields: updates.join(', ') });
              }
         }
-        
+
         const updatedUser = db.prepare('SELECT id, name, email, role, company, referral_code FROM users WHERE id = ?').get(req.user.id);
         res.json({ user: updatedUser });
     } catch (e) {
+        console.error('[AUTH] Update error:', e.message);
+        auditLog('AUTH_UPDATE_ERROR', req.user.id, { ip: req.ip, error: e.message });
         res.status(500).json({ error: 'Update Failed' });
     }
 });
@@ -788,18 +1037,46 @@ app.post('/api/tickets', authenticateToken, (req, res) => {
     const { subject, priority, message } = req.body;
     const id = uuidv4();
     const now = new Date().toISOString();
-    
+
+    // SECURITY: Validate and sanitize inputs
+    if (!subject || typeof subject !== 'string' || subject.length > 200) {
+        return res.status(400).json({ error: 'Invalid subject' });
+    }
+
+    if (!message || typeof message !== 'string' || message.length > 10000) {
+        return res.status(400).json({ error: 'Invalid message' });
+    }
+
+    if (!priority || !['Niedrig', 'Mittel', 'Hoch'].includes(priority)) {
+        return res.status(400).json({ error: 'Invalid priority' });
+    }
+
+    // SECURITY: Sanitize to prevent stored XSS
+    const sanitizedSubject = sanitizeText(subject.trim(), 200);
+    const sanitizedMessage = sanitizeText(message.trim(), 10000);
+
+    if (!sanitizedSubject) {
+        return res.status(400).json({ error: 'Subject cannot be empty' });
+    }
+
+    if (!sanitizedMessage) {
+        return res.status(400).json({ error: 'Message cannot be empty' });
+    }
+
     const createTicket = db.transaction(() => {
-        db.prepare('INSERT INTO tickets (id, user_id, subject, status, priority, created_at, last_update) VALUES (?, ?, ?, ?, ?, ?, ?)').run(id, req.user.id, subject, 'Offen', priority, now, now);
-        db.prepare('INSERT INTO ticket_messages (id, ticket_id, user_id, text, created_at) VALUES (?, ?, ?, ?, ?)').run(uuidv4(), id, req.user.id, message, now);
+        db.prepare('INSERT INTO tickets (id, user_id, subject, status, priority, created_at, last_update) VALUES (?, ?, ?, ?, ?, ?, ?)').run(id, req.user.id, sanitizedSubject, 'Offen', priority, now, now);
+        db.prepare('INSERT INTO ticket_messages (id, ticket_id, user_id, text, created_at) VALUES (?, ?, ?, ?, ?)').run(uuidv4(), id, req.user.id, sanitizedMessage, now);
         db.prepare('INSERT INTO ticket_members (ticket_id, user_id, added_at) VALUES (?, ?, ?)').run(id, req.user.id, now);
     });
 
     try {
         createTicket();
+        auditLog('TICKET_CREATED', req.user.id, { ip: req.ip, ticket_id: id, subject: sanitizedSubject });
         res.json({ success: true, id });
     } catch (e) {
-        res.status(500).json({ error: e.message });
+        console.error('[TICKET] Creation error:', e.message);
+        auditLog('TICKET_CREATE_ERROR', req.user.id, { ip: req.ip, error: e.message });
+        res.status(500).json({ error: 'Failed to create ticket' });
     }
 });
 
@@ -825,17 +1102,30 @@ app.get('/api/tickets/:id/messages', authenticateToken, (req, res) => {
 app.post('/api/tickets/:id/reply', authenticateToken, (req, res) => {
     const { text } = req.body;
     const now = new Date().toISOString();
-    
+
+    // SECURITY: Validate and sanitize input
+    if (!text || typeof text !== 'string' || text.length > 10000) {
+        return res.status(400).json({ error: 'Invalid message' });
+    }
+
+    const sanitizedText = sanitizeText(text.trim(), 10000);
+    if (!sanitizedText) {
+        return res.status(400).json({ error: 'Message cannot be empty' });
+    }
+
     const reply = db.transaction(() => {
-        db.prepare('INSERT INTO ticket_messages (id, ticket_id, user_id, text, created_at) VALUES (?, ?, ?, ?, ?)').run(uuidv4(), req.params.id, req.user.id, text, now);
+        db.prepare('INSERT INTO ticket_messages (id, ticket_id, user_id, text, created_at) VALUES (?, ?, ?, ?, ?)').run(uuidv4(), req.params.id, req.user.id, sanitizedText, now);
         db.prepare('UPDATE tickets SET last_update = ?, status = ? WHERE id = ?').run(now, req.user.role === 'team' || req.user.role === 'owner' ? 'In Bearbeitung' : 'Offen', req.params.id);
     });
 
     try {
         reply();
+        auditLog('TICKET_REPLY', req.user.id, { ip: req.ip, ticket_id: req.params.id });
         res.json({ success: true });
     } catch (e) {
-        res.status(500).json({ error: e.message });
+        console.error('[TICKET] Reply error:', e.message);
+        auditLog('TICKET_REPLY_ERROR', req.user.id, { ip: req.ip, ticket_id: req.params.id, error: e.message });
+        res.status(500).json({ error: 'Failed to post reply' });
     }
 });
 
@@ -1049,22 +1339,73 @@ app.post('/api/analytics/event', analyticsEventLimiter, (req, res) => {
 
 app.post('/api/contact', (req, res) => {
     const { name, email, subject, message } = req.body;
-    db.prepare('INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)').run(
-        uuidv4(), name, email, subject, message, new Date().toISOString()
-    );
-    res.json({ success: true });
+
+    // SECURITY: Validate and sanitize all inputs
+    const nameValidation = validateName(name);
+    if (!nameValidation.valid) {
+        return res.status(400).json({ error: nameValidation.error });
+    }
+
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.valid) {
+        return res.status(400).json({ error: emailValidation.error });
+    }
+
+    if (!subject || typeof subject !== 'string' || subject.length > 200) {
+        return res.status(400).json({ error: 'Invalid subject' });
+    }
+
+    if (!message || typeof message !== 'string' || message.length > 5000) {
+        return res.status(400).json({ error: 'Invalid message' });
+    }
+
+    const sanitizedSubject = sanitizeText(subject.trim(), 200);
+    const sanitizedMessage = sanitizeText(message.trim(), 5000);
+
+    if (!sanitizedSubject || !sanitizedMessage) {
+        return res.status(400).json({ error: 'Subject and message are required' });
+    }
+
+    try {
+        db.prepare('INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)').run(
+            uuidv4(), nameValidation.sanitized, emailValidation.sanitized, sanitizedSubject, sanitizedMessage, new Date().toISOString()
+        );
+        auditLog('CONTACT_FORM_SUBMITTED', null, { ip: req.ip, email: emailValidation.sanitized });
+        res.json({ success: true });
+    } catch (e) {
+        console.error('[CONTACT] Submission error:', e.message);
+        res.status(500).json({ error: 'Failed to submit message' });
+    }
 });
 
 app.post('/api/newsletter/subscribe', (req, res) => {
     const { name, email } = req.body;
+
+    // SECURITY: Validate inputs
+    if (name) {
+        const nameValidation = validateName(name);
+        if (!nameValidation.valid) {
+            return res.status(400).json({ error: nameValidation.error });
+        }
+    }
+
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.valid) {
+        return res.status(400).json({ error: emailValidation.error });
+    }
+
     try {
         db.prepare('INSERT INTO newsletter_subscribers (id, name, email, created_at) VALUES (?, ?, ?, ?)').run(
-            uuidv4(), name, email, new Date().toISOString()
+            uuidv4(), name ? validateName(name).sanitized : null, emailValidation.sanitized, new Date().toISOString()
         );
+        auditLog('NEWSLETTER_SUBSCRIBE', null, { ip: req.ip, email: emailValidation.sanitized });
         res.json({ success: true });
     } catch (e) {
-        if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') return res.json({ success: true });
-        res.status(500).json({ error: e.message });
+        if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+            return res.json({ success: true });
+        }
+        console.error('[NEWSLETTER] Subscribe error:', e.message);
+        res.status(500).json({ error: 'Failed to subscribe' });
     }
 });
 
@@ -1082,10 +1423,28 @@ app.get('/api/team_chat', authenticateToken, requireTeam, (req, res) => {
 });
 
 app.post('/api/team_chat', authenticateToken, requireTeam, (req, res) => {
-    db.prepare('INSERT INTO team_chat_messages (id, user_id, content, created_at) VALUES (?, ?, ?, ?)').run(
-        uuidv4(), req.user.id, req.body.content, new Date().toISOString()
-    );
-    res.json({ success: true });
+    const { content } = req.body;
+
+    // SECURITY: Validate and sanitize input
+    if (!content || typeof content !== 'string' || content.length > 5000) {
+        return res.status(400).json({ error: 'Invalid message' });
+    }
+
+    const sanitizedContent = sanitizeText(content.trim(), 5000);
+    if (!sanitizedContent) {
+        return res.status(400).json({ error: 'Message cannot be empty' });
+    }
+
+    try {
+        db.prepare('INSERT INTO team_chat_messages (id, user_id, content, created_at) VALUES (?, ?, ?, ?)').run(
+            uuidv4(), req.user.id, sanitizedContent, new Date().toISOString()
+        );
+        auditLog('TEAM_CHAT_MESSAGE', req.user.id, { ip: req.ip });
+        res.json({ success: true });
+    } catch (e) {
+        console.error('[TEAM_CHAT] Post error:', e.message);
+        res.status(500).json({ error: 'Failed to post message' });
+    }
 });
 
 app.get('/api/admin/tables', authenticateToken, requireTeam, (req, res) => {
@@ -1155,19 +1514,99 @@ app.get('/api/blog', (req, res) => {
 
 app.post('/api/blog', authenticateToken, requireTeam, (req, res) => {
     const { title, excerpt, content, category, image_url } = req.body;
+
+    // SECURITY: Validate and sanitize inputs
+    if (!title || typeof title !== 'string' || title.length > 200) {
+        return res.status(400).json({ error: 'Invalid title' });
+    }
+
+    if (!content || typeof content !== 'string' || content.length > 50000) {
+        return res.status(400).json({ error: 'Invalid content' });
+    }
+
+    if (excerpt && (typeof excerpt !== 'string' || excerpt.length > 500)) {
+        return res.status(400).json({ error: 'Invalid excerpt' });
+    }
+
+    if (category && (typeof category !== 'string' || category.length > 50)) {
+        return res.status(400).json({ error: 'Invalid category' });
+    }
+
+    if (image_url) {
+        const urlValidation = validateUrl(image_url);
+        if (!urlValidation.valid) {
+            return res.status(400).json({ error: urlValidation.error });
+        }
+    }
+
+    const sanitizedTitle = sanitizeText(title.trim(), 200);
+    const sanitizedContent = sanitizeText(content.trim(), 50000);
+    const sanitizedExcerpt = excerpt ? sanitizeText(excerpt.trim(), 500) : null;
+    const sanitizedCategory = category ? sanitizeText(category.trim(), 50) : null;
+    const sanitizedImageUrl = image_url ? validateUrl(image_url).sanitized : null;
+
+    if (!sanitizedTitle || !sanitizedContent) {
+        return res.status(400).json({ error: 'Title and content are required' });
+    }
+
     const id = uuidv4();
-    db.prepare('INSERT INTO blog_posts (id, title, excerpt, content, category, image_url, author_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(
-        id, title, excerpt, content, category, image_url, req.user.name, new Date().toISOString()
-    );
-    res.json({ success: true });
+    try {
+        db.prepare('INSERT INTO blog_posts (id, title, excerpt, content, category, image_url, author_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(
+            id, sanitizedTitle, sanitizedExcerpt, sanitizedContent, sanitizedCategory, sanitizedImageUrl, req.user.name, new Date().toISOString()
+        );
+        auditLog('BLOG_POST_CREATED', req.user.id, { ip: req.ip, post_id: id, title: sanitizedTitle });
+        res.json({ success: true });
+    } catch (e) {
+        console.error('[BLOG] Creation error:', e.message);
+        auditLog('BLOG_CREATE_ERROR', req.user.id, { ip: req.ip, error: e.message });
+        res.status(500).json({ error: 'Failed to create blog post' });
+    }
 });
 
 app.put('/api/blog/:id', authenticateToken, requireTeam, (req, res) => {
     const { title, excerpt, content, category, image_url } = req.body;
-    db.prepare('UPDATE blog_posts SET title=?, excerpt=?, content=?, category=?, image_url=? WHERE id=?').run(
-        title, excerpt, content, category, image_url, req.params.id
-    );
-    res.json({ success: true });
+
+    // SECURITY: Validate and sanitize inputs
+    if (title && (typeof title !== 'string' || title.length > 200)) {
+        return res.status(400).json({ error: 'Invalid title' });
+    }
+
+    if (content && (typeof content !== 'string' || content.length > 50000)) {
+        return res.status(400).json({ error: 'Invalid content' });
+    }
+
+    if (excerpt && (typeof excerpt !== 'string' || excerpt.length > 500)) {
+        return res.status(400).json({ error: 'Invalid excerpt' });
+    }
+
+    if (category && (typeof category !== 'string' || category.length > 50)) {
+        return res.status(400).json({ error: 'Invalid category' });
+    }
+
+    if (image_url) {
+        const urlValidation = validateUrl(image_url);
+        if (!urlValidation.valid) {
+            return res.status(400).json({ error: urlValidation.error });
+        }
+    }
+
+    const sanitizedTitle = title ? sanitizeText(title.trim(), 200) : null;
+    const sanitizedContent = content ? sanitizeText(content.trim(), 50000) : null;
+    const sanitizedExcerpt = excerpt ? sanitizeText(excerpt.trim(), 500) : null;
+    const sanitizedCategory = category ? sanitizeText(category.trim(), 50) : null;
+    const sanitizedImageUrl = image_url ? validateUrl(image_url).sanitized : null;
+
+    try {
+        db.prepare('UPDATE blog_posts SET title=?, excerpt=?, content=?, category=?, image_url=? WHERE id=?').run(
+            sanitizedTitle, sanitizedExcerpt, sanitizedContent, sanitizedCategory, sanitizedImageUrl, req.params.id
+        );
+        auditLog('BLOG_POST_UPDATED', req.user.id, { ip: req.ip, post_id: req.params.id });
+        res.json({ success: true });
+    } catch (e) {
+        console.error('[BLOG] Update error:', e.message);
+        auditLog('BLOG_UPDATE_ERROR', req.user.id, { ip: req.ip, post_id: req.params.id, error: e.message });
+        res.status(500).json({ error: 'Failed to update blog post' });
+    }
 });
 
 app.delete('/api/blog/:id', authenticateToken, requireTeam, (req, res) => {
