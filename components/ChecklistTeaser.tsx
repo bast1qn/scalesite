@@ -1,4 +1,4 @@
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 import { useLanguage } from '../contexts';
 
 export const ChecklistTeaser = () => {

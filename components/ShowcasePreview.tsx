@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 import { motion } from '@/lib/motion';
 
 interface ShowcasePreviewProps {

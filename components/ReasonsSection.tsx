@@ -9,7 +9,7 @@ import React, { memo } from 'react';
 import { motion } from '@/lib/motion';
 
 // Internal - Components
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 
 // Internal - Contexts
 import { useLanguage } from '../contexts';

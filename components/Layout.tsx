@@ -1,5 +1,5 @@
 import { type ReactNode, memo } from 'react';
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 
 interface LayoutProps {
   children: ReactNode;

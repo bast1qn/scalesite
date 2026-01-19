@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState, memo } from 'react';
 
 // Internal imports
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 import { AuthContext, useCurrency, useLanguage } from '../contexts';
 import { api, validateEmail, validateName, validateString } from '../lib';
 import { TIMING } from '../lib/constants';

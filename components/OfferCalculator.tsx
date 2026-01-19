@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useMemo, useCallback, memo, type ChangeEvent } from 'react';
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { api, triggerConfetti } from '../lib';
 

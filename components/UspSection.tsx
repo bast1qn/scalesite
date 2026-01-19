@@ -1,5 +1,5 @@
 import { useState, type FC, type ReactNode, memo, useCallback } from 'react';
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 import { useLanguage } from '../contexts';
 import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 

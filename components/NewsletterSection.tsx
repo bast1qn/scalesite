@@ -1,6 +1,6 @@
 
 import { useState, type FormEvent } from 'react';
-import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
+import { AnimatedSection } from './AnimatedSection'
 import { api, validateEmail, validateName } from '../lib';
 import { useLanguage } from '../contexts';
 
