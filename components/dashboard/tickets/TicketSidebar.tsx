@@ -13,7 +13,7 @@ import {
     CheckBadgeIcon
 } from '@heroicons/react/24/outline';
 import type { Ticket, Service, TicketMember } from '../../../types/tickets';
-import { formatTimeAgo } from '../../../lib/dateUtils';
+import { formatTimeAgo } from '../../../lib/date-utils';
 import { getSafeURL, validateEmail } from '../../../lib';
 import { alertError, alertAssigned, alertAssignFailed } from '../../../lib/dashboardAlerts';
 import { api } from '../../../lib/api';

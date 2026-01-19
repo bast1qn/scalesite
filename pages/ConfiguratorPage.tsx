@@ -1,8 +1,9 @@
 // ============================================
 // CONFIGURATOR PAGE
+// ✅ PERFORMANCE: React.memo + useCallback optimization
 // ============================================
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts';
 import { Configurator, ProjectConfig } from '../components/configurator/Configurator';
@@ -12,7 +13,8 @@ interface ConfiguratorPageProps {
     setCurrentPage: (page: string) => void;
 }
 
-export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
+// ✅ PERFORMANCE: Memoize entire component to prevent unnecessary re-renders
+const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
     const { user } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
     const [currentConfig, setCurrentConfig] = useState<ProjectConfig | undefined>();
@@ -69,7 +71,8 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
         loadProject();
     }, [user]);
 
-    const handleSave = async (config: ProjectConfig) => {
+    // ✅ PERFORMANCE: Stable callback for save handler
+    const handleSave = useCallback(async (config: ProjectConfig) => {
         if (!user) {
             setErrorMessage('Sie müssen eingeloggt sein, um zu speichern');
             return;
@@ -111,43 +114,54 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
             setErrorMessage('Fehler beim Speichern der Konfiguration');
             setSuccessMessage(null);
         }
-    };
+    }, [user, projectId]);
+
+    // ✅ PERFORMANCE: Stable callbacks for event handlers
+    const handleDismissError = useCallback(() => setErrorMessage(null), []);
+    const handleDismissSuccess = useCallback(() => setSuccessMessage(null), []);
+    const handleNavigateToLogin = useCallback(() => setCurrentPage('login'), [setCurrentPage]);
+
+    // ✅ PERFORMANCE: Memoize loading state component
+    const loadingComponent = useMemo(() => (
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+                <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-slate-600 dark:text-slate-400">Konfigurator wird geladen...</p>
+            </div>
+        </div>
+    ), []);
+
+    // ✅ PERFORMANCE: Memoize login prompt component
+    const loginPromptComponent = useMemo(() => (
+        <div className="min-h-screen flex items-center justify-center">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center"
+            >
+                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8 max-w-md">
+                    <div className="text-6xl mb-4">🔐</div>
+                    <h2 className="text-2xl font-bold mb-4">Login erforderlich</h2>
+                    <p className="text-slate-600 dark:text-slate-400 mb-6">
+                        Bitte melden Sie sich an, um den Konfigurator zu verwenden.
+                    </p>
+                    <button
+                        onClick={handleNavigateToLogin}
+                        className="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-colors"
+                    >
+                        Zum Login
+                    </button>
+                </div>
+            </motion.div>
+        </div>
+    ), [handleNavigateToLogin]);
 
     if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-slate-600 dark:text-slate-400">Konfigurator wird geladen...</p>
-                </div>
-            </div>
-        );
+        return loadingComponent;
     }
 
     if (!user) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center"
-                >
-                    <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-8 max-w-md">
-                        <div className="text-6xl mb-4">🔐</div>
-                        <h2 className="text-2xl font-bold mb-4">Login erforderlich</h2>
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">
-                            Bitte melden Sie sich an, um den Konfigurator zu verwenden.
-                        </p>
-                        <button
-                            onClick={() => setCurrentPage('login')}
-                            className="px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-colors"
-                        >
-                            Zum Login
-                        </button>
-                    </div>
-                </motion.div>
-            </div>
-        );
+        return loginPromptComponent;
     }
 
     return (
@@ -161,7 +175,7 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
                 >
                     {errorMessage}
                     <button
-                        onClick={() => setErrorMessage(null)}
+                        onClick={handleDismissError}
                         className="ml-4 hover:text-red-200"
                     >
                         ✕
@@ -178,7 +192,7 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
                 >
                     {successMessage}
                     <button
-                        onClick={() => setSuccessMessage(null)}
+                        onClick={handleDismissSuccess}
                         className="ml-4 hover:text-green-200"
                     >
                         ✕
@@ -194,3 +208,6 @@ export const ConfiguratorPage = ({ setCurrentPage }: ConfiguratorPageProps) => {
         </div>
     );
 };
+
+// ✅ PERFORMANCE: Export memoized component
+export default React.memo(ConfiguratorPage);

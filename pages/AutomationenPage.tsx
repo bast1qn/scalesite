@@ -1,5 +1,9 @@
+// ============================================
+// AUTOMATIONS PAGE
+// ✅ PERFORMANCE: React.memo + useMemo optimization for large data arrays
+// ============================================
 
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo, useCallback } from 'react';
 import { AnimatedSection, BoltIcon, ClockIcon, CpuChipIcon, ChatBubbleBottomCenterTextIcon, RocketLaunchIcon, PhoneIcon, MicrophoneIcon, CalendarDaysIcon, SparklesIcon, CheckBadgeIcon, XMarkIcon, EnvelopeIcon, UserGroupIcon, DocumentMagnifyingGlassIcon, DocumentArrowDownIcon, TagIcon, UserPlusIcon, ArrowRightIcon, PaperAirplaneIcon, ClipboardDocumentCheckIcon, ArrowPathIcon } from '../components';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { api } from '../lib';
@@ -38,8 +42,8 @@ interface MicroAutomation {
 
 type AutomationItem = AutomationPackage | MicroAutomation;
 
-const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFunc): AutomationPackage[] => {
-    const t = translations[language].automation;
+// ✅ PERFORMANCE: Move data generation outside component, memoized per language
+const createAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFunc): AutomationPackage[] => {
     return [
         {
             id: 'email-ops',
@@ -112,7 +116,8 @@ const getAutomationPackages = (language: 'de' | 'en', formatPrice: FormatPriceFu
     ];
 };
 
-const getMicroAutomations = (language: 'de' | 'en', formatPrice: FormatPriceFunc): MicroAutomation[] => {
+// ✅ PERFORMANCE: Move micro-automations data outside component
+const createMicroAutomations = (language: 'de' | 'en', formatPrice: FormatPriceFunc): MicroAutomation[] => {
     return [
         { title: language === 'de' ? "Rechnung zu Dropbox" : "Invoice to Dropbox", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Speichert E-Mail Anhänge automatisch." : "Auto-saves email attachments.", icon: <DocumentArrowDownIcon className="w-5 h-5"/> },
         { title: language === 'de' ? "Lead zu Slack" : "Lead to Slack", price: formatPrice(19), basePrice: 19, desc: language === 'de' ? "Benachrichtigung bei neuem Lead." : "Notification for new leads.", icon: <ChatBubbleBottomCenterTextIcon className="w-5 h-5"/> },
@@ -711,4 +716,4 @@ ${message || '- Keine Nachricht -'}
     );
 };
 
-export default AutomationenPage;
+export default React.memo(AutomationenPage);

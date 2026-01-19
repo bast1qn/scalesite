@@ -133,3 +133,8 @@ export const formatCountdown = (days: number, hours: number, minutes: number, se
 export const getDaysBetween = (from: Date, to: Date): number => {
   return Math.ceil((to.getTime() - from.getTime()) / TIME_CONSTANTS.DAY);
 };
+
+/**
+ * Alias for formatRelativeTimeDE for backward compatibility
+ */
+export const formatTimeAgo = formatRelativeTimeDE;

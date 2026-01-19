@@ -12,6 +12,7 @@ export * from './animations';
 // Utilities
 export * from './utils';
 export * from './ui-patterns';
+export * from './date-utils';
 
 // Validation
 export * from './validation';

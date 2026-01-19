@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { TicketIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import { formatTimeAgo } from '../../../lib/dateUtils';
+import { formatTimeAgo } from '../../../lib/date-utils';
 import type { Message } from '../../../types/tickets';
 import {
     isSystemMessage as checkIsSystemMessage,
