@@ -19,11 +19,8 @@ const DYNAMIC_CACHE = 'scalesite-dynamic-v1';
 
 // Assets to cache immediately on install
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/index.css',
-  '/manifest.json',
-  // Add critical fonts, icons, etc.
+  // Note: Don't precache URLs that might not exist
+  // The build process will handle asset caching automatically
 ];
 
 // Cache strategies
