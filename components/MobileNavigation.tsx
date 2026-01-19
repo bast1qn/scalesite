@@ -78,7 +78,7 @@ const NavItem = ({ page, label, currentPage, onClick, index }: NavItemProps) => 
         <motion.button
             variants={itemVariants}
             onClick={() => onClick(page)}
-            className={`w-full max-w-xs text-lg font-medium transition-all duration-300 px-6 py-3 rounded-xl text-center ${
+            className={`w-full max-w-xs text-lg font-medium transition-all duration-300 px-8 py-4 rounded-xl text-center min-h-12 ${
                 isActive
                     ? 'text-white bg-gradient-to-r from-primary-600 to-violet-600 shadow-premium'
                     : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft'
@@ -98,7 +98,7 @@ interface ActionButtonProps {
 }
 
 const ActionButton = ({ children, onClick, variant = 'secondary', icon }: ActionButtonProps) => {
-    const baseClasses = 'w-full flex items-center justify-center gap-3 px-6 py-3 text-base font-medium rounded-xl transition-all duration-300';
+    const baseClasses = 'w-full flex items-center justify-center gap-3 px-8 py-4 text-base font-medium rounded-xl transition-all duration-300 min-h-12';
 
     const variantClasses = variant === 'primary'
         ? 'text-white bg-gradient-to-r from-primary-600 to-violet-600 hover:shadow-premium font-semibold'
