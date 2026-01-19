@@ -1067,6 +1067,96 @@
   background-size: 200% auto;
 }
 
+/* ==================== ENHANCED HOVER TRANSITIONS ==================== */
+/*
+ * Consistent hover transitions (200-300ms ease-out) for all interactive elements
+ * Reference: Linear, Vercel, Stripe design systems
+ */
+
+/* Enhanced hover transitions - 200-300ms ease-out for all interactive elements */
+.hover-transition-smooth {
+  transition-property: transform, box-shadow, border-color, background-color;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-transition-premium {
+  transition-property: transform, box-shadow, border-color, background-color, opacity;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Consistent hover scale for all interactive elements */
+.hover-scale {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.98);
+  transition-duration: 150ms;
+}
+
+/* Smooth focus transitions for accessibility */
+.focus-transition {
+  transition: box-shadow 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Enhanced focus ring with animation */
+.focus-ring-animated:focus-visible {
+  animation: focus-ring-pulse 0.4s ease-out;
+}
+
+@keyframes focus-ring-pulse {
+  0% {
+    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 4px theme(colors.primary.500 / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 6px theme(colors.primary.500 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 2px theme(colors.white), 0 0 0 5px theme(colors.primary.500 / 0.7);
+  }
+}
+
+.dark .focus-ring-animated:focus-visible {
+  animation: focus-ring-pulse-dark 0.4s ease-out;
+}
+
+@keyframes focus-ring-pulse-dark {
+  0% {
+    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 4px theme(colors.primary.500 / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 6px theme(colors.primary.500 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 2px theme(colors.slate.900), 0 0 0 5px theme(colors.primary.500 / 0.7);
+  }
+}
+
+/* Icon button base styles - consistent across all icon buttons */
+.icon-button {
+  @apply inline-flex items-center justify-center min-h-11 rounded-xl transition-all duration-300;
+  @apply hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+}
+
+/* Enhanced touch targets - minimum 44x44px for mobile */
+.touch-target {
+  @apply min-w-11 min-h-11;
+}
+
+/* Smooth border transition for inputs and cards */
+.border-transition {
+  transition-property: border-color, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Premium card with 3D effect */
 .card-3d {
   transform-style: preserve-3d;

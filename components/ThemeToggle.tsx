@@ -49,8 +49,11 @@ export const ThemeToggle = () => {
             <motion.button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 {...hover}
-                className="relative w-16 h-11 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
-                aria-label={`Current theme: ${theme}`}
+                className="relative w-16 h-11 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 hover:scale-[1.02] active:scale-[0.98]"
+                aria-label={`Theme auswählen. Aktuell: ${theme === 'light' ? 'Hell' : theme === 'dark' ? 'Dunkel' : 'System'}. ${isDropdownOpen ? 'Dropdown offen. Klicken zum Schließen.' : 'Klicken zum Wechseln.'}`}
+                aria-expanded={isDropdownOpen}
+                aria-haspopup="listbox"
+                role="combobox"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
@@ -138,6 +141,8 @@ export const ThemeToggle = () => {
                             exit={{ opacity: 0, y: -10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
                             className="absolute top-full right-0 mt-2 z-50 bg-white dark:bg-slate-900 rounded-2xl shadow-premium-lg border border-slate-200 dark:border-slate-700 overflow-hidden min-w-[140px]"
+                            role="listbox"
+                            aria-label="Theme auswählen"
                         >
                             {themes.map((themeOption) => {
                                 const isActive = theme === themeOption.value;
@@ -154,11 +159,14 @@ export const ThemeToggle = () => {
                                             setTheme(themeOption.value);
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                                        className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 ${
                                             isActive
                                                 ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
                                                 : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                                         }`}
+                                        role="option"
+                                        aria-selected={isActive}
+                                        aria-label={`${themeOption.label} Theme${isActive ? ' (aktiv)' : ''}`}
                                         whileHover={{ x: 2 }}
                                         whileTap={{ scale: 0.98 }}
                                     >
