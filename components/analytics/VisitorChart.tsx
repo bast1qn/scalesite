@@ -1,13 +1,17 @@
-import { useMemo, type FC, Suspense } from 'react';
+import { useMemo, type FC } from 'react';
+// ✅ PERFORMANCE PHASE 3: Use lazy-loaded recharts to reduce bundle by ~356KB
 import {
-    LineChart,
+    LazyLineChart,
+    LazyResponsiveContainer
+} from '@/lib/performance/lazyCharts';
+import {
     Line,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer
-} from 'recharts';
+    Legend
+} from '@/lib/performance/lazyCharts';
 import { UsersIcon } from '../Icons';
 import type { DateRange } from './DateRangePicker';
 
@@ -81,8 +85,8 @@ const VisitorChart: FC<VisitorChartProps> = ({ dateRange, data }) => {
             </div>
 
             <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <LazyResponsiveContainer width="100%" height="100%">
+                    <LazyLineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <defs>
                             <linearGradient id="visitorsGradient" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="rgb(59 130 246)" stopOpacity={0.3} />
@@ -131,8 +135,8 @@ const VisitorChart: FC<VisitorChartProps> = ({ dateRange, data }) => {
                             activeDot={{ r: 6 }}
                             name="Eindeutige Besucher"
                         />
-                    </LineChart>
-                </ResponsiveContainer>
+                    </LazyLineChart>
+                </LazyResponsiveContainer>
             </div>
         </div>
     );

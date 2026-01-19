@@ -101,6 +101,10 @@ export const LazyResponsiveContainer = ({ children, ...props }: ResponsiveContai
   </Suspense>
 );
 
+// ✅ PERFORMANCE PHASE 3: Export non-lazy chart components for direct use in lazy charts
+// These are used inside lazy chart wrappers
+export { PieChart } from 'recharts';
+
 // Preload charts when user navigates to analytics
 export const preloadCharts = () => {
   import('recharts');
