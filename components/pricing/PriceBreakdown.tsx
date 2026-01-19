@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { useCurrency, useLanguage } from '../../contexts';
 import type { PriceBreakdown } from '../../lib/pricing';
 import { getDiscountPercentage } from '../../lib/pricing';
+import { getVolumeDiscountPercentage } from '../../lib/utils/pricing';
 
 interface PriceBreakdownDisplayProps {
     breakdown: PriceBreakdown;
@@ -124,7 +125,7 @@ export const PriceBreakdownDisplay = ({
                             {language === 'de' ? 'Mengenrabatt' : 'Volume Discount'}
                             {breakdown.quantity >= 5 && (
                                 <span className="ml-1 text-xs text-primary-600 dark:text-primary-400">
-                                    ({breakdown.quantity >= 50 ? '40%' : breakdown.quantity >= 25 ? '30%' : breakdown.quantity >= 10 ? '20%' : '10%'})
+                                    ({getVolumeDiscountPercentage(breakdown.quantity)})
                                 </span>
                             )}
                         </span>

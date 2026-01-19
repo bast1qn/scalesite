@@ -14,6 +14,7 @@ import {
     calculateSavings,
     getDiscountPercentage
 } from '../../lib/pricing';
+import { getVolumeDiscountPercentage } from '../../lib/utils/pricing';
 
 interface PricingCalculatorProps {
     serviceId?: number;
@@ -319,7 +320,7 @@ export const PricingCalculator = ({
                                 {language === 'de' ? 'Mengenrabatt' : 'Volume Discount'}
                                 {quantity >= 5 && (
                                     <span className="ml-1 text-xs text-primary-600 dark:text-primary-400">
-                                        ({quantity >= 50 ? '40%' : quantity >= 25 ? '30%' : quantity >= 10 ? '20%' : '10%'})
+                                        ({getVolumeDiscountPercentage(quantity)})
                                     </span>
                                 )}
                             </span>

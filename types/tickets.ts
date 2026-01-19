@@ -2,6 +2,8 @@
 // TICKET SYSTEM TYPES
 // ============================================
 
+import { TicketStatus, TicketPriority } from '@/lib/constants/enums';
+
 /**
  * User profile information associated with tickets
  */
@@ -40,16 +42,6 @@ export interface Ticket {
 }
 
 /**
- * Available ticket statuses
- */
-export type TicketStatus = 'Offen' | 'In Bearbeitung' | 'Geschlossen';
-
-/**
- * Available ticket priority levels
- */
-export type TicketPriority = 'Niedrig' | 'Mittel' | 'Hoch';
-
-/**
  * Service available for assignment to tickets
  */
 export interface Service {
@@ -84,14 +76,14 @@ export type TicketFilter = 'active' | 'closed';
  * Props for ticket status badge component
  */
 export interface TicketStatusBadgeProps {
-    status: TicketStatus;
+    status: TicketStatus | string;
 }
 
 /**
  * Props for ticket priority indicator component
  */
 export interface TicketPriorityBadgeProps {
-    priority: TicketPriority;
+    priority: TicketPriority | string;
 }
 
 /**

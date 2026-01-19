@@ -3,19 +3,11 @@
  * Centralized types for dashboard components
  */
 
+import { TicketStatus, TicketPriority } from '@/lib/constants/enums';
+
 // ============================================================================
 // TICKET SYSTEM TYPES
 // ============================================================================
-
-/**
- * Ticket status values
- */
-export type TicketStatus = 'Offen' | 'In Bearbeitung' | 'Wartet auf Antwort' | 'Geschlossen';
-
-/**
- * Ticket priority levels
- */
-export type TicketPriority = 'Niedrig' | 'Mittel' | 'Hoch';
 
 /**
  * Ticket data structure
