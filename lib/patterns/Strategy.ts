@@ -395,8 +395,11 @@ export class FormValidator {
 
 /**
  * Example: Simple validation with strategy
+ * NOTE: This function is intentionally not exported to avoid conflict with
+ * lib/validation.ts validateEmail, which is the OWASP-compliant version
+ * that should be used throughout the application.
  */
-export function validateEmail(email: string): ValidationResult {
+function validateEmailWithStrategy(email: string): ValidationResult {
   const strategy = new EmailValidationStrategy();
   const validator = new ValidatorContext(strategy);
   return validator.validate(email);

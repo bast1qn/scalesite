@@ -65,7 +65,6 @@ export {
   URLValidationStrategy,
   PhoneValidationStrategy,
   DateValidationStrategy,
-  validateEmail,
   validateStrongPassword,
   validateUserRegistration,
   createRegistrationFormValidator,
