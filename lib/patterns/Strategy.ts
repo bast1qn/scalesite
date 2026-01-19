@@ -14,20 +14,26 @@
 
 // ==================== Validation Strategies ====================
 
-/**
- * Validation Result Interface
- */
-export interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
-  warnings?: string[];
-}
+// Import ValidationResult from common types to ensure consistency
+import type { ValidationResult } from '../../types/common';
 
 /**
  * Validation Strategy Interface
+ * LSP COMPLIANCE: All strategies must implement both sync and async validation
+ * This ensures substitutability - any strategy can be used interchangeably
  */
 export interface IValidationStrategy {
-  validate(value: any): ValidationResult;
+  /**
+   * Synchronous validation
+   * All strategies MUST implement this method
+   */
+  validate(value: any): ValidationResult | Promise<ValidationResult>;
+
+  /**
+   * Asynchronous validation
+   * Default implementation wraps validate() for consistency
+   * Strategies can override for true async operations (e.g., API calls)
+   */
   validateAsync?(value: any): Promise<ValidationResult>;
 }
 

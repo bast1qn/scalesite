@@ -3,12 +3,18 @@
 // OWASP COMPLIANT VALIDATION FUNCTIONS
 // ============================================
 
-export interface ValidationResult {
-    isValid: boolean;
-    errors: string[];
+import type { ValidationResult } from '../types/common';
+
+/**
+ * Extended Validation Result with sanitization support
+ */
+export interface SanitizedValidationResult extends ValidationResult {
     sanitized?: string;
 }
 
+/**
+ * Password Validation Result
+ */
 export interface PasswordValidationResult {
     isValid: boolean;
     errors: string[];
@@ -43,7 +49,7 @@ export const getPasswordStrength = (password: string): 'weak' | 'medium' | 'stro
  * Validates email format according to RFC 5322
  * Prevents email injection and malformed addresses
  */
-export const validateEmail = (email: string): ValidationResult => {
+export const validateEmail = (email: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     // Length check (RFC 5321: max 254 chars for entire address)
@@ -127,7 +133,7 @@ export const validateString = (
         allowEmpty?: boolean;
         trim?: boolean;
     } = { maxLength: 1000 }
-): ValidationResult => {
+): SanitizedValidationResult => {
     const errors: string[] = [];
     const { minLength = 0, maxLength, allowEmpty = false, trim = true } = options;
 
@@ -204,7 +210,7 @@ export const validateNumber = (
         integer?: boolean;
         allowZero?: boolean;
     } = {}
-): ValidationResult => {
+): SanitizedValidationResult => {
     const errors: string[] = [];
     const { min, max, integer = false, allowZero = true } = options;
 
@@ -253,7 +259,7 @@ export const validateNumber = (
  *
  * CRITICAL: Use this for ALL user-controlled URLs in href/src attributes
  */
-export const validateURL = (url: string): ValidationResult => {
+export const validateURL = (url: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!url || url.length > 2048) {
@@ -366,7 +372,7 @@ export const getSafeURL = (url: string | null | undefined): string => {
 /**
  * Validates person names (letters, spaces, hyphens, apostrophes only)
  */
-export const validateName = (name: string): ValidationResult => {
+export const validateName = (name: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!name || name.trim().length === 0) {
@@ -402,7 +408,7 @@ export const validateName = (name: string): ValidationResult => {
  * Validates phone number (international format)
  * Supports E.164 format and local formats
  */
-export const validatePhone = (phone: string): ValidationResult => {
+export const validatePhone = (phone: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!phone || phone.trim().length === 0) {
@@ -441,7 +447,7 @@ export const validatePhone = (phone: string): ValidationResult => {
 /**
  * Validates project name
  */
-export const validateProjectName = (name: string): ValidationResult => {
+export const validateProjectName = (name: string): SanitizedValidationResult => {
     return validateString(name, {
         minLength: 3,
         maxLength: 100,
@@ -452,7 +458,7 @@ export const validateProjectName = (name: string): ValidationResult => {
 /**
  * Validates project description
  */
-export const validateProjectDescription = (description: string): ValidationResult => {
+export const validateProjectDescription = (description: string): SanitizedValidationResult => {
     return validateString(description, {
         minLength: 10,
         maxLength: 2000,
@@ -463,7 +469,7 @@ export const validateProjectDescription = (description: string): ValidationResul
 /**
  * Validates industry selection
  */
-export const validateIndustry = (industry: string, allowedIndustries: string[]): ValidationResult => {
+export const validateIndustry = (industry: string, allowedIndustries: string[]): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!industry || industry.trim().length === 0) {
@@ -491,7 +497,7 @@ export const validateIndustry = (industry: string, allowedIndustries: string[]):
  * Validates hexadecimal color code
  * Supports 3-digit (#RGB) and 6-digit (#RRGGBB) formats
  */
-export const validateHexColor = (color: string): ValidationResult => {
+export const validateHexColor = (color: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!color || color.trim().length === 0) {
@@ -522,7 +528,7 @@ export const validateHexColor = (color: string): ValidationResult => {
 /**
  * Validates color palette (array of hex colors)
  */
-export const validateColorPalette = (colors: string[]): ValidationResult => {
+export const validateColorPalette = (colors: string[]): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!Array.isArray(colors) || colors.length === 0) {
@@ -562,7 +568,7 @@ export const validateDate = (dateString: string, options: {
     maxDate?: Date;
     allowPast?: boolean;
     allowFuture?: boolean;
-} = {}): ValidationResult => {
+} = {}): SanitizedValidationResult => {
     const errors: string[] = [];
     const { minDate, maxDate, allowPast = true, allowFuture = true } = options;
 
@@ -610,7 +616,7 @@ export const validateDate = (dateString: string, options: {
 /**
  * Validates date range (start before end)
  */
-export const validateDateRange = (startDate: string, endDate: string): ValidationResult => {
+export const validateDateRange = (startDate: string, endDate: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     const start = new Date(startDate);
@@ -639,7 +645,7 @@ export const validateDateRange = (startDate: string, endDate: string): Validatio
 /**
  * Validates company name
  */
-export const validateCompanyName = (name: string): ValidationResult => {
+export const validateCompanyName = (name: string): SanitizedValidationResult => {
     return validateString(name, {
         minLength: 2,
         maxLength: 200,
@@ -650,7 +656,7 @@ export const validateCompanyName = (name: string): ValidationResult => {
 /**
  * Validates VAT number (EU format)
  */
-export const validateVATNumber = (vat: string, countryCode: string = 'DE'): ValidationResult => {
+export const validateVATNumber = (vat: string, countryCode: string = 'DE'): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!vat || vat.trim().length === 0) {
@@ -685,7 +691,7 @@ export const validateVATNumber = (vat: string, countryCode: string = 'DE'): Vali
 /**
  * Validates IBAN (International Bank Account Number)
  */
-export const validateIBAN = (iban: string): ValidationResult => {
+export const validateIBAN = (iban: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!iban || iban.trim().length === 0) {
@@ -732,7 +738,7 @@ export const validateIBAN = (iban: string): ValidationResult => {
 /**
  * Validates BIC (Bank Identifier Code)
  */
-export const validateBIC = (bic: string): ValidationResult => {
+export const validateBIC = (bic: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!bic || bic.trim().length === 0) {
@@ -765,7 +771,7 @@ export const validateBIC = (bic: string): ValidationResult => {
 /**
  * Validates street address
  */
-export const validateStreetAddress = (address: string): ValidationResult => {
+export const validateStreetAddress = (address: string): SanitizedValidationResult => {
     return validateString(address, {
         minLength: 5,
         maxLength: 255,
@@ -776,7 +782,7 @@ export const validateStreetAddress = (address: string): ValidationResult => {
 /**
  * Validates postal code (format depends on country)
  */
-export const validatePostalCode = (postalCode: string, countryCode: string = 'DE'): ValidationResult => {
+export const validatePostalCode = (postalCode: string, countryCode: string = 'DE'): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!postalCode || postalCode.trim().length === 0) {
@@ -817,7 +823,7 @@ export const validatePostalCode = (postalCode: string, countryCode: string = 'DE
 /**
  * Validates city name
  */
-export const validateCity = (city: string): ValidationResult => {
+export const validateCity = (city: string): SanitizedValidationResult => {
     return validateString(city, {
         minLength: 2,
         maxLength: 100,
@@ -836,7 +842,7 @@ export const validateContent = (content: string, options: {
     maxLength?: number;
     allowHTML?: boolean;
     sanitizeHTML?: boolean;
-} = {}): ValidationResult => {
+} = {}): SanitizedValidationResult => {
     const errors: string[] = [];
     const { maxLength = 50000, allowHTML = false, sanitizeHTML = true } = options;
 
@@ -898,7 +904,7 @@ export const validateContent = (content: string, options: {
 /**
  * Validates blog post content
  */
-export const validateBlogPost = (title: string, content: string): ValidationResult => {
+export const validateBlogPost = (title: string, content: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     const titleValidation = validateString(title, {
@@ -933,7 +939,7 @@ export const validateBlogPost = (title: string, content: string): ValidationResu
 /**
  * Validates discount code format
  */
-export const validateDiscountCode = (code: string): ValidationResult => {
+export const validateDiscountCode = (code: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!code || code.trim().length === 0) {
@@ -961,7 +967,7 @@ export const validateDiscountCode = (code: string): ValidationResult => {
 /**
  * Validates service ID
  */
-export const validateServiceId = (serviceId: number, validIds: number[]): ValidationResult => {
+export const validateServiceId = (serviceId: number, validIds: number[]): SanitizedValidationResult => {
     const errors: string[] = [];
 
     const numValidation = validateNumber(serviceId, {
@@ -989,7 +995,7 @@ export const validateServiceId = (serviceId: number, validIds: number[]): Valida
 /**
  * Validates quantity for pricing
  */
-export const validateQuantity = (quantity: number): ValidationResult => {
+export const validateQuantity = (quantity: number): SanitizedValidationResult => {
     return validateNumber(quantity, {
         min: 1,
         max: 1000,
@@ -1008,7 +1014,7 @@ export const validateQuantity = (quantity: number): ValidationResult => {
 export const validateFileSize = (
     fileSize: number,
     maxSize: number
-): ValidationResult => {
+): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (fileSize === 0) {
@@ -1033,7 +1039,7 @@ export const validateFileSize = (
 export const validateFileType = (
     fileType: string,
     allowedTypes: string[]
-): ValidationResult => {
+): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!allowedTypes.includes(fileType)) {
@@ -1050,7 +1056,7 @@ export const validateFileType = (
 /**
  * Validates file name
  */
-export const validateFileName = (fileName: string): ValidationResult => {
+export const validateFileName = (fileName: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!fileName || fileName.trim().length === 0) {
@@ -1090,7 +1096,7 @@ export const validateFileName = (fileName: string): ValidationResult => {
 /**
  * Validates CSRF token format
  */
-export const validateCSRFToken = (token: string): ValidationResult => {
+export const validateCSRFToken = (token: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!token || token.trim().length === 0) {
@@ -1125,7 +1131,7 @@ export const validateCSRFToken = (token: string): ValidationResult => {
 /**
  * Validates session token format (UUID or similar)
  */
-export const validateSessionToken = (token: string): ValidationResult => {
+export const validateSessionToken = (token: string): SanitizedValidationResult => {
     const errors: string[] = [];
 
     if (!token || token.trim().length === 0) {
@@ -1159,14 +1165,14 @@ export const validateMessage = (message: string, options: {
     minLength?: number;
     maxLength: number;
     allowEmpty?: boolean;
-} = { maxLength: 5000 }): ValidationResult => {
+} = { maxLength: 5000 }): SanitizedValidationResult => {
     return validateString(message, options);
 };
 
 /**
  * Validates subject line
  */
-export const validateSubject = (subject: string): ValidationResult => {
+export const validateSubject = (subject: string): SanitizedValidationResult => {
     return validateString(subject, {
         minLength: 3,
         maxLength: 200,

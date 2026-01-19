@@ -47,8 +47,30 @@ ScaleSite is a full-featured web development platform built with React 19, TypeS
 
 ScaleSite implements **enterprise-grade design patterns** for scalability and maintainability:
 
+#### Repository Pattern (NEW - Phase 5) ⭐
+- **Data Access Layer Abstraction**: Clean separation between business logic and database
+- **BaseRepository**: Common CRUD operations with built-in caching
+- **RepositoryFactory**: Singleton factory for repository instances
+- **Interface-based**: Easy to mock for testing
+
+```typescript
+import { getRepositoryFactory } from '@/lib/repositories';
+
+const factory = getRepositoryFactory();
+const userRepo = factory.getUserProfileRepository();
+const user = await userRepo.findById('123');
+```
+
+**Benefits**:
+- ✅ Testability (mock repositories easily)
+- ✅ Flexibility (switch database implementations)
+- ✅ Single Responsibility (one repository per entity)
+- ✅ Built-in caching layer for performance
+
 #### Singleton Pattern
 - **ConfigurationManager**: Type-safe config management
+- **EventBus**: Centralized event system
+- **RepositoryFactory**: Single source of truth for repositories
 - Feature flags system
 - Environment detection
 
@@ -63,6 +85,7 @@ const analyticsEnabled = useFeatureFlag('analytics');
 - **OAuthProviderFactory**: Extensible OAuth system (GitHub, Google, LinkedIn)
 - **ComponentFactory**: Dynamic component creation
 - **ServiceFactory**: Service lifecycle management
+- **RepositoryFactory**: Creates repository instances with DI
 
 ```typescript
 import { OAuthProviderFactory } from '@/lib/patterns';
@@ -75,6 +98,7 @@ const userData = await provider.authenticate();
 - **EventBus**: Centralized pub/sub event system
 - **TypedEvent**: Type-safe event handling
 - **React Hook Integration**: `useEventSubscription`
+- **Error Isolation**: Failures don't affect other subscribers
 
 ```typescript
 import { EventBus, AppEventType } from '@/lib/patterns';
@@ -86,6 +110,7 @@ EventBus.getInstance().subscribe(AppEventType.USER_LOGIN, (data) => {
 ```
 
 #### Strategy Pattern (Validation)
+- **LSP-Compliant**: All strategies implement consistent interface
 - **EmailValidationStrategy**: Email validation with typo detection
 - **PasswordValidationStrategy**: Configurable password strength rules
 - **URLValidationStrategy**: URL validation with protocol checking
@@ -99,39 +124,78 @@ const validator = new ValidatorContext(new EmailValidationStrategy());
 const result = validator.validate('test@example.com');
 ```
 
-#### Repository Pattern
-- **IRepository**: Generic repository interface
-- **ApiRepository**: REST API implementation
-- **MockRepository**: Testing implementation
+### SOLID Principles Compliance 📐
+
+ScaleSite strictly follows **SOLID principles** for maintainable architecture:
+
+#### S - Single Responsibility Principle ✅
+- Repository pattern: One repository per entity
+- Split service interfaces: One interface per concern
+- Component composition: Focused, reusable components
+
+#### O - Open/Closed Principle ✅
+- Strategy pattern: Add validators without modifying existing code
+- Factory pattern: Register new components/types at runtime
+- Repository interfaces: Extend through inheritance
+
+#### L - Liskov Substitution Principle ✅
+- **FIXED**: Validation strategies all implement consistent interface
+- Repository implementations: Fully interchangeable
+- Service implementations: Substitutable
+
+#### I - Interface Segregation Principle ✅
+- **NEW**: Split IAuthService into 5 focused interfaces:
+  - `IAuthenticationService`: Login, logout, OAuth
+  - `IRegistrationService`: Registration, verification
+  - `ITokenService`: Token management
+  - `IUserProfileService`: User data operations
+  - `IPasswordService`: Password changes/resets
+
+#### D - Dependency Inversion Principle ⏳
+- Repository interfaces: Depend on abstractions
+- Service interfaces: Abstract over implementations
+- **In Progress**: Complete DI container implementation
 
 ### Module Organization 📁
 
 ```
-┌─────────────────────────────────────┐
-│      Presentation Layer             │
-│  (pages/*Page.tsx, components/)     │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│      Business Logic Layer           │
-│  (lib/services/, lib/patterns/)     │
-└──────────────┬──────────────────────┘
-               │
-┌──────────────▼──────────────────────┐
-│         Data Layer                  │
-│  (lib/api-modules/, contexts/)      │
-└─────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    PRESENTATION LAYER                       │
+│  (pages/*, components/, contexts/, hooks/)                  │
+└────────────────────────┬────────────────────────────────────┘
+                         │ depends on
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     BUSINESS LAYER                          │
+│  (lib/services/, lib/patterns/, state management)          │
+└────────────────────────┬────────────────────────────────────┘
+                         │ depends on
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      DATA LAYER                             │
+│  (lib/repositories/, lib/api/, lib/validation/)            │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   EXTERNAL SERVICES                         │
+│  (Supabase, Clerk, Gemini AI, Stripe, etc.)               │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### SOLID Principles ✅
+### Architecture Documentation 📚
 
-- **Single Responsibility**: Each module has one clear purpose
-- **Open/Closed**: Extensible through strategy and factory patterns
-- **Liskov Substitution**: Repository interfaces properly implemented
-- **Interface Segregation**: Focused, specific interfaces
-- **Dependency Inversion**: Depend on abstractions, not concretions
+**Complete architecture decisions documented in:**
+- **[ADR.md](./docs/architecture/ADR.md)** - Architecture Decision Records (10 ADRs)
+- **[docs/architecture/](./docs/architecture/)** - Detailed architecture documentation
 
-**See [`docs/`](./docs/) for ADRs and detailed documentation.**
+**Key ADRs:**
+- ADR-001: Repository Pattern Implementation
+- ADR-002: Interface Segregation Principle (ISP)
+- ADR-003: Singleton for Service Management
+- ADR-004: Strategy Pattern (LSP-Compliant)
+- ADR-005: Observer Pattern for Events
+- ADR-009: SOLID Principles Compliance
 
 ---
 

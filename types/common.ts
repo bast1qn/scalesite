@@ -156,8 +156,8 @@ export interface FieldError {
  */
 export interface ValidationResult {
   isValid: boolean;
-  errors: FieldError[];
-  warnings?: FieldError[];
+  errors: string[];
+  warnings?: string[];
 }
 
 // ============================================================================
