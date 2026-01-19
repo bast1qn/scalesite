@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { memo, useCallback, type ReactNode } from 'react';
 import { ReactIcon, ScaleSiteLogo, GitHubIcon, InstagramIcon, DiscordIcon } from './Icons';
 import { useLanguage } from '../contexts';
 import { useHover } from '../lib/hooks';
@@ -7,13 +7,19 @@ interface FooterProps {
   setCurrentPage: (page: string) => void;
 }
 
-const FooterLink = ({ page, setCurrentPage, children }: { page: string; setCurrentPage: (page: string) => void; children: ReactNode }) => {
+// ✅ PERFORMANCE: Memoized to prevent unnecessary re-renders
+const FooterLink = memo(({ page, setCurrentPage, children }: { page: string; setCurrentPage: (page: string) => void; children: ReactNode }) => {
     const hover = useHover();
+
+    // ✅ PERFORMANCE: Memoized click handler
+    const handleClick = useCallback(() => {
+        setCurrentPage(page);
+    }, [page, setCurrentPage]);
 
     return (
         <li>
             <button
-                onClick={() => setCurrentPage(page)}
+                onClick={handleClick}
                 {...hover}
                 className="relative text-sm text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300 ease-smooth text-left py-3 group"
             >
@@ -26,9 +32,10 @@ const FooterLink = ({ page, setCurrentPage, children }: { page: string; setCurre
             </button>
         </li>
     );
-};
+});
 
-const SocialIconButton = ({ href, children, ariaLabel }: { href: string; children: ReactNode; ariaLabel?: string }) => {
+// ✅ PERFORMANCE: Memoized to prevent unnecessary re-renders
+const SocialIconButton = memo(({ href, children, ariaLabel }: { href: string; children: ReactNode; ariaLabel?: string }) => {
     const hover = useHover();
 
     return (
@@ -45,7 +52,7 @@ const SocialIconButton = ({ href, children, ariaLabel }: { href: string; childre
             </span>
         </a>
     );
-};
+});
 
 export const Footer = ({ setCurrentPage }: FooterProps) => {
   const { t } = useLanguage();

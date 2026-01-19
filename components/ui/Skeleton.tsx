@@ -272,5 +272,5 @@ export const SkeletonWrapper = ({
   if (loading) {
     return <div className={className}>{skeleton}</div>;
   }
-  return <>{children</>;
+  return <>{children}</>;
 };

@@ -7,6 +7,18 @@
 import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+// ✅ PERFORMANCE: Fast hash function for state comparison
+const fastHash = (obj: unknown): string => {
+    const str = JSON.stringify(obj);
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return hash.toString(36);
+};
+
 // Components
 import { ColorPalettePicker } from './ColorPalettePicker';
 import { ContentEditor } from './ContentEditor';
@@ -207,6 +219,7 @@ export const Configurator = ({
     // Auto-save with debounce (3 seconds)
     const autoSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const lastSavedStateRef = useRef<ProjectConfig | null>(null);
+    const lastSavedHashRef = useRef<string>(''); // ✅ PERFORMANCE: Store hash for fast comparison
     const successMessageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     /**
@@ -227,8 +240,9 @@ export const Configurator = ({
     const debouncedAutoSave = useCallback(async () => {
         if (!onSave || readOnly || !projectId) return;
 
-        // Don't auto-save if state hasn't changed since last save
-        if (lastSavedStateRef.current && JSON.stringify(state) === JSON.stringify(lastSavedStateRef.current)) {
+        // ✅ PERFORMANCE: Use fast hash instead of deep JSON comparison
+        const currentStateHash = fastHash(state);
+        if (lastSavedStateRef.current && lastSavedHashRef.current === currentStateHash) {
             return;
         }
 
@@ -236,6 +250,7 @@ export const Configurator = ({
         try {
             await onSave(state);
             lastSavedStateRef.current = state;
+            lastSavedHashRef.current = currentStateHash; // ✅ PERFORMANCE: Store hash for next comparison
             setHasUnsavedChanges(false);
             setSaveSuccess(true);
 
@@ -256,7 +271,9 @@ export const Configurator = ({
 
     // Track unsaved changes and trigger auto-save
     useEffect(() => {
-        if (lastSavedStateRef.current && JSON.stringify(state) !== JSON.stringify(lastSavedStateRef.current)) {
+        // ✅ PERFORMANCE: Use fast hash comparison instead of deep JSON comparison
+        const currentStateHash = fastHash(state);
+        if (lastSavedStateRef.current && lastSavedHashRef.current !== currentStateHash) {
             setHasUnsavedChanges(true);
             setSaveSuccess(false);
 

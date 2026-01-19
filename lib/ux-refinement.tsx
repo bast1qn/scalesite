@@ -11,7 +11,7 @@
  * 5. WCAG AA Contrast Checker Utilities
  */
 
-import { type ReactNode, type FC } from 'react';
+import React, { type ReactNode, type FC } from 'react';
 
 // ==================== FEEDBACK ANIMATIONS ====================
 
