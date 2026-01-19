@@ -21,28 +21,29 @@ import { TIMING } from './lib/constants';
 
 // Internal - Performance
 import { initPerformanceMonitoring } from './lib/performance/monitoring';
+import { prefetchForRoute, initPrefetchStrategies } from './lib/performance/prefetchStrategy';
 
-// PERFORMANCE: Code Splitting with Strategic Prefetching
+// ✅ PERFORMANCE: Code Splitting with Strategic Prefetching
 // High-priority pages (prefetch immediately on idle)
-const HomePage = lazy(() => import('./pages/HomePage'));
-const PreisePage = lazy(() => import('./pages/PreisePage'));
-const ProjektePage = lazy(() => import('./pages/ProjektePage'));
+const HomePage = lazy(() => import(/* webpackPrefetch: true */ './pages/HomePage'));
+const PreisePage = lazy(() => import(/* webpackPrefetch: true */ './pages/PreisePage'));
+const ProjektePage = lazy(() => import(/* webpackPrefetch: true */ './pages/ProjektePage'));
 
 // Medium-priority pages (prefetch on hover/interaction)
 const LeistungenPage = lazy(() => import('./pages/LeistungenPage'));
 const AutomationenPage = lazy(() => import('./pages/AutomationenPage'));
-const ContactPage = lazy(() => import('./pages/ContactPage'));
+const ContactPage = lazy(() => import(/* webpackPrefetch: true */ './pages/ContactPage'));
 
 // Auth pages (load on demand)
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 
-// Protected routes (load on demand)
+// Protected routes (load on demand) - Analytics with chart preload
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 const ChatPage = lazy(() => import('./pages/ChatPage'));
 
-// Legal pages (low priority)
+// Legal pages (low priority) - dynamically loaded
 const ImpressumPage = lazy(() => import('./pages/ImpressumPage'));
 const DatenschutzPage = lazy(() => import('./pages/DatenschutzPage'));
 const FaqPage = lazy(() => import('./pages/FaqPage'));
@@ -126,6 +127,18 @@ const AppContent = () => {
     useEffect(() => {
         document.title = pageTitles[currentPage] || 'ScaleSite';
     }, [currentPage, pageTitles]); // ✅ FIXED: pageTitles is now stable (useMemo)
+
+    /**
+     * ✅ PERFORMANCE: Strategic prefetching based on current route
+     * Prefetches likely next pages during browser idle time
+     */
+    useEffect(() => {
+        // Initialize hover and viewport prefetching on mount
+        initPrefetchStrategies();
+
+        // Prefetch routes based on current page
+        prefetchForRoute(currentPage);
+    }, [currentPage]);
 
     /**
      * Show reset button after loading timeout

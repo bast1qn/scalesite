@@ -95,7 +95,7 @@ export default defineConfig(({ mode }) => {
             manualChunks: (id) => {
               // React Core - MUST be in vendor chunk to avoid loading issues
               if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) {
-                return 'vendor';
+                return 'react-core';
               }
               // UI Icons - separate chunk for better caching
               if (id.includes('lucide-react')) {
@@ -137,6 +137,10 @@ export default defineConfig(({ mode }) => {
               // ✅ PERFORMANCE: Split React Dropzone (heavy, rarely used)
               if (id.includes('react-dropzone')) {
                 return 'upload';
+              }
+              // Class variance authority (UI utils)
+              if (id.includes('class-variance-authority')) {
+                return 'ui-utils';
               }
               // Other node_modules
               if (id.includes('node_modules')) {

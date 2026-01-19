@@ -22,4 +22,8 @@ export const Layout = memo(({ children, setCurrentPage, currentPage }: LayoutPro
       {!isDashboard && <BackToTopButton />}
     </div>
   );
+}, (prevProps, nextProps) => {
+  // ✅ PERFORMANCE: Custom comparison to prevent unnecessary re-renders
+  // Only re-render if currentPage changes
+  return prevProps.currentPage === nextProps.currentPage;
 });
