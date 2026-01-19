@@ -267,7 +267,7 @@ const ProjectManagementModal = ({ user, services, onClose }: { user: UserProfile
                     <div>
                         <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-tight">Projekte: {user.name}</h3>
                     </div>
-                    <button onClick={onClose} className="p-3 min-h-11 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none"><XMarkIcon className="w-5 h-5 text-slate-500" /></button>
+                    <button onClick={onClose} className="p-3 min-h-11 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 focus:outline-none" aria-label="Dialog schließen"><XMarkIcon className="w-5 h-5 text-slate-500" /></button>
                 </div>
 
                 <div className="flex border-b border-slate-100 dark:border-slate-800">
