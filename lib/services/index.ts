@@ -16,11 +16,12 @@ export * from './interfaces/IDataService';
 export * from './interfaces/INotificationService';
 export * from './interfaces/IAnalyticsService';
 
-// Service implementations can be added here
-// export * from './implementations/AuthService';
-// export * from './implementations/DataService';
-// export * from './implementations/NotificationService';
-// export * from './implementations/AnalyticsService';
+// Service Implementations
+export { GoogleAnalyticsService } from './implementations/GoogleAnalyticsService';
+export { ClerkAuthService } from './implementations/ClerkAuthService';
+export {
+  InMemoryNotificationService,
+} from './implementations/InMemoryNotificationService';
 
 /**
  * Service Layer Documentation
@@ -60,24 +61,57 @@ export * from './interfaces/IAnalyticsService';
 
 /**
  * Service Factory
- * Factory for creating service instances
+ * Factory for creating service instances with singleton lifecycle
  * Useful for dependency injection
  */
 export class ServiceFactory {
   private static services = new Map<string, any>();
+  private static serviceRegistry = new Map<string, new () => any>();
 
   /**
-   * Register a service implementation
+   * Register a service class
    */
-  static registerService<T>(interfaceName: string, implementation: T): void {
-    this.services.set(interfaceName, implementation);
+  static registerService(name: string, ServiceClass: new () => any): void {
+    this.serviceRegistry.set(name, ServiceClass);
   }
 
   /**
-   * Get a service implementation
+   * Register a service instance directly
    */
-  static getService<T>(interfaceName: string): T | null {
-    return this.services.get(interfaceName) || null;
+  static registerInstance<T>(name: string, instance: T): void {
+    this.services.set(name, instance);
+  }
+
+  /**
+   * Get or create a service instance (Singleton pattern for services)
+   */
+  static async getService<T>(name: string): Promise<T> {
+    if (!this.services.has(name)) {
+      const ServiceClass = this.serviceRegistry.get(name);
+      if (!ServiceClass) {
+        throw new Error(`Service "${name}" not registered`);
+      }
+      const service = new ServiceClass();
+
+      // Initialize if service has initialize method
+      if (typeof service.initialize === 'function') {
+        await service.initialize();
+      }
+
+      this.services.set(name, service);
+    }
+    return this.services.get(name) as T;
+  }
+
+  /**
+   * Get a service instance synchronously (must already be registered)
+   */
+  static getServiceSync<T>(name: string): T {
+    const service = this.services.get(name);
+    if (!service) {
+      throw new Error(`Service "${name}" not initialized. Call getService first.`);
+    }
+    return service as T;
   }
 
   /**
@@ -85,6 +119,7 @@ export class ServiceFactory {
    */
   static clearServices(): void {
     this.services.clear();
+    this.serviceRegistry.clear();
   }
 }
 
