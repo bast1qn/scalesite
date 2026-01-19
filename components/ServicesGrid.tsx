@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 import { useMemo, memo } from 'react';
 
 // Internal - Components
-import { PaintBrushIcon, CodeBracketIcon, ServerIcon, ShieldCheckIcon, SparklesIcon, ArrowRightIcon, ChatBubbleBottomCenterTextIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 
 // Internal - Contexts
 import { useLanguage } from '../contexts';

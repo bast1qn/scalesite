@@ -1,4 +1,4 @@
-import { ClipboardDocumentCheckIcon, DocumentArrowDownIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 
 export const ChecklistTeaser = () => {

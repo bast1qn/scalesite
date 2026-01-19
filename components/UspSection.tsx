@@ -1,5 +1,5 @@
 import { useState, type FC, type ReactNode, memo, useCallback } from 'react';
-import { ChatBubbleBottomCenterTextIcon, CheckBadgeIcon, RocketLaunchIcon, SparklesIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 import { TEXT_GRADIENT_PRIMARY } from '../lib/ui-patterns';
 

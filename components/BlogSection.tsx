@@ -1,6 +1,6 @@
 
 import React, { useMemo, memo } from 'react';
-import { ArrowRightIcon, CalendarDaysIcon, ClockIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 import { getSafeURL } from '../lib/validation';
 

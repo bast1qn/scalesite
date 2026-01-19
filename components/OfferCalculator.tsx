@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useMemo, useCallback, memo, type ChangeEvent } from 'react';
-import { CalculatorIcon, GlobeAltIcon, SparklesIcon, CheckBadgeIcon, TicketIcon, XMarkIcon, CustomSelect, BorderSpinner } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { AuthContext, useLanguage, useCurrency } from '../contexts';
 import { api, triggerConfetti } from '../lib';
 

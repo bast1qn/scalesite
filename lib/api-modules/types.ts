@@ -1,21 +1,202 @@
 /**
- * API Modules - Shared Types
+ * API Modules - Enterprise-Grade Type Definitions
  *
- * Internal types used across API modules for consistency
+ * Standardized API response types for consistency across all modules
+ * Follows SOLID principles and OpenAPI specification patterns
  */
 
 import type { SupabaseError } from '../supabase';
 
-export type ApiErrorType = 'network' | 'auth' | 'validation' | 'not_found' | 'server' | 'unknown';
+// ============================================
+// API ERROR TYPES (Hierarchical Error System)
+// ============================================
 
+export type ApiErrorType =
+  | 'network'           // Connection/timeout errors
+  | 'auth'             // Authentication/authorization errors
+  | 'validation'       // Input validation errors
+  | 'not_found'        // Resource not found errors
+  | 'server'           // Internal server errors (5xx)
+  | 'rate_limited'     // Too many requests
+  | 'unknown';         // Unexpected errors
+
+/**
+ * Standardized API Error Interface
+ * Compatible with OpenAPI 3.0 specification
+ */
 export interface ApiError {
   type: ApiErrorType;
   message: string;
+  code?: string;              // Machine-readable error code
+  details?: Record<string, unknown>; // Additional error context
+  timestamp: string;           // ISO 8601 timestamp
+  correlationId?: string;      // Request correlation ID
 }
 
+/**
+ * API Response Wrapper (Success)
+ * Generic type for successful responses
+ */
+export interface ApiResponse<T> {
+  data: T;
+  success: true;
+  message?: string;           // Optional success message
+  metadata?: ResponseMetadata;
+}
+
+/**
+ * API Response Wrapper (Error)
+ * Standardized error response
+ */
+export interface ApiResponseError {
+  data: null;
+  success: false;
+  error: ApiError;
+}
+
+/**
+ * Union Type for All API Responses
+ */
+export type ApiResult<T> = ApiResponse<T> | ApiResponseError;
+
+/**
+ * Response Metadata
+ * Provides additional information about the response
+ */
+export interface ResponseMetadata {
+  timestamp: string;          // ISO 8601
+  requestId?: string;         // Unique request identifier
+  version?: string;           // API version
+  pagination?: PaginationMetadata;
+}
+
+/**
+ * Pagination Metadata
+ */
+export interface PaginationMetadata {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
+/**
+ * Cache Entry
+ * Used for API response caching
+ */
 export interface CacheEntry<T> {
   data: T;
   timestamp: number;
+  expiresAt?: number;
+  etag?: string;
+}
+
+/**
+ * API Request Options
+ * Standardized request configuration
+ */
+export interface ApiRequestOptions {
+  cache?: boolean;            // Enable caching
+  cacheTTL?: number;          // Cache time-to-live (ms)
+  retries?: number;           // Number of retries
+  timeout?: number;           // Request timeout (ms)
+  signal?: AbortSignal;       // Abort controller signal
+}
+
+/**
+ * Pagination Request Options
+ */
+export interface PaginationOptions {
+  page?: number;
+  pageSize?: number;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}
+
+// ============================================
+// TYPE GUARDS
+// ============================================
+
+/**
+ * Check if API response is successful
+ */
+export function isApiSuccess<T>(response: ApiResult<T>): response is ApiResponse<T> {
+  return response.success === true;
+}
+
+/**
+ * Check if API response is an error
+ */
+export function isApiError<T>(response: ApiResult<T>): response is ApiResponseError {
+  return response.success === false;
+}
+
+// ============================================
+// FACTORY FUNCTIONS
+// ============================================
+
+/**
+ * Create successful API response
+ */
+export function createSuccessResponse<T>(
+  data: T,
+  message?: string,
+  metadata?: Partial<ResponseMetadata>
+): ApiResponse<T> {
+  return {
+    data,
+    success: true,
+    message,
+    metadata: {
+      timestamp: new Date().toISOString(),
+      ...metadata
+    }
+  };
+}
+
+/**
+ * Create error API response
+ */
+export function createErrorResponse(
+  type: ApiErrorType,
+  message: string,
+  code?: string,
+  details?: Record<string, unknown>
+): ApiResponseError {
+  return {
+    data: null,
+    success: false,
+    error: {
+      type,
+      message,
+      code,
+      details,
+      timestamp: new Date().toISOString(),
+      correlationId: crypto.randomUUID?.() ?? Math.random().toString(36)
+    }
+  };
+}
+
+/**
+ * Create paginated response metadata
+ */
+export function createPaginationMetadata(
+  page: number,
+  pageSize: number,
+  totalCount: number
+): PaginationMetadata {
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  return {
+    page,
+    pageSize,
+    totalCount,
+    totalPages,
+    hasNext: page < totalPages,
+    hasPrevious: page > 1
+  };
 }
 
 /**

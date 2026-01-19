@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback, type ReactNode } from 'react';
-import { CodeBracketIcon, LightBulbIcon, ArrowTrendingUpIcon, RocketLaunchIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 
 const iconMap: { [key: string]: ReactNode } = {

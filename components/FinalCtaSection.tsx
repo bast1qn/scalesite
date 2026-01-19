@@ -1,4 +1,4 @@
-import { ArrowRightIcon, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, CreditCardIcon } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 
 interface FinalCtaSectionProps {

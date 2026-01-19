@@ -1,6 +1,6 @@
 
 import { useState, type FC, useCallback, useMemo, memo } from 'react';
-import { AnimatedSection, CheckBadgeIcon, ClockIcon, ShieldCheckIcon, RocketLaunchIcon } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 
 const features = [

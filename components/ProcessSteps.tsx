@@ -6,7 +6,7 @@
 import { type FC, memo } from 'react';
 
 // Internal - Components
-import { AnimatedSection, ChatBubbleBottomCenterTextIcon, ClipboardDocumentCheckIcon, RocketLaunchIcon, SparklesIcon } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 
 // Internal - Contexts
 import { useLanguage } from '../contexts';

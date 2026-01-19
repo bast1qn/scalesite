@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import { ArrowTopRightOnSquareIcon, DevicePhoneMobileIcon, ComputerDesktopIcon } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { motion } from 'framer-motion';
 
 interface ShowcasePreviewProps {

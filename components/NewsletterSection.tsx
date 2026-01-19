@@ -1,6 +1,6 @@
 
 import { useState, type FormEvent } from 'react';
-import { EnvelopeIcon, CheckBadgeIcon, SparklesIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { api, validateEmail, validateName } from '../lib';
 import { useLanguage } from '../contexts';
 

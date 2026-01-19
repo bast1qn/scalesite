@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { DocumentArrowDownIcon, ClipboardDocumentCheckIcon, PaintBrushIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 
 const iconMap: { [key: string]: ReactNode } = {

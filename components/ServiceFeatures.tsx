@@ -1,6 +1,6 @@
 
 import { type FC } from 'react';
-import { CheckBadgeIcon, XCircleIcon, AnimatedSection } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 import { useLanguage } from '../contexts';
 
 export const ServiceFeatures: FC = () => {

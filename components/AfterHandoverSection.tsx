@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { ShieldCheckIcon, LifebuoyIcon, PlusCircleIcon, ClockIcon, AnimatedSection } from './index';
+import { ShieldCheckIcon, LifebuoyIcon, PlusCircleIcon, ClockIcon } from './Icons';
+import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts';
 
 const iconMap: { [key: string]: ReactNode } = {

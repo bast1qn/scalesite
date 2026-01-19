@@ -9,7 +9,7 @@ import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 
 // Internal - Components
-import { ClockIcon, ShieldCheckIcon, SparklesIcon } from './index';
+import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
 
 // Internal - Contexts
 import { useLanguage } from '../contexts';
