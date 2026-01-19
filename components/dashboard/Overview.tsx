@@ -566,4 +566,6 @@ const Overview = ({ setActiveView, setCurrentPage }: OverviewProps) => {
     );
 };
 
-export default Overview;
+// ✅ PERFORMANCE PHASE 3: Add React.memo to prevent unnecessary re-renders
+// Overview is expensive to render due to complex state management
+export default memo(Overview);

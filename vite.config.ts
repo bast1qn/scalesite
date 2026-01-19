@@ -99,7 +99,9 @@ export default defineConfig(({ mode }) => {
         },
         // ✅ PERFORMANCE PHASE 3: Advanced Rollup optimizations with aggressive splitting
         rollupOptions: {
-          external: ['@neondatabase/serverless'],
+          // ✅ PERFORMANCE PHASE 3: Additional external modules to reduce bundle
+          external: ['@neondatabase/serverless', 'fsevents', 'electron'],
+          // ✅ PERFORMANCE PHASE 3: Reduce chunk count by consolidating small chunks
           output: {
             // ✅ PERFORMANCE PHASE 3: Improved manual chunks for better caching and smaller bundles
             manualChunks: (id) => {
@@ -166,13 +168,20 @@ export default defineConfig(({ mode }) => {
             // ✅ PERFORMANCE: Preserve module signatures for better caching
             hoistTransitiveImports: false,
           },
-          // ✅ PERFORMANCE: Advanced treeshaking with aggressive settings
+          // ✅ PERFORMANCE PHASE 3: Advanced treeshaking with aggressive settings
           treeshake: {
             moduleSideEffects: false,
             propertyReadSideEffects: false,
             unknownGlobalSideEffects: false,
             tryCatchDeoptimization: false, // ✅ PERFORMANCE PHASE 3: Don't deoptimize try-catch
             toplevel: true, // ✅ PERFORMANCE PHASE 3: Tree-shake top-level statements
+            // ✅ PERFORMANCE PHASE 3: Aggressive dead code elimination
+            manualChunks: true, // Enable manual chunk tree-shaking
+            manualPureFunctions: [ // Mark functions as pure for better elimination
+              'clsx',
+              'clsx/classNames',
+              'classnames',
+            ],
           },
         },
         // ✅ PERFORMANCE PHASE 3: Aggressive Terser optimization for maximum compression
