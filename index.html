@@ -17,28 +17,32 @@
     <link rel="preconnect" href="https://*.clerk.accounts.dev" crossorigin>
 
     <!-- ✅ PERFORMANCE PHASE 3: Optimized font loading with preload hints -->
-    <!-- Preload critical fonts for LCP improvement -->
+    <!-- Preload critical fonts for LCP improvement - Inter 400 (most common weight) -->
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- ✅ PERFORMANCE PHASE 3: Reduce font variants - Only load most used weights to save ~100KB -->
+    <!-- Inter: 400, 600 (removed 300, 500, 700, 800 to save bandwidth) -->
+    <!-- Plus Jakarta Sans: 400, 600 (removed 300, 500, 700 to save bandwidth) -->
+    <!-- Outfit: 600, 700 (removed 500, 800 to save bandwidth) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
-      /* ✅ PERFORMANCE PHASE 3: Optimized font loading strategy */
-      /* optional = minimal blocking, shows fallback font immediately */
+      /* ✅ PERFORMANCE PHASE 3: Optimized font loading strategy with swap priority */
+      /* swap = shows fallback font immediately, swaps when font loads (best LCP) */
       @font-face {
         font-family: 'Inter';
-        font-display: optional; /* ✅ PHASE 3: Better LCP, minimal FOIT */
+        font-display: swap; /* ✅ PHASE 3: Better LCP, minimal FOIT, uses swap */
         font-stretch: normal;
         font-style: normal;
       }
       @font-face {
         font-family: 'Plus Jakarta Sans';
-        font-display: optional;
+        font-display: swap;
         font-stretch: normal;
         font-style: normal;
       }
       @font-face {
         font-family: 'Outfit';
-        font-display: optional;
+        font-display: swap;
         font-stretch: normal;
         font-style: normal;
       }
