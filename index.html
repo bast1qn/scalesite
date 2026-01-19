@@ -16,27 +16,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://*.clerk.accounts.dev" crossorigin>
 
-    <!-- Font display: swap for FOIT prevention + self-hosting fallback -->
+    <!-- ✅ PERFORMANCE PHASE 3: Optimized font loading with preload hints -->
+    <!-- Preload critical fonts for LCP improvement -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-      /* ✅ PERFORMANCE: Critical font loading with font-display: swap */
-      /* swap = invisible text is acceptable, prevents layout shift */
+      /* ✅ PERFORMANCE PHASE 3: Optimized font loading strategy */
+      /* optional = minimal blocking, shows fallback font immediately */
       @font-face {
         font-family: 'Inter';
-        font-display: swap;
+        font-display: optional; /* ✅ PHASE 3: Better LCP, minimal FOIT */
         font-stretch: normal;
         font-style: normal;
       }
       @font-face {
         font-family: 'Plus Jakarta Sans';
-        font-display: swap;
+        font-display: optional;
         font-stretch: normal;
         font-style: normal;
       }
       @font-face {
         font-family: 'Outfit';
-        font-display: swap;
+        font-display: optional;
         font-stretch: normal;
         font-style: normal;
       }
