@@ -171,7 +171,7 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
   return (
     <section ref={heroRef} className="relative min-h-[100vh] flex items-center justify-center pt-24 pb-12 overflow-hidden">
       {/* Refined background layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary-50/20 dark:from-[#030305] dark:via-slate-950 dark:to-violet-950/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary-50/20 dark:from-black dark:via-slate-950 dark:to-violet-950/10"></div>
 
       {/* Refined gradient orbs with blob animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -221,7 +221,7 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
         <SpotlightCard className={`inline-block mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <div className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
+          <div className="inline-flex items-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-default min-h-11">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {t('hero.guarantee_badge')}
@@ -292,7 +292,7 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
         >
           {guarantees.map((g) => (
             <SpotlightCard key={g.id} className="inline-block">
-              <div className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11">
+              <div className="flex items-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11">
                 <span className="text-primary-500 dark:text-violet-400">
                   {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
                 </span>
@@ -322,7 +322,7 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
       </div>
 
       {/* Bottom fade - refined */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/90 to-transparent dark:from-[#030305] dark:via-slate-950/90 to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/90 to-transparent dark:from-black dark:via-slate-950/90 to-transparent pointer-events-none"></div>
 
       {/* Scroll indicator - refined */}
       <div

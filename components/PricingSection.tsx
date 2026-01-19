@@ -55,7 +55,7 @@ const PricingCard = React.memo(({
             onMouseLeave={() => setIsHovered(false)}
         >
             <div
-                className={`relative flex flex-col p-6 rounded-2xl transition-all duration-300 overflow-hidden cursor-pointer focus:ring-2 focus:ring-primary-500/50 ${
+                className={`relative flex flex-col p-7 rounded-2xl transition-all duration-300 overflow-hidden cursor-pointer focus:ring-2 focus:ring-primary-500/50 ${
                     pkg.popular
                     ? 'bg-slate-900 dark:bg-slate-800 text-white shadow-xl lg:-translate-y-1 ring-1 ring-primary-500/50'
                     : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200/60 dark:border-slate-700/60 hover:border-primary-400 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]'
@@ -72,7 +72,7 @@ const PricingCard = React.memo(({
                     </div>
                 )}
 
-                <div className="mb-6 mt-2">
+                <div className="mb-6 mt-3">
                     <h3 className={`text-lg font-semibold leading-snug ${pkg.popular ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
                         {pkg.name}
                     </h3>

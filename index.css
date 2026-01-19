@@ -74,7 +74,7 @@
   }
 
   body {
-    @apply bg-white text-slate-900 dark:bg-[#030305] dark:text-slate-50 transition-colors duration-300 relative;
+    @apply bg-white text-slate-900 dark:bg-black dark:text-slate-50 transition-colors duration-300 relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -1103,6 +1103,19 @@
 /* Smooth focus transitions for accessibility */
 .focus-transition {
   transition: box-shadow 200ms ease-out, transform 200ms ease-out;
+}
+
+/* GPU-accelerated animations for better performance */
+@media (prefers-reduced-motion: no-preference) {
+  .gpu-accelerated {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  .gpu-accelerated-hover:hover {
+    will-change: transform;
+  }
 }
 
 /* Enhanced focus ring with animation */

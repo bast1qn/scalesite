@@ -65,11 +65,11 @@ export default {
         },
         // Refined semantic colors - Professional
         'light-bg': '#FAFAFA',
-        'dark-bg': '#030305',
+        'dark-bg': '#000000',
         surface: '#F5F5F7',
-        'dark-surface': '#0a0a0b',
+        'dark-surface': '#0a0a0a',
         'light-text': '#F8F9FA',
-        'dark-text': '#1A1A1A',
+        'dark-text': '#FAFAFA',
         // Accent colors
         accent: {
           blue: '#4B5AED',

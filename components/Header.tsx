@@ -33,7 +33,7 @@ const NavButton = ({ page, currentPage, onClick, children }: { page: string; cur
         <button
             onClick={handleClick}
             {...hover}
-            className={`relative px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
+            className={`relative px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-medium transition-all duration-300 rounded-2xl min-h-11 ${
                 isActive
                     ? 'text-white bg-gradient-to-r from-primary-600 to-secondary-500 shadow-premium'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50'
@@ -195,17 +195,17 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
             <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-500/60 to-transparent transition-opacity duration-300"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between min-h-11">
+                <div className="flex items-center justify-between min-h-14">
                     <button
                         onClick={() => handleNavClick('home')}
-                        className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-300 min-h-11"
+                        className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-300 min-h-14 flex items-center"
                         aria-label="ScaleSite Logo - Zur Startseite"
                     >
-                        <ScaleSiteLogo className="h-7 lg:h-8" />
+                        <ScaleSiteLogo className="h-8 lg:h-9" />
                     </button>
 
                     <nav className="hidden lg:flex items-center">
-                        <div className="flex items-center gap-1 bg-slate-100/60 dark:bg-slate-800/60 px-2 py-1.5 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
+                        <div className="flex items-center gap-1.5 bg-slate-100/60 dark:bg-slate-800/60 px-2.5 py-2 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm">
                             {navItems.map(item => (
                                 <NavButton key={item.page} page={item.page} currentPage={currentPage} onClick={handleNavClick}>
                                     {item.label}
