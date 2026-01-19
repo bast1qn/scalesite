@@ -1,5 +1,5 @@
 import { type ReactNode, memo } from 'react';
-import { AnimatedSection } from './AnimatedSection'
+import { Header, Footer, BackToTopButton } from './index';
 
 interface LayoutProps {
   children: ReactNode;
