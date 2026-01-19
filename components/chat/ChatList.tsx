@@ -258,13 +258,18 @@ function getAvatarUrl(conversation: ChatConversationWithDetails, currentUserId: 
     return otherParticipant?.profile?.avatar_url;
 }
 
+// Time constants for relative time formatting
+const MS_PER_MINUTE = 60000;
+const MS_PER_HOUR = 3600000;
+const MS_PER_DAY = 86400000;
+
 function formatMessageTime(timestamp: string): string {
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
+    const diffMins = Math.floor(diffMs / MS_PER_MINUTE);
+    const diffHours = Math.floor(diffMs / MS_PER_HOUR);
+    const diffDays = Math.floor(diffMs / MS_PER_DAY);
 
     if (diffMins < 1) return 'Jetzt';
     if (diffMins < 60) return `vor ${diffMins}m`;

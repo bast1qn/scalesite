@@ -143,17 +143,22 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
         }
     };
 
+    // Time constants for relative time formatting
+    const MS_PER_MINUTE = 60000;
+    const MS_PER_HOUR = 3600000;
+    const MS_PER_DAY = 86400000;
+
     const getTimeAgo = (date: string): string => {
         const now = new Date();
         const notifDate = new Date(date);
         const diffMs = now.getTime() - notifDate.getTime();
-        const diffMins = Math.floor(diffMs / 60000);
+        const diffMins = Math.floor(diffMs / MS_PER_MINUTE);
 
         if (diffMins < 1) return 'Gerade eben';
         if (diffMins < 60) return `vor ${diffMins}m`;
-        const diffHours = Math.floor(diffMs / 3600000);
+        const diffHours = Math.floor(diffMs / MS_PER_HOUR);
         if (diffHours < 24) return `vor ${diffHours}h`;
-        const diffDays = Math.floor(diffMs / 86400000);
+        const diffDays = Math.floor(diffMs / MS_PER_DAY);
         return `vor ${diffDays}d`;
     };
 

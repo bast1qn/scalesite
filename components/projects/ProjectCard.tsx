@@ -70,9 +70,10 @@ const formatDate = (dateString?: string): string => {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return '-';
 
+    const MS_PER_DAY = 86400000;
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
-    const diffDays = Math.floor(diffMs / 86400000);
+    const diffDays = Math.floor(diffMs / MS_PER_DAY);
 
     if (diffDays < 1) return 'Heute';
     if (diffDays < 7) return `vor ${diffDays} Tagen`;
