@@ -4,8 +4,7 @@
  * Provides permission checking and role management for team collaboration
  */
 
-import { TeamRole } from '../components/team/RoleBadge';
-import type { PermissionConfig, PermissionLevel, PermissionCategory } from '../components/team/PermissionSelector';
+import type { TeamRole, PermissionConfig, PermissionLevel, PermissionCategory } from '../types/rbac';
 
 // ============================================
 // TYPE DEFINITIONS

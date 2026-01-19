@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { TeamRole } from '../../types/rbac';
 
 /**
  * RoleBadge Component
@@ -10,8 +11,6 @@ import type { FC } from 'react';
  * @param showLabel - Whether to show text label
  * @param className - Additional CSS classes
  */
-
-export type TeamRole = 'Owner' | 'Admin' | 'Member' | 'Viewer';
 
 export interface RoleBadgeProps {
     role: TeamRole;

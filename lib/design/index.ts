@@ -28,31 +28,10 @@ export * from './darkMode';
 // ========================================================================
 // PREMIUM COMPONENTS
 // ========================================================================
-export {
-  // Loading States
-  PremiumSpinner,
-  SkeletonLoader,
-  DotsLoader,
-  PageLoader,
-
-  // Empty/Error/Success States
-  EmptyState,
-  ErrorState,
-  SuccessState,
-  CardSkeleton,
-} from '../../components/design/PremiumStates';
-
-export {
-  // Interactive Components
-  MagneticButton,
-  SpotlightCard,
-  GlassCard,
-  AnimatedLink,
-  FloatingLabelInput,
-  ToggleSwitch,
-  TiltCard,
-  RippleButton,
-} from '../../components/design/PremiumUI';
+// NOTE: Premium components are now imported directly from their source
+// to avoid circular dependencies. Use:
+// import { PremiumSpinner } from '@/components/design/PremiumStates';
+// import { MagneticButton } from '@/components/design/PremiumUI';
 
 // ========================================================================
 // RE-EXPORT COMMONLY USED UTILITIES
@@ -63,7 +42,7 @@ import { patterns } from './patterns';
 import { animations } from './animations';
 import { darkMode } from './darkMode';
 
-// Design system object
+// Design system object (core utilities only)
 export const designSystem = {
   tokens,
   patterns,

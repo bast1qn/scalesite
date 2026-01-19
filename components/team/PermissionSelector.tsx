@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import { TeamRole } from './RoleBadge';
+import type { TeamRole, PermissionLevel, PermissionCategory, PermissionConfig } from '../../types/rbac';
 
 /**
  * PermissionSelector Component
@@ -14,18 +14,6 @@ import { TeamRole } from './RoleBadge';
  * @param variant - Display variant (default, compact, detailed)
  * @param className - Additional CSS classes
  */
-
-export type PermissionLevel = 'none' | 'read' | 'write';
-export type PermissionCategory = 'projects' | 'billing' | 'team' | 'settings' | 'content' | 'analytics';
-
-export interface PermissionConfig {
-    projects: PermissionLevel;
-    billing: PermissionLevel;
-    team: PermissionLevel;
-    settings: PermissionLevel;
-    content: PermissionLevel;
-    analytics: PermissionLevel;
-}
 
 export interface PermissionSelectorProps {
     currentRole?: TeamRole;
