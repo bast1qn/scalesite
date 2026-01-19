@@ -1,17 +1,54 @@
+/**
+ * Feedback - Animated success/error feedback component (ENHANCED)
+ *
+ * Provides subtle, polished feedback for user actions with:
+ * - Smooth animations (200-300ms ease-out)
+ * - Success: Subtle green glow + checkmark animation
+ * - Error: Shake animation + red highlight
+ * - Loading: Skeleton shimmer state
+ * - Accessible ARIA live regions
+ *
+ * @example
+ * ```tsx
+ * <Feedback
+ *   type="success"
+ *   message="Änderungen gespeichert"
+ *   duration={3000}
+ * />
+ *
+ * <Feedback
+ *   type="error"
+ *   message="Fehler beim Speichern"
+ *   onRetry={handleSave}
+ * />
+ * ```
+ */
+
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+type FeedbackType = 'success' | 'error' | 'loading' | 'info';
 
 interface FeedbackProps {
-  type: 'success' | 'error';
+  type: FeedbackType;
   message: string;
+  details?: string;
   duration?: number;
+  actionLabel?: string;
+  onAction?: () => void;
   onClose?: () => void;
+  position?: 'top' | 'bottom' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 }
 
 export const Feedback: React.FC<FeedbackProps> = ({
   type,
   message,
+  details,
   duration = 3000,
-  onClose
+  actionLabel,
+  onAction,
+  onClose,
+  position = 'top-right',
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,8 +56,8 @@ export const Feedback: React.FC<FeedbackProps> = ({
     // Trigger animation on mount
     setIsVisible(true);
 
-    // Auto-hide after duration
-    if (duration > 0) {
+    // Auto-hide after duration (not for loading)
+    if (duration > 0 && type !== 'loading') {
       const timer = setTimeout(() => {
         setIsVisible(false);
         setTimeout(() => onClose?.(), 400); // Wait for exit animation
@@ -28,26 +65,60 @@ export const Feedback: React.FC<FeedbackProps> = ({
 
       return () => clearTimeout(timer);
     }
-  }, [duration, onClose]);
+  }, [duration, onClose, type]);
 
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => onClose?.(), 400);
   };
 
-  const baseClasses = 'fixed top-4 right-4 z-[100] max-w-sm px-6 py-4 rounded-2xl shadow-premium-lg flex items-start gap-3 transition-all duration-300';
-  const typeClasses = type === 'success'
-    ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/50 dark:border-emerald-800/30'
-    : 'bg-rose-50 dark:bg-rose-900/20 border border-rose-200/50 dark:border-rose-800/30';
+  const typeStyles = {
+    success: {
+      container: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200/50 dark:border-emerald-800/30',
+      icon: 'text-emerald-600 dark:text-emerald-400',
+      title: 'text-emerald-900 dark:text-emerald-100',
+      message: 'text-emerald-700 dark:text-emerald-300',
+      glow: 'rgba(16, 185, 129, 0.15)',
+    },
+    error: {
+      container: 'bg-rose-50 dark:bg-rose-900/20 border border-rose-200/50 dark:border-rose-800/30',
+      icon: 'text-rose-600 dark:text-rose-400',
+      title: 'text-rose-900 dark:text-rose-100',
+      message: 'text-rose-700 dark:text-rose-300',
+      glow: 'rgba(244, 63, 94, 0.15)',
+    },
+    loading: {
+      container: 'bg-slate-50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/30',
+      icon: 'text-primary-600 dark:text-primary-400',
+      title: 'text-slate-900 dark:text-slate-100',
+      message: 'text-slate-700 dark:text-slate-300',
+      glow: 'rgba(75, 90, 237, 0.15)',
+    },
+    info: {
+      container: 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-800/30',
+      icon: 'text-blue-600 dark:text-blue-400',
+      title: 'text-blue-900 dark:text-blue-100',
+      message: 'text-blue-700 dark:text-blue-300',
+      glow: 'rgba(59, 130, 246, 0.15)',
+    },
+  };
 
-  const iconClasses = type === 'success'
-    ? 'text-emerald-600 dark:text-emerald-400'
-    : 'text-rose-600 dark:text-rose-400';
+  const positionClasses = {
+    top: 'top-4 left-1/2 -translate-x-1/2',
+    'top-right': 'top-4 right-4',
+    'top-left': 'top-4 left-4',
+    bottom: 'bottom-4 left-1/2 -translate-x-1/2',
+    'bottom-right': 'bottom-4 right-4',
+    'bottom-left': 'bottom-4 left-4',
+  };
 
+  const styles = typeStyles[type];
   const animationClass = isVisible
     ? type === 'success'
       ? 'animate-success-pop'
-      : 'animate-error-shake'
+      : type === 'error'
+      ? 'animate-error-shake'
+      : 'animate-fade-in'
     : 'opacity-0 scale-95';
 
   return (
