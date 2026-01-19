@@ -7,7 +7,7 @@ import { useState, useEffect, useContext, useMemo } from 'react';
 
 // Internal
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
-import { ArrowPathIcon, BriefcaseIcon, CheckBadgeIcon, PlusCircleIcon, XMarkIcon } from '../index';
+import { ArrowPathIcon, BriefcaseIcon, CheckBadgeIcon, PlusCircleIcon, XMarkIcon } from '../Icons';
 import { api } from '../../lib';
 import { alertError, alertSaveFailed } from '../../lib/dashboardAlerts';
 import { useDebounce } from '../../lib/hooks/useDebounce';

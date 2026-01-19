@@ -13,6 +13,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GRADIENTS } from '../../lib/utils';
 import { validateEmail, validatePassword, validateName } from '../../lib/validation';
 
+// ✅ FIXED: Types imported from separate file to avoid circular dependencies
+import type { OnboardingStep, OnboardingData } from './types';
+
 // Component imports
 import { StepIndicator } from './StepIndicator';
 import { BasicInfoStep } from './BasicInfoStep';
@@ -23,34 +26,6 @@ import { ContentReqStep } from './ContentReqStep';
 // ============================================
 // TYPES & INTERFACES
 // ============================================
-
-export type OnboardingStep = 'basic-info' | 'business-data' | 'design-prefs' | 'content-req';
-
-export interface OnboardingData {
-    // Step 1: Basic Info
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword?: string;
-
-    // Step 2: Business Data (Woche 6)
-    companyName?: string;
-    logoUrl?: string;
-    industry?: string;
-    websiteType?: string;
-
-    // Step 3: Design Preferences (Woche 6)
-    colorPalette?: string;
-    layout?: string;
-    font?: string;
-
-    // Step 4: Content Requirements (Woche 6)
-    requiredPages?: string[];
-    features?: string[];
-    timeline?: string;
-    budget?: string;
-}
 
 interface OnboardingWizardProps {
     onComplete?: (data: OnboardingData) => Promise<void>;

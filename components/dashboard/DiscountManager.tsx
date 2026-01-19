@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
 import { alertSaveFailed, alertError } from '../../lib/dashboardAlerts';
-import { TagIcon, XMarkIcon, PencilIcon } from '../index';
+// ✅ FIXED: Import directly from Icons.ts instead of barrel export to avoid circular dependency
+import { TagIcon, XMarkIcon, PencilIcon } from '../Icons';
 
 // Constants
 const DISCOUNT_MODAL_DEFAULTS = {

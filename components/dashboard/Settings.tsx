@@ -7,7 +7,18 @@ import React, { useContext, useEffect, useState, useCallback } from 'react';
 
 // Internal
 import { AuthContext, useLanguage } from '../../contexts';
-import { ThemeToggle, UserCircleIcon, ShieldCheckIcon, BellIcon, CreditCardIcon, ArrowDownOnSquareIcon, TrashIcon, GlobeAltIcon, CheckBadgeIcon } from '../index';
+// ✅ FIXED: Import icons and components directly to avoid circular dependency
+import { ThemeToggle } from '../ThemeToggle';
+import {
+  UserCircleIcon,
+  ShieldCheckIcon,
+  BellIcon,
+  CreditCardIcon,
+  ArrowDownOnSquareIcon,
+  TrashIcon,
+  GlobeAltIcon,
+  CheckBadgeIcon
+} from '../Icons';
 import { api, supabase, validatePassword, getPasswordStrength, alertError, UI_TIMEOUTS } from '../../lib';
 import NotificationPreferences from '../notifications/NotificationPreferences';
 

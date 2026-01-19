@@ -13,7 +13,7 @@ import { TIME_CONSTANTS } from './Overview.constants';
 
 // Internal - Contexts & Types
 import { AuthContext, useLanguage } from '../../contexts';
-import type { DashboardView } from '../../pages/DashboardPage';
+import type { DashboardView } from '../../types/dashboard.types';
 
 // Internal - Icons
 import {

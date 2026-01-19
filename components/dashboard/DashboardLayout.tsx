@@ -7,7 +7,7 @@ import React, { useContext, useState, useCallback, memo } from 'react';
 
 // Internal - Contexts & Types
 import { AuthContext, AppUser, useLanguage } from '../../contexts';
-import type { DashboardView } from '../../pages/DashboardPage';
+import type { DashboardView, DashboardLayoutProps, NavItem } from '../../types/dashboard.types';
 
 // Internal - Icons
 import {
@@ -30,18 +30,7 @@ import {
     XMarkIcon,
 } from '../Icons';
 
-interface DashboardLayoutProps {
-    children: React.ReactNode;
-    activeView: DashboardView;
-    setActiveView: (view: DashboardView) => void;
-    setCurrentPage: (page: string) => void;
-}
-
-interface NavItem {
-    view: DashboardView;
-    label: string;
-    icon: React.ReactNode;
-}
+// ✅ FIXED: Types imported from types/dashboard.types.ts to avoid circular dependencies
 
 // PERFORMANCE: Memoize NavLink to prevent unnecessary re-renders
 const NavLink = React.memo<{item: NavItem, activeView: DashboardView, onClick: (view: DashboardView) => void }>(({ item, activeView, onClick }) => {

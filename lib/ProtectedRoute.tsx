@@ -9,8 +9,9 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { BorderSpinner } from '../components';
-import { securityLog } from '../lib/secureLogger';
+import { securityLog } from './secureLogger';
+
+// ✅ FIXED: Removed circular dependency - use inline spinner instead of importing from components
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -80,7 +81,11 @@ export const ProtectedRoute = ({
   if (loading || isChecking) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <BorderSpinner size="md" color="blue" className="mb-4" />
+        {/* ✅ FIXED: Inline spinner to avoid circular dependency */}
+        <div className="relative mb-4">
+          <div className="w-12 h-12 border-4 border-blue-200 dark:border-blue-900 rounded-full"></div>
+          <div className="absolute top-0 left-0 w-12 h-12 border-4 border-blue-600 dark:border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+        </div>
         <p className="text-slate-600 dark:text-slate-400 font-medium">
           Verifying access...
         </p>

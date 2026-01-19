@@ -1,9 +1,11 @@
 
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { DashboardLayout } from '../components';
+import type { DashboardView, DashboardPageProps } from '../types/dashboard.types';
 
 // ✅ PERFORMANCE: Component-level code splitting for dashboard views
 // Reduces initial bundle from 148KB to ~20KB, loads views on-demand
+// ✅ FIXED: Types imported from types/dashboard.types.ts to avoid circular dependencies
 const Overview = lazy(() => import('../components/dashboard/Overview').then(m => ({ default: m.default })));
 const TicketSupport = lazy(() => import('../components/dashboard/TicketSupport').then(m => ({ default: m.default })));
 const Services = lazy(() => import('../components/dashboard/Services').then(m => ({ default: m.default })));
@@ -28,11 +30,6 @@ const DashboardViewSkeleton = () => (
   </div>
 );
 
-export type DashboardView = 'übersicht' | 'ticket-support' | 'dienstleistungen' | 'transaktionen' | 'einstellungen' | 'freunde-werben' | 'partner-werden' | 'user-management' | 'discount-manager' | 'newsletter-manager' | 'analytics';
-
-interface DashboardPageProps {
-    setCurrentPage: (page: string) => void;
-}
 
 const DashboardPage: React.FC<DashboardPageProps> = ({ setCurrentPage }) => {
     const [activeView, setActiveView] = useState<DashboardView>('übersicht');

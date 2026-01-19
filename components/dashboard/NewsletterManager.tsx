@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 // Internal imports
 import { api } from '../../lib';
 import { useLanguage } from '../../contexts';
+// ✅ FIXED: Import directly from Icons.ts instead of barrel export to avoid circular dependency
 import {
     CheckCircleIcon,
     ClockIcon,
@@ -19,7 +20,7 @@ import {
     TrashIcon,
     UsersIcon,
     XMarkIcon,
-} from '../index';
+} from '../Icons';
 
 // Types
 interface Subscriber {

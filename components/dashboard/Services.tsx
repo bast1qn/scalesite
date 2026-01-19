@@ -7,7 +7,8 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 
 // Internal
 import { AuthContext, useLanguage } from '../../contexts';
-import type { DashboardView } from '../../pages/DashboardPage';
+// ✅ FIXED: Import from types/ instead of pages/ to avoid circular dependency
+import type { DashboardView } from '../../types/dashboard.types';
 import { api } from '../../lib';
 import {
     BriefcaseIcon,

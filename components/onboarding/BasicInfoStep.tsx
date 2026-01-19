@@ -4,18 +4,14 @@
 // ============================================
 
 import { motion } from 'framer-motion';
-import { OnboardingData } from './OnboardingWizard';
+// ✅ FIXED: Import types from separate file to avoid circular dependency
+import type { OnboardingData, StepProps } from './types';
 
 // ============================================
 // TYPES & INTERFACES
 // ============================================
 
-interface BasicInfoStepProps {
-    data: OnboardingData;
-    errors: Record<string, string>;
-    touched: Record<string, boolean>;
-    onChange: (field: string, value: string) => void;
-}
+interface BasicInfoStepProps extends StepProps {}
 
 // ============================================
 // PASSWORD STRENGTH CALCULATOR

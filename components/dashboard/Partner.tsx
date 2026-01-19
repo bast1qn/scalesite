@@ -2,7 +2,7 @@
 import type { FC } from 'react';
 
 // Internal imports
-import { BuildingStorefrontIcon } from '../index';
+import { BuildingStorefrontIcon } from '../Icons';
 
 const Partner: FC = () => {
     return (

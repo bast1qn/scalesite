@@ -11,7 +11,7 @@ import { AuthContext, useLanguage } from '../../contexts';
 import { api, validateString } from '../../lib';
 import { alertCreateFailed, alertError } from '../../lib/dashboardAlerts';
 import { TicketCardSkeleton } from '../skeleton';
-import { CustomSelect } from '../index';
+import { CustomSelect } from '../CustomSelect';
 
 // Type imports
 import type {
