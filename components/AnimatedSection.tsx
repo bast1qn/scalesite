@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useMemo, type ReactNode } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { prefersReducedMotion, intersectionOptions } from '../lib/animations';
 import { useIntersectionObserver } from '../lib/hooks';
@@ -44,7 +44,8 @@ export const AnimatedSection = ({
     }
   }, [controls, isIntersecting, once]); // Removed hasAnimatedRef - refs should not be in dependencies
 
-  const getVariants = () => {
+  // ✅ PERFORMANCE PHASE 3: Memoize variants to prevent recreation on every render
+  const variants = useMemo(() => {
     if (prefersReducedMotion()) {
       return {
         hidden: { opacity: 0 },
@@ -83,7 +84,7 @@ export const AnimatedSection = ({
       default:
         return baseVariants;
     }
-  };
+  }, [delay, direction, stagger]); // ✅ FIXED: All dependencies listed
 
   return (
     <motion.div
@@ -91,7 +92,7 @@ export const AnimatedSection = ({
       id={id}
       initial="hidden"
       animate={controls}
-      variants={getVariants()}
+      variants={variants}
       className={className}
       style={{ willChange: 'opacity, transform' }}
       onAnimationComplete={() => {
@@ -125,7 +126,8 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
     }
   }, [controls, isIntersecting]); // Removed threshold - it's only used in useIntersectionObserver initialization
 
-  const containerVariants = {
+  // ✅ PERFORMANCE PHASE 3: Memoize containerVariants
+  const containerVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -134,7 +136,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
         delayChildren: 0.05,
       },
     },
-  };
+  }), [staggerDelay]); // ✅ FIXED: Proper dependency
 
   return (
     <motion.div ref={ref} initial="hidden" animate={controls} variants={containerVariants} className={className}>
@@ -152,12 +154,15 @@ export const StaggerItem = ({ children, className = '', delay = 0 }: {
     return <div className={className}>{children}</div>;
   }
 
+  // ✅ PERFORMANCE PHASE 3: Memoize variants
+  const variants = useMemo(() => ({
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, delay, ease: [0.16, 1, 0.3, 1] } },
+  }), [delay]); // ✅ FIXED: Proper dependency
+
   return (
     <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 20, scale: 0.98 },
-        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, delay, ease: [0.16, 1, 0.3, 1] } },
-      }}
+      variants={variants}
       className={className}
     >
       {children}

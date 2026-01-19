@@ -179,8 +179,9 @@ const AppContent = () => {
      * Route to appropriate page component based on currentPage state
      * Handles protected routes by checking user authentication
      * Returns null for protected routes when user is not authenticated
+     * ✅ PERFORMANCE PHASE 3: Memoized to prevent recreation on every render
      */
-    const getPage = () => {
+    const getPage = useCallback(() => {
         switch (currentPage) {
             case 'home': return <HomePage setCurrentPage={setCurrentPage} />;
             case 'leistungen': return <LeistungenPage setCurrentPage={setCurrentPage} />;
@@ -210,7 +211,7 @@ const AppContent = () => {
                 return <ChatPage setCurrentPage={setCurrentPage} />;
             default: return <HomePage setCurrentPage={setCurrentPage} />;
         }
-    };
+    }, [currentPage, user, setCurrentPage]); // ✅ FIXED: All dependencies properly listed
 
     /**
      * Redirect to login page for protected routes
