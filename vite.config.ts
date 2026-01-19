@@ -103,42 +103,24 @@ export default defineConfig(({ mode }) => {
           external: ['@neondatabase/serverless', 'fsevents', 'electron'],
           // ✅ PERFORMANCE PHASE 3: Reduce chunk count by consolidating small chunks
           output: {
-            // ✅ PERFORMANCE PHASE 3: Improved manual chunks for better caching and smaller bundles
+            // ✅ FIX: Simplified chunking to prevent useLayoutError
+            // Put EVERYTHING in react-core except specific heavy libraries
             manualChunks: (id) => {
-              // ⚠️ FIX: Bundle ALL React-related packages together to prevent useLayoutError
-              // This includes React, all UI frameworks, and libraries that use React hooks
-              const reactPackages = [
-                'react',
-                'react-dom',
-                'framer-motion',
-                '@emotion',
-                'react-router',
-                '@clerk',
-                '@supabase/supabase-js',
-                'lucide-react',
-                '@heroicons/react',
-                'class-variance-authority',
-              ];
-              const isInReactPackages = reactPackages.some(pkg => id.includes(`node_modules/${pkg}`));
-              if (isInReactPackages || id.includes('react/jsx-runtime')) {
-                return 'react-core';
-              }
-
-              // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
+              // Heavy libraries that should be separate (lazy-loaded)
               if (id.includes('recharts')) {
                 return 'charts';
               }
-              // Document generation (rarely used)
               if (id.includes('jspdf') || id.includes('html2canvas')) {
                 return 'docs';
               }
-              // Google AI (rarely used)
               if (id.includes('@google/genai')) {
                 return 'ai-vendor';
               }
-              // Other node_modules
+
+              // Everything else in node_modules goes to react-core
+              // This ensures all React dependencies have access to React hooks
               if (id.includes('node_modules')) {
-                return 'vendor';
+                return 'react-core';
               }
             },
             // ✅ PERFORMANCE: Optimize chunk file names for long-term caching
