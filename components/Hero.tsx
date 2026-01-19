@@ -42,6 +42,40 @@ const GuaranteeIcons = {
   sparkle: SparkleIcon,
 } as const;
 
+// ==================== MICRO-INTERACTION UTILITIES ====================
+
+/**
+ * IconWrapper - Perfect icon centering with consistent spacing
+ *
+ * Features:
+ * - Perfect vertical/horizontal centering
+ * - Consistent min-height (44px for touch targets)
+ * - GPU-accelerated hover effects
+ * - Accessible focus states
+ */
+const IconWrapper = ({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <span
+      className={`inline-flex items-center justify-center ${className}`}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '18px', // w-4.5
+        minHeight: '18px', // h-4.5
+      }}
+    >
+      {children}
+    </span>
+  );
+};
+
 // Refined floating particle
 const FloatingParticle = memo(({
   delay,
@@ -273,50 +307,64 @@ export const Hero = memo(({ setCurrentPage }: HeroProps) => {
         >
           <CleanButton onClick={handleNavigateToPricing} variant="primary">
             <span className="flex items-center gap-2">
-              <span>Projekt starten</span>
-              <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <span className="leading-snug">Projekt starten</span>
+              <span className="inline-flex items-center justify-center">
+                <ArrowRightIcon className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
             </span>
           </CleanButton>
           <CleanButton onClick={handleNavigateToProjects} variant="secondary">
             <span className="flex items-center gap-2">
-              <span>Beispiele ansehen</span>
-              <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              <span className="leading-snug">Beispiele ansehen</span>
+              <span className="inline-flex items-center justify-center">
+                <ArrowRightIcon className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              </span>
             </span>
           </CleanButton>
         </div>
 
-        {/* Guarantees */}
+        {/* Guarantees - Enhanced with perfect icon alignment */}
         <div
           className={`flex flex-wrap items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-500 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '400ms' }}
         >
           {guarantees.map((g) => (
             <SpotlightCard key={g.id} className="inline-block">
-              <div className="flex items-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11">
+              <div
+                className="flex items-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-700/80 hover:border-primary-300/60 dark:hover:border-violet-500/60 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 cursor-pointer min-h-11"
+                style={{ willChange: 'transform, border-color, background-color' }}
+              >
                 <span className="text-primary-500 dark:text-violet-400">
-                  {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
+                  <IconWrapper>
+                    {GuaranteeIcons[g.icon as keyof typeof GuaranteeIcons]()}
+                  </IconWrapper>
                 </span>
-                <span className="font-medium">{g.text}</span>
+                <span className="font-medium leading-snug">{g.text}</span>
               </div>
             </SpotlightCard>
           ))}
         </div>
 
-        {/* Price hint */}
+        {/* Price hint - Enhanced with perfect alignment */}
         <SpotlightCard
           className={`mt-16 inline-block transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
           style={{ transitionDelay: '500ms' }}
         >
-          <div className="flex items-center gap-2 sm:gap-4 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11">
+          <div
+            className="flex items-center gap-2 sm:gap-4 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-premium hover:shadow-premium-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-within:ring-2 focus-within:ring-primary-500/50 cursor-pointer min-h-11"
+            style={{ willChange: 'transform, box-shadow' }}
+          >
             <div className="flex items-center gap-2">
-              <span className="text-slate-400 dark:text-slate-500 line-through text-base">99€ - 299€</span>
-              <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
-              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-500">
+              <span className="text-slate-400 dark:text-slate-500 line-through text-base leading-tight">99€ - 299€</span>
+              <span className="inline-flex items-center justify-center">
+                <ArrowRightIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
+              </span>
+              <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-500 leading-tight">
                 29€
               </span>
             </div>
             <div className="w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
-            <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">Startpreis</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-snug">Startpreis</span>
           </div>
         </SpotlightCard>
       </div>

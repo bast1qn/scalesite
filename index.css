@@ -292,9 +292,10 @@
     @apply bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/70 dark:border-slate-700/50 rounded-3xl shadow-premium;
   }
 
-  /* Form Inputs - refined */
+  /* Form Inputs - refined with consistent spacing (4px scale) */
   .input-premium {
     @apply block w-full px-5 py-3 text-base rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 transition-all duration-300 ease-out;
+    will-change: border-color, box-shadow, transform;
   }
 
   .input-premium:focus {
@@ -336,6 +337,7 @@
   /* Button Styles - consistent interactive states (hover: scale-[1.02], active: scale-[0.98]) */
   .btn-primary {
     @apply relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-500 text-white font-semibold rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:shadow-glow hover:scale-[1.02] active:scale-[0.98];
+    will-change: transform, box-shadow;
   }
 
   .btn-primary:focus-visible {
@@ -362,6 +364,7 @@
 
   .btn-secondary {
     @apply px-8 py-4 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98];
+    will-change: transform, border-color, background-color;
   }
 
   .btn-secondary:focus-visible {
@@ -375,6 +378,7 @@
 
   .btn-ghost {
     @apply px-6 py-3 text-slate-600 dark:text-slate-400 font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98];
+    will-change: transform, background-color;
   }
 
   .btn-ghost:focus-visible {
@@ -389,6 +393,7 @@
   /* Card with subtle shadow - consistent hover state (hover: scale-[1.02]) */
   .card-premium {
     @apply relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/60 dark:border-slate-700/60 shadow-card overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:scale-[1.02] active:scale-[0.98];
+    will-change: transform, box-shadow;
   }
 
   /* Glass morphism effect */
@@ -926,7 +931,7 @@
     transparent 100%
   );
   animation: shimmer-premium 1.5s ease-in-out infinite;
-  will-change: transform;
+  will-change: transform, transform;
 }
 
 .dark .skeleton-shimmer::after {
@@ -947,6 +952,170 @@
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* ==================== ADVANCED EMPTY STATES ==================== */
+
+/* Empty state container */
+.empty-state {
+  @apply flex flex-col items-center justify-center py-16 px-6 text-center;
+  min-height: 400px;
+}
+
+.empty-state-icon {
+  @apply w-16 h-16 mb-6 text-slate-300 dark:text-slate-600;
+  opacity: 0.6;
+}
+
+.empty-state-title {
+  @apply text-xl font-semibold text-slate-700 dark:text-slate-300 mb-3;
+}
+
+.empty-state-description {
+  @apply text-base text-slate-500 dark:text-slate-400 mb-8 max-w-md;
+}
+
+.empty-state-action {
+  @apply inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
+  will-change: transform;
+}
+
+/* ==================== ADVANCED ERROR STATES ==================== */
+
+/* Error state container */
+.error-state {
+  @apply flex flex-col items-center justify-center py-16 px-6 text-center;
+  min-height: 400px;
+}
+
+.error-state-icon {
+  @apply w-16 h-16 mb-6 text-error-500;
+  animation: error-shake 0.5s ease-out;
+}
+
+.error-state-title {
+  @apply text-xl font-semibold text-slate-700 dark:text-slate-300 mb-3;
+}
+
+.error-state-description {
+  @apply text-base text-slate-500 dark:text-slate-400 mb-4 max-w-md;
+}
+
+.error-state-details {
+  @apply text-sm text-slate-400 dark:text-slate-500 mb-8 max-w-md font-mono bg-slate-100 dark:bg-slate-800 rounded-lg px-4 py-2;
+}
+
+.error-state-action {
+  @apply inline-flex items-center gap-2 px-6 py-3 bg-error-500 hover:bg-error-600 text-white font-medium rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
+  will-change: transform;
+}
+
+/* ==================== ENHANCED LOADING STATES ==================== */
+
+/* Loading state with skeleton */
+.loading-state {
+  @apply py-12 px-6;
+}
+
+.loading-skeleton-card {
+  @apply bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden;
+  animation: pulse-skeleton 1.5s ease-in-out infinite;
+}
+
+.loading-skeleton-header {
+  @apply h-48 bg-slate-200 dark:bg-slate-700 animate-pulse;
+}
+
+.loading-skeleton-content {
+  @apply p-6 space-y-4;
+}
+
+.loading-skeleton-line {
+  @apply h-4 bg-slate-200 dark:bg-slate-700 rounded animate-pulse;
+}
+
+.loading-skeleton-line-short {
+  @apply h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3 animate-pulse;
+}
+
+/* Skeleton pulse animation - gentler */
+@keyframes pulse-skeleton {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ==================== MICRO-INTERACTION UTILITIES ==================== */
+
+/* Icon button base with perfect alignment */
+.icon-button-aligned {
+  @apply inline-flex items-center justify-center min-w-11 min-h-11 rounded-xl transition-all duration-300;
+  @apply hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  will-change: transform;
+
+  /* Perfect icon centering */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Icon spacing utility */
+.icon-with-text {
+  @apply flex items-center gap-2;
+}
+
+.icon-with-text-sm {
+  @apply flex items-center gap-1.5;
+}
+
+.icon-with-text-lg {
+  @apply flex items-center gap-3;
+}
+
+/* ==================== DARK MODE OPTIMIZATIONS ==================== */
+
+/* Enhanced dark mode contrast for accessibility (WCAG AA) */
+.dark {
+  /* Improved border visibility in dark mode */
+  .border-slate-200 {
+    @apply border-slate-700/60;
+  }
+
+  /* Enhanced text contrast */
+  .text-slate-600 {
+    @apply text-slate-400;
+  }
+
+  .text-slate-700 {
+    @apply text-slate-300;
+  }
+
+  /* Improved shadow depth */
+  .shadow-premium {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 8px -2px rgba(139, 92, 246, 0.08);
+  }
+
+  .shadow-premium-lg {
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 12px 24px -6px rgba(139, 92, 246, 0.12);
+  }
+
+  /* Enhanced card contrast */
+  .card-premium {
+    @apply bg-slate-800/95 border-slate-700/80;
+  }
+
+  /* Improved input contrast */
+  .input-premium {
+    @apply bg-slate-800/90 border-slate-700/80 text-slate-100;
+  }
+
+  .input-premium::placeholder {
+    @apply text-slate-500;
   }
 }
 
