@@ -48,6 +48,30 @@ export {
   type FilterResult,
 } from './useListFiltering';
 
+// Dashboard Navigation
+export {
+  useDashboardNavigation,
+  type NavigationConfig,
+  type UseDashboardNavigationReturn,
+} from './useDashboardNavigation';
+
+// Dashboard Data
+export {
+  useDashboardData,
+  type DashboardStats,
+  type FinanceData,
+  type ServerStats,
+  type Activity,
+  type Milestone,
+  type UseDashboardDataReturn,
+} from './useDashboardData';
+
+// Dashboard Realtime
+export {
+  useDashboardRealtime,
+  type UseDashboardRealtimeOptions,
+} from './useDashboardRealtime';
+
 // Re-export from performance hooks
 export {
   useRenderCount,

@@ -9,6 +9,7 @@ import { supabase } from '../supabase';
 import { generateId } from '../utils';
 import { handleSupabaseError } from './error-handling';
 import { getCached, setCached, dedupeRequest, CACHE_TTL } from './cache';
+import { isTeamMember } from './auth';
 import type { Project, ProjectMilestone, Service } from '../types';
 
 /**
@@ -268,15 +269,4 @@ export async function deleteMilestone(milestoneId: string) {
     .eq('id', milestoneId);
 
   return { data: null, error: handleSupabaseError(error) };
-}
-
-// Helper function
-async function isTeamMember(userId: string): Promise<boolean> {
-  const { data } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userId)
-    .maybeSingle();
-
-  return data?.role === 'team' || data?.role === 'owner';
 }

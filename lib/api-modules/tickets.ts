@@ -8,6 +8,7 @@
 import { supabase } from '../supabase';
 import { generateId } from '../utils';
 import { handleSupabaseError } from './error-handling';
+import { isTeamMember } from './auth';
 import type { Ticket, TicketMessage, TicketMember } from '../types';
 
 /**
@@ -116,15 +117,4 @@ export async function getTicketMembers(ticketId: string) {
     .eq('ticket_id', ticketId);
 
   return { data: data || [], error: handleSupabaseError(error) };
-}
-
-// Helper function - should be imported from auth module
-async function isTeamMember(userId: string): Promise<boolean> {
-  const { data } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userId)
-    .maybeSingle();
-
-  return data?.role === 'team' || data?.role === 'owner';
 }

@@ -7,6 +7,7 @@
 
 import { supabase } from '../supabase';
 import { handleSupabaseError } from './error-handling';
+import { isTeamMember } from './auth';
 import type { Transaction, Discount, Invoice } from '../types';
 
 /**
@@ -127,15 +128,5 @@ export async function getInvoice(invoiceId: string) {
   return { data, error: handleSupabaseError(error) };
 }
 
-// Helper functions
+// Helper function
 import { generateId } from '../utils';
-
-async function isTeamMember(userId: string): Promise<boolean> {
-  const { data } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userId)
-    .maybeSingle();
-
-  return data?.role === 'team' || data?.role === 'owner';
-}

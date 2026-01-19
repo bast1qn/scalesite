@@ -8,6 +8,7 @@
 import { supabase } from '../supabase';
 import { generateId } from '../utils';
 import { handleSupabaseError } from './error-handling';
+import { isTeamMember } from './auth';
 import type { BlogPost, ContentGeneration } from '../types';
 
 /**
@@ -196,15 +197,4 @@ export async function deleteContentGeneration(generationId: string) {
     .eq('user_id', user.id);
 
   return { data: null, error: handleSupabaseError(error) };
-}
-
-// Helper function
-async function isTeamMember(userId: string): Promise<boolean> {
-  const { data } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userId)
-    .maybeSingle();
-
-  return data?.role === 'team' || data?.role === 'owner';
 }
