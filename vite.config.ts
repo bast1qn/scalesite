@@ -87,6 +87,10 @@ export default defineConfig(({ mode }) => {
         chunkSizeWarningLimit: 1000,
         // ✅ PERFORMANCE: CSS code splitting
         cssCodeSplit: true,
+        // ✅ PERFORMANCE ADVANCED: Module preload for faster navigation
+        modulePreload: {
+          polyfill: true, // Inject module preload polyfill for older browsers
+        },
         // ✅ PERFORMANCE: Advanced Rollup optimizations
         rollupOptions: {
           external: ['@neondatabase/serverless'],
