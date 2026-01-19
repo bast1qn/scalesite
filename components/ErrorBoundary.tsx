@@ -1,7 +1,7 @@
 
 import { Component, ErrorInfo, type ReactNode } from 'react';
 import { AnimatedSection } from './AnimatedSection';
-import { XCircleIcon } from './Icons';
+import { XCircleIcon, ArrowLeftIcon } from './Icons';
 
 interface Props {
   children: ReactNode;
