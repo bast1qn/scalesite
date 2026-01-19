@@ -183,6 +183,15 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
 
     return (
         <header ref={headerRef} className={headerClasses}>
+            {/* Skip to main content link for accessibility */}
+            <a
+                href="#main-content"
+                className="skip-link"
+                aria-label="Skip to main content"
+            >
+                Skip to main content
+            </a>
+
             <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-500/60 to-transparent transition-opacity duration-300"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
