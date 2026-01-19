@@ -3,7 +3,7 @@
 // ============================================
 
 import React from 'react';
-import { Link, AlertCircle } from 'lucide-react';
+import { LinkIcon as Link, AlertCircle } from '@/lib/icons';
 import { OpenGraphData } from '../types';
 import { OG_LOCALE_OPTIONS } from '../constants';
 import { OpenGraphTranslations } from '../translations';

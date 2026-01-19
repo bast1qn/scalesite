@@ -18,14 +18,14 @@ import {
     Cell
 } from 'recharts';
 import {
-    TrendingUpIcon,
-    TrendingDownIcon,
-    EyeIcon,
-    MousePointerClickIcon,
-    UserMinusIcon,
-    CalendarIcon,
-    RefreshCwIcon
-} from 'lucide-react';
+    TrendingUp as TrendingUpIcon,
+    TrendingDown as TrendingDownIcon,
+    Eye as EyeIcon,
+    MousePointer as MousePointerClickIcon,
+    UserMinus as UserMinusIcon,
+    Calendar as CalendarIcon,
+    RefreshCw as RefreshCwIcon
+} from '@/lib/icons';
 import { Campaign } from './CampaignList';
 
 /**

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { CheckCircle2, Code, Copy, Download } from 'lucide-react';
+import { CheckCircle2, Code, Copy, Download } from '@/lib/icons';
 
 interface SchemaPreviewLabels {
   generated: string;

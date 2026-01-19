@@ -236,6 +236,4 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     );
 };
 
-// PERFORMANCE: Properly memoize ProjectCard to prevent unnecessary re-renders
-// Without React.memo, all cards re-render when any single card changes
-export const ProjectCardMemo = React.memo(ProjectCard);
+export default memo(ProjectCard);

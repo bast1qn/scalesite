@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, type FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ProjectCardMemo } from './ProjectCard';
+import ProjectCard from './ProjectCard';
 import { StatusTimeline } from './StatusTimeline';
 import { api } from '../../lib/api';
 import { useDebounce } from '../../lib/hooks/useDebounce';
@@ -376,7 +376,7 @@ export const ProjectList: FC<ProjectListProps> = ({
                             key={project.id}
                             variants={itemVariants}
                         >
-                            <ProjectCardMemo
+                            <ProjectCard
                                 {...project}
                                 variant={viewMode === 'list' ? 'compact' : 'default'}
                                 onClick={handleProjectClick(project.id)}

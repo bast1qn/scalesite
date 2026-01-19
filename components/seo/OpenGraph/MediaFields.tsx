@@ -3,7 +3,7 @@
 // ============================================
 
 import React from 'react';
-import { Image, AlertCircle } from 'lucide-react';
+import { Image, AlertCircle } from '@/lib/icons';
 import { OpenGraphData } from '../types';
 import { OpenGraphTranslations } from '../translations';
 import { getSafeURL } from '../../../lib/validation';

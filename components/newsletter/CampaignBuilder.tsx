@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    XIcon,
-    PencilIcon,
-    EyeIcon,
-    SparklesIcon,
-    CodeIcon,
-    LinkIcon,
+    X as XIcon,
+    Pencil as PencilIcon,
+    Eye as EyeIcon,
+    Sparkles as SparklesIcon,
+    Code as CodeIcon,
+    LinkIcon as LinkIcon,
     Image as ImageIcon,
-    BoldIcon,
-    ItalicIcon,
-    ListIcon
-} from 'lucide-react';
+    Bold as BoldIcon,
+    Italic as ItalicIcon,
+    List as ListIcon
+} from '@/lib/icons';
 import EmailPreview from './EmailPreview';
 import type { EmailPreviewProps } from './EmailPreview';
 import { Campaign, CampaignStats } from './CampaignList';

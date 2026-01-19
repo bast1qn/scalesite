@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 // External imports
 import { motion } from 'framer-motion';
-import { Eye, Image, Link } from 'lucide-react';
+import { Eye, Image, LinkIcon as Link } from '@/lib/icons';
 
 // Internal imports - Types
 import type { OpenGraphData, OpenGraphType } from './types';

@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    UsersIcon,
-    UserPlusIcon,
-    TrashIcon,
-    DownloadIcon,
-    UploadIcon,
-    XIcon,
-    SearchIcon,
-    LayoutGridIcon,
-    ListIcon,
-    CalendarIcon
-} from 'lucide-react';
+    Users as UsersIcon,
+    UserPlus as UserPlusIcon,
+    Trash as TrashIcon,
+    Download as DownloadIcon,
+    Upload as UploadIcon,
+    X as XIcon,
+    Search as SearchIcon,
+    LayoutGrid as LayoutGridIcon,
+    List as ListIcon,
+    Calendar as CalendarIcon
+} from '@/lib/icons';
 import { FunnelIcon } from '../Icons';
 import { useDebounce } from '../../lib/hooks/useDebounce';
 

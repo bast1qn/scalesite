@@ -1,7 +1,7 @@
 // Chat Page - Real-time Messaging
 import { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, MoreVertical, Phone, Video, Info } from 'lucide-react';
+import { ArrowLeft, MoreVertical, Phone, Video, Info } from '@/lib/icons';
 import { AuthContext, useLanguage } from '../contexts';
 import {
     ChatList,

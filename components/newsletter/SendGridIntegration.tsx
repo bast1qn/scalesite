@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-    MailIcon,
-    CheckCircleIcon,
-    XCircleIcon,
-    ClockIcon,
-    TrendingUpIcon,
-    SettingsIcon,
-    ZapIcon,
-    RefreshCwIcon
-} from 'lucide-react';
+    Mail as MailIcon,
+    CheckCircle as CheckCircleIcon,
+    XCircle as XCircleIcon,
+    Clock as ClockIcon,
+    TrendingUp as TrendingUpIcon,
+    Settings as SettingsIcon,
+    Zap as ZapIcon,
+    RefreshCw as RefreshCwIcon
+} from '@/lib/icons';
 
 /**
  * SendGridIntegration Component

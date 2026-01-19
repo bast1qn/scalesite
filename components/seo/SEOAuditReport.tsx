@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, AlertTriangle, XCircle, FileSearch, Download, TrendingUp, Globe, Shield, Smartphone, Zap, Loader2 } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, XCircle, FileSearch, Download, TrendingUp, Globe, Shield, Smartphone, Zap, Loader2 } from '@/lib/icons';
 
 interface AuditIssue {
   category: string;

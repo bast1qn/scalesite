@@ -3,7 +3,7 @@
 // ============================================
 
 import React from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle } from '@/lib/icons';
 import { TwitterCardData, TwitterCardType } from '../types';
 import { TwitterCardTranslations } from '../translations';
 

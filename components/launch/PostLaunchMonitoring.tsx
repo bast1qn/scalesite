@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Zap, AlertTriangle, TrendingUp, TrendingDown, Clock, CheckCircle2 } from 'lucide-react';
+import { Users, Zap, AlertTriangle, TrendingUp, TrendingDown, Clock, CheckCircle2 } from '@/lib/icons';
 import { ActivityIcon } from '../Icons';
 
 interface MetricCardProps {

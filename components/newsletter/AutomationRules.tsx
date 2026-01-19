@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    SparklesIcon,
-    PlusIcon,
-    TrashIcon,
-    EditIcon,
-    PlayIcon,
-    PauseIcon,
-    ClockIcon,
-    MailIcon,
-    UserIcon,
-    BellIcon,
-    CheckCircleIcon,
-    XIcon
-} from 'lucide-react';
+    Sparkles as SparklesIcon,
+    Plus as PlusIcon,
+    Trash as TrashIcon,
+    Edit as EditIcon,
+    Play as PlayIcon,
+    Pause as PauseIcon,
+    Clock as ClockIcon,
+    Mail as MailIcon,
+    User as UserIcon,
+    Bell as BellIcon,
+    CheckCircle as CheckCircleIcon,
+    X as XIcon
+} from '@/lib/icons';
 
 /**
  * AutomationRules Component

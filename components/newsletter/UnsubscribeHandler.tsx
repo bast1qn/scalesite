@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    XIcon,
-    CheckCircleIcon,
-    MailIcon,
-    HeartIcon,
-    AlertTriangleIcon
-} from 'lucide-react';
+    X as XIcon,
+    CheckCircle as CheckCircleIcon,
+    Mail as MailIcon,
+    Heart as HeartIcon,
+    AlertTriangle as AlertTriangleIcon
+} from '@/lib/icons';
 
 /**
  * UnsubscribeHandler Component

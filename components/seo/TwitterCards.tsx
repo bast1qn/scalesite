@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 // External imports
 import { motion } from 'framer-motion';
-import { Eye, Twitter } from 'lucide-react';
+import { Eye, Twitter } from '@/lib/icons';
 
 // Internal imports - Types
 import type { TwitterCardData, TwitterCardType } from './types';

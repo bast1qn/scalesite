@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    MonitorIcon,
-    SmartphoneIcon,
-    XIcon,
-    Maximize2Icon,
-    Minimize2Icon
-} from 'lucide-react';
+    Monitor as MonitorIcon,
+    Smartphone as SmartphoneIcon,
+    X as XIcon,
+    Maximize2 as Maximize2Icon,
+    Minimize2 as Minimize2Icon
+} from '@/lib/icons';
 import { validateContent } from '../../lib/validation';
 
 /**

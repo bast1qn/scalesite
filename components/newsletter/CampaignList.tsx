@@ -1,20 +1,20 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    MailIcon,
-    PlusIcon,
-    PencilIcon,
-    TrashIcon,
-    SendIcon,
-    ClockIcon,
-    CheckCircleIcon,
-    EyeIcon,
-    MousePointerClickIcon,
-    UserMinusIcon,
-    LayoutGridIcon,
-    ListIcon,
-    SearchIcon
-} from 'lucide-react';
+    Mail as MailIcon,
+    Plus as PlusIcon,
+    Pencil as PencilIcon,
+    Trash as TrashIcon,
+    Send as SendIcon,
+    Clock as ClockIcon,
+    CheckCircle as CheckCircleIcon,
+    Eye as EyeIcon,
+    MousePointer as MousePointerClickIcon,
+    UserMinus as UserMinusIcon,
+    LayoutGrid as LayoutGridIcon,
+    List as ListIcon,
+    Search as SearchIcon
+} from '@/lib/icons';
 import { FunnelIcon } from '../Icons';
 import { useDebounce } from '../../lib/hooks/useDebounce';
 

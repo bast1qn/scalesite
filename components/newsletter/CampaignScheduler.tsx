@@ -1,16 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
-    CalendarIcon,
-    ClockIcon,
-    BellIcon,
-    GlobeIcon,
-    PlayIcon,
-    PauseIcon,
-    TrashIcon,
-    EditIcon,
-    CheckCircleIcon
-} from 'lucide-react';
+    Calendar as CalendarIcon,
+    Clock as ClockIcon,
+    Bell as BellIcon,
+    Globe as GlobeIcon,
+    Play as PlayIcon,
+    Pause as PauseIcon,
+    Trash as TrashIcon,
+    Edit as EditIcon,
+    CheckCircle as CheckCircleIcon
+} from '@/lib/icons';
 import { Campaign } from './CampaignList';
 
 /**

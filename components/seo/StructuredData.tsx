@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // External imports
 import { AnimatePresence, motion } from 'framer-motion';
-import { Eye } from 'lucide-react';
+import { Eye } from '@/lib/icons';
 
 // Internal imports - Components
 import { SchemaFormFields } from './structured-data/SchemaFormFields';

@@ -64,10 +64,13 @@ export default defineConfig(({ mode }) => {
           'react-dom',
           'react/jsx-runtime',
           'react-router-dom',
+          // ✅ PERFORMANCE FIX: Pre-bundle framer-motion for better tree-shaking
+          // This allows Vite to analyze and eliminate unused motion components
+          'framer-motion',
         ],
         // ✅ PERFORMANCE: Lazy load heavy libraries
         // NOTE: recharts removed from exclude to fix forwardRef error and MIME type issues
-        exclude: ['framer-motion', 'jspdf', 'html2canvas', '@google/genai', '@supabase/supabase-js', '@clerk/clerk-js'],
+        exclude: ['jspdf', 'html2canvas', '@google/genai', '@supabase/supabase-js', '@clerk/clerk-js'],
         force: true
       },
       define: {
@@ -98,12 +101,15 @@ export default defineConfig(({ mode }) => {
           output: {
             // ✅ PERFORMANCE: Strategic manual chunks for better caching
             manualChunks: (id) => {
+              // ⚠️ PERFORMANCE FIX: Only create chunks that are actually used
+              // Prevents empty chunks (router, supabase, upload were empty)
+
               // React Core - MUST be in vendor chunk to avoid loading issues
               if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) {
                 return 'react-core';
               }
-              // UI Icons - separate chunk for better caching
-              if (id.includes('lucide-react')) {
+              // UI Icons - separate chunk for better caching (ONLY if used)
+              if (id.includes('lucide-react') && id.includes('node_modules')) {
                 return 'icons';
               }
               // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
@@ -114,10 +120,7 @@ export default defineConfig(({ mode }) => {
               if (id.includes('framer-motion')) {
                 return 'motion';
               }
-              // Supabase (large, separate chunk)
-              if (id.includes('@supabase/supabase-js')) {
-                return 'supabase';
-              }
+              // ⚠️ REMOVED: Supabase (was empty chunk - not used in this build)
               // Document generation (rarely used)
               if (id.includes('jspdf') || id.includes('html2canvas')) {
                 return 'docs';
@@ -126,10 +129,9 @@ export default defineConfig(({ mode }) => {
               if (id.includes('@google/genai')) {
                 return 'ai-vendor';
               }
-              // ✅ PERFORMANCE: Separate router chunk
-              if (id.includes('react-router-dom')) {
-                return 'router';
-              }
+              // ⚠️ REMOVED: Router (was empty chunk - merged into vendor)
+              // React Router is too small for separate chunk, merge into vendor to reduce HTTP requests
+
               // ✅ PERFORMANCE: Clerk authentication - split into separate chunks
               // @clerk/clerk-react is lightweight React wrapper
               if (id.includes('@clerk/clerk-react')) {
@@ -139,14 +141,12 @@ export default defineConfig(({ mode }) => {
               if (id.includes('@clerk/clerk-js')) {
                 return 'clerk-js';
               }
-              // ✅ PERFORMANCE: Split React Dropzone (heavy, rarely used)
-              if (id.includes('react-dropzone')) {
-                return 'upload';
-              }
-              // Class variance authority (UI utils)
-              if (id.includes('class-variance-authority')) {
-                return 'ui-utils';
-              }
+              // ⚠️ REMOVED: Upload (was empty chunk - merged into vendor)
+              // React Dropzone is rarely used and too small for separate chunk
+
+              // Class variance authority (UI utils) - merge into vendor
+              // Too small for separate chunk
+
               // Other node_modules
               if (id.includes('node_modules')) {
                 return 'vendor';
