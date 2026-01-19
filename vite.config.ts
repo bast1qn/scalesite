@@ -109,7 +109,8 @@ export default defineConfig(({ mode }) => {
               // Prevents empty chunks (router, supabase were empty)
 
               // React Core - MUST be in vendor chunk to avoid loading issues
-              if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) {
+              // ✅ FIX: Include framer-motion and emotion in react-core to prevent useLayoutError
+              if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime') || id.includes('framer-motion') || id.includes('@emotion/react')) {
                 return 'react-core';
               }
               // ✅ PERFORMANCE PHASE 3: Optimize react-router-dom - keep in vendor to avoid empty chunk
@@ -121,10 +122,6 @@ export default defineConfig(({ mode }) => {
               // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
               if (id.includes('recharts')) {
                 return 'charts';
-              }
-              // ✅ PERFORMANCE PHASE 3: Lazy load framer-motion (only load when animations are used)
-              if (id.includes('framer-motion')) {
-                return 'motion';
               }
               // Document generation (rarely used)
               if (id.includes('jspdf') || id.includes('html2canvas')) {
