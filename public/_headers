@@ -1,0 +1,222 @@
+# Performance-Optimized HTTP Headers
+# Configure caching, compression, and HTTP/2 push for optimal performance
+
+# ========================================================================
+# GLOBAL HEADERS - All requests
+# ========================================================================
+/:*
+
+  # Security Headers (Phase 4 - Security)
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), microphone=(), camera=()
+
+  # Performance Headers
+  # Vary: Accept-Encoding enables proper compression
+  Vary: Accept-Encoding
+
+  # Preconnect to external domains for faster connection setup
+  Link: <https://fonts.googleapis.com>; rel=preconnect; crossorigin
+  Link: <https://fonts.gstatic.com>; rel=preconnect; crossorigin
+  Link: <https://www.clerk.com>; rel=preconnect; crossorigin
+
+# ========================================================================
+# HTML FILES - No caching for HTML (always fresh)
+# ========================================================================
+/*.html
+
+  # Don't cache HTML files - always serve fresh
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+  # Enable compression
+  Content-Encoding: br
+
+# ========================================================================
+# JAVASCRIPT BUNDLES - Long-term caching with content hash
+# ========================================================================
+/assets/*.js
+  /assets/*-[hash].js
+
+  # Cache for 1 year (content hash ensures freshness)
+  Cache-Control: public, max-age=31536000, immutable
+
+  # Enable Brotli compression
+  Content-Encoding: br
+
+  # Enable HTTP/2 Server Push for critical bundles
+  # Push vendor chunk immediately
+  Link: </assets/vendor-[hash].js>; rel=preload; as=script; push
+  Link: </assets/main-[hash].js>; rel=preload; as=script
+
+# ========================================================================
+# CSS FILES - Long-term caching
+# ========================================================================
+/assets/*.css
+  /assets/*-[hash].css
+
+  # Cache for 1 year
+  Cache-Control: public, max-age=31536000, immutable
+
+  # Enable Brotli compression
+  Content-Encoding: br
+
+  # Preload critical CSS
+  Link: </assets/index-[hash].css>; rel=preload; as=style
+
+# ========================================================================
+# IMAGES - Modern formats + Caching strategy
+# ========================================================================
+# Modern image formats (AVIF, WebP) - agressive caching
+/assets/*.avif
+  Cache-Control: public, max-age=604800, immutable
+  Content-Encoding: br
+
+/assets/*.webp
+  Cache-Control: public, max-age=604800, immutable
+
+# Fallback formats (JPEG, PNG) - moderate caching
+/assets/*.jpg
+  Cache-Control: public, max-age=604800
+
+/assets/*.jpeg
+  Cache-Control: public, max-age=604800
+
+/assets/*.png
+  Cache-Control: public, max-age=604800
+
+/assets/*.gif
+  Cache-Control: public, max-age=604800
+
+/assets/*.svg
+  Cache-Control: public, max-age=604800, immutable
+
+# ========================================================================
+# FONTS - Very long caching (fonts rarely change)
+# ========================================================================
+/assets/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.eot
+  Cache-Control: public, max-age=31536000, immutable
+
+# Preload critical fonts
+Link: <https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap>; rel=preload; as=style
+
+# ========================================================================
+# SERVICE WORKER - No caching
+# ========================================================================
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ========================================================================
+# MANIFEST - Moderate caching
+# ========================================================================
+/manifest.json
+  Cache-Control: public, max-age=86400
+
+# ========================================================================
+# API RESPONSES - Short caching
+# ========================================================================
+/api/*
+
+  # Don't cache API responses by default
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# ========================================================================
+# STATIC ASSETS - Long-term caching
+# ========================================================================
+/assets/*-[hash].*
+
+  # Content hash in filename - safe to cache forever
+  Cache-Control: public, max-age=31536000, immutable
+
+  # Enable compression
+  Content-Encoding: br
+
+# ========================================================================
+# PUBLIC FOLDER ASSETS - Moderate caching
+# ========================================================================
+/public/*
+
+  # Cache public assets for 1 week
+  Cache-Control: public, max-age=604800
+
+# ========================================================================
+# FAVICON - Long-term caching
+# ========================================================================
+/favicon.ico
+  Cache-Control: public, max-age=604800, immutable
+
+/apple-touch-icon-*.png
+  Cache-Control: public, max-age=604800, immutable
+
+/browserconfig.xml
+  Cache-Control: public, max-age=604800
+
+# ========================================================================
+# ROBOTS.TXT - Moderate caching
+# ========================================================================
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+# ========================================================================
+# PRECONNECT HINTS - For external resources
+# ========================================================================
+# These hint to the browser to proactively initiate connections
+# to important cross-origin resources
+
+Link: <https://fonts.googleapis.com>; rel=preconnect; crossorigin
+Link: <https://fonts.gstatic.com>; rel=preconnect; crossorigin
+Link: <https://api.clerk.com>; rel=preconnect; crossorigin
+Link: <https://www.google-analytics.com>; rel=preconnect; crossorigin
+
+# ========================================================================
+# RESOURCE HINTS - Optimize resource loading
+# ========================================================================
+# DNS prefetch for less-critical resources
+Link: <https://www.clerk.com>; rel=dns-prefetch
+Link: <https://supabase.com>; rel=dns-prefetch
+
+# Preload critical resources
+Link: </assets/main-[hash].js>; rel=modulepreload
+Link: </assets/vendor-[hash].js>; rel=modulepreload
+
+# ========================================================================
+# CORS - For cross-origin requests
+# ========================================================================
+# Allow fonts and images to be loaded from CDN
+/assets/*
+
+  # Allow same-origin by default
+  Access-Control-Allow-Origin: *
+
+# ========================================================================
+# ETAGS - Enable validation
+# ========================================================================
+/*
+
+  # Enable ETag for cache validation
+  # (Most servers enable this by default)
+  # ETag: "string"
+
+# ========================================================================
+# LAST-MODIFIED - Enable validation
+# ========================================================================
+/*
+
+  # Enable Last-Modified for cache validation
+  # (Most servers enable this by default)
+  # Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
