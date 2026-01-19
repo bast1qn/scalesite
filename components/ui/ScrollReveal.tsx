@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState, useRef, type ReactNode, type RefObject } from 'react';
+import { useEffect, useState, useRef, useMemo, type ReactNode, type RefObject } from 'react';
 
 // Types
 export interface ScrollRevealProps {
@@ -128,22 +128,25 @@ export const ScrollReveal = ({
     return transforms[direction];
   };
 
+  // ✅ PERFORMANCE: Memoize style object to prevent recreation on every render
+  const elementStyle = useMemo(() => ({
+    opacity: isVisible ? 1 : 0,
+    transform: getTransform(),
+    // GPU-accelerated transitions
+    transition: `opacity ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms,
+                transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    // Optimize for GPU
+    willChange: isVisible ? 'auto' : 'opacity, transform',
+    // Enable hardware acceleration
+    backfaceVisibility: 'hidden' as const,
+    perspective: 1000,
+  }), [isVisible, getTransform, duration, delay]);
+
   return (
     <div
       ref={ref}
       className={className}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: getTransform(),
-        // GPU-accelerated transitions
-        transition: `opacity ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms,
-                    transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
-        // Optimize for GPU
-        willChange: isVisible ? 'auto' : 'opacity, transform',
-        // Enable hardware acceleration
-        backfaceVisibility: 'hidden' as const,
-        perspective: 1000,
-      }}
+      style={elementStyle}
     >
       {children}
     </div>
@@ -250,23 +253,28 @@ export const StaggerReveal = ({
 
   return (
     <div ref={ref} className={className}>
-      {childrenArray.map((child: ReactNode, index: number) => (
-        <div
-          key={index}
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible
-              ? (direction === 'scale' ? 'translate3d(0, 0, 0) scale(1)' : 'translate3d(0, 0, 0)')
-              : transforms[direction],
-            transition: `opacity ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${startDelay + index * staggerDelay}ms,
-                        transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${startDelay + index * staggerDelay}ms`,
-            willChange: isVisible ? 'auto' : 'opacity, transform',
-            backfaceVisibility: 'hidden' as const,
-          }}
-        >
-          {child}
-        </div>
-      ))}
+      {childrenArray.map((child: ReactNode, index: number) => {
+        // ✅ PERFORMANCE: Memoize style objects for each child
+        const childStyle = useMemo(() => ({
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible
+            ? (direction === 'scale' ? 'translate3d(0, 0, 0) scale(1)' : 'translate3d(0, 0, 0)')
+            : transforms[direction],
+          transition: `opacity ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${startDelay + index * staggerDelay}ms,
+                      transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${startDelay + index * staggerDelay}ms`,
+          willChange: isVisible ? 'auto' : 'opacity, transform',
+          backfaceVisibility: 'hidden' as const,
+        }), [isVisible, direction, duration, startDelay, index, staggerDelay, transforms]);
+
+        return (
+          <div
+            key={index}
+            style={childStyle}
+          >
+            {child}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -327,15 +335,18 @@ export const ParallaxScroll = ({
     };
   }, [speed]);
 
+  // ✅ PERFORMANCE: Memoize parallax style object
+  const parallaxStyle = useMemo(() => ({
+    transform: `translate3d(0, ${offset}px, 0)`,
+    willChange: 'transform' as const,
+    backfaceVisibility: 'hidden' as const,
+  }), [offset]);
+
   return (
     <div
       ref={ref}
       className={className}
-      style={{
-        transform: `translate3d(0, ${offset}px, 0)`,
-        willChange: 'transform',
-        backfaceVisibility: 'hidden' as const,
-      }}
+      style={parallaxStyle}
     >
       {children}
     </div>

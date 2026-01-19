@@ -167,6 +167,13 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
         setIsMenuOpen(prev => !prev);
     }, []);
 
+    // ✅ PERFORMANCE: Memoized click handlers for navigation
+    const handleHomeClick = useCallback(() => handleNavClick('home'), [handleNavClick]);
+    const handleConfiguratorClick = useCallback(() => handleNavClick('configurator'), [handleNavClick]);
+    const handleDashboardClick = useCallback(() => handleNavClick('dashboard'), [handleNavClick]);
+    const handleLoginClick = useCallback(() => setCurrentPage('login'), [setCurrentPage]);
+    const handlePricingClick = useCallback(() => setCurrentPage('preise'), [setCurrentPage]);
+
     const navItems = useMemo(() => [
         { page: 'home', label: t('nav.home')},
         { page: 'leistungen', label: t('nav.services')},
@@ -197,7 +204,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between min-h-14">
                     <button
-                        onClick={() => handleNavClick('home')}
+                        onClick={handleHomeClick}
                         className="flex-shrink-0 text-slate-900 dark:text-white hover:opacity-80 transition-opacity duration-300 min-h-14 flex items-center"
                         aria-label="ScaleSite Logo - Zur Startseite"
                     >
@@ -231,7 +238,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                             <>
                                 <NotificationBell />
                                 <button
-                                    onClick={() => handleNavClick('configurator')}
+                                    onClick={handleConfiguratorClick}
                                     className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-secondary-500 hover:shadow-premium transition-all duration-300 rounded-xl hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                     title="Website Konfigurator"
                                 >
@@ -241,7 +248,7 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                                     <span>Konfigurator</span>
                                 </button>
                                 <button
-                                    onClick={() => handleNavClick('dashboard')}
+                                    onClick={handleDashboardClick}
                                     className="flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-soft hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <UserCircleIcon className="w-4 h-4" />
@@ -251,13 +258,13 @@ export const Header = ({ setCurrentPage, currentPage }: HeaderProps) => {
                         ) : (
                             <>
                                 <button
-                                    onClick={() => setCurrentPage('login')}
+                                    onClick={handleLoginClick}
                                     className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300 px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     {t('nav.login')}
                                 </button>
                                 <button
-                                    onClick={() => setCurrentPage('preise')}
+                                    onClick={handlePricingClick}
                                     className="flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-secondary-500 rounded-xl hover:shadow-premium hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:ring-2 focus:ring-primary-500/50 min-h-11"
                                 >
                                     <span>{t('nav.projectStart')}</span>

@@ -57,6 +57,11 @@ const SocialIconButton = memo(({ href, children, ariaLabel }: { href: string; ch
 export const Footer = ({ setCurrentPage }: FooterProps) => {
   const { t } = useLanguage();
 
+  // ✅ PERFORMANCE: Memoized click handler for logo navigation
+  const handleLogoClick = useCallback(() => {
+    setCurrentPage('home');
+  }, [setCurrentPage]);
+
   return (
     <footer className="relative bg-slate-50 dark:bg-slate-950 pt-24 pb-14 border-t border-slate-200/80 dark:border-slate-800/80">
       {/* Refined gradient accent at top */}
@@ -71,7 +76,7 @@ export const Footer = ({ setCurrentPage }: FooterProps) => {
             {/* Brand Column */}
             <div className="lg:col-span-4">
                 <button
-                    onClick={() => setCurrentPage('home')}
+                    onClick={handleLogoClick}
                     className="text-slate-900 dark:text-white mb-6 block hover:opacity-80 transition-opacity duration-300"
                 >
                     <ScaleSiteLogo className="h-9" />
