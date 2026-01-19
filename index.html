@@ -17,8 +17,7 @@
     <link rel="preconnect" href="https://*.clerk.accounts.dev" crossorigin>
 
     <!-- ✅ PERFORMANCE PHASE 3: Optimized font loading with preload hints -->
-    <!-- Preload critical fonts for LCP improvement - Inter 400 (most common weight) -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Note: Font preloading removed - Google Fonts CSS handles this correctly and prevents 404s -->
     <!-- ✅ PERFORMANCE PHASE 3: Reduce font variants - Only load most used weights to save ~100KB -->
     <!-- Inter: 400, 600 (removed 300, 500, 700, 800 to save bandwidth) -->
     <!-- Plus Jakarta Sans: 400, 600 (removed 300, 500, 700 to save bandwidth) -->
@@ -105,11 +104,13 @@
       }
 
       /* ✅ PERFORMANCE: Preload critical styles to prevent FOIT */
+      /* Use fade-in animation instead of display:none to prevent white screen on errors */
       #root {
-        display: none; /* Prevent flash of unstyled content */
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
       }
       #root.loaded {
-        display: block;
+        opacity: 1;
       }
     </style>
 
