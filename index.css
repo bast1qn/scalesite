@@ -907,19 +907,47 @@
   @apply bg-slate-200 dark:bg-slate-800 animate-pulse rounded;
 }
 
-/* Enhanced Skeleton with shimmer - Premium loading state */
+/* Enhanced Skeleton with shimmer - Premium loading state (Vercel-inspired) */
 .skeleton-shimmer {
   @apply relative overflow-hidden bg-slate-200 dark:bg-slate-800 rounded;
+  will-change: transform;
 }
 
 .skeleton-shimmer::after {
   content: '';
-  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent;
-  animation: shimmer-slide 1.5s infinite;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.5) 80%,
+    transparent 100%
+  );
+  animation: shimmer-premium 1.5s ease-in-out infinite;
+  will-change: transform;
 }
 
 .dark .skeleton-shimmer::after {
-  @apply via-white/10;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 80%,
+    transparent 100%
+  );
+}
+
+/* Premium shimmer animation - GPU-accelerated */
+@keyframes shimmer-premium {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Skeleton pulse animation - gentler */
