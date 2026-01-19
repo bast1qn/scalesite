@@ -105,19 +105,24 @@ export default defineConfig(({ mode }) => {
           output: {
             // ✅ PERFORMANCE PHASE 3: Improved manual chunks for better caching and smaller bundles
             manualChunks: (id) => {
-              // ⚠️ PERFORMANCE FIX: Only create chunks that are actually used
-              // Prevents empty chunks (router, supabase were empty)
-
-              // React Core - MUST be in vendor chunk to avoid loading issues
-              // ✅ FIX: Include framer-motion and emotion in react-core to prevent useLayoutError
-              if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime') || id.includes('framer-motion') || id.includes('@emotion/react')) {
+              // ⚠️ FIX: Bundle ALL React-related packages together to prevent useLayoutError
+              // This includes React, all UI frameworks, and libraries that use React hooks
+              const reactPackages = [
+                'react',
+                'react-dom',
+                'framer-motion',
+                '@emotion',
+                'react-router',
+                '@clerk',
+                '@supabase/supabase-js',
+                'lucide-react',
+                '@heroicons/react',
+                'class-variance-authority',
+              ];
+              const isInReactPackages = reactPackages.some(pkg => id.includes(`node_modules/${pkg}`));
+              if (isInReactPackages || id.includes('react/jsx-runtime')) {
                 return 'react-core';
               }
-              // ✅ PERFORMANCE PHASE 3: Optimize react-router-dom - keep in vendor to avoid empty chunk
-              // Previously created empty router chunk, now consolidates with vendor
-              // if (id.includes('react-router-dom') && id.includes('node_modules')) {
-              //   return 'router';
-              // }
 
               // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
               if (id.includes('recharts')) {
@@ -130,28 +135,6 @@ export default defineConfig(({ mode }) => {
               // Google AI (rarely used)
               if (id.includes('@google/genai')) {
                 return 'ai-vendor';
-              }
-              // ✅ PERFORMANCE PHASE 3: Split clerk-react (lightweight wrapper) from clerk-js (heavy SDK)
-              if (id.includes('@clerk/clerk-react') && id.includes('node_modules')) {
-                return 'clerk-react';
-              }
-              // ✅ PERFORMANCE PHASE 3: Lazy load clerk-js (heavy SDK ~200KB) only when auth is needed
-              if (id.includes('@clerk/clerk-js') && id.includes('node_modules')) {
-                return 'clerk-js';
-              }
-              // ✅ PERFORMANCE PHASE 3: Keep supabase in vendor to avoid empty chunk (was empty before)
-              // if (id.includes('@supabase/supabase-js') && id.includes('node_modules')) {
-              //   return 'supabase';
-              // }
-
-              // UI Icons - consolidate to reduce chunk count
-              if ((id.includes('lucide-react') || id.includes('@heroicons/react')) && id.includes('node_modules')) {
-                return 'icons';
-              }
-
-              // Utils libraries
-              if (id.includes('class-variance-authority') && id.includes('node_modules')) {
-                return 'utils';
               }
               // Other node_modules
               if (id.includes('node_modules')) {
