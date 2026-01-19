@@ -111,7 +111,7 @@ self.addEventListener('fetch', (event) => {
 /**
  * Determine cache strategy based on URL
  */
-function determineCacheStrategy(url: URL): string {
+function determineCacheStrategy(url) {
   const urlStr = url.href;
 
   for (const [strategy, patterns] of Object.entries(CACHE_STRATEGIES)) {
@@ -130,7 +130,7 @@ function determineCacheStrategy(url: URL): string {
  * Check cache first, fallback to network
  * Best for: Immutable assets (images, fonts)
  */
-async function cacheFirst(request: Request) {
+async function cacheFirst(request) {
   const cache = await caches.open(STATIC_CACHE);
   const cached = await cache.match(request);
 
@@ -158,7 +158,7 @@ async function cacheFirst(request: Request) {
  * Try network first, fallback to cache
  * Best for: API calls, HTML pages
  */
-async function networkFirst(request: Request) {
+async function networkFirst(request) {
   const cache = await caches.open(DYNAMIC_CACHE);
 
   try {
@@ -188,7 +188,7 @@ async function networkFirst(request: Request) {
  * Return cached response immediately, update in background
  * Best for: JS, CSS, dynamic content
  */
-async function staleWhileRevalidate(request: Request) {
+async function staleWhileRevalidate(request) {
   const cache = await caches.open(DYNAMIC_CACHE);
   const cached = await cache.match(request);
 
@@ -233,6 +233,3 @@ self.addEventListener('push', (event) => {
 
   event.waitUntil(self.registration.showNotification('ScaleSite', options));
 });
-
-// Export for TypeScript
-export {};
