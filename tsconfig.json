@@ -11,7 +11,8 @@
     ],
     "skipLibCheck": true,
     "types": [
-      "node"
+      "node",
+      "@vitejs/plugin-react"
     ],
     "moduleResolution": "bundler",
     "isolatedModules": true,
@@ -24,6 +25,25 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true
-  }
+    "noEmit": true,
+    // ✅ PERFECTIONISM: Strict type checking for production-ready code
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  // ✅ EXCLUDE: Don't type-check build artifacts and service worker
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "public/sw.js",
+    "lib/design/animations.ts"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
