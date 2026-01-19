@@ -1,23 +1,31 @@
 /**
  * Icon Optimizer Component
  *
- * PERFORMANCE: Tree-shakeable icon system to reduce bundle size
+ * ⚠️ DEPRECATED: This component is NOT optimal for tree-shaking!
+ * It imports the entire lucide-react icons object (~200KB)
+ *
+ * ✅ USE INSTEAD: Import directly from @/lib/icons
  * - Only imports used icons from lucide-react
- * - Memoizes icons to prevent recreation
- * - Provides consistent icon sizing and styling
+ * - Better tree-shaking with direct ESM imports
+ * - Reduces bundle size by ~95%
+ *
+ * @example
+ * // BAD: Imports entire icons object
+ * import { OptimizedIcon } from './components/IconOptimizer';
+ * <OptimizedIcon name="ArrowRight" />
+ *
+ * // GOOD: Direct import for maximal tree-shaking
+ * import { ArrowRight } from '@/lib/icons';
+ * <ArrowRight size={24} className="text-primary" />
  *
  * @performance
- * - Reduces icon bundle from ~200KB to ~5-10KB (depending on usage)
- * - Prevents unnecessary re-renders with React.memo
- * - Enables better tree-shaking with direct imports
+ * - lib/icons.ts: ~5-10KB (only used icons)
+ * - IconOptimizer: ~200KB (entire lucide-react)
  */
 
 import { memo, type SVGProps } from 'react';
-import { type Icon as LucideIcon } from 'lucide-react';
+import type { Icon as LucideIcon } from 'lucide-react';
 import { icons } from 'lucide-react';
-
-// Direct icon imports for tree-shaking (ONLY import icons you actually use)
-// This is MUCH more efficient than importing from 'lucide-react' directly
 
 export interface OptimizedIconProps extends Omit<SVGProps<SVGSVGElement>, 'ref'> {
   name: keyof typeof icons;
@@ -26,15 +34,18 @@ export interface OptimizedIconProps extends Omit<SVGProps<SVGSVGElement>, 'ref'>
 }
 
 /**
- * Optimized Icon Component
- *
- * Automatically tree-shakes unused icons
- * Memoized to prevent unnecessary re-renders
- *
- * @example
- * <OptimizedIcon name="ArrowRight" size={24} className="text-primary" />
+ * @deprecated Use direct imports from @/lib/icons instead
+ * This component exists for backward compatibility only
  */
 export const OptimizedIcon = memo<OptimizedIconProps>(({ name, size = 24, className = '', ...props }) => {
+  if (import.meta.env.DEV) {
+    console.warn(
+      '[IconOptimizer] This component is deprecated.\n' +
+      'Use direct imports from @/lib/icons for better tree-shaking.\n' +
+      'Example: import { ArrowRight } from "@/lib/icons"'
+    );
+  }
+
   const Icon = icons[name] as LucideIcon;
 
   if (!Icon) {
@@ -59,10 +70,7 @@ export const OptimizedIcon = memo<OptimizedIconProps>(({ name, size = 24, classN
 OptimizedIcon.displayName = 'OptimizedIcon';
 
 /**
- * Icon bundle helper - creates optimized icon sets
- *
- * Use this to create icon bundles for specific features
- * Only the icons used will be included in the bundle
+ * @deprecated Use direct imports from @/lib/icons instead
  */
 export function createIconBundle<K extends keyof typeof icons>(iconNames: K[]) {
   return iconNames.reduce((acc, name) => {
@@ -71,7 +79,9 @@ export function createIconBundle<K extends keyof typeof icons>(iconNames: K[]) {
   }, {} as Record<K, LucideIcon>);
 }
 
-// Pre-defined icon bundles for common use cases
+/**
+ * @deprecated Use direct imports from @/lib/icons instead
+ */
 export const navigationIcons = createIconBundle([
   'ArrowRight',
   'ArrowLeft',
