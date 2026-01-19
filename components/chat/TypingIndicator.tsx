@@ -1,5 +1,5 @@
 // Typing Indicator Component
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface TypingIndicatorProps {
     users: Array<{

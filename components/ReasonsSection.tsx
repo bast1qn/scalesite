@@ -6,7 +6,7 @@
 import React, { memo } from 'react';
 
 // External libraries
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 // Internal - Components
 import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';

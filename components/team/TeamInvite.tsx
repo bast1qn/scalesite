@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { TeamRole } from './RoleBadge';
 import { validateEmail, validateString } from '../../lib/validation';
 

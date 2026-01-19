@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import Rocket from 'lucide-react/dist/esm/icons/rocket';
 import Users from 'lucide-react/dist/esm/icons/users';
 import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3';

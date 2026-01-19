@@ -7,7 +7,7 @@
 import { useReducer, useEffect, useCallback } from 'react';
 
 // Third-party imports
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 // Internal imports
 import { GRADIENTS } from '../../lib/utils';

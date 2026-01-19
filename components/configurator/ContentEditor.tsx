@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { AIContentGenerator } from './AIContentGenerator';
 import type { ContentConfig } from './Configurator';
 import { VALIDATION_LIMITS } from './constants';

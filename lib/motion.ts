@@ -5,9 +5,8 @@
 // Reduces bundle size by only including motion features that are actually used
 // ========================================================================
 
-// ⚠️ CRITICAL: Use direct imports for optimal tree-shaking
-// BAD: import { motion, AnimatePresence } from 'framer-motion'
-// GOOD: import { motion, AnimatePresence } from '@/lib/motion'
+// ⚠️ CRITICAL: This file re-exports from framer-motion
+// All other files should import from '@/lib/motion' to enable tree-shaking
 
 // ========================================================================
 // Core Motion Exports

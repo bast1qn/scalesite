@@ -6,7 +6,7 @@
 import { useState } from 'react';
 
 // External imports
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { Eye, Twitter } from '@/lib/icons';
 
 // Internal imports - Types

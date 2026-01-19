@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, type FC } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { AuthContext } from '../contexts';
 import { api, getSafeURL } from '../lib';
 import { MilestoneTracker } from '../components/projects/MilestoneTracker';

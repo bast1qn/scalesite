@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { TagIcon, ClockIcon, CheckBadgeIcon, XMarkIcon, SparklesIcon, LightBulbIcon } from '../Icons';
 import { useLanguage } from '../../contexts';
 import { getActiveOffers, isOfferApplicable, type TimeLimitedOffer } from '../../lib/pricing';

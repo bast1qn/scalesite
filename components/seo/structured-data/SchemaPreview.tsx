@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { CheckCircle2, Code, Copy, Download } from '@/lib/icons';
 
 interface SchemaPreviewLabels {

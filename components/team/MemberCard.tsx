@@ -1,5 +1,5 @@
 import React, { useState, useCallback, memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { TeamRole, RoleBadge } from './RoleBadge';
 import { getSafeURL } from '../../lib/validation';
 

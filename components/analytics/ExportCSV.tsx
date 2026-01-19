@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { DocumentArrowDownIcon, ArrowDownOnSquareIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
 import { TIMING } from '../../lib/constants';

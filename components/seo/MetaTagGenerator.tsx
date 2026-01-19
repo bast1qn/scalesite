@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { generateMetaTags, type SEOMetadata, type MetaTag } from '../../lib/seo';
 
 interface MetaTagGeneratorProps {

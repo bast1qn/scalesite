@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { GlobeAltIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
 import { REFERRER_VISITS, ANALYTICS_DELAYS } from '../../lib/analytics-constants';

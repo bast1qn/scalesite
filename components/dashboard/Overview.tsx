@@ -5,7 +5,7 @@
 
 // React & Third-party
 import React, { useContext, useState, useEffect, useCallback, memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 // Internal - API & Utils
 import { api, formatTimeAgo, renderStatusBadge, KPICard, ResourceBar, ProgressBar } from '../../lib';

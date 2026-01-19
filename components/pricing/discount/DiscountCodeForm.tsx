@@ -3,7 +3,7 @@
 // Reusable form for discount code input
 // ============================================
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { TagIcon, CheckBadgeIcon, XMarkIcon, LightBulbIcon, SparklesIcon } from '../../Icons';
 import { formatPrice, type DiscountCode } from '../../../lib/pricing';
 import { useLanguage } from '../../../contexts';

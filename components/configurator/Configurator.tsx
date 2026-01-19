@@ -5,7 +5,7 @@
 
 // React & Third-party
 import { useReducer, useEffect, useState, useCallback, useRef } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from '@/lib/motion';
 
 // ✅ PERFORMANCE: Fast hash function for state comparison
 const fastHash = (obj: unknown): string => {

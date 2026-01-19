@@ -3,7 +3,7 @@
 // Personal information with validation & password strength
 // ============================================
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 // ✅ FIXED: Import types from separate file to avoid circular dependency
 import type { OnboardingData, StepProps } from './types';
 

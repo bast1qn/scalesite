@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Third-party imports
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 // Internal imports
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '../Icons';

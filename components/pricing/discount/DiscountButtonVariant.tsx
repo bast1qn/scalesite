@@ -3,7 +3,7 @@
 // Button-triggered modal variant
 // ============================================
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { TagIcon, CheckBadgeIcon, XMarkIcon, TicketIcon } from '../../Icons';
 import { formatPrice, type DiscountCode } from '../../../lib/pricing';
 import { useLanguage } from '../../../contexts';

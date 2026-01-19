@@ -1,6 +1,6 @@
 // Message Input Component
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import Send from 'lucide-react/dist/esm/icons/send';
 import Paperclip from 'lucide-react/dist/esm/icons/paperclip';
 import Smile from 'lucide-react/dist/esm/icons/smile';

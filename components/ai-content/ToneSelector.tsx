@@ -3,7 +3,7 @@
 // 5 Tone Options with Visual Preview
 // ============================================
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 // ============================================
 // TYPES & INTERFACES

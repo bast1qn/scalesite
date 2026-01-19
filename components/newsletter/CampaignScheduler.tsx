@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import {
     Calendar as CalendarIcon,
     Clock as ClockIcon,

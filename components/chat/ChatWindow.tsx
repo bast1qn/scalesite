@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 import Check from 'lucide-react/dist/esm/icons/check';
 import CheckCheck from 'lucide-react/dist/esm/icons/check-check';

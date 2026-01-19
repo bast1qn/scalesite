@@ -4,7 +4,7 @@
  * Includes premium effects like parallax, reveal animations, and glow effects
  */
 
-import { Transition } from 'framer-motion';
+import { Transition } from '@/lib/motion';
 
 // Base transition optimized for performance
 export const baseTransition: Transition = {

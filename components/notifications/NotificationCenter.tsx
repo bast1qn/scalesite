@@ -3,7 +3,7 @@
 
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { useNotifications, AppNotification } from '../../contexts/NotificationContext';
 import {
     XMarkIcon,

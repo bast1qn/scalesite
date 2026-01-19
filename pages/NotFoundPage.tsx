@@ -8,7 +8,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from '@/lib/motion';
 import { ArrowLeftIcon, HomeIcon, SearchIcon } from '../components/Icons';
 
 interface NotFoundPageProps {

@@ -3,7 +3,7 @@
 // Shows current step with animated progress indicators
 // ============================================
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { OnboardingStep } from './OnboardingWizard';
 
 // ============================================

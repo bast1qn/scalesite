@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { useNotifications, type AppNotification } from '../../contexts/NotificationContext';
 import { TIMING } from '../../lib/constants';
 import {

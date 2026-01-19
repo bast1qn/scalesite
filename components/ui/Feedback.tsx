@@ -25,7 +25,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 type FeedbackType = 'success' | 'error' | 'loading' | 'info';
 

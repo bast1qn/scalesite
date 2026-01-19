@@ -3,7 +3,7 @@
 // Shows applied discount code with details
 // ============================================
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { CheckBadgeIcon, XMarkIcon } from '../../Icons';
 import { formatPrice, type DiscountCode } from '../../../lib/pricing';
 import { useLanguage } from '../../../contexts';

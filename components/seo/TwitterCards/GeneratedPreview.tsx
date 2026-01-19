@@ -3,7 +3,7 @@
 // ============================================
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { CheckCircle2, Copy, Download } from '@/lib/icons';
 import { copyTagsToClipboard, downloadTagsAsHtml } from '../utils';
 

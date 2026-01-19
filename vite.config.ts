@@ -166,11 +166,13 @@ export default defineConfig(({ mode }) => {
             // ✅ PERFORMANCE: Preserve module signatures for better caching
             hoistTransitiveImports: false,
           },
-          // ✅ PERFORMANCE: Advanced treeshaking
+          // ✅ PERFORMANCE: Advanced treeshaking with aggressive settings
           treeshake: {
             moduleSideEffects: false,
             propertyReadSideEffects: false,
             unknownGlobalSideEffects: false,
+            tryCatchDeoptimization: false, // ✅ PERFORMANCE PHASE 3: Don't deoptimize try-catch
+            toplevel: true, // ✅ PERFORMANCE PHASE 3: Tree-shake top-level statements
           },
         },
         // ✅ PERFORMANCE PHASE 3: Aggressive Terser optimization for maximum compression

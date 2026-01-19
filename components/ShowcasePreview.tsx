@@ -1,6 +1,6 @@
 import { useState, type FC } from 'react';
 import { AnimatedSection } from './AnimatedSection'; import { Icons } from './Icons';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 interface ShowcasePreviewProps {
   setCurrentPage: (page: string) => void;

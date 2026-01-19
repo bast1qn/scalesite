@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { CheckCircle2, AlertTriangle, XCircle, FileSearch, Download, TrendingUp, Globe, Shield, Smartphone, Zap, Loader2 } from '@/lib/icons';
 
 interface AuditIssue {

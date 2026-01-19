@@ -3,7 +3,7 @@
 // Choose from predefined layout styles
 // ============================================
 
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 export type LayoutType = 'modern' | 'classic' | 'bold';
 

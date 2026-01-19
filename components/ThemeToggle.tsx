@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from './Icons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useHover } from '../lib/hooks';

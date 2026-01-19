@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { TeamMember, MemoizedMemberCard } from './MemberCard';
 import { TeamInvite } from './TeamInvite';
 import { TeamRole } from './RoleBadge';

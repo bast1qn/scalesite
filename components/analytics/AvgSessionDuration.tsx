@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { ArrowUpIcon, ArrowRightIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
 

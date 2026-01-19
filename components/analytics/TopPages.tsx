@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import { ChartBarIcon } from '../Icons';
 import { DateRange } from './DateRangePicker';
 import { PAGE_VIEWS, ANALYTICS_DELAYS } from '../../lib/analytics-constants';

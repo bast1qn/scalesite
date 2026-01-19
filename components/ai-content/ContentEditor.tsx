@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 
 // ============================================
 // TYPES & INTERFACES

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { MessageSquare, ThumbsUp, ThumbsDown, Star, Send, Filter, Search, TrendingUp, Bug, Lightbulb } from '@/lib/icons';
 import { useDebounce } from '../../lib/hooks/useDebounce';
 

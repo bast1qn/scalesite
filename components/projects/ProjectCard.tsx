@@ -1,5 +1,5 @@
 import React, { type FC, memo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 import {
     CalendarDaysIcon,
     ClockIcon,

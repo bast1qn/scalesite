@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { GeneratedContent } from '../../lib/ai-content';
 import { TIMING } from '../../lib/constants';
 

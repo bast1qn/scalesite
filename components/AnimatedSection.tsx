@@ -1,7 +1,8 @@
-import { useEffect, useRef, useMemo, type ReactNode } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { useEffect, useRef, useMemo, memo, type ReactNode } from 'react';
+import { motion, useAnimation } from '@/lib/motion';
 import { prefersReducedMotion, intersectionOptions } from '../lib/animations';
 import { useIntersectionObserver } from '../lib/hooks';
+import { memoDefault } from '../lib/performance/memoHelpers';
 
 interface AnimatedSectionProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ interface AnimatedSectionProps {
   stagger?: boolean;
 }
 
-export const AnimatedSection = ({
+const AnimatedSectionComponent = ({
   children,
   className = '',
   id,
@@ -106,7 +107,10 @@ export const AnimatedSection = ({
   );
 };
 
-export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }: {
+// ✅ PERFORMANCE: Memoize to prevent unnecessary re-renders
+export const AnimatedSection = memoDefault(AnimatedSectionComponent);
+
+const StaggerContainerComponent = ({ children, className = '', staggerDelay = 0.1, threshold = 0.1 }: {
   children: ReactNode;
   className?: string;
   staggerDelay?: number;
@@ -124,7 +128,7 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
     if (isIntersecting) {
       controls.start('visible');
     }
-  }, [controls, isIntersecting]); // Removed threshold - it's only used in useIntersectionObserver initialization
+  }, [controls, isIntersecting, threshold]);
 
   // ✅ PERFORMANCE PHASE 3: Memoize containerVariants
   const containerVariants = useMemo(() => ({
@@ -145,7 +149,10 @@ export const StaggerContainer = ({ children, className = '', staggerDelay = 0.1,
   );
 };
 
-export const StaggerItem = ({ children, className = '', delay = 0 }: {
+// ✅ PERFORMANCE: Memoize to prevent unnecessary re-renders
+export const StaggerContainer = memoDefault(StaggerContainerComponent);
+
+const StaggerItemComponent = ({ children, className = '', delay = 0 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
@@ -169,3 +176,6 @@ export const StaggerItem = ({ children, className = '', delay = 0 }: {
     </motion.div>
   );
 };
+
+// ✅ PERFORMANCE: Memoize to prevent unnecessary re-renders
+export const StaggerItem = memoDefault(StaggerItemComponent);

@@ -2,7 +2,7 @@
 // Woche 25: Real-time Features - Notifications
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { BellIcon, XMarkIcon } from '../Icons';
 import NotificationCenter from './NotificationCenter';

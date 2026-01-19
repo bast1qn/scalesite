@@ -1,5 +1,5 @@
 import { useContext, type ReactNode } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from '@/lib/motion';
 import { AuthContext, useLanguage } from '../contexts';
 import { UserCircleIcon, ArrowRightIcon } from './Icons';
 import { useSwipeable } from '../lib/hooks';

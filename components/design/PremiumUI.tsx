@@ -7,7 +7,7 @@
 // ========================================================================
 
 import { ReactNode, useState, useRef, useEffect, type MouseEvent, type FocusEvent } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from '@/lib/motion';
 
 // ========================================================================
 // MAGNETIC BUTTON

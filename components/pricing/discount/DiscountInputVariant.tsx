@@ -3,7 +3,7 @@
 // Full-featured expandable input variant
 // ============================================
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { TagIcon } from '../../Icons';
 import { type DiscountCode } from '../../../lib/pricing';
 import DiscountCodeForm from './DiscountCodeForm';

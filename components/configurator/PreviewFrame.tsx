@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import type { ProjectConfig, DeviceType } from './Configurator';
 import { Maximize2, Minimize2, ZoomIn, ZoomOut, RotateCcw } from '../Icons';
 

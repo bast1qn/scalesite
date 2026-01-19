@@ -6,7 +6,7 @@
 // Features: GPU acceleration, reduced motion support, spring physics
 // ========================================================================
 
-import { motion, useAnimation, useReducedMotion } from 'framer-motion';
+import { motion, useAnimation, useReducedMotion } from '@/lib/motion';
 import { useEffect, useRef, useState } from 'react';
 
 // ========================================================================

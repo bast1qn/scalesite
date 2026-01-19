@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 
 // External imports
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion';
 
 // Internal imports - Types
 import type { RobotsRule } from '../../lib/seo';

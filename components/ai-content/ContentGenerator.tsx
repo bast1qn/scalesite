@@ -4,7 +4,7 @@
 // ============================================
 
 import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { IndustrySelector } from './IndustrySelector';
 import { KeywordInput } from './KeywordInput';
 import { ToneSelector, ToneType } from './ToneSelector';

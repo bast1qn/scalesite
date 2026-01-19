@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // External imports
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from '@/lib/motion';
 import { Eye } from '@/lib/icons';
 
 // Internal imports - Components

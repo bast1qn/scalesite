@@ -3,7 +3,7 @@
 // ============================================
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion';
 import { XIcon, Wand2, Loader2 } from '../Icons';
 
 interface AIContentGeneratorProps {
