@@ -4,7 +4,7 @@
 // ============================================
 
 import { motion } from '@/lib/motion';
-import type { DeviceType } from './Configurator';
+import type { DeviceType } from './types';
 
 interface DeviceToggleProps {
     selectedDevice: DeviceType;

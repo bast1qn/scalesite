@@ -1,6 +1,4 @@
-import type { SchemaFormData } from '../StructuredData';
-
-type SchemaType = 'Article' | 'NewsArticle' | 'BlogPosting' | 'LocalBusiness' | 'Organization' | 'Product' | 'Person' | 'WebSite';
+import type { SchemaFormData, SchemaType } from '../types';
 
 export const generateSchema = (schemaType: SchemaType, formData: SchemaFormData): Record<string, unknown> => {
   const schema: Record<string, unknown> = {

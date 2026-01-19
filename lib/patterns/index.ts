@@ -8,10 +8,14 @@
  * - Factory: Creates objects without specifying exact classes
  * - Observer: Defines one-to-many dependencies between objects
  * - Strategy: Encapsulates interchangeable algorithms
+ * - Decorator: Adds cross-cutting concerns (logging, caching, metrics)
+ * - Command: Encapsulates requests as objects for undo/redo and queuing
  *
  * Usage:
  * import { Config, EventBus } from '@/lib/patterns';
  * import { ValidatorContext, EmailValidationStrategy } from '@/lib/patterns';
+ * import { createDecoratedService, LoggingDecorator } from '@/lib/patterns';
+ * import { useCommandHistory, createCommand } from '@/lib/patterns';
  */
 
 // Singleton Pattern
@@ -72,6 +76,47 @@ export {
   validateByCountryCode,
 } from './Strategy';
 
+// Decorator Pattern
+export {
+  ServiceDecorator,
+  LoggingDecorator,
+  CachingDecorator,
+  MetricsDecorator,
+  CompositeDecorator,
+  createDecoratedService,
+  useServiceMetrics,
+  type LogEntry,
+  type ILogger,
+  type CacheEntry,
+  type ICache,
+  type MetricEntry,
+  type IMetricsCollector,
+  InMemoryLogger,
+  InMemoryCache,
+  InMemoryMetricsCollector,
+} from './Decorator';
+
+// Command Pattern
+export {
+  ICommand,
+  ICommandHistory,
+  ICommandQueue,
+  BaseCommand,
+  CommandHistory,
+  MacroCommand,
+  LambdaCommand,
+  PropertyChangeCommand,
+  ArrayCommand,
+  CommandQueue,
+  useCommandHistory,
+  useCommandQueue,
+  createCommand,
+  createPropertyCommand,
+  createArrayAddCommand,
+  createArrayRemoveCommand,
+  createMacroCommand,
+} from './Command';
+
 // ==================== Pattern Documentation ====================
 
 /**
@@ -105,4 +150,25 @@ export {
  * Usage:
  *   const validator = new ValidatorContext(new EmailValidationStrategy());
  *   const result = validator.validate('test@example.com');
+ *
+ * DECORATOR PATTERN:
+ * Use when you want to add cross-cutting concerns without modifying classes
+ * Example: Logging, caching, metrics, error handling
+ * Usage:
+ *   const service = new MyService();
+ *   const decorated = createDecoratedService(service, ['logging', 'metrics']);
+ *   const loggedService = new LoggingDecorator(service);
+ *   await loggedService.withLogging('getData', () => fetch(), { id: 123 });
+ *
+ * COMMAND PATTERN:
+ * Use when you want to encapsulate requests as objects
+ * Example: Undo/redo functionality, command queuing, macros
+ * Usage:
+ *   const { executeCommand, undo, redo } = useCommandHistory();
+ *   await executeCommand(createCommand('Update', async () => {
+ *     await updateProject(projectId, data);
+ *   }, async () => {
+ *     await updateProject(projectId, oldData);
+ *   }));
+ *   await undo(); // Rollback
  */

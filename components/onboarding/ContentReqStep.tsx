@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { motion } from '@/lib/motion';
-import { OnboardingData } from './OnboardingWizard';
+import type { OnboardingData } from './types';
 
 // ============================================
 // TYPES & INTERFACES

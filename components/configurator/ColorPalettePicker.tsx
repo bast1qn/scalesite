@@ -5,9 +5,7 @@
 
 import { useState } from 'react';
 import { motion } from '@/lib/motion';
-import type { ColorPalette } from './Configurator';
-
-export { type ColorPalette };
+import type { ColorPalette } from './types';
 
 interface ColorPalettePickerProps {
     palettes: ColorPalette[];

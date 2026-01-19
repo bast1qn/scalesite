@@ -4,7 +4,7 @@
 // ============================================
 
 import { motion } from '@/lib/motion';
-import { OnboardingStep } from './OnboardingWizard';
+import type { OnboardingStep } from './types';
 
 // ============================================
 // TYPES & INTERFACES

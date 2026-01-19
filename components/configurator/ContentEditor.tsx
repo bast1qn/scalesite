@@ -6,10 +6,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { AIContentGenerator } from './AIContentGenerator';
-import type { ContentConfig } from './Configurator';
+import type { ContentConfig } from './types';
 import { VALIDATION_LIMITS } from './constants';
-
-export { type ContentConfig };
 
 interface ContentEditorProps {
     content: ContentConfig;

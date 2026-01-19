@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
-import type { ProjectConfig, DeviceType } from './Configurator';
+import type { ProjectConfig, DeviceType } from './types';
 import { Maximize2, Minimize2, ZoomIn, ZoomOut, RotateCcw } from '../Icons';
 
 interface PreviewFrameProps {

@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from '@/lib/motion';
 import { Eye } from '@/lib/icons';
 
+// Internal imports - Types
+import type { SchemaFormData, SchemaType } from './types';
+
 // Internal imports - Components
 import { SchemaFormFields } from './structured-data/SchemaFormFields';
 import { SchemaPreview } from './structured-data/SchemaPreview';
@@ -15,66 +18,6 @@ import { generateSchema } from './structured-data/SchemaGenerator';
 
 // Internal imports - Translations
 import { schemaTranslations } from './structured-data/SchemaTranslations';
-
-type SchemaType = 'Article' | 'NewsArticle' | 'BlogPosting' | 'LocalBusiness' | 'Organization' | 'Product' | 'Person' | 'WebSite';
-
-// ✅ FIXED: Proper type definition for form data
-interface SchemaFormData {
-  // Article/NewsArticle/BlogPosting
-  headline?: string;
-  image?: string;
-  author?: string;
-  publisher?: string;
-  datePublished?: string;
-  dateModified?: string;
-  articleSection?: string;
-  description?: string;
-
-  // LocalBusiness
-  name?: string;
-  address?: string;
-  telephone?: string;
-  email?: string;
-  openingHours?: string;
-  priceRange?: string;
-  geoLatitude?: string;
-  geoLongitude?: string;
-
-  // Organization
-  legalName?: string;
-  url?: string;
-  logo?: string;
-  foundingDate?: string;
-  numberOfEmployees?: string;
-  addressOrg?: string;
-
-  // Product
-  productName?: string;
-  productImage?: string;
-  productDescription?: string;
-  brand?: string;
-  offersPrice?: string;
-  offersCurrency?: string;
-  offersAvailability?: string;
-  offersUrl?: string;
-
-  // Person
-  personName?: string;
-  personImage?: string;
-  personJobTitle?: string;
-  personUrl?: string;
-  personWorksFor?: string;
-  personEmail?: string;
-  personTelephone?: string;
-  personAddress?: string;
-
-  // WebSite
-  siteName?: string;
-  siteUrl?: string;
-  siteDescription?: string;
-  searchActionUrl?: string;
-  searchActionTarget?: string;
-}
 
 interface StructuredDataProps {
   language?: 'de' | 'en';

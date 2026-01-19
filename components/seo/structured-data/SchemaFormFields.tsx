@@ -1,4 +1,4 @@
-import { SchemaFormData } from '../StructuredData';
+import type { SchemaFormData } from '../types';
 
 interface SchemaFormLabels {
   fields: Record<string, string>;
