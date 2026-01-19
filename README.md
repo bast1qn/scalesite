@@ -41,6 +41,100 @@ ScaleSite is a full-featured web development platform built with React 19, TypeS
 
 ---
 
+## Architecture
+
+### Design Patterns 🏗️
+
+ScaleSite implements **enterprise-grade design patterns** for scalability and maintainability:
+
+#### Singleton Pattern
+- **ConfigurationManager**: Type-safe config management
+- Feature flags system
+- Environment detection
+
+```typescript
+import { Config, useConfig, useFeatureFlag } from '@/lib/patterns';
+
+const config = useConfig();
+const analyticsEnabled = useFeatureFlag('analytics');
+```
+
+#### Factory Pattern
+- **OAuthProviderFactory**: Extensible OAuth system (GitHub, Google, LinkedIn)
+- **ComponentFactory**: Dynamic component creation
+- **ServiceFactory**: Service lifecycle management
+
+```typescript
+import { OAuthProviderFactory } from '@/lib/patterns';
+
+const provider = OAuthProviderFactory.createProvider('github', config);
+const userData = await provider.authenticate();
+```
+
+#### Observer Pattern (Event Bus)
+- **EventBus**: Centralized pub/sub event system
+- **TypedEvent**: Type-safe event handling
+- **React Hook Integration**: `useEventSubscription`
+
+```typescript
+import { EventBus, AppEventType } from '@/lib/patterns';
+
+EventBus.getInstance().publish(AppEventType.USER_LOGIN, userData);
+EventBus.getInstance().subscribe(AppEventType.USER_LOGIN, (data) => {
+  console.log('User logged in:', data);
+});
+```
+
+#### Strategy Pattern (Validation)
+- **EmailValidationStrategy**: Email validation with typo detection
+- **PasswordValidationStrategy**: Configurable password strength rules
+- **URLValidationStrategy**: URL validation with protocol checking
+- **PhoneValidationStrategy**: Country-specific phone validation
+- **CompositeValidator**: Multi-field validation
+
+```typescript
+import { ValidatorContext, EmailValidationStrategy } from '@/lib/patterns';
+
+const validator = new ValidatorContext(new EmailValidationStrategy());
+const result = validator.validate('test@example.com');
+```
+
+#### Repository Pattern
+- **IRepository**: Generic repository interface
+- **ApiRepository**: REST API implementation
+- **MockRepository**: Testing implementation
+
+### Module Organization 📁
+
+```
+┌─────────────────────────────────────┐
+│      Presentation Layer             │
+│  (pages/*Page.tsx, components/)     │
+└──────────────┬──────────────────────┘
+               │
+┌──────────────▼──────────────────────┐
+│      Business Logic Layer           │
+│  (lib/services/, lib/patterns/)     │
+└──────────────┬──────────────────────┘
+               │
+┌──────────────▼──────────────────────┐
+│         Data Layer                  │
+│  (lib/api-modules/, contexts/)      │
+└─────────────────────────────────────┘
+```
+
+### SOLID Principles ✅
+
+- **Single Responsibility**: Each module has one clear purpose
+- **Open/Closed**: Extensible through strategy and factory patterns
+- **Liskov Substitution**: Repository interfaces properly implemented
+- **Interface Segregation**: Focused, specific interfaces
+- **Dependency Inversion**: Depend on abstractions, not concretions
+
+**See [`docs/`](./docs/) for ADRs and detailed documentation.**
+
+---
+
 ## Tech Stack
 
 ### Frontend
@@ -415,10 +509,11 @@ npm run build
 - `WOCHE_30_QA_CHECKLIST.md` - QA checklist
 
 ### Architecture Documentation
-- `docs/adr/001-technology-stack.md` - Technology stack selection rationale
-- `docs/adr/002-architecture-patterns.md` - Design patterns & SOLID principles
-- `docs/adr/003-database-strategy.md` - Database strategy & migration path
-- `docs/api/README.md` - Comprehensive API documentation
+- `docs/ARCHITECTURE_DECISION_RECORD_001_CIRCULAR_DEPS.md` - Circular dependencies analysis & solution
+- `docs/ARCHITECTURE_DECISION_RECORD_002_MODULE_ORGANIZATION.md` - Enterprise module organization strategy
+- `docs/ARCHITECTURE_DECISION_RECORD_003_SOLID_COMPLIANCE.md` - SOLID principles compliance guide
+- `docs/API_DOCUMENTATION.md` - Complete API reference (Design Patterns, Services, Components)
+- `docs/LOOP17_PHASE5_EXECUTIVE_SUMMARY.md` - Architectural excellence assessment (Loop 17/Phase 5)
 
 ### Code Architecture
 - `lib/patterns/` - Design pattern implementations (Singleton, Factory, Observer, Strategy)
@@ -586,7 +681,7 @@ Built with:
 
 ---
 
-**Last Updated**: 2026-01-13
-**Version**: 1.0.1
-**Development Week**: 30 of 32
-**Status**: Testing & Quality Assurance ⏳
+**Last Updated**: 2026-01-19
+**Version**: 2.0.1
+**Development Week**: Loop 17/200
+**Status**: Architectural Excellence - Enterprise Ready 🏗️
