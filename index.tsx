@@ -2,6 +2,9 @@
 // IMPORTS - Organized by: React → External → Internal → Types
 // ========================================================================
 
+// Styles - MUST be imported first for Tailwind to work
+import './index.css';
+
 // React
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
