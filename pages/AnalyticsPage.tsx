@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion'; // ✅ PERFORMANCE: Use centralized import for tree-shaking
 import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
 import BounceRate from '../components/analytics/BounceRate';
 import AvgSessionDuration from '../components/analytics/AvgSessionDuration';

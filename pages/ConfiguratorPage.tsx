@@ -4,7 +4,7 @@
 // ============================================
 
 import React, { useState, useEffect, useCallback, useContext, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion'; // ✅ PERFORMANCE: Use centralized import for tree-shaking
 import { AuthContext } from '../contexts';
 import { Configurator, ProjectConfig } from '../components/configurator/Configurator';
 import { api } from '../lib/api';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from '@/lib/motion'; // ✅ PERFORMANCE: Use centralized import for tree-shaking
 import { MetaTagGenerator, SitemapGenerator, RobotsEditor, SEOScore } from '../components/seo';
 import { useLanguage } from '../contexts';
 

@@ -1,6 +1,6 @@
 // Chat Page - Real-time Messaging
 import { useState, useEffect, useContext } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from '@/lib/motion'; // ✅ PERFORMANCE: Use centralized import for tree-shaking
 import { ArrowLeft, MoreVertical, Phone, Video, Info } from '@/lib/icons';
 import { AuthContext, useLanguage } from '../contexts';
 import {

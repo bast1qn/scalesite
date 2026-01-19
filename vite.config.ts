@@ -104,24 +104,18 @@ export default defineConfig(({ mode }) => {
             // ✅ PERFORMANCE PHASE 3: Improved manual chunks for better caching and smaller bundles
             manualChunks: (id) => {
               // ⚠️ PERFORMANCE FIX: Only create chunks that are actually used
-              // Prevents empty chunks (router, supabase, upload were empty)
+              // Prevents empty chunks (router, supabase were empty)
 
               // React Core - MUST be in vendor chunk to avoid loading issues
               if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) {
                 return 'react-core';
               }
-              // ✅ PERFORMANCE PHASE 3: Split react-router-dom into separate chunk (saves ~30KB from vendor)
-              if (id.includes('react-router-dom') && id.includes('node_modules')) {
-                return 'router';
-              }
-              // UI Icons - separate chunk for better caching (ONLY if used)
-              if (id.includes('lucide-react') && id.includes('node_modules')) {
-                return 'icons';
-              }
-              // ✅ PERFORMANCE PHASE 3: Separate @heroicons/react chunk (saves ~15KB from vendor)
-              if (id.includes('@heroicons/react') && id.includes('node_modules')) {
-                return 'heroicons';
-              }
+              // ✅ PERFORMANCE PHASE 3: Optimize react-router-dom - keep in vendor to avoid empty chunk
+              // Previously created empty router chunk, now consolidates with vendor
+              // if (id.includes('react-router-dom') && id.includes('node_modules')) {
+              //   return 'router';
+              // }
+
               // ✅ PERFORMANCE: Separate Recharts chunk (lazy-loaded, only on analytics pages)
               if (id.includes('recharts')) {
                 return 'charts';
@@ -130,7 +124,6 @@ export default defineConfig(({ mode }) => {
               if (id.includes('framer-motion')) {
                 return 'motion';
               }
-              // ⚠️ REMOVED: Supabase (was empty chunk - not used in this build)
               // Document generation (rarely used)
               if (id.includes('jspdf') || id.includes('html2canvas')) {
                 return 'docs';
@@ -140,7 +133,6 @@ export default defineConfig(({ mode }) => {
                 return 'ai-vendor';
               }
               // ✅ PERFORMANCE PHASE 3: Split clerk-react (lightweight wrapper) from clerk-js (heavy SDK)
-              // This allows clerk-react to be loaded earlier while clerk-js loads later
               if (id.includes('@clerk/clerk-react') && id.includes('node_modules')) {
                 return 'clerk-react';
               }
@@ -148,11 +140,17 @@ export default defineConfig(({ mode }) => {
               if (id.includes('@clerk/clerk-js') && id.includes('node_modules')) {
                 return 'clerk-js';
               }
-              // ✅ PERFORMANCE PHASE 3: Separate supabase-js chunk (lazy-loaded)
-              if (id.includes('@supabase/supabase-js') && id.includes('node_modules')) {
-                return 'supabase';
+              // ✅ PERFORMANCE PHASE 3: Keep supabase in vendor to avoid empty chunk (was empty before)
+              // if (id.includes('@supabase/supabase-js') && id.includes('node_modules')) {
+              //   return 'supabase';
+              // }
+
+              // UI Icons - consolidate to reduce chunk count
+              if ((id.includes('lucide-react') || id.includes('@heroicons/react')) && id.includes('node_modules')) {
+                return 'icons';
               }
-              // ✅ PERFORMANCE PHASE 3: Split class-variance-authority into utils chunk
+
+              // Utils libraries
               if (id.includes('class-variance-authority') && id.includes('node_modules')) {
                 return 'utils';
               }
@@ -208,7 +206,6 @@ export default defineConfig(({ mode }) => {
             unsafe_math: true,
             unsafe_proto: true,
             unsafe_regexp: true,
-            passes: 3, // ✅ PERFORMANCE PHASE 3: 3 passes for maximum compression
           },
           format: {
             comments: false, // Remove comments

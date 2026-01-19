@@ -6,7 +6,7 @@
 import { lazy, Suspense, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 // External libraries
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from '@/lib/motion'; // ✅ PERFORMANCE: Use centralized import for tree-shaking
 import { ClerkProvider } from '@clerk/clerk-react';
 
 // Internal - Components

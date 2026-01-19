@@ -7,7 +7,7 @@
 // ========================================================================
 
 import { motion, useAnimation, useReducedMotion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // ========================================================================
 // ANIMATION CONSTANTS
