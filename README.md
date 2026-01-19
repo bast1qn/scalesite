@@ -409,10 +409,23 @@ npm run build
 ## Documentation
 
 ### Main Documentation
-- `README.md` - This file
+- `README.md` - This file (overview & quick start)
 - `MASTER_PLAN.md` - Complete 32-week development plan
 - `WOCHE_30_TESTING_GUIDE.md` - Testing guide
 - `WOCHE_30_QA_CHECKLIST.md` - QA checklist
+
+### Architecture Documentation
+- `docs/adr/001-technology-stack.md` - Technology stack selection rationale
+- `docs/adr/002-architecture-patterns.md` - Design patterns & SOLID principles
+- `docs/adr/003-database-strategy.md` - Database strategy & migration path
+- `docs/api/README.md` - Comprehensive API documentation
+
+### Code Architecture
+- `lib/patterns/` - Design pattern implementations (Singleton, Factory, Observer, Strategy)
+- `lib/services/` - Service abstraction layers (Dependency Inversion Principle)
+- `lib/translations/` - Domain-specific translation modules (Single Responsibility)
+- `components/index.ts` - Component barrel exports
+- `lib/index.ts` - Library barrel exports
 
 ### Weekly Summaries
 - `WOCHE_1_DATABASE.md` - Database setup
@@ -449,7 +462,14 @@ npm run build
    - Local state for component-specific data
    - Avoid prop drilling
 
-4. **Testing**
+4. **Architecture Principles**
+   - **SOLID Principles**: Follow Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion
+   - **Design Patterns**: Use appropriate patterns (Singleton, Factory, Observer, Strategy)
+   - **Service Abstraction**: Depend on interfaces, not implementations
+   - **Barrel Exports**: Organize public APIs with index.ts files
+   - **Domain Separation**: Split large modules by domain (e.g., translations)
+
+5. **Testing**
    - Unit tests for utilities
    - Component tests for UI
    - E2E tests for user flows
