@@ -66,6 +66,30 @@ export default {
           950: '#2e1065',
           DEFAULT: '#8b5cf6',
         },
+        error: {
+          50: '#fef2f2',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+        },
+        success: {
+          50: '#f0fdf4',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+        },
+        warning: {
+          50: '#fffbeb',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+        },
+        info: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+        },
         // Refined semantic colors - Professional
         'light-bg': '#FAFAFA',
         'dark-bg': '#000000',
