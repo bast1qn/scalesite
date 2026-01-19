@@ -1,4 +1,5 @@
 import { type FC, type CSSProperties } from 'react';
+import { Card } from './ui/Card';
 
 interface SkeletonProps {
   className?: string;
@@ -7,11 +8,13 @@ interface SkeletonProps {
   height?: string | number;
   count?: number;
   shimmer?: boolean; // Enable/disable shimmer effect
+  'aria-label'?: string; // Optional label for accessibility
 }
 
 /**
  * Premium Skeleton Component with Shimmer Effect (Linear/Stripe-style)
  * Uses shimmer animation instead of simple pulse for more polished loading state
+ * WCAG 2.1 AA Compliant with proper ARIA labels
  */
 export const Skeleton: FC<SkeletonProps> = ({
   className = '',
@@ -19,7 +22,8 @@ export const Skeleton: FC<SkeletonProps> = ({
   width,
   height,
   count = 1,
-  shimmer = true
+  shimmer = true,
+  'aria-label': ariaLabel
 }) => {
   const baseClasses = shimmer
     ? 'bg-slate-200 dark:bg-slate-800 animate-shimmer'
@@ -50,80 +54,92 @@ export const Skeleton: FC<SkeletonProps> = ({
         className={`${baseClasses} ${variantClasses[variant]} ${className}`}
         style={Object.keys(style).length > 0 ? style : undefined}
         aria-hidden="true"
+        aria-busy="true"
+        role="status"
+        aria-label={ariaLabel || 'Loading content...'}
       />
     );
   });
 
-  return <>{skeletons}</>;
+  return (
+    <div role="status" aria-live="polite" aria-busy="true">
+      <span className="sr-only">{ariaLabel || 'Loading content...'}</span>
+      {skeletons}
+    </div>
+  );
 };
 
-// Card Skeleton with Shimmer Effect
+// Card Skeleton with Shimmer Effect - Enhanced Accessibility
 export const CardSkeleton: FC<{ showAvatar?: boolean }> = ({ showAvatar = false }) => (
-  <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading card">
+  <Card aria-label="Loading card..." aria-busy="true">
     {showAvatar && (
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer"></div>
-        <div className="flex-1">
-          <Skeleton width="75%" className="mb-2" />
-          <Skeleton width="50%" height="12px" />
+        <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer" aria-hidden="true"></div>
+        <div className="flex-1 space-y-2">
+          <Skeleton width="75%" aria-label="Loading title..." />
+          <Skeleton width="50%" height="12px" aria-label="Loading subtitle..." />
         </div>
       </div>
     )}
-    <Skeleton className="mb-3" />
-    <Skeleton width="83%" className="mb-3" />
-    <Skeleton width="66%" />
-  </div>
+    <div className="space-y-3">
+      <Skeleton className="h-4" aria-label="Loading content line..." />
+      <Skeleton width="83%" className="h-4" aria-label="Loading content line..." />
+      <Skeleton width="66%" className="h-4" aria-label="Loading content line..." />
+    </div>
+  </Card>
 );
 
-// Pricing Card Skeleton with Shimmer Effect
+// Pricing Card Skeleton with Shimmer Effect - Enhanced Accessibility
 export const PricingCardSkeleton: FC = () => (
-  <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading pricing card">
-    <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-shimmer mb-6"></div>
-    <Skeleton height="24px" width="75%" className="mb-4" />
-    <Skeleton className="mb-8" />
-    <Skeleton height="40px" width="50%" className="mb-8" />
-    <div className="space-y-3 mb-8">
+  <Card aria-label="Loading pricing card..." aria-busy="true" className="p-8">
+    <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-shimmer mb-6" aria-hidden="true"></div>
+    <Skeleton height="24px" width="75%" className="mb-4" aria-label="Loading plan name..." />
+    <Skeleton className="mb-8 h-4" aria-label="Loading plan description..." />
+    <Skeleton height="40px" width="50%" className="mb-8" aria-label="Loading price..." />
+    <div className="space-y-3 mb-8" role="list" aria-label="Loading features...">
       {[1, 2, 3, 4].map(() => {
         // ✅ FIX: Generate stable unique ID instead of using index
         const stableId = crypto.randomUUID();
         return (
-          <div key={stableId} className="flex items-center gap-3">
-            <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer flex-shrink-0"></div>
-            <Skeleton />
+          <div key={stableId} className="flex items-center gap-3" role="listitem">
+            <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-shimmer flex-shrink-0" aria-hidden="true"></div>
+            <Skeleton aria-label="Loading feature..." />
           </div>
         );
       })}
     </div>
-    <Skeleton height="56px" variant="rounded" />
-  </div>
+    <Skeleton height="56px" variant="rounded" aria-label="Loading button..." />
+  </Card>
 );
 
-// Blog Card Skeleton with Shimmer Effect
+// Blog Card Skeleton with Shimmer Effect - Enhanced Accessibility
 export const BlogCardSkeleton: FC = () => (
-  <div className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading blog card">
-    <div className="aspect-video bg-slate-200 dark:bg-slate-700 animate-shimmer"></div>
+  <Card aria-label="Loading blog post..." aria-busy="true" className="overflow-hidden">
+    <div className="aspect-video bg-slate-200 dark:bg-slate-700 animate-shimmer" aria-hidden="true"></div>
     <div className="p-6">
       <div className="flex items-center gap-4 mb-4">
-        <Skeleton height="32px" width="80px" variant="rounded" />
-        <Skeleton width="64px" />
+        <Skeleton height="32px" width="80px" variant="rounded" aria-label="Loading category..." />
+        <Skeleton width="64px" aria-label="Loading date..." />
       </div>
-      <Skeleton height="24px" className="mb-3" />
-      <Skeleton height="24px" width="83%" className="mb-4" />
-      <Skeleton className="mb-2" />
-      <Skeleton width="66%" />
+      <Skeleton height="24px" className="mb-3" aria-label="Loading title..." />
+      <Skeleton height="24px" width="83%" className="mb-4" aria-label="Loading title continued..." />
+      <div className="space-y-2">
+        <Skeleton className="h-4" aria-label="Loading excerpt..." />
+        <Skeleton width="66%" className="h-4" aria-label="Loading excerpt continued..." />
+      </div>
     </div>
-  </div>
+  </Card>
 );
 
-// Table Skeleton with Shimmer Effect
+// Table Skeleton with Shimmer Effect - Enhanced Accessibility
 export const TableSkeleton: FC<{ rows?: number; cols?: number }> = ({ rows = 5, cols = 4 }) => (
-  <div className="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading table">
+  <div className="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 animate-fade-in" role="status" aria-label="Loading table..." aria-busy="true">
     {/* Header */}
-    <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+    <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700" role="row">
       {Array.from({ length: cols }).map(() => {
         // ✅ FIX: Generate stable unique ID instead of using index
         const stableId = crypto.randomUUID();
-        return <Skeleton key={stableId} />;
+        return <Skeleton key={stableId} aria-label="Loading column header..." />;
       })}
     </div>
     {/* Rows */}
@@ -131,11 +147,11 @@ export const TableSkeleton: FC<{ rows?: number; cols?: number }> = ({ rows = 5, 
       // ✅ FIX: Generate stable unique ID for each row
       const rowId = crypto.randomUUID();
       return (
-        <div key={rowId} className="flex gap-4 p-4 border-b border-slate-100 dark:border-slate-800 last:border-b-0">
+        <div key={rowId} className="flex gap-4 p-4 border-b border-slate-100 dark:border-slate-800 last:border-b-0" role="row">
           {Array.from({ length: cols }).map(() => {
             // ✅ FIX: Generate stable unique ID for each column
             const colId = crypto.randomUUID();
-            return <Skeleton key={colId} />;
+            return <Skeleton key={colId} aria-label="Loading cell data..." />;
           })}
         </div>
       );
