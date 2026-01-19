@@ -1552,8 +1552,16 @@
  * - Smooth transitions
  */
 
+/* ==================== PREMIUM BADGE SYSTEM ==================== */
+/*
+ * Consistent badge styles across all variants
+ * - Perfect border radius
+ * - Optimal padding (4px aligned)
+ * - Smooth transitions
+ */
+
 .badge {
-  @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-full;
+  @apply inline-flex items-center gap-2 px-3 py-2 rounded-full;
   @apply text-xs font-semibold tracking-wide transition-all duration-300;
   @apply hover:scale-[1.02] active:scale-[0.98];
   will-change: transform;
