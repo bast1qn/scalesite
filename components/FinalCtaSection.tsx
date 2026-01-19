@@ -1,5 +1,6 @@
-import { AnimatedSection } from './AnimatedSection'
+import { AnimatedSection } from './AnimatedSection';
 import { useLanguage } from '../contexts';
+import { CheckBadgeIcon, ArrowRightIcon, ClockIcon, ShieldCheckIcon, CreditCardIcon } from './Icons';
 
 interface FinalCtaSectionProps {
   setCurrentPage: (page: string) => void;

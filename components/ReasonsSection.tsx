@@ -9,7 +9,8 @@ import React, { memo } from 'react';
 import { motion } from '@/lib/motion';
 
 // Internal - Components
-import { AnimatedSection } from './AnimatedSection'
+import { AnimatedSection } from './AnimatedSection';
+import { ClockIcon, ShieldCheckIcon, SparklesIcon, CpuChipIcon, BoltIcon, ArrowRightIcon } from './Icons';
 
 // Internal - Contexts
 import { useLanguage } from '../contexts';
