@@ -56,7 +56,6 @@ export default defineConfig(({ mode }) => {
           filename: 'dist/stats.html',
         }),
       ],
-      cacheDir: false,
       // ✅ PERFORMANCE: Pre-bundle strategy for optimal cold start
       optimizeDeps: {
         include: [
@@ -72,7 +71,8 @@ export default defineConfig(({ mode }) => {
         // NOTE: recharts removed from exclude to fix forwardRef error and MIME type issues
         // ✅ PERFORMANCE PHASE 3: Added @clerk/clerk-react for better code-splitting
         exclude: ['jspdf', 'html2canvas', '@google/genai', '@supabase/supabase-js', '@clerk/clerk-js', '@clerk/clerk-react'],
-        force: true
+        // ✅ FIX: Remove force: true to prevent React bundling issues
+        force: false
       },
       define: {
         // ✅ SECURITY: API keys are never exposed to client-side code (OWASP A01:2021)
@@ -190,13 +190,10 @@ export default defineConfig(({ mode }) => {
             drop_console: isProduction,
             drop_debugger: isProduction,
             pure_funcs: isProduction ? ['console.log', 'console.info', 'console.debug', 'console.warn', 'console.trace'] : [],
-            passes: 3, // ✅ PERFORMANCE PHASE 3: 3 passes for maximum compression (was 2)
+            passes: 2, // ✅ PERFORMANCE PHASE 3: 2 passes for safe compression
             // ✅ PERFORMANCE PHASE 3: Enable advanced optimizations
             dead_code: true,
-            global_defs: {
-              // Remove React devtools checks in production
-              '__REACT_DEVTOOLS_GLOBAL_HOOK__': 'false'
-            },
+            // ✅ FIX: Removed global_defs that can break React
             // ✅ PERFORMANCE PHASE 3: Enable inline scripts (reduces bundle size by 5-10%)
             inline: 2,
             // ✅ PERFORMANCE PHASE 3: Remove unused function arguments
@@ -210,13 +207,13 @@ export default defineConfig(({ mode }) => {
             join_vars: true,
             // ✅ PERFORMANCE PHASE 3: Convert ES2015+ code to ES5 for smaller size
             ecma: 2015,
-            // ✅ PERFORMANCE PHASE 3: Enable unsafe optimizations (max compression)
-            unsafe: true,
-            unsafe_comps: true,
-            unsafe_Function: true,
-            unsafe_math: true,
-            unsafe_proto: true,
-            unsafe_regexp: true,
+            // ✅ FIX: Disable unsafe optimizations that can break React
+            unsafe: false,
+            unsafe_comps: false,
+            unsafe_Function: false,
+            unsafe_math: false,
+            unsafe_proto: false,
+            unsafe_regexp: false,
           },
           format: {
             comments: false, // Remove comments
