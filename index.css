@@ -1282,6 +1282,138 @@
   .input-premium::placeholder {
     @apply text-slate-500;
   }
+
+  /* ==================== PHASE 2: DARK MODE PERFECTION ==================== */
+  /*
+   * True dark mode: #0a0a0a (not #000000) for reduced eye strain
+   * Enhanced contrast ratios (WCAG AAA: 7:1+ for normal text)
+   * Subtle glow effects for depth
+   */
+
+  /* Premium dark backgrounds with subtle gradients */
+  .dark-bg-premium {
+    background: linear-gradient(135deg, #0a0a0a 0%, #0f0f0f 100%);
+  }
+
+  .dark-surface-premium {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  }
+
+  /* Enhanced dark mode gradients */
+  .dark .text-gradient {
+    background: linear-gradient(135deg, #6b7fff 0%, #9b7cf6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* Subtle glow in dark mode */
+  .dark-glow {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+  }
+
+  .dark-glow-subtle {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.08);
+  }
+
+  /* Enhanced dark mode cards */
+  .dark .card-premium {
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+    border-color: rgba(51, 51, 51, 0.6);
+    box-shadow:
+      0 1px 2px 0 rgba(0, 0, 0, 0.4),
+      0 2px 8px -2px rgba(139, 92, 246, 0.08),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Enhanced dark mode inputs */
+  .dark .input-premium {
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border-color: rgba(51, 51, 51, 0.8);
+    box-shadow:
+      inset 0 1px 2px 0 rgba(0, 0, 0, 0.3),
+      0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .dark .input-premium:focus {
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow:
+      0 0 0 4px rgba(139, 92, 246, 0.1),
+      inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  /* Enhanced dark mode buttons */
+  .dark .btn-primary {
+    background: linear-gradient(135deg, #4b5aed 0%, #7c3aed 100%);
+    box-shadow:
+      0 2px 8px -2px rgba(75, 90, 237, 0.4),
+      0 4px 16px -4px rgba(124, 58, 237, 0.3);
+  }
+
+  .dark .btn-primary:hover {
+    box-shadow:
+      0 4px 16px -2px rgba(75, 90, 237, 0.5),
+      0 8px 24px -4px rgba(124, 58, 237, 0.4),
+      0 0 40px rgba(139, 92, 246, 0.2);
+  }
+
+  /* Enhanced dark mode text hierarchy */
+  .dark .text-hero {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Enhanced dark mode links */
+  .dark .link-premium:hover {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  /* Subtle dark mode borders */
+  .dark-border-subtle {
+    border-color: rgba(51, 51, 51, 0.6);
+  }
+
+  .dark-border-strong {
+    border-color: rgba(71, 71, 71, 0.8);
+  }
+
+  /* Enhanced dark mode shadows */
+  .dark-shadow-sm {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .dark-shadow-md {
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  }
+
+  .dark-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Enhanced dark mode focus states */
+  .dark *:focus-visible {
+    box-shadow:
+      0 0 0 2px rgba(15, 15, 15, 0.8),
+      0 0 0 5px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Enhanced dark mode scrollbars */
+  .dark ::-webkit-scrollbar-track {
+    background: rgba(15, 15, 15, 0.8);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(71, 71, 71, 0.8);
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(91, 91, 91, 0.9);
+  }
+
+  /* Enhanced dark mode selection */
+  .dark ::selection {
+    background: rgba(139, 92, 246, 0.3);
+    color: rgba(255, 255, 255, 0.95);
+  }
 }
 
 /* Skeleton pulse animation - gentler */
@@ -1433,6 +1565,7 @@
 /*
  * Reference: Linear, Vercel, Stripe design systems
  * Focus: Subtle, smooth, pixel-perfect interactions
+ * Phase 2 (Loop 26): Enhanced gestures, parallax, 3D transforms
  */
 
 /* Perfect icon alignment - consistent across all icon buttons */
@@ -1441,6 +1574,184 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ==================== PHASE 2: ADVANCED GESTURES ==================== */
+
+/* Swipe hint for mobile cards */
+.swipe-hint {
+  position: relative;
+}
+
+.swipe-hint::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, rgba(75, 90, 237, 0.2), rgba(139, 92, 246, 0.2));
+  border-radius: 50%;
+  opacity: 0;
+  animation: swipe-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes swipe-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Swipeable card container */
+.swipeable {
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.swipeable-content {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.swipeable.swiping .swipeable-content {
+  transition: none;
+}
+
+/* ==================== PHASE 2: PARALLAX EFFECTS ==================== */
+
+/* Subtle parallax container */
+.parallax-container {
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+/* Depth parallax for cards */
+.parallax-card {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.parallax-card:hover {
+  transform: translateY(-8px) rotateX(2deg);
+}
+
+.parallax-card .parallax-depth {
+  transform: translateZ(20px);
+}
+
+/* Subtle background parallax */
+.parallax-bg {
+  will-change: transform;
+  transition: transform 0.15s ease-out;
+}
+
+/* ==================== PHASE 2: 3D TRANSFORMS ==================== */
+
+/* Card flip effect */
+.flip-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Subtle 3D tilt on hover */
+.tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tilt-3d:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
+}
+
+/* ==================== PHASE 2: ENHANCED MICRO-INTERACTIONS ==================== */
+
+/* Magnetic button effect (enhanced) */
+.btn-magnetic-enhanced {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.btn-magnetic-enhanced:hover {
+  transform: scale(1.05);
+}
+
+/* Subtle ripple effect */
+.ripple-subtle {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-subtle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  pointer-events: none;
+}
+
+.ripple-subtle:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Smooth icon rotation on hover */
+.icon-rotate-hover:hover svg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(45deg);
+}
+
+/* Subtle bounce on click */
+.bounce-click:active {
+  animation: bounce-click 0.3s ease;
+}
+
+@keyframes bounce-click {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
 }
 
 /* Touch-friendly tap targets - minimum 44x44px */
@@ -1790,6 +2101,189 @@
     will-change: transform;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
+  }
+
+  /* ==================== PHASE 2: GPU-OPTIMIZED ANIMATIONS ==================== */
+  /*
+   * Only animate transform and opacity (GPU-accelerated)
+   * Avoid: width, height, padding, margin, top, left, right, bottom
+   */
+
+  .gpu-fade-in {
+    animation: gpu-fade-in 0.4s ease-out forwards;
+  }
+
+  .gpu-fade-up {
+    animation: gpu-fade-up 0.4s ease-out forwards;
+  }
+
+  .gpu-scale-in {
+    animation: gpu-scale-in 0.4s ease-out forwards;
+  }
+
+  .gpu-slide-up {
+    animation: gpu-slide-up 0.4s ease-out forwards;
+  }
+
+  @keyframes gpu-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes gpu-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes gpu-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes gpu-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* GPU-optimized hover effects */
+  .gpu-hover-lift {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: transform;
+  }
+
+  .gpu-hover-lift:hover {
+    transform: translateY(-4px) scale(1.02);
+    will-change: transform;
+  }
+
+  .gpu-hover-lift:active {
+    transform: translateY(-2px) scale(0.98);
+    transition-duration: 0.15s;
+  }
+
+  /* GPU-optimized shimmer effect */
+  .gpu-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gpu-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    animation: gpu-shimmer-slide 2s infinite;
+    will-change: transform;
+  }
+
+  @keyframes gpu-shimmer-slide {
+    0% {
+      transform: translateX(0) skewX(-20deg);
+    }
+    100% {
+      transform: translateX(300%) skewX(-20deg);
+    }
+  }
+
+  /* GPU-optimized pulse */
+  .gpu-pulse {
+    animation: gpu-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes gpu-pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.02);
+    }
+  }
+
+  /* GPU-optimized float */
+  .gpu-float {
+    animation: gpu-float 6s ease-in-out infinite;
+  }
+
+  @keyframes gpu-float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-16px) rotate(1deg);
+    }
+  }
+
+  /* GPU-optimized 3D transforms */
+  .gpu-3d-hover {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .gpu-3d-hover:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
+  }
+
+  /* GPU-optimized ripple */
+  .gpu-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gpu-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .gpu-ripple:active::after {
+    transform: translate(-50%, -50%) scale(4);
   }
 }
 
